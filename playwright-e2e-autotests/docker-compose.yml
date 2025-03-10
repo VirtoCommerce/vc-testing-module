@@ -1,0 +1,104 @@
+networks:
+  grid-network:
+    name: grid-network
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: selenium-nginx
+    networks:
+      - grid-network
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.template:/etc/nginx/nginx.template:ro
+    command: ["/bin/sh", "-c", "envsubst '$AUTH_TOKEN' < /etc/nginx/nginx.template > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"]
+    depends_on:
+      - selenium-hub
+    environment:
+      - AUTH_TOKEN=${SELENIUM_AUTH_TOKEN}
+
+
+  selenium-hub:
+    image: selenium/hub:${SELENIUM_HUB_VERSION}
+    container_name: selenium-hub
+    networks:
+      - grid-network
+    ports:
+      - "4442:4442"
+      - "4443:4443"
+      - "4444:4444"
+    environment:
+      - GRID_MAX_SESSION=16
+      - GRID_TIMEOUT=300
+      - GRID_BROWSER_TIMEOUT=300
+      - GRID_NEW_SESSION_WAIT_TIMEOUT=300
+
+    healthcheck:
+      test: [ "CMD", "/opt/bin/check-grid.sh", "--host", "0.0.0.0", "--port", "4444" ]
+      interval: 15s
+      timeout: 30s
+      retries: 5
+
+  chrome-node-1:
+    image: selenium/node-chrome:${SELENIUM_NODE_VERSION}
+    container_name: chrome-node-1
+    networks:
+      - grid-network
+    shm_size: 2gb
+    depends_on:
+      - selenium-hub
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_NODE_MAX_SESSIONS=4
+      - SE_NODE_OVERRIDE_MAX_SESSIONS=true
+      - SE_NODE_GRID_URL=http://selenium-hub:4444
+
+  chrome-node-2:
+    image: selenium/node-chrome:${SELENIUM_NODE_VERSION}
+    container_name: chrome-node-2
+    networks:
+      - grid-network
+    shm_size: 2gb
+    depends_on:
+      - selenium-hub
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_NODE_MAX_SESSIONS=4
+      - SE_NODE_OVERRIDE_MAX_SESSIONS=true
+      - SE_NODE_GRID_URL=http://selenium-hub:4444
+
+  chrome-node-3:
+    image: selenium/node-chrome:${SELENIUM_NODE_VERSION}
+    container_name: chrome-node-3
+    networks:
+      - grid-network
+    shm_size: 2gb
+    depends_on:
+      - selenium-hub
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_NODE_MAX_SESSIONS=4
+      - SE_NODE_OVERRIDE_MAX_SESSIONS=true
+      - SE_NODE_GRID_URL=http://selenium-hub:4444
+
+  chrome-node-4:
+    image: selenium/node-chrome:${SELENIUM_NODE_VERSION}
+    container_name: chrome-node-4
+    networks:
+      - grid-network
+    shm_size: 2gb
+    depends_on:
+      - selenium-hub
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_NODE_MAX_SESSIONS=4
+      - SE_NODE_OVERRIDE_MAX_SESSIONS=true
+      - SE_NODE_GRID_URL=http://selenium-hub:4444

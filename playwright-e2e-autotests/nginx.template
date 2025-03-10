@@ -1,0 +1,66 @@
+env AUTH_TOKEN;
+
+events {
+    worker_connections 1024;
+}
+
+http {
+    upstream selenium_hub {
+        server selenium-hub:4444;  # Explicitly set port 4444
+    }
+
+    # Log format to include auth token
+    log_format debug_log '$remote_addr - $remote_user [$time_local] "$request" '
+                        '$status $body_bytes_sent "$http_referer" '
+                        '"$http_user_agent" "$http_x_authentication_token"';
+
+    # Map to validate the token
+    map $http_x_authentication_token $auth_valid {
+        ${AUTH_TOKEN} 1;
+        default 0;
+    }
+
+    server {
+        listen 80;
+        server_name selenium-hub;
+
+        # Enable debug logging
+        access_log /var/log/nginx/access.log debug_log;
+        error_log /var/log/nginx/error.log debug;
+
+        location /wd/hub {
+            # Token authentication with detailed error
+            if ($http_x_authentication_token = "") {
+                return 401 "No authentication token provided";
+            }
+            if ($auth_valid = 0) {
+                add_header Content-Type text/plain;
+                return 401 "Invalid authentication token: $http_x_authentication_token";
+            }
+
+            proxy_pass http://selenium_hub;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_set_header X-Authentication-Token $http_x_authentication_token;
+
+            # WebSocket support
+            proxy_read_timeout 86400;
+        }
+
+        location / {
+            proxy_pass http://selenium_hub;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+    }
+}
