@@ -16,7 +16,7 @@ def add_test_product_to_cart(graphql_client, user_context, product_data=TEST_PRO
     """
     variables = {
         "command": {
-            "storeId": "",
+            "storeId": "B2B-store",
             "cultureName": "en-US",
             "currencyCode": "USD",
             "userId": user_context["me"]["id"],

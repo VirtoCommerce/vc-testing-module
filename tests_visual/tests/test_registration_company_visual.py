@@ -4,7 +4,7 @@ from tests_visual.pages.login.login_page import LoginPage
 from tests_visual.pages.registration.registration_page import RegistrationPage
 
 
-def test_registration_public_visual(page, config, image_snapshot) -> None:
+def test_registration_company_visual(page, config, image_snapshot) -> None:
     """Test the registration page for visual consistency"""
     login = LoginPage(page, config)
     registration = RegistrationPage(page, config)
@@ -15,9 +15,6 @@ def test_registration_public_visual(page, config, image_snapshot) -> None:
     # Click on the registration button
     login.click_registration_button()
 
-    # Freeze animations
-    registration._freeze_animations()
-
     # Move cursor and take screenshot
     page.mouse.move(0, 0)
     page.wait_for_timeout(2000)
@@ -25,6 +22,6 @@ def test_registration_public_visual(page, config, image_snapshot) -> None:
     image = Image.open(BytesIO(page.screenshot(full_page=True)))
     image_snapshot(
         image,
-        "tests_visual/pages/registration/registration_snapshots/public/registration_public_base.png",
+        "tests_visual/pages/registration/registration_snapshots/company_account/registration_company_account.png",
         threshold=0.4,
     )

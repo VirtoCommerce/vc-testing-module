@@ -8,6 +8,6 @@ class AuthenticateRequest:
 
     @allure.step("Authenticate user (GraphQL)")
     def execute(self, username, password):
-        variables = {"command": {"username": username, "password": password, "storeId": ""}}
+        variables = {"command": {"username": username, "password": password, "storeId": "B2B-store"}}
         result = self.client.execute(AUTHENTICATE, variable_values=variables)
         return result
