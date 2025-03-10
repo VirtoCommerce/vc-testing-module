@@ -1,100 +1,95 @@
-# Setup Guide for Visual Tests
+# Playwright + Python Project Setup
  
 ## Prerequisites
 0. Install Cursor AI (recommended IDE)
 1. Clone/download project and open with Cursor AI (or PyCharm)
- 
-## Python Setup
-1. Create virtual environment (in project directory):
-   ```bash
-   python3 -m venv .venv
-   ```
- 
-2. Activate virtual environment:
-   ```bash
-   # On Mac/Linux:
-   source .venv/bin/activate
-   # On Windows:
-   .venv\Scripts\activate
-   ```
- 
-3. Install requirements:
-   ```bash
-   pip install -r requirements.txt
-   ```
- 
-## Environment Setup
-4. Create `.env` file in project root with:
-   ```
-   BASE_URL=https://vcst-qa-storefront.govirto.com
-   USER_EMAIL=auto@visual.com
-   PASSWORD=Password1!
-   BACK_URL=https://vcst-qa.govirto.com
-   API_KEY=ab9c17c3-fba0-45dc-b2cc-7bd07d4096e2
-   SELENIUM_REMOTE_URL=http://localhost:4444
-   ```
- 
-## Docker Setup
-5. Install Docker Desktop from https://www.docker.com/products/docker-desktop/
- 
-6. Run Selenium Grid container:
-   ```bash
-   docker run --rm -d -p 4444:4444 -p 5900:5900 --shm-size="2g" \
-   -e SE_NODE_GRID_URL="http://localhost:4444" \
-   --platform linux/amd64 \
-   selenium/standalone-chrome
-   ```
- 
-## Remote Desktop Viewer Setup
-7. Install a VNC viewer (required for test observation):
-   - Recommended: RealVNC Viewer
-     - Windows: https://www.realvnc.com/en/connect/download/viewer/
-     - Mac: Screen Sharing Utility (built-in)
-   - Alternative options:
-     - TightVNC
-     - UltraVNC
-     - Any VNC client of your choice
- 
-8. Connect to running tests:
-   - Open your VNC viewer
-   - Connect to: `localhost:5900`
-   - Password: `secret`
- 
-## Running Your First Test
-9. Run the login test:
-   ```bash
-   # Make sure you're in the project directory and virtual environment is activated
-   pytest tests_visual/tests/test_login_visual.py
-   ```
-   You should see:
-   - Test execution in your VNC viewer
-   - Test results in your terminal
 
-## Code Formatting
+Make sure you have the following installed on your system:
+- Python (version 3.7 or later)
+- pip (Python package manager)
+ 
+1. **Create and activate a virtual environment**
+   ```sh
+   python -m venv .venv
+   source venv/bin/activate  # On macOS/Linux
+   venv\Scripts\activate     # On Windows
+   ```
 
-This project uses Black for automatic code formatting.
+2. **Install dependencies**
+   ```sh
+   pip install playwright pytest
+   ```
 
-### Usage
+3. **Install Playwright browsers**
+   ```sh
+   playwright install
+   ```
 
-When committing code, the formatting workflow is:
+4. **Verify Playwright installation**
+   ```sh
+   python -c "import playwright; print(playwright.__version__)"
+   ```
 
-1. Try to commit:
-```bash
-git commit -m "your message"
+## Running Tests
+
+To execute your Playwright tests with pytest, run:
+```sh
+pytest
+# Run all tests in the file
+# Example:
+pytest tests/test_auth.py
+
+# Run a specific test
+pytest tests/test_auth.py -k test_user_registration
+pytest tests/test_auth.py -k test_user_login
+
+# Run with more detailed output
+pytest tests/test_auth.py -v
 ```
 
-2. Black will automatically:
-   - Check all Python files
-   - Fix formatting issues
-   - Show which files were modified
-   - Fail the commit if any files were changed
+If you want to run Playwright tests in headed mode (with browser UI), use:
+```sh
+pytest --headed
+```
 
-3. If Black made changes:
-   - Review the changes (choose any):
-     - Check Black's output in terminal
-     - Use `git diff` to see detailed changes (press 'q' to exit)
-     - Open modified files in your editor
-   - Stage the reformatted files: `git add .`
-   - Commit again with the same message
+For running tests in a specific browser, specify it as follows:
+```sh
+pytest --browser=chromium  # or firefox, webkit
+```
 
-This ensures all code follows consistent formatting standards.
+## Environment Variables
+To store authentication tokens and other secrets securely, create a `.env` file:
+```ini
+TOKEN=your_auth_token_here
+```
+Then, load environment variables in your test files using:
+```python
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+TOKEN = os.getenv("TOKEN")
+```
+
+## Debugging Tests
+- Use `--slowmo` to slow down execution for debugging:
+  ```sh
+  pytest --headed --slowmo=500  # 500ms delay between steps
+  ```
+- Run tests in debug mode:
+  ```sh
+  pytest --headed --debug
+  ```
+
+## Generating Tests Automatically
+Playwright can generate tests for you by recording actions:
+```sh
+playwright codegen example.com
+```
+This opens a browser where you can perform actions, and Playwright generates the corresponding test script.
+
+## Additional Resources
+- [Playwright Documentation](https://playwright.dev/python/)
+- [pytest Documentation](https://docs.pytest.org/en/latest/)
+
+Happy Testing! 🚀
