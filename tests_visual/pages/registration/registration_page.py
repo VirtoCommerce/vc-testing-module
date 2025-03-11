@@ -8,7 +8,7 @@ class RegistrationPage:
         self.locators = RegistrationLocators()
 
     def navigate_to_registration_public(self):
-        """Navigate to public sector registration page"""
+        """Navigate to personal registration page"""
         self.page.goto(f"{self.config['base_url']}/sign-up")        
 
 

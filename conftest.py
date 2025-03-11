@@ -21,11 +21,11 @@ load_dotenv()
 @pytest.fixture(scope="session")
 def config():
     return {
-        "base_url": os.getenv("BASE_URL"),
-        "username": os.getenv("USER_EMAIL"),
-        "password": os.getenv("PASSWORD"),
-        "back_url": os.getenv("BACK_URL"),
-        "api_key": os.getenv("API_KEY"),
+        "base_url": os.getenv("BASE_URL", "https://vcst-qa-storefront.govirto.com"),
+        "username": os.getenv("USER_EMAIL", "b2badmin@test.com"),
+        "password": os.getenv("PASSWORD", "Password1"),
+        "back_url": os.getenv("BACK_URL", "https://vcst-qa.govirto.com"),
+        "api_key": os.getenv("API_KEY", "ec15f69d-fbf0-4117-b40b-286819c164fb"),
     }
 
 
