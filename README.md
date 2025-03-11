@@ -18,6 +18,8 @@ Make sure you have the following installed on your system:
 2. **Install dependencies**
    ```sh
    pip install playwright pytest
+   python -m pip install --upgrade pip
+   pip install -r requirements.txt   
    ```
 
 3. **Install Playwright browsers**
