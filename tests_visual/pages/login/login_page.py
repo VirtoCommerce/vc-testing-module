@@ -13,13 +13,8 @@ class LoginPage:
         """Navigate to login page and prepare it for visual testing"""
         self.page.goto(self.config["base_url"])
         self.page.reload()
-        self.page.wait_for_load_state("networkidle")
-        self._freeze_animations()
+        self.page.wait_for_load_state("networkidle")    
 
-    def _freeze_animations(self):
-        """Freeze video and swiper for consistent screenshots"""
-        video_freeze(self.page)
-        swiper_freeze(self.page, self.locators.SWIPER)
 
     def click_registration_button(self):
         """Click on the registration button"""

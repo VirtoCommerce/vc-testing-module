@@ -9,7 +9,7 @@ def test_visual_homepage(authenticated_page, config, image_snapshot) -> None:
     header = HeaderPage(page)
     homepage = HomePage(page)
 
-    page.wait_for_url(f"{config['base_url']}/home")
+    page.wait_for_url(f"{config['base_url']}")
     page.wait_for_load_state("networkidle")
 
     header.hide_vc_badge()
