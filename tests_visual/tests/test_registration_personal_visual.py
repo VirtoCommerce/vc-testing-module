@@ -15,7 +15,7 @@ def test_registration_personal_visual(page, config, image_snapshot) -> None:
     # Click on the registration button
     login.click_registration_button()
 
-    # Click on the personal sector button
+    # Click on the personal account radio button
     registration.click_personal_account_button()
 
 

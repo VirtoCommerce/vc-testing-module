@@ -1,8 +1,6 @@
 class LoginLocators:
-    VIDEO = "video"
-    SWIPER = ".swiper"
-    LOGIN_BUTTON = "#login-btn"
-    EMAIL_INPUT = "#email"
-    PASSWORD_INPUT = "#password"
-    REGISTER_LINK = "a[href='/sign-up']"
+    LOGIN_BUTTON = "button[type='submit']"
+    EMAIL_INPUT = "input[name='email']"
+    PASSWORD_INPUT = "input[type='password']"
+    REGISTER_LINK = "(//a[@type='button'])[2]"
     # Add any other locators that are currently in the test file
