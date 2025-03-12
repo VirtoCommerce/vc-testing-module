@@ -24,7 +24,7 @@ def auth_token(config):
 
     local_storage_auth = response.json()
     expires_in = local_storage_auth.pop("expires_in", 0)
-    expires_at = datetime.datetime.utcnow() + datetime.timedelta(seconds=expires_in)
+    expires_at = datetime.datetime.now(datetime.UTC) + datetime.timedelta(seconds=expires_in)
     expires_at = expires_at.strftime("%Y-%m-%dT%H:%M:%S.") + f"{expires_at.microsecond // 1000:03d}Z"
     local_storage_auth["expires_at"] = expires_at
 
