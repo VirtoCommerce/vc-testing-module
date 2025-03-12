@@ -7,11 +7,11 @@ import datetime
 from gql import Client, gql
 from gql.transport.requests import RequestsHTTPTransport
 from playwright.sync_api import sync_playwright, expect
-from e2e.graphql import client
 from fixtures.auth_token import auth_token
-from fixtures.graphql_client import graphql_client
 from fixtures.authenticated_page import authenticated_page
-from fixtures.clear_cart_if_not_empty import clear_cart_if_not_empty
+#from fixtures.clear_cart_if_not_empty import clear_cart_if_not_empty
+from graphql_requests.get_me.get_me_request import GetMeRequest
+from fixtures.graphql_client import graphql_client
 
 # Load environment variables from .env file
 load_dotenv()
@@ -54,8 +54,9 @@ def browser_context(browser, auth_token, config):
 @pytest.fixture(scope="session")
 @allure.title("Fixture to initialize user context")
 def user_context(graphql_client, config):
-    user = client.get_me(graphql_client, "")
-    return user
+    get_me_request = GetMeRequest(graphql_client)
+    result = get_me_request.execute(user_id="")  # Pass empty string as default
+    return result["me"]
 
 
 @pytest.fixture(scope="function")

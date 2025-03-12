@@ -9,16 +9,16 @@ from graphql_requests.clear_cart.clear_cart_request import ClearCartRequest
 def clear_cart_if_not_empty(graphql_client, user_context):
     # Before test
     get_cart = GetFullCartRequest(graphql_client)
-    cart = get_cart.execute(user_context["me"]["id"])
+    cart = get_cart.execute(user_context["id"])
 
     if cart["cart"]["itemsQuantity"] > 0:
         clear_cart = ClearCartRequest(graphql_client)
-        clear_cart.execute(user_context["me"]["id"], cart["cart"]["id"])
+        clear_cart.execute(user_context["id"], cart["cart"]["id"])
 
     yield  # This is where the test runs
 
     # After test
-    cart = get_cart.execute(user_context["me"]["id"])
+    cart = get_cart.execute(user_context["id"])
     if cart["cart"]["itemsQuantity"] > 0:
         clear_cart = ClearCartRequest(graphql_client)
-        clear_cart.execute(user_context["me"]["id"], cart["cart"]["id"])
+        clear_cart.execute(user_context["id"], cart["cart"]["id"])

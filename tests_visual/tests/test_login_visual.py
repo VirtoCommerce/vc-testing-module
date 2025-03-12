@@ -9,6 +9,7 @@ def test_visual_login(page, config, image_snapshot) -> None:
 
     # Navigate and freeze animations
     login.navigate()
+    page.pause()
 
     # Move cursor and take screenshot
     page.mouse.move(0, 0)

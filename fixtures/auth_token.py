@@ -10,14 +10,14 @@ def auth_token(config):
     url = f"{config['base_url']}/connect/token"
     data = {
         "grant_type": "password",
+        "scope": "offline_access",
+        "storeId": "B2B-store",
         "username": config["username"],
         "password": config["password"],
     }
     headers = {
         "Content-Type": "application/x-www-form-urlencoded",
     }
-
-    print(data)
 
     response = requests.post(url, data=data, headers=headers)
     response.raise_for_status()
