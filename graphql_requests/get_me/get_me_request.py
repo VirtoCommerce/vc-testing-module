@@ -7,11 +7,9 @@ class GetMeRequest:
         self.client = graphql_client
 
     @allure.step("Get me (GraphQL)")
-    def execute(self, user_id, store_id="", culture_name="en-US"):
+    def execute(self, user_id):
         variables = {
-            "storeId": store_id,
-            "userId": user_id,
-            "cultureName": culture_name,
+            "userId": user_id
         }
         result = self.client.execute(GET_ME, variable_values=variables)
         return result
