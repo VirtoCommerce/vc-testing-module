@@ -22,12 +22,18 @@ Make sure you have the following installed on your system:
    pip install -r requirements.txt   
    ```
 
-3. **Install Playwright browsers**
+3. **Install pre-commit hooks**
+   ```sh
+   pre-commit install
+   ```
+   > **Note:** This step needs to be done manually after installing requirements. Pre-commit hooks (including Black formatter) cannot be installed automatically through requirements.txt as this is a Git security feature.
+
+4. **Install Playwright browsers**
    ```sh
    playwright install
    ```
 
-4. **Verify Playwright installation**
+5. **Verify Playwright installation**
    ```sh
    python -c "import playwright; print(playwright.__version__)"
    ```
