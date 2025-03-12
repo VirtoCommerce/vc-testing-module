@@ -16,6 +16,4 @@ def test_visual_login(page, config, image_snapshot) -> None:
     page.wait_for_timeout(2000)
 
     image = Image.open(BytesIO(page.screenshot(full_page=True)))
-
-    #Tets linter
     image_snapshot(image, "tests_visual/pages/login/login_snapshots/login_base.png", threshold=0.4)
