@@ -1,12 +1,9 @@
-import allure
-
 from .request_registration_body import REQUEST_REGISTRATION
 
 class RequestRegistrationRequest:
     def __init__(self, graphql_client):
-        self.client = graphql_client
+        self.graphql_client = graphql_client
 
-    @allure.step("Request registration (GraphQL)")
     def execute(
         self,
         store_id,
@@ -34,6 +31,6 @@ class RequestRegistrationRequest:
             }
         }
 
-        result = self.client.execute(REQUEST_REGISTRATION, variable_values=variables)
+        result = self.graphql_client.execute(REQUEST_REGISTRATION, variable_values = variables)
 
         return result
