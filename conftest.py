@@ -17,13 +17,13 @@ from fixtures.graphql_client import graphql_client
 load_dotenv()
 
 
-# Define a fixture for global variables
 @pytest.fixture(scope="session")
 def config():
+    """Fixture that loads test configuration from environment variables"""
     return {
-        "base_url": os.getenv("BASE_URL", "https://vcst-qa-storefront.govirto.com"),
-        "username": os.getenv("USER_EMAIL", "b2badmin@test.com"),
-        "password": os.getenv("PASSWORD", "Password1"),
+        "base_url": os.getenv("BASE_URL"),
+        "username": os.getenv("USER_EMAIL"),
+        "password": os.getenv("PASSWORD"),
         "back_url": os.getenv("BACK_URL", "https://vcst-qa.govirto.com"),
         "api_key": os.getenv("API_KEY", "ec15f69d-fbf0-4117-b40b-286819c164fb"),
     }
