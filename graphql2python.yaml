@@ -1,0 +1,2 @@
+schema: scripts/schema.graphql
+output: graphql_types/model.py
