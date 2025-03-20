@@ -6,7 +6,8 @@ from graphql_requests.delete_users.delete_users_request import RequestDeleteUser
 from graphql_requests.delete_contact.delete_contact_request import RequestDeleteContact
 from graphql_requests.request_registration.request_registration_request import RequestRegistrationRequest
 
-class CustomerRegistrationPage:
+
+class CustomerRegistrationOperations:
     def __init__(self, graphql_client):
         self.graphql_client = graphql_client
         self.requestRegistrationRequest = RequestRegistrationRequest(self.graphql_client)
@@ -20,7 +21,7 @@ class CustomerRegistrationPage:
             password=test_user["password"],
             first_name=test_customer["firstName"],
             last_name=test_customer["lastName"],
-            organization_name=test_organization["name"]
+            organization_name=test_organization["name"],
         )
 
         self.contact_id = result["requestRegistration"]["contact"]["id"]
