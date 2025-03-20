@@ -7,7 +7,7 @@ from graphql_requests.delete_contact.delete_contact_request import RequestDelete
 from graphql_requests.request_registration.request_registration_request import RequestRegistrationRequest
 
 
-class CustomerRegistrationOperations:
+class RequestRegistrationOperations:
     def __init__(self, graphql_client):
         self.graphql_client = graphql_client
         self.requestRegistrationRequest = RequestRegistrationRequest(self.graphql_client)
@@ -31,6 +31,21 @@ class CustomerRegistrationOperations:
         assert result["requestRegistration"]["account"] is not None
         assert result["requestRegistration"]["contact"] is not None
         assert result["requestRegistration"]["organization"] is not None
+
+    def register_customer(self):
+        result = self.requestRegistrationRequest.execute(
+            store_id=test_store["id"],
+            email=test_user["email"],
+            password=test_user["password"],
+            first_name=test_customer["firstName"],
+            last_name=test_customer["lastName"],
+        )
+
+        self.contact_id = result["requestRegistration"]["contact"]["id"]
+
+        assert result["requestRegistration"]["result"]["succeeded"] is True
+        assert result["requestRegistration"]["account"] is not None
+        assert result["requestRegistration"]["contact"] is not None
 
     def clean_up_test_user(self):
         deleteUsersRequest = RequestDeleteUsers(self.graphql_client)
