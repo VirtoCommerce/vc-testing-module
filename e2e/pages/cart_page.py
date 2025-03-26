@@ -27,21 +27,28 @@ class CartPage:
         """Expect the cart count to be a specific number"""
         expect(self.page.locator(CartLocators.CART_COUNT.format(str(quantity)))).to_have_text(str(expected_count))
 
-    def expect_product_in_cart(self, product_name: str):
+    def expect_product_in_cart(self, product_name: str, line_item_number: int):
         """Expect a product to be in the cart with specific quantity"""
-        product_row = self.page.locator(CartLocators.CART_ITEM)
-        product_name_element = self.page.locator(CartLocators.PRODUCT_TITLE.format(product_name))
+        product_row = self.page.locator(CartLocators.CART_ITEM_1.format(line_item_number))
+        product_name_element = self.page.locator(CartLocators.PRODUCT_TITLE.format(product_name, line_item_number))
         expect(product_row).to_be_visible()
         expect(product_name_element).to_be_visible()
     
 
-    def expect_line_item_total(self, price: float, quantity: int):
-        """Expect the line item total to be price * quantity"""
-        product_row = self.page.locator(CartLocators.CART_ITEM)
+    def get_line_items(self):
+        """Get all line items in the cart"""
+        return self.page.locator(CartLocators.LINE_ITEM).all()
+    
+
+    def expect_line_item_total(self, product_name: str, price: float, quantity: int, line_item_number1: int, line_item_number2: int):
+        """Expect the line item total to be price * quantity for a specific product"""
+        line_item = self.page.locator(CartLocators.CART_ITEM_1.format(line_item_number1))
+        expect(line_item).to_be_visible()
+        
         expected_total = price * quantity
-        actual_price = product_row.locator(CartLocators.PRICE_ACTUAL).text_content()
-        actual_amount = float(actual_price.replace('$', ''))
-        assert abs(actual_amount - expected_total) < 0.01, f"Expected total {expected_total}, but got {actual_amount}"
+        actual_price = line_item.locator(CartLocators.PRICE_ACTUAL_CART_ITEM_1.format(line_item_number2)).text_content()
+        actual_amount = float(actual_price.replace('$', '').replace(',', ''))
+        assert abs(actual_amount - expected_total) < 0.01, f"Expected total {expected_total} for product {product_name}, but got {actual_amount}"
         
     def click_cart_icon(self):
         """Click on cart icon to navigate to cart page"""
