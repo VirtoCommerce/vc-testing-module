@@ -70,4 +70,23 @@ class CartPage:
         """Verify that the cart is empty"""
         empty_message = self.page.locator(CartLocators.EMPTY_CART_MESSAGE)
         expect(empty_message).to_be_visible()
+
+    def set_quantity(self, quantity: int):
+        """Set quantity for product"""
+        self.page.fill("#input-1306", str(quantity))
+        expect(self.page.locator("#input-1306")).to_have_value(str(quantity))
+
+    def expect_max_quantity_error(self):
+        """Verify max quantity error message"""
+        error_message = self.page.locator("text=You can order maximum 20 item(s)")
+        expect(error_message).to_be_visible()
+
+    def expect_subtotal(self, amount: str):
+        """Verify subtotal amount"""
+        subtotal = self.page.locator(f"text=Subtotal ${amount}")
+        expect(subtotal).to_be_visible()
+
+    def proceed_to_checkout(self):
+        """Click proceed to checkout button"""
+        self.page.click("text=PROCEED TO CHECKOUT")
         

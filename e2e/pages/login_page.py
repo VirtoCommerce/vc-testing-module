@@ -22,6 +22,7 @@ class LoginPage:
         self.password_input.fill(password)      
         self.login_button.click()
         self.page.wait_for_load_state("networkidle")
+       
 
     def expect_validation_error(self, message: str):
         """Verify validation error message"""
