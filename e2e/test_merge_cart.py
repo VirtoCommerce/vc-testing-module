@@ -58,8 +58,8 @@ def test_merge_cart_anonymous_to_logged_in(cart_page: CartPage, login_page: Logi
     cart_page.click_cart_icon()
     
     # Step 3: Verify cart count and line item total    
-    cart_page.expect_product_in_cart(product_name)
-    cart_page.expect_line_item_total(price, quantity)
+    cart_page.expect_product_in_cart(product_name, 1)
+    cart_page.expect_line_item_total(product_name, price, quantity, 1, 3)
     
     # Step 4: Login as user
     login_page.navigate()
@@ -68,8 +68,8 @@ def test_merge_cart_anonymous_to_logged_in(cart_page: CartPage, login_page: Logi
     
     # Step 5: Verify cart contents persist
     cart_page.click_cart_icon()   
-    cart_page.expect_product_in_cart(product_name)
-    cart_page.expect_line_item_total(price, quantity) 
+    cart_page.expect_product_in_cart(product_name, 1)
+    cart_page.expect_line_item_total(product_name, price, quantity, 1, 3)
 
 
 def test_merge_anonymous_user_cart(cart_page: CartPage, login_page: LoginPage, logout_page: LogoutPage, config):
