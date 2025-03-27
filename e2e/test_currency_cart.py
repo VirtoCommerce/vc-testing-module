@@ -60,8 +60,8 @@ def test_change_user_currency(cart_page: CartPage, login_page: LoginPage, config
     logout_page.logout()
 
 
-def test_change_anonymous_currency(cart_page: CartPage, config, login_page: LoginPage):
-    """Test changing anonymous user's currency
+def test_merge_cart_change_currency(cart_page: CartPage, config, login_page: LoginPage):
+    """Test merging cart and changing currency
     
     Steps:
     1. Add product to usd cart as anonymous user
