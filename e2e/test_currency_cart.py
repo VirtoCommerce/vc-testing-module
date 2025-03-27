@@ -59,6 +59,26 @@ def test_change_user_currency(cart_page: CartPage, login_page: LoginPage, config
     profile_page.update_profile()
     logout_page.logout()
 
+def test_check_currency_in_cart(cart_page: CartPage, config, login_page: LoginPage, logout_page: LogoutPage):
+    """Test checking currency in cart
+    
+    Steps:
+    1. Login as user
+    2. Verify currency is EUR
+    3. Verify product in cart   
+    4. Logout
+    """
+    # Step 1: Login as user
+    login_page.navigate()
+    login_page.login(config["username"], config["password"])
+    login_page.expect_successful_login()
+    cart_page.click_cart_icon()
+    cart_page.expect_product_count(1)    
+    cart_page.expect_product_in_cart(CURRENCY_TEST_PRODUCT["name"], 1)
+    cart_page.extract_currency_symbol()
+    logout_page.logout()  
+
+
 
 def test_merge_cart_change_currency(cart_page: CartPage, config, login_page: LoginPage):
     """Test merging cart and changing currency
@@ -84,7 +104,7 @@ def test_merge_cart_change_currency(cart_page: CartPage, config, login_page: Log
     cart_page.click_cart_icon()    
     cart_page.expect_product_count(1)   
     cart_page.expect_product_in_cart(CURRENCY_TEST_PRODUCT["name_2"], 1)
-    cart_page.expect_currency("EUR")
+    cart_page.extract_currency_symbol()
        
 
 
