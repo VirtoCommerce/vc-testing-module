@@ -43,8 +43,8 @@ class CartPage:
     def expect_line_item_total(self, product_name: str, price: float, quantity: int, line_item_number1: int, line_item_number2: int):
         """Expect the line item total to be price * quantity for a specific product"""
         line_item = self.page.locator(CartLocators.CART_ITEM_1.format(line_item_number1))
-        expect(line_item).to_be_visible()
-        
+        self.page.wait_for_selector(CartLocators.PRICE_ACTUAL_CART_ITEM_1.format(line_item_number2), state="attached")
+        expect(line_item).to_be_visible()        
         expected_total = price * quantity
         actual_price = line_item.locator(CartLocators.PRICE_ACTUAL_CART_ITEM_1.format(line_item_number2)).text_content()
         actual_amount = float(actual_price.replace('$', '').replace(',', ''))
@@ -72,21 +72,27 @@ class CartPage:
         expect(empty_message).to_be_visible()
 
     def set_quantity(self, quantity: int):
-        """Set quantity for product"""
-        self.page.fill("#input-1306", str(quantity))
-        expect(self.page.locator("#input-1306")).to_have_value(str(quantity))
+        """Set quantity for product and wait for price recalculation"""
+        self.page.fill(CartLocators.QUANTITY_INPUT, str(quantity))
+        expect(self.page.locator(CartLocators.QUANTITY_INPUT)).to_have_value(str(quantity))
+        # Wait for price recalculation
+        self.page.wait_for_load_state("networkidle")
+        # Wait for the price element to be updated with a longer timeout
+        self.page.wait_for_selector(CartLocators.SUBTOTAL, state="attached", timeout=10000)
+        # Additional wait to ensure price is fully updated
+        self.page.wait_for_timeout(2000)  # Wait 2 seconds for price recalculation
 
-    def expect_max_quantity_error(self):
-        """Verify max quantity error message"""
-        error_message = self.page.locator("text=You can order maximum 20 item(s)")
-        expect(error_message).to_be_visible()
-
-    def expect_subtotal(self, amount: str):
+    def expect_subtotal(self, amount: float):
         """Verify subtotal amount"""
-        subtotal = self.page.locator(f"text=Subtotal ${amount}")
+        subtotal = self.page.locator(CartLocators.SUBTOTAL)
         expect(subtotal).to_be_visible()
+        # Wait for price to update
+        self.page.wait_for_load_state("networkidle")
+        subtotal_amount = subtotal.text_content()
+        float_subtotal_amount = float(subtotal_amount.replace('$', '').replace(',', ''))
+        assert abs(float_subtotal_amount - amount) < 0.01, f"Expected subtotal {amount} but got {float_subtotal_amount}"
 
     def proceed_to_checkout(self):
         """Click proceed to checkout button"""
-        self.page.click("text=PROCEED TO CHECKOUT")
+        self.page.click(CartLocators.PROCEED_TO_CHECKOUT_BUTTON)
         

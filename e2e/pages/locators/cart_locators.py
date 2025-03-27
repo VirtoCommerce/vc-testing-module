@@ -17,3 +17,6 @@ class CartLocators:
     DIALOG_MODAL = "//div[@class='vc-dialog']"
     PRICE_ACTUAL_CART_ITEM_1 = "(//span[@class='vc-product-price__actual']//span)[{}]"
     PRODUCT_ROW = "//div[@class='vc-line-item__main']"
+    MAX_QUANTITY_ERROR = "//div[normalize-space(text())='You can order maximum 20 item(s)']"
+    PROCEED_TO_CHECKOUT_BUTTON = "//button[normalize-space(text())='PROCEED TO CHECKOUT']"
+    SUBTOTAL = "(//div[contains(@class,'mb-4 flex')]//span)[3]"

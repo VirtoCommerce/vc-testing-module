@@ -28,6 +28,7 @@ def test_anonymous_complete_checkout(cart_page: CartPage, checkout_page: Checkou
     product_url = "printers/multifunction-printers/laser-color/epson-workforce-wf-3640-all-in-one-printer"  # Replace with actual product name
     product_name = "ZZZitem for theme performance. Don't delete! Printer Epson"
     quantity = 2
+    change_quantity = 3
     price = 60.00 # Replace with actual product price
 
     # Step 1: Add product to cart as anonymous user
@@ -39,10 +40,12 @@ def test_anonymous_complete_checkout(cart_page: CartPage, checkout_page: Checkou
     # Step 3: Verify cart count and line item total    
     cart_page.expect_product_in_cart(product_name, 1)
     cart_page.expect_line_item_total(product_name, price, quantity, 1, 3)
+    cart_page.expect_subtotal(price * quantity)
         
     # Set valid quantity and verify subtotal
-    cart_page.set_quantity(3)
-    cart_page.expect_subtotal("180.00")
+    cart_page.set_quantity(change_quantity)   
+    cart_page.expect_line_item_total(product_name, price, change_quantity, 1, 3)    
+    cart_page.expect_subtotal(price * change_quantity)
     cart_page.proceed_to_checkout()
 
     # Checkout steps
