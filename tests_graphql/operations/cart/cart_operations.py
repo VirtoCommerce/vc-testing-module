@@ -1,7 +1,9 @@
-import allure
 from gql import Client
 from graphql_requests.mutations.add_item.add_item_mutation import AddItemMutation
 from graphql_requests.mutations.clear_cart.clear_cart_mutation import ClearCartMutation
+from graphql_requests.mutations.change_cart_item_quantity.change_cart_item_quantity_mutation import (
+    ChangeCartItemQuantityMutation,
+)
 from graphql_requests.mutations.create_order_from_cart.create_order_from_cart_mutation import (
     CreateOrderFromCartMutation,
 )
@@ -60,6 +62,35 @@ class CartOperations:
             quantity=quantity,
             currency_code=currency_code,
             culture_name=culture_name,
+        )
+
+        return result
+
+    def change_cart_item_quantity(
+        self, store_id: str, user_id: str, currency_code: str, culture_name: str, line_item_id: str, quantity: int
+    ):
+        """
+        Change the quantity of an item in a user's cart.
+        Args:
+            store_id (str): ID of the store
+            user_id (str): ID of the user whose cart to modify
+            currency_code (str): Currency code for cart prices (e.g. 'USD')
+            culture_name (str): Culture/locale name (e.g. 'en-US')
+            line_item_id (str): ID of the line item to modify
+            quantity (int): New quantity to set for the item
+        Returns:
+            dict: Response containing updated cart data
+        """
+
+        change_cart_item_quantity_mutation = ChangeCartItemQuantityMutation(self.graphql_client)
+
+        result = change_cart_item_quantity_mutation.execute(
+            store_id=store_id,
+            user_id=user_id,
+            currency_code=currency_code,
+            culture_name=culture_name,
+            line_item_id=line_item_id,
+            quantity=quantity,
         )
 
         return result
