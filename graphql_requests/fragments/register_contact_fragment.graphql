@@ -1,0 +1,15 @@
+#import "member_address_fragment.graphql"
+
+fragment RegisterContactFragment on RegisterContactType {
+  id
+  firstName
+  lastName
+  middleName
+  phoneNumber
+  birthdate
+  status
+  about
+  address {
+    ...MemberAddressFragment
+  }
+}

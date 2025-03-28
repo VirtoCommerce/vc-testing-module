@@ -7,9 +7,9 @@ from tests_graphql.test_data.test_currency import TEST_CURRENCY
 from tests_graphql.test_data.test_product import TEST_PRODUCT
 
 
-@allure.title("Create order from cart (GraphQL)")
-def test_create_order_from_cart(config, auth_token, graphql_client):
-    print(f"{os.linesep}Running test to create order from cart...", end=" ")
+@allure.title("Add item to anonymous cart (GraphQL)")
+def test_get_registered_user_cart(config, auth_token, graphql_client):
+    print(f"{os.linesep}Running test to add item to anonymous cart...", end=" ")
 
     user_operations = UserOperations(auth_token, graphql_client)
     user_response = user_operations.get_me()
@@ -24,10 +24,13 @@ def test_create_order_from_cart(config, auth_token, graphql_client):
         culture_name=TEST_CULTURE["en-US"],
     )
 
-    create_order_from_cart_response = cart_operations.create_order_from_cart(add_item_response["addItem"]["id"])
+    cart_operations.clear_cart(
+        store_id=config["store_id"],
+        user_id=user_response["me"]["id"],
+        currency_code=TEST_CURRENCY["USD"],
+        culture_name=TEST_CULTURE["en-US"],
+    )
 
-    assert create_order_from_cart_response["createOrderFromCart"]["id"] is not None
-    assert create_order_from_cart_response["createOrderFromCart"]["number"] is not None
-    assert create_order_from_cart_response["createOrderFromCart"]["items"] is not None
-    assert create_order_from_cart_response["createOrderFromCart"]["items"][0]["productId"] == TEST_PRODUCT["id"]
-    assert create_order_from_cart_response["createOrderFromCart"]["items"][0]["quantity"] == 1
+    assert add_item_response["addItem"]["id"] is not None
+    assert add_item_response["addItem"]["customerId"] == user_response["me"]["id"]
+    assert add_item_response["addItem"]["itemsQuantity"] == 1

@@ -1,0 +1,43 @@
+#import "currency_fragment.graphql"
+#import "money_fragment.graphql"
+#import "order_line_item_fragment.graphql"
+
+fragment CustomerOrderFragment on CustomerOrderType {
+  id
+  number
+  isApproved
+  status
+  statusDisplayValue
+  comment
+  outerId
+  isCancelled
+  cancelledDate
+  cancelReason
+  objectType
+  customerId
+  customerName
+  storeId
+  storeName
+  organizationId
+  organizationName
+  shoppingCartId
+  createdDate
+  items {
+    ...OrderLineItemFragment
+  }
+  currency {
+    ...CurrencyFragment
+  }
+  total {
+    ...MoneyFragment
+  }
+  subTotal {
+    ...MoneyFragment
+  }
+  subTotalDiscount {
+    ...MoneyFragment
+  }
+  discountTotal {
+    ...MoneyFragment
+  }
+}

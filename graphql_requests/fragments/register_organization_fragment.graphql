@@ -1,0 +1,11 @@
+#import "member_address_fragment.graphql"
+
+fragment RegisterOrganizationFragment on RegisterOrganizationType {
+  id
+  name
+  description
+  status
+  address {
+    ...MemberAddressFragment
+  }
+}

@@ -1,0 +1,35 @@
+#import "money_fragment.graphql"
+
+fragment OrderLineItemFragment on OrderLineItemType {
+  id
+  productType
+  name
+  comment
+  imageUrl
+  isGift
+  objectType
+  categoryId
+  catalogId
+  sku
+  quantity
+  productId
+  showPlacedPrice
+  price {
+    ...MoneyFragment
+  }
+  listTotal {
+    ...MoneyFragment
+  }
+  discountAmount {
+    ...MoneyFragment
+  }
+  discountTotal {
+    ...MoneyFragment
+  }
+  extendedPrice {
+    ...MoneyFragment
+  }
+  placedPrice {
+    ...MoneyFragment
+  }
+}

@@ -1,0 +1,15 @@
+fragment ContactFragment on ContactType {
+  id
+  memberType
+  name
+  status
+  phones
+  emails
+  firstName
+  lastName
+  middleName
+  defaultLanguage
+  currencyCode
+  organizationId
+  organizationsIds
+}

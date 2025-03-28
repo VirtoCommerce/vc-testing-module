@@ -1,31 +1,41 @@
 import allure
+import datetime
 import pytest
 import requests
-import datetime
 
 
 @pytest.fixture(scope="session")
-@allure.title("Fixture to obtain the bearer token")
-def auth_token(config):
+@allure.title("Fixture to dynamically obtain and return bearer token")
+def auth_token(config) -> str:
+    token_data = {"token": None, "expires_at": None}
+
+    if token_data["token"] and token_data["expires_at"]:
+        current_time = datetime.datetime.now(datetime.timezone.utc)
+        if current_time < token_data["expires_at"]:
+            return token_data["token"]
+
     url = f"{config['base_url']}/connect/token"
+
+    headers = {
+        "Content-Type": "application/x-www-form-urlencoded",
+    }
+
     data = {
         "grant_type": "password",
         "scope": "offline_access",
-        "storeId": "B2B-store",
+        "storeId": config["store_id"],
         "username": config["username"],
         "password": config["password"],
-    }
-    headers = {
-        "Content-Type": "application/x-www-form-urlencoded",
     }
 
     response = requests.post(url, data=data, headers=headers)
     response.raise_for_status()
 
-    local_storage_auth = response.json()
-    expires_in = local_storage_auth.pop("expires_in", 0)
-    expires_at = datetime.datetime.now(datetime.UTC) + datetime.timedelta(seconds=expires_in)
-    expires_at = expires_at.strftime("%Y-%m-%dT%H:%M:%S.") + f"{expires_at.microsecond // 1000:03d}Z"
-    local_storage_auth["expires_at"] = expires_at
+    response_data = response.json()
+    expires_in = response_data.get("expires_in", 0)
+    expires_at = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(seconds=expires_in)
 
-    return response.json()["access_token"], local_storage_auth
+    token_data["token"] = response_data["access_token"]
+    token_data["expires_at"] = expires_at
+
+    return token_data["token"]
