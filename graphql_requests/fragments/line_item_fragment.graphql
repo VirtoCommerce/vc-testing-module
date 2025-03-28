@@ -10,6 +10,7 @@ fragment LineItemFragment on LineItemType {
   productId
   productType
   quantity
+  selectedForCheckout
   listPrice {
     ...MoneyFragment
   }

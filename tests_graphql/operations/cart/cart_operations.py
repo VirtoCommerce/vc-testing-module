@@ -8,6 +8,12 @@ from graphql_requests.mutations.create_order_from_cart.create_order_from_cart_mu
     CreateOrderFromCartMutation,
 )
 from graphql_requests.mutations.remove_cart_item.remove_cart_item_mutation import RemoveCartItemMutation
+from graphql_requests.mutations.select_all_cart_items.select_all_cart_items_mutation import SelectAllCartItemsMutation
+from graphql_requests.mutations.select_cart_items.select_cart_items_mutation import SelectCartItemsMutation
+from graphql_requests.mutations.unselect_all_cart_items.unselect_all_cart_items_mutation import (
+    UnselectAllCartItemsMutation,
+)
+from graphql_requests.mutations.unselect_cart_items.unselect_cart_items_mutation import UnselectCartItemsMutation
 from graphql_requests.queries.cart.cart_query import CartQuery
 
 
@@ -92,6 +98,106 @@ class CartOperations:
             culture_name=culture_name,
             line_item_id=line_item_id,
             quantity=quantity,
+        )
+
+        return result
+
+    def select_cart_items(
+        self, store_id: str, user_id: str, currency_code: str, culture_name: str, line_item_ids: list[str]
+    ):
+        """
+        Select specific items in a user's cart.
+        Args:
+            store_id (str): ID of the store
+            user_id (str): ID of the user whose cart to modify
+            currency_code (str): Currency code for cart prices (e.g. 'USD')
+            culture_name (str): Culture/locale name (e.g. 'en-US')
+            line_item_ids (list[str]): List of line item IDs to select
+        Returns:
+            dict: Response containing updated cart data
+        """
+
+        select_cart_items_mutation = SelectCartItemsMutation(self.graphql_client)
+
+        result = select_cart_items_mutation.execute(
+            store_id=store_id,
+            user_id=user_id,
+            currency_code=currency_code,
+            culture_name=culture_name,
+            line_item_ids=line_item_ids,
+        )
+
+        return result
+
+    def select_all_cart_items(self, store_id: str, user_id: str, currency_code: str, culture_name: str):
+        """
+        Select all items in a user's cart.
+        Args:
+            store_id (str): ID of the store
+            user_id (str): ID of the user whose cart to modify
+            currency_code (str): Currency code for cart prices (e.g. 'USD')
+            culture_name (str): Culture/locale name (e.g. 'en-US')
+        Returns:
+            dict: Response containing updated cart data
+        """
+
+        select_all_cart_items_mutation = SelectAllCartItemsMutation(self.graphql_client)
+
+        result = select_all_cart_items_mutation.execute(
+            store_id=store_id,
+            user_id=user_id,
+            currency_code=currency_code,
+            culture_name=culture_name,
+        )
+
+        return result
+
+    def unselect_cart_items(
+        self, store_id: str, user_id: str, currency_code: str, culture_name: str, line_item_ids: list[str]
+    ):
+        """
+        Unselect specific items in a user's cart.
+        Args:
+            store_id (str): ID of the store
+            user_id (str): ID of the user whose cart to modify
+            currency_code (str): Currency code for cart prices (e.g. 'USD')
+            culture_name (str): Culture/locale name (e.g. 'en-US')
+            line_item_ids (list[str]): List of line item IDs to unselect
+        Returns:
+            dict: Response containing updated cart data
+        """
+
+        unselect_cart_items_mutation = UnselectCartItemsMutation(self.graphql_client)
+
+        result = unselect_cart_items_mutation.execute(
+            store_id=store_id,
+            user_id=user_id,
+            currency_code=currency_code,
+            culture_name=culture_name,
+            line_item_ids=line_item_ids,
+        )
+
+        return result
+
+    def unselect_all_cart_items(self, store_id: str, user_id: str, currency_code: str, culture_name: str):
+        """
+        Unselect all items in a user's cart.
+        Args:
+            store_id (str): ID of the store
+            user_id (str): ID of the user whose cart to modify
+            currency_code (str): Currency code for cart prices (e.g. 'USD')
+            culture_name (str): Culture/locale name (e.g. 'en-US')
+        Returns:
+            dict: Response containing updated cart data
+        """
+
+        unselect_all_cart_items_mutation = UnselectAllCartItemsMutation(self.graphql_client)
+
+        result = unselect_all_cart_items_mutation.execute(
+            store_id=store_id,
+            user_id=user_id,
+            currency_code=currency_code,
+            culture_name=culture_name,
         )
 
         return result
