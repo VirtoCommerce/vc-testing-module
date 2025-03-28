@@ -7,6 +7,7 @@ from graphql_requests.mutations.change_cart_item_quantity.change_cart_item_quant
 from graphql_requests.mutations.create_order_from_cart.create_order_from_cart_mutation import (
     CreateOrderFromCartMutation,
 )
+from graphql_requests.mutations.remove_cart_item.remove_cart_item_mutation import RemoveCartItemMutation
 from graphql_requests.queries.cart.cart_query import CartQuery
 
 
@@ -91,6 +92,31 @@ class CartOperations:
             culture_name=culture_name,
             line_item_id=line_item_id,
             quantity=quantity,
+        )
+
+        return result
+
+    def remove_cart_item(self, store_id: str, user_id: str, currency_code: str, culture_name: str, line_item_id: str):
+        """
+        Remove an item from a user's cart.
+        Args:
+            store_id (str): ID of the store
+            user_id (str): ID of the user whose cart to modify
+            currency_code (str): Currency code for cart prices (e.g. 'USD')
+            culture_name (str): Culture/locale name (e.g. 'en-US')
+            line_item_id (str): ID of the line item to remove
+        Returns:
+            dict: Response containing updated cart data
+        """
+
+        remove_cart_item_mutation = RemoveCartItemMutation(self.graphql_client)
+
+        result = remove_cart_item_mutation.execute(
+            store_id=store_id,
+            user_id=user_id,
+            currency_code=currency_code,
+            culture_name=culture_name,
+            line_item_id=line_item_id,
         )
 
         return result
