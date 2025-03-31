@@ -27,7 +27,10 @@ class ProfilePage:
     def change_currency(self, currency: str):
         """Change currency"""
         self.page.click(ProfileLocators.CURRENCY_SELECTOR)
-        self.page.click(ProfileLocators.CURRENCY_SELECTOR_OPTION)
+        if currency == "USD":
+            self.page.click(ProfileLocators.CURRENCY_SELECTOR_OPTION_USD)
+        elif currency == "EUR":
+            self.page.click(ProfileLocators.CURRENCY_SELECTOR_OPTION_EUR)
         currency_input = self.page.locator(ProfileLocators.DEFAULT_CURRENCY.format(currency))
         expect(currency_input).to_have_attribute("placeholder", currency)      
         self.page.wait_for_load_state("networkidle")

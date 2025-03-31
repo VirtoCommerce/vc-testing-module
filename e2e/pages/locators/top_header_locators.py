@@ -1,6 +1,6 @@
 class TopHeaderLocators:
-    CURRENCY_SELECTOR = "//div[@class='vc-currency-selector']"
-    LANGUAGE_SELECTOR = "//div[@class='vc-language-selector']"
+    CURRENCY_SELECTOR_STORE = "//span[@class='uppercase text-[--header-top-link-color] hover:text-[--header-top-link-hover-color]']"
+    LANGUAGE_SELECTOR_STORE = "//div[@class='vc-language-selector']"
     UPDATE_BUTTON = "//button[normalize-space(text())='UPDATE']"
     CURRENCY_SELECTOR = "//div[@class='vc-currency-selector']"
     LANGUAGE_SELECTOR = "//div[@class='vc-language-selector']"
