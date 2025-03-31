@@ -16,7 +16,7 @@ class LoginPage:
         self.page.goto(f"{self.config['base_url']}/sign-in")
         self.page.wait_for_load_state("networkidle")
 
-    def login(self, email: str, password: str, remember: bool = False):
+    def login(self, email: str, password: str):
         """Perform login with given credentials"""
         self.email_input.fill(email)
         self.password_input.fill(password)      

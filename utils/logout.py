@@ -1,4 +1,5 @@
 from playwright.sync_api import Page, expect
+from e2e.pages.locators.top_header_locators import TopHeaderLocators
 
 class LogoutPage:
     def __init__(self, page: Page, config: dict):
@@ -14,6 +15,11 @@ class LogoutPage:
     def expect_logged_out(self):
         """Verify user is logged out"""
         # Verify login button is visible (indicating logged out state)
-        login_button = self.page.locator("(//a[@class='top-header-link'])[2]")
+        login_button = self.page.locator(TopHeaderLocators.LOGIN_LINK)
         expect(login_button).to_be_visible()
         expect(login_button).to_have_text("Sign in")
+
+    def go_to_home_page(self):
+        """Go to home page"""
+        self.page.goto(self.config["base_url"])
+        self.page.wait_for_load_state("networkidle")

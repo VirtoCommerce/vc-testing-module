@@ -1,5 +1,6 @@
 from playwright.sync_api import Page, expect
 from e2e.pages.locators.cart_locators import CartLocators
+import datetime
 
 
 class CartPage:
@@ -29,12 +30,13 @@ class CartPage:
 
     def expect_product_in_cart(self, product_name: str, line_item_number: int):
         """Expect a product to be in the cart with specific quantity"""
+        all_products = self.page.locator(CartLocators.LINE_ITEM).all()
         product_row = self.page.locator(CartLocators.CART_ITEM_1.format(line_item_number))
         product_name_element = self.page.locator(CartLocators.PRODUCT_TITLE.format(product_name, line_item_number))
         expect(product_row).to_be_visible()
-        expect(product_name_element).to_be_visible()
+        expect(product_name_element).to_be_visible()      
+               
     
-
     def get_line_items(self):
         """Get all line items in the cart"""
         return self.page.locator(CartLocators.LINE_ITEM).all()
@@ -95,4 +97,59 @@ class CartPage:
     def proceed_to_checkout(self):
         """Click proceed to checkout button"""
         self.page.click(CartLocators.PROCEED_TO_CHECKOUT_BUTTON)
+    
+
+    def expect_cart_not_empty(self):
+        """Verify that the cart is not empty"""
+        empty_message = self.page.locator(CartLocators.EMPTY_CART_MESSAGE)
+        expect(empty_message).not_to_be_visible()
+
+    def change_currency(self, currency: str):
+        """Change the currency in the cart"""
+        currency_selector = self.page.locator(CartLocators.CURRENCY_SELECTOR)
+        currency_selector.click()
+        self.page.locator(f"text={currency}").click()
+        self.page.wait_for_load_state("networkidle")
+    
+    
+    def expect_product_count(self, expected_count: int):
+        """Verify and log the expected number of products in cart"""
+        actual_count = self.page.locator(CartLocators.LINE_ITEM).count()
+        
+        print("=== Product Count Verification ===")
+        print(f"Time: {datetime.datetime.now()}")
+        print(f"Expected count: {expected_count}")
+        print(f"Actual count: {actual_count}")
+        
+        if actual_count == expected_count:
+            print("Status: ✅ Count matches expectation")
+        else:
+            print("Status: ❌ Count mismatch!")
+        print("================================")
+        
+        assert actual_count == expected_count, f"Expected {expected_count} products in cart, but found {actual_count}"
+    
+    def extract_currency_symbol(self) -> str:
+        """Extract currency symbol from price text"""
+        # Wait for price element to be visible
+        currency_element = self.page.locator(CartLocators.PRICE_ACTUAL_CART_ITEM_1.format(3))
+        self.page.wait_for_selector(CartLocators.PRICE_ACTUAL_CART_ITEM_1.format(3), state="attached")
+        expect(currency_element).to_be_visible()
+        
+        # Get price text and extract symbol
+        price_text = currency_element.text_content()
+        if not price_text:
+            raise ValueError("Price text is empty")
+            
+        currency_symbol = price_text[0].strip()
+        if not currency_symbol:
+            raise ValueError("Could not extract currency symbol")
+        
+        print("=== Currency Symbol Extraction ===")
+        print(f"Original price text: {price_text}")
+        print(f"Extracted symbol: {currency_symbol}")
+        print("================================")
+        
+        return currency_symbol
+
         
