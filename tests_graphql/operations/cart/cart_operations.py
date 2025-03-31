@@ -1,5 +1,8 @@
 from gql import Client
 from graphql_requests.mutations.add_item.add_item_mutation import AddItemMutation
+from graphql_requests.mutations.add_or_update_cart_shipment.add_or_update_cart_shipment_mutation import (
+    AddOrUpdateCartShipmentMutation,
+)
 from graphql_requests.mutations.clear_cart.clear_cart_mutation import ClearCartMutation
 from graphql_requests.mutations.change_cart_item_quantity.change_cart_item_quantity_mutation import (
     ChangeCartItemQuantityMutation,
@@ -7,7 +10,10 @@ from graphql_requests.mutations.change_cart_item_quantity.change_cart_item_quant
 from graphql_requests.mutations.create_order_from_cart.create_order_from_cart_mutation import (
     CreateOrderFromCartMutation,
 )
+from graphql_requests.mutations.remove_cart_address.remove_cart_address_mutation import RemoveCartAddressMutation
+from graphql_requests.mutations.remove_cart.remove_cart_mutation import RemoveCartMutation
 from graphql_requests.mutations.remove_cart_item.remove_cart_item_mutation import RemoveCartItemMutation
+from graphql_requests.mutations.remove_shipment.remove_shipment_mutation import RemoveShipmentMutation
 from graphql_requests.mutations.select_all_cart_items.select_all_cart_items_mutation import SelectAllCartItemsMutation
 from graphql_requests.mutations.select_cart_items.select_cart_items_mutation import SelectCartItemsMutation
 from graphql_requests.mutations.unselect_all_cart_items.unselect_all_cart_items_mutation import (
@@ -250,17 +256,93 @@ class CartOperations:
 
         return result
 
-    def create_order_from_cart(self, cart_id: str):
+    def add_or_update_cart_shipment(self, store_id: str, user_id: str, currency_code: str, culture_name: str, shipment):
         """
-        Create an order from the specified cart.
+        Add or update shipment information for a user's cart.
         Args:
-            cart_id (str): ID of the cart to create order from
+            store_id (str): ID of the store
+            user_id (str): ID of the user whose cart to modify
+            currency_code (str): Currency code for cart prices (e.g. 'USD')
+            culture_name (str): Culture/locale name (e.g. 'en-US')
+            shipment: Shipment information to add or update
         Returns:
-            dict: Response containing the created order data
+            dict: Response containing updated cart data
         """
 
-        create_order_from_cart_mutation = CreateOrderFromCartMutation(self.graphql_client)
+        add_or_update_cart_shipment_mutation = AddOrUpdateCartShipmentMutation(self.graphql_client)
 
-        result = create_order_from_cart_mutation.execute(cart_id)
+        result = add_or_update_cart_shipment_mutation.execute(
+            store_id=store_id,
+            user_id=user_id,
+            currency_code=currency_code,
+            culture_name=culture_name,
+            shipment=shipment,
+        )
+
+        return result
+
+    def remove_cart_address(self, store_id: str, user_id: str, address_id: str, currency_code: str, culture_name: str):
+        """
+        Remove an address from a user's cart.
+        Args:
+            store_id (str): ID of the store
+            user_id (str): ID of the user whose cart to modify
+            address_id (str): ID of the address to remove
+            currency_code (str): Currency code for cart prices (e.g. 'USD')
+            culture_name (str): Culture/locale name (e.g. 'en-US')
+        Returns:
+            dict: Response containing updated cart data
+        """
+
+        remove_cart_address_mutation = RemoveCartAddressMutation(self.graphql_client)
+
+        result = remove_cart_address_mutation.execute(
+            store_id=store_id,
+            user_id=user_id,
+            address_id=address_id,
+            currency_code=currency_code,
+            culture_name=culture_name,
+        )
+
+        return result
+
+    def remove_shipment(self, store_id: str, user_id: str, shipment_id: str, currency_code: str, culture_name: str):
+        """
+        Remove a shipment from a user's cart.
+        Args:
+            store_id (str): ID of the store
+            user_id (str): ID of the user whose cart to modify
+            shipment_id (str): ID of the shipment to remove
+            currency_code (str): Currency code for cart prices (e.g. 'USD')
+            culture_name (str): Culture/locale name (e.g. 'en-US')
+        Returns:
+            dict: Response containing updated cart data
+        """
+
+        create_order_from_cart_mutation = RemoveShipmentMutation(self.graphql_client)
+
+        result = create_order_from_cart_mutation.execute(
+            store_id=store_id,
+            user_id=user_id,
+            shipment_id=shipment_id,
+            currency_code=currency_code,
+            culture_name=culture_name,
+        )
+
+        return result
+
+    def remove_cart(self, store_id: str, user_id: str):
+        """
+        Remove a user's cart.
+        Args:
+            store_id (str): ID of the store
+            user_id (str): ID of the user whose cart to remove
+        Returns:
+            dict: Response indicating success of cart removal
+        """
+
+        remove_cart_mutation = RemoveCartMutation(self.graphql_client)
+
+        result = remove_cart_mutation.execute(store_id, user_id)
 
         return result

@@ -1,6 +1,8 @@
 #import "currency_fragment.graphql"
 #import "line_item_fragment.graphql"
 #import "money_fragment.graphql"
+#import "shipment_fragment.graphql"
+#import "shipping_method_fragment.graphql"
 
 fragment CartFragment on CartType {
   id
@@ -26,5 +28,11 @@ fragment CartFragment on CartType {
   }
   currency {
     ...CurrencyFragment
+  }
+  availableShippingMethods {
+    ...ShippingMethodFragment
+  }
+  shipments {
+    ...ShipmentFragment
   }
 }

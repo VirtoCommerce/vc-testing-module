@@ -33,7 +33,5 @@ def test_get_registered_user_by_id(auth_token, graphql_client):
     user_operations = UserOperations(auth_token, graphql_client)
     user_response = user_operations.get_me(TEST_ADMIN_USER["id"], auth_required=True)
 
-    print(user_response["me"]["userName"])
-
     assert user_response["me"]["id"] is not None, "User ID is None"
     assert user_response["me"]["userName"] == TEST_ADMIN_USER["username"], "User name is not correct"
