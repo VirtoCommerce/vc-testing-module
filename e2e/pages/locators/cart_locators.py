@@ -1,6 +1,6 @@
 class CartLocators:
     # Base locators
-    LINE_ITEM = "//div[@class='vc-line-item__main']"
+    LINE_ITEM = "//div[@class='vc-product-title vc-product-title--link vc-line-item__name']"
     PRODUCT_TITLE = "(//a[@title=\"{}\"])[{}]"  # Requires formatting with product name
      # Price locators - relative to LINE_ITEM
     PRICE_ACTUAL = ".//span[@class='vc-product-price__actual']//span[last()]"  # Using relative path with last() instead of fixed index

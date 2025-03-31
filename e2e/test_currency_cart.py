@@ -6,6 +6,7 @@ from e2e.pages.profile_page import ProfilePage
 from utils.logout import LogoutPage
 from utils.go_to_home import GoToHome
 from e2e.test_data import CURRENCY_TEST_PRODUCT
+from e2e.pages.language_currency_selector import LanguageCurrencySelector
 
 @pytest.fixture
 def profile_page(page: Page, config) -> ProfilePage:   
@@ -27,7 +28,11 @@ def logout_page(page: Page, config):
 def go_to_home(page: Page, config):
     return GoToHome(page, config)
 
-def test_change_user_currency(cart_page: CartPage, login_page: LoginPage, config, profile_page: ProfilePage, logout_page: LogoutPage):
+@pytest.fixture
+def language_currency_selector(page: Page):
+    return LanguageCurrencySelector(page)
+
+def test_change_user_currency(cart_page: CartPage, login_page: LoginPage, config, profile_page: ProfilePage, logout_page: LogoutPage, language_currency_selector: LanguageCurrencySelector):
     """Test changing user's currency
     
     Steps:
@@ -59,7 +64,7 @@ def test_change_user_currency(cart_page: CartPage, login_page: LoginPage, config
     profile_page.update_profile()
     logout_page.logout()
 
-def test_check_currency_in_cart(cart_page: CartPage, config, login_page: LoginPage, logout_page: LogoutPage):
+def test_check_currency_in_cart(cart_page: CartPage, config, login_page: LoginPage, logout_page: LogoutPage, language_currency_selector: LanguageCurrencySelector):
     """Test checking currency in cart
     
     Steps:
@@ -76,11 +81,12 @@ def test_check_currency_in_cart(cart_page: CartPage, config, login_page: LoginPa
     cart_page.expect_product_count(1)    
     cart_page.expect_product_in_cart(CURRENCY_TEST_PRODUCT["name"], 1)
     cart_page.extract_currency_symbol()
+    language_currency_selector.expect_currency_change("EUR")
     logout_page.logout()  
 
 
 
-def test_merge_cart_change_currency(cart_page: CartPage, config, login_page: LoginPage):
+def test_merge_cart_change_currency(cart_page: CartPage, config, login_page: LoginPage, language_currency_selector: LanguageCurrencySelector, profile_page: ProfilePage, logout_page: LogoutPage):
     """Test merging cart and changing currency
     
     Steps:
@@ -104,7 +110,16 @@ def test_merge_cart_change_currency(cart_page: CartPage, config, login_page: Log
     cart_page.click_cart_icon()    
     cart_page.expect_product_count(1)   
     cart_page.expect_product_in_cart(CURRENCY_TEST_PRODUCT["name_2"], 1)
-    cart_page.extract_currency_symbol()
+    cart_page.extract_currency_symbol()    
+    language_currency_selector.expect_currency_change("EUR")
+
+    profile_page.click_dashboard()
+    profile_page.click_profile()
+    profile_page.change_currency("USD")
+    profile_page.update_profile()
+    logout_page.logout()
+
+   
        
 
 

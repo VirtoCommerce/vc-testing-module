@@ -5,7 +5,7 @@ class ProfileLocators:
     PROFILE_PAGE_TITLE = "//h1[normalize-space(text())='Profile']"
     DIALOG_MODAL = "//h2[@data-headlessui-state='open']"
     BUTTON_OK = "//span[text()='OK']"
-    PROFILE_LINK = "(//span[@class='account-navigation-item__text'])[2]"
-    CURRENCY_SELECTOR_OPTION = "//div[2]/div/div[2]/div[2]/ul/li[5]/button/span[2]"
+    PROFILE_LINK = "(//span[@class='account-navigation-item__text'])[2]"    
     DEFAULT_CURRENCY = "//input[@placeholder=\"{}\"]"
- 
+    CURRENCY_SELECTOR_OPTION_USD = "//div[2]/div/div[2]/div[2]/ul/li[1]/button/span[2]"
+    CURRENCY_SELECTOR_OPTION_EUR = "//div[2]/div/div[2]/div[2]/ul/li[5]/button/span[2]"
