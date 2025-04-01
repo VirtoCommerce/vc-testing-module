@@ -17,28 +17,36 @@ def test_unselect_cart_items(config, auth_token, graphql_client):
     user = user_response["me"]
 
     cart_operations = CartOperations(graphql_client)
-    add_item_response = cart_operations.add_item_to_cart(
+    add_items_to_cart_response = cart_operations.add_items_to_cart(
         store_id=config["store_id"],
         user_id=user["id"],
-        product_id=TEST_PRODUCT["id"],
-        quantity=1,
+        cart_items=[
+            {
+                "productId": TEST_PRODUCT["id"],
+                "quantity": 1,
+            },
+            {
+                "productId": TEST_PRODUCT_2["id"],
+                "quantity": 2,
+            },
+        ],
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
     )
 
-    cart = add_item_response["addItem"]
-    line_item = cart["items"][0]
+    cart = add_items_to_cart_response["addItemsCart"]
+    line_item_to_unselect = next(item for item in cart["items"] if item["productId"] == TEST_PRODUCT_2["id"])
 
     unselect_cart_items_response = cart_operations.unselect_cart_items(
         store_id=config["store_id"],
         user_id=user_response["me"]["id"],
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
-        line_item_ids=[line_item["id"]],
+        line_item_ids=[line_item_to_unselect["id"]],
     )
 
     updated_cart = unselect_cart_items_response["unSelectCartItems"]
-    updatedline_item = updated_cart["items"][0]
+    unselected_line_item = next(item for item in updated_cart["items"] if item["productId"] == TEST_PRODUCT_2["id"])
 
     # Test teardown
     cart_operations.remove_cart(
@@ -47,9 +55,12 @@ def test_unselect_cart_items(config, auth_token, graphql_client):
     )
 
     assert updated_cart["id"] is not None
+    assert updated_cart["id"] == cart["id"]
     assert updated_cart["customerId"] == user["id"]
-    assert updated_cart["itemsQuantity"] == 1
-    assert updatedline_item["selectedForCheckout"] is False
+    assert updated_cart["itemsQuantity"] == sum(item["quantity"] for item in updated_cart["items"])
+    assert unselected_line_item["selectedForCheckout"] is False
+    assert unselected_line_item["productId"] == TEST_PRODUCT_2["id"]
+    assert unselected_line_item["quantity"] == 2
 
 
 @allure.title("Unselect all cart items (GraphQL)")
@@ -62,19 +73,19 @@ def test_unselect_all_cart_items(config, auth_token, graphql_client):
     user = user_response["me"]
 
     cart_operations = CartOperations(graphql_client)
-    cart_operations.add_item_to_cart(
+    cart_operations.add_items_to_cart(
         store_id=config["store_id"],
         user_id=user["id"],
-        product_id=TEST_PRODUCT["id"],
-        quantity=1,
-        currency_code=TEST_CURRENCY["USD"],
-        culture_name=TEST_CULTURE["en-US"],
-    )
-    cart_operations.add_item_to_cart(
-        store_id=config["store_id"],
-        user_id=user["id"],
-        product_id=TEST_PRODUCT_2["id"],
-        quantity=1,
+        cart_items=[
+            {
+                "productId": TEST_PRODUCT["id"],
+                "quantity": 1,
+            },
+            {
+                "productId": TEST_PRODUCT_2["id"],
+                "quantity": 2,
+            },
+        ],
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
     )
@@ -96,5 +107,5 @@ def test_unselect_all_cart_items(config, auth_token, graphql_client):
 
     assert cart["id"] is not None
     assert cart["customerId"] == user["id"]
-    assert cart["itemsQuantity"] == 2
+    assert cart["itemsQuantity"] == sum(item["quantity"] for item in cart["items"])
     assert all(item["selectedForCheckout"] for item in cart["items"]) is False
