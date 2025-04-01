@@ -13,17 +13,21 @@ def test_get_anonymous_cart(config, auth_token, graphql_client):
     user_operations = UserOperations(auth_token, graphql_client)
     user_response = user_operations.get_me()
 
+    user = user_response["me"]
+
     cart_operations = CartOperations(graphql_client)
     cart_response = cart_operations.get_cart(
         store_id=config["store_id"],
-        user_id=user_response["me"]["id"],
+        user_id=user["id"],
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
     )
 
-    assert cart_response["cart"]["id"] is not None
-    assert cart_response["cart"]["isAnonymous"] == True
-    assert cart_response["cart"]["customerId"] == user_response["me"]["id"]
+    cart = cart_response["cart"]
+
+    assert cart["id"] is not None
+    assert cart["isAnonymous"] == True
+    assert cart["customerId"] == user["id"]
 
 
 @allure.title("Get registered user cart (GraphQL)")
@@ -33,14 +37,18 @@ def test_get_registered_user_cart(config, auth_token, graphql_client):
     user_operations = UserOperations(auth_token, graphql_client)
     user_response = user_operations.get_me(auth_required=True)
 
+    user = user_response["me"]
+
     cart_operations = CartOperations(graphql_client)
     cart_response = cart_operations.get_cart(
         store_id=config["store_id"],
-        user_id=user_response["me"]["id"],
+        user_id=user["id"],
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
     )
 
-    assert cart_response["cart"]["id"] is not None
-    assert cart_response["cart"]["isAnonymous"] == False
-    assert cart_response["cart"]["customerId"] == user_response["me"]["id"]
+    cart = cart_response["cart"]
+
+    assert cart["id"] is not None
+    assert cart["isAnonymous"] == False
+    assert cart["customerId"] == user["id"]

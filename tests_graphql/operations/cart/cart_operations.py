@@ -1,5 +1,10 @@
 from gql import Client
+from graphql_requests.mutations.add_bulk_items_cart.add_bulk_items_cart_mutation import AddBulkItemsCartMutation
 from graphql_requests.mutations.add_item.add_item_mutation import AddItemMutation
+from graphql_requests.mutations.add_items_cart.add_items_cart_mutation import AddItemsCartMutation
+from graphql_requests.mutations.add_or_update_cart_payment.add_or_update_cart_payment_mutation import (
+    AddOrUpdateCartPaymentMutation,
+)
 from graphql_requests.mutations.add_or_update_cart_shipment.add_or_update_cart_shipment_mutation import (
     AddOrUpdateCartShipmentMutation,
 )
@@ -7,6 +12,7 @@ from graphql_requests.mutations.clear_cart.clear_cart_mutation import ClearCartM
 from graphql_requests.mutations.change_cart_item_quantity.change_cart_item_quantity_mutation import (
     ChangeCartItemQuantityMutation,
 )
+from graphql_requests.mutations.clear_payments.clear_payments_mutation import ClearPaymentsMutation
 from graphql_requests.mutations.create_order_from_cart.create_order_from_cart_mutation import (
     CreateOrderFromCartMutation,
 )
@@ -327,6 +333,104 @@ class CartOperations:
             shipment_id=shipment_id,
             currency_code=currency_code,
             culture_name=culture_name,
+        )
+
+        return result
+
+    def add_or_update_cart_payment(self, store_id: str, user_id: str, currency_code: str, culture_name: str, payment):
+        """
+        Add or update a payment in a user's cart.
+        Args:
+            store_id (str): ID of the store
+            user_id (str): ID of the user whose cart to modify
+            currency_code (str): Currency code for cart prices (e.g. 'USD')
+            culture_name (str): Culture/locale name (e.g. 'en-US')
+            payment: Payment details to add or update
+        Returns:
+            dict: Response containing updated cart data
+        """
+
+        add_or_update_cart_payment_mutation = AddOrUpdateCartPaymentMutation(self.graphql_client)
+
+        result = add_or_update_cart_payment_mutation.execute(
+            store_id=store_id,
+            user_id=user_id,
+            currency_code=currency_code,
+            culture_name=culture_name,
+            payment=payment,
+        )
+
+        return result
+
+    def clear_payments(self, store_id: str, user_id: str, currency_code: str, culture_name: str):
+        """
+        Clear all payments from a user's cart.
+        Args:
+            store_id (str): ID of the store
+            user_id (str): ID of the user whose cart to modify
+            currency_code (str): Currency code for cart prices (e.g. 'USD')
+            culture_name (str): Culture/locale name (e.g. 'en-US')
+        Returns:
+            dict: Response containing updated cart data
+        """
+
+        clear_payments_mutation = ClearPaymentsMutation(self.graphql_client)
+
+        result = clear_payments_mutation.execute(
+            store_id=store_id,
+            user_id=user_id,
+            currency_code=currency_code,
+            culture_name=culture_name,
+        )
+
+        return result
+
+    def add_items_to_cart(self, store_id: str, user_id: str, currency_code: str, culture_name: str, cart_items: list):
+        """
+        Add multiple items to a user's cart.
+        Args:
+            store_id (str): ID of the store
+            user_id (str): ID of the user whose cart to modify
+            currency_code (str): Currency code for cart prices (e.g. 'USD')
+            culture_name (str): Culture/locale name (e.g. 'en-US')
+            cart_items (list): List of items to add to the cart
+        Returns:
+            dict: Response containing updated cart data
+        """
+
+        add_items_cart_mutation = AddItemsCartMutation(self.graphql_client)
+
+        result = add_items_cart_mutation.execute(
+            store_id=store_id,
+            user_id=user_id,
+            currency_code=currency_code,
+            culture_name=culture_name,
+            cart_items=cart_items,
+        )
+
+        return result
+
+    def add_bulk_items_to_cart(self, store_id: str, user_id: str, currency_code: str, culture_name: str, cart_items):
+        """
+        Add multiple items to a user's cart in bulk.
+        Args:
+            store_id (str): ID of the store
+            user_id (str): ID of the user whose cart to modify
+            currency_code (str): Currency code for cart prices (e.g. 'USD')
+            culture_name (str): Culture/locale name (e.g. 'en-US')
+            cart_items (list): List of items to add to the cart in bulk
+        Returns:
+            dict: Response containing updated cart data
+        """
+
+        add_bulk_items_cart_mutation = AddBulkItemsCartMutation(self.graphql_client)
+
+        result = add_bulk_items_cart_mutation.execute(
+            store_id=store_id,
+            user_id=user_id,
+            currency_code=currency_code,
+            culture_name=culture_name,
+            cart_items=cart_items,
         )
 
         return result

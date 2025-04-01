@@ -14,17 +14,21 @@ def test_cart_item_quantity(config, auth_token, graphql_client):
     user_operations = UserOperations(auth_token, graphql_client)
     user_response = user_operations.get_me()
 
+    user = user_response["me"]
+
     cart_operations = CartOperations(graphql_client)
     add_item_response = cart_operations.add_item_to_cart(
         store_id=config["store_id"],
-        user_id=user_response["me"]["id"],
+        user_id=user["id"],
         product_id=TEST_PRODUCT["id"],
         quantity=1,
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
     )
 
-    line_item = add_item_response["addItem"]["items"][0]
+    cart = add_item_response["addItem"]
+
+    line_item = cart["items"][0]
 
     change_cart_item_quantity_response = cart_operations.change_cart_item_quantity(
         store_id=config["store_id"],
@@ -35,13 +39,14 @@ def test_cart_item_quantity(config, auth_token, graphql_client):
         quantity=10,
     )
 
-    cart_operations.clear_cart(
+    updated_cart = change_cart_item_quantity_response["changeCartItemQuantity"]
+
+    # Test teardown
+    cart_operations.remove_cart(
         store_id=config["store_id"],
-        user_id=user_response["me"]["id"],
-        currency_code=TEST_CURRENCY["USD"],
-        culture_name=TEST_CULTURE["en-US"],
+        user_id=user["id"],
     )
 
-    assert change_cart_item_quantity_response["changeCartItemQuantity"]["id"] is not None
-    assert change_cart_item_quantity_response["changeCartItemQuantity"]["customerId"] == user_response["me"]["id"]
-    assert change_cart_item_quantity_response["changeCartItemQuantity"]["itemsQuantity"] == 10
+    assert updated_cart["id"] is not None
+    assert updated_cart["customerId"] == user["id"]
+    assert updated_cart["itemsQuantity"] == 10

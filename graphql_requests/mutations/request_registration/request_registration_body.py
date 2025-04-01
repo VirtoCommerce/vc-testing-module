@@ -28,6 +28,7 @@ REQUEST_REGISTRATION = gql(
             result {{
                 ...AccountCreationResultFragment
             }}
+        }}
     }}
     """
 )

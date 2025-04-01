@@ -14,17 +14,20 @@ def test_unselect_cart_items(config, auth_token, graphql_client):
     user_operations = UserOperations(auth_token, graphql_client)
     user_response = user_operations.get_me()
 
+    user = user_response["me"]
+
     cart_operations = CartOperations(graphql_client)
     add_item_response = cart_operations.add_item_to_cart(
         store_id=config["store_id"],
-        user_id=user_response["me"]["id"],
+        user_id=user["id"],
         product_id=TEST_PRODUCT["id"],
         quantity=1,
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
     )
 
-    line_item = add_item_response["addItem"]["items"][0]
+    cart = add_item_response["addItem"]
+    line_item = cart["items"][0]
 
     unselect_cart_items_response = cart_operations.unselect_cart_items(
         store_id=config["store_id"],
@@ -34,19 +37,19 @@ def test_unselect_cart_items(config, auth_token, graphql_client):
         line_item_ids=[line_item["id"]],
     )
 
-    line_item = unselect_cart_items_response["unSelectCartItems"]["items"][0]
+    updated_cart = unselect_cart_items_response["unSelectCartItems"]
+    updatedline_item = updated_cart["items"][0]
 
-    cart_operations.clear_cart(
+    # Test teardown
+    cart_operations.remove_cart(
         store_id=config["store_id"],
-        user_id=user_response["me"]["id"],
-        currency_code=TEST_CURRENCY["USD"],
-        culture_name=TEST_CULTURE["en-US"],
+        user_id=user["id"],
     )
 
-    assert unselect_cart_items_response["unSelectCartItems"]["id"] is not None
-    assert unselect_cart_items_response["unSelectCartItems"]["customerId"] == user_response["me"]["id"]
-    assert unselect_cart_items_response["unSelectCartItems"]["itemsQuantity"] == 1
-    assert line_item["selectedForCheckout"] is False
+    assert updated_cart["id"] is not None
+    assert updated_cart["customerId"] == user["id"]
+    assert updated_cart["itemsQuantity"] == 1
+    assert updatedline_item["selectedForCheckout"] is False
 
 
 @allure.title("Unselect all cart items (GraphQL)")
@@ -56,10 +59,12 @@ def test_unselect_all_cart_items(config, auth_token, graphql_client):
     user_operations = UserOperations(auth_token, graphql_client)
     user_response = user_operations.get_me()
 
+    user = user_response["me"]
+
     cart_operations = CartOperations(graphql_client)
     cart_operations.add_item_to_cart(
         store_id=config["store_id"],
-        user_id=user_response["me"]["id"],
+        user_id=user["id"],
         product_id=TEST_PRODUCT["id"],
         quantity=1,
         currency_code=TEST_CURRENCY["USD"],
@@ -67,7 +72,7 @@ def test_unselect_all_cart_items(config, auth_token, graphql_client):
     )
     cart_operations.add_item_to_cart(
         store_id=config["store_id"],
-        user_id=user_response["me"]["id"],
+        user_id=user["id"],
         product_id=TEST_PRODUCT_2["id"],
         quantity=1,
         currency_code=TEST_CURRENCY["USD"],
@@ -76,22 +81,20 @@ def test_unselect_all_cart_items(config, auth_token, graphql_client):
 
     unselect_all_cart_items_response = cart_operations.unselect_all_cart_items(
         store_id=config["store_id"],
-        user_id=user_response["me"]["id"],
+        user_id=user["id"],
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
     )
 
-    cart_operations.clear_cart(
+    cart = unselect_all_cart_items_response["unSelectAllCartItems"]
+
+    # Test teardown
+    cart_operations.remove_cart(
         store_id=config["store_id"],
-        user_id=user_response["me"]["id"],
-        currency_code=TEST_CURRENCY["USD"],
-        culture_name=TEST_CULTURE["en-US"],
+        user_id=user["id"],
     )
 
-    assert unselect_all_cart_items_response["unSelectAllCartItems"]["id"] is not None
-    assert unselect_all_cart_items_response["unSelectAllCartItems"]["customerId"] == user_response["me"]["id"]
-    assert unselect_all_cart_items_response["unSelectAllCartItems"]["itemsQuantity"] == 2
-    assert (
-        all(item["selectedForCheckout"] for item in unselect_all_cart_items_response["unSelectAllCartItems"]["items"])
-        is False
-    )
+    assert cart["id"] is not None
+    assert cart["customerId"] == user["id"]
+    assert cart["itemsQuantity"] == 2
+    assert all(item["selectedForCheckout"] for item in cart["items"]) is False

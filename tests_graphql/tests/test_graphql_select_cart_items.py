@@ -14,17 +14,20 @@ def test_select_cart_items(config, auth_token, graphql_client):
     user_operations = UserOperations(auth_token, graphql_client)
     user_response = user_operations.get_me()
 
+    user = user_response["me"]
+
     cart_operations = CartOperations(graphql_client)
     add_item_response = cart_operations.add_item_to_cart(
         store_id=config["store_id"],
-        user_id=user_response["me"]["id"],
+        user_id=user["id"],
         product_id=TEST_PRODUCT["id"],
         quantity=1,
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
     )
 
-    line_item = add_item_response["addItem"]["items"][0]
+    cart = add_item_response["addItem"]
+    line_item = cart["items"][0]
 
     select_cart_items_response = cart_operations.select_cart_items(
         store_id=config["store_id"],
@@ -34,19 +37,20 @@ def test_select_cart_items(config, auth_token, graphql_client):
         line_item_ids=[line_item["id"]],
     )
 
-    line_item = select_cart_items_response["selectCartItems"]["items"][0]
+    updated_cart = select_cart_items_response["selectCartItems"]
+    updated_line_item = updated_cart["items"][0]
 
-    cart_operations.clear_cart(
+    # Test teardown
+    cart_operations.remove_cart(
         store_id=config["store_id"],
-        user_id=user_response["me"]["id"],
-        currency_code=TEST_CURRENCY["USD"],
-        culture_name=TEST_CULTURE["en-US"],
+        user_id=user["id"],
     )
 
-    assert select_cart_items_response["selectCartItems"]["id"] is not None
-    assert select_cart_items_response["selectCartItems"]["customerId"] == user_response["me"]["id"]
-    assert select_cart_items_response["selectCartItems"]["itemsQuantity"] == 1
-    assert line_item["selectedForCheckout"] is True
+    assert updated_cart["id"] is not None
+    assert updated_cart["id"] == cart["id"]
+    assert updated_cart["customerId"] == user["id"]
+    assert updated_cart["itemsQuantity"] == 1
+    assert updated_line_item["selectedForCheckout"] is True
 
 
 @allure.title("Select all cart items (GraphQL)")
@@ -56,10 +60,12 @@ def test_select_all_cart_items(config, auth_token, graphql_client):
     user_operations = UserOperations(auth_token, graphql_client)
     user_response = user_operations.get_me()
 
+    user = user_response["me"]
+
     cart_operations = CartOperations(graphql_client)
     cart_operations.add_item_to_cart(
         store_id=config["store_id"],
-        user_id=user_response["me"]["id"],
+        user_id=user["id"],
         product_id=TEST_PRODUCT["id"],
         quantity=1,
         currency_code=TEST_CURRENCY["USD"],
@@ -67,7 +73,7 @@ def test_select_all_cart_items(config, auth_token, graphql_client):
     )
     cart_operations.add_item_to_cart(
         store_id=config["store_id"],
-        user_id=user_response["me"]["id"],
+        user_id=user["id"],
         product_id=TEST_PRODUCT_2["id"],
         quantity=1,
         currency_code=TEST_CURRENCY["USD"],
@@ -81,6 +87,8 @@ def test_select_all_cart_items(config, auth_token, graphql_client):
         culture_name=TEST_CULTURE["en-US"],
     )
 
+    cart = select_all_cart_items_response["selectAllCartItems"]
+
     cart_operations.clear_cart(
         store_id=config["store_id"],
         user_id=user_response["me"]["id"],
@@ -88,10 +96,7 @@ def test_select_all_cart_items(config, auth_token, graphql_client):
         culture_name=TEST_CULTURE["en-US"],
     )
 
-    assert select_all_cart_items_response["selectAllCartItems"]["id"] is not None
-    assert select_all_cart_items_response["selectAllCartItems"]["customerId"] == user_response["me"]["id"]
-    assert select_all_cart_items_response["selectAllCartItems"]["itemsQuantity"] == 2
-    assert (
-        all(item["selectedForCheckout"] for item in select_all_cart_items_response["selectAllCartItems"]["items"])
-        is True
-    )
+    assert cart["id"] is not None
+    assert cart["customerId"] == user["id"]
+    assert cart["itemsQuantity"] == 2
+    assert all(item["selectedForCheckout"] for item in cart["items"]) is True
