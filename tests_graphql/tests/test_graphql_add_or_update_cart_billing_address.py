@@ -12,34 +12,33 @@ def test_add_cart_billing_address(config, auth_token, graphql_client):
     print(f"{os.linesep}Running test to add a cart billing address...", end=" ")
 
     user_operations = UserOperations(auth_token, graphql_client)
-    user_response = user_operations.get_me()
+    user = user_operations.get_me()["me"]
 
     cart_operations = CartOperations(graphql_client)
-    add_or_update_cart_payment_response = cart_operations.add_or_update_cart_payment(
+    cart = cart_operations.add_or_update_cart_payment(
         store_id=config["store_id"],
-        user_id=user_response["me"]["id"],
+        user_id=user["id"],
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
         payment={
             "billingAddress": TEST_CUSTOMER_ADDRESS,
         },
-    )
+    )["addOrUpdateCartPayment"]
 
-    cart = add_or_update_cart_payment_response["addOrUpdateCartPayment"]
     billing_address = cart["payments"][0]["billingAddress"]
 
     # Test teardown
     cart_operations.remove_cart_address(
         store_id=config["store_id"],
-        user_id=user_response["me"]["id"],
+        user_id=user["id"],
         address_id=billing_address["id"],
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
     )
 
     cart_operations.remove_cart(
-        store_id=config["store_id"],
-        user_id=user_response["me"]["id"],
+        cart_id=cart["id"],
+        user_id=user["id"],
     )
 
     assert cart["id"] is not None, "Cart ID is None"
@@ -65,20 +64,19 @@ def test_update_cart_billing_address(config, auth_token, graphql_client):
     print(f"{os.linesep}Running test to update a cart billing address...", end=" ")
 
     user_operations = UserOperations(auth_token, graphql_client)
-    user_response = user_operations.get_me()
+    user = user_operations.get_me()["me"]
 
     cart_operations = CartOperations(graphql_client)
-    add_or_update_cart_payment_response = cart_operations.add_or_update_cart_payment(
+    cart = cart_operations.add_or_update_cart_payment(
         store_id=config["store_id"],
-        user_id=user_response["me"]["id"],
+        user_id=user["id"],
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
         payment={
             "billingAddress": TEST_CUSTOMER_ADDRESS,
         },
-    )
+    )["addOrUpdateCartPayment"]
 
-    cart = add_or_update_cart_payment_response["addOrUpdateCartPayment"]
     billing_address = cart["payments"][0]["billingAddress"]
 
     new_address = {
@@ -86,32 +84,31 @@ def test_update_cart_billing_address(config, auth_token, graphql_client):
         "id": billing_address["id"],
     }
 
-    add_or_update_cart_payment_response = cart_operations.add_or_update_cart_payment(
+    updated_cart = cart_operations.add_or_update_cart_payment(
         store_id=config["store_id"],
-        user_id=user_response["me"]["id"],
+        user_id=user["id"],
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
         payment={
             "id": cart["payments"][0]["id"],
             "billingAddress": new_address,
         },
-    )
+    )["addOrUpdateCartPayment"]
 
-    updated_cart = add_or_update_cart_payment_response["addOrUpdateCartPayment"]
     updated_billing_address = updated_cart["payments"][0]["billingAddress"]
 
     # Test teardown
     cart_operations.remove_cart_address(
         store_id=config["store_id"],
-        user_id=user_response["me"]["id"],
+        user_id=user["id"],
         address_id=billing_address["id"],
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
     )
 
     cart_operations.remove_cart(
-        store_id=config["store_id"],
-        user_id=user_response["me"]["id"],
+        cart_id=cart["id"],
+        user_id=user["id"],
     )
 
     assert updated_cart["id"] is not None, "Cart ID is None"

@@ -12,12 +12,10 @@ def test_unselect_cart_items(config, auth_token, graphql_client):
     print(f"{os.linesep}Running test to unselect cart items...", end=" ")
 
     user_operations = UserOperations(auth_token, graphql_client)
-    user_response = user_operations.get_me()
-
-    user = user_response["me"]
+    user = user_operations.get_me()["me"]
 
     cart_operations = CartOperations(graphql_client)
-    add_items_to_cart_response = cart_operations.add_items_to_cart(
+    cart = cart_operations.add_items_to_cart(
         store_id=config["store_id"],
         user_id=user["id"],
         cart_items=[
@@ -32,25 +30,23 @@ def test_unselect_cart_items(config, auth_token, graphql_client):
         ],
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
-    )
+    )["addItemsCart"]
 
-    cart = add_items_to_cart_response["addItemsCart"]
     line_item_to_unselect = next(item for item in cart["items"] if item["productId"] == TEST_PRODUCT_2["id"])
 
-    unselect_cart_items_response = cart_operations.unselect_cart_items(
+    updated_cart = cart_operations.unselect_cart_items(
         store_id=config["store_id"],
-        user_id=user_response["me"]["id"],
+        user_id=user["id"],
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
         line_item_ids=[line_item_to_unselect["id"]],
-    )
+    )["unSelectCartItems"]
 
-    updated_cart = unselect_cart_items_response["unSelectCartItems"]
     unselected_line_item = next(item for item in updated_cart["items"] if item["productId"] == TEST_PRODUCT_2["id"])
 
     # Test teardown
     cart_operations.remove_cart(
-        store_id=config["store_id"],
+        cart_id=updated_cart["id"],
         user_id=user["id"],
     )
 
@@ -68,9 +64,7 @@ def test_unselect_all_cart_items(config, auth_token, graphql_client):
     print(f"{os.linesep}Running test to unselect all cart items...", end=" ")
 
     user_operations = UserOperations(auth_token, graphql_client)
-    user_response = user_operations.get_me()
-
-    user = user_response["me"]
+    user = user_operations.get_me()["me"]
 
     cart_operations = CartOperations(graphql_client)
     cart_operations.add_items_to_cart(
@@ -90,18 +84,16 @@ def test_unselect_all_cart_items(config, auth_token, graphql_client):
         culture_name=TEST_CULTURE["en-US"],
     )
 
-    unselect_all_cart_items_response = cart_operations.unselect_all_cart_items(
+    cart = cart_operations.unselect_all_cart_items(
         store_id=config["store_id"],
         user_id=user["id"],
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
-    )
-
-    cart = unselect_all_cart_items_response["unSelectAllCartItems"]
+    )["unSelectAllCartItems"]
 
     # Test teardown
     cart_operations.remove_cart(
-        store_id=config["store_id"],
+        cart_id=cart["id"],
         user_id=user["id"],
     )
 

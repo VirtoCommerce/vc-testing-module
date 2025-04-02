@@ -11,19 +11,15 @@ def test_add_cart_payment(config, auth_token, graphql_client):
     print(f"{os.linesep}Running test to add a cart payment...", end=" ")
 
     user_operations = UserOperations(auth_token, graphql_client)
-    user_response = user_operations.get_me()
-
-    user = user_response["me"]
+    user = user_operations.get_me()["me"]
 
     cart_operations = CartOperations(graphql_client)
-    cart_response = cart_operations.get_cart(
+    cart = cart_operations.get_cart(
         store_id=config["store_id"],
         user_id=user["id"],
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
-    )
-
-    cart = cart_response["cart"]
+    )["cart"]
 
     manual_payment_method = next(
         (
@@ -38,15 +34,14 @@ def test_add_cart_payment(config, auth_token, graphql_client):
         "price": manual_payment_method["price"]["amount"],
     }
 
-    add_or_update_cart_payment_response = cart_operations.add_or_update_cart_payment(
+    cart_with_payment = cart_operations.add_or_update_cart_payment(
         store_id=config["store_id"],
         user_id=user["id"],
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
         payment=payment,
-    )
+    )["addOrUpdateCartPayment"]
 
-    cart_with_payment = add_or_update_cart_payment_response["addOrUpdateCartPayment"]
     updated_payment = cart_with_payment["payments"][0]
 
     # Test teardown
@@ -58,8 +53,8 @@ def test_add_cart_payment(config, auth_token, graphql_client):
     )
 
     cart_operations.remove_cart(
-        store_id=config["store_id"],
-        user_id=user_response["me"]["id"],
+        cart_id=cart_with_payment["id"],
+        user_id=user["id"],
     )
 
     assert cart_with_payment["id"] is not None, "Cart ID is None"
@@ -77,19 +72,15 @@ def test_update_cart_payment(config, auth_token, graphql_client):
     print(f"{os.linesep}Running test to update a cart payment...", end=" ")
 
     user_operations = UserOperations(auth_token, graphql_client)
-    user_response = user_operations.get_me()
-
-    user = user_response["me"]
+    user = user_operations.get_me()["me"]
 
     cart_operations = CartOperations(graphql_client)
-    cart_response = cart_operations.get_cart(
+    cart = cart_operations.get_cart(
         store_id=config["store_id"],
         user_id=user["id"],
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
-    )
-
-    cart = cart_response["cart"]
+    )["cart"]
 
     manual_payment_method = next(
         (
@@ -112,15 +103,13 @@ def test_update_cart_payment(config, auth_token, graphql_client):
         "price": authorize_net_payment_method["price"]["amount"],
     }
 
-    add_or_update_cart_payment_response = cart_operations.add_or_update_cart_payment(
+    cart_with_payment = cart_operations.add_or_update_cart_payment(
         store_id=config["store_id"],
         user_id=user["id"],
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
         payment=payment,
-    )
-
-    cart_with_payment = add_or_update_cart_payment_response["addOrUpdateCartPayment"]
+    )["addOrUpdateCartPayment"]
 
     new_payment = {
         "id": cart_with_payment["payments"][0]["id"],
@@ -128,15 +117,14 @@ def test_update_cart_payment(config, auth_token, graphql_client):
         "price": authorize_net_payment_method["price"]["amount"],
     }
 
-    add_or_update_cart_shipment_response = cart_operations.add_or_update_cart_payment(
+    updated_cart = cart_operations.add_or_update_cart_payment(
         store_id=config["store_id"],
-        user_id=user_response["me"]["id"],
+        user_id=user["id"],
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
         payment=new_payment,
-    )
+    )["addOrUpdateCartPayment"]
 
-    updated_cart = add_or_update_cart_shipment_response["addOrUpdateCartPayment"]
     updated_payment = updated_cart["payments"][0]
 
     # Test teardown
@@ -148,8 +136,8 @@ def test_update_cart_payment(config, auth_token, graphql_client):
     )
 
     cart_operations.remove_cart(
-        store_id=config["store_id"],
-        user_id=user_response["me"]["id"],
+        cart_id=updated_cart["id"],
+        user_id=user["id"],
     )
 
     assert cart_with_payment["id"] is not None, "Cart ID is None"

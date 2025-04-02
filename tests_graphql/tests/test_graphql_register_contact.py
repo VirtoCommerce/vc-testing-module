@@ -18,20 +18,18 @@ def test_register_customer(config, auth_token, graphql_client):
         password=TEST_USER["password"],
         first_name=TEST_CUSTOMER["firstName"],
         last_name=TEST_CUSTOMER["lastName"],
-    )
-
-    response = create_contact_result["requestRegistration"]
+    )["requestRegistration"]
 
     # Test teardown
-    contact_operations.delete_contact(response["contact"]["id"])
+    contact_operations.delete_contact(create_contact_result["contact"]["id"])
 
     user_operations = UserOperations(auth_token, graphql_client)
     user_operations.delete_users([TEST_USER["email"]])
 
-    assert response["result"]["succeeded"] is True
-    assert response["account"]["id"] is not None
-    assert response["contact"]["id"] is not None
-    assert response["organization"] is None
+    assert create_contact_result["result"]["succeeded"] is True
+    assert create_contact_result["account"]["id"] is not None
+    assert create_contact_result["contact"]["id"] is not None
+    assert create_contact_result["organization"] is None
 
 
 @allure.title("Register organization (GraphQL)")
@@ -46,18 +44,16 @@ def test_register_organization(config, auth_token, graphql_client):
         first_name=TEST_CUSTOMER["firstName"],
         last_name=TEST_CUSTOMER["lastName"],
         organization_name=TEST_ORGANIZATION["name"],
-    )
-
-    response = create_contact_result["requestRegistration"]
+    )["requestRegistration"]
 
     # Test teardown
-    contact_operations.delete_contact(response["contact"]["id"])
-    contact_operations.delete_contact(response["organization"]["id"])
+    contact_operations.delete_contact(create_contact_result["contact"]["id"])
+    contact_operations.delete_contact(create_contact_result["organization"]["id"])
 
     user_operations = UserOperations(auth_token, graphql_client)
     user_operations.delete_users([TEST_USER["email"]])
 
-    assert response["result"]["succeeded"] is True
-    assert response["account"]["id"] is not None
-    assert response["contact"]["id"] is not None
-    assert response["organization"]["id"] is not None
+    assert create_contact_result["result"]["succeeded"] is True
+    assert create_contact_result["account"]["id"] is not None
+    assert create_contact_result["contact"]["id"] is not None
+    assert create_contact_result["organization"]["id"] is not None

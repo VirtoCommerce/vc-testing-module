@@ -486,3 +486,18 @@ class CartOperations:
         )
 
         return result
+
+    def create_order_from_cart(self, cart_id: str):
+        """
+        Create an order from a cart.
+        Args:
+            cart_id (str): ID of the cart to create order from
+        Returns:
+            dict: Response containing the created order data
+        """
+
+        create_order_from_cart_mutation = CreateOrderFromCartMutation(self.graphql_client)
+
+        result = create_order_from_cart_mutation.execute(cart_id)
+
+        return result

@@ -12,22 +12,23 @@ def test_create_order_from_cart(config, auth_token, graphql_client):
     print(f"{os.linesep}Running test to create order from cart...", end=" ")
 
     user_operations = UserOperations(auth_token, graphql_client)
-    user_response = user_operations.get_me()
+    user = user_operations.get_me()["me"]
 
     cart_operations = CartOperations(graphql_client)
-    add_item_response = cart_operations.add_item_to_cart(
+    cart = cart_operations.add_item_to_cart(
         store_id=config["store_id"],
-        user_id=user_response["me"]["id"],
+        user_id=user["id"],
         product_id=TEST_PRODUCT["id"],
         quantity=1,
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
-    )
+    )["addItem"]
 
-    create_order_from_cart_response = cart_operations.create_order_from_cart(add_item_response["addItem"]["id"])
+    order = cart_operations.create_order_from_cart(cart["id"])["createOrderFromCart"]
 
-    assert create_order_from_cart_response["createOrderFromCart"]["id"] is not None
-    assert create_order_from_cart_response["createOrderFromCart"]["number"] is not None
-    assert create_order_from_cart_response["createOrderFromCart"]["items"] is not None
-    assert create_order_from_cart_response["createOrderFromCart"]["items"][0]["productId"] == TEST_PRODUCT["id"]
-    assert create_order_from_cart_response["createOrderFromCart"]["items"][0]["quantity"] == 1
+    assert order["id"] is not None
+    assert order["number"] is not None
+    assert order["items"] is not None
+    assert len(order["items"]) == 1
+    assert order["items"][0]["productId"] == TEST_PRODUCT["id"]
+    assert order["items"][0]["quantity"] == 1

@@ -12,40 +12,37 @@ def test_remove_item_from_cart(config, auth_token, graphql_client):
     print(f"{os.linesep}Running test to remove item from cart...", end=" ")
 
     user_operations = UserOperations(auth_token, graphql_client)
-    user_response = user_operations.get_me()
-
-    user = user_response["me"]
+    user = user_operations.get_me()["me"]
 
     cart_operations = CartOperations(graphql_client)
-    add_item_response = cart_operations.add_item_to_cart(
+    cart = cart_operations.add_item_to_cart(
         store_id=config["store_id"],
         user_id=user["id"],
         product_id=TEST_PRODUCT["id"],
         quantity=1,
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
-    )
+    )["addItem"]
 
-    cart = add_item_response["addItem"]
     line_item = cart["items"][0]
 
-    remove_cart_item_response = cart_operations.remove_cart_item(
+    updated_cart = cart_operations.remove_cart_item(
         store_id=config["store_id"],
-        user_id=user_response["me"]["id"],
+        user_id=user["id"],
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
         line_item_id=line_item["id"],
-    )
+    )["removeCartItem"]
 
-    updated_cart = remove_cart_item_response["removeCartItem"]
+    removed_line_item = next((item for item in updated_cart["items"] if item["id"] == line_item["id"]), None)
 
     # Test teardown
     cart_operations.remove_cart(
-        store_id=config["store_id"],
+        cart_id=updated_cart["id"],
         user_id=user["id"],
     )
 
     assert updated_cart["id"] is not None
     assert updated_cart["id"] == cart["id"]
     assert updated_cart["customerId"] == user["id"]
-    assert updated_cart["itemsQuantity"] == 0
+    assert removed_line_item is None

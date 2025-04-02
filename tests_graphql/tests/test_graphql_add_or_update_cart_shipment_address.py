@@ -12,34 +12,33 @@ def test_add_cart_shipment_address(config, auth_token, graphql_client):
     print(f"{os.linesep}Running test to add a cart shipment address...", end=" ")
 
     user_operations = UserOperations(auth_token, graphql_client)
-    user_response = user_operations.get_me()
+    user = user_operations.get_me()["me"]
 
     cart_operations = CartOperations(graphql_client)
-    add_or_update_cart_shipment_response = cart_operations.add_or_update_cart_shipment(
+    cart = cart_operations.add_or_update_cart_shipment(
         store_id=config["store_id"],
-        user_id=user_response["me"]["id"],
+        user_id=user["id"],
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
         shipment={
             "deliveryAddress": TEST_CUSTOMER_ADDRESS,
         },
-    )
+    )["addOrUpdateCartShipment"]
 
-    cart = add_or_update_cart_shipment_response["addOrUpdateCartShipment"]
     delivery_address = cart["shipments"][0]["deliveryAddress"]
 
     # Test teardown
     cart_operations.remove_cart_address(
         store_id=config["store_id"],
-        user_id=user_response["me"]["id"],
+        user_id=user["id"],
         address_id=delivery_address["id"],
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
     )
 
     cart_operations.remove_cart(
-        store_id=config["store_id"],
-        user_id=user_response["me"]["id"],
+        cart_id=cart["id"],
+        user_id=user["id"],
     )
 
     assert cart["id"] is not None, "Cart ID is None"
@@ -65,20 +64,19 @@ def test_update_cart_shipment_address(config, auth_token, graphql_client):
     print(f"{os.linesep}Running test to update a cart shipment address...", end=" ")
 
     user_operations = UserOperations(auth_token, graphql_client)
-    user_response = user_operations.get_me()
+    user = user_operations.get_me()["me"]
 
     cart_operations = CartOperations(graphql_client)
-    add_or_update_cart_shipment_response = cart_operations.add_or_update_cart_shipment(
+    cart = cart_operations.add_or_update_cart_shipment(
         store_id=config["store_id"],
-        user_id=user_response["me"]["id"],
+        user_id=user["id"],
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
         shipment={
             "deliveryAddress": TEST_CUSTOMER_ADDRESS,
         },
-    )
+    )["addOrUpdateCartShipment"]
 
-    cart = add_or_update_cart_shipment_response["addOrUpdateCartShipment"]
     delivery_address = cart["shipments"][0]["deliveryAddress"]
 
     new_address = {
@@ -86,32 +84,31 @@ def test_update_cart_shipment_address(config, auth_token, graphql_client):
         "id": delivery_address["id"],
     }
 
-    add_or_update_cart_shipment_response = cart_operations.add_or_update_cart_shipment(
+    updated_cart = cart_operations.add_or_update_cart_shipment(
         store_id=config["store_id"],
-        user_id=user_response["me"]["id"],
+        user_id=user["id"],
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
         shipment={
             "id": cart["shipments"][0]["id"],
             "deliveryAddress": new_address,
         },
-    )
+    )["addOrUpdateCartShipment"]
 
-    updated_cart = add_or_update_cart_shipment_response["addOrUpdateCartShipment"]
     updated_delivery_address = updated_cart["shipments"][0]["deliveryAddress"]
 
     # Test teardown
     cart_operations.remove_cart_address(
         store_id=config["store_id"],
-        user_id=user_response["me"]["id"],
+        user_id=user["id"],
         address_id=delivery_address["id"],
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
     )
 
     cart_operations.remove_cart(
-        store_id=config["store_id"],
-        user_id=user_response["me"]["id"],
+        cart_id=updated_cart["id"],
+        user_id=user["id"],
     )
 
     assert updated_cart["id"] is not None, "Cart ID is None"

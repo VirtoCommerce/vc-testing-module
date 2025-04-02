@@ -14,9 +14,7 @@ def test_merge_carts(config, auth_token, graphql_client):
     user_operations = UserOperations(auth_token, graphql_client)
     cart_operations = CartOperations(graphql_client)
 
-    anonymous_user_response = user_operations.get_me()
-    anonymous_user = anonymous_user_response["me"]
-
+    anonymous_user = user_operations.get_me()["me"]
     anonymous_cart = cart_operations.add_item_to_cart(
         store_id=config["store_id"],
         user_id=anonymous_user["id"],
@@ -26,9 +24,7 @@ def test_merge_carts(config, auth_token, graphql_client):
         culture_name=TEST_CULTURE["en-US"],
     )["addItem"]
 
-    registered_user_response = user_operations.get_me(auth_required=True)
-    registered_user = registered_user_response["me"]
-
+    registered_user = user_operations.get_me(auth_required=True)["me"]
     registered_user_cart = cart_operations.add_item_to_cart(
         store_id=config["store_id"],
         user_id=registered_user["id"],

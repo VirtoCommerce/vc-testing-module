@@ -12,25 +12,21 @@ def test_add_item_to_anonymous_cart(config, auth_token, graphql_client):
     print(f"{os.linesep}Running test to add item to anonymous cart...", end=" ")
 
     user_operations = UserOperations(auth_token, graphql_client)
-    user_response = user_operations.get_me()
-
-    user = user_response["me"]
+    user = user_operations.get_me()["me"]
 
     cart_operations = CartOperations(graphql_client)
-    add_item_response = cart_operations.add_item_to_cart(
+    cart = cart_operations.add_item_to_cart(
         store_id=config["store_id"],
         user_id=user["id"],
         product_id=TEST_PRODUCT["id"],
         quantity=1,
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
-    )
-
-    cart = add_item_response["addItem"]
+    )["addItem"]
 
     # Test teardown
     cart_operations.remove_cart(
-        store_id=config["store_id"],
+        cart_id=cart["id"],
         user_id=user["id"],
     )
 

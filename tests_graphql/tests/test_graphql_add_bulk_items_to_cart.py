@@ -12,9 +12,7 @@ def test_add_bulk_items_to_anonymous_cart(config, auth_token, graphql_client):
     print(f"{os.linesep}Running test to add bulk items to anonymous cart...", end=" ")
 
     user_operations = UserOperations(auth_token, graphql_client)
-    user_response = user_operations.get_me()
-
-    user = user_response["me"]
+    user = user_operations.get_me()["me"]
 
     cart_operations = CartOperations(graphql_client)
     add_bulk_items_cart_response = cart_operations.add_bulk_items_to_cart(
@@ -32,16 +30,16 @@ def test_add_bulk_items_to_anonymous_cart(config, auth_token, graphql_client):
                 "quantity": 10,
             },
         ],
-    )
+    )["addBulkItemsCart"]
 
-    cart = add_bulk_items_cart_response["addBulkItemsCart"]["cart"]
-    errors = add_bulk_items_cart_response["addBulkItemsCart"]["errors"]
+    cart = add_bulk_items_cart_response["cart"]
+    errors = add_bulk_items_cart_response["errors"]
 
     duplicate_sku_error = next((error for error in errors if error["errorCode"] == "PRODUCT_DUPLICATE_SKU"), None)
 
     # Test teardown
     cart_operations.remove_cart(
-        store_id=config["store_id"],
+        cart_id=cart["id"],
         user_id=user["id"],
     )
 

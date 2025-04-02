@@ -11,19 +11,15 @@ def test_add_cart_shipment(config, auth_token, graphql_client):
     print(f"{os.linesep}Running test to add a cart shipment...", end=" ")
 
     user_operations = UserOperations(auth_token, graphql_client)
-    user_response = user_operations.get_me()
-
-    user = user_response["me"]
+    user = user_operations.get_me()["me"]
 
     cart_operations = CartOperations(graphql_client)
-    cart_response = cart_operations.get_cart(
+    cart = cart_operations.get_cart(
         store_id=config["store_id"],
         user_id=user["id"],
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
-    )
-
-    cart = cart_response["cart"]
+    )["cart"]
 
     ground_shipping_method = next(
         (
@@ -39,15 +35,14 @@ def test_add_cart_shipment(config, auth_token, graphql_client):
         "price": ground_shipping_method["price"]["amount"],
     }
 
-    add_or_update_cart_shipment_response = cart_operations.add_or_update_cart_shipment(
+    cart_with_shipment = cart_operations.add_or_update_cart_shipment(
         store_id=config["store_id"],
         user_id=user["id"],
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
         shipment=shipment,
-    )
+    )["addOrUpdateCartShipment"]
 
-    cart_with_shipment = add_or_update_cart_shipment_response["addOrUpdateCartShipment"]
     updated_shipment = cart_with_shipment["shipments"][0]
 
     # Test teardown
@@ -60,7 +55,7 @@ def test_add_cart_shipment(config, auth_token, graphql_client):
     )
 
     cart_operations.remove_cart(
-        store_id=config["store_id"],
+        cart_id=cart_with_shipment["id"],
         user_id=user["id"],
     )
 
@@ -80,19 +75,15 @@ def test_update_cart_shipment(config, auth_token, graphql_client):
     print(f"{os.linesep}Running test to update a cart shipment...", end=" ")
 
     user_operations = UserOperations(auth_token, graphql_client)
-    user_response = user_operations.get_me()
-
-    user = user_response["me"]
+    user = user_operations.get_me()["me"]
 
     cart_operations = CartOperations(graphql_client)
-    cart_response = cart_operations.get_cart(
+    cart = cart_operations.get_cart(
         store_id=config["store_id"],
         user_id=user["id"],
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
-    )
-
-    cart = cart_response["cart"]
+    )["cart"]
 
     ground_shipping_method = next(
         (
@@ -130,29 +121,28 @@ def test_update_cart_shipment(config, auth_token, graphql_client):
         "price": air_shipping_method["price"]["amount"],
     }
 
-    add_or_update_cart_shipment_response = cart_operations.add_or_update_cart_shipment(
+    cart_with_shipment = cart_operations.add_or_update_cart_shipment(
         store_id=config["store_id"],
         user_id=user["id"],
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
         shipment=new_shipment,
-    )
+    )["addOrUpdateCartShipment"]
 
-    cart_with_shipment = add_or_update_cart_shipment_response["addOrUpdateCartShipment"]
     updated_shipment = cart_with_shipment["shipments"][0]
 
     # Test teardown
     cart_operations.remove_shipment(
         store_id=config["store_id"],
-        user_id=user_response["me"]["id"],
+        user_id=user["id"],
         shipment_id=updated_shipment["id"],
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
     )
 
     cart_operations.remove_cart(
-        store_id=config["store_id"],
-        user_id=user_response["me"]["id"],
+        cart_id=cart_with_shipment["id"],
+        user_id=user["id"],
     )
 
     assert cart_with_shipment["id"] is not None, "Cart ID is None"

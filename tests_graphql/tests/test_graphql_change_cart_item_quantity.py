@@ -12,38 +12,32 @@ def test_cart_item_quantity(config, auth_token, graphql_client):
     print(f"{os.linesep}Running test to change cart item quantity...", end=" ")
 
     user_operations = UserOperations(auth_token, graphql_client)
-    user_response = user_operations.get_me()
-
-    user = user_response["me"]
+    user = user_operations.get_me()["me"]
 
     cart_operations = CartOperations(graphql_client)
-    add_item_response = cart_operations.add_item_to_cart(
+    cart = cart_operations.add_item_to_cart(
         store_id=config["store_id"],
         user_id=user["id"],
         product_id=TEST_PRODUCT["id"],
         quantity=1,
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
-    )
-
-    cart = add_item_response["addItem"]
+    )["addItem"]
 
     line_item = cart["items"][0]
 
-    change_cart_item_quantity_response = cart_operations.change_cart_item_quantity(
+    updated_cart = cart_operations.change_cart_item_quantity(
         store_id=config["store_id"],
-        user_id=user_response["me"]["id"],
+        user_id=user["id"],
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
         line_item_id=line_item["id"],
         quantity=10,
-    )
-
-    updated_cart = change_cart_item_quantity_response["changeCartItemQuantity"]
+    )["changeCartItemQuantity"]
 
     # Test teardown
     cart_operations.remove_cart(
-        store_id=config["store_id"],
+        cart_id=updated_cart["id"],
         user_id=user["id"],
     )
 
