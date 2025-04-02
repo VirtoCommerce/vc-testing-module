@@ -16,6 +16,7 @@ from graphql_requests.mutations.clear_payments.clear_payments_mutation import Cl
 from graphql_requests.mutations.create_order_from_cart.create_order_from_cart_mutation import (
     CreateOrderFromCartMutation,
 )
+from graphql_requests.mutations.merge_cart.merge_cart_mutation import MergeCartMutation
 from graphql_requests.mutations.remove_cart_address.remove_cart_address_mutation import RemoveCartAddressMutation
 from graphql_requests.mutations.remove_cart.remove_cart_mutation import RemoveCartMutation
 from graphql_requests.mutations.remove_cart_item.remove_cart_item_mutation import RemoveCartItemMutation
@@ -435,11 +436,11 @@ class CartOperations:
 
         return result
 
-    def remove_cart(self, store_id: str, user_id: str):
+    def remove_cart(self, cart_id: str, user_id: str):
         """
         Remove a user's cart.
         Args:
-            store_id (str): ID of the store
+            cart_id (str): ID of the cart to remove
             user_id (str): ID of the user whose cart to remove
         Returns:
             dict: Response indicating success of cart removal
@@ -447,6 +448,41 @@ class CartOperations:
 
         remove_cart_mutation = RemoveCartMutation(self.graphql_client)
 
-        result = remove_cart_mutation.execute(store_id, user_id)
+        result = remove_cart_mutation.execute(cart_id, user_id)
+
+        return result
+
+    def merge_cart(
+        self,
+        store_id: str,
+        user_id: str,
+        currency_code: str,
+        culture_name: str,
+        second_cart_id: str,
+        delete_after_merge: bool = False,
+    ):
+        """
+        Merge two carts together.
+        Args:
+            store_id (str): ID of the store
+            user_id (str): ID of the user whose cart to merge into
+            currency_code (str): Currency code for cart prices (e.g. 'USD')
+            culture_name (str): Culture/locale name (e.g. 'en-US')
+            second_cart_id (str): ID of the cart to merge from
+            delete_after_merge (bool): Whether to delete the second cart after merging
+        Returns:
+            dict: Response containing merged cart data
+        """
+
+        merge_cart_mutation = MergeCartMutation(self.graphql_client)
+
+        result = merge_cart_mutation.execute(
+            store_id=store_id,
+            user_id=user_id,
+            currency_code=currency_code,
+            culture_name=culture_name,
+            second_cart_id=second_cart_id,
+            delete_after_merge=delete_after_merge,
+        )
 
         return result
