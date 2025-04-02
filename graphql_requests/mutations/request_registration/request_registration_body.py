@@ -19,7 +19,7 @@ REQUEST_REGISTRATION = gql(
             organization {{
                 ...RegisterOrganizationFragment
             }}
-            contacts {{
+            contact {{
                 ...RegisterContactFragment
             }}
             account {{

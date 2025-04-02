@@ -27,7 +27,9 @@ def test_register_customer(config, auth_token, graphql_client):
     user_operations.delete_users([TEST_USER["email"]])
 
     assert create_contact_result["result"]["succeeded"] is True
+    assert create_contact_result["account"] is not None
     assert create_contact_result["account"]["id"] is not None
+    assert create_contact_result["contact"] is not None
     assert create_contact_result["contact"]["id"] is not None
     assert create_contact_result["organization"] is None
 

@@ -9,6 +9,6 @@ class DeleteContactMutation:
     def execute(self, contact_id: str) -> bool:
         variables = {"command": {"contactId": contact_id}}
 
-        result: bool = self.client.execute(DELETE_CONTACT, variable_values=variables)
+        result: bool = self.graphql_client.execute(DELETE_CONTACT, variable_values=variables)
 
         return result
