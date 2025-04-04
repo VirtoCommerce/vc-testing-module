@@ -1,0 +1,11 @@
+#import "error_parameter_fragment.graphql"
+
+fragment ValidationErrorFragment on ValidationErrorType {
+  errorCode
+  errorMessage
+  objectId
+  objectType
+  errorParameters {
+    ...ErrorParameterFragment
+  }
+}

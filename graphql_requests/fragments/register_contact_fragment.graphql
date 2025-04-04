@@ -1,0 +1,10 @@
+fragment RegisterContactFragment on RegisterContactType {
+  id
+  firstName
+  lastName
+  middleName
+  phoneNumber
+  birthdate
+  status
+  about
+}

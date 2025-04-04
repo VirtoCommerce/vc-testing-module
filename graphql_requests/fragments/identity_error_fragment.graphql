@@ -1,0 +1,4 @@
+fragment IdentityErrorFragment on IdentityErrorType {
+  code
+  description
+}

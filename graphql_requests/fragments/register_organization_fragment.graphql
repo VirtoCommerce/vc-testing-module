@@ -1,0 +1,6 @@
+fragment RegisterOrganizationFragment on RegisterOrganizationType {
+  id
+  name
+  description
+  status
+}

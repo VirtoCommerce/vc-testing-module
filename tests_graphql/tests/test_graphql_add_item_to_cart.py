@@ -7,9 +7,9 @@ from tests_graphql.test_data.test_currency import TEST_CURRENCY
 from tests_graphql.test_data.test_product import TEST_PRODUCT
 
 
-@allure.title("Create order from cart (GraphQL)")
-def test_create_order_from_cart(config, auth_token, graphql_client):
-    print(f"{os.linesep}Running test to create order from cart...", end=" ")
+@allure.title("Add item to anonymous cart (GraphQL)")
+def test_add_item_to_anonymous_cart(config, auth_token, graphql_client):
+    print(f"{os.linesep}Running test to add item to anonymous cart...", end=" ")
 
     user_operations = UserOperations(auth_token, graphql_client)
     user = user_operations.get_me()["me"]
@@ -24,11 +24,12 @@ def test_create_order_from_cart(config, auth_token, graphql_client):
         culture_name=TEST_CULTURE["en-US"],
     )["addItem"]
 
-    order = cart_operations.create_order_from_cart(cart["id"])["createOrderFromCart"]
+    # Test teardown
+    cart_operations.remove_cart(
+        cart_id=cart["id"],
+        user_id=user["id"],
+    )
 
-    assert order["id"] is not None
-    assert order["number"] is not None
-    assert order["items"] is not None
-    assert len(order["items"]) == 1
-    assert order["items"][0]["productId"] == TEST_PRODUCT["id"]
-    assert order["items"][0]["quantity"] == 1
+    assert cart["id"] is not None
+    assert cart["customerId"] == user["id"]
+    assert cart["itemsQuantity"] == 1

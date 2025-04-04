@@ -1,0 +1,34 @@
+#import "currency_fragment.graphql"
+#import "money_fragment.graphql"
+
+fragment ShippingMethodFragment on ShippingMethodType {
+  id
+  code
+  logoUrl
+  name
+  description
+  optionName
+  optionDescription
+  priority
+  price {
+    ...MoneyFragment
+  }
+  priceWithTax {
+    ...MoneyFragment
+  }
+  total {
+    ...MoneyFragment
+  }
+  totalWithTax {
+    ...MoneyFragment
+  }
+  discountAmount {
+    ...MoneyFragment
+  }
+  discountAmountWithTax {
+    ...MoneyFragment
+  }
+  currency {
+    ...CurrencyFragment
+  }
+}

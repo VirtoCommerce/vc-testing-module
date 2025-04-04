@@ -1,0 +1,26 @@
+#import "money_fragment.graphql"
+
+fragment LineItemFragment on LineItemType {
+  id
+  catalogId
+  categoryId
+  languageCode
+  name
+  sku
+  productId
+  productType
+  quantity
+  selectedForCheckout
+  listPrice {
+    ...MoneyFragment
+  }
+  salePrice {
+    ...MoneyFragment
+  }
+  listTotal {
+    ...MoneyFragment
+  }
+  placedPrice {
+    ...MoneyFragment
+  }
+}
