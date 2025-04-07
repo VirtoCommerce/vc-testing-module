@@ -49,10 +49,17 @@ Make sure you have the following installed on your system:
 To execute your Playwright tests with pytest, run:
 
 ```sh
-pytest
-# Run all tests in the file
-# Example:
-pytest tests/test_auth.py
+# To run functional tests:
+pytest -v -s test_graphql/tests
+# To run visual tests:
+pytest e2e/ -v --headed
+
+# Run a specific test
+pytest tests/test_auth.py -k test_user_registration
+pytest tests/test_auth.py -k test_user_login
+
+# Run with more detailed output
+pytest tests/test_auth.py -v
 
 # Run a specific test
 pytest tests/test_auth.py -k test_user_registration
