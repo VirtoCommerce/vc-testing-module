@@ -61,12 +61,6 @@ pytest tests/test_auth.py -k test_user_login
 # Run with more detailed output
 pytest tests/test_auth.py -v
 
-# Run a specific test
-pytest tests/test_auth.py -k test_user_registration
-pytest tests/test_auth.py -k test_user_login
-
-# Run with more detailed output
-pytest tests/test_auth.py -v
 ```
 
 If you want to run Playwright tests in headed mode (with browser UI), use:
