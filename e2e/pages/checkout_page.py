@@ -66,13 +66,29 @@ class CheckoutPage:
 
     def select_payment_method(self, method: str):
         """Select payment method"""
-        if method == "credit_card":
-            self.page.click(self.locators.PAYMENT_METHOD_CREDIT_CARD)
-        elif method == "Manual":
-            self.page.click(self.locators.PAYMENT_METHOD_MANUAL.format(method))
-        else:
+        try:
+            # Wait for payment method button to be visible
+            expect(self.page.locator(self.locators.PAYMENT_METHOD_BUTTON)).to_be_visible()
             self.page.click(self.locators.PAYMENT_METHOD_BUTTON)
-            self.page.click(f"text={method}")
+            
+            # Wait for payment options to be visible
+            self.page.wait_for_load_state("networkidle")
+            
+            if method == "Authorize.Net" or method == "CyberSource" or method == "Skyflow":
+                expect(self.page.locator(self.locators.PAYMENT_METHOD_CREDIT_CARD)).to_be_visible()
+                self.page.click(self.locators.PAYMENT_METHOD_CREDIT_CARD)
+            elif method == "Manual":
+                expect(self.page.locator(self.locators.PAYMENT_METHOD_MANUAL.format(method))).to_be_visible()
+                self.page.click(self.locators.PAYMENT_METHOD_MANUAL.format(method))
+            else:
+                expect(self.page.get_by_text(method)).to_be_visible()
+                self.page.get_by_text(method).click()
+                
+            # Wait for selection to be applied
+            self.page.wait_for_load_state("networkidle")
+        except Exception as e:
+            print(f"Error in select_payment_method: {str(e)}")
+            raise
 
     def proceed_to_review(self):
         """Proceed to review"""
@@ -111,12 +127,23 @@ class CheckoutPage:
 
     def fill_billing_details(self, billing_info: dict):
         """Fill billing information"""
-        self.page.fill(self.locators.BILLING_FIRST_NAME, billing_info.get("first_name"))
-        self.page.fill(self.locators.BILLING_LAST_NAME, billing_info.get("last_name"))
-        self.page.fill(self.locators.BILLING_EMAIL, billing_info.get("email"))
-        self.page.fill(self.locators.BILLING_PHONE, billing_info.get("phone"))
-        self.page.fill(self.locators.BILLING_ADDRESS_1, billing_info.get("address"))
-        self.page.fill(self.locators.BILLING_CITY, billing_info.get("city"))
+        try:
+            # Wait for billing form to be visible
+            self.page.wait_for_load_state("networkidle")
+            
+            # Fill in billing details
+            self.page.fill(self.locators.BILLING_FIRST_NAME, billing_info["first_name"])
+            self.page.fill(self.locators.BILLING_LAST_NAME, billing_info["last_name"])
+            self.page.fill(self.locators.BILLING_EMAIL, billing_info["email"])
+            self.page.fill(self.locators.BILLING_PHONE, billing_info["phone"])
+            self.page.fill(self.locators.BILLING_ADDRESS_1, billing_info["address"])
+            self.page.fill(self.locators.BILLING_CITY, billing_info["city"])
+            
+            # Wait for form to be filled
+            self.page.wait_for_load_state("networkidle")
+        except Exception as e:
+            print(f"Error in fill_billing_details: {str(e)}")
+            raise
 
     def enter_payment_details(self, payment_info: dict):
         """Enter payment information"""

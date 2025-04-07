@@ -51,7 +51,7 @@ def test_anonymous_complete_checkout(cart_page: CartPage, checkout_page: Checkou
     checkout_page.fill_shipping_address(SHIPPING_DATA)
     checkout_page.check_shipping_page(DELIVERY_METHOD1, SHIPPING_DATA)
     checkout_page.proceed_to_billing()
-    checkout_page.select_payment_method(PAYMENT_METHOD1)
+    checkout_page.select_payment_method(PAYMENT_METHOD4)
     checkout_page.proceed_to_review()
     checkout_page.place_order()
     checkout_page.expect_completed_order() 
