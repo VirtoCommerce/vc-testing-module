@@ -2,6 +2,10 @@ import pytest
 from playwright.sync_api import Page
 from e2e.pages.cart_page import CartPage
 from e2e.pages.checkout_page import CheckoutPage
+from e2e.pages.testData.test_data import SHIPPING_DATA, PRODUCT, DELIVERY_METHOD1, DELIVERY_METHOD2, PAYMENT_METHOD1, PAYMENT_METHOD4
+
+
+
 
 @pytest.fixture
 def cart_page(page: Page, config):
@@ -14,22 +18,15 @@ def checkout_page(page: Page, config):
 def test_anonymous_complete_checkout(cart_page: CartPage, checkout_page: CheckoutPage):
     """Test complete checkout flow"""
     # Setup test data
-    shipping_data = {
-        "first_name": "AnnaTab",
-        "last_name": "MTab",
-        "email": "weiewfoiu@jhkrgh.rgw",
-        "phone": "32423",
-        "address": "efwe",
-        "city": "fwefewg"
-    }
+  
 
     # Cart steps
         # Preconditions
-    product_url = "printers/multifunction-printers/laser-color/epson-workforce-wf-3640-all-in-one-printer"  # Replace with actual product name
-    product_name = "ZZZitem for theme performance. Don't delete! Printer Epson"
-    quantity = 2
-    change_quantity = 3
-    price = 60.00 # Replace with actual product price
+    product_url = PRODUCT["url"]  # Replace with actual product name
+    product_name = PRODUCT["name"]
+    quantity = PRODUCT["initial_quantity"]
+    change_quantity = PRODUCT["updated_quantity"]
+    price = PRODUCT["price"] # Replace with actual product price
 
     # Step 1: Add product to cart as anonymous user
     cart_page.add_product_to_cart(product_url, quantity)
@@ -49,10 +46,12 @@ def test_anonymous_complete_checkout(cart_page: CartPage, checkout_page: Checkou
     cart_page.proceed_to_checkout()
 
     # Checkout steps
-    checkout_page.select_delivery_method()
-    checkout_page.fill_shipping_address(shipping_data)
+    checkout_page.select_delivery_method(DELIVERY_METHOD1)
+    checkout_page.click_on_shipping_address()
+    checkout_page.fill_shipping_address(SHIPPING_DATA)
+    checkout_page.check_shipping_page(DELIVERY_METHOD1, SHIPPING_DATA)
     checkout_page.proceed_to_billing()
-    checkout_page.select_payment_method()
+    checkout_page.select_payment_method(PAYMENT_METHOD1)
     checkout_page.proceed_to_review()
     checkout_page.place_order()
     checkout_page.expect_completed_order() 

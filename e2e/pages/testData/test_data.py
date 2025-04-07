@@ -23,4 +23,51 @@ MERGE_CART_ANONYMOUS_PRODUCT = {
     "url": "printers/multifunction-printers/laser-color/epson-workforce-wf-3640-all-in-one-printer",
     "quantity": 1,
     "price": 60.00
-} 
+}
+
+SHIPPING_DATA = {
+    "first_name": "AnnaTab",
+    "last_name": "MTab",
+    "email": "weiewfoiu@jhkrgh.rgw",
+    "phone": "32423",
+    "country": "France",
+    "address": "Main street 44",
+    "city": "Paris",
+    "postcode": "75000"
+}
+
+DELIVERY_METHOD1 = "Ground"
+DELIVERY_METHOD2 = "Air"
+
+BILLING_DATA = {
+    "first_name": "AnnaTab",
+    "last_name": "MTab",
+    "email": "weiewfoiu@jhkrgh.rgw",
+    "phone": "32423",
+    "address": "Main street 44",
+    "city": "Paris",
+    "postcode": "75000"
+}
+
+PAYMENT_METHOD1 = "Authorize.Net"
+PAYMENT_METHOD2 = "CyberSource"
+PAYMENT_METHOD3 = "Skyflow"
+PAYMENT_METHOD4 = "Manual"
+
+PAYMENT_DATA = {
+    "card_number": "4242424242424242",
+    "expiry": "12/24",
+    "cvc": "123"
+}
+
+PRODUCT = {
+        "url": "printers/multifunction-printers/laser-color/epson-workforce-wf-3640-all-in-one-printer",
+        "name": "ZZZitem for theme performance. Don't delete! Printer Epson",
+        "initial_quantity": 2,
+        "updated_quantity": 3,
+        "price": 60.00
+    }
+
+
+
+

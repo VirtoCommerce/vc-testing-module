@@ -5,7 +5,7 @@ from e2e.pages.login_page import LoginPage
 from e2e.pages.profile_page import ProfilePage
 from utils.logout import LogoutPage
 from utils.go_to_home import GoToHome
-from e2e.test_data import CURRENCY_TEST_PRODUCT
+from e2e.pages.testData.test_data import CURRENCY_TEST_PRODUCT
 from e2e.pages.language_currency_selector import LanguageCurrencySelector
 
 @pytest.fixture
