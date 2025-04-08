@@ -1,0 +1,52 @@
+name: Playwright Tests
+
+on:
+  push:
+    branches: [ dev ]
+  pull_request:
+    branches: [ dev ]
+
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    env:
+      BASE_URL: https://vcst-qa-storefront.govirto.com
+      BACK_URL: https://vcst-qa.govirto.com
+      ADMIN_USERNAME: admin
+      ADMIN_PASSWORD: Password3
+      ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
+      USER_EMAIL: b2badmin@test.com
+      PASSWORD: Password3
+      API_KEY: ${{ secrets.API_KEY }}
+      STORE_ID: B2B-store
+      
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        
+    - name: Install Playwright Browsers
+      run: playwright install --with-deps
+      
+    - name: Run Playwright Tests
+      run: |
+        echo "Running tests against ${{ env.BASE_URL }}"
+        pytest -v -s tests_graphql/test_graphql_api.py --html=report.html
+        pytest e2e/ -v -s --html=e2e-report.html
+      continue-on-error: true
+      
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: playwright-report
+        path: playwright-report/
+        retention-days: 30
