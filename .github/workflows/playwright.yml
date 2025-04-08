@@ -40,13 +40,6 @@ jobs:
     - name: Run Playwright Tests
       run: |
         echo "Running tests against ${{ env.BASE_URL }}"
-        pytest -v -s tests_graphql/test_graphql_api.py --html=report.html
-        pytest e2e/ -v -s --html=e2e-report.html
-      continue-on-error: true
-      
-    - uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: playwright-report
-        path: playwright-report/
-        retention-days: 30
+        pytest tests_graphql/tests -v -s
+        pytest e2e/ -v -s
+      continue-on-error: true    
