@@ -4,7 +4,6 @@ from e2e.pages.cart_page import CartPage
 from e2e.pages.login_page import LoginPage
 from e2e.pages.profile_page import ProfilePage
 from utils.logout import LogoutPage
-from utils.go_to_home import GoToHome
 from e2e.pages.testData.test_data import CURRENCY_TEST_PRODUCT
 from e2e.pages.language_currency_selector import LanguageCurrencySelector
 
@@ -23,10 +22,6 @@ def login_page(page: Page, config):
 @pytest.fixture
 def logout_page(page: Page, config):
     return LogoutPage(page, config)
-
-@pytest.fixture
-def go_to_home(page: Page, config):
-    return GoToHome(page, config)
 
 @pytest.fixture
 def language_currency_selector(page: Page):

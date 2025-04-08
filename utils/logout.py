@@ -6,6 +6,7 @@ class LogoutPage:
         self.page = page
         self.config = config
         
+        
     def logout(self):
         """Perform logout action"""
         self.page.locator("//button[contains(@class,'flex cursor-pointer')]").click()
@@ -19,7 +20,10 @@ class LogoutPage:
         expect(login_button).to_be_visible()
         expect(login_button).to_have_text("Sign in")
 
+        
     def go_to_home_page(self):
         """Go to home page"""
-        self.page.goto(self.config["base_url"])
+        self.page.click("(//nav[contains(@class,'relative z-[2]')]//a)[1]")
         self.page.wait_for_load_state("networkidle")
+        self.page.wait_for_url(f"{self.config['base_url']}")
+        self.page.wait_for_load_state("domcontentloaded")

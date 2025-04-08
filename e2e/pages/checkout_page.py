@@ -132,12 +132,12 @@ class CheckoutPage:
             self.page.wait_for_load_state("networkidle")
             
             # Fill in billing details
-            self.page.fill(self.locators.BILLING_FIRST_NAME, billing_info["first_name"])
-            self.page.fill(self.locators.BILLING_LAST_NAME, billing_info["last_name"])
-            self.page.fill(self.locators.BILLING_EMAIL, billing_info["email"])
-            self.page.fill(self.locators.BILLING_PHONE, billing_info["phone"])
-            self.page.fill(self.locators.BILLING_ADDRESS_1, billing_info["address"])
-            self.page.fill(self.locators.BILLING_CITY, billing_info["city"])
+            self.page.fill(self.locators.FIRST_NAME, billing_info["first_name"])
+            self.page.fill(self.locators.LAST_NAME, billing_info["last_name"])
+            self.page.fill(self.locators.EMAIL, billing_info["email"])
+            self.page.fill(self.locators.PHONE, billing_info["phone"])
+            self.page.fill(self.locators.ADDRESS_1, billing_info["address"])
+            self.page.fill(self.locators.CITY, billing_info["city"])
             
             # Wait for form to be filled
             self.page.wait_for_load_state("networkidle")

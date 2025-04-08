@@ -17,16 +17,13 @@ def checkout_page(page: Page, config):
 
 def test_anonymous_complete_checkout(cart_page: CartPage, checkout_page: CheckoutPage):
     """Test complete checkout flow"""
-    # Setup test data
-  
-
-    # Cart steps
-        # Preconditions
-    product_url = PRODUCT["url"]  # Replace with actual product name
+    # Setup test data 
+   
+    product_url = PRODUCT["url"]
     product_name = PRODUCT["name"]
     quantity = PRODUCT["initial_quantity"]
     change_quantity = PRODUCT["updated_quantity"]
-    price = PRODUCT["price"] # Replace with actual product price
+    price = PRODUCT["price"]
 
     # Step 1: Add product to cart as anonymous user
     cart_page.add_product_to_cart(product_url, quantity)

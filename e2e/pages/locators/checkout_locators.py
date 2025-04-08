@@ -49,7 +49,4 @@ class CheckoutLocators:
     
     # Error Messages
     ERROR_MESSAGE = ".woocommerce-error"
-    
-    # Loading States
-    PROCESSING_PAYMENT = ".processing"
-    BLOCKUI_OVERLAY = ".blockUI" 
+        
