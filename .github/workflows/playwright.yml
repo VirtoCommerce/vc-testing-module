@@ -17,7 +17,7 @@ jobs:
       ADMIN_PASSWORD: Password3
       ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
       USER_EMAIL: b2badmin@test.com
-      PASSWORD: Password3
+      PASSWORD: Password1
       API_KEY: ${{ secrets.API_KEY }}
       STORE_ID: B2B-store
       
