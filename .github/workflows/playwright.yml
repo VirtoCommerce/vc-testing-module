@@ -7,7 +7,7 @@ on:
     branches: [ dev ]
 
 jobs:
-  playwright-e2e-tests:
+  test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     env:
@@ -17,9 +17,10 @@ jobs:
       ADMIN_PASSWORD: Password3
       ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
       USER_EMAIL: b2badmin@test.com
-      PASSWORD: Password1
+      PASSWORD: ${{ secrets.PASSWORD }}
       API_KEY: ${{ secrets.API_KEY }}
       STORE_ID: B2B-store
+      PLAYWRIGHT_HEADLESS: "true"
       
     steps:
     - uses: actions/checkout@v4
@@ -33,20 +34,21 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+        pip install pytest-html
         
     - name: Install Playwright Browsers
-      run: playwright install --with-deps
+      run: playwright install --with-deps chromium
       
     - name: Run GraphQL Tests
       run: |
         echo "Running GraphQL tests against ${{ env.BASE_URL }}"
-        pytest tests_graphql/tests/ --browser chromium --html=graphql-report.html --self-contained-html --tracing=retain-on-failure -v -s
+        pytest tests_graphql/tests/ --browser chromium --headless --html=graphql-report.html --self-contained-html --tracing=retain-on-failure -v -s
       continue-on-error: true
 
     - name: Run E2E Tests
       run: |
         echo "Running E2E tests against ${{ env.BASE_URL }}"
-        pytest e2e/ --browser chromium --html=e2e-report.html --self-contained-html --tracing=retain-on-failure -v -s
+        pytest e2e/ --browser chromium --headless --html=e2e-report.html --self-contained-html --tracing=retain-on-failure -v -s
       continue-on-error: true
       
     - name: Upload test results
