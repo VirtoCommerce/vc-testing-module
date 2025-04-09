@@ -4,6 +4,8 @@ import pytest
 from playwright.sync_api import expect
 import allure
 from graphql_requests.queries.me.me_query import MeQuery
+from fixtures.auth_token import auth_token
+from fixtures.graphql_client import graphql_client
 
 # Load environment variables from .env file
 load_dotenv()
@@ -38,7 +40,7 @@ expect.set_options(timeout=30_000)
 
 @pytest.fixture(scope="session")
 @allure.title("Fixture to initialize browser context")
-def browser_context(browser):
+def browser_context(browser, auth_token, config):
     context = browser.new_context()
     yield context
     context.close()
@@ -46,7 +48,7 @@ def browser_context(browser):
 
 @pytest.fixture(scope="session")
 @allure.title("Fixture to initialize user context")
-def user_context(graphql_client):
+def user_context(graphql_client, auth_token, config):
     get_me_request = MeQuery(graphql_client)
     result = get_me_request.execute(user_id="")
     return result["me"]
