@@ -1,11 +1,12 @@
 import os
 from dotenv import load_dotenv
 import pytest
-from playwright.sync_api import expect
+from playwright.sync_api import expect, sync_playwright
 import allure
 from graphql_requests.queries.me.me_query import MeQuery
 from fixtures.auth_token import auth_token
 from fixtures.graphql_client import graphql_client
+
 
 # Load environment variables from .env file
 load_dotenv()
@@ -72,3 +73,15 @@ def authenticated_page(auth_token, config, browser_context):
     )
     yield page
     page.close()
+
+@pytest.fixture(scope="session")
+@allure.title("Fixture to add headed option")
+def pytest_addoption(parser):
+    parser.addoption("--headed", action="store_true", default=False, help="Run browser in headed mode")
+
+@pytest.fixture(scope="session")
+@allure.title("Fixture to add headed option")
+def browser_context_args(pytestconfig):
+    return {
+        "headless": not pytestconfig.getoption("--headed")
+    }
