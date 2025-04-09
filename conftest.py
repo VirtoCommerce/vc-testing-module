@@ -23,7 +23,8 @@ def config():
     }
 
 def pytest_addoption(parser):
-    parser.addoption("--headed", action="store_true", default=False, help="Run browser in headed mode")
+    # Use a different option name to avoid conflict with Playwright's --headed option
+    parser.addoption("--show-browser", action="store_true", default=False, help="Run browser in headed mode")
 
 @pytest.fixture(scope="session")
 def browser_context_args(pytestconfig):
@@ -32,7 +33,7 @@ def browser_context_args(pytestconfig):
             "width": 1440,
             "height": 900,
         },
-        "headless": not pytestconfig.getoption("--headed"),
+        "headless": not pytestconfig.getoption("--show-browser"),
     }
 
 expect.set_options(timeout=30_000)
