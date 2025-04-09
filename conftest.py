@@ -27,12 +27,13 @@ def config():
 
 # Define the browser context configuration
 @pytest.fixture(scope="session")
-def browser_context_args():
+def browser_context_args(browser_context_args):
     return {
         "viewport": {
             "width": 1440,
             "height": 900,
-        }
+        },
+        **browser_context_args
     }
 
 
@@ -74,13 +75,10 @@ def authenticated_page(auth_token, config, browser_context):
     yield page
     page.close()
 
-@pytest.fixture(scope="session")
-@allure.title("Fixture to add headed option")
 def pytest_addoption(parser):
     parser.addoption("--headed", action="store_true", default=False, help="Run browser in headed mode")
 
 @pytest.fixture(scope="session")
-@allure.title("Fixture to add headed option")
 def browser_context_args(pytestconfig):
     return {
         "headless": not pytestconfig.getoption("--headed")
