@@ -5,6 +5,7 @@ from tests_graphql.operations.user.user_operations import UserOperations
 from tests_graphql.test_data.test_culture import TEST_CULTURE
 from tests_graphql.test_data.test_currency import TEST_CURRENCY
 from tests_graphql.test_data.test_product import TEST_PRODUCT, TEST_PRODUCT_2
+from fixtures.auth_token import auth_token
 
 
 @allure.title("Add bulk items to anonymous cart (GraphQL)")

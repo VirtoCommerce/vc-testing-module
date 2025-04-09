@@ -1,7 +1,7 @@
 import os
 
 
-def resolve_imports(graphql_file_path, base_dir="graphql_requests\\fragments"):
+def resolve_imports(graphql_file_path, base_dir="graphql_requests/fragments"):
     """
     Resolves GraphQL fragment imports in a given .graphql file and returns the full query string.
     :param graphql_file_path: The path to the .graphql file.
