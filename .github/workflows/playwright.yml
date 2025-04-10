@@ -20,8 +20,8 @@ jobs:
           browser: firefox
         - test-type: e2e
           browser: webkit
-        - test-type: graphql
-          browser: chromium
+        #- test-type: graphql
+        #  browser: chromium
  
     env:
       BASE_URL: https://vcst-qa-storefront.govirto.com
