@@ -23,12 +23,12 @@ def config():
     }
 
 def pytest_addoption(parser):
-    # Use a different option name to avoid conflict with Playwright's --headed option
+    
     parser.addoption("--show-browser", action="store_true", default=False, help="Run browser in headed mode")
 
 @pytest.fixture(scope="session")
 def browser_context_args():
-    # In newer Playwright versions, headless is a browser launch option, not a context option
+    
     return {
         "viewport": {
             "width": 1440,
@@ -38,7 +38,7 @@ def browser_context_args():
 
 @pytest.fixture(scope="session")
 def browser_type_launch_args(pytestconfig):
-    # This is where headless mode should be configured in newer Playwright versions
+    
     return {
         "headless": not pytestconfig.getoption("--show-browser")
     }

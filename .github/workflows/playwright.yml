@@ -10,6 +10,17 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+        - test-type: e2e
+          #browser: chromium
+          #browser: firefox
+          browser: webkit
+        - test-type: graphql
+          browser: chromium
+ 
     env:
       BASE_URL: https://vcst-qa-storefront.govirto.com
       BACK_URL: https://vcst-qa.govirto.com
@@ -37,28 +48,25 @@ jobs:
         pip install pytest-html
         
     - name: Install Playwright Browsers
-      run: playwright install --with-deps chromium
+      run: playwright install --with-deps ${{ matrix.browser }}
       
-    - name: Run GraphQL Tests
+    - name: Run Tests
       run: |
-        echo "Running GraphQL tests against ${{ env.BASE_URL }}"
-        pytest tests_graphql/tests/ --browser chromium --html=graphql-report.html --self-contained-html --tracing=retain-on-failure -v -s
-      continue-on-error: true
+        if [ "${{ matrix.test-type }}" = "graphql" ]; then
+          echo "Running GraphQL tests against ${{ env.BASE_URL }}"
+          pytest tests_graphql/tests/ --browser ${{ matrix.browser }} --html=graphql-report.html --self-contained-html --tracing=retain-on-failure -v -s
+        else
+          echo "Running E2E tests against ${{ env.BASE_URL }}"
+          pytest e2e/ --browser ${{ matrix.browser }} --html=e2e-report.html --self-contained-html --tracing=retain-on-failure -v -s
+        fi
 
-    - name: Run E2E Tests
-      run: |
-        echo "Running E2E tests against ${{ env.BASE_URL }}"
-        pytest e2e/ --browser chromium --html=e2e-report.html --self-contained-html --tracing=retain-on-failure -v -s
-      continue-on-error: true
-      
     - name: Upload test results
       if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: test-results
+        name: ${{ matrix.test-type }}-test-results-${{ matrix.browser }}
         path: |
-          graphql-report.html
-          e2e-report.html
+          ${{ matrix.test-type }}-report.html
           playwright-report/
           test-results/
         retention-days: 30
