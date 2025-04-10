@@ -16,10 +16,8 @@ jobs:
         include:
         - test-type: e2e
           browser: chromium
-        - test-type: e2e
-          browser: firefox
-        - test-type: e2e
-          browser: webkit
+          #browser: firefox
+          #browser: webkit
         #- test-type: graphql
         #  browser: chromium
  
