@@ -13,6 +13,8 @@ def test_get_anonymous_user(auth_token, graphql_client):
 
     assert user["id"] is not None, "User ID is None"
     assert user["userName"] == "Anonymous", "User name is not Anonymous"
+    print(f"User ID: {user['id']}")
+    print(f"User name: {user['userName']}")
 
 
 @allure.title("Get current registered user (GraphQL)")
@@ -24,6 +26,8 @@ def test_get_current_registered_user(config, auth_token, graphql_client):
 
     assert user["id"] is not None, "User ID is None"
     assert user["userName"] == config["username"], "User name is not correct"
+    print(f"User ID: {user['id']}")
+    print(f"User name: {user['userName']}")
 
 
 @allure.title("Get registered user by id (GraphQL)")
@@ -35,3 +39,5 @@ def test_get_registered_user_by_id(auth_token, graphql_client):
 
     assert user["id"] is not None, "User ID is None"
     assert user["userName"] == TEST_ADMIN_USER["username"], "User name is not correct"
+    print(f"User ID: {user['id']}")
+    print(f"User name: {user['userName']}")
