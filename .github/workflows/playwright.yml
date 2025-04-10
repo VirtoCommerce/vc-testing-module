@@ -12,8 +12,15 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        test-type: [graphql, e2e]
-        browser: [chromium, firefox, webkit]
+        include:
+          - test-type: graphql
+            browser: chromium
+          - test-type: e2e
+            browser: chromium
+          - test-type: e2e
+            browser: firefox
+          - test-type: e2e
+            browser: webkit
     env:
       BASE_URL: https://vcst-qa-storefront.govirto.com
       BACK_URL: https://vcst-qa.govirto.com
