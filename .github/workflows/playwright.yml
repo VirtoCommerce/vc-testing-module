@@ -15,11 +15,11 @@ jobs:
       matrix:
         include:
         - test-type: e2e
-          browser: chromium
+          #browser: chromium
           #browser: firefox
-          #browser: webkit
-        #- test-type: graphql
-        #  browser: chromium
+          browser: webkit
+        - test-type: graphql
+          browser: chromium
  
     env:
       BASE_URL: https://vcst-qa-storefront.govirto.com
