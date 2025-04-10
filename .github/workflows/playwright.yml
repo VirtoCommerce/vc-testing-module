@@ -11,16 +11,18 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: true
       matrix:
         include:
-          - test-type: graphql
-            browser: chromium
-          - test-type: e2e
-            browser: chromium
-          - test-type: e2e
-            browser: firefox
-          - test-type: e2e
-            browser: webkit
+        - test-type: e2e
+          browser: chromium
+        - test-type: e2e
+          browser: firefox
+        - test-type: e2e
+          browser: webkit
+        - test-type: graphql
+          browser: chromium
+ 
     env:
       BASE_URL: https://vcst-qa-storefront.govirto.com
       BACK_URL: https://vcst-qa.govirto.com
