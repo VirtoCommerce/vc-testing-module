@@ -17,7 +17,8 @@ class CheckoutLocators:
 
     DELIVERY_METHOD_BUTTON = "//div[@data-test-id='shipping-method-select']"
     DELIVERY_METHOD_FIXED_RATE = "//span[contains(.,'Fixed Rate ({})')]" 
-
+    SELECT_SHIPING_ADDRESS = "(//span[text()='Select'])[1]"
+    SELECTED_SHIPPING_ADDRESS = "(//div[@class='vc-address-selection']//span)[1]"
 
     # Order Details
     ORDER_COMMENTS = "#order_comments"
@@ -27,26 +28,38 @@ class CheckoutLocators:
     PAYMENT_METHOD_MANUAL = "//span[contains(.,'{}')]"
     PAYMENT_METHOD_CREDIT_CARD = "//span[contains(.,'Bank card ({})')]"
     
-    # Credit Card Fields
-    CARD_NUMBER_IFRAME = "iframe[name*='__privateStripeFrame']"
-    CARD_NUMBER = "[name='cardnumber']"
-    CARD_EXPIRY = "[name='exp-date']"
-    CARD_CVC = "[name='cvc']"
-    
     # Order Review
-    ORDER_REVIEW_TABLE = ".shop_table"
+    ORDER_REVIEW_WIDGET = "(//div[@class='vc-widget__slot']//div)[1]"
     CART_SUBTOTAL = "tr.cart-subtotal .amount"
     ORDER_TOTAL = "tr.order-total .amount"
+    ORDER_REVIEW_ITEMS = "//div[@class='vc-line-items']"    
     
     # Buttons and Actions
     PROCEED_TO_BILLING_BUTTON = "//button[@data-test-id='proceed-to-button']"
     PROCEED_TO_REVIEW_BUTTON = "//button[@data-test-id='proceed-to-button']"
 
+    # Payment Page
+    PAYMENT_PAGE_URL = "/checkout/payment"
+    PAYMENT_PAGE_TITLE = "//h1[text()='Payment']"
+    PAYMENT_METHOD = "//span[normalize-space(text())='Bank card ({})']"
+    PAYMENT_FORM = "(//div[@class='p-5 md:p-6']//div)[2]"
+        
+    # Credit Card Fields
+    CARD_NUMBER = "//input[@data-test-id='card-number-input']"
+    CARD_HOLDER_NAME = "//input[@data-test-id='card-holder-input']"
+    CARD_EXPIRY = "//input[@data-test-id='expiration-date-input']"
+    CARD_CVC = "//input[@data-test-id='security-code-input']"
+    PAY_NOW_BUTTON = "//button[@data-test-id='pay-now-button']"
+
+    # Payment Success
+    PAYMENT_SUCCESS = "//h1[text()='Payment successful']"
+    PAYMENT_SUCCESS_URL = "/checkout/payment/success"
     
-    # Order Confirmation
-    ORDER_RECEIVED_MESSAGE = ".woocommerce-thankyou-order-received"
-    ORDER_NUMBER = ".woocommerce-order-overview__order strong"
-    
-    # Error Messages
-    ERROR_MESSAGE = ".woocommerce-error"
+    # Payment Failure
+    PAYMENT_FAILURE = "//h1[text()='Payment failed']"
+    PAYMENT_FAILURE_URL = "/checkout/payment/failure"
+
+    # Show Order
+    SHOW_ORDER_BUTTON = "//span[text()='Show order']"
+
         

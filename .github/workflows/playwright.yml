@@ -15,9 +15,9 @@ jobs:
       matrix:
         include:
         - test-type: e2e
-          #browser: chromium
+          browser: chromium
           #browser: firefox
-          browser: webkit
+          #browser: webkit
         - test-type: graphql
           browser: chromium
  

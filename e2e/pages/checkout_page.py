@@ -1,12 +1,14 @@
-from playwright.sync_api import Page, expect
+from playwright.sync_api import Page, expect, BrowserContext
 from e2e.pages.locators.checkout_locators import CheckoutLocators
+from e2e.pages.locators.cart_locators import CartLocators
 from utils.dialog_modal_actions import DialogModalActions
-
+from utils.commonLocators.common_components_locators import CommonComponentsLocators
 
 class CheckoutPage:
-    def __init__(self, page: Page, config: dict):
+    def __init__(self, page: Page, config: dict, browser_context: BrowserContext):
         self.page = page
         self.config = config
+        self.browser_context = browser_context
         self.locators = CheckoutLocators
         self.dialog_modal_actions = DialogModalActions(self.page)
 
@@ -16,16 +18,34 @@ class CheckoutPage:
         self.page.click(self.locators.DELIVERY_METHOD_FIXED_RATE.format(delivery_method))
 
     
-    def click_on_shipping_address(self):
+    def click_on_shipping_address(self, data: dict = None):
         """Click shipping address"""
         self.page.get_by_text(text="select a shipping address").is_visible()
         self.page.click(self.locators.SHIPING_ADDRESS_BUTTON)
+        self.dialog_modal_actions.check_dialog_modal_is_open()
+        if self.dialog_modal_actions.check_dialog_modal_title("New address"):
+            self.fill_shipping_address(data)              
+        else:
+            self.dialog_modal_actions.check_dialog_modal_title("Select address")
+            self.select_shiping_address()
 
     
 
 
-    def fill_shipping_address(self, data: dict):
+    def fill_shipping_address(self, data: dict = None):
         """Fill shipping address form"""
+        if data is None:
+            # Use default test data if none provided
+            data = {
+                "first_name": "Test",
+                "last_name": "User",
+                "email": "test@example.com",
+                "phone": "1234567890",
+                "address": "123 Test St",
+                "city": "Test City",
+                "zip_code": "12345",
+                "country": "United States"
+            }
         
         self.page.fill(self.locators.FIRST_NAME, data["first_name"])
         self.page.fill(self.locators.LAST_NAME, data["last_name"])
@@ -38,7 +58,14 @@ class CheckoutPage:
         self.page.fill(self.locators.POSTCODE, data["postcode"])
         self.dialog_modal_actions.check_create_button()
         self.dialog_modal_actions.click_create_button()
-        self.dialog_modal_actions.check_dialog_modal_is_closed()    
+        self.dialog_modal_actions.check_dialog_modal_is_closed()
+
+
+    def select_shiping_address(self):
+        """Select shipping address"""
+        self.page.click(CheckoutLocators.SELECT_SHIPING_ADDRESS)
+        self.dialog_modal_actions.click_dialog_modal_button_OK()
+       
 
     
     def check_shipping_page(self, delivery_method: str, data: dict):
@@ -46,7 +73,7 @@ class CheckoutPage:
         # Check if delivery method is visible using the flex container selector
         expect(self.page.locator("div.flex.items-center.gap-3.p-\\[0\\.688rem\\].text-sm")).to_be_visible()
         expect(self.page.get_by_role("button", name=f"Fixed Rate ({delivery_method})")).to_be_visible()   
-        expect(self.page.get_by_text(text=f"{data['address']}, {data['city']}, {data['country']}, {data['postcode']}")).to_be_visible()        
+        expect(self.page.locator(CheckoutLocators.SELECTED_SHIPPING_ADDRESS)).to_be_visible()        
  
 
     def proceed_to_billing(self):
@@ -75,8 +102,8 @@ class CheckoutPage:
             self.page.wait_for_load_state("networkidle")
             
             if method == "Authorize.Net" or method == "CyberSource" or method == "Skyflow":
-                expect(self.page.locator(self.locators.PAYMENT_METHOD_CREDIT_CARD)).to_be_visible()
-                self.page.click(self.locators.PAYMENT_METHOD_CREDIT_CARD)
+                expect(self.page.locator(self.locators.PAYMENT_METHOD_CREDIT_CARD.format(method))).to_be_visible()
+                self.page.click(self.locators.PAYMENT_METHOD_CREDIT_CARD.format(method))
             elif method == "Manual":
                 expect(self.page.locator(self.locators.PAYMENT_METHOD_MANUAL.format(method))).to_be_visible()
                 self.page.click(self.locators.PAYMENT_METHOD_MANUAL.format(method))
@@ -102,6 +129,7 @@ class CheckoutPage:
             
             # Wait for navigation to complete
             self.page.wait_for_load_state("networkidle")
+            self.page.wait_for_selector(CommonComponentsLocators.VC_LOADER_OVERLAY_SPINNER, state="hidden")
         except Exception as e:
             print(f"Error in proceed_to_review: {str(e)}")
             raise
@@ -143,10 +171,30 @@ class CheckoutPage:
             self.page.wait_for_load_state("networkidle")
         except Exception as e:
             print(f"Error in fill_billing_details: {str(e)}")
-            raise
+            raise 
+        
+    def expect_order_review_items_count(self, expected_count: int):
+        """Verify the number of items in the order review page"""
+        # Use first() to select the first matching element
+        self.page.locator(CheckoutLocators.ORDER_REVIEW_ITEMS).first.wait_for(state="visible")
+        order_items = self.page.locator(CartLocators.LINE_ITEM).count()
+        assert order_items == expected_count, f"Expected {expected_count} items in order review, but found {order_items}"
+        print(f"Review order items: {order_items}")
+    
+    def check_order_review_page(self):
+        """Check order review page"""        
+        expect(self.page.get_by_text("Please review your order")).to_be_visible()
+        order_line_items = self.page.locator(CheckoutLocators.ORDER_REVIEW_ITEMS).count()
+        print(f"Vendor order line items: {order_line_items}")
+        if order_line_items > 1:
+            items = self.page.locator(CheckoutLocators.ORDER_REVIEW_ITEMS).all()
+            for item in items:
+                expect(item).to_be_visible()        
+           
+        else:
+            expect(self.page.locator(CheckoutLocators.ORDER_REVIEW_ITEMS)).to_be_visible()
+        expect(self.page.locator(CheckoutLocators.ORDER_REVIEW_WIDGET)).to_be_visible() 
 
-    def enter_payment_details(self, payment_info: dict):
-        """Enter payment information"""
-        self.page.fill(self.locators.CARD_NUMBER, payment_info["card_number"])
-        self.page.fill(self.locators.CARD_EXPIRY, payment_info["expiry"])
-        self.page.fill(self.locators.CARD_CVC, payment_info["cvc"])
+
+        
+        

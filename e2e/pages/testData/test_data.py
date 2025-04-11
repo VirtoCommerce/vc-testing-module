@@ -55,9 +55,17 @@ PAYMENT_METHOD3 = "Skyflow"
 PAYMENT_METHOD4 = "Manual"
 
 PAYMENT_DATA = {
-    "card_number": "4242424242424242",
-    "expiry": "12/24",
-    "cvc": "123"
+    "card_number": "5424000000000015",
+    "expiry": "12/28",
+    "cvc": "900",
+    "card_holder_name": "John Doe"
+}
+
+PAYMENT_CYBERSOURCE = {
+    "card_number": "4622943127013705",
+    "expiry": "12/26",
+    "card_holder_name": "John Doe",
+    "cvc": "838"
 }
 
 PRODUCT = {

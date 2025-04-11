@@ -8,12 +8,12 @@ from e2e.pages.testData.test_data import SHIPPING_DATA, PRODUCT, DELIVERY_METHOD
 
 
 @pytest.fixture
-def cart_page(page: Page, config):
-    return CartPage(page, config)
+def cart_page(page: Page, config, browser_context):
+    return CartPage(page, config, browser_context)
 
 @pytest.fixture
-def checkout_page(page: Page, config):
-    return CheckoutPage(page, config)
+def checkout_page(page: Page, config, browser_context):
+    return CheckoutPage(page, config, browser_context)
 
 def test_anonymous_complete_checkout(cart_page: CartPage, checkout_page: CheckoutPage):
     """Test complete checkout flow"""
@@ -44,8 +44,7 @@ def test_anonymous_complete_checkout(cart_page: CartPage, checkout_page: Checkou
 
     # Checkout steps
     checkout_page.select_delivery_method(DELIVERY_METHOD1)
-    checkout_page.click_on_shipping_address()
-    checkout_page.fill_shipping_address(SHIPPING_DATA)
+    checkout_page.click_on_shipping_address(SHIPPING_DATA)    
     checkout_page.check_shipping_page(DELIVERY_METHOD1, SHIPPING_DATA)
     checkout_page.proceed_to_billing()
     checkout_page.select_payment_method(PAYMENT_METHOD4)

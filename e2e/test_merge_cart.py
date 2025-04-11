@@ -6,18 +6,18 @@ from utils.logout import LogoutPage
 
 
 @pytest.fixture
-def cart_page(page: Page, config):
-    return CartPage(page, config)
+def cart_page(page: Page, config, browser_context):
+    return CartPage(page, config, browser_context)
 
 
 @pytest.fixture
-def login_page(page: Page, config):
-    return LoginPage(page, config)
+def login_page(page: Page, config, browser_context):
+    return LoginPage(page, config, browser_context)
 
 
 @pytest.fixture
-def logout_page(page: Page, config):
-    return LogoutPage(page, config)
+def logout_page(page: Page, config, browser_context):
+    return LogoutPage(page, config, browser_context)
 
 
 @pytest.fixture(autouse=True)
