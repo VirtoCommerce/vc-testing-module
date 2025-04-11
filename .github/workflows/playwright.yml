@@ -11,13 +11,13 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         include:
         - test-type: e2e
-          #browser: chromium
+          browser: chromium
           #browser: firefox
-          browser: webkit
+          #browser: webkit
         - test-type: graphql
           browser: chromium
  
