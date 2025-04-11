@@ -1,12 +1,13 @@
-from playwright.sync_api import Page, expect
+from playwright.sync_api import Page, expect, BrowserContext
 from e2e.pages.locators.cart_locators import CartLocators
 import datetime
-
+from utils.commonLocators.common_components_locators import CommonComponentsLocators
 
 class CartPage:
-    def __init__(self, page: Page, config: dict):
+    def __init__(self, page: Page, config: dict, browser_context: BrowserContext):
         self.page = page
         self.config = config
+        self.browser_context = browser_context
 
     def navigate(self):
         """Navigate to the cart page"""
@@ -30,7 +31,7 @@ class CartPage:
 
     def expect_product_in_cart(self, product_name: str, line_item_number: int):
         """Expect a product to be in the cart with specific quantity"""
-        all_products = self.page.locator(CartLocators.LINE_ITEM).all()
+        self.page.locator(CartLocators.LINE_ITEM).all()
         product_row = self.page.locator(CartLocators.CART_ITEM_1.format(line_item_number))
         product_name_element = self.page.locator(CartLocators.PRODUCT_TITLE.format(product_name, line_item_number))
         expect(product_row).to_be_visible()
@@ -39,7 +40,18 @@ class CartPage:
     
     def get_line_items(self):
         """Get all line items in the cart"""
-        return self.page.locator(CartLocators.LINE_ITEM).all()
+       
+        line_items = self.page.locator(CartLocators.LINE_ITEM).all()
+        for item in line_items:
+            expect(item).to_be_attached()
+            expect(item).to_be_visible()
+        print(f"Found {len(line_items)} line items in cart")
+        if len(line_items) == 0:
+            print("No items found after clicking cart icon, trying direct navigation")
+            self.navigate()
+            self.page.wait_for_timeout(2000)
+            line_items = self.get_line_items()    
+        return line_items
     
 
     def expect_line_item_total(self, product_name: str, price: float, quantity: int, line_item_number1: int, line_item_number2: int):
@@ -54,9 +66,14 @@ class CartPage:
         
     def click_cart_icon(self):
         """Click on cart icon to navigate to cart page"""
-        self.page.click(CartLocators.CART_ICON)
+        self.page.click(CartLocators.CART_ICON) 
+        self.page.wait_for_selector(CartLocators.CART_LAYOUT, state="attached")
+        self.page.wait_for_selector(CartLocators.CART_TITLE, state="attached")
+        expect(self.page).to_have_url(f"{self.config['base_url']}/cart")
         self.page.wait_for_load_state("networkidle")
+        self.page.wait_for_selector(CommonComponentsLocators.VC_LOADER_OVERLAY_SPINNER, state="hidden")
         
+
     def clear_cart(self):
         """Clear all items from the cart"""
         clear_button = self.page.locator(CartLocators.CLEAR_CART_BUTTON)
@@ -96,7 +113,11 @@ class CartPage:
 
     def proceed_to_checkout(self):
         """Click proceed to checkout button"""
-        self.page.click(CartLocators.PROCEED_TO_CHECKOUT_BUTTON)
+        self.page.wait_for_selector(CartLocators.PROCEED_TO_BUTTON, state="attached")
+        self.page.locator(CartLocators.PROCEED_TO_BUTTON).click()
+        self.page.wait_for_load_state("networkidle")
+        self.page.wait_for_selector(CommonComponentsLocators.VC_LOADER_OVERLAY_SPINNER, state="hidden")
+       
     
 
     def expect_cart_not_empty(self):
@@ -114,6 +135,7 @@ class CartPage:
     
     def expect_product_count(self, expected_count: int):
         """Verify and log the expected number of products in cart"""
+        self.page.wait_for_load_state("networkidle")
         actual_count = self.page.locator(CartLocators.LINE_ITEM).count()
         
         print("=== Product Count Verification ===")
@@ -152,4 +174,173 @@ class CartPage:
         
         return currency_symbol
 
+    def unselect_all_items(self):
+        """Unselect all items in the cart"""
+        head_checkboxes = self.page.locator(CartLocators.HEAD_CHECKBOX)
+        count = self.page.locator(CartLocators.HEAD_CHECKBOX).count()
+        print(f"Found {count} elements")
+        if count > 1:
+            # Click each headcheckbox one by one
+            for i, head_checkbox in enumerate(head_checkboxes.all()):
+                try:
+                    expect(head_checkbox).to_be_visible()
+                    
+                    # Click the headcheckbox
+                    head_checkbox.click()
+                    print(f"Clicked headcheckbox {i+1}/{count}")
+                    
+                    # Wait for any network requests to complete
+                    self.page.wait_for_load_state("networkidle")
+                    
+                    # Verify this specific checkbox is now checked
+                    expect(head_checkbox).not_to_be_checked()                 
+                    
+                    # Wait a moment before proceeding to the next checkbox
+                    self.page.wait_for_timeout(500)
+                except Exception as e:
+                    print(f"Error clicking checkbox {i+1}: {str(e)}")
+        else:
+            # Get the single head checkbox
+            head_checkbox = head_checkboxes.first
+            if head_checkbox:
+                expect(head_checkbox).to_be_visible()
+                head_checkbox.click()
+                self.page.wait_for_load_state("networkidle")
+                expect(head_checkbox).not_to_be_checked()
+            else:
+                print("No head checkbox found")       
+        
+    def check_subtotal(self, expected_amount, max_attempts=3, timeout=1000):
+        """Check if the subtotal is the expected amount"""
+        self.page.wait_for_selector(CartLocators.SUBTOTAL, state="attached")
+        subtotal = self.page.locator(CartLocators.SUBTOTAL)        
+        expect(subtotal).to_be_visible()        
+        
+        # Try multiple times to get the correct subtotal
+        for attempt in range(max_attempts):
+            # Wait for network requests to complete
+            self.page.wait_for_load_state("networkidle")
+            self.page.wait_for_selector(CommonComponentsLocators.VC_LOADER_OVERLAY_SPINNER, state="hidden")
+            self.page.wait_for_selector(CartLocators.SUBTOTAL, state="attached")           
+            
+            # Get the current subtotal
+            subtotal_amount = subtotal.text_content()
+            float_subtotal_amount = float(subtotal_amount.replace('$', '').replace(',', ''))       
+            
+            # Check if the subtotal is close to the expected amount
+            if abs(float_subtotal_amount - expected_amount) < 0.01:
+                print(f"Subtotal recalculated successfully to {float_subtotal_amount}")
+                return True          
+                
+            # Wait before trying again
+            self.page.wait_for_timeout(timeout)
+            
+        # If we get here, the subtotal didn't update correctly
+        print(f"Warning: Subtotal did not update to {expected_amount} after {max_attempts} attempts")
+        
+        return False
+
+    def select_items(self, count: int):
+        """Select a specific number of items in the cart"""
+        checkboxes = self.page.locator(CartLocators.ITEM_CHECKBOX).all()
+        for i in range(count):
+            if i < len(checkboxes):
+                expect(checkboxes[i]).to_be_visible()
+                checkboxes[i].click()
+                self.page.wait_for_timeout(500)                
+                expect(checkboxes[i]).to_be_checked()
+        
+        self.page.wait_for_selector(CommonComponentsLocators.VC_LOADER_OVERLAY_SPINNER, state="hidden")
+
+    def expect_all_items_selected(self):
+        """Verify that all items in the cart are selected"""
+        # Get all checkboxes and verify at least one exists
+        checkboxes = self.page.locator(CartLocators.ITEM_CHECKBOX).all()
+        total_checkboxes = len(checkboxes)
+        assert total_checkboxes > 0, "No checkboxes found in cart"
+        
+        # Wait for network requests and loading spinner to complete
+        self.page.wait_for_load_state("networkidle")
+        self.page.wait_for_selector(CommonComponentsLocators.VC_LOADER_OVERLAY_SPINNER, state="hidden")
+        
+        # Verify each checkbox is visible and checked
+        for checkbox in checkboxes:
+            expect(checkbox).to_be_visible()
+            expect(checkbox).to_be_checked()
+            
+        print(f"Verified all {total_checkboxes} items are selected")
+
+    def expect_all_items_unselected(self):
+        """Verify that all items in the cart are unselected"""
+        
+        checkboxes = self.page.locator(CartLocators.ITEM_CHECKBOX).all()
+        for checkbox in checkboxes:
+            expect(checkbox).not_to_be_checked()
+
+    def expect_selected_items_count(self, expected_count: int):
+        """Verify the number of selected items in the cart"""
+        selected_checkboxes = self.page.locator(CartLocators.CHECKED_ITEM_CHECKBOX).count()
+        assert selected_checkboxes == expected_count, f"Expected {expected_count} selected items, but found {selected_checkboxes}"
+
+    def expect_proceed_to_checkout_disabled(self):
+        """Verify that the proceed to checkout button is disabled"""
+        self.page.wait_for_load_state("networkidle")
+        self.page.wait_for_selector(CommonComponentsLocators.VC_LOADER_OVERLAY_SPINNER, state="hidden")
+        self.page.wait_for_selector(CartLocators.PROCEED_TO_BUTTON_DISABLED, state="attached")
+        proceed_to_checkout_button = self.page.locator(CartLocators.PROCEED_TO_BUTTON_DISABLED)
+        expect(proceed_to_checkout_button).to_be_disabled()
+
+    def expect_proceed_to_checkout_enabled(self):
+        """Verify that the proceed to checkout button is enabled"""
+        self.page.wait_for_load_state("networkidle")
+        self.page.wait_for_selector(CommonComponentsLocators.VC_LOADER_OVERLAY_SPINNER, state="hidden")
+        self.page.wait_for_selector(CartLocators.PROCEED_TO_BUTTON, state="attached")
+        proceed_to_checkout_button = self.page.locator(CartLocators.PROCEED_TO_BUTTON)
+        expect(proceed_to_checkout_button).to_be_enabled()
+        
+           
+    def click_checkboxes(self):
+        """Click all checkboxes one by one in a loop and verify their state"""
+        # First unselect all items to start from a clean state
+        self.unselect_all_items()
+        self.page.wait_for_load_state("networkidle")
+        
+        # Verify all items are unselected initially
+        self.expect_all_items_unselected()
+        print("Verified all items are unselected initially")
+        
+        # Find all checkboxes
+        checkboxes = self.page.locator(CartLocators.ITEM_CHECKBOX).all()
+        total_checkboxes = len(checkboxes)
+        print(f"Found {total_checkboxes} checkboxes to click")
+        
+        # Click each checkbox one by one
+        for i, checkbox in enumerate(checkboxes):
+            try:
+                # Make sure checkbox is visible
+                expect(checkbox).to_be_visible()
+                
+                # Click the checkbox
+                checkbox.click()
+                print(f"Clicked checkbox {i+1}/{total_checkboxes}")
+                
+                # Wait for any network requests to complete
+                self.page.wait_for_load_state("networkidle")
+                
+                # Verify this specific checkbox is now checked
+                expect(checkbox).to_be_checked()
+                
+                # Verify the total number of checked items
+                selected_count = self.page.locator(CartLocators.CHECKED_ITEM_CHECKBOX).count()
+                print(f"Item {i+1}/{total_checkboxes}: Checked. Total selected: {selected_count}")
+                
+                # Wait a moment before proceeding to the next checkbox
+                self.page.wait_for_timeout(500)
+                
+            except Exception as e:
+                print(f"Error clicking checkbox {i+1}: {str(e)}")
+                # Continue with the next checkbox
+        
+        print(f"Completed clicking {total_checkboxes} checkboxes")
+        return total_checkboxes
         

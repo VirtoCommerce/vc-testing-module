@@ -1,10 +1,12 @@
 from playwright.sync_api import Page, expect
 from e2e.pages.locators.top_header_locators import TopHeaderLocators
 from e2e.pages.locators.cart_locators import CartLocators
+from playwright.sync_api import BrowserContext
 
 class LanguageCurrencySelector:
-    def __init__(self, page: Page):
+    def __init__(self, page: Page, browser_context: BrowserContext):
         self.page = page
+        self.browser_context = browser_context
 
     def change_language(self, language: str):
         self.page.click(TopHeaderLocators.LANGUAGE_SELECTOR_STORE)

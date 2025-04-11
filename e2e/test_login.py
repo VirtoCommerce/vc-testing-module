@@ -4,8 +4,8 @@ from e2e.pages.login_page import LoginPage
 
 
 @pytest.fixture
-def login_page(page: Page, config):
-    return LoginPage(page, config)
+def login_page(page: Page, config, browser_context):
+    return LoginPage(page, config, browser_context)
 
 
 

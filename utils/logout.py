@@ -1,10 +1,12 @@
 from playwright.sync_api import Page, expect
 from e2e.pages.locators.top_header_locators import TopHeaderLocators
+from playwright.sync_api import BrowserContext
 
 class LogoutPage:
-    def __init__(self, page: Page, config: dict):
+    def __init__(self, page: Page, config: dict, browser_context: BrowserContext):
         self.page = page
         self.config = config
+        self.browser_context = browser_context
         
         
     def logout(self):
