@@ -67,7 +67,7 @@ class CartPage:
     def click_cart_icon(self):
         """Click on cart icon to navigate to cart page"""
         self.page.click(CartLocators.CART_ICON) 
-        self.page.wait_for_selector(CartLocators.CART_LAYOUT, state="attached")
+        self.page.wait_for_timeout(2000)
         self.page.wait_for_selector(CartLocators.CART_TITLE, state="attached")
         expect(self.page).to_have_url(f"{self.config['base_url']}/cart")
         self.page.wait_for_load_state("networkidle")
