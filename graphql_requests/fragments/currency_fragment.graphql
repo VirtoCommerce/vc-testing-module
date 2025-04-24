@@ -1,6 +1,0 @@
-fragment CurrencyFragment on CurrencyType {
-  code
-  symbol
-  englishName
-  cultureName
-}

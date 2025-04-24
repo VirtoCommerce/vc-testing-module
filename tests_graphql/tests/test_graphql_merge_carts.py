@@ -1,10 +1,9 @@
-import allure
-import os
+import allure, os
 from tests_graphql.operations.cart.cart_operations import CartOperations
 from tests_graphql.operations.user.user_operations import UserOperations
 from tests_graphql.test_data.test_culture import TEST_CULTURE
 from tests_graphql.test_data.test_currency import TEST_CURRENCY
-from tests_graphql.test_data.test_product import TEST_PRODUCT, TEST_PRODUCT_2
+from tests_graphql.test_data.test_product import TEST_PRODUCT_1, TEST_PRODUCT_2
 
 
 @allure.title("Merge carts (GraphQL)")
@@ -14,41 +13,51 @@ def test_merge_carts(config, auth_token, graphql_client):
     user_operations = UserOperations(auth_token, graphql_client)
     cart_operations = CartOperations(graphql_client)
 
-    anonymous_user = user_operations.get_me()["me"]
-    anonymous_cart = cart_operations.add_item_to_cart(
-        store_id=config["store_id"],
-        user_id=anonymous_user["id"],
-        product_id=TEST_PRODUCT["id"],
-        quantity=1,
-        currency_code=TEST_CURRENCY["USD"],
-        culture_name=TEST_CULTURE["en-US"],
-    )["addItem"]
+    anonymous_user = user_operations.get_user()
 
-    registered_user = user_operations.get_me(auth_required=True)["me"]
+    anonymous_cart = cart_operations.add_item_to_cart(
+        payload={
+            "storeId": config["store_id"],
+            "userId": anonymous_user["id"],
+            "productId": TEST_PRODUCT_1["id"],
+            "quantity": 1,
+            "currencyCode": TEST_CURRENCY["USD"],
+            "cultureName": TEST_CULTURE["en-US"],
+        }
+    )
+
+    registered_user = user_operations.get_user(auth_required=True)
+
     registered_user_cart = cart_operations.add_item_to_cart(
-        store_id=config["store_id"],
-        user_id=registered_user["id"],
-        product_id=TEST_PRODUCT_2["id"],
-        quantity=2,
-        currency_code=TEST_CURRENCY["USD"],
-        culture_name=TEST_CULTURE["en-US"],
-    )["addItem"]
+        payload={
+            "storeId": config["store_id"],
+            "userId": registered_user["id"],
+            "productId": TEST_PRODUCT_2["id"],
+            "quantity": 2,
+            "currencyCode": TEST_CURRENCY["USD"],
+            "cultureName": TEST_CULTURE["en-US"],
+        }
+    )
 
     merged_cart = cart_operations.merge_cart(
-        store_id=config["store_id"],
-        user_id=registered_user["id"],
-        second_cart_id=anonymous_cart["id"],
-        culture_name=TEST_CULTURE["en-US"],
-        currency_code=TEST_CURRENCY["USD"],
-        delete_after_merge=True,
-    )["mergeCart"]
+        payload={
+            "storeId": config["store_id"],
+            "userId": registered_user["id"],
+            "secondCartId": anonymous_cart["id"],
+            "cultureName": TEST_CULTURE["en-US"],
+            "currencyCode": TEST_CURRENCY["USD"],
+            "deleteAfterMerge": True,
+        }
+    )
 
     # Test teardown
     cart_operations.remove_cart(
-        cart_id=registered_user_cart["id"],
-        user_id=registered_user["id"],
+        payload={
+            "cartId": merged_cart["id"],
+            "userId": registered_user["id"],
+        }
     )
 
-    assert merged_cart["id"] is not None
-    assert merged_cart["id"] == registered_user_cart["id"]
-    assert merged_cart["itemsQuantity"] == 3
+    assert merged_cart["id"] is not None, "Merged cart ID is missing"
+    assert merged_cart["id"] == registered_user_cart["id"], "Merged cart ID mismatch"
+    assert merged_cart["itemsQuantity"] == 3, "Merged cart items quantity mismatch"

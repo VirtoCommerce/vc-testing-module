@@ -1,5 +1,0 @@
-fragment RegistrationErrorFragment on RegistrationErrorType {
-  code
-  description
-  parameter
-}

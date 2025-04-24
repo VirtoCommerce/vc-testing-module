@@ -1,6 +1,9 @@
 from gql import Client
-from graphql_requests.mutations.delete_users.delete_users_mutation import DeleteUsersMutation
-from graphql_requests.queries.me.me_query import MeQuery
+from graphql_client.mutations.delete_users import DeleteUsersMutation
+from graphql_client.queries.me import MeQuery
+from graphql_client.types.user_type import UserType
+from graphql_client.types.input_delete_user_type import InputDeleteUserType
+from graphql_client.types.identity_result_type import IdentityResultType
 
 
 class UserOperations:
@@ -8,38 +11,38 @@ class UserOperations:
         self.auth_token = auth_token
         self.graphql_client = graphql_client
 
-    def get_me(self, user_id: str = None, auth_required: bool = False):
-        """
-        Get current user or user by id.
-        Args:
-            user_id (str, optional): ID of user to get. If not provided, returns current user.
-            auth_required (bool, optional): Whether authentication is required. If True, uses admin credentials.
-        Returns:
-            dict: Response containing user data with fields like id and userName.
-        """
-
+    def get_user(self, user_id: str = None, auth_required: bool = False) -> UserType:
         if auth_required:
             self.graphql_client.set_headers({"Authorization": f"Bearer {self.auth_token}"})
 
         me_query = MeQuery(self.graphql_client)
 
-        result = me_query.execute(user_id)
+        variables = {"userId": user_id}
+
+        return_fields = """
+            id
+            userName
+            email
+            roles {
+                name
+            }
+        """
+
+        result = me_query.execute(variables=variables, return_fields=return_fields)
 
         return result
 
-    def delete_users(self, usernames: list[str]):
-        """
-        Delete users by their IDs.
-        Args:
-            usernames (list[str]): List of usernames to delete.
-        Returns:
-            dict: Response containing success status and any errors.
-        """
-
+    def delete_users(self, payload: InputDeleteUserType) -> IdentityResultType:
         self.graphql_client.set_headers({"Authorization": f"Bearer {self.auth_token}"})
 
         delete_users_mutation = DeleteUsersMutation(self.graphql_client)
 
-        result = delete_users_mutation.execute(usernames)
+        variables = {"command": payload}
+
+        return_fields = """
+            succeeded
+        """
+
+        result = delete_users_mutation.execute(variables=variables, return_fields=return_fields)
 
         return result

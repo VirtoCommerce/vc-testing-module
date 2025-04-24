@@ -11,7 +11,7 @@ from fixtures.auth_token import auth_token
 from fixtures.authenticated_page import authenticated_page
 
 # from fixtures.clear_cart_if_not_empty import clear_cart_if_not_empty
-from graphql_requests.queries.me.me_query import MeQuery
+# from graphql_requests.queries.me.me_query import MeQuery
 from fixtures.graphql_client import graphql_client
 
 # Load environment variables from .env file
@@ -53,12 +53,12 @@ def browser_context(browser, auth_token, config):
     context.close()
 
 
-@pytest.fixture(scope="session")
-@allure.title("Fixture to initialize user context")
-def user_context(graphql_client, config):
-    get_me_request = MeQuery(graphql_client)
-    result = get_me_request.execute(user_id="")  # Pass empty string as default
-    return result["me"]
+# @pytest.fixture(scope="session")
+# @allure.title("Fixture to initialize user context")
+# def user_context(graphql_client, config):
+#    get_me_request = MeQuery(graphql_client)
+#    result = get_me_request.execute(user_id="")  # Pass empty string as default
+#    return result["me"]
 
 
 @pytest.fixture(scope="function")

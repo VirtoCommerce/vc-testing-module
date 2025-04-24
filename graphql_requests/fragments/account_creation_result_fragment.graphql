@@ -1,9 +1,0 @@
-#import "registration_error_fragment.graphql"
-
-fragment AccountCreationResultFragment on AccountCreationResultType {
-  succeeded
-  requireEmailVerification
-  errors {
-    ...RegistrationErrorFragment
-  }
-}

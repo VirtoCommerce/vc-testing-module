@@ -1,6 +1,0 @@
-fragment RegisterAccountFragment on RegisterAccountType {
-  id
-  username
-  email
-  status
-}
