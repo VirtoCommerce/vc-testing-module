@@ -1,6 +1,5 @@
 import os
 from dotenv import load_dotenv
-import allure
 import pytest
 import requests
 import datetime
@@ -12,6 +11,11 @@ from fixtures.authenticated_page import authenticated_page
 
 # from fixtures.clear_cart_if_not_empty import clear_cart_if_not_empty
 # from graphql_requests.queries.me.me_query import MeQuery
+from playwright.sync_api import expect
+import allure
+
+# from graphql_requests.queries.me.me_query import MeQuery
+from fixtures.auth_token import auth_token
 from fixtures.graphql_client import graphql_client
 
 # Load environment variables from .env file
@@ -31,15 +35,26 @@ def config():
     }
 
 
-# Define the browser context configuration
+def pytest_addoption(parser):
+
+    parser.addoption("--show-browser", action="store_true", default=False, help="Run browser in headed mode")
+
+
 @pytest.fixture(scope="session")
 def browser_context_args():
+
     return {
         "viewport": {
             "width": 1440,
             "height": 900,
         }
     }
+
+
+@pytest.fixture(scope="session")
+def browser_type_launch_args(pytestconfig):
+
+    return {"headless": not pytestconfig.getoption("--show-browser")}
 
 
 expect.set_options(timeout=30_000)
@@ -64,17 +79,15 @@ def browser_context(browser, auth_token, config):
 @pytest.fixture(scope="function")
 @allure.title("Playwright fixture with authentication")
 def authenticated_page(auth_token, config, browser_context):
-
-    # First add authorization token as a header
+    # Set auth token in headers
     browser_context.set_extra_http_headers({"Authorization": f"Bearer {auth_token[0]}"})
 
-    # Initialize the page and add auth value to the local storage ( it is needed as a temporary workaround for a bug )
-    # So the page won't throw user to the sign in page
+    # Set auth object in localStorage
     page = browser_context.new_page()
-    page.goto(config["base_url"])  # Ensure the page is loaded for local storage manipulation
+    page.goto(config["base_url"])  # Wait for page load before manipulating storage
     page.evaluate(
         f"""
-            localStorage.setItem('auth', JSON.stringify({auth_token[1]}));
+        localStorage.setItem('auth', JSON.stringify({auth_token[1]}));
         """
     )
     yield page

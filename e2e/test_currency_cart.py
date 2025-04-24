@@ -4,33 +4,28 @@ from e2e.pages.cart_page import CartPage
 from e2e.pages.login_page import LoginPage
 from e2e.pages.profile_page import ProfilePage
 from utils.logout import LogoutPage
-from utils.go_to_home import GoToHome
-from e2e.test_data import CURRENCY_TEST_PRODUCT
+from e2e.pages.testData.test_data import CURRENCY_TEST_PRODUCT
 from e2e.pages.language_currency_selector import LanguageCurrencySelector
 
 @pytest.fixture
-def profile_page(page: Page, config) -> ProfilePage:   
-    return ProfilePage(page, config)
+def profile_page(page: Page, config, browser_context) -> ProfilePage:   
+    return ProfilePage(page, config, browser_context)
 
 @pytest.fixture
-def cart_page(page: Page, config):
-    return CartPage(page, config)
+def cart_page(page: Page, config, browser_context):
+    return CartPage(page, config, browser_context)
 
 @pytest.fixture
-def login_page(page: Page, config):
-    return LoginPage(page, config)
+def login_page(page: Page, config, browser_context):
+    return LoginPage(page, config, browser_context)
 
 @pytest.fixture
-def logout_page(page: Page, config):
-    return LogoutPage(page, config)
+def logout_page(page: Page, config, browser_context):
+    return LogoutPage(page, config, browser_context)
 
 @pytest.fixture
-def go_to_home(page: Page, config):
-    return GoToHome(page, config)
-
-@pytest.fixture
-def language_currency_selector(page: Page):
-    return LanguageCurrencySelector(page)
+def language_currency_selector(page: Page, browser_context):
+    return LanguageCurrencySelector(page, browser_context)
 
 def test_change_user_currency(cart_page: CartPage, login_page: LoginPage, config, profile_page: ProfilePage, logout_page: LogoutPage, language_currency_selector: LanguageCurrencySelector):
     """Test changing user's currency
