@@ -39,6 +39,6 @@ def test_add_bulk_items_to_anonymous_cart(config, auth_token, graphql_client):
     # Test teardown
     cart_operations.remove_cart(payload={"cartId": cart["id"], "userId": user["id"]})
 
-    assert cart["id"] is not None
-    assert cart["customerId"] == user["id"]
-    assert cart["itemsQuantity"] == 15
+    assert cart["id"] is not None, "Cart ID is None"
+    assert cart["customerId"] == user["id"], "Customer ID is not the same"
+    assert cart["itemsQuantity"] == 15, "Items quantity is not the same"

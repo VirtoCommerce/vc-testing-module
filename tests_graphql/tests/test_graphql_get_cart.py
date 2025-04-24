@@ -21,6 +21,14 @@ def test_get_anonymous_cart(config, auth_token, graphql_client):
         culture_name=TEST_CULTURE["en-US"],
     )
 
+    # Test teardown
+    cart_operations.remove_cart(
+        payload={
+            "cartId": cart["id"],
+            "userId": user["id"],
+        }
+    )
+
     assert cart["id"] is not None, "Cart ID is None"
     assert cart["isAnonymous"] == True, "Cart is not anonymous"
     assert cart["customerId"] == user["id"], "Cart customer ID is not the same"
@@ -40,6 +48,14 @@ def test_get_registered_user_cart(config, auth_token, graphql_client):
         user_id=user["id"],
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
+    )
+
+    # Test teardown
+    cart_operations.remove_cart(
+        payload={
+            "cartId": cart["id"],
+            "userId": user["id"],
+        }
     )
 
     assert cart["id"] is not None, "Cart ID is None"

@@ -47,6 +47,6 @@ def test_cart_item_quantity(config, auth_token, graphql_client):
         }
     )
 
-    assert updated_cart["id"] is not None
-    assert updated_cart["customerId"] == user["id"]
-    assert updated_cart["itemsQuantity"] == 10
+    assert updated_cart["id"] is not None, "Cart ID is None"
+    assert updated_cart["customerId"] == user["id"], "Customer ID is not the same"
+    assert updated_cart["itemsQuantity"] == 10, "Items quantity is not the same"
