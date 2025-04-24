@@ -4,7 +4,7 @@ from tests_graphql.operations.cart.cart_operations import CartOperations
 from tests_graphql.operations.user.user_operations import UserOperations
 from tests_graphql.test_data.test_culture import TEST_CULTURE
 from tests_graphql.test_data.test_currency import TEST_CURRENCY
-from tests_graphql.test_data.test_product import TEST_PRODUCT, TEST_PRODUCT_2
+from tests_graphql.test_data.test_product import TEST_PRODUCT_1, TEST_PRODUCT_2
 
 
 @allure.title("Add items to anonymous cart (GraphQL)")
@@ -22,7 +22,7 @@ def test_add_items_to_anonymous_cart(config, auth_token, graphql_client):
         culture_name=TEST_CULTURE["en-US"],
         cart_items=[
             {
-                "productId": TEST_PRODUCT["id"],
+                "productId": TEST_PRODUCT_1["id"],
                 "quantity": 5,
             },
             {
