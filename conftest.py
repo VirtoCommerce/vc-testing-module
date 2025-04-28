@@ -1,14 +1,26 @@
 import os
 from dotenv import load_dotenv
 import pytest
+import requests
+import datetime
+from gql import Client, gql
+from gql.transport.requests import RequestsHTTPTransport
+from playwright.sync_api import sync_playwright, expect
+from fixtures.auth_token import auth_token
+from fixtures.authenticated_page import authenticated_page
+
+# from fixtures.clear_cart_if_not_empty import clear_cart_if_not_empty
+# from graphql_requests.queries.me.me_query import MeQuery
 from playwright.sync_api import expect
 import allure
-from graphql_requests.queries.me.me_query import MeQuery
+
+# from graphql_requests.queries.me.me_query import MeQuery
 from fixtures.auth_token import auth_token
 from fixtures.graphql_client import graphql_client
 
 # Load environment variables from .env file
 load_dotenv()
+
 
 @pytest.fixture(scope="session")
 def config():
@@ -22,13 +34,15 @@ def config():
         "api_key": os.getenv("API_KEY", "ec15f69d-fbf0-4117-b40b-286819c164fb"),
     }
 
+
 def pytest_addoption(parser):
-    
+
     parser.addoption("--show-browser", action="store_true", default=False, help="Run browser in headed mode")
+
 
 @pytest.fixture(scope="session")
 def browser_context_args():
-    
+
     return {
         "viewport": {
             "width": 1440,
@@ -36,14 +50,15 @@ def browser_context_args():
         }
     }
 
+
 @pytest.fixture(scope="session")
 def browser_type_launch_args(pytestconfig):
-    
-    return {
-        "headless": not pytestconfig.getoption("--show-browser")
-    }
+
+    return {"headless": not pytestconfig.getoption("--show-browser")}
+
 
 expect.set_options(timeout=30_000)
+
 
 @pytest.fixture(scope="session")
 @allure.title("Fixture to initialize browser context")
@@ -52,12 +67,14 @@ def browser_context(browser, auth_token, config):
     yield context
     context.close()
 
-@pytest.fixture(scope="session")
-@allure.title("Fixture to initialize user context")
-def user_context(graphql_client, auth_token, config):
-    get_me_request = MeQuery(graphql_client)
-    result = get_me_request.execute(user_id="")
-    return result["me"]
+
+# @pytest.fixture(scope="session")
+# @allure.title("Fixture to initialize user context")
+# def user_context(graphql_client, config):
+#    get_me_request = MeQuery(graphql_client)
+#    result = get_me_request.execute(user_id="")  # Pass empty string as default
+#    return result["me"]
+
 
 @pytest.fixture(scope="function")
 @allure.title("Playwright fixture with authentication")

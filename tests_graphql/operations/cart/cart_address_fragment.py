@@ -1,0 +1,19 @@
+CART_ADDRESS_FRAGMENT = """{
+    id
+    city
+    countryCode
+    countryName
+    email
+    firstName
+    middleName
+    lastName
+    line1
+    line2
+    name
+    organization
+    phone
+    postalCode
+    regionId
+    regionName
+    zip
+}"""

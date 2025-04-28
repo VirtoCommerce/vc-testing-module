@@ -1,8 +1,0 @@
-#import "identity_error_fragment.graphql"
-
-fragment IdentityResultFragment on IdentityResultType {
-  succeeded
-  errors {
-    ...IdentityErrorFragment
-  }
-}

@@ -1,0 +1,23 @@
+from pydantic import BaseModel
+
+
+class CustomerReview(BaseModel):
+    def __init__(self):
+        from graphql_client.types.customer_review_status import CustomerReviewStatus
+        from graphql_client.types.customer_review_image import CustomerReviewImage
+        from datetime import datetime
+
+        self.id: str
+        self.createdDate: datetime
+        self.modifiedDate: datetime | None
+        self.storeId: str
+        self.userId: str
+        self.userName: str
+        self.entityId: str
+        self.entityType: str
+        self.entityName: str
+        self.title: str | None
+        self.review: str
+        self.rating: int
+        self.reviewStatus: CustomerReviewStatus | None
+        self.images: list[CustomerReviewImage] | None

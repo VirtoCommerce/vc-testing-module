@@ -55,3 +55,6 @@ urllib3==2.2.3
 virtualenv==20.29.2
 yarl==1.18.3
 aiohttp
+colorama
+inflection
+pydantic

@@ -1,9 +1,0 @@
-#import "currency_fragment.graphql"
-
-fragment MoneyFragment on MoneyType {
-  amount
-  formattedAmount
-  currency {
-    ...CurrencyFragment
-  }
-}

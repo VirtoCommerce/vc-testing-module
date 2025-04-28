@@ -1,4 +1,0 @@
-fragment ErrorParameterFragment on ErrorParameterType {
-  key
-  value
-}
