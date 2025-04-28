@@ -8,7 +8,7 @@ from tests_graphql.test_data.test_user import TEST_ADMIN_USER
 def test_get_anonymous_user(auth_token, graphql_client):
     print(f"{os.linesep}Running test to get anonymous user...", end=" ")
 
-    user_operations = UserOperations(None, graphql_client)
+    user_operations = UserOperations(auth_token, graphql_client)
     user = user_operations.get_user()
 
     assert user["id"] is not None, "User ID is None"
