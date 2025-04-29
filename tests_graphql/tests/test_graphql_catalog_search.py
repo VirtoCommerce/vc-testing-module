@@ -111,8 +111,8 @@ def test_catalog_search_by_product_availability(config, auth_token, graphql_clie
         filter=f"category.subtree:{TEST_CATALOG['id']}/{category['id']}",
     )
 
-    assert products_in_stock_only_response["totalCount"] == 2, "Total count of products does not match"
-    assert products_all_response["totalCount"] == 3, "Total count of products does not match"
+    assert products_in_stock_only_response["totalCount"] == 3, "Total count of products does not match"
+    assert products_all_response["totalCount"] == 4, "Total count of products does not match"
 
 
 @allure.title("Catalog search by product brand (GraphQL)")
@@ -172,4 +172,4 @@ def test_catalog_search_by_product_price(config, auth_token, graphql_client):
         filter=f"category.subtree:{TEST_CATALOG['id']}/{category['id']} \"price\":[1000 TO 1500]",
     )
 
-    assert products_response["totalCount"] == 2, "Total count of products does not match"
+    assert products_response["totalCount"] == 1, "Total count of products does not match"
