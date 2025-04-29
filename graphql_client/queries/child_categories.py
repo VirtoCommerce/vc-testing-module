@@ -8,12 +8,13 @@ class ChildCategoriesQuery:
 
     def execute(self, variables: dict, return_fields: str = None) -> ChildCategoriesQueryResponseType:
         query_string = f"""
-            query childCategories($storeId: String!, $userId: String, $cultureName: String, $currencyCode: String, $categoryId: String, $maxLevel: Int, $onlyActive: Boolean, $productFilter: String) {{
+            query childCategories($storeId: String!, $userId: String, $cultureName: String, $currencyCode: String, $previousOutline: String, $categoryId: String, $maxLevel: Int, $onlyActive: Boolean, $productFilter: String) {{
                 childCategories(
                     storeId: $storeId,
                     userId: $userId,
                     cultureName: $cultureName,
                     currencyCode: $currencyCode,
+                    previousOutline: $previousOutline,
                     categoryId: $categoryId,
                     maxLevel: $maxLevel,
                     onlyActive: $onlyActive,

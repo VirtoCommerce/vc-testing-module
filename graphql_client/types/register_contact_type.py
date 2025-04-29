@@ -4,8 +4,8 @@ from pydantic import BaseModel
 class RegisterContactType(BaseModel):
     def __init__(self):
         from graphql_client.types.dynamic_property_value_type import DynamicPropertyValueType
-        from datetime import datetime
         from graphql_client.types.member_address_type import MemberAddressType
+        from datetime import datetime
 
         self.id: str
         self.firstName: str

@@ -8,13 +8,14 @@ class ProductQuery:
 
     def execute(self, variables: dict, return_fields: str = None) -> Product:
         query_string = f"""
-            query product($id: String!, $storeId: String!, $userId: String, $currencyCode: String, $cultureName: String, $custom: String) {{
+            query product($id: String!, $storeId: String!, $userId: String, $currencyCode: String, $cultureName: String, $previousOutline: String, $custom: String) {{
                 product(
                     id: $id,
                     storeId: $storeId,
                     userId: $userId,
                     currencyCode: $currencyCode,
                     cultureName: $cultureName,
+                    previousOutline: $previousOutline,
                     custom: $custom
                 ) {{
                     {return_fields}
