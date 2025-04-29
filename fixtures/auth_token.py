@@ -4,7 +4,7 @@ import pytest
 import requests
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 @allure.title("Fixture to dynamically obtain and return bearer token")
 def auth_token(config, request) -> str:
     # Make token_data local to the fixture
