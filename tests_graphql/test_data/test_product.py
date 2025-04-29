@@ -10,3 +10,9 @@ TEST_PRODUCT_2 = {
     "name": "[E2E Test] HP OmniBook 7 Flip 16 inch 2-in-1 Laptop Next Gen AI PC",
     "brand": "HP",
 }
+TEST_PRODUCT_3 = {
+    "id": "65cf4d3b-4e19-4bff-9694-3f9008bf979a",
+    "sku": "MXJ-22438912",
+    "name": "[E2E Test] AORUS Master 18 AM8H",
+    "brand": "Samsung",
+}

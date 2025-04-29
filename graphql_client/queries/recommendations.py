@@ -8,12 +8,13 @@ class RecommendationsQuery:
 
     def execute(self, variables: dict, return_fields: str = None) -> GetRecommendationsResponseType:
         query_string = f"""
-            query recommendations($storeId: String!, $userId: String, $cultureName: String, $currencyCode: String, $productId: String, $model: String, $fallbackProductsFilter: String, $maxRecommendations: Int) {{
+            query recommendations($storeId: String!, $userId: String, $cultureName: String, $currencyCode: String, $previousOutline: String, $productId: String, $model: String, $fallbackProductsFilter: String, $maxRecommendations: Int) {{
                 recommendations(
                     storeId: $storeId,
                     userId: $userId,
                     cultureName: $cultureName,
                     currencyCode: $currencyCode,
+                    previousOutline: $previousOutline,
                     productId: $productId,
                     model: $model,
                     fallbackProductsFilter: $fallbackProductsFilter,

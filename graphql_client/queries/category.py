@@ -8,13 +8,14 @@ class CategoryQuery:
 
     def execute(self, variables: dict, return_fields: str = None) -> Category:
         query_string = f"""
-            query category($id: String!, $storeId: String!, $userId: String, $currencyCode: String, $cultureName: String) {{
+            query category($id: String!, $storeId: String!, $userId: String, $currencyCode: String, $cultureName: String, $previousOutline: String) {{
                 category(
                     id: $id,
                     storeId: $storeId,
                     userId: $userId,
                     currencyCode: $currencyCode,
-                    cultureName: $cultureName
+                    cultureName: $cultureName,
+                    previousOutline: $previousOutline
                 ) {{
                     {return_fields}
                 }}

@@ -3,8 +3,8 @@ from pydantic import BaseModel
 
 class QuoteItemType(BaseModel):
     def __init__(self):
-        from graphql_client.types.money_type import MoneyType
         from graphql_client.types.quote_tier_price_type import QuoteTierPriceType
+        from graphql_client.types.money_type import MoneyType
         from graphql_client.types.quote_tier_price_type import QuoteTierPriceType
         from graphql_client.types.product import Product
 

@@ -8,14 +8,15 @@ class CategoriesQuery:
 
     def execute(self, variables: dict, return_fields: str = None) -> CategoryConnection:
         query_string = f"""
-            query categories($after: String, $first: Int, $storeId: String, $cultureName: String, $userId: String, $currencyCode: String, $query: String, $filter: String, $fuzzy: Boolean, $fuzzyLevel: Int, $facet: String, $sort: String, $categoryIds: [String]) {{
+            query categories($after: String, $first: Int, $storeId: String!, $userId: String, $currencyCode: String, $cultureName: String, $previousOutline: String, $query: String, $filter: String, $fuzzy: Boolean, $fuzzyLevel: Int, $facet: String, $sort: String, $categoryIds: [String]) {{
                 categories(
                     after: $after,
                     first: $first,
                     storeId: $storeId,
-                    cultureName: $cultureName,
                     userId: $userId,
                     currencyCode: $currencyCode,
+                    cultureName: $cultureName,
+                    previousOutline: $previousOutline,
                     query: $query,
                     filter: $filter,
                     fuzzy: $fuzzy,
