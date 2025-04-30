@@ -3,6 +3,7 @@ from graphql_client.types.product_connection import ProductConnection
 from graphql_client.types.product import Product
 from graphql_client.queries.products import ProductsQuery
 from graphql_client.queries.product import ProductQuery
+from tests_graphql.operations.catalog.fragments.product_fragment import PRODUCT_FRAGMENT
 
 
 class ProductsOperations:
@@ -23,13 +24,11 @@ class ProductsOperations:
             "filter": filter,
         }
 
-        return_fields = """
+        return_fields = f"""
             totalCount
-            items {
-                id
-                code
-                name
-            }
+            items {{
+                {PRODUCT_FRAGMENT}
+            }}
         """
 
         result = products_query.execute(variables=variables, return_fields=return_fields)
@@ -47,12 +46,6 @@ class ProductsOperations:
             "id": id,
         }
 
-        return_fields = """
-            id
-            code
-            name
-        """
-
-        result = product_query.execute(variables=variables, return_fields=return_fields)
+        result = product_query.execute(variables=variables, return_fields=PRODUCT_FRAGMENT)
 
         return result
