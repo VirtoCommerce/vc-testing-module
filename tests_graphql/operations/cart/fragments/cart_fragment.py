@@ -1,5 +1,5 @@
-from tests_graphql.operations.cart.cart_address_fragment import CART_ADDRESS_FRAGMENT
-from tests_graphql.operations.cart.coupon_fragment import COUPON_FRAGMENT
+from .cart_address_fragment import CART_ADDRESS_FRAGMENT
+from .coupon_fragment import COUPON_FRAGMENT
 
 
 CART_FRAGMENT = f"""

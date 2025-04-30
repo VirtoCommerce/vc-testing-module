@@ -3,13 +3,14 @@ from tests_graphql.operations.user.user_operations import UserOperations
 from tests_graphql.operations.cart.cart_operations import CartOperations
 from tests_graphql.test_data.test_culture import TEST_CULTURE
 from tests_graphql.test_data.test_currency import TEST_CURRENCY
+from tests_graphql.test_data.test_user import TEST_ADMIN_USER
 
 
 @allure.title("Get anonymous cart (GraphQL)")
-def test_get_anonymous_cart(config, auth_token, graphql_client):
+def test_get_anonymous_cart(config, graphql_client):
     print(f"{os.linesep}Running test to get anonymous cart...", end=" ")
 
-    user_operations = UserOperations(auth_token, graphql_client)
+    user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
 
     user = user_operations.get_user()
@@ -35,13 +36,15 @@ def test_get_anonymous_cart(config, auth_token, graphql_client):
 
 
 @allure.title("Get registered user cart (GraphQL)")
-def test_get_registered_user_cart(config, auth_token, graphql_client):
+def test_get_registered_user_cart(config, user_service, graphql_client):
     print(f"{os.linesep}Running test to get registered user cart...", end=" ")
 
-    user_operations = UserOperations(auth_token, graphql_client)
+    user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
 
-    user = user_operations.get_user(auth_required=True)
+    user_service.sign_in(TEST_ADMIN_USER["username"], TEST_ADMIN_USER["password"])
+
+    user = user_operations.get_user()
 
     cart = cart_operations.get_cart(
         store_id=config["store_id"],
@@ -57,6 +60,8 @@ def test_get_registered_user_cart(config, auth_token, graphql_client):
             "userId": user["id"],
         }
     )
+
+    user_service.sign_out()
 
     assert cart["id"] is not None, "Cart ID is None"
     assert cart["isAnonymous"] == False, "Cart is anonymous"

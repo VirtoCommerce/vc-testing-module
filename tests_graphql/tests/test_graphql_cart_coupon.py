@@ -4,14 +4,14 @@ from tests_graphql.operations.user.user_operations import UserOperations
 from tests_graphql.test_data.test_currency import TEST_CURRENCY
 from tests_graphql.test_data.test_culture import TEST_CULTURE
 from tests_graphql.test_data.test_coupon import TEST_COUPON_CODE
-from tests_graphql.test_data.test_product import TEST_PRODUCT_1
+from tests_graphql.test_data.test_product import TEST_PRODUCT_3
 
 
 @allure.title("Apply cart coupon (GraphQL)")
-def test_add_cart_coupon(config, auth_token, graphql_client):
+def test_add_cart_coupon(config, graphql_client):
     print(f"{os.linesep}Running test to apply coupon to cart...", end=" ")
 
-    user_operations = UserOperations(auth_token, graphql_client)
+    user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
 
     user = user_operations.get_user()
@@ -22,7 +22,7 @@ def test_add_cart_coupon(config, auth_token, graphql_client):
             "userId": user["id"],
             "currencyCode": TEST_CURRENCY["USD"],
             "cultureName": TEST_CULTURE["en-US"],
-            "productId": TEST_PRODUCT_1["id"],
+            "productId": TEST_PRODUCT_3["id"],
             "quantity": 1,
         }
     )
@@ -53,10 +53,10 @@ def test_add_cart_coupon(config, auth_token, graphql_client):
 
 
 @allure.title("Remove cart coupon (GraphQL)")
-def test_remove_cart_coupon(config, auth_token, graphql_client):
+def test_remove_cart_coupon(config, graphql_client):
     print(f"{os.linesep}Running test to remove coupon from cart...", end=" ")
 
-    user_operations = UserOperations(auth_token, graphql_client)
+    user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
 
     user = user_operations.get_user()
@@ -67,7 +67,7 @@ def test_remove_cart_coupon(config, auth_token, graphql_client):
             "userId": user["id"],
             "currencyCode": TEST_CURRENCY["USD"],
             "cultureName": TEST_CULTURE["en-US"],
-            "productId": TEST_PRODUCT_1["id"],
+            "productId": TEST_PRODUCT_3["id"],
             "quantity": 1,
         }
     )

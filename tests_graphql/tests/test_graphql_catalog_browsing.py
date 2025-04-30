@@ -8,10 +8,10 @@ from tests_graphql.test_data.test_catalog import TEST_CATALOG
 
 
 @allure.title("Catalog browsing (GraphQL)")
-def test_catalog_browsing(config, auth_token, graphql_client):
+def test_catalog_browsing(config, graphql_client):
     print(f"{os.linesep}Running test to browse catalog...", end=" ")
 
-    user_operations = UserOperations(auth_token, graphql_client)
+    user_operations = UserOperations(graphql_client)
     categories_operations = CategoriesOperations(graphql_client)
     products_operations = ProductsOperations(graphql_client)
 

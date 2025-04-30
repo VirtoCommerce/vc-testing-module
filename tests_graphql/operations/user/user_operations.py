@@ -7,14 +7,10 @@ from graphql_client.types.identity_result_type import IdentityResultType
 
 
 class UserOperations:
-    def __init__(self, auth_token: str, graphql_client: Client):
-        self.auth_token = auth_token
+    def __init__(self, graphql_client: Client):
         self.graphql_client = graphql_client
 
-    def get_user(self, user_id: str = None, auth_required: bool = False) -> UserType:
-        if auth_required:
-            self.graphql_client.set_headers({"Authorization": f"Bearer {self.auth_token}"})
-
+    def get_user(self, user_id: str = None) -> UserType:
         me_query = MeQuery(self.graphql_client)
 
         variables = {"userId": user_id}
@@ -33,8 +29,6 @@ class UserOperations:
         return result
 
     def delete_users(self, payload: InputDeleteUserType) -> IdentityResultType:
-        self.graphql_client.set_headers({"Authorization": f"Bearer {self.auth_token}"})
-
         delete_users_mutation = DeleteUsersMutation(self.graphql_client)
 
         variables = {"command": payload}

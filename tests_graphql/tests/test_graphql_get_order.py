@@ -5,15 +5,18 @@ from tests_graphql.operations.user.user_operations import UserOperations
 from tests_graphql.test_data.test_product import TEST_PRODUCT_1
 from tests_graphql.test_data.test_currency import TEST_CURRENCY
 from tests_graphql.test_data.test_culture import TEST_CULTURE
+from tests_graphql.test_data.test_user import TEST_ADMIN_USER
 
 
 @allure.title("Get order details (GraphQL)")
-def test_get_order(config, auth_token, graphql_client):
+def test_get_order(config, user_service, graphql_client):
     print(f"{os.linesep}Running test to get order details...", end=" ")
 
-    user_operations = UserOperations(auth_token, graphql_client)
+    user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
-    order_operations = OrderOperations(auth_token, graphql_client)
+    order_operations = OrderOperations(graphql_client)
+
+    user_service.sign_in(TEST_ADMIN_USER["username"], TEST_ADMIN_USER["password"])
 
     user = user_operations.get_user()
 
@@ -35,6 +38,8 @@ def test_get_order(config, auth_token, graphql_client):
     )
 
     order = order_operations.get_order(created_order["id"])
+
+    user_service.sign_out()
 
     assert order["id"] == created_order["id"], f"Order ID mismatch: {order['id']} != {created_order['id']}"
     assert order["number"] is not None, "Order number is missing"

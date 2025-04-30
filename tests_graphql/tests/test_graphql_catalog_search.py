@@ -10,10 +10,10 @@ from tests_graphql.test_data.test_catalog import TEST_CATALOG
 
 
 @allure.title("Catalog search by product full name (GraphQL)")
-def test_catalog_search_by_product_full_name(config, auth_token, graphql_client):
+def test_catalog_search_by_product_full_name(config, graphql_client):
     print(f"{os.linesep}Running test to search catalog by product full name...", end=" ")
 
-    user_operations = UserOperations(auth_token, graphql_client)
+    user_operations = UserOperations(graphql_client)
     products_operations = ProductsOperations(graphql_client)
 
     user = user_operations.get_user()
@@ -33,10 +33,10 @@ def test_catalog_search_by_product_full_name(config, auth_token, graphql_client)
 
 
 @allure.title("Catalog search by product name fragment (GraphQL)")
-def test_catalog_search_by_product_name_fragment(config, auth_token, graphql_client):
+def test_catalog_search_by_product_name_fragment(config, graphql_client):
     print(f"{os.linesep}Running test to search catalog by product name fragment...", end=" ")
 
-    user_operations = UserOperations(auth_token, graphql_client)
+    user_operations = UserOperations(graphql_client)
     products_operations = ProductsOperations(graphql_client)
 
     user = user_operations.get_user()
@@ -53,10 +53,10 @@ def test_catalog_search_by_product_name_fragment(config, auth_token, graphql_cli
 
 
 @allure.title("Catalog search by product SKU (GraphQL)")
-def test_catalog_search_by_product_sku(config, auth_token, graphql_client):
+def test_catalog_search_by_product_sku(config, graphql_client):
     print(f"{os.linesep}Running test to search catalog by product SKU...", end=" ")
 
-    user_operations = UserOperations(auth_token, graphql_client)
+    user_operations = UserOperations(graphql_client)
     products_operations = ProductsOperations(graphql_client)
 
     user = user_operations.get_user()
@@ -76,10 +76,10 @@ def test_catalog_search_by_product_sku(config, auth_token, graphql_client):
 
 
 @allure.title("Catalog search by product availability (GraphQL)")
-def test_catalog_search_by_product_availability(config, auth_token, graphql_client):
+def test_catalog_search_by_product_availability(config, graphql_client):
     print(f"{os.linesep}Running test to search catalog by product availability...", end=" ")
 
-    user_operations = UserOperations(auth_token, graphql_client)
+    user_operations = UserOperations(graphql_client)
     categories_operations = CategoriesOperations(graphql_client)
     products_operations = ProductsOperations(graphql_client)
 
@@ -116,10 +116,10 @@ def test_catalog_search_by_product_availability(config, auth_token, graphql_clie
 
 
 @allure.title("Catalog search by product brand (GraphQL)")
-def test_catalog_search_by_product_brand(config, auth_token, graphql_client):
+def test_catalog_search_by_product_brand(config, graphql_client):
     print(f"{os.linesep}Running test to search catalog by product brand...", end=" ")
 
-    user_operations = UserOperations(auth_token, graphql_client)
+    user_operations = UserOperations(graphql_client)
     categories_operations = CategoriesOperations(graphql_client)
     products_operations = ProductsOperations(graphql_client)
 
@@ -146,10 +146,10 @@ def test_catalog_search_by_product_brand(config, auth_token, graphql_client):
 
 
 @allure.title("Catalog search by product price (GraphQL)")
-def test_catalog_search_by_product_price(config, auth_token, graphql_client):
+def test_catalog_search_by_product_price(config, graphql_client):
     print(f"{os.linesep}Running test to search catalog by product price...", end=" ")
 
-    user_operations = UserOperations(auth_token, graphql_client)
+    user_operations = UserOperations(graphql_client)
     categories_operations = CategoriesOperations(graphql_client)
     products_operations = ProductsOperations(graphql_client)
 

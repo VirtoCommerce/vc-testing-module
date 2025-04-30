@@ -7,8 +7,7 @@ from graphql_client.types.input_delete_contact_type import InputDeleteContactTyp
 
 
 class ContactOperations:
-    def __init__(self, auth_token: str, graphql_client: Client):
-        self.auth_token = auth_token
+    def __init__(self, graphql_client: Client):
         self.graphql_client = graphql_client
 
     def create_contact(self, payload: InputRequestRegistrationType) -> RequestRegistrationType:
@@ -44,8 +43,6 @@ class ContactOperations:
         return result
 
     def delete_contact(self, payload: InputDeleteContactType) -> None:
-        self.graphql_client.set_headers({"Authorization": f"Bearer {self.auth_token}"})
-
         delete_contact_mutation = DeleteContactMutation(self.graphql_client)
 
         variables = {"command": payload}

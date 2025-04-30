@@ -17,6 +17,7 @@ import allure
 # from graphql_requests.queries.me.me_query import MeQuery
 from fixtures.auth_token import auth_token
 from fixtures.graphql_client import graphql_client
+from fixtures.user_service import user_service
 
 # Load environment variables from .env file
 load_dotenv()

@@ -8,10 +8,10 @@ from tests_graphql.test_data.test_product import TEST_PRODUCT_1
 
 
 @allure.title("Add item to anonymous cart (GraphQL)")
-def test_add_item_to_anonymous_cart(config, auth_token, graphql_client):
+def test_add_item_to_anonymous_cart(config, graphql_client):
     print(f"{os.linesep}Running test to add item to anonymous cart...", end=" ")
 
-    user_operations = UserOperations(auth_token, graphql_client)
+    user_operations = UserOperations(graphql_client)
     user = user_operations.get_user()
 
     cart_operations = CartOperations(graphql_client)
