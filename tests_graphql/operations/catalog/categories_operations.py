@@ -3,6 +3,7 @@ from graphql_client.types.category_connection import CategoryConnection
 from graphql_client.types.category import Category
 from graphql_client.queries.categories import CategoriesQuery
 from graphql_client.queries.category import CategoryQuery
+from tests_graphql.operations.catalog.fragments.category_fragment import CATEGORY_FRAGMENT
 
 
 class CategoriesOperations:
@@ -29,13 +30,11 @@ class CategoriesOperations:
             "categoryIds": category_ids,
         }
 
-        return_fields = """
+        return_fields = f"""
             totalCount
-            items {
-                id
-                code
-                name
-            }
+            items {{
+                {CATEGORY_FRAGMENT}
+            }}
         """
 
         result = categories_query.execute(variables=variables, return_fields=return_fields)
@@ -53,12 +52,6 @@ class CategoriesOperations:
             "id": id,
         }
 
-        return_fields = """
-            id
-            code
-            name
-        """
-
-        result = category_query.execute(variables=variables, return_fields=return_fields)
+        result = category_query.execute(variables=variables, return_fields=CATEGORY_FRAGMENT)
 
         return result
