@@ -7,10 +7,10 @@ from tests_graphql.test_data.test_product import TEST_PRODUCT_1, TEST_PRODUCT_2
 
 
 @allure.title("Unselect cart items (GraphQL)")
-def test_unselect_cart_items(config, auth_token, graphql_client):
+def test_unselect_cart_items(config, graphql_client):
     print(f"{os.linesep}Running test to unselect cart items...", end=" ")
 
-    user_operations = UserOperations(auth_token, graphql_client)
+    user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
 
     user = user_operations.get_user()
@@ -66,10 +66,10 @@ def test_unselect_cart_items(config, auth_token, graphql_client):
 
 
 @allure.title("Unselect all cart items (GraphQL)")
-def test_unselect_all_cart_items(config, auth_token, graphql_client):
+def test_unselect_all_cart_items(config, graphql_client):
     print(f"{os.linesep}Running test to unselect all cart items...", end=" ")
 
-    user_operations = UserOperations(auth_token, graphql_client)
+    user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
 
     user = user_operations.get_user()

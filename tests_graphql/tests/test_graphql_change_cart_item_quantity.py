@@ -7,10 +7,10 @@ from tests_graphql.test_data.test_product import TEST_PRODUCT_1
 
 
 @allure.title("Change cart item quantity (GraphQL)")
-def test_cart_item_quantity(config, auth_token, graphql_client):
+def test_cart_item_quantity(config, graphql_client):
     print(f"{os.linesep}Running test to change cart item quantity...", end=" ")
 
-    user_operations = UserOperations(auth_token, graphql_client)
+    user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
 
     user = user_operations.get_user()

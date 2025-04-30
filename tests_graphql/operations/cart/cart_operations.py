@@ -5,8 +5,8 @@ from graphql_client.mutations.add_item import AddItemMutation
 from graphql_client.types.input_add_item_type import InputAddItemType
 from graphql_client.mutations.remove_cart import RemoveCartMutation
 from graphql_client.types.input_remove_cart_type import InputRemoveCartType
-from tests_graphql.operations.cart.cart_fragment import CART_FRAGMENT
-from tests_graphql.operations.order.order_fragment import ORDER_FRAGMENT
+from tests_graphql.operations.cart.fragments.cart_fragment import CART_FRAGMENT
+from tests_graphql.operations.order.fragments.order_fragment import ORDER_FRAGMENT
 from graphql_client.types.input_add_items_type import InputAddItemsType
 from graphql_client.mutations.add_items_cart import AddItemsCartMutation
 from graphql_client.types.input_add_bulk_items_type import InputAddBulkItemsType

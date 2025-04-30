@@ -29,8 +29,6 @@ class UserOperations:
         return result
 
     def delete_users(self, payload: InputDeleteUserType) -> IdentityResultType:
-        self.graphql_client.set_headers({"Authorization": f"Bearer {self.auth_token}"})
-
         delete_users_mutation = DeleteUsersMutation(self.graphql_client)
 
         variables = {"command": payload}

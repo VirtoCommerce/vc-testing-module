@@ -6,10 +6,10 @@ from tests_graphql.test_data.test_currency import TEST_CURRENCY
 
 
 @allure.title("Add cart payment (GraphQL)")
-def test_add_cart_payment(config, auth_token, graphql_client):
+def test_add_cart_payment(config, graphql_client):
     print(f"{os.linesep}Running test to add a cart payment...", end=" ")
 
-    user_operations = UserOperations(auth_token, graphql_client)
+    user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
 
     user = user_operations.get_user()
@@ -73,10 +73,10 @@ def test_add_cart_payment(config, auth_token, graphql_client):
 
 
 @allure.title("Update cart payment (GraphQL)")
-def test_update_cart_payment(config, auth_token, graphql_client):
+def test_update_cart_payment(config, graphql_client):
     print(f"{os.linesep}Running test to update a cart payment...", end=" ")
 
-    user_operations = UserOperations(auth_token, graphql_client)
+    user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
 
     user = user_operations.get_user()

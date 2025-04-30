@@ -5,13 +5,16 @@ from tests_graphql.operations.user.user_operations import UserOperations
 from tests_graphql.test_data.test_customer import TEST_CUSTOMER
 from tests_graphql.test_data.test_organization import TEST_ORGANIZATION
 from tests_graphql.test_data.test_user import TEST_USER
+from tests_graphql.test_data.test_user import TEST_ADMIN_USER
 
 
 @allure.title("Register customer (GraphQL)")
-def test_register_customer(config, auth_token, graphql_client):
+def test_register_customer(config, user_service, graphql_client):
     print(f"{os.linesep}Running test to register customer...", end=" ")
 
-    contact_operations = ContactOperations(auth_token, graphql_client)
+    user_service.sign_in(TEST_ADMIN_USER["username"], TEST_ADMIN_USER["password"])
+
+    contact_operations = ContactOperations(graphql_client)
     create_contact_result = contact_operations.create_contact(
         payload={
             "storeId": config["store_id"],
@@ -34,12 +37,14 @@ def test_register_customer(config, auth_token, graphql_client):
         }
     )
 
-    user_operations = UserOperations(auth_token, graphql_client)
+    user_operations = UserOperations(graphql_client)
     user_operations.delete_users(
         payload={
             "userNames": [TEST_USER["email"]],
         }
     )
+
+    user_service.sign_out()
 
     assert create_contact_result["result"]["succeeded"] is True
     assert create_contact_result["account"] is not None
@@ -50,10 +55,12 @@ def test_register_customer(config, auth_token, graphql_client):
 
 
 @allure.title("Register organization (GraphQL)")
-def test_register_organization(config, auth_token, graphql_client):
+def test_register_organization(config, user_service, graphql_client):
     print(f"{os.linesep}Running test to register organization...", end=" ")
 
-    contact_operations = ContactOperations(auth_token, graphql_client)
+    user_service.sign_in(TEST_ADMIN_USER["username"], TEST_ADMIN_USER["password"])
+
+    contact_operations = ContactOperations(graphql_client)
     create_contact_result = contact_operations.create_contact(
         payload={
             "storeId": config["store_id"],
@@ -84,12 +91,14 @@ def test_register_organization(config, auth_token, graphql_client):
         }
     )
 
-    user_operations = UserOperations(auth_token, graphql_client)
+    user_operations = UserOperations(graphql_client)
     user_operations.delete_users(
         payload={
             "userNames": [TEST_USER["email"]],
         }
     )
+
+    user_service.sign_out()
 
     assert create_contact_result["result"]["succeeded"] is True
     assert create_contact_result["account"]["id"] is not None

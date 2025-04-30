@@ -7,10 +7,10 @@ from tests_graphql.test_data.test_culture import TEST_CULTURE
 
 
 @allure.title("Apply gifts for specified product (GraphQL)")
-def test_gift_specific_product(config, auth_token, graphql_client):
+def test_gift_specific_product(config, graphql_client):
     print(f"{os.linesep}Running test to apply gifts for specified product in cart...", end=" ")
 
-    user_operations = UserOperations(auth_token, graphql_client)
+    user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
 
     user = user_operations.get_user()
