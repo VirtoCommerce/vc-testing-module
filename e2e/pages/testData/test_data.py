@@ -4,23 +4,23 @@ CURRENCY_TEST_PRODUCT = {
     "name": "ZZZitem for theme performance. Don't delete! Printer Epson",
     "quantity": 2,
     "price": 60.00,
-    "url_2": "printers/multifunction-printers/laser-color/hp-color-laserjet-enterprise-flow-mfp-m577z-wireless-printer-copyfaxprintscan-color-black-white",
-    "name_2": "HP Color LaserJet Enterprise Flow MFP M577z Wireless Printer, Copy/Fax/Print/Scan",
+    "url_2": "e2e-test-electronics/e2e-test-asus-expertbook-b5-b5604",
+    "name_2": "[E2E Test] ASUS ExpertBook B5 (B5604)",
     "quantity_2": 2,
-    "price_2": 750.00
+    "price_2": 1442.99
 }
 
 # Merge cart test data
 MERGE_CART_USER_PRODUCT = {
-    "name": "HP Color LaserJet Enterprise Flow MFP M577z Wireless Printer, Copy/Fax/Print/Scan",
-    "url": "printers/multifunction-printers/laser-color/hp-color-laserjet-enterprise-flow-mfp-m577z-wireless-printer-copyfaxprintscan-color-black-white",
+    "name": "[E2E Test] ASUS ExpertBook B5 (B5604)",
+    "url": "e2e-test-electronics/e2e-test-asus-expertbook-b5-b5604",
     "quantity": 2,
-    "price": 750.00
+    "price": 1442.99
 }
 
 MERGE_CART_ANONYMOUS_PRODUCT = {
-    "name": "ZZZitem for theme performance. Don't delete! Printer Epson",
     "url": "printers/multifunction-printers/laser-color/epson-workforce-wf-3640-all-in-one-printer",
+    "name": "ZZZitem for theme performance. Don't delete! Printer Epson",
     "quantity": 1,
     "price": 60.00
 }
@@ -55,8 +55,8 @@ PAYMENT_METHOD3 = "Skyflow"
 PAYMENT_METHOD4 = "Manual"
 
 PAYMENT_DATA = {
-    "card_number": "5424000000000015",
-    "expiry": "12/28",
+    "card_number": "4012888818888",
+    "expiry": "10/29",
     "cvc": "900",
     "card_holder_name": "John Doe"
 }

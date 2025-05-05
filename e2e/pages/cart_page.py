@@ -60,8 +60,12 @@ class CartPage:
         self.page.wait_for_selector(CartLocators.PRICE_ACTUAL_CART_ITEM_1.format(line_item_number2), state="attached")
         expect(line_item).to_be_visible()        
         expected_total = price * quantity
-        actual_price = line_item.locator(CartLocators.PRICE_ACTUAL_CART_ITEM_1.format(line_item_number2)).text_content()
+        actual_price = line_item.locator(CartLocators.PRICE_LIST).text_content()
         actual_amount = float(actual_price.replace('$', '').replace(',', ''))
+        if abs(actual_amount - expected_total) < 0.01:
+            print(f"✅ Success: Total {actual_amount} for product {product_name} matches expected {expected_total}")
+        else:
+            print(f"❌ Error: Expected total {expected_total} for product {product_name}, but got {actual_amount}")
         assert abs(actual_amount - expected_total) < 0.01, f"Expected total {expected_total} for product {product_name}, but got {actual_amount}"
         
     def click_cart_icon(self):

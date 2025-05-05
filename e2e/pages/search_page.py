@@ -29,7 +29,6 @@ class SearchPage:
         expect(self.page.locator(SearchLocators.SEARCH_TITLE)).to_contain_text(query)        
         text = self.page.locator(SearchLocators.SEARCH_RESULT_COUNT).text_content().strip()
         search_result_count = int(text)
-
         print(f"Search results count: {search_result_count}")
         assert search_result_count > 0, f"No search results found for query: {query}"
 

@@ -31,6 +31,7 @@ class PaymentPage:
     def check_payment_success(self):
         """Check payment success"""
         try:
+            self.page.wait_for_timeout(10000)
             self.page.locator(CheckoutLocators.PAYMENT_SUCCESS).wait_for(state="visible")
             expect(self.page).to_have_url(self.config["base_url"] + CheckoutLocators.PAYMENT_SUCCESS_URL)
             expect(self.page.locator(CheckoutLocators.SHOW_ORDER_BUTTON)).to_be_visible()
