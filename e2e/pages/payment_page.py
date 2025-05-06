@@ -1,4 +1,3 @@
-from e2e.pages.locators.checkout_locators import PaymentPageLocators
 from playwright.sync_api import Page, BrowserContext, expect
 from utils.commonLocators.common_components_locators import CommonComponentsLocators
 from e2e.pages.locators.payment_page_locators import PaymentPageLocators
