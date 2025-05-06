@@ -26,14 +26,14 @@ MERGE_CART_ANONYMOUS_PRODUCT = {
 }
 
 SHIPPING_DATA = {
-    "first_name": "AnnaTab",
-    "last_name": "MTab",
-    "email": "weiewfoiu@jhkrgh.rgw",
-    "phone": "32423",
-    "country": "France",
-    "address": "Main street 44",
-    "city": "Paris",
-    "postcode": "75000"
+    "first_name": "Admin",
+    "last_name": "B2B",
+    "email": "admin@b2b.com",
+    "phone": "324238423",
+    "country": "Hungary",
+    "address": "Kossuth Lajos utca 1",
+    "city": "Budapest",
+    "postcode": "1023"
 }
 
 DELIVERY_METHOD1 = "Ground"
@@ -68,10 +68,17 @@ PAYMENT_DATA_FAILED = {
     "card_holder_name": "John Doe"
 }
 PAYMENT_CYBERSOURCE = {
-    "card_number": "4622943127013705",
-    "expiry": "12/2026",
+    "card_number": "4622 9431 2701 3747",
+    "expiry": "12/2029",
     "card_holder_name": "John Doe",
-    "cvc": "838"
+    "cvc": "370"
+}
+
+PAYMENT_CYBERSOURCE_FAILED = {
+    "card_number": "4622 9431 2701 3747",
+    "expiry": "12/2022",
+    "card_holder_name": "John Doe",
+    "cvc": "500"
 }
 
 PRODUCT = {
@@ -81,6 +88,32 @@ PRODUCT = {
         "updated_quantity": 3,
         "price": 60.00
     }
+
+ERROR_MESSAGE = {
+    "card_number": "This field is required",
+    "card_number_format": "Card Number must be at least 12 characters",
+    "card_number_valid": "Please provide a valid card number",
+
+    "card_holder_name": "This field is required",
+    "card_holder_name_format": "This field must not contain more than 64 characters",
+
+    "expiry": "This field is required",
+    "expiry_month_format": "Month must be exactly 2 characters",
+    "expiry_year_format": "Year must be exactly 2 characters",
+    "cybersource_year_format": "Year must be exactly 4 characters",
+    "expiry_month_valid": "Please provide a valid expiration month",
+    "expiry_year_valid": "Please provide a valid expiration year",
+    
+    "expiry_date_valid": "Expiration date must be in the future",
+    "expiry_date_format": "Please provide a valid expiration date",
+    "expiry_date_valid": "Expiration date must be in the future",
+
+    "cvc": "This field is required",
+    "cvc_format": "Security code must be at least 3 characters"
+   
+    
+
+}
 
 
 
