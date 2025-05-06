@@ -4,7 +4,7 @@ from e2e.pages.cart_page import CartPage
 from e2e.pages.checkout_page import CheckoutPage
 from e2e.pages.payment_page import PaymentPage
 from e2e.pages.login_page import LoginPage
-from e2e.pages.testData.test_data import SHIPPING_DATA, PRODUCT, DELIVERY_METHOD1, DELIVERY_METHOD2, PAYMENT_METHOD1, PAYMENT_DATA, PAYMENT_DATA_FAILED
+from e2e.pages.testData.test_data import SHIPPING_DATA, PRODUCT, DELIVERY_METHOD1, DELIVERY_METHOD2, PAYMENT_METHOD2, PAYMENT_CYBERSOURCE, PAYMENT_CYBERSOURCE_FAILED
 
 
 @pytest.fixture
@@ -25,7 +25,7 @@ def login_page(page: Page, config, browser_context):
 
 
 def test_payment_success(cart_page: CartPage, checkout_page: CheckoutPage, payment_page: PaymentPage, login_page: LoginPage, config):
-    """Payment > Payment Success. Payment method is set to Authorize.Net"""
+    """Payment > Payment Success. Payment method is set to CyberSource"""
     # Setup test data 
    
     product_url = PRODUCT["url"]
@@ -55,19 +55,18 @@ def test_payment_success(cart_page: CartPage, checkout_page: CheckoutPage, payme
     checkout_page.click_on_shipping_address(SHIPPING_DATA)    
     checkout_page.check_shipping_page(DELIVERY_METHOD1, SHIPPING_DATA)
     checkout_page.proceed_to_billing()
-    checkout_page.select_payment_method(PAYMENT_METHOD1)
+    checkout_page.select_payment_method(PAYMENT_METHOD2)
     checkout_page.proceed_to_review()
     checkout_page.place_order()
-    payment_page.check_payment_page(PAYMENT_METHOD1)
-    payment_page.fill_payment_details(PAYMENT_DATA)
-    payment_page.check_payment_success()
 
-    # Step 5: Logout
-    login_page.logout()
-    print("Authorize.Net test payment success completed")
+    payment_page.check_payment_page(PAYMENT_METHOD2)
+    payment_page.fill_cybersource_payment_details(PAYMENT_CYBERSOURCE)    
+    payment_page.check_payment_success()  
+    print("Cybersource test payment success completed")
+    
 
 def test_payment_failed(cart_page: CartPage, checkout_page: CheckoutPage, payment_page: PaymentPage, login_page: LoginPage, config):
-    """Payment > Payment Failed. Payment method is set to Authorize.Net"""
+    """Payment > Payment Failed. Payment method is set to CyberSource"""
     # Setup test data 
    
     product_url = PRODUCT["url"]
@@ -95,16 +94,14 @@ def test_payment_failed(cart_page: CartPage, checkout_page: CheckoutPage, paymen
     checkout_page.click_on_shipping_address(SHIPPING_DATA)    
     checkout_page.check_shipping_page(DELIVERY_METHOD2, SHIPPING_DATA)
     checkout_page.proceed_to_billing()
-    checkout_page.select_payment_method(PAYMENT_METHOD1)
+    checkout_page.select_payment_method(PAYMENT_METHOD2)
     checkout_page.proceed_to_review()
     checkout_page.place_order()
-    payment_page.check_payment_page(PAYMENT_METHOD1)
-    payment_page.fill_payment_details(PAYMENT_DATA_FAILED)
+    payment_page.check_payment_page(PAYMENT_METHOD2)
+    payment_page.fill_cybersource_payment_details(PAYMENT_CYBERSOURCE_FAILED)
     payment_page.check_payment_failure()
+    print("Cybersource test payment failed completed")
 
-    # Step 5: Logout
-    login_page.logout()
-    print("Authorize.Net test payment failed completed")
 
 def test_payment_form_validation(cart_page: CartPage, checkout_page: CheckoutPage, payment_page: PaymentPage, login_page: LoginPage, config):
     """Test validation when some card fields are filled"""
@@ -130,44 +127,14 @@ def test_payment_form_validation(cart_page: CartPage, checkout_page: CheckoutPag
     checkout_page.click_on_shipping_address(SHIPPING_DATA)    
     checkout_page.check_shipping_page(DELIVERY_METHOD1, SHIPPING_DATA)
     checkout_page.proceed_to_billing()  
-    checkout_page.select_payment_method(PAYMENT_METHOD1)
+    checkout_page.select_payment_method(PAYMENT_METHOD2)
     checkout_page.proceed_to_review()
     checkout_page.place_order()    
     
     # Verify validation payment form fields
-    payment_page.check_payment_page(PAYMENT_METHOD1)   
-    payment_page.validate_card_number_field()   
-    payment_page.clear_field("cvc")
-    payment_page.clear_field("expiry")
-    payment_page.clear_field("card_holder_name")
-    payment_page.clear_field("card_number")  
-
-    payment_page.validate_card_holder_name_field()
-    payment_page.clear_field("cvc")
-    payment_page.clear_field("expiry")
-    payment_page.clear_field("card_holder_name")
-    payment_page.clear_field("card_number") 
-
-    payment_page.validate_expiry_field()
-    payment_page.clear_field("cvc")
-    payment_page.clear_field("expiry")
-    payment_page.clear_field("card_holder_name")
-    payment_page.clear_field("card_number") 
-
-    payment_page.validate_cvc_field()
-    payment_page.clear_field("cvc")
-    payment_page.clear_field("expiry")
-    payment_page.clear_field("card_holder_name")
-    payment_page.clear_field("card_number") 
-
-    payment_page.validate_cvc_field()
-    payment_page.clear_field("cvc")
-    payment_page.clear_field("expiry")
-    payment_page.clear_field("card_holder_name")
-    payment_page.clear_field("card_number")
-        
-    print("Authorize.Net test form validation completed")
-
-
-
-
+    payment_page.check_payment_page(PAYMENT_METHOD2)    
+    payment_page.cybersource_form_validation()
+    print("Cybersource test form validation completed")
+   
+  
+   
