@@ -7,12 +7,11 @@ class ConfigurationLineItemType(BaseModel):
         from graphql_client.types.money_type import MoneyType
         from graphql_client.types.product import Product
 
-        self.id: str
-        self.text: str | None
-        self.quantity: int
+        self.id: str | None
+        self.quantity: int | None
         self.product: Product | None
-        self.currency: CurrencyType | None
-        self.listPrice: MoneyType | None
-        self.extendedPrice: MoneyType | None
-        self.salePrice: MoneyType | None
-        self.discountAmount: MoneyType | None
+        self.currency: CurrencyType
+        self.listPrice: MoneyType
+        self.extendedPrice: MoneyType
+        self.salePrice: MoneyType
+        self.discountAmount: MoneyType
