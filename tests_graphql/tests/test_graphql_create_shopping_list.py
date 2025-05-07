@@ -3,7 +3,7 @@ from tests_graphql.operations.user.user_operations import UserOperations
 from tests_graphql.operations.shopping_lists.shopping_lists_operations import ShoppingListsOperations
 from tests_graphql.test_data.test_culture import TEST_CULTURE
 from tests_graphql.test_data.test_currency import TEST_CURRENCY
-from tests_graphql.test_data.test_user import TEST_USER
+from tests_graphql.test_data.test_user import TEST_ADMIN_USER
 
 
 @allure.title("Create shopping list (GraphQL)")
@@ -13,7 +13,7 @@ def test_create_shopping_list(config, user_service, graphql_client):
     user_operations = UserOperations(graphql_client)
     shopping_lists_operations = ShoppingListsOperations(graphql_client)
 
-    user_service.sign_in(TEST_USER["username"], TEST_USER["password"])
+    user_service.sign_in(TEST_ADMIN_USER["username"], TEST_ADMIN_USER["password"])
 
     user = user_operations.get_user()
 
