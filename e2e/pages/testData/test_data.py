@@ -121,9 +121,23 @@ ERROR_MESSAGE = {
     "expiry_date_valid": "Expiration date must be in the future",
 
     "cvc": "This field is required",
-    "cvc_format": "Security code must be at least 3 characters"
-   
-    
+    "cvc_format": "Security code must be at least 3 characters" 
+  
+
+}
+
+SKYFLOW_ERROR_MESSAGE = {
+    "card_number_required": "Card Number is required. ",
+    "card_number_invalid": "Invalid Card Number. ",
+
+    "card_holder_name_required": "Cardholder name is required. ",
+    "card_holder_name_invalid": "Invalid Cardholder name. ",
+
+    "expiry_required": "Expiration date is required. ",
+    "expiry_invalid": "Invalid Expiration date. ",
+
+    "cvc_required": "Security code is required. ",
+    "cvc_invalid": "Invalid Security code. "   
 
 }
 

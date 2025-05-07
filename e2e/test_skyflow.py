@@ -218,13 +218,18 @@ def test_payment_failed(cart_page: CartPage, checkout_page: CheckoutPage, paymen
     login_page.logout()
     print("Skyflow test payment failed completed")
 
-@pytest.mark.skip(reason="Skipping test as it is not required")
-def test_payment_form_validation(cart_page: CartPage, checkout_page: CheckoutPage, payment_page: PaymentPage, login_page: LoginPage, config):
+
+def test_payment_form_validation(cart_page: CartPage, checkout_page: CheckoutPage, payment_page: PaymentPage, login_page: LoginPage, saved_credit_cards_page: SavedCreditCardsPage, profile_page: ProfilePage, config):
     """Test validation when some card fields are filled"""
     # Add product to cart
     product_url = PRODUCT["url"]
     product_name = PRODUCT["name"]
     quantity = PRODUCT["initial_quantity"] 
+    payment_info = {
+        "card_number": PAYMENT_SKYFLOW["visa_card_number"],
+        "card_holder_name": PAYMENT_SKYFLOW["card_holder_name"],
+        "expiry": PAYMENT_SKYFLOW["expiry"]        
+    } 
 
    
     login_page.navigate()
@@ -233,6 +238,11 @@ def test_payment_form_validation(cart_page: CartPage, checkout_page: CheckoutPag
     cart_page.click_cart_icon()
     cart_page.clear_cart()
     cart_page.expect_cart_empty() 
+
+    # Go to saved credit cards page
+    profile_page.click_dashboard()
+    saved_credit_cards_page.click_saved_credit_cards_link()
+    saved_credit_cards_page.delete_all_credit_cards()
 
     cart_page.add_product_to_cart(product_url, quantity)   
     cart_page.click_cart_icon()     
@@ -248,32 +258,17 @@ def test_payment_form_validation(cart_page: CartPage, checkout_page: CheckoutPag
     checkout_page.place_order()    
     
     # Verify validation payment form fields
-    payment_page.check_payment_page(PAYMENT_METHOD3)   
-    payment_page.validate_card_number_field()   
-    clear_all_fields(payment_page)
+    payment_page.check_payment_page(PAYMENT_METHOD3)
 
-    payment_page.validate_card_holder_name_field()
-    clear_all_fields(payment_page)
- 
+    # Partial fill
+    payment_page.skyflow_form_partial_fill(payment_info)
+    payment_page.clear_skyflow_form("card_number")    
+    payment_page.clear_skyflow_form("card_holder_name")    
+    payment_page.clear_skyflow_form("expiry")
+    payment_page.clear_skyflow_form("cvc")
+    payment_page.skyflow_form_validation()
 
-    payment_page.validate_expiry_field()
-    clear_all_fields(payment_page)
-  
-
-    payment_page.validate_cvc_field()
-    clear_all_fields(payment_page)
-   
-
-    payment_page.validate_cvc_field()
-    clear_all_fields(payment_page)
- 
-        
-    print("Skyflow test form validation completed")
-
-def clear_all_fields(self):
-    fields = ["cvc", "expiry", "card_holder_name", "card_number"]
-    for field in fields:
-        self.clear_field(field)
+    print("Skyflow test form validation completed")    
 
 
 

@@ -39,4 +39,10 @@ class PaymentPageLocators:
     SHOW_ORDER_BUTTON = "//span[text()='Show order']"
     ERROR_MESSAGE = "//div[@class='vc-input-details__message']"
 
+    # Skyflow Error Messages
+    SKYFLOW_CARD_NUMBER_ERROR = "//span[@id='row-0-error']"
+    SKYFLOW_CARD_HOLDER_NAME_ERROR = "//span[@id='row-1-error']"
+    SKYFLOW_CARD_EXPIRY_ERROR = "//span[@id='row-2-error']"
+    SKYFLOW_CARD_CVC_ERROR = "//span[@id='row-2-error']"
+
 

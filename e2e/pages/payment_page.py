@@ -1,7 +1,7 @@
 from playwright.sync_api import Page, BrowserContext, expect
 from utils.commonLocators.common_components_locators import CommonComponentsLocators
 from e2e.pages.locators.payment_page_locators import PaymentPageLocators
-from e2e.pages.testData.test_data import ERROR_MESSAGE
+from e2e.pages.testData.test_data import ERROR_MESSAGE, SKYFLOW_ERROR_MESSAGE
 
 class PaymentPage:
     def __init__(self, page: Page, config: dict, browser_context: BrowserContext):
@@ -192,14 +192,97 @@ class PaymentPage:
         iframe.locator(PaymentPageLocators.SKYFLOW_CARD_NUMBER).type(payment_info["card_number"], delay=100)
         iframe.locator(PaymentPageLocators.SKYFLOW_CARD_HOLDER_NAME).type(payment_info["card_holder_name"], delay=100)
         iframe.locator(PaymentPageLocators.SKYFLOW_CARD_EXPIRY).type(payment_info["expiry"], delay=100)
-        iframe.locator(PaymentPageLocators.SKYFLOW_CARD_CVC).type(payment_info["cvc"], delay=100)       
+        iframe.locator(PaymentPageLocators.SKYFLOW_CARD_CVC).type(payment_info["cvc"], delay=100) 
 
+    def skyflow_form_validation(self):
+        """Skyflow form validation"""
+        iframe = self.page.frame_locator("(//iframe)[1]")
+        card_input = (iframe.locator(PaymentPageLocators.SKYFLOW_CARD_NUMBER))         
+             
+        # Card Number Validation
+        expect(self.page.locator(PaymentPageLocators.PAY_NOW_BUTTON)).to_be_disabled() 
+        iframe.locator(PaymentPageLocators.SKYFLOW_CARD_NUMBER).type("4", delay=100)
+        self.page.locator(PaymentPageLocators.SKYFLOW_NEW_FORM).click()
+        expect(iframe.locator(PaymentPageLocators.SKYFLOW_CARD_NUMBER_ERROR)).to_contain_text(SKYFLOW_ERROR_MESSAGE["card_number_invalid"])
+        card_input.clear()
+        self.page.locator(PaymentPageLocators.SKYFLOW_NEW_FORM).click()
+        expect(iframe.locator(PaymentPageLocators.SKYFLOW_CARD_NUMBER_ERROR)).to_contain_text(SKYFLOW_ERROR_MESSAGE["card_number_required"])
+
+        # Card Holder Name Validation
+        expect(self.page.locator(PaymentPageLocators.PAY_NOW_BUTTON)).to_be_disabled() 
+        iframe.locator(PaymentPageLocators.SKYFLOW_CARD_HOLDER_NAME).type("Joh000++!_____£$%£$^%*", delay=100) 
+        self.page.locator(PaymentPageLocators.SKYFLOW_NEW_FORM).click()
+        expect(iframe.locator(PaymentPageLocators.SKYFLOW_CARD_HOLDER_NAME_ERROR)).to_contain_text(SKYFLOW_ERROR_MESSAGE["card_holder_name_invalid"])
+        iframe.locator(PaymentPageLocators.SKYFLOW_CARD_HOLDER_NAME).clear()
+        self.page.locator(PaymentPageLocators.SKYFLOW_NEW_FORM).click()
+        expect(iframe.locator(PaymentPageLocators.SKYFLOW_CARD_HOLDER_NAME_ERROR)).to_contain_text(SKYFLOW_ERROR_MESSAGE["card_holder_name_required"])
+        
+        # Expiry Validation and CVC Validation
+        expect(self.page.locator(PaymentPageLocators.PAY_NOW_BUTTON)).to_be_disabled() 
+        iframe.locator(PaymentPageLocators.SKYFLOW_CARD_CVC).type("123", delay=100)
+        iframe.locator(PaymentPageLocators.SKYFLOW_CARD_EXPIRY).type("09/26", delay=100)
+        self.page.locator(PaymentPageLocators.SKYFLOW_NEW_FORM).click()
+     
+        iframe.locator(PaymentPageLocators.SKYFLOW_CARD_EXPIRY).clear()
+        self.page.locator(PaymentPageLocators.SKYFLOW_NEW_FORM).click()
+        expect(iframe.locator(PaymentPageLocators.SKYFLOW_CARD_EXPIRY_ERROR)).to_contain_text(SKYFLOW_ERROR_MESSAGE["expiry_required"])
+
+        iframe.locator(PaymentPageLocators.SKYFLOW_CARD_CVC).type("888", delay=100)
+        iframe.locator(PaymentPageLocators.SKYFLOW_CARD_EXPIRY).type("00/00", delay=100)
+        self.page.locator(PaymentPageLocators.SKYFLOW_NEW_FORM).click()
+        expect(iframe.locator(PaymentPageLocators.SKYFLOW_CARD_EXPIRY_ERROR)).to_contain_text(SKYFLOW_ERROR_MESSAGE["expiry_invalid"])  
+      
+        
+        iframe.locator(PaymentPageLocators.SKYFLOW_CARD_EXPIRY).type("01/2", delay=100)
+        expect(iframe.locator(PaymentPageLocators.SKYFLOW_CARD_EXPIRY_ERROR)).to_contain_text(SKYFLOW_ERROR_MESSAGE["expiry_invalid"])       
+        iframe.locator(PaymentPageLocators.SKYFLOW_CARD_EXPIRY).type("01/", delay=100)
+        expect(iframe.locator(PaymentPageLocators.SKYFLOW_CARD_EXPIRY_ERROR)).to_contain_text(SKYFLOW_ERROR_MESSAGE["expiry_invalid"])
+        iframe.locator(PaymentPageLocators.SKYFLOW_CARD_EXPIRY).clear()
+        self.page.locator(PaymentPageLocators.SKYFLOW_NEW_FORM).click()
+            
+       
+        expect(self.page.locator(PaymentPageLocators.PAY_NOW_BUTTON)).to_be_disabled() 
+        iframe.locator(PaymentPageLocators.SKYFLOW_CARD_EXPIRY).type("09/26", delay=100) 
+        self.page.locator(PaymentPageLocators.SKYFLOW_NEW_FORM).click()
+
+        iframe.locator(PaymentPageLocators.SKYFLOW_CARD_CVC).clear()
+        iframe.locator(PaymentPageLocators.SKYFLOW_CARD_CVC).type("6", delay=100) 
+        self.page.locator(PaymentPageLocators.SKYFLOW_NEW_FORM).click()
+        expect(iframe.locator(PaymentPageLocators.SKYFLOW_CARD_CVC_ERROR)).to_contain_text(SKYFLOW_ERROR_MESSAGE["cvc_invalid"])   
+        iframe.locator(PaymentPageLocators.SKYFLOW_CARD_CVC).clear()
+        self.page.locator(PaymentPageLocators.SKYFLOW_NEW_FORM).click()
+        expect(iframe.locator(PaymentPageLocators.SKYFLOW_CARD_CVC_ERROR)).to_contain_text(SKYFLOW_ERROR_MESSAGE["cvc_required"])
     
+
+    def skyflow_form_partial_fill(self,payment_info: dict):
+        """Skyflow form partial fill"""
+        iframe = self.page.frame_locator("(//iframe)[1]")
+        iframe.locator(PaymentPageLocators.SKYFLOW_CARD_NUMBER).type(payment_info["card_number"], delay=100)
+        iframe.locator(PaymentPageLocators.SKYFLOW_CARD_HOLDER_NAME).type(payment_info["card_holder_name"], delay=100)
+        iframe.locator(PaymentPageLocators.SKYFLOW_CARD_EXPIRY).type(payment_info["expiry"], delay=100)
+        self.page.locator(PaymentPageLocators.SKYFLOW_NEW_FORM).click()
+        expect(iframe.locator(PaymentPageLocators.SKYFLOW_CARD_CVC_ERROR)).to_contain_text(SKYFLOW_ERROR_MESSAGE["cvc_required"])
+        expect(self.page.locator(PaymentPageLocators.PAY_NOW_BUTTON)).to_be_disabled() 
+
+
     def save_card_checkbox(self):
         """Save card checkbox"""
         expect(self.page.locator(CommonComponentsLocators.CHECKBOX)).not_to_be_checked()
         self.page.locator(CommonComponentsLocators.CHECKBOX).click()
-        expect(self.page.locator(CommonComponentsLocators.CHECKBOX)).to_be_checked()    
+        expect(self.page.locator(CommonComponentsLocators.CHECKBOX)).to_be_checked()
+
+    def clear_skyflow_form(self, field: str):
+        """Clear skyflow field"""  
+        iframe = self.page.frame_locator("(//iframe)[1]")
+
+        field_locators = {
+            "card_number": PaymentPageLocators.SKYFLOW_CARD_NUMBER,            
+            "card_holder_name": PaymentPageLocators.SKYFLOW_CARD_HOLDER_NAME,
+            "expiry": PaymentPageLocators.SKYFLOW_CARD_EXPIRY,
+            "cvc": PaymentPageLocators.SKYFLOW_CARD_CVC
+            
+        }
+        iframe.locator(field_locators[field]).clear()   
         
         
         
