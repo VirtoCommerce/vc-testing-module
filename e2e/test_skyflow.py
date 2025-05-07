@@ -162,6 +162,58 @@ def test_payment_success_with_saved_card(cart_page: CartPage, checkout_page: Che
     login_page.logout()
     print("Skyflow test payment success with saved card completed")
 
+
+def test_re_enter_cvv(cart_page: CartPage, checkout_page: CheckoutPage, payment_page: PaymentPage, login_page: LoginPage, saved_credit_cards_page: SavedCreditCardsPage, profile_page: ProfilePage, config):
+    """Payment > Re-enter cvv"""
+    # Setup test data 
+    product_url = PRODUCT["url"]
+    product_name = PRODUCT["name"]
+    quantity = PRODUCT["initial_quantity"]
+    payment_info = {
+        "card_number": PAYMENT_SKYFLOW["visa_card_number"],
+        "card_holder_name": PAYMENT_SKYFLOW["card_holder_name"],
+        "expiry": PAYMENT_SKYFLOW["expiry"],
+        "cvc": PAYMENT_SKYFLOW["cvc"]
+    }    
+
+    # Step 1: Add product to cart as user
+    login_page.navigate()
+    login_page.login(config["username"], config["password"])
+    login_page.expect_successful_login()
+
+    # Go to saved credit cards page
+    profile_page.click_dashboard()
+    saved_credit_cards_page.click_saved_credit_cards_link()
+    saved_credit_cards_page.check_saved_credit_cards()
+
+    # Step 2: Add product to cart
+    cart_page.add_product_to_cart(product_url, quantity)
+
+    # Step 3: Go to cart page
+    cart_page.click_cart_icon() 
+
+    # Step 4: Verify cart count and line item total    
+    cart_page.expect_product_in_cart(product_name, 1)         
+    cart_page.proceed_to_checkout()
+
+    # Checkout steps    
+    checkout_page.select_delivery_method(DELIVERY_METHOD1)
+    checkout_page.click_on_shipping_address(SHIPPING_DATA)    
+    checkout_page.check_shipping_page(DELIVERY_METHOD1, SHIPPING_DATA)
+    checkout_page.proceed_to_billing()
+    checkout_page.select_payment_method(PAYMENT_METHOD3)
+    checkout_page.proceed_to_review()   
+    checkout_page.place_order()
+
+    # Payment page
+    payment_page.check_payment_page(PAYMENT_METHOD3)
+    payment_page.select_saved_card()
+    payment_page.check_payment_success()
+
+    # Step 5: Logout
+    login_page.logout()
+    print("Skyflow test re-enter cvv completed")
+
 def test_payment_failed(cart_page: CartPage, checkout_page: CheckoutPage, payment_page: PaymentPage, login_page: LoginPage, saved_credit_cards_page: SavedCreditCardsPage, profile_page: ProfilePage, config):
     """Payment > Payment Failed. Payment method is set to Skyflow"""
     # Setup test data 
@@ -262,13 +314,18 @@ def test_payment_form_validation(cart_page: CartPage, checkout_page: CheckoutPag
 
     # Partial fill
     payment_page.skyflow_form_partial_fill(payment_info)
+    cleanup(payment_page)
+    payment_page.skyflow_form_validation()
+
+    print("Skyflow test form validation completed")   
+
+def cleanup(payment_page: PaymentPage):
+    """Clear skyflow form"""
     payment_page.clear_skyflow_form("card_number")    
     payment_page.clear_skyflow_form("card_holder_name")    
     payment_page.clear_skyflow_form("expiry")
     payment_page.clear_skyflow_form("cvc")
-    payment_page.skyflow_form_validation()
 
-    print("Skyflow test form validation completed")    
 
 
 

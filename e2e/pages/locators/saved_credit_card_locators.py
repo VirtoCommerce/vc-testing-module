@@ -7,7 +7,7 @@ class SavedCreditCardsPageLocators:
     ACCOUNT_NAVIGATION = "//span[text()='Saved credit cards']"
     CREDIT_CARD_FIELD = "(//div[@class='credit-card'])[{}]"
     ALL_CREDIT_CARDS = "//div[@class='credit-card']"
-    REMOVE_BUTTON = "(//button[@aria-label='Remove credit card'])[1]"
+    REMOVE_BUTTON = "(//button[@aria-label='Remove credit card'])[1]"  
    
 
 

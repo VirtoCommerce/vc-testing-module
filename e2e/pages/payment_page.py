@@ -1,7 +1,7 @@
 from playwright.sync_api import Page, BrowserContext, expect
 from utils.commonLocators.common_components_locators import CommonComponentsLocators
 from e2e.pages.locators.payment_page_locators import PaymentPageLocators
-from e2e.pages.testData.test_data import ERROR_MESSAGE, SKYFLOW_ERROR_MESSAGE
+from e2e.pages.testData.test_data import ERROR_MESSAGE, SKYFLOW_ERROR_MESSAGE, PAYMENT_SKYFLOW
 
 class PaymentPage:
     def __init__(self, page: Page, config: dict, browser_context: BrowserContext):
@@ -16,6 +16,8 @@ class PaymentPage:
         self.page.locator(PaymentPageLocators.PAYMENT_PAGE_TITLE).wait_for(state="visible")
         self.page.locator(PaymentPageLocators.PAYMENT_METHOD.format(payment_method)).wait_for(state="visible")
         self.page.locator(PaymentPageLocators.PAYMENT_FORM).wait_for(state="visible")
+        self.page.wait_for_selector(CommonComponentsLocators.VC_LOADER_OVERLAY_SPINNER, state="hidden")   
+        expect(self.page.locator(PaymentPageLocators.PAY_NOW_BUTTON)).to_be_disabled()
         print(f"Payment form is loaded")
 
         
@@ -270,6 +272,29 @@ class PaymentPage:
         expect(self.page.locator(CommonComponentsLocators.CHECKBOX)).not_to_be_checked()
         self.page.locator(CommonComponentsLocators.CHECKBOX).click()
         expect(self.page.locator(CommonComponentsLocators.CHECKBOX)).to_be_checked()
+    
+    def select_saved_card(self):
+        """Select saved card"""
+        self.page.locator(PaymentPageLocators.SELECT_SAVED_CREDIT_CARD).click()
+        self.page.locator(PaymentPageLocators.DROP_DOWN_LIST).wait_for(state="visible")
+        expect(self.page.locator(PaymentPageLocators.ADD_NEW_CREDIT_CARD)).to_be_visible()
+        self.page.locator(PaymentPageLocators.SAVED_CREDIT_CARD_ITEM).click()        
+        self.page.wait_for_selector(CommonComponentsLocators.VC_LOADER_OVERLAY_SPINNER, state="hidden")
+        iframe = self.page.frame_locator("(//iframe)[1]")
+        expect(iframe.locator(PaymentPageLocators.SKYFLOW_CARD_CVC)).to_be_visible()       
+        self.re_enter_cvv(PAYMENT_SKYFLOW["cvc"])
+        self.page.locator(PaymentPageLocators.PAY_NOW_TEXT).click()
+        self.page.wait_for_selector(CommonComponentsLocators.VC_LOADER_OVERLAY_SPINNER, state="hidden")
+    
+    def re_enter_cvv(self, cvc: str):
+        """Re-enter cvv"""
+        iframe = self.page.frame_locator("(//iframe)[1]")
+
+        expect(self.page.locator(PaymentPageLocators.PAY_NOW_BUTTON_ENABLED)).to_be_disabled()
+        iframe.locator(PaymentPageLocators.SKYFLOW_CARD_CVC).type(cvc, delay=100)
+        self.page.wait_for_timeout(1000)     
+        expect(self.page.locator(PaymentPageLocators.PAY_NOW_BUTTON_ENABLED)).to_be_enabled()
+        
 
     def clear_skyflow_form(self, field: str):
         """Clear skyflow field"""  
