@@ -43,4 +43,6 @@ def test_get_shopping_lists(config, user_service, graphql_client):
         }
     )
 
+    user_service.sign_out()
+
     assert shopping_lists_response["totalCount"] == 1
