@@ -5,4 +5,9 @@ SHOPPING_LIST_FRAGMENT = """
     customerId
     itemsCount
     scope
+    items {
+        id
+        productId
+        quantity
+    }
 """
