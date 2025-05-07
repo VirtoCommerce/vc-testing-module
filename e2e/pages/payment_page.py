@@ -294,7 +294,16 @@ class PaymentPage:
         iframe.locator(PaymentPageLocators.SKYFLOW_CARD_CVC).type(cvc, delay=100)
         self.page.wait_for_timeout(1000)     
         expect(self.page.locator(PaymentPageLocators.PAY_NOW_BUTTON_ENABLED)).to_be_enabled()
-        
+    
+    def add_new_card(self):
+        """Add new card"""
+        self.page.locator(PaymentPageLocators.SELECT_SAVED_CREDIT_CARD).click()
+        self.page.locator(PaymentPageLocators.DROP_DOWN_LIST).wait_for(state="visible")
+        expect(self.page.locator(PaymentPageLocators.ADD_NEW_CREDIT_CARD)).to_be_visible()
+        self.page.locator(PaymentPageLocators.ADD_NEW_CREDIT_CARD).click()
+        self.page.wait_for_selector(CommonComponentsLocators.VC_LOADER_OVERLAY_SPINNER, state="hidden")
+        expect(self.page.locator(PaymentPageLocators.SKYFLOW_NEW_FORM)).to_be_visible()
+        expect(self.page.locator(PaymentPageLocators.PAY_NOW_BUTTON_ENABLED)).to_be_disabled()
 
     def clear_skyflow_form(self, field: str):
         """Clear skyflow field"""  
