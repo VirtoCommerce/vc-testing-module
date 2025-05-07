@@ -8,6 +8,7 @@ from graphql_client.mutations.remove_wishlist import RemoveWishlistMutation
 from graphql_client.types.wishlist_connection import WishlistConnection
 from graphql_client.queries.wishlists import WishlistsQuery
 from graphql_client.queries.wishlist import WishlistQuery
+from graphql_client.mutations.add_wishlist_item import AddWishlistItemMutation
 
 
 class ShoppingListsOperations:
@@ -44,6 +45,15 @@ class ShoppingListsOperations:
         variables = {"listId": list_id, "cultureName": culture_name}
 
         result = wishlist_query.execute(variables=variables, return_fields=SHOPPING_LIST_FRAGMENT)
+
+        return result
+
+    def add_item_to_shopping_list(self, list_id: str, product_id: str, quantity: int) -> WishlistType:
+        add_item_to_wishlist_mutation = AddWishlistItemMutation(self.graphql_client)
+
+        variables = {"command": {"listId": list_id, "productId": product_id, "quantity": quantity}}
+
+        result = add_item_to_wishlist_mutation.execute(variables=variables, return_fields=SHOPPING_LIST_FRAGMENT)
 
         return result
 
