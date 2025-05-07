@@ -3,8 +3,8 @@ from pydantic import BaseModel
 
 class RegisterOrganizationType(BaseModel):
     def __init__(self):
-        from graphql_client.types.dynamic_property_value_type import DynamicPropertyValueType
         from graphql_client.types.member_address_type import MemberAddressType
+        from graphql_client.types.dynamic_property_value_type import DynamicPropertyValueType
 
         self.id: str
         self.name: str

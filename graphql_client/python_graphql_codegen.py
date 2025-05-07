@@ -70,6 +70,7 @@ def graphql_type_to_python_type(graphql_type: GraphQLType) -> str:
     # Handle list types
     if isinstance(graphql_type, GraphQLList):
         inner_type = graphql_type_to_python_type(graphql_type.of_type)
+
         return f"list[{inner_type}]"
 
     # Handle non-null types
@@ -105,6 +106,7 @@ def get_import_lines(directory_path: str, imports: set, indent: int = 0) -> list
         # Handle list types by extracting the inner type
         if item.startswith("list["):
             inner_type = item[5:-1]  # Remove 'list[' and ']'
+
             if inner_type not in python_types_import_map:
                 module_path = f"{directory_path.replace('/', '.')}.{underscore(inner_type)}"
                 result.append(f"{tabs}from {module_path} import {inner_type}")
@@ -134,6 +136,7 @@ def get_type_class_content(
     imports = set()
 
     content_lines = ["from pydantic import BaseModel"]
+    content_lines.append("")
     content_lines.append("")
 
     content_lines.append(f"class {graphql_type.name}(BaseModel):")
@@ -165,13 +168,13 @@ def get_type_class_content(
             content_lines.append(f"        self.{field_name}: {field_type}{optional_suffix}")
     elif isinstance(graphql_type, GraphQLEnumType):
         for value_name in graphql_type.values:
-            content_lines.append(f"    {value_name} = '{value_name}'")
+            content_lines.append(f'    {value_name} = "{value_name}"')
     else:
         content_lines.append("    pass")
 
     content_lines.append("")
 
-    content_lines[4:2] = get_import_lines(import_type_dir, imports, indent=2)
+    content_lines[5:2] = get_import_lines(import_type_dir, imports, indent=2)
 
     return "\n".join(content_lines)
 
@@ -182,12 +185,16 @@ def get_request_class_content(request_name: str, request_field, request_type="qu
     content_lines = ["from gql import gql"]
 
     return_type = graphql_type_to_python_type(request_field.type)
+    import_type = return_type
+
+    if return_type.startswith("list["):
+        import_type = return_type[5:-1]
 
     if return_type in python_types_import_map and python_types_import_map[return_type] is not None:
         content_lines.append(f"from graphql_client.types.{python_types_import_map[return_type]} import {return_type}")
 
     if return_type not in python_types_import_map:
-        content_lines.append(f"from graphql_client.types.{underscore(return_type)} import {return_type}")
+        content_lines.append(f"from graphql_client.types.{underscore(import_type)} import {import_type}")
 
     content_lines.append("")
 
@@ -218,7 +225,7 @@ def get_request_class_content(request_name: str, request_field, request_type="qu
         content_lines.append("                }}")
     content_lines.append("            }}")
     content_lines.append('        """\n')
-    content_lines.append(f"        return self.graphql_client.execute(gql(query_string), variables)['{request_name}']")
+    content_lines.append(f'        return self.graphql_client.execute(gql(query_string), variables)["{request_name}"]')
     content_lines.append("")
 
     content = "\n".join(content_lines)
