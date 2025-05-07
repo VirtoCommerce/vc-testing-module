@@ -11,6 +11,13 @@ class PaymentPageLocators:
   
     CYBERSOURCE_CARD_NUMBER = "//input[@id='number']"
     CYBERSOURCE_CARD_CVC = "//input[@id='securityCode']" 
+
+    # Skyflow
+    SKYFLOW_NEW_FORM = "//div[@class='p-5 md:p-6']"
+    SKYFLOW_CARD_NUMBER = "//input[@data-row-id='row-0']"
+    SKYFLOW_CARD_HOLDER_NAME = "//input[@data-row-id='row-1']"
+    SKYFLOW_CARD_EXPIRY = "//input[@name='card_expiration']"
+    SKYFLOW_CARD_CVC = "//input[@name='cvv']"  
         
 
     # Credit Card Fields

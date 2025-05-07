@@ -81,6 +81,18 @@ PAYMENT_CYBERSOURCE_FAILED = {
     "cvc": "500"
 }
 
+PAYMENT_SKYFLOW = {
+    "visa_card_number": "4007000000027",
+    "master_card_number": "5424000000000015",
+    "amex_card_number": "370000000000002",
+    "discover_card_number": "6011111111111117",  
+    "jcb_card_number": "3088000000000017",
+    "expiry": "10/29",
+    "cvc": "900",
+    "card_holder_name": "John Doe"
+}
+
+
 PRODUCT = {
         "url": "printers/multifunction-printers/laser-color/epson-workforce-wf-3640-all-in-one-printer",
         "name": "ZZZitem for theme performance. Don't delete! Printer Epson",

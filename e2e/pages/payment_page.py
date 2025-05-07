@@ -17,6 +17,13 @@ class PaymentPage:
         self.page.locator(PaymentPageLocators.PAYMENT_METHOD.format(payment_method)).wait_for(state="visible")
         self.page.locator(PaymentPageLocators.PAYMENT_FORM).wait_for(state="visible")
         print(f"Payment form is loaded")
+
+        
+    def click_pay_now_button(self):
+        """Click on the Pay Now button and wait for the payment to process"""
+        expect(self.page.locator(PaymentPageLocators.PAY_NOW_BUTTON)).to_be_enabled()
+        self.page.locator(PaymentPageLocators.PAY_NOW_BUTTON).click()
+        self.page.wait_for_selector(CommonComponentsLocators.VC_LOADER_OVERLAY_SPINNER, state="hidden")        
     
     def fill_payment_details(self, payment_info: dict):
         """Fill payment details"""
@@ -25,9 +32,7 @@ class PaymentPage:
         self.page.locator(PaymentPageLocators.CARD_EXPIRY).type(payment_info["expiry"], delay=100)
         self.page.locator(PaymentPageLocators.CARD_CVC).type(payment_info["cvc"], delay=100)
         expect(self.page.locator(PaymentPageLocators.PAY_NOW_BUTTON)).to_be_visible()        
-        self.page.locator(PaymentPageLocators.PAY_NOW_BUTTON).click()
-        self.page.wait_for_load_state("networkidle")
-        self.page.wait_for_selector(CommonComponentsLocators.VC_LOADER_OVERLAY_SPINNER, state="hidden") 
+        self.click_pay_now_button()
     
     def fill_cybersource_payment_details(self, payment_info: dict):
         """Fill CyberSource payment details"""
@@ -41,9 +46,7 @@ class PaymentPage:
         self.page.locator(PaymentPageLocators.CARD_EXPIRY).type(payment_info["expiry"], delay=100)
         iframe_card_cvc.locator(PaymentPageLocators.CYBERSOURCE_CARD_CVC).type(payment_info["cvc"], delay=100)
         self.page.locator(PaymentPageLocators.PAYMENT_FORM_CYBERSOURCE).click()     
-        self.page.locator(PaymentPageLocators.PAY_NOW_BUTTON).click()
-        self.page.wait_for_selector(CommonComponentsLocators.VC_LOADER_OVERLAY_SPINNER, state="hidden")
-        self.page.wait_for_load_state("networkidle")
+        self.click_pay_now_button()
 
     def cybersource_form_validation(self):
         """Cybersource form validation"""
@@ -90,8 +93,7 @@ class PaymentPage:
 
 
     def check_payment_failure(self):
-        """Check payment failure"""
-        self.page.wait_for_timeout(10000)
+        """Check payment failure"""        
         self.page.locator(PaymentPageLocators.PAYMENT_FAILURE).wait_for(state="visible")
         expect(self.page).to_have_url(self.config["base_url"] + PaymentPageLocators.PAYMENT_FAILURE_URL)
         print(f"Expected result: payment failure")
@@ -166,11 +168,9 @@ class PaymentPage:
         self.expect_validation_message(ERROR_MESSAGE["cvc_format"])
         expect(self.page.locator(PaymentPageLocators.PAY_NOW_BUTTON)).to_be_disabled()     
         self.clear_field("cvc")  
-        self.expect_validation_message(ERROR_MESSAGE["cvc"])
-       
+        self.expect_validation_message(ERROR_MESSAGE["cvc"])    
         
         
-
     def clear_field(self, field: str):
         """Clear field"""  
 
@@ -182,6 +182,28 @@ class PaymentPage:
             
         }
         self.page.locator(field_locators[field]).fill("")
+
+    def skyflow_new_form_fill(self,payment_info: dict):
+        """Skyflow new form fill"""
+
+        iframe = self.page.frame_locator("(//iframe)[1]")  
+
+        expect(self.page.locator(CommonComponentsLocators.CHECKBOX)).not_to_be_checked()        
+        iframe.locator(PaymentPageLocators.SKYFLOW_CARD_NUMBER).type(payment_info["card_number"], delay=100)
+        iframe.locator(PaymentPageLocators.SKYFLOW_CARD_HOLDER_NAME).type(payment_info["card_holder_name"], delay=100)
+        iframe.locator(PaymentPageLocators.SKYFLOW_CARD_EXPIRY).type(payment_info["expiry"], delay=100)
+        iframe.locator(PaymentPageLocators.SKYFLOW_CARD_CVC).type(payment_info["cvc"], delay=100)       
+
+    
+    def save_card_checkbox(self):
+        """Save card checkbox"""
+        expect(self.page.locator(CommonComponentsLocators.CHECKBOX)).not_to_be_checked()
+        self.page.locator(CommonComponentsLocators.CHECKBOX).click()
+        expect(self.page.locator(CommonComponentsLocators.CHECKBOX)).to_be_checked()    
+        
+        
+        
+        
         
         
         
