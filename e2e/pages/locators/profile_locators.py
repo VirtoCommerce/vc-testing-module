@@ -7,5 +7,6 @@ class ProfileLocators:
     BUTTON_OK = "//span[text()='OK']"
     PROFILE_LINK = "(//span[@class='account-navigation-item__text'])[2]"    
     DEFAULT_CURRENCY = "//input[@placeholder=\"{}\"]"
-    CURRENCY_SELECTOR_OPTION_USD = "//div[2]/div/div[2]/div[2]/ul/li[1]/button/span[2]"
-    CURRENCY_SELECTOR_OPTION_EUR = "//div[2]/div/div[2]/div[2]/ul/li[5]/button/span[2]"
+    CURRENCY_SELECTOR_OPTION_USD = "(//span[(text())='USD'])[last()]"
+    CURRENCY_SELECTOR_OPTION_EUR = "(//span[(text())='EUR'])[last()]"
+    

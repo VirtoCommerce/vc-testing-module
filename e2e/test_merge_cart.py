@@ -3,6 +3,7 @@ from playwright.sync_api import Page
 from e2e.pages.cart_page import CartPage
 from e2e.pages.login_page import LoginPage
 from utils.logout import LogoutPage
+from e2e.pages.testData.test_data import MERGE_CART_USER_PRODUCT, MERGE_CART_ANONYMOUS_PRODUCT
 
 
 @pytest.fixture
@@ -46,10 +47,10 @@ def test_merge_cart_anonymous_to_logged_in(cart_page: CartPage, login_page: Logi
     5. Verify cart contents persist
     """
     # Preconditions
-    product_url = "printers/multifunction-printers/laser-color/epson-workforce-wf-3640-all-in-one-printer"  # Replace with actual product name
-    product_name = "ZZZitem for theme performance. Don't delete! Printer Epson"
-    quantity = 2
-    price = 60.00 # Replace with actual product price
+    product_url = MERGE_CART_ANONYMOUS_PRODUCT["url"]  # Replace with actual product name
+    product_name = MERGE_CART_ANONYMOUS_PRODUCT["name"]
+    quantity = MERGE_CART_ANONYMOUS_PRODUCT["quantity"]
+    price = MERGE_CART_ANONYMOUS_PRODUCT["price"] # Replace with actual product price
 
     # Step 1: Add product to cart as anonymous user
     cart_page.add_product_to_cart(product_url, quantity)
@@ -84,15 +85,15 @@ def test_merge_anonymous_user_cart(cart_page: CartPage, login_page: LoginPage, l
     6. Verify merged cart contains all products
     """
     # Test data
-    user_product = "HP Color LaserJet Enterprise Flow MFP M577z Wireless Printer, Copy/Fax/Print/Scan"
-    user_url = "printers/multifunction-printers/laser-color/hp-color-laserjet-enterprise-flow-mfp-m577z-wireless-printer-copyfaxprintscan-color-black-white"
-    user_quantity = 2
-    user_price = 750.00
-    
-    anonymous_product = "ZZZitem for theme performance. Don't delete! Printer Epson"
-    anonymous_url = "printers/multifunction-printers/laser-color/epson-workforce-wf-3640-all-in-one-printer"
-    anonymous_quantity = 1
-    anonymous_price = 60.00
+    user_product = MERGE_CART_USER_PRODUCT["name"]
+    user_url = MERGE_CART_USER_PRODUCT["url"]
+    user_price = MERGE_CART_USER_PRODUCT["price"]
+    user_quantity = MERGE_CART_USER_PRODUCT["quantity"]
+
+    anonymous_product = MERGE_CART_ANONYMOUS_PRODUCT["name"]
+    anonymous_url = MERGE_CART_ANONYMOUS_PRODUCT["url"]
+    anonymous_quantity = MERGE_CART_ANONYMOUS_PRODUCT["quantity"]
+    anonymous_price = MERGE_CART_ANONYMOUS_PRODUCT["price"]
 
     # Step 1: Login as user
     login_page.navigate()
