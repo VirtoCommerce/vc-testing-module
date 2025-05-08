@@ -4,7 +4,8 @@ import string
 def generate_random_company_name():
     """Generate a random company name in the format: [E2E] Playwright{random digit}"""
     random_digit = random.randint(1, 9999)
-    return f"[E2E] Playwright{random_digit}"
+    random_char = random.choice(string.ascii_uppercase)
+    return f"Playwright_{random_digit}:{random_char}"
 
 def generate_random_email():
     """Generate a random email address in the format: [E2E] Playwright{random digit}@example.com"""
@@ -96,7 +97,7 @@ userData = [
     {
 
         "first_name": "Sherill",
-        "last_name": "Swanborrow[playwright]",
+        "last_name": "Swanborrow[Playwright]",
         "email": "sswanborrow2@nationalgeographic.com",
         "gender": "Female",
         "password": "P1lMfd8Jt",
@@ -107,7 +108,7 @@ userData = [
     {
 
         "first_name": "Simona",
-        "last_name": "Thring[playwright]",
+        "last_name": "Thring[Playwright]",
         "email": "sthring3@a8.net",
         "gender": "Female",
         "password": "Simona0B1r1pI",
@@ -118,7 +119,7 @@ userData = [
     {
 
         "first_name": "Bartholemy",
-        "last_name": "Osselton[playwright]",
+        "last_name": "Osselton[Playwright]",
         "email": "bosselton4@hubpages.com",
         "gender": "Male",
         "password": "3PYaY1",
@@ -129,7 +130,7 @@ userData = [
     {
 
         "first_name": "Tripp",
-        "last_name": "Bigrigg[playwright]",
+        "last_name": "Bigrigg[Playwright]",
         "email": "tbigrigg5@drupal.org",
         "gender": "Male",
         "password": "IycpEnadmm",
@@ -139,7 +140,7 @@ userData = [
     },
     {
         "first_name": "Ross",
-        "last_name": "Bagott[playwright]",
+        "last_name": "Bagott[Playwright]",
         "email": "rbagott6@msn.com",
         "gender": "Male",
         "password": "NnY7w9aMg",
@@ -150,7 +151,7 @@ userData = [
     {
 
         "first_name": "Alexia",
-        "last_name": "Lince[playwright]",
+        "last_name": "Lince[Playwright]",
         "email": "alince7@hugedomains.com",
         "gender": "Female",
         "password": "B5Ijp6o",
@@ -161,7 +162,7 @@ userData = [
     {
 
         "first_name": "Yorker",
-        "last_name": "Kiffe[playwright]",
+        "last_name": "Kiffe[Playwright]",
         "email": "ykiffe8@imageshack.us",
         "gender": "Genderfluid",
         "password": "tOYhbcY",
@@ -172,7 +173,7 @@ userData = [
     {
 
         "first_name": "Sylas",
-        "last_name": "Crickmore[playwright]",
+        "last_name": "Crickmore[Playwright]",
         "email": "scrickmore9@yellowbook.com",
         "gender": "Male",
         "password": "uyek7BUT",
@@ -183,7 +184,7 @@ userData = [
     {
 
         "first_name": "Marthena",
-        "last_name": "Ginnally[playwright]",
+        "last_name": "Ginnally[Playwright]",
         "email": "mginnallya@cdbaby.com",
         "gender": "Female",
         "password": "dS5xmFZk",
@@ -194,7 +195,7 @@ userData = [
     {
 
         "first_name": "Shir",
-        "last_name": "Brandoni[playwright]",
+        "last_name": "Brandoni[Playwright]",
         "email": "sbrandonib@csmonitor.com",
         "gender": "Female",
         "password": "25UvIeV",
@@ -205,7 +206,7 @@ userData = [
     {
 
         "first_name": "Wells",
-        "last_name": "Hursey[playwright]",
+        "last_name": "Hursey[Playwright]",
         "email": "whurseyc@ustream.tv",
         "gender": "Male",
         "password": "eo0ygmqgYc",
@@ -216,7 +217,7 @@ userData = [
     {
 
         "first_name": "Zacharia",
-        "last_name": "Garrould[playwright]",
+        "last_name": "Garrould[Playwright]",
         "email": "zgarrouldd@usa.gov",
         "gender": "Male",
         "password": "370KcO",
@@ -226,7 +227,7 @@ userData = [
     },
     {
         "first_name": "Drona",
-        "last_name": "Kinsett[playwright]",
+        "last_name": "Kinsett[Playwright]",
         "email": "dkinsette@amazon.de",
         "gender": "Female",
         "password": "76aSZIp3vw6u",
@@ -236,7 +237,7 @@ userData = [
     },
     {
         "first_name": "Eunice",
-        "last_name": "Camelin[playwright]",
+        "last_name": "Camelin[Playwright]",
         "email": "ecamelinf@youtube.com",
         "gender": "Female",
         "password": "0Sy55ffLSY",
@@ -246,7 +247,7 @@ userData = [
     },
     {
         "first_name": "Loleta",
-        "last_name": "Fearnsides[playwright]",
+        "last_name": "Fearnsides[Playwright]",
         "email": "lfearnsidesg@ask.com",
         "gender": "Female",
         "password": "zdNHfouCfZf",
@@ -256,7 +257,7 @@ userData = [
     },
     {
         "first_name": "Pace",
-        "last_name": "Paulmann[playwright]",
+        "last_name": "Paulmann[Playwright]",
         "email": "ppaulmannh@sciencedaily.com",
         "gender": "Male",
         "password": "bMIUj8",
@@ -266,7 +267,7 @@ userData = [
     },
     {
         "first_name": "Clair",
-        "last_name": "Finby[playwright]",
+        "last_name": "Finby[Playwright]",
         "email": "cfinbyi@gmpg.org",
         "gender": "Female",
         "password": "l7Qw5nP9rDbZ",

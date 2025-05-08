@@ -35,6 +35,7 @@ class CheckoutLocators:
     ORDER_REVIEW_ITEMS = "//div[@class='vc-line-items']"    
     
     # Buttons and Actions
-    PROCEED_TO_BILLING_BUTTON = "//button[@data-test-id='proceed-to-button']"
-    PROCEED_TO_REVIEW_BUTTON = "//button[@data-test-id='proceed-to-button']"
-        
+    PROCEED_TO_BILLING_BUTTON = "//a[@data-test-id='proceed-to-button']"
+    PROCEED_TO_REVIEW_BUTTON = "//a[@data-test-id='proceed-to-button']"
+    PLACE_ORDER_BUTTON = "//button[@data-test-id='proceed-to-button']"
+  
