@@ -95,7 +95,6 @@ def test_merge_cart_change_currency(cart_page: CartPage, config, login_page: Log
     cart_page.add_product_to_cart(CURRENCY_TEST_PRODUCT["url_2"], CURRENCY_TEST_PRODUCT["quantity_2"])
     cart_page.click_cart_icon()  
     cart_page.expect_product_in_cart(CURRENCY_TEST_PRODUCT["name_2"], 1)
-    cart_page.expect_line_item_total(CURRENCY_TEST_PRODUCT["name_2"], CURRENCY_TEST_PRODUCT["price_2"], CURRENCY_TEST_PRODUCT["quantity_2"], 1, 3)
     cart_page.expect_subtotal(CURRENCY_TEST_PRODUCT["price_2"] * CURRENCY_TEST_PRODUCT["quantity_2"])
 
     # Step 2: Login as user

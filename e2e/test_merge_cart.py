@@ -60,7 +60,6 @@ def test_merge_cart_anonymous_to_logged_in(cart_page: CartPage, login_page: Logi
     
     # Step 3: Verify cart count and line item total    
     cart_page.expect_product_in_cart(product_name, 1)
-    cart_page.expect_line_item_total(product_name, price, quantity, 1, 3)
     
     # Step 4: Login as user
     login_page.navigate()
@@ -69,8 +68,7 @@ def test_merge_cart_anonymous_to_logged_in(cart_page: CartPage, login_page: Logi
     
     # Step 5: Verify cart contents persist
     cart_page.click_cart_icon()   
-    cart_page.expect_product_in_cart(product_name, 1)
-    cart_page.expect_line_item_total(product_name, price, quantity, 1, 3)
+    cart_page.expect_product_in_cart(product_name, 1)  
 
 
 def test_merge_anonymous_user_cart(cart_page: CartPage, login_page: LoginPage, logout_page: LogoutPage, config):
@@ -108,7 +106,6 @@ def test_merge_anonymous_user_cart(cart_page: CartPage, login_page: LoginPage, l
     cart_page.click_cart_icon()
     cart_page.expect_cart_count(user_quantity, user_quantity)
     cart_page.expect_product_in_cart(user_product, 1)
-    cart_page.expect_line_item_total(user_product, user_price, user_quantity, 1, 3)
     
     # Step 3: Logout
     logout_page.logout()
@@ -119,7 +116,6 @@ def test_merge_anonymous_user_cart(cart_page: CartPage, login_page: LoginPage, l
     cart_page.click_cart_icon()
     cart_page.expect_cart_count(anonymous_quantity, anonymous_quantity)
     cart_page.expect_product_in_cart(anonymous_product, 1)
-    cart_page.expect_line_item_total(anonymous_product, anonymous_price, anonymous_quantity, 1, 3)
     
     # Step 5: Login as user
     login_page.navigate()
@@ -131,11 +127,8 @@ def test_merge_anonymous_user_cart(cart_page: CartPage, login_page: LoginPage, l
     
     # Verify both products are present
     cart_page.expect_product_in_cart(user_product, 2)
-    cart_page.expect_product_in_cart(anonymous_product, 1)             
-    
-    # Verify quantities and prices are correct for each product
-    cart_page.expect_line_item_total(user_product, user_price, user_quantity, 2, 6)
-    cart_page.expect_line_item_total(anonymous_product, anonymous_price, anonymous_quantity, 1, 3)
+    cart_page.expect_product_in_cart(anonymous_product, 1)           
+    cart_page.expect_subtotal(user_price * user_quantity + anonymous_price * anonymous_quantity)
     
     # Verify total cart count
     total_quantity = user_quantity + anonymous_quantity

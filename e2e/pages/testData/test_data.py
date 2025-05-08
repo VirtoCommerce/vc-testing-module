@@ -1,7 +1,7 @@
 # Currency test data
 CURRENCY_TEST_PRODUCT = {
     "url": "printers/multifunction-printers/laser-color/epson-workforce-wf-3640-all-in-one-printer",
-    "name": "ZZZitem for theme performance. Don't delete! Printer Epson",
+    "name": "Epson WorkForce WF-3640 All-in-One Printer",
     "quantity": 2,
     "price": 60.00,
     "url_2": "e2e-test-electronics/e2e-test-asus-expertbook-b5-b5604",
@@ -20,7 +20,7 @@ MERGE_CART_USER_PRODUCT = {
 
 MERGE_CART_ANONYMOUS_PRODUCT = {
     "url": "printers/multifunction-printers/laser-color/epson-workforce-wf-3640-all-in-one-printer",
-    "name": "ZZZitem for theme performance. Don't delete! Printer Epson",
+    "name": "Epson WorkForce WF-3640 All-in-One Printer",
     "quantity": 1,
     "price": 60.00
 }
@@ -81,9 +81,21 @@ PAYMENT_CYBERSOURCE_FAILED = {
     "cvc": "500"
 }
 
+PAYMENT_SKYFLOW = {
+    "visa_card_number": "4007000000027",
+    "master_card_number": "5424000000000015",
+    "amex_card_number": "370000000000002",
+    "discover_card_number": "6011111111111117",  
+    "jcb_card_number": "3088000000000017",
+    "expiry": "10/29",
+    "cvc": "900",
+    "card_holder_name": "John Doe"
+}
+
+
 PRODUCT = {
         "url": "printers/multifunction-printers/laser-color/epson-workforce-wf-3640-all-in-one-printer",
-        "name": "ZZZitem for theme performance. Don't delete! Printer Epson",
+        "name": "Epson WorkForce WF-3640 All-in-One Printer",
         "initial_quantity": 2,
         "updated_quantity": 3,
         "price": 60.00
@@ -109,9 +121,23 @@ ERROR_MESSAGE = {
     "expiry_date_valid": "Expiration date must be in the future",
 
     "cvc": "This field is required",
-    "cvc_format": "Security code must be at least 3 characters"
-   
-    
+    "cvc_format": "Security code must be at least 3 characters" 
+  
+
+}
+
+SKYFLOW_ERROR_MESSAGE = {
+    "card_number_required": "Card Number is required. ",
+    "card_number_invalid": "Invalid Card Number. ",
+
+    "card_holder_name_required": "Cardholder name is required. ",
+    "card_holder_name_invalid": "Invalid Cardholder name. ",
+
+    "expiry_required": "Expiration date is required. ",
+    "expiry_invalid": "Invalid Expiration date. ",
+
+    "cvc_required": "Security code is required. ",
+    "cvc_invalid": "Invalid Security code. "   
 
 }
 
