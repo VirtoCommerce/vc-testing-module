@@ -158,12 +158,6 @@ def test_payment_form_validation(cart_page: CartPage, checkout_page: CheckoutPag
     payment_page.clear_field("cvc")
     payment_page.clear_field("expiry")
     payment_page.clear_field("card_holder_name")
-    payment_page.clear_field("card_number") 
-
-    payment_page.validate_cvc_field()
-    payment_page.clear_field("cvc")
-    payment_page.clear_field("expiry")
-    payment_page.clear_field("card_holder_name")
     payment_page.clear_field("card_number")
         
     print("Authorize.Net test form validation completed")
