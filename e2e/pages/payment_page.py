@@ -1,4 +1,4 @@
-from playwright.sync_api import Page, BrowserContext, expect
+from playwright.sync_api import Page, BrowserContext, expect, TimeoutError
 from utils.commonLocators.common_components_locators import CommonComponentsLocators
 from e2e.pages.locators.payment_page_locators import PaymentPageLocators
 from e2e.pages.testData.test_data import ERROR_MESSAGE, SKYFLOW_ERROR_MESSAGE, PAYMENT_SKYFLOW
@@ -11,21 +11,35 @@ class PaymentPage:
 
     def check_payment_page(self, payment_method: str):
         """Check payment page"""
-        expect(self.page).to_have_url(self.config["base_url"] + PaymentPageLocators.PAYMENT_PAGE_URL)
-        print(f"Payment page URL: {self.config['base_url'] + PaymentPageLocators.PAYMENT_PAGE_URL}")
-        self.page.locator(PaymentPageLocators.PAYMENT_PAGE_TITLE).wait_for(state="visible")
-        self.page.locator(PaymentPageLocators.PAYMENT_METHOD.format(payment_method)).wait_for(state="visible")
-        self.page.locator(PaymentPageLocators.PAYMENT_FORM).wait_for(state="visible")
-        self.page.wait_for_selector(CommonComponentsLocators.VC_LOADER_OVERLAY_SPINNER, state="hidden")   
-        expect(self.page.locator(PaymentPageLocators.PAY_NOW_BUTTON)).to_be_disabled()
-        print(f"Payment form is loaded")
+        try:
+            expect(self.page).to_have_url(self.config["base_url"] + PaymentPageLocators.PAYMENT_PAGE_URL)
+            print(f"Payment page URL: {self.config['base_url'] + PaymentPageLocators.PAYMENT_PAGE_URL}")
+            
+            # Wait for page elements with timeout
+            try:
+                self.page.locator(PaymentPageLocators.PAYMENT_PAGE_TITLE).wait_for(state="visible", timeout=10000)
+                self.page.locator(PaymentPageLocators.PAYMENT_METHOD.format(payment_method)).wait_for(state="visible", timeout=10000)
+                self.page.locator(PaymentPageLocators.PAYMENT_FORM).wait_for(state="visible", timeout=10000)
+                self.page.wait_for_selector(CommonComponentsLocators.VC_LOADER_OVERLAY_SPINNER, state="hidden", timeout=10000)
+                expect(self.page.locator(PaymentPageLocators.PAY_NOW_BUTTON)).to_be_disabled()
+                print(f"Payment form is loaded")
+            except TimeoutError as e:
+                print(f"Timeout waiting for payment page elements: {str(e)}")
+                raise Exception("Payment page elements did not load within expected time")
+                
+        except Exception as e:
+            print(f"Error checking payment page: {str(e)}")
+            raise Exception(f"Failed to verify payment page: {str(e)}")
 
-        
     def click_pay_now_button(self):
         """Click on the Pay Now button and wait for the payment to process"""
-        expect(self.page.locator(PaymentPageLocators.PAY_NOW_BUTTON)).to_be_enabled()
-        self.page.locator(PaymentPageLocators.PAY_NOW_BUTTON).click()
-        self.page.wait_for_selector(CommonComponentsLocators.VC_LOADER_OVERLAY_SPINNER, state="hidden")        
+        try:
+            expect(self.page.locator(PaymentPageLocators.PAY_NOW_BUTTON)).to_be_enabled()
+            self.page.locator(PaymentPageLocators.PAY_NOW_BUTTON).click()
+            self.page.wait_for_selector(CommonComponentsLocators.VC_LOADER_OVERLAY_SPINNER, state="hidden")        
+        except Exception as e:
+            print(f"Error clicking pay now button: {str(e)}")
+            raise Exception("Failed to click pay now button")
     
     def fill_payment_details(self, payment_info: dict):
         """Fill payment details"""
@@ -88,17 +102,30 @@ class PaymentPage:
 
     def check_payment_success(self):
         """Check payment success"""            
-        self.page.locator(PaymentPageLocators.PAYMENT_SUCCESS).wait_for(state="visible")
-        expect(self.page).to_have_url(self.config["base_url"] + PaymentPageLocators.PAYMENT_SUCCESS_URL)
-        expect(self.page.locator(PaymentPageLocators.SHOW_ORDER_BUTTON)).to_be_visible()
-        print(f"Expected result: payment success")
-
+        try:
+            self.page.locator(PaymentPageLocators.PAYMENT_SUCCESS).wait_for(state="visible")
+            expect(self.page).to_have_url(self.config["base_url"] + PaymentPageLocators.PAYMENT_SUCCESS_URL)
+            expect(self.page.locator(PaymentPageLocators.SHOW_ORDER_BUTTON)).to_be_visible()
+            print(f"Expected result: payment success")
+        except TimeoutError as e:
+            print(f"Timeout waiting for payment success page: {str(e)}")
+            raise Exception("Payment success page did not load within expected time")
+        except Exception as e:
+            print(f"Error checking payment success: {str(e)}")
+            raise Exception(f"Failed to verify payment success: {str(e)}")
 
     def check_payment_failure(self):
         """Check payment failure"""        
-        self.page.locator(PaymentPageLocators.PAYMENT_FAILURE).wait_for(state="visible")
-        expect(self.page).to_have_url(self.config["base_url"] + PaymentPageLocators.PAYMENT_FAILURE_URL)
-        print(f"Expected result: payment failure")
+        try:
+            self.page.locator(PaymentPageLocators.PAYMENT_FAILURE).wait_for(state="visible")
+            expect(self.page).to_have_url(self.config["base_url"] + PaymentPageLocators.PAYMENT_FAILURE_URL)
+            print(f"Expected result: payment failure")
+        except TimeoutError as e:
+            print(f"Timeout waiting for payment failure page: {str(e)}")
+            raise Exception("Payment failure page did not load within expected time")
+        except Exception as e:
+            print(f"Error checking payment failure: {str(e)}")
+            raise Exception(f"Failed to verify payment failure: {str(e)}")
 
     def validate_card_number_field(self):
         """Validate card number field is required"""
@@ -183,7 +210,7 @@ class PaymentPage:
             "cvc": PaymentPageLocators.CARD_CVC
             
         }
-        self.page.locator(field_locators[field]).fill("")
+        self.page.locator(field_locators[field]).clear()
 
     def skyflow_new_form_fill(self,payment_info: dict):
         """Skyflow new form fill"""
@@ -269,22 +296,30 @@ class PaymentPage:
 
     def save_card_checkbox(self):
         """Save card checkbox"""
-        expect(self.page.locator(CommonComponentsLocators.CHECKBOX)).not_to_be_checked()
-        self.page.locator(CommonComponentsLocators.CHECKBOX).click()
-        expect(self.page.locator(CommonComponentsLocators.CHECKBOX)).to_be_checked()
+        try:
+            expect(self.page.locator(CommonComponentsLocators.CHECKBOX)).not_to_be_checked()
+            self.page.locator(CommonComponentsLocators.CHECKBOX).click()
+            expect(self.page.locator(CommonComponentsLocators.CHECKBOX)).to_be_checked()
+        except Exception as e:
+            print(f"Error clicking save card checkbox: {str(e)}")
+            raise Exception("Failed to click save card checkbox")
     
     def select_saved_card(self):
         """Select saved card"""
-        self.page.locator(PaymentPageLocators.SELECT_SAVED_CREDIT_CARD).click()
-        self.page.locator(PaymentPageLocators.DROP_DOWN_LIST).wait_for(state="visible")
-        expect(self.page.locator(PaymentPageLocators.ADD_NEW_CREDIT_CARD)).to_be_visible()
-        self.page.locator(PaymentPageLocators.SAVED_CREDIT_CARD_ITEM).click()        
-        self.page.wait_for_selector(CommonComponentsLocators.VC_LOADER_OVERLAY_SPINNER, state="hidden")
-        iframe = self.page.frame_locator("(//iframe)[1]")
-        expect(iframe.locator(PaymentPageLocators.SKYFLOW_CARD_CVC)).to_be_visible()       
-        self.re_enter_cvv(PAYMENT_SKYFLOW["cvc"])
-        self.page.locator(PaymentPageLocators.PAY_NOW_TEXT).click()
-        self.page.wait_for_selector(CommonComponentsLocators.VC_LOADER_OVERLAY_SPINNER, state="hidden")
+        try:
+            self.page.locator(PaymentPageLocators.SELECT_SAVED_CREDIT_CARD).click()
+            self.page.locator(PaymentPageLocators.DROP_DOWN_LIST).wait_for(state="visible")
+            expect(self.page.locator(PaymentPageLocators.ADD_NEW_CREDIT_CARD)).to_be_visible()
+            self.page.locator(PaymentPageLocators.SAVED_CREDIT_CARD_ITEM).click()        
+            self.page.wait_for_selector(CommonComponentsLocators.VC_LOADER_OVERLAY_SPINNER, state="hidden")
+            iframe = self.page.frame_locator("(//iframe)[1]")
+            expect(iframe.locator(PaymentPageLocators.SKYFLOW_CARD_CVC)).to_be_visible()       
+            self.re_enter_cvv(PAYMENT_SKYFLOW["cvc"])
+            self.page.locator(PaymentPageLocators.PAY_NOW_TEXT).click()
+            self.page.wait_for_selector(CommonComponentsLocators.VC_LOADER_OVERLAY_SPINNER, state="hidden")
+        except Exception as e:
+            print(f"Error selecting saved card: {str(e)}")
+            raise Exception("Failed to select saved card")
     
     def re_enter_cvv(self, cvc: str):
         """Re-enter cvv"""
@@ -297,13 +332,17 @@ class PaymentPage:
     
     def add_new_card(self):
         """Add new card"""
-        self.page.locator(PaymentPageLocators.SELECT_SAVED_CREDIT_CARD).click()
-        self.page.locator(PaymentPageLocators.DROP_DOWN_LIST).wait_for(state="visible")
-        expect(self.page.locator(PaymentPageLocators.ADD_NEW_CREDIT_CARD)).to_be_visible()
-        self.page.locator(PaymentPageLocators.ADD_NEW_CREDIT_CARD).click()
-        self.page.wait_for_selector(CommonComponentsLocators.VC_LOADER_OVERLAY_SPINNER, state="hidden")
-        expect(self.page.locator(PaymentPageLocators.SKYFLOW_NEW_FORM)).to_be_visible()
-        expect(self.page.locator(PaymentPageLocators.PAY_NOW_BUTTON_ENABLED)).to_be_disabled()
+        try:
+            self.page.locator(PaymentPageLocators.SELECT_SAVED_CREDIT_CARD).click()
+            self.page.locator(PaymentPageLocators.DROP_DOWN_LIST).wait_for(state="visible")
+            expect(self.page.locator(PaymentPageLocators.ADD_NEW_CREDIT_CARD)).to_be_visible()
+            self.page.locator(PaymentPageLocators.ADD_NEW_CREDIT_CARD).click()
+            self.page.wait_for_selector(CommonComponentsLocators.VC_LOADER_OVERLAY_SPINNER, state="hidden")
+            expect(self.page.locator(PaymentPageLocators.SKYFLOW_NEW_FORM)).to_be_visible()
+            expect(self.page.locator(PaymentPageLocators.PAY_NOW_BUTTON_ENABLED)).to_be_disabled()
+        except Exception as e:
+            print(f"Error clicking add new card button: {str(e)}")
+            raise Exception("Failed to click add new card button")
 
     def clear_skyflow_form(self, field: str):
         """Clear skyflow field"""  
