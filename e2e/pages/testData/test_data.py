@@ -141,6 +141,25 @@ SKYFLOW_ERROR_MESSAGE = {
 
 }
 
+SIGNUP_ERROR = {
+    "password_uppercase": "Passwords must have at least one uppercase letter ('A'-'Z')",
+    "password_lowercase": "Passwords must have at least one lowercase letter ('a'-'z')",
+    "password_number": "Passwords must have at least one number ('0'-'9')",
+    "password_special": "Passwords must have at least one special character",
+    "password_length": "Your password must be at least 8 characters long",
+    "password_match": "The password fields must have matching values",
+    "password_required": "This field is required",    
+
+    "email_invalid": "Please provide a valid email address",
+    "email_required": "Email is required",
+    "email_format": "Email must be a valid email address",
+    "email_length": "Email must be at least 3 characters long",
+    "email_invalid": "Please provide a valid email address",
+    "email_required": "Email is required",
+    "email_format": "Email must be a valid email address"
+
+}
+
 
 
 

@@ -27,7 +27,7 @@ load_dotenv()
 def config():
     """Fixture that loads test configuration from environment variables"""
     return {
-        "base_url": os.getenv("BASE_URL"),
+        "base_url": os.getenv("BASE_URL", "https://vcst-qa-storefront.govirto.com"),
         "store_id": os.getenv("STORE_ID"),
         "username": os.getenv("USER_EMAIL"),
         "password": os.getenv("PASSWORD"),

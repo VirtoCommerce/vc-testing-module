@@ -5,8 +5,6 @@ from e2e.pages.checkout_page import CheckoutPage
 from e2e.pages.testData.test_data import SHIPPING_DATA, PRODUCT, DELIVERY_METHOD1, DELIVERY_METHOD2, PAYMENT_METHOD1, PAYMENT_METHOD4
 
 
-
-
 @pytest.fixture
 def cart_page(page: Page, config, browser_context):
     return CartPage(page, config, browser_context)
