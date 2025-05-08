@@ -80,7 +80,7 @@ class CheckoutPage:
         """Proceed to billing"""
         try:
             # Wait for the button to be visible and enabled
-            self.page.wait_for_load_state("networkidle")            
+            self.page.locator(CheckoutLocators.PROCEED_TO_BILLING_BUTTON).wait_for(state="attached")
             expect(self.page.get_by_text("Proceed to billing")).to_be_visible()
             expect(self.page.get_by_text("Proceed to billing")).to_be_enabled()
             
@@ -120,7 +120,8 @@ class CheckoutPage:
     def proceed_to_review(self):
         """Proceed to review"""
         try:
-            # Wait for the button to be visible and enabled          
+            # Wait for the button to be visible and enabled 
+            self.page.locator(CheckoutLocators.PROCEED_TO_REVIEW_BUTTON).wait_for(state="attached")                    
             expect(self.page.get_by_text("Review order")).to_be_visible()
             expect(self.page.get_by_text("Review order")).to_be_enabled()
             
@@ -137,7 +138,8 @@ class CheckoutPage:
     def place_order(self):
         """Place order"""
         try:
-            # Wait for the button to be visible and enabled          
+            # Wait for the button to be visible and enabled
+            self.page.locator(CheckoutLocators.PLACE_ORDER_BUTTON).wait_for(state="attached")
             expect(self.page.get_by_text("Place order")).to_be_visible()
             expect(self.page.get_by_text("Place order")).to_be_enabled()
             

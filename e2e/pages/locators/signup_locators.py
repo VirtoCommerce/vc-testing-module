@@ -1,0 +1,13 @@
+class SignupLocators:
+    COMPANY_RADIO_BUTTON = "//input[@type='radio' and @value='organization']"
+    FIRST_NAME_INPUT = "//input[@name='firstName']"
+    LAST_NAME_INPUT = "//input[@name='lastName']"
+    EMAIL_INPUT = "//input[@name='email']"
+    ORGANIZATION_NAME_INPUT = "//input[@name='organizationName']"
+    PASSWORD_INPUT = "//input[@placeholder='Enter your password']"
+    CONFIRM_PASSWORD_INPUT = "//input[@placeholder='Confirm your password']"
+    SIGN_UP_BUTTON = "//button[@type='submit']"  
+    COMPANY_ACCOUNT_LABEL = "//span[text()='Company account']"
+    REGISTRATION_COMPLETED_TITLE = "//h1[text()='Registration completed']"
+    HOME_PAGE_BUTTON = "//span[text()='Home page']"
+    PASSWORD_ERROR_MESSAGE = "//div[@class='vc-input-details__message']"
