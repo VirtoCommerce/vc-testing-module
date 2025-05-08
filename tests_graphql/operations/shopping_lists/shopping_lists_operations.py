@@ -54,7 +54,7 @@ class ShoppingListsOperations:
 
         return result
 
-    def update_shopping_list(self, list_id: str, payload: InputChangeWishlistType) -> WishlistType:
+    def update_shopping_list(self, payload: InputChangeWishlistType) -> WishlistType:
         change_wishlist_mutation = ChangeWishlistMutation(self.graphql_client)
 
         variables = {"command": payload}
