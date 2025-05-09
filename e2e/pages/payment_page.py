@@ -12,7 +12,7 @@ class PaymentPage:
     def check_payment_page(self, payment_method: str):
         """Check payment page"""
         try:
-            expect(self.page).to_have_url(self.config["base_url"] + PaymentPageLocators.PAYMENT_PAGE_URL)
+            self.page.wait_for_url(self.config["base_url"] + PaymentPageLocators.PAYMENT_PAGE_URL)
             print(f"Payment page URL: {self.config['base_url'] + PaymentPageLocators.PAYMENT_PAGE_URL}")
             
             # Wait for page elements with timeout

@@ -1,2 +1,0 @@
-class WishlistsLocators:
-    pass

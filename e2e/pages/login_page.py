@@ -1,6 +1,6 @@
 from playwright.sync_api import Page, expect, BrowserContext
 from e2e.pages.locators.login_locators import LoginLocators
-
+from e2e.pages.locators.top_header_locators import TopHeaderLocators
 
 class LoginPage:
     def __init__(self, page: Page, config: dict = None, browser_context: BrowserContext = None):
@@ -20,6 +20,12 @@ class LoginPage:
         else:
             self.page.goto("/sign-in")
         self.page.wait_for_load_state("networkidle")
+    
+    def click_sign_in_link(self):
+        """Click the sign in link"""
+        self.page.locator(TopHeaderLocators.SIGN_IN_LINK).scroll_into_view_if_needed()
+        self.page.locator(TopHeaderLocators.SIGN_IN_LINK).click()        
+        self.page.wait_for_url(f"{self.config['base_url']}/sign-in")
 
     def login(self, email: str, password: str):
         """Login with the provided credentials"""

@@ -2,16 +2,18 @@ import random
 import string
 
 def generate_random_company_name():
-    """Generate a random company name in the format: [E2E] Playwright{random digit}"""
+    """Generate a random company name"""
     random_digit = random.randint(1, 9999)
     random_char = random.choice(string.ascii_uppercase)
     return f"Playwright_{random_digit}:{random_char}"
 
 def generate_random_email():
-    """Generate a random email address in the format: [E2E] Playwright{random digit}@example.com"""
+    """Generate a random email address"""
     random_digit = random.randint(1, 9999)
-    random_char = random.choice(string.ascii_lowercase)
-    return f"playwright.{random_digit}{random_char}@example.com"
+    random_char = random.choice(string.ascii_lowercase) 
+    domain_length = random.randint(1, 10)
+    random_domain = ''.join(random.choices(string.ascii_lowercase, k=domain_length))
+    return f"playwright.{random_digit}{random_char}@{random_domain}.com"
 
 
 def generate_valid_password():
@@ -79,7 +81,7 @@ def generate_invalid_password():
 
 # Test passwords for validation
 PASSWORD_TEST_CASES = {
-    "valid": generate_valid_password(),  # Random valid password
+    "valid": generate_valid_password(), 
     "no_lowercase": "TEST123!@#",  # Missing lowercase
     "no_uppercase": "test123!@#",  # Missing uppercase
     "too_short": "Test1!",  # Less than 8 characters
@@ -88,9 +90,9 @@ PASSWORD_TEST_CASES = {
     "all_uppercase": "TESTTEST",  # All uppercase
     "all_numbers": "12345678",  # All numbers
     "all_special": "!@#$%^&*",  # All special characters
-    "random_invalid_1": generate_invalid_password(),  # Random invalid password
-    "random_invalid_2": generate_invalid_password(),  # Another random invalid password
-    "random_invalid_3": generate_invalid_password(),  # Another random invalid password
+    "random_invalid_1": generate_invalid_password(),
+    "random_invalid_2": generate_invalid_password(),  
+    "random_invalid_3": generate_invalid_password(),
 }
 
 userData = [
@@ -98,8 +100,7 @@ userData = [
 
         "first_name": "Sherill",
         "last_name": "Swanborrow[Playwright]",
-        "email": "sswanborrow2@nationalgeographic.com",
-        "gender": "Female",
+        "email": "sswanborrow2@nationalgeographic.com",      
         "password": "P1lMfd8Jt",
         "confirm_password": "P1lMfd8Jt", 
         "company_name": "Playwright-Corporate Kft.",
@@ -110,7 +111,6 @@ userData = [
         "first_name": "Simona",
         "last_name": "Thring[Playwright]",
         "email": "sthring3@a8.net",
-        "gender": "Female",
         "password": "Simona0B1r1pI",
         "confirm_password": "Simona0B1r1pI",
         "company_name": "Playwright-Corporate Kft.",
@@ -121,7 +121,6 @@ userData = [
         "first_name": "Bartholemy",
         "last_name": "Osselton[Playwright]",
         "email": "bosselton4@hubpages.com",
-        "gender": "Male",
         "password": "3PYaY1",
         "confirm_password": "3PYaY1",
         "company_name": "Playwright-Corporate Kft.",
@@ -132,7 +131,6 @@ userData = [
         "first_name": "Tripp",
         "last_name": "Bigrigg[Playwright]",
         "email": "tbigrigg5@drupal.org",
-        "gender": "Male",
         "password": "IycpEnadmm",
         "confirm_password": "IycpEnadmm",
         "company_name": "Playwright-Corporate Kft.",
@@ -142,7 +140,6 @@ userData = [
         "first_name": "Ross",
         "last_name": "Bagott[Playwright]",
         "email": "rbagott6@msn.com",
-        "gender": "Male",
         "password": "NnY7w9aMg",
         "confirm_password": "NnY7w9aMg",
         "company_name": "Playwright-Corporate Kft.",
@@ -153,7 +150,6 @@ userData = [
         "first_name": "Alexia",
         "last_name": "Lince[Playwright]",
         "email": "alince7@hugedomains.com",
-        "gender": "Female",
         "password": "B5Ijp6o",
         "confirm_password": "B5Ijp6o",
         "company_name": "Playwright-Corporate Kft.",
@@ -164,7 +160,6 @@ userData = [
         "first_name": "Yorker",
         "last_name": "Kiffe[Playwright]",
         "email": "ykiffe8@imageshack.us",
-        "gender": "Genderfluid",
         "password": "tOYhbcY",
         "confirm_password": "tOYhbcY",
         "company_name": "Playwright-Corporate Kft.",
@@ -175,7 +170,6 @@ userData = [
         "first_name": "Sylas",
         "last_name": "Crickmore[Playwright]",
         "email": "scrickmore9@yellowbook.com",
-        "gender": "Male",
         "password": "uyek7BUT",
         "confirm_password": "uyek7BUT",
         "company_name": "Playwright-Corporate Kft.",
@@ -186,7 +180,6 @@ userData = [
         "first_name": "Marthena",
         "last_name": "Ginnally[Playwright]",
         "email": "mginnallya@cdbaby.com",
-        "gender": "Female",
         "password": "dS5xmFZk",
         "confirm_password": "dS5xmFZk",
         "company_name": "Playwright-Corporate Kft.",
@@ -197,7 +190,6 @@ userData = [
         "first_name": "Shir",
         "last_name": "Brandoni[Playwright]",
         "email": "sbrandonib@csmonitor.com",
-        "gender": "Female",
         "password": "25UvIeV",
         "confirm_password": "25UvIeV",
         "company_name": "Playwright-Corporate Kft.",
@@ -208,7 +200,6 @@ userData = [
         "first_name": "Wells",
         "last_name": "Hursey[Playwright]",
         "email": "whurseyc@ustream.tv",
-        "gender": "Male",
         "password": "eo0ygmqgYc",
         "confirm_password": "eo0ygmqgYc",
         "company_name": "Playwright-Corporate Kft.",
@@ -219,7 +210,6 @@ userData = [
         "first_name": "Zacharia",
         "last_name": "Garrould[Playwright]",
         "email": "zgarrouldd@usa.gov",
-        "gender": "Male",
         "password": "370KcO",
         "confirm_password": "370KcO",
         "company_name": "Playwright-Corporate Kft.",
@@ -229,7 +219,6 @@ userData = [
         "first_name": "Drona",
         "last_name": "Kinsett[Playwright]",
         "email": "dkinsette@amazon.de",
-        "gender": "Female",
         "password": "76aSZIp3vw6u",
         "confirm_password": "76aSZIp3vw6u",
         "company_name": "Playwright-Corporate Kft.",
@@ -239,7 +228,6 @@ userData = [
         "first_name": "Eunice",
         "last_name": "Camelin[Playwright]",
         "email": "ecamelinf@youtube.com",
-        "gender": "Female",
         "password": "0Sy55ffLSY",
         "confirm_password": "0Sy55ffLSY",
         "company_name": "Playwright-Corporate Kft.",
@@ -249,7 +237,6 @@ userData = [
         "first_name": "Loleta",
         "last_name": "Fearnsides[Playwright]",
         "email": "lfearnsidesg@ask.com",
-        "gender": "Female",
         "password": "zdNHfouCfZf",
         "confirm_password": "zdNHfouCfZf",
         "company_name": "Playwright-Corporate Kft.",
@@ -259,7 +246,6 @@ userData = [
         "first_name": "Pace",
         "last_name": "Paulmann[Playwright]",
         "email": "ppaulmannh@sciencedaily.com",
-        "gender": "Male",
         "password": "bMIUj8",
         "confirm_password": "bMIUj8",
         "company_name": "Playwright-Corporate Kft.",
@@ -269,12 +255,39 @@ userData = [
         "first_name": "Clair",
         "last_name": "Finby[Playwright]",
         "email": "cfinbyi@gmpg.org",
-        "gender": "Female",
         "password": "l7Qw5nP9rDbZ",
         "confirm_password": "l7Qw5nP9rDbZ",
         "company_name": "Playwright-Corporate Kft.",
         "user_name": "Clair Finby"
     }
+]
+
+invalid_emails = [
+    "invalid.email",
+    "@playwright.com",
+    "test@",
+    "test@.com",
+    "",
+    "plainaddress",
+    "@missingusername.com",
+    "username@.com",
+    #"username@com",
+    "username@domain..com",
+    "username@-domain.com   ",
+    "username@domain-.com",
+    "username@domain,com",
+    "username@domain com",
+    "username@yahoo.com",
+    "username@yahoo.com.",
+    "username..123@example.com",
+    "username@.subdomain.com",
+    "username@domain..subdomain.com",
+    "user#mail.com",
+    "user@.example.com",
+    "user@example..com",
+    "user@.com.com",
+    "user@%*.com",
+    "user..name@example.com",   
 ]
 
 # Update all user passwords to be valid
@@ -289,4 +302,7 @@ def get_random_user():
     user["email"] = generate_random_email()
     return user
 
+def get_random_invalid_email():
+    """Get a random invalid email from the invalid_emails list"""
+    return random.choice(invalid_emails)
 

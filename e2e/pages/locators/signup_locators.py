@@ -1,5 +1,6 @@
 class SignupLocators:
     COMPANY_RADIO_BUTTON = "//input[@type='radio' and @value='organization']"
+    PERSONAL_RADIO_BUTTON = "//input[@type='radio' and @value='personal']"
     FIRST_NAME_INPUT = "//input[@name='firstName']"
     LAST_NAME_INPUT = "//input[@name='lastName']"
     EMAIL_INPUT = "//input[@name='email']"
@@ -8,6 +9,7 @@ class SignupLocators:
     CONFIRM_PASSWORD_INPUT = "//input[@placeholder='Confirm your password']"
     SIGN_UP_BUTTON = "//button[@type='submit']"  
     COMPANY_ACCOUNT_LABEL = "//span[text()='Company account']"
+    PERSONAL_ACCOUNT_LABEL = "//span[text()='Personal account']"
     REGISTRATION_COMPLETED_TITLE = "//h1[text()='Registration completed']"
     HOME_PAGE_BUTTON = "//span[text()='Home page']"
-    PASSWORD_ERROR_MESSAGE = "//div[@class='vc-input-details__message']"
+    REQUIRED_FIELD_ERROR = "//div[@class='vc-input-details__message']"
