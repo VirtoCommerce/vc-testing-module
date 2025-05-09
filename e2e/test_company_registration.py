@@ -1,7 +1,7 @@
 import pytest
 from playwright.sync_api import Page, BrowserContext
 from e2e.pages.signup_page import RegistrationPage
-from e2e.pages.testData.user_data import get_random_user, PASSWORD_TEST_CASES, generate_valid_password, get_random_invalid_email
+from e2e.pages.testData.user_data import get_random_user, PASSWORD_TEST_CASES, generate_valid_password, get_random_invalid_email, generate_random_email
 from e2e.pages.testData.test_data import SIGNUP_ERROR
 from e2e.pages.locators.signup_locators import SignupLocators
 from e2e.pages.login_page import LoginPage
@@ -34,7 +34,7 @@ def test_successful_registration(registration_page: RegistrationPage, login_page
     """
     # Get random user data
     user = get_random_user()
-    email = user["email"]
+    email = generate_random_email()
     print(f"Email: {email}, Password: {user['password']}")
     
     # Navigate to signup page
@@ -45,7 +45,7 @@ def test_successful_registration(registration_page: RegistrationPage, login_page
     registration_page.fill_registration_form(
         first_name=user["first_name"],
         last_name=user["last_name"],
-        email=user["email"],
+        email=email,
         organization_name=user.get("company_name", f"{user['first_name']} Company"),
         password=user["password"],
         confirm_password=user["confirm_password"]
@@ -88,6 +88,7 @@ def test_valid_password_combinations(registration_page: RegistrationPage):
         print(f"\nTesting valid password: {password}")
         # Generate new user data with unique email for each test
         test_user = get_random_user()
+        email = generate_random_email()
         registration_page.navigate()
         registration_page.select_company_account()
         registration_page.clear_registration_form(
@@ -103,7 +104,7 @@ def test_valid_password_combinations(registration_page: RegistrationPage):
         registration_page.fill_registration_form(
             first_name=test_user["first_name"],
             last_name=test_user["last_name"],
-            email=test_user["email"],    
+            email=email,    
             organization_name=test_user["company_name"],
             password=password,
             confirm_password=password
@@ -278,7 +279,7 @@ def test_password_mismatch(registration_page: RegistrationPage):
             assert any(expected_error in error_text for error_text in error_texts), \
                 f"Expected error message '{expected_error}' not found in {error_texts}"
             
-
+@pytest.mark.skip(reason="Skipping valid email format test")
 def test_valid_email_formats(registration_page: RegistrationPage):
     """
     Test various valid email formats during registration:

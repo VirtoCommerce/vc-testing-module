@@ -153,6 +153,7 @@ SIGNUP_ERROR = {
     "required_field": "This field is required",    
 
     "email_invalid": "Please enter a valid email address, e.g. johndoe@gmail.com",
+    "email_invalid_format": "Invalid email format in the account",
     "email_duplicate": "This email is already registered with us",
     "email_required": "Email is required", 
     "email_verification": "Email verification required. Please verify your email address"

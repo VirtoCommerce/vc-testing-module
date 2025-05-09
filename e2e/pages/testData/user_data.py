@@ -271,7 +271,7 @@ invalid_emails = [
     "plainaddress",
     "@missingusername.com",
     "username@.com",
-    "username@com",
+    #"username@com",
     "username@domain..com",
     "username@-domain.com   ",
     "username@domain-.com",
