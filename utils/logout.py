@@ -18,7 +18,7 @@ class LogoutPage:
     def expect_logged_out(self):
         """Verify user is logged out"""
         # Verify login button is visible (indicating logged out state)
-        login_button = self.page.locator(TopHeaderLocators.LOGIN_LINK)
+        login_button = self.page.locator(TopHeaderLocators.SIGN_IN_LINK)
         expect(login_button).to_be_visible()
         expect(login_button).to_have_text("Sign in")
 
