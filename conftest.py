@@ -38,7 +38,7 @@ def config():
 
 def pytest_addoption(parser):
 
-    parser.addoption("--show-browser", action="store_true", default=False, help="Run browser in headed mode")
+    parser.addoption("--show-browser", action="store_true", default=True, help="Run browser in headed mode")
 
 
 @pytest.fixture(scope="session")

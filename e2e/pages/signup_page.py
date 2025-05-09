@@ -2,6 +2,7 @@ from playwright.sync_api import Page, BrowserContext, expect
 from typing import Optional, List
 from e2e.pages.locators.signup_locators import SignupLocators
 from utils.commonLocators.common_components_locators import CommonComponentsLocators
+from e2e.pages.locators.top_header_locators import TopHeaderLocators
 
 class RegistrationPage:
     def __init__(self, page: Page, config: dict, browser_context: BrowserContext):
@@ -11,8 +12,22 @@ class RegistrationPage:
     
     def navigate(self):
         """Navigate to the signup page"""
-        self.page.goto(f"{self.config['base_url']}/sign-up")
-     
+        self.page.goto(f"{self.config['base_url']}/sign-up")        
+        self.page.wait_for_url(f"{self.config['base_url']}/sign-up")
+
+    def click_sign_up_link(self):
+        """Click the sign up link"""
+        self.page.locator(TopHeaderLocators.SIGN_UP_LINK).scroll_into_view_if_needed()
+        self.page.locator(TopHeaderLocators.SIGN_UP_LINK).click()
+        self.page.wait_for_url(f"{self.config['base_url']}/sign-up")
+
+    
+    def select_personal_account(self):
+        """Select the personal account radio button"""
+        self.page.click(SignupLocators.PERSONAL_RADIO_BUTTON)
+        expect(self.page.locator(SignupLocators.PERSONAL_RADIO_BUTTON)).to_be_checked()
+        expect(self.page.locator(SignupLocators.PERSONAL_ACCOUNT_LABEL)).to_have_text("Personal account")        
+        expect(self.page.locator(SignupLocators.ORGANIZATION_NAME_INPUT)).not_to_be_visible()
 
     def select_company_account(self):
         """Select the company account radio button"""
@@ -29,16 +44,28 @@ class RegistrationPage:
         self.page.locator(SignupLocators.ORGANIZATION_NAME_INPUT).type(organization_name, delay=100)
         self.page.locator(SignupLocators.PASSWORD_INPUT).type(password, delay=100)
         self.page.locator(SignupLocators.CONFIRM_PASSWORD_INPUT).type(confirm_password, delay=100)
+        self.page.locator(SignupLocators.CONFIRM_PASSWORD_INPUT).focus()
+        self.page.wait_for_timeout(1000)
+    
+    def fill_personal_registration_form(self, first_name: str, last_name: str, email: str, password: str, confirm_password: str):
+        """Fill in the registration form with provided details"""
+        self.page.locator(SignupLocators.FIRST_NAME_INPUT).type(first_name, delay=100)
+        self.page.locator(SignupLocators.LAST_NAME_INPUT).type(last_name, delay=100)
+        self.page.locator(SignupLocators.EMAIL_INPUT).type(email, delay=100)
+        self.page.locator(SignupLocators.PASSWORD_INPUT).type(password, delay=100)
+        self.page.locator(SignupLocators.CONFIRM_PASSWORD_INPUT).type(confirm_password, delay=100)
+        self.page.locator(SignupLocators.CONFIRM_PASSWORD_INPUT).focus()
+        self.page.wait_for_timeout(1000)
+
 
     def click_sign_up(self):
         """Click the sign up button"""
         self.page.locator(SignupLocators.SIGN_UP_BUTTON).click()
-        self.page.wait_for_selector(CommonComponentsLocators.VC_LOADER_OVERLAY_SPINNER, state="hidden", timeout=10000)
-        self.page.wait_for_load_state("networkidle")
+        self.page.wait_for_selector(CommonComponentsLocators.VC_LOADER_OVERLAY_SPINNER, state="hidden", timeout=10000)        
         self.page.wait_for_url(f'{self.config["base_url"]}/successful-registration')
     
-    def click_sign_up_button(self):
-        """Click the sign up button"""
+    def validate_required_fields(self):
+        """Validate required fields"""
         self.page.locator(SignupLocators.SIGN_UP_BUTTON).click()
         self.page.wait_for_timeout(3000)
         
@@ -54,32 +81,28 @@ class RegistrationPage:
         """Click the home page button"""
         self.page.locator(SignupLocators.HOME_PAGE_BUTTON).click() 
 
-    def is_password_error_visible(self) -> bool:
-        """Check if password error message is visible"""
-        error_elements = self.page.locator(SignupLocators.PASSWORD_ERROR_MESSAGE).all()
+    def is_error_visible(self) -> bool:
+        """Check if error message is visible"""
+        error_elements = self.page.locator(SignupLocators.REQUIRED_FIELD_ERROR).all()
         if not error_elements:
             return False
         return any(element.is_visible() for element in error_elements)
 
     def get_password_error_text(self) -> str:
         """Get the password error message text"""
-        error_element = self.page.locator(SignupLocators.PASSWORD_ERROR_MESSAGE)
+        error_element = self.page.locator(SignupLocators.REQUIRED_FIELD_ERROR)
         expect(error_element).to_be_visible()
         return error_element.text_content()
 
-    def get_all_password_error_texts(self) -> List[str]:
-        """Get all password error message texts"""
-        error_elements = self.page.locator(SignupLocators.PASSWORD_ERROR_MESSAGE).all()
+    def get_all_error_texts(self) -> List[str]:
+        """Get all error message texts"""
+        error_elements = self.page.locator(SignupLocators.REQUIRED_FIELD_ERROR).all()
         return [element.text_content() for element in error_elements]
 
-    def clear_registration_form(self):
+    def clear_registration_form(self, fields: List[str]):
         """Clear all fields in the registration form"""
         # Clear text inputs
-        self.page.locator(SignupLocators.FIRST_NAME_INPUT).clear()
-        self.page.locator(SignupLocators.LAST_NAME_INPUT).clear()
-        self.page.locator(SignupLocators.EMAIL_INPUT).clear()
-        self.page.locator(SignupLocators.ORGANIZATION_NAME_INPUT).clear()
-        self.page.locator(SignupLocators.PASSWORD_INPUT).clear()
-        self.page.locator(SignupLocators.CONFIRM_PASSWORD_INPUT).clear()       
+        for field in fields:            
+            self.page.locator(field).clear()
     
     

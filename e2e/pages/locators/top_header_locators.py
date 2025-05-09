@@ -10,6 +10,6 @@ class TopHeaderLocators:
     ADDRESSES_LINK = "//a[@href='/addresses']"   
     LOGOUT_LINK = "//a[@href='/logout']"
     CART_LINK = "//a[@href='/cart']"
-    LOGIN_LINK = "(//a[@class='top-header-link'])[2]"
-
+    SIGN_IN_LINK = "(//a[@class='top-header-link'])[2]"
+    SIGN_UP_LINK = "(//a[@class='top-header-link'])[3]"
 
