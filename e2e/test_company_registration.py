@@ -1,7 +1,7 @@
 import pytest
 from playwright.sync_api import Page, BrowserContext
 from e2e.pages.signup_page import RegistrationPage
-from e2e.pages.testData.user_data import get_random_user, PASSWORD_TEST_CASES, generate_valid_password, generate_random_email
+from e2e.pages.testData.user_data import get_random_user, PASSWORD_TEST_CASES, generate_valid_password, get_random_invalid_email
 from e2e.pages.testData.test_data import SIGNUP_ERROR
 from e2e.pages.locators.signup_locators import SignupLocators
 from e2e.pages.login_page import LoginPage
@@ -360,6 +360,11 @@ def test_invalid_email_formats(registration_page: RegistrationPage, config):
     
     # Test cases for invalid email formats
     invalid_emails = [
+        {
+            "email": get_random_invalid_email(),
+            "description": "Random invalid email",
+            "expected_error": SIGNUP_ERROR["email_invalid"]
+        }, 
         {
             "email": "invalid.email",
             "description": "Missing @ symbol",
