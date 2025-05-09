@@ -16,7 +16,11 @@ def clear_cookies(browser_context: BrowserContext):
 def registration_page(page: Page, config, browser_context: BrowserContext):
     return RegistrationPage(page, config, browser_context)
 
-def test_company_registration(registration_page: RegistrationPage, login_page: LoginPage):
+@pytest.fixture
+def login_page(page: Page, config, browser_context: BrowserContext):
+    return LoginPage(page, config, browser_context)
+
+def test_successful_registration(registration_page: RegistrationPage, login_page: LoginPage):
     """
     Test case for company registration:
     1. Open registration form
@@ -25,6 +29,8 @@ def test_company_registration(registration_page: RegistrationPage, login_page: L
     4. Submit form
     5. Verify success message
     6. Navigate to home page
+    7. Login with the same email and password
+    8. Verify email verification error message
     """
     # Get random user data
     user = get_random_user()
@@ -32,9 +38,7 @@ def test_company_registration(registration_page: RegistrationPage, login_page: L
     print(f"Email: {email}, Password: {user['password']}")
     
     # Navigate to signup page
-    registration_page.navigate()
-  
-    # Select company account
+    registration_page.navigate()  
     registration_page.select_company_account()
     
     # Fill in registration form
@@ -74,10 +78,10 @@ def test_valid_password_combinations(registration_page: RegistrationPage):
     # Test multiple valid passwords
     valid_passwords = [
         generate_valid_password(),  # Random valid password
-        "Test123!@#",  # Standard valid password
-        "Complex1@Pass",  # More complex valid password
-        "Secure2#Word",  # Another valid combination
-        "Valid3$Pass"   # Another valid combination
+        "Test123!@#",
+        "Complex1@Pass", 
+        "Secure2#Word", 
+        "Valid3$Pass"   
     ]
     
     for password in valid_passwords:
@@ -289,19 +293,19 @@ def test_valid_email_formats(registration_page: RegistrationPage):
     # Test cases for valid email formats
     valid_emails = [
         {
-            "email": "test@example.com",
+            "email": "test@playwright.com",
             "description": "Standard email"
         },
         {
-            "email": "test.name@example.com",
+            "email": "test.name@playwright.com",
             "description": "Email with dot"
         },
         {
-            "email": "test+label@example.com",
+            "email": "test+label@playwright.com",
             "description": "Email with plus sign"
         },
         {
-            "email": "test@sub.example.com",
+            "email": "test@sub.playwright.com",
             "description": "Email with subdomain"
         }
     ]
@@ -362,7 +366,7 @@ def test_invalid_email_formats(registration_page: RegistrationPage, config):
             "expected_error": SIGNUP_ERROR["email_invalid"]
         },
         {
-            "email": "@example.com",
+            "email": "@playwright.com",
             "description": "Missing local part",
             "expected_error": SIGNUP_ERROR["email_invalid"]
         },
@@ -382,7 +386,7 @@ def test_invalid_email_formats(registration_page: RegistrationPage, config):
             "expected_error": SIGNUP_ERROR["required_field"]
         },
         {
-            "email": "test@example..com",
+            "email": "test@playwright..com",
             "description": "Double dot in domain",
             "expected_error": SIGNUP_ERROR["email_invalid"]
         },

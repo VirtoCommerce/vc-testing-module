@@ -8,10 +8,11 @@ def generate_random_company_name():
     return f"Playwright_{random_digit}:{random_char}"
 
 def generate_random_email():
-    """Generate a random email address in the format: [E2E] Playwright{random digit}@example.com"""
+    """Generate a random email address in the format"""
     random_digit = random.randint(1, 9999)
     random_char = random.choice(string.ascii_lowercase)
-    return f"playwright.{random_digit}{random_char}@example.com"
+    random_domain = random.choice(string.ascii_lowercase)
+    return f"playwright.{random_digit}{random_char}@{random_domain}.com"
 
 
 def generate_valid_password():
