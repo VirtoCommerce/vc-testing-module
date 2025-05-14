@@ -20,6 +20,8 @@ def test_search_order(config, user_service, graphql_client):
 
     user = user_operations.get_user()
 
+    print(user)
+
     cart = cart_operations.add_item_to_cart(
         payload={
             "storeId": config["store_id"],
@@ -46,6 +48,9 @@ def test_search_order(config, user_service, graphql_client):
     user_service.sign_out()
 
     assert search_orders_result["totalCount"] == 1, f"Expected 1 order, got {search_orders_result['totalCount']}"
+    assert (
+        search_orders_result["items"][0]["customerId"] == user["id"]
+    ), f"Expected customer ID {user['id']}, got {search_orders_result['items'][0]['customerId']}"
     assert (
         search_orders_result["items"][0]["number"] == created_order["number"]
     ), f"Expected order number {created_order['number']}, got {search_orders_result['items'][0]['number']}"
