@@ -1,4 +1,5 @@
 from utils.commonLocators.dialog_modal_locators import DialogModalLocators
+from playwright.sync_api import expect
 
 class DialogModalActions:
     def __init__(self, page):
@@ -13,10 +14,10 @@ class DialogModalActions:
    
     
     def check_dialog_modal_is_open(self):
-        self.page.locator(self.locators.DIALOG_MODAL).is_visible()
+        expect(self.page.locator(self.locators.DIALOG_MODAL)).to_be_visible()
     
     def check_dialog_modal_is_closed(self):
-        self.page.locator(self.locators.DIALOG_MODAL).is_hidden()
+        expect(self.page.locator(self.locators.DIALOG_MODAL)).to_be_hidden()
 
     def click_create_button(self):
         self.page.click(self.locators.CREATE_BUTTON)   

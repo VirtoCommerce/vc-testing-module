@@ -48,6 +48,7 @@ class SavedCreditCardsPage:
         self.page.wait_for_timeout(1000)
         self.dialog_modal_actions.check_dialog_modal_is_open()
         self.dialog_modal_actions.click_dialog_modal_button_OK()
+        self.dialog_modal_actions.check_dialog_modal_is_closed()
         self.page.wait_for_load_state("networkidle")       
        
                

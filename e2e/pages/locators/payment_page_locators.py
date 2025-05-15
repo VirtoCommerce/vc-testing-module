@@ -49,6 +49,6 @@ class PaymentPageLocators:
     SELECT_SAVED_CREDIT_CARD = "(//div[@class='vc-dropdown-menu__trigger']//div)[1]"
     SAVED_CREDIT_CARD_ITEM = "(//span[@class='vc-menu-item__content'])[1]"
     ADD_NEW_CREDIT_CARD = "//span[contains(.,'Add new card')]"
-    DROP_DOWN_LIST = "//ul[@class='vc-dropdown-menu__list']"
+    DROP_DOWN_LIST = "//ul[contains(@class, 'vc-dropdown-menu__list')]"
 
 
