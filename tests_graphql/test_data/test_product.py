@@ -1,7 +1,7 @@
 TEST_PRODUCT_1 = {
     "id": "914c5dd7-4518-49cd-bea7-a3fb07f2affe",
     "sku": "NHJ-15190552",
-    "name": "[E2E Test] ASUS ExpertBook B5 (B5604)",
+    "name": "[E2E Test] ASUS ExpertBook B5 (B5604), RAM 16Gb, SSD 1Tb, Black",
     "brand": "ASUS",
 }
 TEST_PRODUCT_2 = {

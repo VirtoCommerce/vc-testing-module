@@ -139,6 +139,7 @@ class CheckoutPage:
         """Place order"""
         try:
             # Wait for the button to be visible and enabled
+            self.page.wait_for_load_state("networkidle")
             self.page.locator(CheckoutLocators.PLACE_ORDER_BUTTON).wait_for(state="attached")
             expect(self.page.get_by_text("Place order")).to_be_visible()
             expect(self.page.get_by_text("Place order")).to_be_enabled()
