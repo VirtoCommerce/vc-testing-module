@@ -31,9 +31,10 @@ class CartPage:
 
     def expect_product_in_cart(self, product_name: str, line_item_number: int):
         """Expect a product to be in the cart with specific quantity"""
-        self.page.locator(CartLocators.LINE_ITEM).all()
+        self.page.wait_for_load_state("networkidle")
+        self.page.wait_for_selector(CartLocators.CART_ITEM_1.format(line_item_number), state="attached")
         product_row = self.page.locator(CartLocators.CART_ITEM_1.format(line_item_number))
-        product_name_element = self.page.locator(CartLocators.PRODUCT_TITLE.format(product_name, line_item_number))
+        product_name_element = self.page.locator(CartLocators.PRODUCT_TITLE.format(product_name, line_item_number))        
         expect(product_row).to_be_visible()
         expect(product_name_element).to_be_visible()      
                

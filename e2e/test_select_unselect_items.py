@@ -4,6 +4,7 @@ from e2e.pages.cart_page import CartPage
 from e2e.pages.checkout_page import CheckoutPage
 from e2e.pages.catalog_page import CatalogPage
 from e2e.pages.testData.test_data import SHIPPING_DATA, DELIVERY_METHOD1, PAYMENT_METHOD1, PAYMENT_DATA
+from e2e.pages.testData.search_data import random_search_data
 from e2e.pages.login_page import LoginPage
 from e2e.pages.payment_page import PaymentPage
 from e2e.pages.search_page import SearchPage
@@ -53,12 +54,13 @@ def test_select_unselect_items(cart_page: CartPage, checkout_page: CheckoutPage,
     # Setup test data
     total_items = 4
     selected_items = 2
+    search_data = random_search_data()   
 
-    print("Adding products to the cart")    
-    search_page.verify_search_results("print")
-    catalog_page.add_items_to_cart_one_by_one(total_items)  
+    print("Adding products to the cart")
+    print(f"Search data: {search_data}")    
+    search_page.verify_search_results(search_data)
+    catalog_page.add_items_to_cart_one_by_one(total_items)
     
-    print("Navigating to cart page")
     cart_page.click_cart_icon()      
     cart_page.get_line_items()  
     
@@ -77,24 +79,20 @@ def test_select_unselect_items(cart_page: CartPage, checkout_page: CheckoutPage,
     print(f"Selecting only: {selected_items} of {total_items}")    
     cart_page.select_items(selected_items) 
     cart_page.expect_selected_items_count(selected_items)        
-    cart_page.expect_proceed_to_checkout_enabled()
-   
-    print("Completing checkout process")
-    cart_page.proceed_to_checkout()     
+    cart_page.expect_proceed_to_checkout_enabled()   
+    
+    cart_page.proceed_to_checkout()   
 
-    print("Adding shipping address and shipping method")
     checkout_page.select_delivery_method(DELIVERY_METHOD1)
     checkout_page.click_on_shipping_address()    
     checkout_page.check_shipping_page(DELIVERY_METHOD1, SHIPPING_DATA)
     checkout_page.proceed_to_billing()    
     
-    print("Adding payment method")
     checkout_page.select_payment_method(PAYMENT_METHOD1)
     checkout_page.proceed_to_review()
     checkout_page.check_order_review_page()    
     checkout_page.expect_order_review_items_count(selected_items)
     
-    print("Placing order")
     checkout_page.place_order()
     payment_page.check_payment_page(PAYMENT_METHOD1)
     payment_page.fill_payment_details(PAYMENT_DATA)

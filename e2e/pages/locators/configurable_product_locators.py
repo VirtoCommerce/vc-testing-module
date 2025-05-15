@@ -1,0 +1,12 @@
+class ConfigurableProductLocators:
+    SECTION = "//div[@data-test-id='section']"
+    SECTION_TITLE = "//div[@data-test-id='section-title']"
+    SECTION_DESCRIPTION = "//div[@data-test-id='section-description']"
+    SECTION_SUBTITLE = "//div[@data-test-id='section-subtitle']"
+    TEXT_OPTION = "//div[@data-test-id='text-option']"
+    CUSTOM_INPUT = "//div[@data-test-id='custom-input']"
+    CUSTOM_INPUT_RADIO = "//div[@data-test-id='custom-input-radio']"
+    NONE_OPTION = "//div[@data-test-id='none-option']"
+    PREDEFINED_OPTION = "//div[@data-test-id='predefined-option']"
+    PRODUCT_OPTION = "//div[@data-test-id='product-option']"
+    FILE_OPTION = "//div[@data-test-id='file-option']"

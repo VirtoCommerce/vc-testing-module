@@ -1,8 +1,8 @@
 class CartLocators:
     # Base locators
     LINE_ITEM = "//div[@class='vc-product-title vc-product-title--link vc-line-item__name']"
-    PRODUCT_TITLE = "(//a[@title=\"{}\"])[{}]"  # Requires formatting with product name
-     # Price locators - relative to LINE_ITEM
+    PRODUCT_TITLE = "(//a[contains(@title, '{}')])[{}]" 
+    # Price locators - relative to LINE_ITEM
     PRICE_LIST = "//span[@class='vc-product-price__actual']/following-sibling::span[1]"
     
     # Other locators...

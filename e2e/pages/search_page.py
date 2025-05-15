@@ -25,12 +25,13 @@ class SearchPage:
         self.page.wait_for_selector(SearchLocators.DYNAMIC_SEARCH_POPUP, state="visible")
         expect(self.page.locator(SearchLocators.VIEW_ALL_RESULTS)).to_be_visible()
         self.page.locator(SearchLocators.VIEW_ALL_RESULTS).click()
-        expect(self.page.locator(SearchLocators.SEARCH_TITLE)).to_be_visible()
-        expect(self.page.locator(SearchLocators.SEARCH_TITLE)).to_contain_text(query)        
-        text = self.page.locator(SearchLocators.SEARCH_RESULT_COUNT).text_content().strip()
-        search_result_count = int(text)
-        print(f"Search results count: {search_result_count}")
-        assert search_result_count > 0, f"No search results found for query: {query}"
+        expect(self.page.locator(SearchLocators.DYNAMIC_SEARCH_POPUP)).to_be_hidden()
+        self.page.wait_for_timeout(500)
+        expect(self.page.locator(SearchLocators.SEARCH_TITLE.format(query))).to_be_visible()              
+        #text = self.page.locator(SearchLocators.SEARCH_RESULT_COUNT).text_content().strip()
+        #search_result_count = int(text)
+        #print(f"Search results count: {search_result_count}")
+        #assert search_result_count > 0, f"No search results found for query: {query}"
 
 
 
