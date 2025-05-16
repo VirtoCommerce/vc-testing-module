@@ -28,7 +28,7 @@ class ProfilePage:
 
     def change_currency(self, currency: str):
         """Change currency"""
-        self.page.click(ProfileLocators.CURRENCY_SELECTOR)
+        self.page.click(ProfileLocators.CURRENCY_SELECTOR)       
         if currency == "USD":
             self.page.click(ProfileLocators.CURRENCY_SELECTOR_OPTION_USD)
         elif currency == "EUR":
