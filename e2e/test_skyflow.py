@@ -180,6 +180,9 @@ def test_re_enter_cvv(cart_page: CartPage, checkout_page: CheckoutPage, payment_
     login_page.navigate()
     login_page.login(config["username"], config["password"])
     login_page.expect_successful_login()
+    cart_page.click_cart_icon()
+    cart_page.clear_cart()
+    cart_page.expect_cart_empty()  
 
     # Go to saved credit cards page
     profile_page.click_dashboard()
@@ -232,6 +235,9 @@ def test_add_new_card(cart_page: CartPage, checkout_page: CheckoutPage, payment_
     login_page.navigate()
     login_page.login(config["username"], config["password"])
     login_page.expect_successful_login()
+    cart_page.click_cart_icon()
+    cart_page.clear_cart()
+    cart_page.expect_cart_empty()  
 
     # Go to saved credit cards page
     profile_page.click_dashboard()

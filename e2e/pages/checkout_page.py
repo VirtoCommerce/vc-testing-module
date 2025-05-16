@@ -81,12 +81,13 @@ class CheckoutPage:
         try:
             # Wait for the button to be visible and enabled
             self.page.locator(CheckoutLocators.PROCEED_TO_BILLING_BUTTON).wait_for(state="attached")
-            expect(self.page.get_by_text("Proceed to billing")).to_be_visible()
-            expect(self.page.get_by_text("Proceed to billing")).to_be_enabled()
+            expect(self.page.locator(CheckoutLocators.PROCEED_TO_BILLING_BUTTON)).to_be_visible()
+            expect(self.page.locator(CheckoutLocators.PROCEED_TO_BILLING_BUTTON)).to_be_enabled()
             
             # Click with retry mechanism            
-            self.page.get_by_text("Proceed to billing").click()           
+            self.page.locator(CheckoutLocators.PROCEED_TO_BILLING_BUTTON).click()           
             self.page.wait_for_load_state("networkidle")
+            self.page.wait_for_selector(CommonComponentsLocators.VC_LOADER_OVERLAY_SPINNER, state="hidden")
         except Exception as e:
             print(f"Error in proceed_to_billing: {str(e)}")
             raise
