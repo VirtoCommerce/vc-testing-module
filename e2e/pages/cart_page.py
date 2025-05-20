@@ -20,14 +20,15 @@ class CartPage:
         self.page.fill(CartLocators.QUANTITY_INPUT, str(quantity))
         self.page.click(CartLocators.ADD_TO_CART_BUTTON)
 
-    def get_cart_count(self, quantity: int) -> int:
+    def get_cart_count(self) -> int:
         """Get the current cart count from the menu"""
-        cart_count_element = self.page.locator(CartLocators.CART_COUNT.format(str(quantity)))
+        cart_count_element = self.page.locator(CartLocators.CART_COUNT)
         return int(cart_count_element.text_content().strip("()"))
 
-    def expect_cart_count(self, expected_count: int, quantity: int):
+    def expect_cart_count(self, expected_count: int):
         """Expect the cart count to be a specific number"""
-        expect(self.page.locator(CartLocators.CART_COUNT.format(str(quantity)))).to_have_text(str(expected_count))
+        expect(self.page.locator(CartLocators.CART_COUNT)).to_have_text(str(expected_count))
+        print(f"Cart count: {self.get_cart_count()}")
 
     def expect_product_in_cart(self, product_name: str, line_item_number: int):
         """Expect a product to be in the cart with specific quantity"""

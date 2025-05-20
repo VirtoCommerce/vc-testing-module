@@ -14,7 +14,7 @@ def test_successful_login(login_page: LoginPage, config):
     """Test successful login with valid credentials"""
     login_page.navigate()
     login_page.expect_form_elements_visible()
-    login_page.login(config["username"], config["password"])
+    login_page.login(config["front_admin"], config["password"])
     login_page.expect_successful_login()
 
 

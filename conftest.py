@@ -30,6 +30,7 @@ def config():
         "base_url": os.getenv("BASE_URL", "https://vcst-qa-storefront.govirto.com"),
         "store_id": os.getenv("STORE_ID"),
         "username": os.getenv("USER_EMAIL"),
+        "front_admin": os.getenv("FRONT_ADMIN"),        
         "password": os.getenv("PASSWORD"),
         "back_url": os.getenv("BACK_URL", "https://vcst-qa.govirto.com"),
         "api_key": os.getenv("API_KEY", "ec15f69d-fbf0-4117-b40b-286819c164fb"),

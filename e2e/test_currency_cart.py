@@ -41,7 +41,7 @@ def test_change_user_currency(cart_page: CartPage, login_page: LoginPage, config
     login_page.navigate()
 
     # Step 2: Login as user
-    login_page.login(config["username"], config["password"])
+    login_page.login(config["front_admin"], config["password"])
     login_page.expect_successful_login()
     cart_page.click_cart_icon()
     cart_page.clear_cart()
@@ -70,7 +70,7 @@ def test_check_currency_in_cart(cart_page: CartPage, config, login_page: LoginPa
     """
     # Step 1: Login as user
     login_page.navigate()
-    login_page.login(config["username"], config["password"])
+    login_page.login(config["front_admin"], config["password"])
     login_page.expect_successful_login()
     cart_page.click_cart_icon()
     cart_page.expect_product_count(1)    
@@ -99,7 +99,7 @@ def test_merge_cart_change_currency(cart_page: CartPage, config, login_page: Log
 
     # Step 2: Login as user
     login_page.navigate()
-    login_page.login(config["username"], config["password"])
+    login_page.login(config["front_admin"], config["password"])
     login_page.expect_successful_login()
     cart_page.click_cart_icon()    
     cart_page.expect_product_count(1)   

@@ -63,7 +63,7 @@ def test_merge_cart_anonymous_to_logged_in(cart_page: CartPage, login_page: Logi
     
     # Step 4: Login as user
     login_page.navigate()
-    login_page.login(config["username"], config["password"])
+    login_page.login(config["front_admin"], config["password"])
     login_page.expect_successful_login()
     
     # Step 5: Verify cart contents persist
@@ -95,7 +95,7 @@ def test_merge_anonymous_user_cart(cart_page: CartPage, login_page: LoginPage, l
 
     # Step 1: Login as user
     login_page.navigate()
-    login_page.login(config["username"], config["password"])
+    login_page.login(config["front_admin"], config["password"])
     login_page.expect_successful_login()
     cart_page.click_cart_icon()
     cart_page.clear_cart()
@@ -104,7 +104,7 @@ def test_merge_anonymous_user_cart(cart_page: CartPage, login_page: LoginPage, l
     # Step 2: Add product to cart as user
     cart_page.add_product_to_cart(user_url, user_quantity)
     cart_page.click_cart_icon()
-    cart_page.expect_cart_count(user_quantity, user_quantity)
+    cart_page.expect_cart_count(user_quantity)
     cart_page.expect_product_in_cart(user_product, 1)
     
     # Step 3: Logout
@@ -114,12 +114,12 @@ def test_merge_anonymous_user_cart(cart_page: CartPage, login_page: LoginPage, l
     # Step 4: Add product to cart as anonymous user
     cart_page.add_product_to_cart(anonymous_url, anonymous_quantity)
     cart_page.click_cart_icon()
-    cart_page.expect_cart_count(anonymous_quantity, anonymous_quantity)
+    cart_page.expect_cart_count(anonymous_quantity)
     cart_page.expect_product_in_cart(anonymous_product, 1)
     
     # Step 5: Login as user
     login_page.navigate()
-    login_page.login(config["username"], config["password"])
+    login_page.login(config["front_admin"], config["password"])
     login_page.expect_successful_login()
     
     # Step 6: Verify merged cart
@@ -132,5 +132,5 @@ def test_merge_anonymous_user_cart(cart_page: CartPage, login_page: LoginPage, l
     
     # Verify total cart count
     total_quantity = user_quantity + anonymous_quantity
-    cart_page.expect_cart_count(total_quantity, total_quantity)
+    cart_page.expect_cart_count(total_quantity)
 

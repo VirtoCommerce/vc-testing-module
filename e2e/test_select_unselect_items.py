@@ -38,7 +38,7 @@ def search_page(page: Page, config, browser_context):
 def login_logout(login_page: LoginPage, cart_page: CartPage, config):
     """Login and logout for each test"""
     login_page.navigate()
-    login_page.login(config["username"], config["password"])
+    login_page.login(config["front_admin"], config["password"])
     cart_page.navigate()
     cart_page.clear_cart()   
     cart_page.expect_cart_empty()

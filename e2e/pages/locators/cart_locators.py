@@ -16,7 +16,7 @@ class CartLocators:
     CART_LAYOUT = "//div[@id='products']"
     CLEAR_CART_BUTTON = "//span[text()='Clear cart']"
     EMPTY_CART_MESSAGE = "//div[normalize-space(text())='Your cart is empty']" 
-    CART_COUNT = "//span[text()='{}']"
+    CART_COUNT = "(//span[@class='relative']/./span/span)[last()]"
     BUTTON_YES = "//span[text()='Yes']"
     DIALOG_MODAL = "//div[@class='vc-dialog']"
     PRICE_ACTUAL_CART_ITEM_1 = "(//span[@class='vc-product-price__actual']//span)[{}]"   

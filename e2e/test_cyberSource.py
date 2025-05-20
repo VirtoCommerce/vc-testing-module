@@ -34,7 +34,7 @@ def test_payment_success(cart_page: CartPage, checkout_page: CheckoutPage, payme
 
     # Step 1: Add product to cart as user
     login_page.navigate()
-    login_page.login(config["username"], config["password"])
+    login_page.login(config["front_admin"], config["password"])
     login_page.expect_successful_login()
     cart_page.click_cart_icon()
     cart_page.clear_cart()
@@ -75,7 +75,7 @@ def test_payment_failed(cart_page: CartPage, checkout_page: CheckoutPage, paymen
 
     # Step 1: Add product to cart as user
     login_page.navigate()
-    login_page.login(config["username"], config["password"])
+    login_page.login(config["front_admin"], config["password"])
     login_page.expect_successful_login()
     cart_page.click_cart_icon()
     cart_page.clear_cart()
@@ -112,7 +112,7 @@ def test_payment_form_validation(cart_page: CartPage, checkout_page: CheckoutPag
 
    
     login_page.navigate()
-    login_page.login(config["username"], config["password"])
+    login_page.login(config["front_admin"], config["password"])
     login_page.expect_successful_login()
     cart_page.click_cart_icon()
     cart_page.clear_cart()
