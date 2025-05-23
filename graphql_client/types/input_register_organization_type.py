@@ -8,5 +8,6 @@ class InputRegisterOrganizationType(BaseModel):
 
         self.name: str
         self.description: str | None
+        self.phoneNumber: str | None
         self.dynamicProperties: list[InputDynamicPropertyValueType] | None
         self.address: InputMemberAddressType | None

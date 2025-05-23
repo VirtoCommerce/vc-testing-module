@@ -8,6 +8,7 @@ PRODUCT_FRAGMENT = f"""
     code
     name
     slug
+    isConfigurable
     seoInfo {{
         {SEO_INFO_FRAGMENT}
     }}

@@ -16,3 +16,10 @@ TEST_PRODUCT_3 = {
     "name": "[E2E Test] AORUS Master 18 AM8H",
     "brand": "Samsung",
 }
+
+TEST_CONFIGURABLE_PRODUCT_1 = {
+    "id": "b50f515d-9668-4ee5-ae7a-759be550273c",
+    "sku": "ZLY-31676196",
+    "name": "[E2E Test] MSI Katana 17 HX B14W",
+    "brand": "MSI",
+}
