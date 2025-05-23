@@ -63,5 +63,6 @@ def test_create_configurable_item(config, graphql_client):
         }
     )
 
+    assert base_product["isConfigurable"] == True, "Base product is not configurable"
     assert configured_line_item["quantity"] == 1, "Configured line item quantity is not set"
     assert configured_line_item["product"]["id"] == base_product["id"], "Configured line item product id is not set"

@@ -10,4 +10,6 @@ class ConfigurationSectionType(BaseModel):
         self.description: str | None
         self.isRequired: bool
         self.type: str
+        self.allowCustomText: bool
+        self.allowTextOptions: bool
         self.options: list[ConfigurationLineItemType] | None
