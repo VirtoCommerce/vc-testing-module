@@ -21,7 +21,7 @@ def test_search_organization_contacts_by_name(user_service, graphql_client):
 
     user_service.sign_out()
 
-    assert organization_contacts["contacts"]["totalCount"] > 0
+    assert organization_contacts["contacts"]["totalCount"] > 0, "Organization contacts not found"
 
 
 @allure.title("Search organization contacts by email (GraphQL)")
@@ -43,4 +43,4 @@ def test_search_organization_contacts_by_email(user_service, graphql_client):
 
     user_service.sign_out()
 
-    assert organization_contacts["contacts"]["totalCount"] > 0
+    assert organization_contacts["contacts"]["totalCount"] > 0, "Organization contacts not found"
