@@ -25,6 +25,8 @@ def test_catalog_browsing(config, graphql_client):
         filter=f"category.subtree:{TEST_CATALOG['id']}",
     )
 
+    print(f"Categories response: {categories_response}")
+
     category_to_compare = categories_response["items"][0]
 
     category = categories_operations.get_category(

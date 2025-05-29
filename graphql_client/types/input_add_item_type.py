@@ -4,9 +4,9 @@ from pydantic import BaseModel
 class InputAddItemType(BaseModel):
     def __init__(self):
         from decimal import Decimal
+        from graphql_client.types.input_dynamic_property_value_type import InputDynamicPropertyValueType
         from graphql_client.types.configuration_section_input import ConfigurationSectionInput
         from datetime import datetime
-        from graphql_client.types.input_dynamic_property_value_type import InputDynamicPropertyValueType
 
         self.cartId: str | None
         self.storeId: str

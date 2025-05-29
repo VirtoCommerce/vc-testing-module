@@ -1,5 +1,7 @@
 SEO_INFO_FRAGMENT = f"""
     id
+    objectId
+    objectType
     name
     semanticUrl
     pageTitle
@@ -7,8 +9,6 @@ SEO_INFO_FRAGMENT = f"""
     imageAltDescription
     metaKeywords
     storeId
-    objectId
-    objectType
     isActive
     languageCode
 """
