@@ -6,6 +6,10 @@ from graphql_client.types.request_registration_type import RequestRegistrationTy
 from graphql_client.types.input_delete_contact_type import InputDeleteContactType
 from graphql_client.queries.organization import OrganizationQuery
 from graphql_client.types.organization import Organization
+from graphql_client.types.contact_type import ContactType
+from graphql_client.types.input_lock_unlock_organization_contact_type import InputLockUnlockOrganizationContactType
+from graphql_client.mutations.lock_organization_contact import LockOrganizationContactMutation
+from graphql_client.mutations.unlock_organization_contact import UnlockOrganizationContactMutation
 
 
 class ContactOperations:
@@ -87,5 +91,35 @@ class ContactOperations:
         """
 
         result = organization_query.execute(variables=variables, return_fields=return_fields)
+
+        return result
+
+    def lock_organization_contact(self, payload: InputLockUnlockOrganizationContactType) -> ContactType:
+        lock_organization_contact_mutation = LockOrganizationContactMutation(self.graphql_client)
+
+        variables = {"command": payload}
+
+        return_fields = """
+            id
+            name
+            status
+        """
+
+        result = lock_organization_contact_mutation.execute(variables=variables, return_fields=return_fields)
+
+        return result
+
+    def unlock_organization_contact(self, payload: InputLockUnlockOrganizationContactType) -> ContactType:
+        unlock_organization_contact_mutation = UnlockOrganizationContactMutation(self.graphql_client)
+
+        variables = {"command": payload}
+
+        return_fields = """
+            id
+            name
+            status
+        """
+
+        result = unlock_organization_contact_mutation.execute(variables=variables, return_fields=return_fields)
 
         return result
