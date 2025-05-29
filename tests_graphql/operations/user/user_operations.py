@@ -22,6 +22,11 @@ class UserOperations:
             roles {
                 name
             }
+            contact {
+                id
+                name
+                organizationId
+            }
         """
 
         result = me_query.execute(variables=variables, return_fields=return_fields)
