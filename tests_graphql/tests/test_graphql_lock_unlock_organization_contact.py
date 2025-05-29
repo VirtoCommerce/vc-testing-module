@@ -27,6 +27,8 @@ def test_lock_organization_contact(user_service, graphql_client):
         }
     )
 
+    user_service.sign_out()
+
     assert locked_contact["status"] == "Locked", "Contact is not locked"
 
 
@@ -52,5 +54,7 @@ def test_unlock_organization_contact(user_service, graphql_client):
             "userId": organization_contact_to_lock["id"],
         }
     )
+
+    user_service.sign_out()
 
     assert unlocked_contact["status"] == "Approved", "Contact is not unlocked"

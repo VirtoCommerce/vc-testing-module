@@ -10,6 +10,8 @@ from graphql_client.types.contact_type import ContactType
 from graphql_client.types.input_lock_unlock_organization_contact_type import InputLockUnlockOrganizationContactType
 from graphql_client.mutations.lock_organization_contact import LockOrganizationContactMutation
 from graphql_client.mutations.unlock_organization_contact import UnlockOrganizationContactMutation
+from graphql_client.mutations.change_organization_contact_role import ChangeOrganizationContactRoleMutation
+from graphql_client.types.input_change_organization_contact_role_type import InputChangeOrganizationContactRoleType
 
 
 class ContactOperations:
@@ -80,6 +82,7 @@ class ContactOperations:
                     emails
                     status
                     securityAccounts {{
+                        id
                         userName
                         roles {{
                             id
@@ -121,5 +124,18 @@ class ContactOperations:
         """
 
         result = unlock_organization_contact_mutation.execute(variables=variables, return_fields=return_fields)
+
+        return result
+
+    def change_organization_contact_role(self, payload: InputChangeOrganizationContactRoleType) -> ContactType:
+        change_organization_contact_role_mutation = ChangeOrganizationContactRoleMutation(self.graphql_client)
+
+        variables = {"command": payload}
+
+        return_fields = """
+            succeeded
+        """
+
+        result = change_organization_contact_role_mutation.execute(variables=variables, return_fields=return_fields)
 
         return result
