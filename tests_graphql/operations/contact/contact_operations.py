@@ -12,6 +12,11 @@ from graphql_client.mutations.lock_organization_contact import LockOrganizationC
 from graphql_client.mutations.unlock_organization_contact import UnlockOrganizationContactMutation
 from graphql_client.mutations.change_organization_contact_role import ChangeOrganizationContactRoleMutation
 from graphql_client.types.input_change_organization_contact_role_type import InputChangeOrganizationContactRoleType
+from graphql_client.types.input_invite_user_type import InputInviteUserType
+from graphql_client.types.custom_identity_result_type import CustomIdentityResultType
+from graphql_client.mutations.invite_user import InviteUserMutation
+from graphql_client.mutations.remove_member_from_organization import RemoveMemberFromOrganizationMutation
+from graphql_client.types.input_remove_member_from_organization_type import InputRemoveMemberFromOrganizationType
 
 
 class ContactOperations:
@@ -127,7 +132,9 @@ class ContactOperations:
 
         return result
 
-    def change_organization_contact_role(self, payload: InputChangeOrganizationContactRoleType) -> ContactType:
+    def change_organization_contact_role(
+        self, payload: InputChangeOrganizationContactRoleType
+    ) -> CustomIdentityResultType:
         change_organization_contact_role_mutation = ChangeOrganizationContactRoleMutation(self.graphql_client)
 
         variables = {"command": payload}
@@ -137,5 +144,34 @@ class ContactOperations:
         """
 
         result = change_organization_contact_role_mutation.execute(variables=variables, return_fields=return_fields)
+
+        return result
+
+    def invite_user(self, payload: InputInviteUserType) -> CustomIdentityResultType:
+        invite_user_mutation = InviteUserMutation(self.graphql_client)
+
+        variables = {"command": payload}
+
+        return_fields = """
+            succeeded
+        """
+
+        result = invite_user_mutation.execute(variables=variables, return_fields=return_fields)
+
+        return result
+
+    def remove_contact_from_organization(self, payload: InputRemoveMemberFromOrganizationType) -> ContactType:
+        remove_contact_from_organization_mutation = RemoveMemberFromOrganizationMutation(self.graphql_client)
+
+        variables = {"command": payload}
+
+        return_fields = """
+            id
+            name
+            status
+            organizationId
+        """
+
+        result = remove_contact_from_organization_mutation.execute(variables=variables, return_fields=return_fields)
 
         return result
