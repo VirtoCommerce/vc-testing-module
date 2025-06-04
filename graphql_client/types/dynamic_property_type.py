@@ -3,8 +3,8 @@ from pydantic import BaseModel
 
 class DynamicPropertyType(BaseModel):
     def __init__(self):
-        from graphql_client.types.dynamic_property_value_types import DynamicPropertyValueTypes
         from graphql_client.types.dictionary_item_connection import DictionaryItemConnection
+        from graphql_client.types.dynamic_property_value_types import DynamicPropertyValueTypes
 
         self.id: str
         self.name: str

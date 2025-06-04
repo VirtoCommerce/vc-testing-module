@@ -3,8 +3,8 @@ from pydantic import BaseModel
 
 class OrderPaymentMethodType(BaseModel):
     def __init__(self):
-        from graphql_client.types.currency_type import CurrencyType
         from decimal import Decimal
+        from graphql_client.types.currency_type import CurrencyType
         from graphql_client.types.money_type import MoneyType
         from graphql_client.types.order_tax_detail_type import OrderTaxDetailType
 

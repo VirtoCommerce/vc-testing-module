@@ -3,10 +3,10 @@ from pydantic import BaseModel
 
 class InputAddItemType(BaseModel):
     def __init__(self):
-        from graphql_client.types.input_dynamic_property_value_type import InputDynamicPropertyValueType
         from decimal import Decimal
-        from graphql_client.types.configuration_section_input import ConfigurationSectionInput
+        from graphql_client.types.input_dynamic_property_value_type import InputDynamicPropertyValueType
         from datetime import datetime
+        from graphql_client.types.configuration_section_input import ConfigurationSectionInput
 
         self.cartId: str | None
         self.storeId: str
