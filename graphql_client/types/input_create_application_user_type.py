@@ -3,9 +3,9 @@ from pydantic import BaseModel
 
 class InputCreateApplicationUserType(BaseModel):
     def __init__(self):
-        from datetime import datetime
-        from graphql_client.types.input_assign_role_type import InputAssignRoleType
         from graphql_client.types.input_application_user_login_type import InputApplicationUserLoginType
+        from graphql_client.types.input_assign_role_type import InputAssignRoleType
+        from datetime import datetime
 
         self.createdBy: str | None
         self.createdDate: datetime | None

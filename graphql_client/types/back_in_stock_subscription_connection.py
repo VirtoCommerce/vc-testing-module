@@ -3,8 +3,8 @@ from pydantic import BaseModel
 
 class BackInStockSubscriptionConnection(BaseModel):
     def __init__(self):
-        from graphql_client.types.back_in_stock_subscription_type import BackInStockSubscriptionType
         from graphql_client.types.back_in_stock_subscription_edge import BackInStockSubscriptionEdge
+        from graphql_client.types.back_in_stock_subscription_type import BackInStockSubscriptionType
         from graphql_client.types.page_info import PageInfo
 
         self.totalCount: int | None

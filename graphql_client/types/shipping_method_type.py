@@ -3,8 +3,8 @@ from pydantic import BaseModel
 
 class ShippingMethodType(BaseModel):
     def __init__(self):
-        from graphql_client.types.money_type import MoneyType
         from graphql_client.types.currency_type import CurrencyType
+        from graphql_client.types.money_type import MoneyType
 
         self.id: str
         self.code: str
