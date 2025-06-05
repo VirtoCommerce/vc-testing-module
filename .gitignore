@@ -169,6 +169,7 @@ cython_debug/
 .vscode/
 snapshots_tests_failed/
 snapshot_tests_failures/
+screenshots/
 *_base.diff.png*
 *_base.new.png*
 

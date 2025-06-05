@@ -1,0 +1,15 @@
+{
+  "name": "vc-testing-module",
+  "version": "1.0.0",
+  "description": "Testing module for VC",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@playwright/test": "^1.52.0",
+    "cypress": "^13.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0"
+  }
+}

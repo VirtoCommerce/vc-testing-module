@@ -94,3 +94,76 @@ def authenticated_page(auth_token, config, browser_context):
     )
     yield page
     page.close()
+
+
+# ========================================
+# CONVENIENCE FUNCTIONS FOR MULTI-BROWSER TESTING
+# ========================================
+@pytest.fixture(scope="function")
+@allure.title("Function to get browser information")
+def get_browser_info(page):
+    """Get detailed browser information for reporting"""
+    browser = page.context.browser
+    browser_name = browser.browser_type.name
+    version = browser.version
+    
+    # Get additional browser context info
+    viewport = page.viewport_size
+    user_agent = page.evaluate("navigator.userAgent")
+    
+    browser_info = {
+        "browser_name": browser_name,
+        "version": version,
+        "viewport": viewport,
+        "user_agent": user_agent,
+        "url": page.url
+    }
+    
+    return browser_info
+
+@pytest.fixture(scope="function")
+@allure.title("Function to take a screenshot")
+def take_login_screenshot(page, description="Login Screenshot"):
+    """Take a screenshot and attach it to allure report"""
+    screenshot = page.screenshot()
+    browser_name = page.context.browser.browser_type.name
+    
+    # Create a descriptive name with browser info
+    screenshot_name = f"{description}-{browser_name}"
+    
+    allure.attach(
+        screenshot, 
+        name=screenshot_name, 
+        attachment_type=allure.attachment_type.PNG
+    )
+    
+    return screenshot
+
+@pytest.fixture(scope="function")
+def validate_login_result(page, expected_success=True):
+    """Validate login result and return success status"""
+    current_url = page.url
+    browser_name = page.context.browser.browser_type.name
+    
+    # Basic validation - page should be responsive
+    assert current_url is not None, f"Page unresponsive on {browser_name}"
+    
+    # Check if we're still on login page or redirected (basic success indicator)
+    is_on_login_page = "login" in current_url.lower()
+    login_successful = not is_on_login_page if expected_success else is_on_login_page
+    
+    # Attach result to allure report
+    result_info = {
+        "browser": browser_name,
+        "current_url": current_url,
+        "login_successful": login_successful,
+        "expected_success": expected_success
+    }
+    
+    allure.attach(
+        str(result_info), 
+        name=f"Login-Validation-{browser_name}", 
+        attachment_type=allure.attachment_type.TEXT
+    )
+    
+    return login_successful
