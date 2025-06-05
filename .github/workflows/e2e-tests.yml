@@ -1,4 +1,4 @@
-name: VC-TEST
+name: E2E Tests
 
 on:
   push:
@@ -7,20 +7,14 @@ on:
     branches: [ dev ]
 
 jobs:
-  test:
+  e2e-test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        include:
-        - test-type: e2e
-          #browser: chromium
-          #browser: firefox
-          browser: webkit
-        - test-type: graphql
-          browser: chromium
- 
+        browser: [webkit] #chromium, firefox
+
     env:
       BASE_URL: https://vcst-qa-storefront.govirto.com
       BACK_URL: https://vcst-qa.govirto.com
@@ -51,23 +45,18 @@ jobs:
     - name: Install Playwright Browsers
       run: playwright install --with-deps ${{ matrix.browser }}
       
-    - name: Run Tests
+    - name: Run E2E Tests
       run: |
-        if [ "${{ matrix.test-type }}" = "graphql" ]; then
-          echo "Running GraphQL tests against ${{ env.BASE_URL }}"
-          pytest tests_graphql/tests/ --browser ${{ matrix.browser }} --html=graphql-report.html --self-contained-html --tracing=retain-on-failure -v -s
-        else
-          echo "Running E2E tests against ${{ env.BASE_URL }}"
-          pytest e2e/ --browser ${{ matrix.browser }} --html=e2e-report.html --self-contained-html --tracing=retain-on-failure -v -s
-        fi
+        echo "Running E2E tests against ${{ env.BASE_URL }}"
+        pytest e2e/ --browser ${{ matrix.browser }} --html=e2e-report.html --self-contained-html --tracing=retain-on-failure -v -s
 
     - name: Upload test results
       if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ matrix.test-type }}-test-results-${{ matrix.browser }}
+        name: e2e-test-results-${{ matrix.browser }}
         path: |
-          ${{ matrix.test-type }}-report.html
+          e2e-report.html
           playwright-report/
           test-results/
-        retention-days: 30
+        retention-days: 30 
