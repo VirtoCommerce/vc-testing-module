@@ -1,6 +1,5 @@
 class DialogModalLocators:
 
-
     DIALOG_MODAL = "(//div[@data-headlessui-state='open'])[2]"
     CLOSE_DIALOG_MODAL = "//button[@aria-label='Close']"
     DIALOG_MODAL_TITLE = "//div[@class='vc-dialog-header__title']"

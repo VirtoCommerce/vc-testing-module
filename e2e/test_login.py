@@ -9,7 +9,6 @@ def login_page(page: Page, config, browser_context):
     return LoginPage(page, config, browser_context)
 
 
-
 def test_successful_login(login_page: LoginPage, config):
     """Test successful login with valid credentials"""
     login_page.navigate()
