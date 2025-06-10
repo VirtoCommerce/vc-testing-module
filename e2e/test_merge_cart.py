@@ -28,7 +28,7 @@ def cleanup(cart_page: CartPage, request):
     if request.node.name == "test_merge_anonymous_user_cart":
         yield
         return
-        
+
     yield  # This runs the test
     # After test cleanup
     cart_page.navigate()
@@ -38,7 +38,7 @@ def cleanup(cart_page: CartPage, request):
 
 def test_merge_cart_anonymous_to_logged_in(cart_page: CartPage, login_page: LoginPage, config):
     """Test merging anonymous cart with logged-in user's cart
-    
+
     Steps:
     1. Add product to cart as anonymous user
     2. Go to cart page
@@ -50,30 +50,30 @@ def test_merge_cart_anonymous_to_logged_in(cart_page: CartPage, login_page: Logi
     product_url = MERGE_CART_ANONYMOUS_PRODUCT["url"]  # Replace with actual product name
     product_name = MERGE_CART_ANONYMOUS_PRODUCT["name"]
     quantity = MERGE_CART_ANONYMOUS_PRODUCT["quantity"]
-    price = MERGE_CART_ANONYMOUS_PRODUCT["price"] # Replace with actual product price
+    price = MERGE_CART_ANONYMOUS_PRODUCT["price"]  # Replace with actual product price
 
     # Step 1: Add product to cart as anonymous user
     cart_page.add_product_to_cart(product_url, quantity)
-    
+
     # Step 2: Go to cart page
     cart_page.click_cart_icon()
-    
-    # Step 3: Verify cart count and line item total    
+
+    # Step 3: Verify cart count and line item total
     cart_page.expect_product_in_cart(product_name, 1)
-    
+
     # Step 4: Login as user
     login_page.navigate()
     login_page.login(config["front_admin"], config["password"])
     login_page.expect_successful_login()
-    
+
     # Step 5: Verify cart contents persist
-    cart_page.click_cart_icon()   
-    cart_page.expect_product_in_cart(product_name, 1)  
+    cart_page.click_cart_icon()
+    cart_page.expect_product_in_cart(product_name, 1)
 
 
 def test_merge_anonymous_user_cart(cart_page: CartPage, login_page: LoginPage, logout_page: LogoutPage, config):
-    """Test merging anonymous cart with user cart   
-    
+    """Test merging anonymous cart with user cart
+
     Steps:
     1. Login as user
     2. Add product to cart
@@ -100,37 +100,36 @@ def test_merge_anonymous_user_cart(cart_page: CartPage, login_page: LoginPage, l
     cart_page.click_cart_icon()
     cart_page.clear_cart()
     cart_page.expect_cart_empty()
-    
+
     # Step 2: Add product to cart as user
     cart_page.add_product_to_cart(user_url, user_quantity)
     cart_page.click_cart_icon()
     cart_page.expect_cart_count(user_quantity)
     cart_page.expect_product_in_cart(user_product, 1)
-    
+
     # Step 3: Logout
     logout_page.logout()
     logout_page.expect_logged_out()
-    
+
     # Step 4: Add product to cart as anonymous user
     cart_page.add_product_to_cart(anonymous_url, anonymous_quantity)
     cart_page.click_cart_icon()
     cart_page.expect_cart_count(anonymous_quantity)
     cart_page.expect_product_in_cart(anonymous_product, 1)
-    
+
     # Step 5: Login as user
     login_page.navigate()
     login_page.login(config["front_admin"], config["password"])
     login_page.expect_successful_login()
-    
+
     # Step 6: Verify merged cart
     cart_page.click_cart_icon()
-    
+
     # Verify both products are present
     cart_page.expect_product_in_cart(user_product, 2)
-    cart_page.expect_product_in_cart(anonymous_product, 1)           
+    cart_page.expect_product_in_cart(anonymous_product, 1)
     cart_page.expect_subtotal(user_price * user_quantity + anonymous_price * anonymous_quantity)
-    
+
     # Verify total cart count
     total_quantity = user_quantity + anonymous_quantity
     cart_page.expect_cart_count(total_quantity)
-
