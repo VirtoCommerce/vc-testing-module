@@ -1,5 +1,7 @@
 class TopHeaderLocators:
-    CURRENCY_SELECTOR_STORE = "//span[@class='uppercase text-[--header-top-link-color] hover:text-[--header-top-link-hover-color]']"
+    CURRENCY_SELECTOR_STORE = (
+        "//span[@class='uppercase text-[--header-top-link-color] hover:text-[--header-top-link-hover-color]']"
+    )
     LANGUAGE_SELECTOR_STORE = "//div[@class='vc-language-selector']"
     UPDATE_BUTTON = "//button[normalize-space(text())='UPDATE']"
     CURRENCY_SELECTOR = "//div[@class='vc-currency-selector']"
@@ -7,9 +9,8 @@ class TopHeaderLocators:
     DASHBOARD_LINK = "(//a[@class='top-header-link'])[1]"
     ACCOUNT_LINK = "//a[@href='/account']"
     ORDERS_LINK = "//a[@href='/orders']"
-    ADDRESSES_LINK = "//a[@href='/addresses']"   
+    ADDRESSES_LINK = "//a[@href='/addresses']"
     LOGOUT_LINK = "//a[@href='/logout']"
     CART_LINK = "//a[@href='/cart']"
     SIGN_IN_LINK = "(//a[@class='top-header-link'])[2]"
     SIGN_UP_LINK = "(//a[@class='top-header-link'])[3]"
-

@@ -13,8 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        browser: [webkit] #[chromium] #[firefox]
-
+        browser: [firefox] #chromium, firefox
     env:
       BASE_URL: https://vcst-qa-storefront.govirto.com
       BACK_URL: https://vcst-qa.govirto.com

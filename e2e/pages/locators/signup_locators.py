@@ -7,7 +7,7 @@ class SignupLocators:
     ORGANIZATION_NAME_INPUT = "//input[@name='organizationName']"
     PASSWORD_INPUT = "//input[@placeholder='Enter your password']"
     CONFIRM_PASSWORD_INPUT = "//input[@placeholder='Confirm your password']"
-    SIGN_UP_BUTTON = "//button[@type='submit']"  
+    SIGN_UP_BUTTON = "//button[@type='submit']"
     COMPANY_ACCOUNT_LABEL = "//span[text()='Company account']"
     PERSONAL_ACCOUNT_LABEL = "//span[text()='Personal account']"
     REGISTRATION_COMPLETED_TITLE = "//h1[text()='Registration completed']"

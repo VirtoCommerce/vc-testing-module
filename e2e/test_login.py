@@ -10,13 +10,10 @@ def login_page(page: Page, config, browser_context):
     return LoginPage(page, config, browser_context)
 
 
-# ========================================
-# EXISTING TESTS (Enhanced with Allure)
-# ========================================
-
 @allure.epic("Authentication")
 @allure.feature("Login Functionality") 
 @allure.story("Valid Login")
+
 def test_successful_login(login_page: LoginPage, config):
     """Test successful login with valid credentials"""
     with allure.step("Navigate to login page"):
