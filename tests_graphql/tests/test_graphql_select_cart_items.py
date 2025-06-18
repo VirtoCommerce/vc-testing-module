@@ -1,11 +1,12 @@
-import allure, os
-from tests_graphql.operations.cart.cart_operations import CartOperations
-from tests_graphql.operations.user.user_operations import UserOperations
+import allure, os, pytest
+from graphql_operations.cart.cart_operations import CartOperations
+from graphql_operations.user.user_operations import UserOperations
 from tests_graphql.test_data.test_culture import TEST_CULTURE
 from tests_graphql.test_data.test_currency import TEST_CURRENCY
 from tests_graphql.test_data.test_product import TEST_PRODUCT_1, TEST_PRODUCT_2
 
 
+@pytest.mark.graphql
 @allure.title("Select cart items (GraphQL)")
 def test_select_cart_items(config, graphql_client):
     print(f"{os.linesep}Running test to select cart items...", end=" ")
@@ -76,6 +77,7 @@ def test_select_cart_items(config, graphql_client):
     assert selected_line_item["quantity"] == 2, "Selected line item quantity mismatch"
 
 
+@pytest.mark.graphql
 @allure.title("Select all cart items (GraphQL)")
 def test_select_all_cart_items(config, graphql_client):
     print(f"{os.linesep}Running test to select all cart items...", end=" ")

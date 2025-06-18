@@ -1,11 +1,12 @@
-import allure, os
-from tests_graphql.operations.user.user_operations import UserOperations
-from tests_graphql.operations.cart.cart_operations import CartOperations
-from tests_graphql.test_data.test_product import TEST_PRODUCT_2, TEST_PRODUCT_3
-from tests_graphql.test_data.test_currency import TEST_CURRENCY
+import allure, os, pytest
+from graphql_operations.cart.cart_operations import CartOperations
+from graphql_operations.user.user_operations import UserOperations
 from tests_graphql.test_data.test_culture import TEST_CULTURE
+from tests_graphql.test_data.test_currency import TEST_CURRENCY
+from tests_graphql.test_data.test_product import TEST_PRODUCT_2, TEST_PRODUCT_3
 
 
+@pytest.mark.graphql
 @allure.title("Apply gifts for specified product (GraphQL)")
 def test_gift_specific_product(config, graphql_client):
     print(f"{os.linesep}Running test to apply gifts for specified product in cart...", end=" ")

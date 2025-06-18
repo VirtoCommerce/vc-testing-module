@@ -1,20 +1,21 @@
-import allure, os
-from tests_graphql.operations.user.user_operations import UserOperations
-from tests_graphql.operations.shopping_lists.shopping_lists_operations import ShoppingListsOperations
-from tests_graphql.test_data.test_user import TEST_PERMANENT_USER
+import allure, os, pytest
+from graphql_operations.shopping_lists.shopping_lists_operations import ShoppingListsOperations
+from graphql_operations.user.user_operations import UserOperations
 from tests_graphql.test_data.test_culture import TEST_CULTURE
 from tests_graphql.test_data.test_currency import TEST_CURRENCY
 from tests_graphql.test_data.test_product import TEST_PRODUCT_1
+from tests_graphql.test_data.test_user import TEST_PERMANENT_USER
 
 
+@pytest.mark.graphql
 @allure.title("Remove shopping list item (GraphQL)")
-def test_remove_shopping_list_item(config, user_service, graphql_client):
+def test_remove_shopping_list_item(config, auth, graphql_client):
     print(f"{os.linesep}Running test to remove shopping list item...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     shopping_lists_operations = ShoppingListsOperations(graphql_client)
 
-    user_service.sign_in(TEST_PERMANENT_USER["username"], TEST_PERMANENT_USER["password"])
+    auth.authenticate(TEST_PERMANENT_USER["username"], TEST_PERMANENT_USER["password"])
 
     user = user_operations.get_user()
 
@@ -50,7 +51,7 @@ def test_remove_shopping_list_item(config, user_service, graphql_client):
         }
     )
 
-    user_service.sign_out()
+    auth.clear_token()
 
     assert empty_shopping_list["id"] is not None, "Shopping list ID is not set"
     assert empty_shopping_list["id"] == new_shopping_list["id"], "Shopping list ID does not match"

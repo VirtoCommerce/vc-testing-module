@@ -1,11 +1,12 @@
-import allure, os
-from tests_graphql.operations.user.user_operations import UserOperations
-from tests_graphql.operations.cart.cart_operations import CartOperations
+import allure, os, pytest
+from graphql_operations.cart.cart_operations import CartOperations
+from graphql_operations.user.user_operations import UserOperations
 from tests_graphql.test_data.test_address import TEST_CUSTOMER_ADDRESS, TEST_CUSTOMER_ADDRESS_1
 from tests_graphql.test_data.test_culture import TEST_CULTURE
 from tests_graphql.test_data.test_currency import TEST_CURRENCY
 
 
+@pytest.mark.graphql
 @allure.title("Add cart shipment address (GraphQL)")
 def test_add_cart_shipment_address(config, graphql_client):
     print(f"{os.linesep}Running test to add a cart shipment address...", end=" ")
@@ -78,6 +79,7 @@ def test_add_cart_shipment_address(config, graphql_client):
     ), "Delivery address region name is not the same"
 
 
+@pytest.mark.graphql
 @allure.title("Update cart shipment address (GraphQL)")
 def test_update_cart_shipment_address(config, graphql_client):
     print(f"{os.linesep}Running test to update a cart shipment address...", end=" ")

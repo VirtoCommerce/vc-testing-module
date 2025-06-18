@@ -16,8 +16,9 @@ import allure
 
 # from graphql_requests.queries.me.me_query import MeQuery
 from fixtures.auth_token import auth_token
+from fixtures.auth_fixture import auth
 from fixtures.graphql_client import graphql_client
-from fixtures.user_service import user_service
+from fixtures.webapi_client import webapi_client
 
 # Load environment variables from .env file
 load_dotenv()
@@ -27,12 +28,12 @@ load_dotenv()
 def config():
     """Fixture that loads test configuration from environment variables"""
     return {
-        "base_url": os.getenv("BASE_URL", "https://vcst-qa-storefront.govirto.com"),
+        "backend_base_url": os.getenv("BACKEND_BASE_URL", "https://vcst-qa.govirto.com"),
+        "frontend_base_url": os.getenv("FRONTEND_BASE_URL", "https://vcst-qa-storefront.govirto.com"),
         "store_id": os.getenv("STORE_ID"),
         "username": os.getenv("USER_EMAIL"),
         "front_admin": os.getenv("FRONT_ADMIN"),
         "password": os.getenv("PASSWORD"),
-        "back_url": os.getenv("BACK_URL", "https://vcst-qa.govirto.com"),
         "api_key": os.getenv("API_KEY", "ec15f69d-fbf0-4117-b40b-286819c164fb"),
     }
 

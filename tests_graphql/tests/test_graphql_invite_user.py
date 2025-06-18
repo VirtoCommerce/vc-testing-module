@@ -1,17 +1,18 @@
-import allure, os
-from tests_graphql.operations.user.user_operations import UserOperations
-from tests_graphql.operations.contact.contact_operations import ContactOperations
+import allure, os, pytest
+from graphql_operations.contact.contact_operations import ContactOperations
+from graphql_operations.user.user_operations import UserOperations
 from tests_graphql.test_data.test_user import TEST_PERMANENT_CORPORATE_USER
 
 
+@pytest.mark.graphql
 @allure.feature("Invite user (GraphQL)")
-def test_invite_user(config, user_service, graphql_client):
+def test_invite_user(config, auth, graphql_client):
     print(f"{os.linesep}Running test to invite user...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     contact_operations = ContactOperations(graphql_client)
 
-    user_service.sign_in(TEST_PERMANENT_CORPORATE_USER["username"], TEST_PERMANENT_CORPORATE_USER["password"])
+    auth.authenticate(TEST_PERMANENT_CORPORATE_USER["username"], TEST_PERMANENT_CORPORATE_USER["password"])
 
     user = user_operations.get_user()
 
@@ -52,7 +53,7 @@ def test_invite_user(config, user_service, graphql_client):
         }
     )
 
-    user_service.sign_out()
+    auth.clear_token()
 
     assert invitation_result["succeeded"] == True, "User was not invited"
     assert invited_contact is not None, "Invited contact was not found"
