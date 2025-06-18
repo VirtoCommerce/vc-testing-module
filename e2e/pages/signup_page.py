@@ -64,7 +64,7 @@ class RegistrationPage:
         """Click the sign up button"""
         self.page.locator(SignupLocators.SIGN_UP_BUTTON).click()
         self.page.wait_for_selector(CommonComponentsLocators.VC_LOADER_OVERLAY_SPINNER, state="hidden", timeout=10000)
-        self.page.wait_for_url(f'{self.config["base_url"]}/successful-registration')
+        self.page.wait_for_url(f'{self.config["frontend_base_url"]}/successful-registration')
 
     def validate_required_fields(self):
         """Validate required fields"""
@@ -73,7 +73,7 @@ class RegistrationPage:
 
     def is_success_message_visible(self) -> bool:
         """Check if registration success message is visible"""
-        expect(self.page).to_have_url(f'{self.config["base_url"]}/successful-registration')
+        expect(self.page).to_have_url(f'{self.config["frontend_base_url"]}/successful-registration')
         expect(self.page.locator(SignupLocators.REGISTRATION_COMPLETED_TITLE)).to_contain_text("Registration completed")
         return self.page.locator(SignupLocators.REGISTRATION_COMPLETED_TITLE).is_visible()
 

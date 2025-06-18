@@ -13,8 +13,8 @@ class PaymentPage:
     def check_payment_page(self, payment_method: str):
         """Check payment page"""
         try:
-            self.page.wait_for_url(self.config["base_url"] + PaymentPageLocators.PAYMENT_PAGE_URL)
-            print(f"Payment page URL: {self.config['base_url'] + PaymentPageLocators.PAYMENT_PAGE_URL}")
+            self.page.wait_for_url(self.config["frontend_base_url"] + PaymentPageLocators.PAYMENT_PAGE_URL)
+            print(f"Payment page URL: {self.config['frontend_base_url'] + PaymentPageLocators.PAYMENT_PAGE_URL}")
 
             # Wait for page elements with timeout
             try:
@@ -110,7 +110,7 @@ class PaymentPage:
         """Check payment success"""
         try:
             self.page.locator(PaymentPageLocators.PAYMENT_SUCCESS).wait_for(state="visible")
-            expect(self.page).to_have_url(self.config["base_url"] + PaymentPageLocators.PAYMENT_SUCCESS_URL)
+            expect(self.page).to_have_url(self.config["frontend_base_url"] + PaymentPageLocators.PAYMENT_SUCCESS_URL)
             expect(self.page.locator(PaymentPageLocators.SHOW_ORDER_BUTTON)).to_be_visible()
             print(f"Expected result: payment success")
         except TimeoutError as e:
@@ -124,7 +124,7 @@ class PaymentPage:
         """Check payment failure"""
         try:
             self.page.locator(PaymentPageLocators.PAYMENT_FAILURE).wait_for(state="visible")
-            expect(self.page).to_have_url(self.config["base_url"] + PaymentPageLocators.PAYMENT_FAILURE_URL)
+            expect(self.page).to_have_url(self.config["frontend_base_url"] + PaymentPageLocators.PAYMENT_FAILURE_URL)
             print(f"Expected result: payment failure")
         except TimeoutError as e:
             print(f"Timeout waiting for payment failure page: {str(e)}")

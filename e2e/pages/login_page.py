@@ -17,7 +17,7 @@ class LoginPage:
     def navigate(self):
         """Navigate to the login page"""
         if self.config:
-            self.page.goto(self.config["base_url"] + "/sign-in")
+            self.page.goto(self.config["frontend_base_url"] + "/sign-in")
         else:
             self.page.goto("/sign-in")
         self.page.wait_for_load_state("networkidle")

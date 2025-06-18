@@ -87,7 +87,7 @@ def authenticated_page(auth_token, config, browser_context):
 
     # Set auth object in localStorage
     page = browser_context.new_page()
-    page.goto(config["base_url"])  # Wait for page load before manipulating storage
+    page.goto(config["frontend_base_url"])  # Wait for page load before manipulating storage
     page.evaluate(
         f"""
         localStorage.setItem('auth', JSON.stringify({auth_token[1]}));

@@ -49,7 +49,7 @@ def test_create_configurable_item(config, graphql_client):
             configuration_section["customText"] = "Some Text"
         elif section["type"] == "File":
             configuration_section["fileUrls"] = [
-                config["BASE_URL"],
+                config["frontend_base_url"],
             ]
 
         configuration_sections.append(configuration_section)
