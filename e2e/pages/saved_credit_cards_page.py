@@ -13,7 +13,7 @@ class SavedCreditCardsPage:
 
     def navigate(self):
         """Navigate to saved credit cards page"""
-        self.page.goto(f"{self.config['base_url']}/account/saved-credit-cards")
+        self.page.goto(f"{self.config['frontend_base_url']}/account/saved-credit-cards")
         self.page.wait_for_load_state("networkidle")
         expect(self.page.locator(SavedCreditCardsPageLocators.SAVED_CREDIT_CARDS_PAGE_TITLE)).to_be_visible()
 
@@ -21,7 +21,7 @@ class SavedCreditCardsPage:
         """Click saved credit cards"""
         self.page.locator(SavedCreditCardsPageLocators.ACCOUNT_NAVIGATION).click()
         self.page.wait_for_load_state("networkidle")
-        self.page.wait_for_url(f"{self.config['base_url']}/account/saved-credit-cards")
+        self.page.wait_for_url(f"{self.config['frontend_base_url']}/account/saved-credit-cards")
         expect(self.page.locator(SavedCreditCardsPageLocators.SAVED_CREDIT_CARDS_PAGE_TITLE)).to_be_visible()
         self.page.wait_for_load_state("domcontentloaded")
 

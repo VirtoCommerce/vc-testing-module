@@ -12,20 +12,20 @@ class ProfilePage:
 
     def navigate(self):
         """Navigate to profile page"""
-        self.page.goto(f"{self.config['base_url']}/account/profile")
+        self.page.goto(f"{self.config['frontend_base_url']}/account/profile")
         self.page.wait_for_load_state("networkidle")
 
     def click_dashboard(self):
         """Click dashboard"""
         self.page.click(TopHeaderLocators.DASHBOARD_LINK)
         self.page.wait_for_load_state("networkidle")
-        self.page.wait_for_url(f"{self.config['base_url']}/account/dashboard")
+        self.page.wait_for_url(f"{self.config['frontend_base_url']}/account/dashboard")
 
     def click_profile(self):
         """Click profile"""
         self.page.click(ProfileLocators.PROFILE_LINK)
         self.page.wait_for_load_state("networkidle")
-        self.page.wait_for_url(f"{self.config['base_url']}/account/profile")
+        self.page.wait_for_url(f"{self.config['frontend_base_url']}/account/profile")
 
     def change_currency(self, currency: str):
         """Change currency"""

@@ -147,7 +147,7 @@ class CheckoutPage:
 
     def expect_completed_order(self):
         """Verify order completion"""
-        expect(self.page).to_have_url(f"{self.config['base_url']}/checkout/completed")
+        expect(self.page).to_have_url(f"{self.config['frontend_base_url']}/checkout/completed")
 
     def fill_billing_details(self, billing_info: dict):
         """Fill billing information"""

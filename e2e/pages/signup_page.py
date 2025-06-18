@@ -13,14 +13,14 @@ class RegistrationPage:
 
     def navigate(self):
         """Navigate to the signup page"""
-        self.page.goto(f"{self.config['base_url']}/sign-up")
-        self.page.wait_for_url(f"{self.config['base_url']}/sign-up")
+        self.page.goto(f"{self.config['frontend_base_url']}/sign-up")
+        self.page.wait_for_url(f"{self.config['frontend_base_url']}/sign-up")
 
     def click_sign_up_link(self):
         """Click the sign up link"""
         self.page.locator(TopHeaderLocators.SIGN_UP_LINK).scroll_into_view_if_needed()
         self.page.locator(TopHeaderLocators.SIGN_UP_LINK).click()
-        self.page.wait_for_url(f"{self.config['base_url']}/sign-up")
+        self.page.wait_for_url(f"{self.config['frontend_base_url']}/sign-up")
 
     def select_personal_account(self):
         """Select the personal account radio button"""
