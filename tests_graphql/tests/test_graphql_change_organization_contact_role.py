@@ -19,7 +19,7 @@ def test_change_organization_contact_role(auth, graphql_client):
     organization_contact_to_change_role = contact_operations.fetch_organization_contacts(
         organization_id=user["contact"]["organizationId"],
         user_id=user["id"],
-        search_phrase="e2e-test-corporate-1@test.com",
+        search_phrase="e2e-test-purchasing-agent@e2e-contoso.com",
     )["contacts"]["items"][0]
 
     result = contact_operations.change_organization_contact_role(
@@ -32,7 +32,7 @@ def test_change_organization_contact_role(auth, graphql_client):
     changed_contact = contact_operations.fetch_organization_contacts(
         organization_id=user["contact"]["organizationId"],
         user_id=user["id"],
-        search_phrase="e2e-test-corporate-1@test.com",
+        search_phrase="e2e-test-purchasing-agent@e2e-contoso.com",
     )["contacts"]["items"][0]
 
     # Test teardown

@@ -8,10 +8,10 @@ TEST_PERMANENT_USER = {
 }
 
 TEST_PERMANENT_CORPORATE_USER = {
-    "id": "d8043e78-0113-4025-bef8-24c38691e343",
-    "username": "e2e-test-store-manager@e2e-contoso.com",
+    "id": "0d26a6a1-84e6-4ba8-847e-386c224e30f7",
+    "username": "e2e-test-maintainer@e2e-contoso.com",
     "password": "Password1!",
-    "email": "e2e-test-store-manager@e2e-contoso.com",
+    "email": "e2e-test-maintainer@e2e-contoso.com",
 }
 
 TEST_ADMIN_USER = {

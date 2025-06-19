@@ -1,7 +1,7 @@
 import allure, os, pytest
 from graphql_operations.contact.contact_operations import ContactOperations
 from graphql_operations.user.user_operations import UserOperations
-from tests_graphql.test_data.test_user import TEST_ADMIN_USER
+from tests_graphql.test_data.test_user import TEST_PERMANENT_CORPORATE_USER
 
 
 @pytest.mark.graphql
@@ -12,7 +12,7 @@ def test_graphql_registration_by_invitation(config, auth, graphql_client, webapi
     user_operations = UserOperations(graphql_client)
     contact_operations = ContactOperations(graphql_client)
 
-    auth.authenticate(TEST_ADMIN_USER["username"], TEST_ADMIN_USER["password"])
+    auth.authenticate(TEST_PERMANENT_CORPORATE_USER["username"], TEST_PERMANENT_CORPORATE_USER["password"])
 
     user = user_operations.get_user()
 
@@ -38,6 +38,20 @@ def test_graphql_registration_by_invitation(config, auth, graphql_client, webapi
             "token": token,
             "firstName": "[E2E Test]",
             "lastName": "Temp E2E Test User",
+        }
+    )
+
+    # Test teardown
+
+    contact_operations.delete_contact(
+        payload={
+            "contactId": invited_user["contact"]["id"],
+        }
+    )
+
+    user_operations.delete_users(
+        payload={
+            "userNames": ["e2e-test-corporate-temp@test.com"],
         }
     )
 

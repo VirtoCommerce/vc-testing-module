@@ -37,6 +37,7 @@ def auth(config):
             }
 
             response = requests.post(url, data=payload.__dict__ | {"storeId": config["store_id"]}, headers=headers)
+
             response.raise_for_status()
 
             response_data = response.json()

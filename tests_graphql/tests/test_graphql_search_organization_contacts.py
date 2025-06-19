@@ -17,7 +17,7 @@ def test_search_organization_contacts_by_name(auth, graphql_client):
     user = user_operations.get_user()
 
     organization_contacts = contact_operations.fetch_organization_contacts(
-        organization_id=user["contact"]["organizationId"], user_id=user["id"], search_phrase="Corporate 1"
+        organization_id=user["contact"]["organizationId"], user_id=user["id"], search_phrase="Employee"
     )
 
     auth.clear_token()
@@ -40,7 +40,7 @@ def test_search_organization_contacts_by_email(auth, graphql_client):
     organization_contacts = contact_operations.fetch_organization_contacts(
         organization_id=user["contact"]["organizationId"],
         user_id=user["id"],
-        search_phrase="e2e-test-corporate-10@test.com",
+        search_phrase="e2e-test-employee-1@e2e-contoso.com",
     )
 
     auth.clear_token()

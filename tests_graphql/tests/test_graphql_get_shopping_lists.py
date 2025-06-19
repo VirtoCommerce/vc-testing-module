@@ -3,7 +3,7 @@ from graphql_operations.shopping_lists.shopping_lists_operations import Shopping
 from graphql_operations.user.user_operations import UserOperations
 from tests_graphql.test_data.test_culture import TEST_CULTURE
 from tests_graphql.test_data.test_currency import TEST_CURRENCY
-from tests_graphql.test_data.test_user import TEST_PERMANENT_USER
+from tests_graphql.test_data.test_user import TEST_PERMANENT_CORPORATE_USER
 
 
 @pytest.mark.graphql
@@ -14,7 +14,7 @@ def test_get_shopping_lists(config, auth, graphql_client):
     user_operations = UserOperations(graphql_client)
     shopping_lists_operations = ShoppingListsOperations(graphql_client)
 
-    auth.authenticate(TEST_PERMANENT_USER["username"], TEST_PERMANENT_USER["password"])
+    auth.authenticate(TEST_PERMANENT_CORPORATE_USER["username"], TEST_PERMANENT_CORPORATE_USER["password"])
 
     user = user_operations.get_user()
 
