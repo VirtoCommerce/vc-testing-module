@@ -1,18 +1,17 @@
-import allure
-import os
-from tests_graphql.operations.contact.contact_operations import ContactOperations
-from tests_graphql.operations.user.user_operations import UserOperations
+import allure, os, pytest
+from graphql_operations.contact.contact_operations import ContactOperations
+from graphql_operations.user.user_operations import UserOperations
 from tests_graphql.test_data.test_customer import TEST_CUSTOMER
 from tests_graphql.test_data.test_organization import TEST_ORGANIZATION
-from tests_graphql.test_data.test_user import TEST_USER
-from tests_graphql.test_data.test_user import TEST_ADMIN_USER
+from tests_graphql.test_data.test_user import TEST_USER, TEST_ADMIN_USER
 
 
+@pytest.mark.graphql
 @allure.title("Register customer (GraphQL)")
-def test_register_customer(config, user_service, graphql_client):
+def test_register_customer(config, auth, graphql_client):
     print(f"{os.linesep}Running test to register customer...", end=" ")
 
-    user_service.sign_in(TEST_ADMIN_USER["username"], TEST_ADMIN_USER["password"])
+    auth.authenticate(TEST_ADMIN_USER["username"], TEST_ADMIN_USER["password"])
 
     contact_operations = ContactOperations(graphql_client)
     create_contact_result = contact_operations.create_contact(
@@ -44,7 +43,7 @@ def test_register_customer(config, user_service, graphql_client):
         }
     )
 
-    user_service.sign_out()
+    auth.clear_token()
 
     assert create_contact_result["result"]["succeeded"] is True
     assert create_contact_result["account"] is not None
@@ -54,11 +53,12 @@ def test_register_customer(config, user_service, graphql_client):
     assert create_contact_result["organization"] is None
 
 
+@pytest.mark.graphql
 @allure.title("Register organization (GraphQL)")
-def test_register_organization(config, user_service, graphql_client):
+def test_register_organization(config, auth, graphql_client):
     print(f"{os.linesep}Running test to register organization...", end=" ")
 
-    user_service.sign_in(TEST_ADMIN_USER["username"], TEST_ADMIN_USER["password"])
+    auth.authenticate(TEST_ADMIN_USER["username"], TEST_ADMIN_USER["password"])
 
     contact_operations = ContactOperations(graphql_client)
     create_contact_result = contact_operations.create_contact(
@@ -98,7 +98,7 @@ def test_register_organization(config, user_service, graphql_client):
         }
     )
 
-    user_service.sign_out()
+    auth.clear_token()
 
     assert create_contact_result["result"]["succeeded"] is True
     assert create_contact_result["account"]["id"] is not None

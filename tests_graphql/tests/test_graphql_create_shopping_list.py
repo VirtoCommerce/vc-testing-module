@@ -1,19 +1,20 @@
-import allure, os
-from tests_graphql.operations.user.user_operations import UserOperations
-from tests_graphql.operations.shopping_lists.shopping_lists_operations import ShoppingListsOperations
+import allure, os, pytest
+from graphql_operations.shopping_lists.shopping_lists_operations import ShoppingListsOperations
+from graphql_operations.user.user_operations import UserOperations
 from tests_graphql.test_data.test_culture import TEST_CULTURE
 from tests_graphql.test_data.test_currency import TEST_CURRENCY
 from tests_graphql.test_data.test_user import TEST_PERMANENT_USER
 
 
+@pytest.mark.graphql
 @allure.title("Create shopping list (GraphQL)")
-def test_create_shopping_list(config, user_service, graphql_client):
+def test_create_shopping_list(config, auth, graphql_client):
     print(f"{os.linesep}Running test to create shopping list...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     shopping_lists_operations = ShoppingListsOperations(graphql_client)
 
-    user_service.sign_in(TEST_PERMANENT_USER["username"], TEST_PERMANENT_USER["password"])
+    auth.authenticate(TEST_PERMANENT_USER["username"], TEST_PERMANENT_USER["password"])
 
     user = user_operations.get_user()
 
@@ -36,7 +37,7 @@ def test_create_shopping_list(config, user_service, graphql_client):
         }
     )
 
-    user_service.sign_out()
+    auth.clear_token()
 
     assert shopping_list["id"] is not None
     assert shopping_list["storeId"] == config["store_id"]

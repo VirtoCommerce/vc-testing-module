@@ -1,23 +1,24 @@
-import allure, os
-from tests_graphql.operations.user.user_operations import UserOperations
-from tests_graphql.operations.cart.cart_operations import CartOperations
-from tests_graphql.operations.quote.quote_operations import QuoteOperations
-from tests_graphql.test_data.test_user import TEST_PERMANENT_USER
-from tests_graphql.test_data.test_product import TEST_PRODUCT_1
-from tests_graphql.test_data.test_currency import TEST_CURRENCY
-from tests_graphql.test_data.test_culture import TEST_CULTURE
+import allure, os, pytest
+from graphql_operations.cart.cart_operations import CartOperations
+from graphql_operations.quote.quote_operations import QuoteOperations
+from graphql_operations.user.user_operations import UserOperations
 from tests_graphql.test_data.test_address import TEST_CUSTOMER_ADDRESS
+from tests_graphql.test_data.test_culture import TEST_CULTURE
+from tests_graphql.test_data.test_currency import TEST_CURRENCY
+from tests_graphql.test_data.test_product import TEST_PRODUCT_1
+from tests_graphql.test_data.test_user import TEST_PERMANENT_USER
 
 
+@pytest.mark.graphql
 @allure.title("Change quote item quantity (GraphQL)")
-def test_change_quote_item_quantity(config, user_service, graphql_client):
+def test_change_quote_item_quantity(config, auth, graphql_client):
     print(f"{os.linesep}Running test to change quote item quantity...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
     quote_operations = QuoteOperations(graphql_client)
 
-    user_service.sign_in(TEST_PERMANENT_USER["username"], TEST_PERMANENT_USER["password"])
+    auth.authenticate(TEST_PERMANENT_USER["username"], TEST_PERMANENT_USER["password"])
 
     user = user_operations.get_user()
 
@@ -63,21 +64,22 @@ def test_change_quote_item_quantity(config, user_service, graphql_client):
         }
     )
 
-    user_service.sign_out()
+    auth.clear_token()
 
     assert updated_quote["id"] == quote["id"], "Quote ID is not the same"
     assert updated_quote["items"][0]["selectedTierPrice"]["quantity"] == 2, "Quote item quantity is not the same"
 
 
+@pytest.mark.graphql
 @allure.title("Change quote comment (GraphQL)")
-def test_change_quote_comment(config, user_service, graphql_client):
+def test_change_quote_comment(config, auth, graphql_client):
     print(f"{os.linesep}Running test to change quote comment...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
     quote_operations = QuoteOperations(graphql_client)
 
-    user_service.sign_in(TEST_PERMANENT_USER["username"], TEST_PERMANENT_USER["password"])
+    auth.authenticate(TEST_PERMANENT_USER["username"], TEST_PERMANENT_USER["password"])
 
     user = user_operations.get_user()
 
@@ -114,21 +116,22 @@ def test_change_quote_comment(config, user_service, graphql_client):
         }
     )
 
-    user_service.sign_out()
+    auth.clear_token()
 
     assert updated_quote["id"] == quote["id"], "Quote ID is not the same"
     assert updated_quote["comment"] == "Updated comment", "Quote comment is not the same"
 
 
+@pytest.mark.graphql
 @allure.title("Remove quote shipping and billing addresses (GraphQL)")
-def test_change_quote_shipping_and_billing_addresses(config, user_service, graphql_client):
+def test_change_quote_shipping_and_billing_addresses(config, auth, graphql_client):
     print(f"{os.linesep}Running test to change quote shipping and billing addresses...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
     quote_operations = QuoteOperations(graphql_client)
 
-    user_service.sign_in(TEST_PERMANENT_USER["username"], TEST_PERMANENT_USER["password"])
+    auth.authenticate(TEST_PERMANENT_USER["username"], TEST_PERMANENT_USER["password"])
 
     user = user_operations.get_user()
 
@@ -168,7 +171,7 @@ def test_change_quote_shipping_and_billing_addresses(config, user_service, graph
         }
     )
 
-    user_service.sign_out()
+    auth.clear_token()
 
     assert updated_quote["id"] == quote["id"], "Quote ID is not the same"
     assert len(updated_quote["addresses"]) == 2, "Number of addresses is not the same"
@@ -178,15 +181,16 @@ def test_change_quote_shipping_and_billing_addresses(config, user_service, graph
     assert any(addr["addressType"] == 2 for addr in updated_quote["addresses"]), "Quote has no billing address (type 2)"
 
 
+@pytest.mark.graphql
 @allure.title("Remove quote item (GraphQL)")
-def test_remove_quote_item(config, user_service, graphql_client):
+def test_remove_quote_item(config, auth, graphql_client):
     print(f"{os.linesep}Running test to remove quote item...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
     quote_operations = QuoteOperations(graphql_client)
 
-    user_service.sign_in(TEST_PERMANENT_USER["username"], TEST_PERMANENT_USER["password"])
+    auth.authenticate(TEST_PERMANENT_USER["username"], TEST_PERMANENT_USER["password"])
 
     user = user_operations.get_user()
 
@@ -223,21 +227,22 @@ def test_remove_quote_item(config, user_service, graphql_client):
         }
     )
 
-    user_service.sign_out()
+    auth.clear_token()
 
     assert updated_quote["id"] == quote["id"], "Quote ID is not the same"
     assert len(updated_quote["items"]) == 0, "Quote has items"
 
 
+@pytest.mark.graphql
 @allure.title("Submit quote request (GraphQL)")
-def test_submit_quote_request(config, user_service, graphql_client):
+def test_submit_quote_request(config, auth, graphql_client):
     print(f"{os.linesep}Running test to submit quote request...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
     quote_operations = QuoteOperations(graphql_client)
 
-    user_service.sign_in(TEST_PERMANENT_USER["username"], TEST_PERMANENT_USER["password"])
+    auth.authenticate(TEST_PERMANENT_USER["username"], TEST_PERMANENT_USER["password"])
 
     user = user_operations.get_user()
 
@@ -274,7 +279,7 @@ def test_submit_quote_request(config, user_service, graphql_client):
         }
     )
 
-    user_service.sign_out()
+    auth.clear_token()
 
     assert updated_quote["id"] == quote["id"], "Quote ID is not the same"
     assert updated_quote["status"] == "Processing", "Quote status is not the same"

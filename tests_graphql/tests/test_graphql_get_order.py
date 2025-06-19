@@ -1,22 +1,23 @@
-import allure, os
-from tests_graphql.operations.cart.cart_operations import CartOperations
-from tests_graphql.operations.order.order_operations import OrderOperations
-from tests_graphql.operations.user.user_operations import UserOperations
-from tests_graphql.test_data.test_product import TEST_PRODUCT_1
-from tests_graphql.test_data.test_currency import TEST_CURRENCY
+import allure, os, pytest
+from graphql_operations.cart.cart_operations import CartOperations
+from graphql_operations.order.order_operations import OrderOperations
+from graphql_operations.user.user_operations import UserOperations
 from tests_graphql.test_data.test_culture import TEST_CULTURE
+from tests_graphql.test_data.test_currency import TEST_CURRENCY
+from tests_graphql.test_data.test_product import TEST_PRODUCT_1
 from tests_graphql.test_data.test_user import TEST_ADMIN_USER
 
 
+@pytest.mark.graphql
 @allure.title("Get order details (GraphQL)")
-def test_get_order(config, user_service, graphql_client):
+def test_get_order(config, auth, graphql_client):
     print(f"{os.linesep}Running test to get order details...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
     order_operations = OrderOperations(graphql_client)
 
-    user_service.sign_in(TEST_ADMIN_USER["username"], TEST_ADMIN_USER["password"])
+    auth.authenticate(TEST_ADMIN_USER["username"], TEST_ADMIN_USER["password"])
 
     user = user_operations.get_user()
 
@@ -39,7 +40,7 @@ def test_get_order(config, user_service, graphql_client):
 
     order = order_operations.get_order(created_order["id"])
 
-    user_service.sign_out()
+    auth.clear_token()
 
     assert order["id"] == created_order["id"], f"Order ID mismatch: {order['id']} != {created_order['id']}"
     assert order["number"] is not None, "Order number is missing"

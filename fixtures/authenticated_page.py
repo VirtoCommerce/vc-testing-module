@@ -11,7 +11,7 @@ def authenticated_page(auth_token, config, browser_context):
     # Initialize the page and add auth value to the local storage ( it is needed as a temporary workaround for a bug )
     # So the page won't throw user to the sign in page
     page = browser_context.new_page()
-    page.goto(config["base_url"])  # Ensure the page is loaded for local storage manipulation
+    page.goto(config["frontend_base_url"])  # Ensure the page is loaded for local storage manipulation
     page.evaluate(
         f"""
             localStorage.setItem('auth', JSON.stringify({auth_token[1]}));

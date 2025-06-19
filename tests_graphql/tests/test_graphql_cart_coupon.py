@@ -1,12 +1,13 @@
-import allure, os
-from tests_graphql.operations.cart.cart_operations import CartOperations
-from tests_graphql.operations.user.user_operations import UserOperations
-from tests_graphql.test_data.test_currency import TEST_CURRENCY
-from tests_graphql.test_data.test_culture import TEST_CULTURE
+import allure, os, pytest
+from graphql_operations.cart.cart_operations import CartOperations
+from graphql_operations.user.user_operations import UserOperations
 from tests_graphql.test_data.test_coupon import TEST_COUPON_CODE
+from tests_graphql.test_data.test_culture import TEST_CULTURE
+from tests_graphql.test_data.test_currency import TEST_CURRENCY
 from tests_graphql.test_data.test_product import TEST_PRODUCT_3
 
 
+@pytest.mark.graphql
 @allure.title("Apply cart coupon (GraphQL)")
 def test_add_cart_coupon(config, graphql_client):
     print(f"{os.linesep}Running test to apply coupon to cart...", end=" ")
@@ -52,6 +53,7 @@ def test_add_cart_coupon(config, graphql_client):
     assert applied_coupon["code"] == TEST_COUPON_CODE, "Coupon code is not the same"
 
 
+@pytest.mark.graphql
 @allure.title("Remove cart coupon (GraphQL)")
 def test_remove_cart_coupon(config, graphql_client):
     print(f"{os.linesep}Running test to remove coupon from cart...", end=" ")

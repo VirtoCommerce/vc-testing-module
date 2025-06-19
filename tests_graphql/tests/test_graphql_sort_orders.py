@@ -1,18 +1,19 @@
-import allure, os
-from tests_graphql.operations.user.user_operations import UserOperations
-from tests_graphql.operations.order.order_operations import OrderOperations
-from tests_graphql.test_data.test_user import TEST_PERMANENT_USER
+import allure, os, pytest
+from graphql_operations.order.order_operations import OrderOperations
+from graphql_operations.user.user_operations import UserOperations
 from tests_graphql.test_data.test_culture import TEST_CULTURE
+from tests_graphql.test_data.test_user import TEST_PERMANENT_USER
 
 
+@pytest.mark.graphql
 @allure.title("Sort orders by date (GraphQL)")
-def test_sort_orders_by_date(config, user_service, graphql_client):
+def test_sort_orders_by_date(auth, graphql_client):
     print(f"{os.linesep}Running test to sort orders by date...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     order_operations = OrderOperations(graphql_client)
 
-    user_service.sign_in(TEST_PERMANENT_USER["username"], TEST_PERMANENT_USER["password"])
+    auth.authenticate(TEST_PERMANENT_USER["username"], TEST_PERMANENT_USER["password"])
 
     user = user_operations.get_user()
 
@@ -33,20 +34,21 @@ def test_sort_orders_by_date(config, user_service, graphql_client):
     order_dates_asc = [order["createdDate"] for order in search_orders_result_created_date_asc["items"]]
     is_sorted_asc = all(order_dates_asc[i] <= order_dates_asc[i + 1] for i in range(len(order_dates_asc) - 1))
 
-    user_service.sign_out()
+    auth.clear_token()
 
     assert is_sorted_desc, "Orders are not sorted by date in descending order"
     assert is_sorted_asc, "Orders are not sorted by date in ascending order"
 
 
+@pytest.mark.graphql
 @allure.title("Sort orders by total amount (GraphQL)")
-def test_sort_orders_by_total_amount(config, user_service, graphql_client):
+def test_sort_orders_by_total_amount(auth, graphql_client):
     print(f"{os.linesep}Running test to sort orders by total amount...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     order_operations = OrderOperations(graphql_client)
 
-    user_service.sign_in(TEST_PERMANENT_USER["username"], TEST_PERMANENT_USER["password"])
+    auth.authenticate(TEST_PERMANENT_USER["username"], TEST_PERMANENT_USER["password"])
 
     user = user_operations.get_user()
 
@@ -66,7 +68,7 @@ def test_sort_orders_by_total_amount(config, user_service, graphql_client):
     order_totals_asc = [order["total"]["amount"] for order in search_orders_result_order_total_amount_asc["items"]]
     is_sorted_asc = all(order_totals_asc[i] <= order_totals_asc[i + 1] for i in range(len(order_totals_asc) - 1))
 
-    user_service.sign_out()
+    auth.clear_token()
 
     assert is_sorted_desc, "Orders are not sorted by date in descending order"
     assert is_sorted_asc, "Orders are not sorted by date in ascending order"

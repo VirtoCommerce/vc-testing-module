@@ -1,13 +1,13 @@
-import allure
-import os
-from tests_graphql.operations.user.user_operations import UserOperations
-from tests_graphql.operations.catalog.products_operations import ProductsOperations
-from tests_graphql.operations.seo.seo_operations import SeoOperations
+import allure, os, pytest
+from graphql_operations.user.user_operations import UserOperations
+from graphql_operations.catalog.products_operations import ProductsOperations
+from graphql_operations.seo.seo_operations import SeoOperations
 from tests_graphql.test_data.test_culture import TEST_CULTURE
 from tests_graphql.test_data.test_currency import TEST_CURRENCY
 from tests_graphql.test_data.test_product import TEST_PRODUCT_1
 
 
+@pytest.mark.graphql
 @allure.title("Product SEO (GraphQL)")
 def test_product_seo(config, graphql_client):
     print(f"{os.linesep}Running test to get product SEO...", end=" ")

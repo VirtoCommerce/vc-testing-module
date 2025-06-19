@@ -19,6 +19,6 @@ class QuoteAddressType(BaseModel):
         self.line2: str | None
         self.email: str | None
         self.phone: str | None
-        self.firstName: str
-        self.lastName: str
+        self.firstName: str | None
+        self.lastName: str | None
         self.organization: str | None

@@ -15,7 +15,7 @@ from inflection import camelize, underscore
 from typing import Callable
 
 
-endpoint_url = f"{os.getenv('BASE_URL')}/graphql"
+endpoint_url = f"{os.getenv('backend_base_url')}/graphql"
 
 python_types_import_map = {
     "int": None,

@@ -1,17 +1,18 @@
-import allure, os
-from tests_graphql.operations.user.user_operations import UserOperations
-from tests_graphql.operations.contact.contact_operations import ContactOperations
+import allure, os, pytest
+from graphql_operations.contact.contact_operations import ContactOperations
+from graphql_operations.user.user_operations import UserOperations
 from tests_graphql.test_data.test_user import TEST_PERMANENT_CORPORATE_USER
 
 
+@pytest.mark.graphql
 @allure.title("Filter organization contacts by role (GraphQL)")
-def test_filter_organization_contacts_by_role(user_service, graphql_client):
+def test_filter_organization_contacts_by_role(auth, graphql_client):
     print(f"{os.linesep}Running test to filter organization contacts by role...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     contact_operations = ContactOperations(graphql_client)
 
-    user_service.sign_in(TEST_PERMANENT_CORPORATE_USER["username"], TEST_PERMANENT_CORPORATE_USER["password"])
+    auth.authenticate(TEST_PERMANENT_CORPORATE_USER["username"], TEST_PERMANENT_CORPORATE_USER["password"])
 
     user = user_operations.get_user()
 
@@ -37,7 +38,7 @@ def test_filter_organization_contacts_by_role(user_service, graphql_client):
         organization_id=user["contact"]["organizationId"], user_id=user["id"], search_phrase="'roleId':'store-manager'"
     )
 
-    user_service.sign_out()
+    auth.clear_token()
 
     assert organization_maintainers["contacts"]["totalCount"] > 0, "Organization maintainers not found"
     assert organization_employees["contacts"]["totalCount"] > 0, "Organization employees not found"
@@ -46,14 +47,15 @@ def test_filter_organization_contacts_by_role(user_service, graphql_client):
     assert store_managers["contacts"]["totalCount"] > 0, "Store managers not found"
 
 
+@pytest.mark.graphql
 @allure.title("Filter organization contacts by status (GraphQL)")
-def test_filter_organization_contacts_by_status(user_service, graphql_client):
+def test_filter_organization_contacts_by_status(auth, graphql_client):
     print(f"{os.linesep}Running test to filter organization contacts by status...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     contact_operations = ContactOperations(graphql_client)
 
-    user_service.sign_in(TEST_PERMANENT_CORPORATE_USER["username"], TEST_PERMANENT_CORPORATE_USER["password"])
+    auth.authenticate(TEST_PERMANENT_CORPORATE_USER["username"], TEST_PERMANENT_CORPORATE_USER["password"])
 
     user = user_operations.get_user()
 
@@ -69,7 +71,7 @@ def test_filter_organization_contacts_by_status(user_service, graphql_client):
         organization_id=user["contact"]["organizationId"], user_id=user["id"], search_phrase="'status':'Locked'"
     )
 
-    user_service.sign_out()
+    auth.clear_token()
 
     assert active_contacts["contacts"]["totalCount"] > 0, "Active contacts not found"
     assert invited_contacts["contacts"]["totalCount"] > 0, "Invited contacts not found"

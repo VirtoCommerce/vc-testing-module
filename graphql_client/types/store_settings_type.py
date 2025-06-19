@@ -3,8 +3,8 @@ from pydantic import BaseModel
 
 class StoreSettingsType(BaseModel):
     def __init__(self):
-        from graphql_client.types.module_settings_type import ModuleSettingsType
         from graphql_client.types.password_options_type import PasswordOptionsType
+        from graphql_client.types.module_settings_type import ModuleSettingsType
 
         self.quotesEnabled: bool
         self.subscriptionEnabled: bool

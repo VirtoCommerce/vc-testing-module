@@ -13,7 +13,7 @@ class CatalogPage:
 
     def navigate(self):
         if self.config:
-            self.page.goto(self.config["base_url"] + "/catalog")
+            self.page.goto(self.config["frontend_base_url"] + "/catalog")
         else:
             self.page.goto("/catalog")
         self.page.wait_for_load_state("domcontentloaded")

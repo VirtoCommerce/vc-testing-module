@@ -12,12 +12,12 @@ class CartPage:
 
     def navigate(self):
         """Navigate to the cart page"""
-        self.page.goto(f"{self.config['base_url']}/cart")
+        self.page.goto(f"{self.config['frontend_base_url']}/cart")
         self.page.wait_for_load_state("networkidle")
 
     def add_product_to_cart(self, product_name: str, quantity: int):
         """Add a product to cart with specified quantity"""
-        self.page.goto(f"{self.config['base_url']}/{product_name}")
+        self.page.goto(f"{self.config['frontend_base_url']}/{product_name}")
         self.page.fill(CartLocators.QUANTITY_INPUT, str(quantity))
         self.page.click(CartLocators.ADD_TO_CART_BUTTON)
 
@@ -79,7 +79,7 @@ class CartPage:
         self.page.click(CartLocators.CART_ICON)
         self.page.wait_for_timeout(2000)
         self.page.wait_for_selector(CartLocators.CART_TITLE, state="attached")
-        expect(self.page).to_have_url(f"{self.config['base_url']}/cart")
+        expect(self.page).to_have_url(f"{self.config['frontend_base_url']}/cart")
         self.page.wait_for_load_state("networkidle")
         self.page.wait_for_selector(CommonComponentsLocators.VC_LOADER_OVERLAY_SPINNER, state="hidden")
 

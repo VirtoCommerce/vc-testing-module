@@ -26,5 +26,5 @@ class LogoutPage:
         """Go to home page"""
         self.page.click("(//nav[contains(@class,'relative z-[2]')]//a)[1]")
         self.page.wait_for_load_state("networkidle")
-        self.page.wait_for_url(f"{self.config['base_url']}")
+        self.page.wait_for_url(f"{self.config['frontend_base_url']}")
         self.page.wait_for_load_state("domcontentloaded")

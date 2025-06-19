@@ -6,22 +6,23 @@ from gql.transport.requests import RequestsHTTPTransport
 
 @pytest.fixture(scope="session")
 @allure.title("Fixture to initialize GraphQL Client")
-def graphql_client(config):
-    headers = {}
+def graphql_client(config, auth):
+    class GraphQLClient(Client):
+        def execute(self, *args, **kwargs):
+            auth_headers = auth.get_auth_headers()
 
-    def set_headers(headers_object: dict):
-        nonlocal headers
+            if auth_headers:
+                self.transport.headers.update(auth_headers)
+            else:
+                self.transport.headers.pop("Authorization", None)
 
-        headers.update(headers_object)
+            return super().execute(*args, **kwargs)
 
     transport = RequestsHTTPTransport(
-        url=f"{config['base_url']}/graphql",
-        headers=headers,
+        url=f"{config['backend_base_url']}/graphql",
+        headers={"Content-Type": "application/json"},
         use_json=True,
         verify=True,
     )
 
-    client = Client(transport=transport, fetch_schema_from_transport=True)
-    client.set_headers = set_headers
-
-    return client
+    return GraphQLClient(transport=transport, fetch_schema_from_transport=True)

@@ -1,12 +1,13 @@
-import allure, os
-from tests_graphql.operations.user.user_operations import UserOperations
-from tests_graphql.operations.catalog.products_operations import ProductsOperations
+import allure, os, pytest
+from graphql_operations.user.user_operations import UserOperations
+from graphql_operations.catalog.products_operations import ProductsOperations
+from tests_graphql.test_data.test_catalog import MIXED_CATALOG
 from tests_graphql.test_data.test_culture import TEST_CULTURE
 from tests_graphql.test_data.test_currency import TEST_CURRENCY
 from tests_graphql.test_data.test_product import TEST_PRODUCT_2
-from tests_graphql.test_data.test_catalog import MIXED_CATALOG
 
 
+@pytest.mark.graphql
 @allure.feature("Filter product variations by stock (GraphQL)")
 def test_filter_product_variations_by_stock(config, graphql_client):
     print(f"{os.linesep}Running test to filter product variations by stock...", end=" ")
@@ -36,6 +37,7 @@ def test_filter_product_variations_by_stock(config, graphql_client):
     assert search_variations_result_in_stock["totalCount"] == 2, "Total count of variations in stock is not correct"
 
 
+@pytest.mark.graphql
 @allure.feature("Filter product variations by price (GraphQL)")
 def test_filter_product_variations_by_price(config, graphql_client):
     print(f"{os.linesep}Running test to filter product variations by price...", end=" ")
@@ -80,6 +82,7 @@ def test_filter_product_variations_by_price(config, graphql_client):
     ), "Total count of variations with price between 1000 and 1500 is not correct"
 
 
+@pytest.mark.graphql
 @allure.feature("Filter product variations by property (GraphQL)")
 def test_filter_product_variations_by_property(config, graphql_client):
     print(f"{os.linesep}Running test to filter product variations by property...", end=" ")

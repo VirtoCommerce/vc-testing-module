@@ -1,22 +1,23 @@
-import allure, os
-from tests_graphql.operations.user.user_operations import UserOperations
-from tests_graphql.operations.cart.cart_operations import CartOperations
-from tests_graphql.operations.quote.quote_operations import QuoteOperations
-from tests_graphql.test_data.test_user import TEST_ADMIN_USER
-from tests_graphql.test_data.test_currency import TEST_CURRENCY
+import allure, os, pytest
+from graphql_operations.cart.cart_operations import CartOperations
+from graphql_operations.quote.quote_operations import QuoteOperations
+from graphql_operations.user.user_operations import UserOperations
 from tests_graphql.test_data.test_culture import TEST_CULTURE
+from tests_graphql.test_data.test_currency import TEST_CURRENCY
 from tests_graphql.test_data.test_product import TEST_PRODUCT_1
+from tests_graphql.test_data.test_user import TEST_ADMIN_USER
 
 
+@pytest.mark.graphql
 @allure.title("Create empty quote from cart (GraphQL)")
-def test_create_empty_quote_from_cart(config, user_service, graphql_client):
+def test_create_empty_quote_from_cart(config, auth, graphql_client):
     print(f"{os.linesep}Running test to create empty quote from cart...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
     quote_operations = QuoteOperations(graphql_client)
 
-    user_service.sign_in(TEST_ADMIN_USER["username"], TEST_ADMIN_USER["password"])
+    auth.authenticate(TEST_ADMIN_USER["username"], TEST_ADMIN_USER["password"])
 
     user = user_operations.get_user()
 
@@ -42,7 +43,7 @@ def test_create_empty_quote_from_cart(config, user_service, graphql_client):
         }
     )
 
-    user_service.sign_out()
+    auth.clear_token()
 
     assert quote["id"] is not None, "Quote ID is None"
     assert quote["number"] is not None, "Quote number is None"
@@ -53,14 +54,16 @@ def test_create_empty_quote_from_cart(config, user_service, graphql_client):
     assert len(quote["items"]) == 0, "Quote items are not empty"
 
 
-def test_create_quote_with_items_from_cart(config, user_service, graphql_client):
+@pytest.mark.graphql
+@allure.title("Create quote with items from cart (GraphQL)")
+def test_create_quote_with_items_from_cart(config, auth, graphql_client):
     print(f"{os.linesep}Running test to create quote with items from cart...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
     quote_operations = QuoteOperations(graphql_client)
 
-    user_service.sign_in(TEST_ADMIN_USER["username"], TEST_ADMIN_USER["password"])
+    auth.authenticate(TEST_ADMIN_USER["username"], TEST_ADMIN_USER["password"])
 
     user = user_operations.get_user()
 
@@ -90,7 +93,7 @@ def test_create_quote_with_items_from_cart(config, user_service, graphql_client)
         }
     )
 
-    user_service.sign_out()
+    auth.clear_token()
 
     assert quote["id"] is not None, "Quote ID is None"
     assert quote["number"] is not None, "Quote number is None"

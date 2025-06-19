@@ -1,11 +1,12 @@
-import allure, os
-from tests_graphql.operations.user.user_operations import UserOperations
-from tests_graphql.operations.catalog.products_operations import ProductsOperations
+import allure, os, pytest
+from graphql_operations.catalog.products_operations import ProductsOperations
+from graphql_operations.user.user_operations import UserOperations
 from tests_graphql.test_data.test_culture import TEST_CULTURE
 from tests_graphql.test_data.test_currency import TEST_CURRENCY
 from tests_graphql.test_data.test_product import TEST_CONFIGURABLE_PRODUCT_1
 
 
+@pytest.mark.graphql
 @allure.title("Create configurable item (GraphQL)")
 def test_create_configurable_item(config, graphql_client):
     print(f"{os.linesep}Running test to create configurable item...", end=" ")
@@ -48,7 +49,7 @@ def test_create_configurable_item(config, graphql_client):
             configuration_section["customText"] = "Some Text"
         elif section["type"] == "File":
             configuration_section["fileUrls"] = [
-                config["BASE_URL"],
+                config["frontend_base_url"],
             ]
 
         configuration_sections.append(configuration_section)

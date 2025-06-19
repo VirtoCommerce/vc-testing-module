@@ -3,16 +3,16 @@ from pydantic import BaseModel
 
 class QuoteType(BaseModel):
     def __init__(self):
+        from datetime import datetime
         from graphql_client.types.quote_tax_detail_type import QuoteTaxDetailType
         from graphql_client.types.quote_attachment_type import QuoteAttachmentType
-        from graphql_client.types.quote_totals_type import QuoteTotalsType
-        from graphql_client.types.currency_type import CurrencyType
-        from graphql_client.types.quote_item_type import QuoteItemType
-        from graphql_client.types.money_type import MoneyType
-        from graphql_client.types.dynamic_property_value_type import DynamicPropertyValueType
         from graphql_client.types.quote_shipment_method_type import QuoteShipmentMethodType
-        from datetime import datetime
+        from graphql_client.types.currency_type import CurrencyType
+        from graphql_client.types.quote_totals_type import QuoteTotalsType
+        from graphql_client.types.money_type import MoneyType
         from graphql_client.types.quote_address_type import QuoteAddressType
+        from graphql_client.types.quote_item_type import QuoteItemType
+        from graphql_client.types.dynamic_property_value_type import DynamicPropertyValueType
 
         self.cancelledDate: datetime | None
         self.cancelReason: str | None

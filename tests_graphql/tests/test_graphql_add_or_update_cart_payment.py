@@ -1,10 +1,11 @@
-import allure, os
-from tests_graphql.operations.user.user_operations import UserOperations
-from tests_graphql.operations.cart.cart_operations import CartOperations
+import allure, os, pytest
+from graphql_operations.cart.cart_operations import CartOperations
+from graphql_operations.user.user_operations import UserOperations
 from tests_graphql.test_data.test_culture import TEST_CULTURE
 from tests_graphql.test_data.test_currency import TEST_CURRENCY
 
 
+@pytest.mark.graphql
 @allure.title("Add cart payment (GraphQL)")
 def test_add_cart_payment(config, graphql_client):
     print(f"{os.linesep}Running test to add a cart payment...", end=" ")
@@ -72,6 +73,7 @@ def test_add_cart_payment(config, graphql_client):
     assert cart_payment["price"]["amount"] == manual_payment_method["price"]["amount"], "Payment price is not the same"
 
 
+@pytest.mark.graphql
 @allure.title("Update cart payment (GraphQL)")
 def test_update_cart_payment(config, graphql_client):
     print(f"{os.linesep}Running test to update a cart payment...", end=" ")

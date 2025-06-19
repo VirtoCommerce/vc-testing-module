@@ -1,11 +1,12 @@
-import allure, os
-from tests_graphql.operations.user.user_operations import UserOperations
-from tests_graphql.operations.cart.cart_operations import CartOperations
+import allure, os, pytest
+from graphql_operations.cart.cart_operations import CartOperations
+from graphql_operations.user.user_operations import UserOperations
 from tests_graphql.test_data.test_culture import TEST_CULTURE
 from tests_graphql.test_data.test_currency import TEST_CURRENCY
 from tests_graphql.test_data.test_product import TEST_PRODUCT_1
 
 
+@pytest.mark.graphql
 @allure.title("Change cart item quantity (GraphQL)")
 def test_cart_item_quantity(config, graphql_client):
     print(f"{os.linesep}Running test to change cart item quantity...", end=" ")

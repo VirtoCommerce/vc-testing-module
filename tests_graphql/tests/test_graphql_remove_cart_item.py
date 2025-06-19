@@ -1,11 +1,12 @@
-import allure, os
-from tests_graphql.operations.cart.cart_operations import CartOperations
-from tests_graphql.operations.user.user_operations import UserOperations
+import allure, os, pytest
+from graphql_operations.cart.cart_operations import CartOperations
+from graphql_operations.user.user_operations import UserOperations
 from tests_graphql.test_data.test_culture import TEST_CULTURE
 from tests_graphql.test_data.test_currency import TEST_CURRENCY
 from tests_graphql.test_data.test_product import TEST_PRODUCT_1
 
 
+@pytest.mark.graphql
 @allure.title("Remove item from cart (GraphQL)")
 def test_remove_item_from_cart(config, graphql_client):
     print(f"{os.linesep}Running test to remove item from cart...", end=" ")

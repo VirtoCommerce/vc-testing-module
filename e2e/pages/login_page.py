@@ -17,7 +17,7 @@ class LoginPage:
     def navigate(self):
         """Navigate to the login page"""
         if self.config:
-            self.page.goto(self.config["base_url"] + "/sign-in")
+            self.page.goto(self.config["frontend_base_url"] + "/sign-in")
         else:
             self.page.goto("/sign-in")
         self.page.wait_for_load_state("networkidle")
@@ -26,7 +26,7 @@ class LoginPage:
         """Click the sign in link"""
         self.page.locator(TopHeaderLocators.SIGN_IN_LINK).scroll_into_view_if_needed()
         self.page.locator(TopHeaderLocators.SIGN_IN_LINK).click()
-        self.page.wait_for_url(f"{self.config['base_url']}/sign-in")
+        self.page.wait_for_url(f"{self.config['frontend_base_url']}/sign-in")
 
     def login(self, email: str, password: str):
         """Login with the provided credentials"""
@@ -91,7 +91,7 @@ class LoginPage:
     def expect_successful_login(self):
         """Verify successful login"""
         # Use regex pattern to match URL with or without trailing slash
-        expect(self.page).to_have_url(f"{self.config['base_url']}/")
+        expect(self.page).to_have_url(f"{self.config['frontend_base_url']}/")
 
     def expect_form_elements_visible(self):
         """Verify all form elements are visible"""

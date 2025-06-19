@@ -13,14 +13,14 @@ class RegistrationPage:
 
     def navigate(self):
         """Navigate to the signup page"""
-        self.page.goto(f"{self.config['base_url']}/sign-up")
-        self.page.wait_for_url(f"{self.config['base_url']}/sign-up")
+        self.page.goto(f"{self.config['frontend_base_url']}/sign-up")
+        self.page.wait_for_url(f"{self.config['frontend_base_url']}/sign-up")
 
     def click_sign_up_link(self):
         """Click the sign up link"""
         self.page.locator(TopHeaderLocators.SIGN_UP_LINK).scroll_into_view_if_needed()
         self.page.locator(TopHeaderLocators.SIGN_UP_LINK).click()
-        self.page.wait_for_url(f"{self.config['base_url']}/sign-up")
+        self.page.wait_for_url(f"{self.config['frontend_base_url']}/sign-up")
 
     def select_personal_account(self):
         """Select the personal account radio button"""
@@ -64,7 +64,7 @@ class RegistrationPage:
         """Click the sign up button"""
         self.page.locator(SignupLocators.SIGN_UP_BUTTON).click()
         self.page.wait_for_selector(CommonComponentsLocators.VC_LOADER_OVERLAY_SPINNER, state="hidden", timeout=10000)
-        self.page.wait_for_url(f'{self.config["base_url"]}/successful-registration')
+        self.page.wait_for_url(f'{self.config["frontend_base_url"]}/successful-registration')
 
     def validate_required_fields(self):
         """Validate required fields"""
@@ -73,7 +73,7 @@ class RegistrationPage:
 
     def is_success_message_visible(self) -> bool:
         """Check if registration success message is visible"""
-        expect(self.page).to_have_url(f'{self.config["base_url"]}/successful-registration')
+        expect(self.page).to_have_url(f'{self.config["frontend_base_url"]}/successful-registration')
         expect(self.page.locator(SignupLocators.REGISTRATION_COMPLETED_TITLE)).to_contain_text("Registration completed")
         return self.page.locator(SignupLocators.REGISTRATION_COMPLETED_TITLE).is_visible()
 
