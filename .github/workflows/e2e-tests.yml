@@ -2,9 +2,9 @@ name: E2E Tests
 
 on:
   push:
-    branches: [ dev ]
+    branches: [dev]
   pull_request:
-    branches: [ dev ]
+    branches: [dev]
 
 jobs:
   e2e-test:
@@ -27,36 +27,37 @@ jobs:
       API_KEY: ${{ secrets.API_KEY }}
       STORE_ID: B2B-store
       PLAYWRIGHT_HEADLESS: "true"
-      
-    steps:
-    - uses: actions/checkout@v4
-    
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.11'
-        
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        pip install pytest-html
-        
-    - name: Install Playwright Browsers
-      run: playwright install --with-deps ${{ matrix.browser }}
-      
-    - name: Run E2E Tests
-      run: |
-        echo "Running E2E tests against ${{ env.BASE_URL }}"
-        pytest e2e/ --browser ${{ matrix.browser }} --html=e2e-report.html --self-contained-html --tracing=retain-on-failure -v -s
 
-    - name: Upload test results
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: e2e-test-results-${{ matrix.browser }}
-        path: |
-          e2e-report.html
-          playwright-report/
-          test-results/
-        retention-days: 30 
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest-html
+
+      - name: Install Playwright Browsers
+        run: playwright install --with-deps ${{ matrix.browser }}
+
+      - name: Run E2E Tests
+        run: |
+          echo "Running E2E tests against ${{ env.BASE_URL }}"
+          pytest e2e/ --browser ${{ matrix.browser }} --html=e2e-report.html --self-contained-html --tracing=retain-on-failure -v -s
+          pytest tests_e2e/tests/ --browser ${{ matrix.browser }} --html=e2e-report.html --self-contained-html --tracing=retain-on-failure -v -s
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-test-results-${{ matrix.browser }}
+          path: |
+            e2e-report.html
+            playwright-report/
+            test-results/
+          retention-days: 30
