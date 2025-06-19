@@ -6,7 +6,7 @@ from tests_e2e.pages.sign_in_page import SignInPage
 
 @pytest.mark.e2e
 @allure.feature("Sign in with valid credentials (E2E)")
-def test_e2e_successful_sign_in(config, page):
+def test_e2e_valid_sign_in(config, page):
     print(f"{os.linesep}Running E2E test to sign in with valid credentials...", end=" ")
 
     home_page = HomePage(config, page)
@@ -20,3 +20,19 @@ def test_e2e_successful_sign_in(config, page):
     expect(home_page.header_component.sign_in_link).not_to_be_visible()
     expect(home_page.header_component.sign_up_link).not_to_be_visible()
     expect(home_page.header_component.dashboard_link).to_be_visible()
+
+
+@pytest.mark.e2e
+@allure.feature("Sign in with invalid credentials (E2E)")
+def test_e2e_invalid_sign_in(config, page):
+    print(f"{os.linesep}Running E2E test to sign in with invalid credentials...", end=" ")
+
+    home_page = HomePage(config, page)
+    sign_in_page = SignInPage(config, page)
+
+    sign_in_page.navigate()
+
+    sign_in_page.sign_in("fake-username@test.com", "FakePassword1!")
+
+    expect(page).to_have_url(sign_in_page.url)
+    expect(sign_in_page.sign_in_error_alert).to_be_visible()

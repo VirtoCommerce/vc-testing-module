@@ -37,6 +37,11 @@ class SignInPage:
         """Sign in page sign up button locator"""
         return self.page.locator("[data-test-id='sign-in-registration-button']")
 
+    @property
+    def sign_in_error_alert(self) -> Locator:
+        """Sign in page error alert locator"""
+        return self.page.locator("[data-test-id^='sign-in-error-'][data-test-id$='-alert']")
+
     def navigate(self):
         self.page.goto(f"{self.config['frontend_base_url']}/sign-in")
         self.page.wait_for_load_state("networkidle")

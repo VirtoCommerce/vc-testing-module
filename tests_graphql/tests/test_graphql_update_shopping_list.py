@@ -30,7 +30,13 @@ def test_update_shopping_list(config, auth, graphql_client):
     )
 
     updated_shopping_list = shopping_lists_operations.update_shopping_list(
-        payload={"listId": new_shopping_list["id"], "listName": "[E2E test] Updated shopping list", "scope": "Private"},
+        payload={
+            "listId": new_shopping_list["id"],
+            "listName": "[E2E test] Updated shopping list",
+            "description": "Updated description",
+            "cultureName": TEST_CULTURE["en-US"],
+            "scope": "Private",
+        }
     )
 
     # Test teardown
