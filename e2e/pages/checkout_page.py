@@ -17,17 +17,38 @@ class CheckoutPage:
         """Select delivery method"""
         self.page.click(self.locators.DELIVERY_METHOD_BUTTON)
         self.page.click(self.locators.DELIVERY_METHOD_FIXED_RATE.format(delivery_method))
-
+    
+    
     def click_on_shipping_address(self, data: dict = None):
-        """Click shipping address"""
-        self.page.get_by_text(text="select a shipping address").is_visible()
-        self.page.click(self.locators.SHIPING_ADDRESS_BUTTON)
-        self.dialog_modal_actions.check_dialog_modal_is_open()
-        if self.dialog_modal_actions.check_dialog_modal_title("New address"):
+   
+        self.page.wait_for_load_state("networkidle")
+
+        # Check if a shipping address is already selected
+        if self.page.locator(self.locators.SELECTED_SHIPPING_ADDRESS).is_visible():
+            print("Shipping address already selected.")
+            return
+        
+        
+        # Check for "select a shipping address" prompt on the page
+        if self.page.get_by_text("select a shipping address").is_visible():
+            print("Opening shipping address dialog.")
+            self.page.click(self.locators.SELECT_SHIPING_ADDRESS)
+            self.dialog_modal_actions.check_dialog_modal_is_open()
+            print("Filling new shipping address form.")
             self.fill_shipping_address(data)
-        else:
-            self.dialog_modal_actions.check_dialog_modal_title("Select address")
+            return  
+        elif self.dialog_modal_actions.check_dialog_modal_title("New address"):
+            print("Filling new shipping address form.")
+            self.fill_shipping_address(data)
+            return
+        elif self.dialog_modal_actions.check_dialog_modal_title("Select address"):
+            print("Selecting an existing shipping address.")
             self.select_shiping_address()
+            return
+   
+
+        # If none of the above, raise an error
+        raise Exception("No shipping address found or unable to determine shipping address state.")
 
     def fill_shipping_address(self, data: dict = None):
         """Fill shipping address form"""

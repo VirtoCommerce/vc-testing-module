@@ -17,8 +17,9 @@ class CheckoutLocators:
 
     DELIVERY_METHOD_BUTTON = "//div[@data-test-id='shipping-method-select']"
     DELIVERY_METHOD_FIXED_RATE = "//span[contains(.,'Fixed Rate ({})')]"
-    SELECT_SHIPING_ADDRESS = "(//span[text()='Select'])[1]"
+    SELECT_SHIPING_ADDRESS = "//button[@data-test-id='select-address-button']"
     SELECTED_SHIPPING_ADDRESS = "(//div[@class='vc-address-selection']//span)[1]"
+    SELECTED_SHIPPING_ADDRESS_BUTTON = "(//button[contains(@class,'vc-button group')])[2]"
 
     # Order Details
     ORDER_COMMENTS = "#order_comments"
