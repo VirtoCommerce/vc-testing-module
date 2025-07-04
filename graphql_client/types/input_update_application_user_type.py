@@ -3,8 +3,8 @@ from pydantic import BaseModel
 
 class InputUpdateApplicationUserType(BaseModel):
     def __init__(self):
-        from datetime import datetime
         from graphql_client.types.input_assign_role_type import InputAssignRoleType
+        from datetime import datetime
 
         self.accessFailedCount: int | None
         self.email: str
