@@ -1,7 +1,5 @@
 from typing import Optional
-import allure
-import pytest
-import requests
+import allure, json, pytest, requests
 
 
 @pytest.fixture(scope="session")
@@ -39,16 +37,19 @@ def webapi_client(config, auth):
             return self.send_request("GET", endpoint, params=params, **kwargs)
 
         def post(self, endpoint: str, data: Optional[dict] = None, **kwargs):
-            return self.send_request("POST", endpoint, data=data, **kwargs)
+            return self.send_request("POST", endpoint, data=json.dumps(data), **kwargs)
 
         def put(self, endpoint: str, data: Optional[dict] = None, **kwargs):
-            return self.send_request("PUT", endpoint, data=data, **kwargs)
+            return self.send_request("PUT", endpoint, data=json.dumps(data), **kwargs)
 
         def delete(self, endpoint: str, **kwargs):
             return self.send_request("DELETE", endpoint, **kwargs)
 
+        def patch(self, endpoint: str, data: Optional[dict] = None, **kwargs):
+            return self.send_request("PATCH", endpoint, data=json.dumps(data), **kwargs)
+
         def request(self, method: str, endpoint: str, data: Optional[dict] = None, **kwargs):
-            return self.send_request(method, endpoint, data=data, **kwargs)
+            return self.send_request(method, endpoint, data=json.dumps(data), **kwargs)
 
     session = WebAPISession()
     session.headers.update({"Content-Type": "application/json"})

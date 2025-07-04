@@ -3,8 +3,8 @@ from pydantic import BaseModel
 
 class OrderShipmentPackageType(BaseModel):
     def __init__(self):
-        from graphql_client.types.order_shipment_item_type import OrderShipmentItemType
         from decimal import Decimal
+        from graphql_client.types.order_shipment_item_type import OrderShipmentItemType
 
         self.id: str
         self.barCode: str | None

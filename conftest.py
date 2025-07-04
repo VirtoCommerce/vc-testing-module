@@ -19,9 +19,10 @@ from fixtures.auth_token import auth_token
 from fixtures.auth_fixture import auth
 from fixtures.graphql_client import graphql_client
 from fixtures.webapi_client import webapi_client
+from fixtures.anonymous_catalog_requests_fixture import anonymous_catalog_requests
 
 # Load environment variables from .env file
-load_dotenv()
+load_dotenv(override=True)
 
 
 @pytest.fixture(scope="session")

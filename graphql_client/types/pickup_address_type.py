@@ -20,3 +20,4 @@ class PickupAddressType(BaseModel):
         self.email: str | None
         self.outerId: str | None
         self.description: str | None
+        self.addressType: int | None

@@ -8,11 +8,12 @@ class WhiteLabelingSettingsQuery:
 
     def execute(self, variables: dict, return_fields: str = None) -> WhiteLabelingSettingsType:
         query_string = f"""
-            query whiteLabelingSettings($organizationId: String, $userId: String, $storeId: String, $cultureName: String) {{
+            query whiteLabelingSettings($organizationId: String, $userId: String, $storeId: String, $domain: String, $cultureName: String) {{
                 whiteLabelingSettings(
                     organizationId: $organizationId,
                     userId: $userId,
                     storeId: $storeId,
+                    domain: $domain,
                     cultureName: $cultureName
                 ) {{
                     {return_fields}

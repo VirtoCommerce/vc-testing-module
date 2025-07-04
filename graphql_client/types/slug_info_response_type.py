@@ -6,3 +6,4 @@ class SlugInfoResponseType(BaseModel):
         from graphql_client.types.seo_info import SeoInfo
 
         self.entityInfo: SeoInfo | None
+        self.redirectUrl: str | None
