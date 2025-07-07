@@ -16,8 +16,8 @@ jobs:
         browser: [chromium]
 
     env:
-      BASE_URL: https://vcst-qa-storefront.govirto.com
-      BACK_URL: https://vcst-qa.govirto.com
+      FRONTEND_BASE_URL: https://vcst-qa-storefront.govirto.com
+      BACKEND_BASE_URL: https://vcst-qa.govirto.com
       ADMIN_USERNAME: admin
       ADMIN_PASSWORD: Password3
       ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
