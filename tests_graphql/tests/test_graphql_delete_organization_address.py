@@ -17,6 +17,10 @@ def test_delete_organization_address(auth, graphql_client):
 
     user = user_operations.get_user()
 
+    organization = contact_operations.fetch_organization_addresses(user["contact"]["organizationId"], user["id"])
+
+    print(f"Organization addresses before update: {organization}")
+
     contact = contact_operations.update_contact_addresses(
         payload={"memberId": user["contact"]["organizationId"], "addresses": [TEST_CUSTOMER_ADDRESS]}
     )
@@ -26,6 +30,10 @@ def test_delete_organization_address(auth, graphql_client):
     updated_contact = contact_operations.delete_contact_address(
         payload={"memberId": user["contact"]["organizationId"], "addresses": [added_address]}
     )
+
+    organization = contact_operations.fetch_organization_addresses(user["contact"]["organizationId"], user["id"])
+
+    print(f"Organization addresses after update: {organization}")
 
     auth.clear_token()
 
