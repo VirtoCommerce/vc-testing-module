@@ -5,14 +5,14 @@ CURRENCY_TEST_PRODUCT = {
     "quantity": 2,
     "price": 60.00,
     "url_2": "e2e-test-electronics/e2e-test-asus-expertbook-b5-b5604",
-    "name_2": "[E2E Test] ASUS ExpertBook B5 (B5604), RAM 16Gb, SSD 1Tb, Black",
+    "name_2": "[E2E Test] ASUS ExpertBook B5 (B5604)",
     "quantity_2": 2,
     "price_2": 1442.99,
 }
 
 # Merge cart test data
 MERGE_CART_USER_PRODUCT = {
-    "name": "[E2E Test] ASUS ExpertBook B5 (B5604), RAM 16Gb, SSD 1Tb, Black",
+    "name": "[E2E Test] ASUS ExpertBook B5 (B5604)",
     "url": "e2e-test-electronics/e2e-test-asus-expertbook-b5-b5604",
     "quantity": 2,
     "price": 1442.99,
