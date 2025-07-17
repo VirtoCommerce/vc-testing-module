@@ -10,7 +10,7 @@ from tests_e2e.pages.home_page import HomePage
 def test_e2e_navigate_application_as_anonymous_user(config, page: Page, graphql_client: Client):
     print(f"{os.linesep}Running E2E test to navigate application as anonymous user...", end=" ")
 
-    home_page = HomePage(config, page)
+    home_page = HomePage(page, config)
     store_operations = StoreOperations(graphql_client)
 
     frontend_domain = config["frontend_base_url"].split("//")[1]

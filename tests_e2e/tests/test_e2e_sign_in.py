@@ -9,8 +9,8 @@ from tests_e2e.pages.sign_in_page import SignInPage
 def test_e2e_valid_sign_in(config, page):
     print(f"{os.linesep}Running E2E test to sign in with valid credentials...", end=" ")
 
-    home_page = HomePage(config, page)
-    sign_in_page = SignInPage(config, page)
+    home_page = HomePage(page, config)
+    sign_in_page = SignInPage(page, config)
 
     sign_in_page.navigate()
 
@@ -27,8 +27,8 @@ def test_e2e_valid_sign_in(config, page):
 def test_e2e_invalid_sign_in(config, page):
     print(f"{os.linesep}Running E2E test to sign in with invalid credentials...", end=" ")
 
-    home_page = HomePage(config, page)
-    sign_in_page = SignInPage(config, page)
+    home_page = HomePage(page, config)
+    sign_in_page = SignInPage(page, config)
 
     sign_in_page.navigate()
 

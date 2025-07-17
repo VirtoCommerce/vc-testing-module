@@ -12,7 +12,7 @@ def test_e2e_select_language_in_store(config, page):
 
     sign_in_page = SignInPage(page, config)
     header_component = HeaderComponent(page, config)
-    home_page = HomePage(config, page)
+    home_page = HomePage(page, config)
 
     sign_in_page.navigate()
 
