@@ -12,6 +12,7 @@ def random_search_data():
         "dryer brush",
         "note",
         "beer",
+        "win"
         "laptop",
         "light",
         "bottle",

@@ -1,6 +1,6 @@
 from playwright.sync_api import Page, expect, BrowserContext
 from e2e.pages.locators.cart_locators import CartLocators
-import datetime
+from e2e.pages.locators.catalog_locators import CatalogPageLocators 
 from utils.commonLocators.common_components_locators import CommonComponentsLocators
 
 
@@ -19,7 +19,8 @@ class CartPage:
         """Add a product to cart with specified quantity"""
         self.page.goto(f"{self.config['frontend_base_url']}/{product_name}")
         self.page.fill(CartLocators.QUANTITY_INPUT, str(quantity))
-        self.page.click(CartLocators.ADD_TO_CART_BUTTON)
+        self.page.locator(CatalogPageLocators.ADD_TO_CART_PDP).click()
+        self.page.locator(CatalogPageLocators.UPDATE_CART_PDP).wait_for(state="visible")        
 
     def get_cart_count(self) -> int:
         """Get the current cart count from the menu"""
@@ -144,8 +145,7 @@ class CartPage:
         self.page.wait_for_load_state("networkidle")
         actual_count = self.page.locator(CartLocators.LINE_ITEM).count()
 
-        print("=== Product Count Verification ===")
-        print(f"Time: {datetime.datetime.now()}")
+        print("=== Product Count Verification ===")       
         print(f"Expected count: {expected_count}")
         print(f"Actual count: {actual_count}")
 

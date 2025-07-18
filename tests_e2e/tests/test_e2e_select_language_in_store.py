@@ -7,8 +7,9 @@ from graphql_operations.store.store_operations import StoreOperations
 
 
 @pytest.mark.e2e
+@pytest.mark.parametrize("language", ["de-DE", "fr-FR", "it-IT"])
 @allure.feature("Select language in store (E2E)")
-def test_e2e_select_language_in_store(config, page, graphql_client):
+def test_e2e_select_language_in_store(config, page, graphql_client, language):
     print(f"{os.linesep}Running E2E test to select language in store...", end=" ")
 
     sign_in_page = SignInPage(page, config)
@@ -32,12 +33,12 @@ def test_e2e_select_language_in_store(config, page, graphql_client):
         expect(header_component.language_selector).to_be_visible()
         expect(header_component.current_language_label).to_have_text(store["defaultLanguage"]["twoLetterLanguageName"])
 
-    german_language = next((lang for lang in store["availableLanguages"] if lang["cultureName"] == "de-DE"), None)
-    if german_language:
-       header_component.select_language(german_language["twoLetterLanguageName"])
-       expect(header_component.current_language_label).to_have_text(german_language["twoLetterLanguageName"])
+    language = next((lang for lang in store["availableLanguages"] if lang["cultureName"] == language), None)
+    if language:
+       header_component.select_language(language["twoLetterLanguageName"])
+       expect(header_component.current_language_label).to_have_text(language["twoLetterLanguageName"])
     else:
-        print(f"{os.linesep}German language not found in store available languages")    
+        print(f"{os.linesep}Language {language} not found in store available languages")    
 
     header_component.sign_out()
     expect(header_component.sign_in_link).to_be_visible()

@@ -1,7 +1,7 @@
 # Currency test data
 CURRENCY_TEST_PRODUCT = {
-    "url": "printers/multifunction-printers/laser-color/epson-workforce-wf-3640-all-in-one-printer",
-    "name": "Epson WorkForce WF-3640 All-in-One Printer",
+    "url": "e2e-test-notebooks/e2e-epson-workforce-wf-3640-all-in-one-printer",
+    "name": "[E2E] Epson WorkForce WF-3640 All-in-One Printer",
     "quantity": 2,
     "price": 60.00,
     "url_2": "e2e-test-electronics/e2e-test-asus-expertbook-b5-b5604",
@@ -19,8 +19,8 @@ MERGE_CART_USER_PRODUCT = {
 }
 
 MERGE_CART_ANONYMOUS_PRODUCT = {
-    "url": "printers/multifunction-printers/laser-color/epson-workforce-wf-3640-all-in-one-printer",
-    "name": "Epson WorkForce WF-3640 All-in-One Printer",
+    "url": "e2e-test-notebooks/e2e-epson-workforce-wf-3640-all-in-one-printer",
+    "name": "[E2E] Epson WorkForce WF-3640 All-in-One Printer",
     "quantity": 1,
     "price": 60.00,
 }
@@ -84,8 +84,8 @@ PAYMENT_SKYFLOW = {
 
 
 PRODUCT = {
-    "url": "printers/multifunction-printers/laser-color/epson-workforce-wf-3640-all-in-one-printer",
-    "name": "Epson WorkForce WF-3640 All-in-One Printer",
+    "url": "e2e-test-notebooks/e2e-epson-workforce-wf-3640-all-in-one-printer",
+    "name": "[E2E] Epson WorkForce WF-3640 All-in-One Printer",
     "initial_quantity": 2,
     "updated_quantity": 3,
     "price": 60.00,
