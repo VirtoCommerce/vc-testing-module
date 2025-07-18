@@ -3,7 +3,7 @@ from tests_e2e.components.header_component import HeaderComponent
 
 
 class SignInPage:
-    def __init__(self, config: dict, page: Page):
+    def __init__(self, page: Page, config: dict):
         self.page = page
         self.config = config
         self.header_component = HeaderComponent(page, config)
