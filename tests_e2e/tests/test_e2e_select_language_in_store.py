@@ -19,7 +19,7 @@ def test_e2e_select_language_in_store(config, page, graphql_client, language):
 
     sign_in_page.navigate()
 
-    sign_in_page.sign_in(config["front_admin"], config["password"])
+    sign_in_page.sign_in(config["username"], config["password"])
 
     expect(page).to_have_url(home_page.url)
     expect(header_component.sign_in_link).not_to_be_visible()
