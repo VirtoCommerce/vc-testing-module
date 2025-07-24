@@ -35,6 +35,11 @@ def test_invite_user(config: dict, auth: Auth, graphql_client: GraphQLClient):
         }
     )
 
+    if invitation_result["succeeded"] == False:
+        raise Exception(
+            f"{os.linesep}Invitation failed: {invitation_result['errors'][0]}"
+        )
+
     invited_contact = contact_operations.fetch_organization_contacts(
         organization_id=user["contact"]["organizationId"],
         user_id=user["id"],
