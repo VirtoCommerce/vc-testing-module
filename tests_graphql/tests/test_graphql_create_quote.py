@@ -15,43 +15,23 @@ from test_data.test_user import TEST_ADMIN_USER
 
 
 @pytest.mark.graphql
-@allure.title("Create empty quote from cart (GraphQL)")
-def test_create_empty_quote_from_cart(
-    config: dict, auth: Auth, graphql_client: GraphQLClient
-):
-    print(f"{os.linesep}Running test to create empty quote from cart...", end=" ")
+@allure.title("Create empty quote (GraphQL)")
+def test_create_empty_quote(config: dict, auth: Auth, graphql_client: GraphQLClient):
+    print(f"{os.linesep}Running test to create empty quote...", end=" ")
 
     user_operations = UserOperations(graphql_client)
-    cart_operations = CartOperations(graphql_client)
     quote_operations = QuoteOperations(graphql_client)
 
     auth.authenticate(TEST_ADMIN_USER["username"], TEST_ADMIN_USER["password"])
 
     user = user_operations.get_user()
 
-    cart = cart_operations.add_item_to_cart(
+    quote = quote_operations.create_quote(
         payload={
             "storeId": config["store_id"],
             "userId": user["id"],
-            "productId": TEST_PRODUCT_1["id"],
-            "quantity": 1,
             "currencyCode": TEST_CURRENCY["USD"],
             "cultureName": TEST_CULTURE["en-US"],
-        }
-    )
-
-    quote = quote_operations.create_quote_from_cart(
-        payload={
-            "cartId": cart["id"],
-            "comment": "Test comment",
-        }
-    )
-
-    # Test teardown
-    cart_operations.remove_cart(
-        payload={
-            "cartId": cart["id"],
-            "userId": user["id"],
         }
     )
 
@@ -62,7 +42,7 @@ def test_create_empty_quote_from_cart(
     assert quote["status"] == "Draft", "Quote status is not Draft"
     assert quote["storeId"] == config["store_id"], "Quote store ID is not correct"
     assert quote["customerId"] == user["id"], "Quote customer ID is not correct"
-    assert quote["comment"] == "Test comment", "Quote comment is not correct"
+    assert quote["comment"] is None, "Quote comment is not None"
     assert len(quote["items"]) == 0, "Quote items are not empty"
 
 
