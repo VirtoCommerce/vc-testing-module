@@ -29,11 +29,15 @@ def test_create_empty_quote_from_cart(
 
     user = user_operations.get_user()
 
-    cart = cart_operations.get_cart(
-        store_id=config["store_id"],
-        user_id=user["id"],
-        currency_code=TEST_CURRENCY["USD"],
-        culture_name=TEST_CULTURE["en-US"],
+    cart = cart_operations.add_item_to_cart(
+        payload={
+            "storeId": config["store_id"],
+            "userId": user["id"],
+            "productId": TEST_PRODUCT_1["id"],
+            "quantity": 1,
+            "currencyCode": TEST_CURRENCY["USD"],
+            "cultureName": TEST_CULTURE["en-US"],
+        }
     )
 
     quote = quote_operations.create_quote_from_cart(
