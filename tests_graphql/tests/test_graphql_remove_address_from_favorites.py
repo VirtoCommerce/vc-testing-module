@@ -1,13 +1,15 @@
 import allure, os, pytest
 from graphql_operations.contact.contact_operations import ContactOperations
 from graphql_operations.user.user_operations import UserOperations
-from tests_graphql.test_data.test_address import TEST_CUSTOMER_ADDRESS, TEST_CUSTOMER_ADDRESS_1
-from tests_graphql.test_data.test_user import TEST_PERMANENT_CORPORATE_USER
+from test_data.test_address import TEST_CUSTOMER_ADDRESS_1
+from test_data.test_user import TEST_PERMANENT_CORPORATE_USER
+from fixtures.auth_fixture import Auth
+from fixtures.graphql_client_fixture import GraphQLClient
 
 
 @pytest.mark.graphql
 @allure.title("Add address to favorites (GraphQL)")
-def test_add_address_to_favorites(auth, graphql_client):
+def test_add_address_to_favorites(auth: Auth, graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to add address to favorites...", end=" ")
 
     user_operations = UserOperations(graphql_client)
@@ -18,7 +20,7 @@ def test_add_address_to_favorites(auth, graphql_client):
     user = user_operations.get_user()
 
     contact = contact_operations.update_contact_addresses(
-        payload={"memberId": user["contact"]["organizationId"], "addresses": [TEST_CUSTOMER_ADDRESS]}
+        payload={"memberId": user["contact"]["organizationId"], "addresses": [TEST_CUSTOMER_ADDRESS_1]}
     )
 
     added_address = contact["addresses"]["items"][0]

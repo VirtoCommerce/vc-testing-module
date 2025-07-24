@@ -3,13 +3,12 @@ from pydantic import BaseModel
 
 class OrderPaymentMethodType(BaseModel):
     def __init__(self):
-        from decimal import Decimal
-        from graphql_client.types.money_type import MoneyType
-        from graphql_client.types.order_tax_detail_type import OrderTaxDetailType
         from graphql_client.types.currency_type import CurrencyType
+        from decimal import Decimal
+        from graphql_client.types.order_tax_detail_type import OrderTaxDetailType
+        from graphql_client.types.money_type import MoneyType
 
         self.code: str
-        self.name: str | None
         self.description: str | None
         self.logoUrl: str | None
         self.priority: int
@@ -17,6 +16,7 @@ class OrderPaymentMethodType(BaseModel):
         self.isAvailableForPartial: bool
         self.typeName: str
         self.storeId: str | None
+        self.name: str | None
         self.currency: CurrencyType
         self.price: MoneyType
         self.priceWithTax: MoneyType

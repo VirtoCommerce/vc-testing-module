@@ -2,15 +2,17 @@ import allure, os, pytest
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.catalog.products_operations import ProductsOperations
 from graphql_operations.user.user_operations import UserOperations
-from tests_graphql.test_data.test_catalog import MIXED_CATALOG
-from tests_graphql.test_data.test_culture import TEST_CULTURE
-from tests_graphql.test_data.test_currency import TEST_CURRENCY
-from tests_graphql.test_data.test_product import TEST_PRODUCT_2
+from test_data.test_catalog import MIXED_CATALOG
+from test_data.test_culture import TEST_CULTURE
+from test_data.test_currency import TEST_CURRENCY
+from test_data.test_product import TEST_PRODUCT_2
+from fixtures.graphql_client_fixture import GraphQLClient
+from typing import Dict, Any
 
 
 @pytest.mark.graphql
 @allure.title("Add variation to cart (GraphQL)")
-def test_add_variation_to_cart(config, graphql_client):
+def test_add_variation_to_cart(config: Dict[str, Any], graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to add variation to cart...", end=" ")
 
     user_operations = UserOperations(graphql_client)

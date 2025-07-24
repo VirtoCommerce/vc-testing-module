@@ -1,14 +1,15 @@
 import allure, os, pytest
 from graphql_operations.catalog.products_operations import ProductsOperations
 from graphql_operations.user.user_operations import UserOperations
-from tests_graphql.test_data.test_culture import TEST_CULTURE
-from tests_graphql.test_data.test_currency import TEST_CURRENCY
-from tests_graphql.test_data.test_product import TEST_CONFIGURABLE_PRODUCT_1
+from test_data.test_culture import TEST_CULTURE
+from test_data.test_currency import TEST_CURRENCY
+from test_data.test_product import TEST_CONFIGURABLE_PRODUCT_1
+from fixtures.graphql_client_fixture import GraphQLClient
 
 
 @pytest.mark.graphql
 @allure.title("Create configurable item (GraphQL)")
-def test_create_configurable_item(config, graphql_client):
+def test_create_configurable_item(config: dict, graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to create configurable item...", end=" ")
 
     user_operations = UserOperations(graphql_client)

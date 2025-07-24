@@ -1,15 +1,18 @@
+from fixtures.auth_fixture import Auth
 import allure, os, pytest
 from graphql_operations.shopping_lists.shopping_lists_operations import ShoppingListsOperations
 from graphql_operations.user.user_operations import UserOperations
-from tests_graphql.test_data.test_culture import TEST_CULTURE
-from tests_graphql.test_data.test_currency import TEST_CURRENCY
-from tests_graphql.test_data.test_product import TEST_PRODUCT_1
-from tests_graphql.test_data.test_user import TEST_PERMANENT_USER
+from test_data.test_culture import TEST_CULTURE
+from test_data.test_currency import TEST_CURRENCY
+from test_data.test_product import TEST_PRODUCT_1
+from test_data.test_user import TEST_PERMANENT_USER
+from fixtures.graphql_client_fixture import GraphQLClient
+from typing import Dict, Any
 
 
 @pytest.mark.graphql
 @allure.title("Add item to shopping list (GraphQL)")
-def test_add_item_to_shopping_list(config, auth, graphql_client):
+def test_add_item_to_shopping_list(config: Dict[str, Any], auth: Auth, graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to add item to shopping list...", end=" ")
 
     user_operations = UserOperations(graphql_client)

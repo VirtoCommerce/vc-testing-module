@@ -1,12 +1,14 @@
 import allure, os, pytest
 from graphql_operations.contact.contact_operations import ContactOperations
 from graphql_operations.user.user_operations import UserOperations
-from tests_graphql.test_data.test_user import TEST_PERMANENT_CORPORATE_USER
+from test_data.test_user import TEST_PERMANENT_CORPORATE_USER
+from fixtures.auth_fixture import Auth
+from fixtures.graphql_client_fixture import GraphQLClient
 
 
 @pytest.mark.graphql
 @allure.title("Filter organization contacts by role (GraphQL)")
-def test_filter_organization_contacts_by_role(auth, graphql_client):
+def test_filter_organization_contacts_by_role(auth: Auth, graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to filter organization contacts by role...", end=" ")
 
     user_operations = UserOperations(graphql_client)
@@ -49,7 +51,7 @@ def test_filter_organization_contacts_by_role(auth, graphql_client):
 
 @pytest.mark.graphql
 @allure.title("Filter organization contacts by status (GraphQL)")
-def test_filter_organization_contacts_by_status(auth, graphql_client):
+def test_filter_organization_contacts_by_status(auth: Auth, graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to filter organization contacts by status...", end=" ")
 
     user_operations = UserOperations(graphql_client)

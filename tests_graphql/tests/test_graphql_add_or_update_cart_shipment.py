@@ -1,13 +1,16 @@
 import allure, os, pytest
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
-from tests_graphql.test_data.test_culture import TEST_CULTURE
-from tests_graphql.test_data.test_currency import TEST_CURRENCY
+from test_data.test_culture import TEST_CULTURE
+from test_data.test_currency import TEST_CURRENCY
+from test_data.test_product import TEST_PRODUCT_1
+from fixtures.graphql_client_fixture import GraphQLClient
+from typing import Dict, Any
 
 
 @pytest.mark.graphql
 @allure.title("Add cart shipment (GraphQL)")
-def test_add_cart_shipment(config, graphql_client):
+def test_add_cart_shipment(config: Dict[str, Any], graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to add a cart shipment...", end=" ")
 
     user_operations = UserOperations(graphql_client)
@@ -15,11 +18,15 @@ def test_add_cart_shipment(config, graphql_client):
 
     user = user_operations.get_user()
 
-    cart = cart_operations.get_cart(
-        store_id=config["store_id"],
-        user_id=user["id"],
-        currency_code=TEST_CURRENCY["USD"],
-        culture_name=TEST_CULTURE["en-US"],
+    cart = cart_operations.add_item_to_cart(
+        payload={
+            "storeId": config["store_id"],
+            "userId": user["id"],
+            "productId": TEST_PRODUCT_1["id"],
+            "quantity": 1,
+            "currencyCode": TEST_CURRENCY["USD"],
+            "cultureName": TEST_CULTURE["en-US"],
+        }
     )
 
     ground_shipping_method = next(
@@ -83,7 +90,7 @@ def test_add_cart_shipment(config, graphql_client):
 
 @pytest.mark.graphql
 @allure.title("Update cart shipment (GraphQL)")
-def test_update_cart_shipment(config, graphql_client):
+def test_update_cart_shipment(config: Dict[str, Any], graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to update a cart shipment...", end=" ")
 
     user_operations = UserOperations(graphql_client)
@@ -91,11 +98,15 @@ def test_update_cart_shipment(config, graphql_client):
 
     user = user_operations.get_user()
 
-    cart = cart_operations.get_cart(
-        store_id=config["store_id"],
-        user_id=user["id"],
-        currency_code=TEST_CURRENCY["USD"],
-        culture_name=TEST_CULTURE["en-US"],
+    cart = cart_operations.add_item_to_cart(
+        payload={
+            "storeId": config["store_id"],
+            "userId": user["id"],
+            "productId": TEST_PRODUCT_1["id"],
+            "quantity": 1,
+            "currencyCode": TEST_CURRENCY["USD"],
+            "cultureName": TEST_CULTURE["en-US"],
+        }
     )
 
     ground_shipping_method = next(

@@ -7,10 +7,10 @@ class Category(BaseModel):
         from graphql_client.types.category_description_type import CategoryDescriptionType
         from graphql_client.types.image_type import ImageType
         from graphql_client.types.category_description_type import CategoryDescriptionType
-        from graphql_client.types.category import Category
+        from graphql_client.types.seo_info import SeoInfo
         from graphql_client.types.breadcrumb import Breadcrumb
         from graphql_client.types.outline_type import OutlineType
-        from graphql_client.types.seo_info import SeoInfo
+        from graphql_client.types.category import Category
         from graphql_client.types.category import Category
 
         self.id: str

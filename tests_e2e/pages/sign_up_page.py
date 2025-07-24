@@ -1,13 +1,12 @@
 from typing import Optional
 from playwright.sync_api import Locator, Page
-from tests_e2e.components.header_component import HeaderComponent
+from tests_e2e.pages.main_layout_page import MainLayoutPage
 
 
-class SignUpPage:
+class SignUpPage(MainLayoutPage):
     def __init__(self, config: dict, page: Page):
         self.page = page
         self.config = config
-        self.header_component = HeaderComponent(page, config)
 
     @property
     def url(self) -> str:

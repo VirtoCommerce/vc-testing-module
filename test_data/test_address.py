@@ -1,4 +1,4 @@
-TEST_CUSTOMER_ADDRESS = {
+TEST_CUSTOMER_ADDRESS_1 = {
     "city": "New York",
     "countryCode": "USA",
     "countryName": "United States of America",
@@ -12,7 +12,7 @@ TEST_CUSTOMER_ADDRESS = {
     "regionName": "New York",
 }
 
-TEST_CUSTOMER_ADDRESS_1 = {
+TEST_CUSTOMER_ADDRESS_2 = {
     "city": "Juneau",
     "countryCode": "USA",
     "countryName": "United States of America",

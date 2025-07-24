@@ -1,13 +1,15 @@
 import allure, os, pytest
 from graphql_operations.order.order_operations import OrderOperations
 from graphql_operations.user.user_operations import UserOperations
-from tests_graphql.test_data.test_culture import TEST_CULTURE
-from tests_graphql.test_data.test_user import TEST_PERMANENT_USER
+from test_data.test_culture import TEST_CULTURE
+from test_data.test_user import TEST_PERMANENT_USER
+from fixtures.auth_fixture import Auth
+from fixtures.graphql_client_fixture import GraphQLClient
 
 
 @pytest.mark.graphql
 @allure.title("Sort orders by date (GraphQL)")
-def test_sort_orders_by_date(auth, graphql_client):
+def test_sort_orders_by_date(auth: Auth, graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to sort orders by date...", end=" ")
 
     user_operations = UserOperations(graphql_client)
@@ -42,7 +44,7 @@ def test_sort_orders_by_date(auth, graphql_client):
 
 @pytest.mark.graphql
 @allure.title("Sort orders by total amount (GraphQL)")
-def test_sort_orders_by_total_amount(auth, graphql_client):
+def test_sort_orders_by_total_amount(auth: Auth, graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to sort orders by total amount...", end=" ")
 
     user_operations = UserOperations(graphql_client)

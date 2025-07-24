@@ -1,14 +1,16 @@
 import allure, os, pytest
 from graphql_operations.contact.contact_operations import ContactOperations
 from graphql_operations.user.user_operations import UserOperations
-from tests_graphql.test_data.test_customer import TEST_CUSTOMER
-from tests_graphql.test_data.test_organization import TEST_ORGANIZATION
-from tests_graphql.test_data.test_user import TEST_USER, TEST_ADMIN_USER
+from test_data.test_customer import TEST_CUSTOMER
+from test_data.test_organization import TEST_ORGANIZATION
+from test_data.test_user import TEST_USER, TEST_ADMIN_USER
+from fixtures.auth_fixture import Auth
+from fixtures.graphql_client_fixture import GraphQLClient
 
 
 @pytest.mark.graphql
 @allure.title("Register customer (GraphQL)")
-def test_register_customer(config, auth, graphql_client):
+def test_register_customer(config: dict, auth: Auth, graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to register customer...", end=" ")
 
     auth.authenticate(TEST_ADMIN_USER["username"], TEST_ADMIN_USER["password"])
@@ -55,7 +57,7 @@ def test_register_customer(config, auth, graphql_client):
 
 @pytest.mark.graphql
 @allure.title("Register organization (GraphQL)")
-def test_register_organization(config, auth, graphql_client):
+def test_register_organization(config: dict, auth: Auth, graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to register organization...", end=" ")
 
     auth.authenticate(TEST_ADMIN_USER["username"], TEST_ADMIN_USER["password"])

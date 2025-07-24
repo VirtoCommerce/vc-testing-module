@@ -1,12 +1,14 @@
 import allure, os, pytest
 from graphql_operations.contact.contact_operations import ContactOperations
 from graphql_operations.user.user_operations import UserOperations
-from tests_graphql.test_data.test_user import TEST_PERMANENT_CORPORATE_USER
+from test_data.test_user import TEST_PERMANENT_CORPORATE_USER
+from fixtures.auth_fixture import Auth
+from fixtures.graphql_client_fixture import GraphQLClient
 
 
 @pytest.mark.graphql
 @allure.title("Search organization contacts by name (GraphQL)")
-def test_search_organization_contacts_by_name(auth, graphql_client):
+def test_search_organization_contacts_by_name(auth: Auth, graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to search organization contacts by name...", end=" ")
 
     user_operations = UserOperations(graphql_client)
@@ -27,7 +29,7 @@ def test_search_organization_contacts_by_name(auth, graphql_client):
 
 @pytest.mark.graphql
 @allure.title("Search organization contacts by email (GraphQL)")
-def test_search_organization_contacts_by_email(auth, graphql_client):
+def test_search_organization_contacts_by_email(auth: Auth, graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to search organization contacts by email...", end=" ")
 
     user_operations = UserOperations(graphql_client)

@@ -3,20 +3,25 @@ from gql.transport.exceptions import TransportQueryError
 from graphql_operations.catalog.categories_operations import CategoriesOperations
 from graphql_operations.catalog.products_operations import ProductsOperations
 from graphql_operations.user.user_operations import UserOperations
-from tests_graphql.test_data.test_catalog import TEST_CATALOG
-from tests_graphql.test_data.test_category import TEST_CATEGORY_1
-from tests_graphql.test_data.test_culture import TEST_CULTURE
-from tests_graphql.test_data.test_currency import TEST_CURRENCY
-from tests_graphql.test_data.test_product import TEST_PRODUCT_1
-from tests_graphql.test_data.test_user import TEST_PERMANENT_USER
+from test_data.test_catalog import TEST_CATALOG
+from test_data.test_category import TEST_CATEGORY_1
+from test_data.test_culture import TEST_CULTURE
+from test_data.test_currency import TEST_CURRENCY
+from test_data.test_product import TEST_PRODUCT_1
+from test_data.test_user import TEST_PERMANENT_USER
+from fixtures.graphql_client_fixture import GraphQLClient
+from fixtures.anonymous_catalog_requests_fixture import AnonymousCatalogRequests
+from fixtures.auth_fixture import Auth
+from typing import Dict, Any
+
 
 
 @pytest.mark.graphql
 @allure.title("Success catalog browsing as anonymous user (GraphQL)")
-def test_success_catalog_browsing_as_anonymous_user(config, anonymous_catalog_requests, graphql_client):
+def test_success_catalog_browsing_as_anonymous_user(config: Dict[str, Any], anonymous_catalog_requests: AnonymousCatalogRequests, graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to successfully browse catalog as anonymous user...", end=" ")
 
-    anonymous_catalog_requests.set(True)
+    anonymous_catalog_requests.toggle(True)
 
     user_operations = UserOperations(graphql_client)
     categories_operations = CategoriesOperations(graphql_client)
@@ -66,10 +71,10 @@ def test_success_catalog_browsing_as_anonymous_user(config, anonymous_catalog_re
 
 @pytest.mark.graphql
 @allure.title("Unsuccess catalog browsing as anonymous user (GraphQL)")
-def test_unsuccess_catalog_browsing_as_anonymous_user(config, anonymous_catalog_requests, graphql_client):
+def test_unsuccess_catalog_browsing_as_anonymous_user(config: Dict[str, Any], anonymous_catalog_requests: AnonymousCatalogRequests, graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to unsuccessfully browse catalog as anonymous user...", end=" ")
 
-    anonymous_catalog_requests.set(False)
+    anonymous_catalog_requests.toggle(False)
 
     user_operations = UserOperations(graphql_client)
     categories_operations = CategoriesOperations(graphql_client)
@@ -115,7 +120,7 @@ def test_unsuccess_catalog_browsing_as_anonymous_user(config, anonymous_catalog_
 
     # Test teardown
 
-    anonymous_catalog_requests.set(True)
+    anonymous_catalog_requests.toggle(True)
 
     assert (
         categories_exc_info.value.errors[0]["extensions"]["code"] == "Unauthorized"
@@ -133,10 +138,10 @@ def test_unsuccess_catalog_browsing_as_anonymous_user(config, anonymous_catalog_
 
 @pytest.mark.graphql
 @allure.title("Catalog browsing as registered user (GraphQL)")
-def test_catalog_browsing_as_registered_user(config, auth, anonymous_catalog_requests, graphql_client):
+def test_catalog_browsing_as_registered_user(config: Dict[str, Any], auth: Auth, anonymous_catalog_requests: AnonymousCatalogRequests, graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to browse catalog as registered user...", end=" ")
 
-    anonymous_catalog_requests.set(False)
+    anonymous_catalog_requests.toggle(False)
 
     categories_operations = CategoriesOperations(graphql_client)
     products_operations = ProductsOperations(graphql_client)
@@ -186,7 +191,7 @@ def test_catalog_browsing_as_registered_user(config, auth, anonymous_catalog_req
 
     # Test teardown
 
-    anonymous_catalog_requests.set(True)
+    anonymous_catalog_requests.toggle(True)
 
     assert category["id"] == category_to_compare["id"], "Category ID does not match"
     assert product["id"] == product_to_compare["id"], "Product ID does not match"

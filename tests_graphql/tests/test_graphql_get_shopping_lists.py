@@ -1,14 +1,16 @@
 import allure, os, pytest
 from graphql_operations.shopping_lists.shopping_lists_operations import ShoppingListsOperations
 from graphql_operations.user.user_operations import UserOperations
-from tests_graphql.test_data.test_culture import TEST_CULTURE
-from tests_graphql.test_data.test_currency import TEST_CURRENCY
-from tests_graphql.test_data.test_user import TEST_PERMANENT_CORPORATE_USER
+from test_data.test_culture import TEST_CULTURE
+from test_data.test_currency import TEST_CURRENCY
+from test_data.test_user import TEST_PERMANENT_CORPORATE_USER
+from fixtures.auth_fixture import Auth
+from fixtures.graphql_client_fixture import GraphQLClient
 
 
 @pytest.mark.graphql
 @allure.title("Get shopping lists (GraphQL)")
-def test_get_shopping_lists(config, auth, graphql_client):
+def test_get_shopping_lists(config: dict, auth: Auth, graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to get shopping lists...", end=" ")
 
     user_operations = UserOperations(graphql_client)

@@ -1,13 +1,15 @@
 import allure, os, pytest
 from graphql_operations.order.order_operations import OrderOperations
 from graphql_operations.user.user_operations import UserOperations
-from tests_graphql.test_data.test_culture import TEST_CULTURE
-from tests_graphql.test_data.test_user import TEST_PERMANENT_USER
+from test_data.test_culture import TEST_CULTURE
+from test_data.test_user import TEST_PERMANENT_USER
+from fixtures.auth_fixture import Auth
+from fixtures.graphql_client_fixture import GraphQLClient
 
 
 @pytest.mark.graphql
 @allure.title("Filter orders by status (GraphQL)")
-def test_filter_orders_by_status(auth, graphql_client):
+def test_filter_orders_by_status(auth: Auth, graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to filter orders by status...", end=" ")
 
     user_operations = UserOperations(graphql_client)
@@ -38,7 +40,7 @@ def test_filter_orders_by_status(auth, graphql_client):
 
 @pytest.mark.graphql
 @allure.title("Filter orders by date (GraphQL)")
-def test_filter_orders_by_date(auth, graphql_client):
+def test_filter_orders_by_date(auth: Auth, graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to filter orders by date...", end=" ")
 
     user_operations = UserOperations(graphql_client)

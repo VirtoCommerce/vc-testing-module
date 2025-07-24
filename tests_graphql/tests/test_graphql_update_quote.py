@@ -2,16 +2,18 @@ import allure, os, pytest
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.quote.quote_operations import QuoteOperations
 from graphql_operations.user.user_operations import UserOperations
-from tests_graphql.test_data.test_address import TEST_CUSTOMER_ADDRESS
-from tests_graphql.test_data.test_culture import TEST_CULTURE
-from tests_graphql.test_data.test_currency import TEST_CURRENCY
-from tests_graphql.test_data.test_product import TEST_PRODUCT_1
-from tests_graphql.test_data.test_user import TEST_PERMANENT_USER
+from test_data.test_address import TEST_CUSTOMER_ADDRESS_1
+from test_data.test_culture import TEST_CULTURE
+from test_data.test_currency import TEST_CURRENCY
+from test_data.test_product import TEST_PRODUCT_1
+from test_data.test_user import TEST_PERMANENT_USER
+from fixtures.auth_fixture import Auth
+from fixtures.graphql_client_fixture import GraphQLClient
 
 
 @pytest.mark.graphql
 @allure.title("Change quote item quantity (GraphQL)")
-def test_change_quote_item_quantity(config, auth, graphql_client):
+def test_change_quote_item_quantity(config, auth: Auth, graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to change quote item quantity...", end=" ")
 
     user_operations = UserOperations(graphql_client)
@@ -72,7 +74,7 @@ def test_change_quote_item_quantity(config, auth, graphql_client):
 
 @pytest.mark.graphql
 @allure.title("Change quote comment (GraphQL)")
-def test_change_quote_comment(config, auth, graphql_client):
+def test_change_quote_comment(config, auth: Auth, graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to change quote comment...", end=" ")
 
     user_operations = UserOperations(graphql_client)
@@ -124,7 +126,7 @@ def test_change_quote_comment(config, auth, graphql_client):
 
 @pytest.mark.graphql
 @allure.title("Remove quote shipping and billing addresses (GraphQL)")
-def test_change_quote_shipping_and_billing_addresses(config, auth, graphql_client):
+def test_change_quote_shipping_and_billing_addresses(config, auth: Auth, graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to change quote shipping and billing addresses...", end=" ")
 
     user_operations = UserOperations(graphql_client)
@@ -157,8 +159,8 @@ def test_change_quote_shipping_and_billing_addresses(config, auth, graphql_clien
         payload={
             "quoteId": quote["id"],
             "addresses": [
-                {**TEST_CUSTOMER_ADDRESS, "addressType": 1},
-                {**TEST_CUSTOMER_ADDRESS, "addressType": 2},
+                {**TEST_CUSTOMER_ADDRESS_1, "addressType": 1},
+                {**TEST_CUSTOMER_ADDRESS_1, "addressType": 2},
             ],
         }
     )
@@ -183,7 +185,7 @@ def test_change_quote_shipping_and_billing_addresses(config, auth, graphql_clien
 
 @pytest.mark.graphql
 @allure.title("Remove quote item (GraphQL)")
-def test_remove_quote_item(config, auth, graphql_client):
+def test_remove_quote_item(config, auth: Auth, graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to remove quote item...", end=" ")
 
     user_operations = UserOperations(graphql_client)
@@ -235,7 +237,7 @@ def test_remove_quote_item(config, auth, graphql_client):
 
 @pytest.mark.graphql
 @allure.title("Submit quote request (GraphQL)")
-def test_submit_quote_request(config, auth, graphql_client):
+def test_submit_quote_request(config, auth: Auth, graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to submit quote request...", end=" ")
 
     user_operations = UserOperations(graphql_client)

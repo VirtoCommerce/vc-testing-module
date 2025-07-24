@@ -2,14 +2,16 @@ import allure, os, pytest
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.order.order_operations import OrderOperations
 from graphql_operations.user.user_operations import UserOperations
-from tests_graphql.test_data.test_culture import TEST_CULTURE
-from tests_graphql.test_data.test_order import TEST_ORDER_1
-from tests_graphql.test_data.test_user import TEST_PERMANENT_USER
+from test_data.test_culture import TEST_CULTURE
+from test_data.test_order import TEST_ORDER_1
+from test_data.test_user import TEST_PERMANENT_USER
+from fixtures.auth_fixture import Auth
+from fixtures.graphql_client_fixture import GraphQLClient
 
 
 @pytest.mark.graphql
 @allure.title("Search order (GraphQL)")
-def test_search_order(auth, graphql_client):
+def test_search_order(auth: Auth, graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to search order...", end=" ")
 
     user_operations = UserOperations(graphql_client)

@@ -1,0 +1,35 @@
+import allure, os, pytest
+from playwright.sync_api import Page, expect
+from fixtures.anonymous_catalog_requests_fixture import AnonymousCatalogRequests
+from fixtures.requests_tracker_fixture import RequestsTracker
+from tests_e2e.pages.category_page import CategoryPage
+from test_data.test_category import TEST_CATEGORY_1
+from test_data.test_product import TEST_PRODUCT_1
+from tests_e2e.pages.cart_page import CartPage
+
+
+@pytest.mark.e2e
+@allure.title("Remove cart item (E2E)")
+def test_e2e_remove_cart_item(config: dict, page: Page, anonymous_catalog_requests: AnonymousCatalogRequests, requests_tracker: RequestsTracker):
+    print(f"{os.linesep}Running E2E test to remove cart item...", end=" ")
+
+    anonymous_catalog_requests.toggle(True)
+
+    page.set_viewport_size({"width": 1920, "height": 1080})
+
+    category_page = CategoryPage(config, page, TEST_CATEGORY_1["seoPath"])
+    category_page.navigate()
+
+    product_card = category_page.get_product_card_by_sku(TEST_PRODUCT_1["sku"])
+    product_card.quantity_input.fill("2")
+    product_card.add_to_cart_text_button.click()
+
+    cart_page = CartPage(config, page)
+    cart_page.navigate()
+
+    line_item = cart_page.get_line_item_by_sku(TEST_PRODUCT_1["sku"])
+    line_item.remove_button.click()
+
+    requests_tracker.wait_for_all_requests()
+
+    expect(line_item.element).not_to_be_visible(), "Line item is still visible after removing"

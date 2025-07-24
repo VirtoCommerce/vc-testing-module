@@ -1,12 +1,14 @@
 import allure, os, pytest
 from graphql_operations.contact.contact_operations import ContactOperations
 from graphql_operations.user.user_operations import UserOperations
-from tests_graphql.test_data.test_user import TEST_PERMANENT_CORPORATE_USER
+from test_data.test_user import TEST_PERMANENT_CORPORATE_USER
+from fixtures.auth_fixture import Auth
+from fixtures.graphql_client_fixture import GraphQLClient
 
 
 @pytest.mark.graphql
 @allure.feature("Registration by invitation (GraphQL)")
-def test_graphql_registration_by_invitation(config, auth, graphql_client, webapi_client):
+def test_graphql_registration_by_invitation(config: dict, auth: Auth, graphql_client: GraphQLClient, webapi_client):
     print(f"{os.linesep}Running GraphQL test to register a user by invitation...", end=" ")
 
     user_operations = UserOperations(graphql_client)

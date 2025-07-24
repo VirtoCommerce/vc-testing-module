@@ -1,11 +1,13 @@
 import allure, os, pytest
 from graphql_operations.user.user_operations import UserOperations
-from tests_graphql.test_data.test_user import TEST_ADMIN_USER
+from test_data.test_user import TEST_ADMIN_USER
+from fixtures.graphql_client_fixture import GraphQLClient
+from fixtures.auth_fixture import Auth
 
 
 @pytest.mark.graphql
 @allure.title("Get current anonymous user (GraphQL)")
-def test_get_current_anonymous_user(graphql_client):
+def test_get_current_anonymous_user(graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to get current anonymous user...", end=" ")
 
     user_operations = UserOperations(graphql_client)
@@ -18,7 +20,7 @@ def test_get_current_anonymous_user(graphql_client):
 
 @pytest.mark.graphql
 @allure.title("Get current registered user (GraphQL)")
-def test_get_current_registered_user(auth, graphql_client):
+def test_get_current_registered_user(auth: Auth, graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to get current registered user...", end=" ")
 
     user_operations = UserOperations(graphql_client)
@@ -35,7 +37,7 @@ def test_get_current_registered_user(auth, graphql_client):
 
 @pytest.mark.graphql
 @allure.title("Get registered user by id (GraphQL)")
-def test_get_registered_user_by_id(auth, graphql_client):
+def test_get_registered_user_by_id(auth: Auth, graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to get registered user by id...", end=" ")
 
     user_operations = UserOperations(graphql_client)

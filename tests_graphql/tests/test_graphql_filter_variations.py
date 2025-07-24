@@ -1,15 +1,16 @@
 import allure, os, pytest
 from graphql_operations.user.user_operations import UserOperations
 from graphql_operations.catalog.products_operations import ProductsOperations
-from tests_graphql.test_data.test_catalog import MIXED_CATALOG
-from tests_graphql.test_data.test_culture import TEST_CULTURE
-from tests_graphql.test_data.test_currency import TEST_CURRENCY
-from tests_graphql.test_data.test_product import TEST_PRODUCT_2
+from test_data.test_catalog import MIXED_CATALOG
+from test_data.test_culture import TEST_CULTURE
+from test_data.test_currency import TEST_CURRENCY
+from test_data.test_product import TEST_PRODUCT_2
+from fixtures.graphql_client_fixture import GraphQLClient
 
 
 @pytest.mark.graphql
 @allure.feature("Filter product variations by stock (GraphQL)")
-def test_filter_product_variations_by_stock(config, graphql_client):
+def test_filter_product_variations_by_stock(config: dict, graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to filter product variations by stock...", end=" ")
 
     user_operations = UserOperations(graphql_client)
@@ -39,7 +40,7 @@ def test_filter_product_variations_by_stock(config, graphql_client):
 
 @pytest.mark.graphql
 @allure.feature("Filter product variations by price (GraphQL)")
-def test_filter_product_variations_by_price(config, graphql_client):
+def test_filter_product_variations_by_price(config: dict, graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to filter product variations by price...", end=" ")
 
     user_operations = UserOperations(graphql_client)
@@ -84,7 +85,7 @@ def test_filter_product_variations_by_price(config, graphql_client):
 
 @pytest.mark.graphql
 @allure.feature("Filter product variations by property (GraphQL)")
-def test_filter_product_variations_by_property(config, graphql_client):
+def test_filter_product_variations_by_property(config: dict, graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to filter product variations by property...", end=" ")
 
     user_operations = UserOperations(graphql_client)
