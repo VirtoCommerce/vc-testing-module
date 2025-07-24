@@ -1,10 +1,14 @@
-import allure, os, pytest
+import os
+
+import allure
+import pytest
+
+from fixtures.graphql_client_fixture import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
 from test_data.test_culture import TEST_CULTURE
 from test_data.test_currency import TEST_CURRENCY
 from test_data.test_product import TEST_PRODUCT_1
-from fixtures.graphql_client_fixture import GraphQLClient
 
 
 @pytest.mark.graphql
@@ -38,5 +42,7 @@ def test_create_order_from_cart(config: dict, graphql_client: GraphQLClient):
     assert order["number"] is not None, "Order number is None"
     assert order["items"] is not None, "Order items are None"
     assert len(order["items"]) == 1, "Order items length is not 1"
-    assert order["items"][0]["productId"] == TEST_PRODUCT_1["id"], "Order item product ID is not the same"
+    assert (
+        order["items"][0]["productId"] == TEST_PRODUCT_1["id"]
+    ), "Order item product ID is not the same"
     assert order["items"][0]["quantity"] == 1, "Order item quantity is not 1"

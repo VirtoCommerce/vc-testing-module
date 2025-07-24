@@ -1,4 +1,10 @@
-import allure, os, pytest
+import os
+
+import allure
+import pytest
+
+from fixtures.auth_fixture import Auth
+from fixtures.graphql_client_fixture import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.quote.quote_operations import QuoteOperations
 from graphql_operations.user.user_operations import UserOperations
@@ -7,8 +13,6 @@ from test_data.test_culture import TEST_CULTURE
 from test_data.test_currency import TEST_CURRENCY
 from test_data.test_product import TEST_PRODUCT_1
 from test_data.test_user import TEST_PERMANENT_USER
-from fixtures.auth_fixture import Auth
-from fixtures.graphql_client_fixture import GraphQLClient
 
 
 @pytest.mark.graphql
@@ -69,7 +73,9 @@ def test_change_quote_item_quantity(config, auth: Auth, graphql_client: GraphQLC
     auth.clear_token()
 
     assert updated_quote["id"] == quote["id"], "Quote ID is not the same"
-    assert updated_quote["items"][0]["selectedTierPrice"]["quantity"] == 2, "Quote item quantity is not the same"
+    assert (
+        updated_quote["items"][0]["selectedTierPrice"]["quantity"] == 2
+    ), "Quote item quantity is not the same"
 
 
 @pytest.mark.graphql
@@ -121,13 +127,20 @@ def test_change_quote_comment(config, auth: Auth, graphql_client: GraphQLClient)
     auth.clear_token()
 
     assert updated_quote["id"] == quote["id"], "Quote ID is not the same"
-    assert updated_quote["comment"] == "Updated comment", "Quote comment is not the same"
+    assert (
+        updated_quote["comment"] == "Updated comment"
+    ), "Quote comment is not the same"
 
 
 @pytest.mark.graphql
 @allure.title("Remove quote shipping and billing addresses (GraphQL)")
-def test_change_quote_shipping_and_billing_addresses(config, auth: Auth, graphql_client: GraphQLClient):
-    print(f"{os.linesep}Running test to change quote shipping and billing addresses...", end=" ")
+def test_change_quote_shipping_and_billing_addresses(
+    config, auth: Auth, graphql_client: GraphQLClient
+):
+    print(
+        f"{os.linesep}Running test to change quote shipping and billing addresses...",
+        end=" ",
+    )
 
     user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
@@ -180,7 +193,9 @@ def test_change_quote_shipping_and_billing_addresses(config, auth: Auth, graphql
     assert any(
         addr["addressType"] == 1 for addr in updated_quote["addresses"]
     ), "Quote has no shipping address (type 1)"
-    assert any(addr["addressType"] == 2 for addr in updated_quote["addresses"]), "Quote has no billing address (type 2)"
+    assert any(
+        addr["addressType"] == 2 for addr in updated_quote["addresses"]
+    ), "Quote has no billing address (type 2)"
 
 
 @pytest.mark.graphql

@@ -1,5 +1,13 @@
-import allure, os, pytest
+import os
+from typing import Any, Dict
+
+import allure
+import pytest
 from gql.transport.exceptions import TransportQueryError
+
+from fixtures.anonymous_catalog_requests_fixture import AnonymousCatalogRequests
+from fixtures.auth_fixture import Auth
+from fixtures.graphql_client_fixture import GraphQLClient
 from graphql_operations.catalog.categories_operations import CategoriesOperations
 from graphql_operations.catalog.products_operations import ProductsOperations
 from graphql_operations.user.user_operations import UserOperations
@@ -9,17 +17,19 @@ from test_data.test_culture import TEST_CULTURE
 from test_data.test_currency import TEST_CURRENCY
 from test_data.test_product import TEST_PRODUCT_1
 from test_data.test_user import TEST_PERMANENT_USER
-from fixtures.graphql_client_fixture import GraphQLClient
-from fixtures.anonymous_catalog_requests_fixture import AnonymousCatalogRequests
-from fixtures.auth_fixture import Auth
-from typing import Dict, Any
-
 
 
 @pytest.mark.graphql
 @allure.title("Success catalog browsing as anonymous user (GraphQL)")
-def test_success_catalog_browsing_as_anonymous_user(config: Dict[str, Any], anonymous_catalog_requests: AnonymousCatalogRequests, graphql_client: GraphQLClient):
-    print(f"{os.linesep}Running test to successfully browse catalog as anonymous user...", end=" ")
+def test_success_catalog_browsing_as_anonymous_user(
+    config: Dict[str, Any],
+    anonymous_catalog_requests: AnonymousCatalogRequests,
+    graphql_client: GraphQLClient,
+):
+    print(
+        f"{os.linesep}Running test to successfully browse catalog as anonymous user...",
+        end=" ",
+    )
 
     anonymous_catalog_requests.toggle(True)
 
@@ -71,8 +81,15 @@ def test_success_catalog_browsing_as_anonymous_user(config: Dict[str, Any], anon
 
 @pytest.mark.graphql
 @allure.title("Unsuccess catalog browsing as anonymous user (GraphQL)")
-def test_unsuccess_catalog_browsing_as_anonymous_user(config: Dict[str, Any], anonymous_catalog_requests: AnonymousCatalogRequests, graphql_client: GraphQLClient):
-    print(f"{os.linesep}Running test to unsuccessfully browse catalog as anonymous user...", end=" ")
+def test_unsuccess_catalog_browsing_as_anonymous_user(
+    config: Dict[str, Any],
+    anonymous_catalog_requests: AnonymousCatalogRequests,
+    graphql_client: GraphQLClient,
+):
+    print(
+        f"{os.linesep}Running test to unsuccessfully browse catalog as anonymous user...",
+        end=" ",
+    )
 
     anonymous_catalog_requests.toggle(False)
 
@@ -138,7 +155,12 @@ def test_unsuccess_catalog_browsing_as_anonymous_user(config: Dict[str, Any], an
 
 @pytest.mark.graphql
 @allure.title("Catalog browsing as registered user (GraphQL)")
-def test_catalog_browsing_as_registered_user(config: Dict[str, Any], auth: Auth, anonymous_catalog_requests: AnonymousCatalogRequests, graphql_client: GraphQLClient):
+def test_catalog_browsing_as_registered_user(
+    config: Dict[str, Any],
+    auth: Auth,
+    anonymous_catalog_requests: AnonymousCatalogRequests,
+    graphql_client: GraphQLClient,
+):
     print(f"{os.linesep}Running test to browse catalog as registered user...", end=" ")
 
     anonymous_catalog_requests.toggle(False)
@@ -147,7 +169,10 @@ def test_catalog_browsing_as_registered_user(config: Dict[str, Any], auth: Auth,
     products_operations = ProductsOperations(graphql_client)
     user_operations = UserOperations(graphql_client)
 
-    auth.authenticate(username=TEST_PERMANENT_USER["username"], password=TEST_PERMANENT_USER["password"])
+    auth.authenticate(
+        username=TEST_PERMANENT_USER["username"],
+        password=TEST_PERMANENT_USER["password"],
+    )
 
     user = user_operations.get_user()
 

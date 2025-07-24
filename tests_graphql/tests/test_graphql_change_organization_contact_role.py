@@ -1,9 +1,13 @@
-import allure, os, pytest
+import os
+
+import allure
+import pytest
+
+from fixtures.auth_fixture import Auth
+from fixtures.graphql_client_fixture import GraphQLClient
 from graphql_operations.contact.contact_operations import ContactOperations
 from graphql_operations.user.user_operations import UserOperations
 from test_data.test_user import TEST_PERMANENT_CORPORATE_USER
-from fixtures.auth_fixture import Auth
-from fixtures.graphql_client_fixture import GraphQLClient
 
 
 @pytest.mark.graphql
@@ -14,15 +18,20 @@ def test_change_organization_contact_role(auth: Auth, graphql_client: GraphQLCli
     user_operations = UserOperations(graphql_client)
     contact_operations = ContactOperations(graphql_client)
 
-    auth.authenticate(TEST_PERMANENT_CORPORATE_USER["username"], TEST_PERMANENT_CORPORATE_USER["password"])
+    auth.authenticate(
+        TEST_PERMANENT_CORPORATE_USER["username"],
+        TEST_PERMANENT_CORPORATE_USER["password"],
+    )
 
     user = user_operations.get_user()
 
-    organization_contact_to_change_role = contact_operations.fetch_organization_contacts(
-        organization_id=user["contact"]["organizationId"],
-        user_id=user["id"],
-        search_phrase="e2e-test-purchasing-agent@e2e-contoso.com",
-    )["contacts"]["items"][0]
+    organization_contact_to_change_role = (
+        contact_operations.fetch_organization_contacts(
+            organization_id=user["contact"]["organizationId"],
+            user_id=user["id"],
+            search_phrase="e2e-test-purchasing-agent@e2e-contoso.com",
+        )["contacts"]["items"][0]
+    )
 
     result = contact_operations.change_organization_contact_role(
         payload={
@@ -48,4 +57,6 @@ def test_change_organization_contact_role(auth: Auth, graphql_client: GraphQLCli
     auth.clear_token()
 
     assert result["succeeded"] == True, "Contact role was not changed"
-    assert changed_contact["securityAccounts"][0]["roles"][0]["id"] == "org-employee", "Contact role was not changed"
+    assert (
+        changed_contact["securityAccounts"][0]["roles"][0]["id"] == "org-employee"
+    ), "Contact role was not changed"

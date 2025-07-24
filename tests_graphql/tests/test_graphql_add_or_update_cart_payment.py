@@ -1,11 +1,15 @@
-import allure, os, pytest
+import os
+from typing import Any, Dict
+
+import allure
+import pytest
+
+from fixtures.graphql_client_fixture import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
 from test_data.test_culture import TEST_CULTURE
 from test_data.test_currency import TEST_CURRENCY
 from test_data.test_product import TEST_PRODUCT_1
-from fixtures.graphql_client_fixture import GraphQLClient
-from typing import Dict, Any
 
 
 @pytest.mark.graphql
@@ -76,8 +80,12 @@ def test_add_cart_payment(config: Dict[str, Any], graphql_client: GraphQLClient)
     assert len(cart_with_payment["payments"]) > 0, "Cart has not payments"
     assert cart_payment is not None, "Payment is None"
     assert cart_payment["id"] is not None, "Payment ID is None"
-    assert cart_payment["paymentGatewayCode"] == manual_payment_method["code"], "Payment gateway code is not the same"
-    assert cart_payment["price"]["amount"] == manual_payment_method["price"]["amount"], "Payment price is not the same"
+    assert (
+        cart_payment["paymentGatewayCode"] == manual_payment_method["code"]
+    ), "Payment gateway code is not the same"
+    assert (
+        cart_payment["price"]["amount"] == manual_payment_method["price"]["amount"]
+    ), "Payment price is not the same"
 
 
 @pytest.mark.graphql
@@ -176,5 +184,6 @@ def test_update_cart_payment(config: Dict[str, Any], graphql_client: GraphQLClie
         updated_payment["paymentGatewayCode"] == authorize_net_payment_method["code"]
     ), "Payment gateway code is not the same"
     assert (
-        updated_payment["price"]["amount"] == authorize_net_payment_method["price"]["amount"]
+        updated_payment["price"]["amount"]
+        == authorize_net_payment_method["price"]["amount"]
     ), "Payment price is not the same"

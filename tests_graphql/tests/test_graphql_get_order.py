@@ -1,4 +1,10 @@
-import allure, os, pytest
+import os
+
+import allure
+import pytest
+
+from fixtures.auth_fixture import Auth
+from fixtures.graphql_client_fixture import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.order.order_operations import OrderOperations
 from graphql_operations.user.user_operations import UserOperations
@@ -6,8 +12,6 @@ from test_data.test_culture import TEST_CULTURE
 from test_data.test_currency import TEST_CURRENCY
 from test_data.test_product import TEST_PRODUCT_1
 from test_data.test_user import TEST_ADMIN_USER
-from fixtures.auth_fixture import Auth
-from fixtures.graphql_client_fixture import GraphQLClient
 
 
 @pytest.mark.graphql
@@ -44,10 +48,14 @@ def test_get_order(config: dict, auth: Auth, graphql_client: GraphQLClient):
 
     auth.clear_token()
 
-    assert order["id"] == created_order["id"], f"Order ID mismatch: {order['id']} != {created_order['id']}"
+    assert (
+        order["id"] == created_order["id"]
+    ), f"Order ID mismatch: {order['id']} != {created_order['id']}"
     assert order["number"] is not None, "Order number is missing"
     assert order["items"] is not None, "Order items are missing"
     assert (
         order["items"][0]["productId"] == TEST_PRODUCT_1["id"]
     ), f"Product ID mismatch: {order['items'][0]['productId']} != {TEST_PRODUCT_1['id']}"
-    assert order["items"][0]["quantity"] == 1, f"Quantity mismatch: {order['items'][0]['quantity']} != 1"
+    assert (
+        order["items"][0]["quantity"] == 1
+    ), f"Quantity mismatch: {order['items'][0]['quantity']} != 1"

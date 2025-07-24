@@ -1,12 +1,16 @@
-import allure, os, pytest
+import os
+from typing import Any, Dict
+
+import allure
+import pytest
+
+from fixtures.graphql_client_fixture import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
 from test_data.test_coupon import TEST_COUPON_CODE
 from test_data.test_culture import TEST_CULTURE
 from test_data.test_currency import TEST_CURRENCY
 from test_data.test_product import TEST_PRODUCT_3
-from fixtures.graphql_client_fixture import GraphQLClient
-from typing import Dict, Any
 
 
 @pytest.mark.graphql
@@ -105,4 +109,6 @@ def test_remove_cart_coupon(config: Dict[str, Any], graphql_client: GraphQLClien
     )
 
     assert cart_without_coupon["id"] == cart["id"], "Cart ID is not the same"
-    assert len(cart_without_coupon["coupons"]) == 0, "Coupon is not removed successfully"
+    assert (
+        len(cart_without_coupon["coupons"]) == 0
+    ), "Coupon is not removed successfully"

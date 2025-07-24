@@ -1,10 +1,14 @@
-import allure, os, pytest
+import os
+
+import allure
+import pytest
+
+from fixtures.graphql_client_fixture import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
 from test_data.test_culture import TEST_CULTURE
 from test_data.test_currency import TEST_CURRENCY
 from test_data.test_product import TEST_PRODUCT_1, TEST_PRODUCT_2
-from fixtures.graphql_client_fixture import GraphQLClient
 
 
 @pytest.mark.graphql
@@ -45,7 +49,9 @@ def test_select_cart_items(config: dict, graphql_client: GraphQLClient):
         }
     )
 
-    line_item_to_select = next(item for item in cart["items"] if item["productId"] == TEST_PRODUCT_2["id"])
+    line_item_to_select = next(
+        item for item in cart["items"] if item["productId"] == TEST_PRODUCT_2["id"]
+    )
 
     updated_cart = cart_operations.select_cart_items(
         payload={
@@ -57,7 +63,11 @@ def test_select_cart_items(config: dict, graphql_client: GraphQLClient):
         }
     )
 
-    selected_line_item = next(item for item in updated_cart["items"] if item["productId"] == TEST_PRODUCT_2["id"])
+    selected_line_item = next(
+        item
+        for item in updated_cart["items"]
+        if item["productId"] == TEST_PRODUCT_2["id"]
+    )
 
     # Test teardown
     cart_operations.remove_cart(
@@ -73,8 +83,12 @@ def test_select_cart_items(config: dict, graphql_client: GraphQLClient):
     assert updated_cart["itemsQuantity"] == sum(
         item["quantity"] for item in updated_cart["items"]
     ), "Updated cart items quantity mismatch"
-    assert selected_line_item["selectedForCheckout"] is True, "Selected line item is not selected for checkout"
-    assert selected_line_item["productId"] == TEST_PRODUCT_2["id"], "Selected line item product ID mismatch"
+    assert (
+        selected_line_item["selectedForCheckout"] is True
+    ), "Selected line item is not selected for checkout"
+    assert (
+        selected_line_item["productId"] == TEST_PRODUCT_2["id"]
+    ), "Selected line item product ID mismatch"
     assert selected_line_item["quantity"] == 2, "Selected line item quantity mismatch"
 
 
@@ -135,5 +149,9 @@ def test_select_all_cart_items(config: dict, graphql_client: GraphQLClient):
 
     assert cart["id"] is not None, "Cart ID is missing"
     assert cart["customerId"] == user["id"], "Cart customer ID mismatch"
-    assert cart["itemsQuantity"] == sum(item["quantity"] for item in cart["items"]), "Cart items quantity mismatch"
-    assert all(item["selectedForCheckout"] for item in cart["items"]), "All cart items are not selected for checkout"
+    assert cart["itemsQuantity"] == sum(
+        item["quantity"] for item in cart["items"]
+    ), "Cart items quantity mismatch"
+    assert all(
+        item["selectedForCheckout"] for item in cart["items"]
+    ), "All cart items are not selected for checkout"

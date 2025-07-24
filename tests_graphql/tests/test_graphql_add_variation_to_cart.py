@@ -1,4 +1,10 @@
-import allure, os, pytest
+import os
+from typing import Any, Dict
+
+import allure
+import pytest
+
+from fixtures.graphql_client_fixture import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.catalog.products_operations import ProductsOperations
 from graphql_operations.user.user_operations import UserOperations
@@ -6,8 +12,6 @@ from test_data.test_catalog import MIXED_CATALOG
 from test_data.test_culture import TEST_CULTURE
 from test_data.test_currency import TEST_CURRENCY
 from test_data.test_product import TEST_PRODUCT_2
-from fixtures.graphql_client_fixture import GraphQLClient
-from typing import Dict, Any
 
 
 @pytest.mark.graphql

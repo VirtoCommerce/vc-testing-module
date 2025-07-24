@@ -1,17 +1,24 @@
-import allure, os, pytest
+import os
+from typing import Any, Dict
+
+import allure
+import pytest
+
+from fixtures.graphql_client_fixture import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
 from test_data.test_culture import TEST_CULTURE
 from test_data.test_currency import TEST_CURRENCY
 from test_data.test_product import TEST_PRODUCT_2, TEST_PRODUCT_3
-from fixtures.graphql_client_fixture import GraphQLClient
-from typing import Dict, Any
 
 
 @pytest.mark.graphql
 @allure.title("Apply gifts for specified product (GraphQL)")
 def test_gift_specific_product(config: Dict[str, Any], graphql_client: GraphQLClient):
-    print(f"{os.linesep}Running test to apply gifts for specified product in cart...", end=" ")
+    print(
+        f"{os.linesep}Running test to apply gifts for specified product in cart...",
+        end=" ",
+    )
 
     user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)

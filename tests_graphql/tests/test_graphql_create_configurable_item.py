@@ -1,10 +1,14 @@
-import allure, os, pytest
+import os
+
+import allure
+import pytest
+
+from fixtures.graphql_client_fixture import GraphQLClient
 from graphql_operations.catalog.products_operations import ProductsOperations
 from graphql_operations.user.user_operations import UserOperations
 from test_data.test_culture import TEST_CULTURE
 from test_data.test_currency import TEST_CURRENCY
 from test_data.test_product import TEST_CONFIGURABLE_PRODUCT_1
-from fixtures.graphql_client_fixture import GraphQLClient
 
 
 @pytest.mark.graphql
@@ -66,5 +70,9 @@ def test_create_configurable_item(config: dict, graphql_client: GraphQLClient):
     )
 
     assert base_product["isConfigurable"] == True, "Base product is not configurable"
-    assert configured_line_item["quantity"] == 1, "Configured line item quantity is not set"
-    assert configured_line_item["product"]["id"] == base_product["id"], "Configured line item product id is not set"
+    assert (
+        configured_line_item["quantity"] == 1
+    ), "Configured line item quantity is not set"
+    assert (
+        configured_line_item["product"]["id"] == base_product["id"]
+    ), "Configured line item product id is not set"

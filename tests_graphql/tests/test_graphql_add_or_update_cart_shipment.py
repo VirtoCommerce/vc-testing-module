@@ -1,11 +1,15 @@
-import allure, os, pytest
+import os
+from typing import Any, Dict
+
+import allure
+import pytest
+
+from fixtures.graphql_client_fixture import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
 from test_data.test_culture import TEST_CULTURE
 from test_data.test_currency import TEST_CURRENCY
 from test_data.test_product import TEST_PRODUCT_1
-from fixtures.graphql_client_fixture import GraphQLClient
-from typing import Dict, Any
 
 
 @pytest.mark.graphql
@@ -33,7 +37,8 @@ def test_add_cart_shipment(config: Dict[str, Any], graphql_client: GraphQLClient
         (
             shippingMethod
             for shippingMethod in cart["availableShippingMethods"]
-            if shippingMethod["code"] == "FixedRate" and shippingMethod["optionName"] == "Ground"
+            if shippingMethod["code"] == "FixedRate"
+            and shippingMethod["optionName"] == "Ground"
         )
     )
 
@@ -113,7 +118,8 @@ def test_update_cart_shipment(config: Dict[str, Any], graphql_client: GraphQLCli
         (
             shippingMethod
             for shippingMethod in cart["availableShippingMethods"]
-            if shippingMethod["code"] == "FixedRate" and shippingMethod["optionName"] == "Ground"
+            if shippingMethod["code"] == "FixedRate"
+            and shippingMethod["optionName"] == "Ground"
         )
     )
 
@@ -137,7 +143,8 @@ def test_update_cart_shipment(config: Dict[str, Any], graphql_client: GraphQLCli
         (
             shippingMethod
             for shippingMethod in cart["availableShippingMethods"]
-            if shippingMethod["code"] == "FixedRate" and shippingMethod["optionName"] == "Air"
+            if shippingMethod["code"] == "FixedRate"
+            and shippingMethod["optionName"] == "Air"
         )
     )
 
@@ -182,7 +189,9 @@ def test_update_cart_shipment(config: Dict[str, Any], graphql_client: GraphQLCli
     assert len(cart_with_shipment["shipments"]) > 0, "Cart has not shipments"
     assert updated_shipment is not None, "Shipment is None"
     assert updated_shipment["id"] is not None, "Shipment ID is None"
-    assert updated_shipment["shipmentMethodCode"] == air_shipping_method["code"], "Shipment method code is not the same"
+    assert (
+        updated_shipment["shipmentMethodCode"] == air_shipping_method["code"]
+    ), "Shipment method code is not the same"
     assert (
         updated_shipment["shipmentMethodOption"] == air_shipping_method["optionName"]
     ), "Shipment method option is not the same"

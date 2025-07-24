@@ -1,10 +1,14 @@
-import allure, os, pytest
+import os
+
+import allure
+import pytest
+
+from fixtures.graphql_client_fixture import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
 from test_data.test_culture import TEST_CULTURE
 from test_data.test_currency import TEST_CURRENCY
 from test_data.test_product import TEST_PRODUCT_1, TEST_PRODUCT_2
-from fixtures.graphql_client_fixture import GraphQLClient
 
 
 @pytest.mark.graphql
@@ -36,7 +40,9 @@ def test_unselect_cart_items(config: dict, graphql_client: GraphQLClient):
         }
     )
 
-    line_item_to_unselect = next(item for item in cart["items"] if item["productId"] == TEST_PRODUCT_2["id"])
+    line_item_to_unselect = next(
+        item for item in cart["items"] if item["productId"] == TEST_PRODUCT_2["id"]
+    )
 
     updated_cart = cart_operations.unselect_cart_items(
         payload={
@@ -48,7 +54,11 @@ def test_unselect_cart_items(config: dict, graphql_client: GraphQLClient):
         }
     )
 
-    unselected_line_item = next(item for item in updated_cart["items"] if item["productId"] == TEST_PRODUCT_2["id"])
+    unselected_line_item = next(
+        item
+        for item in updated_cart["items"]
+        if item["productId"] == TEST_PRODUCT_2["id"]
+    )
 
     # Test teardown
     cart_operations.remove_cart(
@@ -61,7 +71,9 @@ def test_unselect_cart_items(config: dict, graphql_client: GraphQLClient):
     assert updated_cart["id"] is not None
     assert updated_cart["id"] == cart["id"]
     assert updated_cart["customerId"] == user["id"]
-    assert updated_cart["itemsQuantity"] == sum(item["quantity"] for item in updated_cart["items"])
+    assert updated_cart["itemsQuantity"] == sum(
+        item["quantity"] for item in updated_cart["items"]
+    )
     assert unselected_line_item["selectedForCheckout"] is False
     assert unselected_line_item["productId"] == TEST_PRODUCT_2["id"]
     assert unselected_line_item["quantity"] == 2

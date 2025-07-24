@@ -1,4 +1,10 @@
-import allure, os, pytest
+import os
+
+import allure
+import pytest
+
+from fixtures.auth_fixture import Auth
+from fixtures.graphql_client_fixture import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.quote.quote_operations import QuoteOperations
 from graphql_operations.user.user_operations import UserOperations
@@ -6,13 +12,13 @@ from test_data.test_culture import TEST_CULTURE
 from test_data.test_currency import TEST_CURRENCY
 from test_data.test_product import TEST_PRODUCT_1
 from test_data.test_user import TEST_ADMIN_USER
-from fixtures.auth_fixture import Auth
-from fixtures.graphql_client_fixture import GraphQLClient
 
 
 @pytest.mark.graphql
 @allure.title("Create empty quote from cart (GraphQL)")
-def test_create_empty_quote_from_cart(config: dict, auth: Auth, graphql_client: GraphQLClient):
+def test_create_empty_quote_from_cart(
+    config: dict, auth: Auth, graphql_client: GraphQLClient
+):
     print(f"{os.linesep}Running test to create empty quote from cart...", end=" ")
 
     user_operations = UserOperations(graphql_client)
@@ -58,7 +64,9 @@ def test_create_empty_quote_from_cart(config: dict, auth: Auth, graphql_client: 
 
 @pytest.mark.graphql
 @allure.title("Create quote with items from cart (GraphQL)")
-def test_create_quote_with_items_from_cart(config: dict, auth: Auth, graphql_client: GraphQLClient):
+def test_create_quote_with_items_from_cart(
+    config: dict, auth: Auth, graphql_client: GraphQLClient
+):
     print(f"{os.linesep}Running test to create quote with items from cart...", end=" ")
 
     user_operations = UserOperations(graphql_client)
@@ -104,4 +112,6 @@ def test_create_quote_with_items_from_cart(config: dict, auth: Auth, graphql_cli
     assert quote["customerId"] == user["id"], "Quote customer ID is not correct"
     assert quote["comment"] == "Test comment", "Quote comment is not correct"
     assert len(quote["items"]) > 0, "Quote items are empty"
-    assert quote["items"][0]["productId"] == TEST_PRODUCT_1["id"], "Quote item product ID is not correct"
+    assert (
+        quote["items"][0]["productId"] == TEST_PRODUCT_1["id"]
+    ), "Quote item product ID is not correct"

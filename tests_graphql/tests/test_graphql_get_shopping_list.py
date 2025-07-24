@@ -1,11 +1,17 @@
-import allure, os, pytest
-from graphql_operations.shopping_lists.shopping_lists_operations import ShoppingListsOperations
+import os
+
+import allure
+import pytest
+
+from fixtures.auth_fixture import Auth
+from fixtures.graphql_client_fixture import GraphQLClient
+from graphql_operations.shopping_lists.shopping_lists_operations import (
+    ShoppingListsOperations,
+)
 from graphql_operations.user.user_operations import UserOperations
 from test_data.test_culture import TEST_CULTURE
 from test_data.test_currency import TEST_CURRENCY
 from test_data.test_user import TEST_PERMANENT_USER
-from fixtures.auth_fixture import Auth
-from fixtures.graphql_client_fixture import GraphQLClient
 
 
 @pytest.mark.graphql
@@ -47,8 +53,16 @@ def test_get_shopping_list(config: dict, auth: Auth, graphql_client: GraphQLClie
     auth.clear_token()
 
     assert shopping_list["id"] is not None, "Shopping list ID is not set"
-    assert shopping_list["id"] == new_shopping_list["id"], "Shopping list ID does not match"
-    assert shopping_list["name"] == new_shopping_list["name"], "Shopping list name does not match"
-    assert shopping_list["storeId"] == config["store_id"], "Shopping list store ID does not match"
-    assert shopping_list["customerId"] == user["id"], "Shopping list customer ID does not match"
+    assert (
+        shopping_list["id"] == new_shopping_list["id"]
+    ), "Shopping list ID does not match"
+    assert (
+        shopping_list["name"] == new_shopping_list["name"]
+    ), "Shopping list name does not match"
+    assert (
+        shopping_list["storeId"] == config["store_id"]
+    ), "Shopping list store ID does not match"
+    assert (
+        shopping_list["customerId"] == user["id"]
+    ), "Shopping list customer ID does not match"
     assert shopping_list["scope"] == "Private", "Shopping list scope is not Private"

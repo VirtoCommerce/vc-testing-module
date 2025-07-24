@@ -1,11 +1,15 @@
-import allure, os, pytest
+import os
+
+import allure
+import pytest
+
+from fixtures.auth_fixture import Auth
+from fixtures.graphql_client_fixture import GraphQLClient
 from graphql_operations.contact.contact_operations import ContactOperations
 from graphql_operations.user.user_operations import UserOperations
 from test_data.test_customer import TEST_CUSTOMER
 from test_data.test_organization import TEST_ORGANIZATION
-from test_data.test_user import TEST_USER, TEST_ADMIN_USER
-from fixtures.auth_fixture import Auth
-from fixtures.graphql_client_fixture import GraphQLClient
+from test_data.test_user import TEST_ADMIN_USER, TEST_USER
 
 
 @pytest.mark.graphql
