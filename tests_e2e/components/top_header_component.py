@@ -1,4 +1,5 @@
 from playwright.sync_api import Locator
+
 from tests_e2e.components.currency_selector_component import CurrencySelectorComponent
 from tests_e2e.components.language_selector_component import LanguageSelectorComponent
 
@@ -9,32 +10,42 @@ class TopHeaderComponent:
 
     @property
     def language_selector_component(self) -> LanguageSelectorComponent:
-        return LanguageSelectorComponent(self.element.locator("[data-test-id='main-layout.top-header.language-selector']"))
+        return LanguageSelectorComponent(
+            self.element.locator(
+                "[data-test-id='main-layout.top-header.language-selector']"
+            )
+        )
 
     @property
     def currency_selector_component(self) -> CurrencySelectorComponent:
-        return CurrencySelectorComponent(self.element.locator("[data-test-id='main-layout.top-header.currency-selector']"))
-
-    @property
-    def contacts_link(self) -> Locator:
-        return self.element.locator("[data-test-id='main-layout.top-header.contacts-link']")
+        return CurrencySelectorComponent(
+            self.element.locator(
+                "[data-test-id='main-layout.top-header.currency-selector']"
+            )
+        )
 
     @property
     def sign_in_link(self) -> Locator:
-        return self.element.locator("[data-test-id='main-layout.top-header.sign-in-link']")
+        return self.element.locator("[data-test-id='sign-in-link']")
 
     @property
     def sign_up_link(self) -> Locator:
-        return self.element.locator("[data-test-id='main-layout.top-header.sign-up-link']")
+        return self.element.locator("[data-test-id='sign-up-link']")
 
     @property
     def dashboard_link(self) -> Locator:
-        return self.element.locator("[data-test-id='main-layout.top-header.dashboard-link']")
+        return self.element.locator(
+            "[data-test-id='main-layout.top-header.dashboard-link']"
+        )
 
     @property
     def account_menu_button(self) -> Locator:
-        return self.element.locator("[data-test-id='main-layout.top-header.account-menu-button']")
+        return self.element.locator(
+            "[data-test-id='main-layout.top-header.account-menu-button']"
+        )
 
     @property
     def account_menu(self) -> Locator:
-        return self.element.locator("[data-test-id='main-layout.top-header.account-menu']")
+        return self.element.locator(
+            "[data-test-id='main-layout.top-header.account-menu']"
+        )

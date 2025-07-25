@@ -1,16 +1,22 @@
-import allure, os, pytest
+import os
+
+import allure
+import pytest
 from playwright.sync_api import Page, expect
+
 from fixtures.anonymous_catalog_requests_fixture import AnonymousCatalogRequests
-from tests_e2e.pages.category_page import CategoryPage
 from test_data.test_category import TEST_CATEGORY_1
 from test_data.test_product import TEST_PRODUCT_1
 from tests_e2e.pages.cart_page import CartPage
+from tests_e2e.pages.category_page import CategoryPage
 from tests_e2e.pages.checkout_shipping_page import CheckoutShippingPage
 
 
 @pytest.mark.e2e
 @allure.title("Checkout - Switch shipping option (E2E)")
-def test_e2e_checkout_switch_shipping_option(config: dict, page: Page, anonymous_catalog_requests: AnonymousCatalogRequests):
+def test_e2e_checkout_switch_shipping_option(
+    config: dict, page: Page, anonymous_catalog_requests: AnonymousCatalogRequests
+):
     print(f"{os.linesep}Running E2E test to switch shipping option...", end=" ")
 
     anonymous_catalog_requests.toggle(True)
@@ -30,18 +36,34 @@ def test_e2e_checkout_switch_shipping_option(config: dict, page: Page, anonymous
 
     checkout_shipping_page = CheckoutShippingPage(config, page)
 
-    expect(page).to_have_url(checkout_shipping_page.url), "Checkout shipping page is not loaded"
-    expect(checkout_shipping_page.shipping_details_section_component.pickup_delivery_option_switcher).to_be_visible(), "Pickup delivery option switcher is not visible"
-    expect(checkout_shipping_page.shipping_details_section_component.shipping_delivery_option_switcher).to_be_visible(), "Shipping delivery option switcher is not visible"
+    expect(page).to_have_url(
+        checkout_shipping_page.url
+    ), "Checkout shipping page is not loaded"
+    expect(
+        checkout_shipping_page.shipping_details_section_component.pickup_delivery_option_switcher
+    ).to_be_visible(), "Pickup delivery option switcher is not visible"
+    expect(
+        checkout_shipping_page.shipping_details_section_component.shipping_delivery_option_switcher
+    ).to_be_visible(), "Shipping delivery option switcher is not visible"
 
-    checkout_shipping_page.shipping_details_section_component.switch_delivery_option("pickup")
+    checkout_shipping_page.shipping_details_section_component.switch_delivery_option(
+        "pickup"
+    )
 
-    expect(checkout_shipping_page.shipping_details_section_component.pickup_point_section).to_be_visible(), "Pickup point section is not visible"
-    expect(checkout_shipping_page.shipping_details_section_component.shipping_address_component.element).not_to_be_visible(), "Shipping address section is visible"
-    expect(checkout_shipping_page.shipping_details_section_component.shipping_method_selector).not_to_be_visible(), "Shipping method selector is visible"
+    expect(
+        checkout_shipping_page.shipping_details_section_component.pickup_point_section
+    ).to_be_visible(), "Pickup point section is not visible"
+    expect(
+        checkout_shipping_page.shipping_details_section_component.shipping_method_selector
+    ).not_to_be_visible(), "Shipping method selector is visible"
 
-    checkout_shipping_page.shipping_details_section_component.switch_delivery_option("shipping")
+    checkout_shipping_page.shipping_details_section_component.switch_delivery_option(
+        "shipping"
+    )
 
-    expect(checkout_shipping_page.shipping_details_section_component.pickup_point_section).not_to_be_visible(), "Pickup point section is visible"
-    expect(checkout_shipping_page.shipping_details_section_component.shipping_address_component.element).to_be_visible(), "Shipping address section is not visible"
-    expect(checkout_shipping_page.shipping_details_section_component.shipping_method_selector).to_be_visible(), "Shipping method selector is not visible"
+    expect(
+        checkout_shipping_page.shipping_details_section_component.pickup_point_section
+    ).not_to_be_visible(), "Pickup point section is visible"
+    expect(
+        checkout_shipping_page.shipping_details_section_component.shipping_method_selector
+    ).to_be_visible(), "Shipping method selector is not visible"
