@@ -34,7 +34,9 @@ def test_e2e_category_add_product_to_cart(
     category_page = CategoryPage(config, page, TEST_CATEGORY_1["seoPath"])
     category_page.navigate()
 
-    expect(page).to_have_url(f"{config['base_url']}/{TEST_CATEGORY_1['seoPath']}")
+    expect(page).to_have_url(
+        f"{config['frontend_base_url']}/{TEST_CATEGORY_1['seoPath']}"
+    )
 
     product_card = category_page.get_product_card_by_sku(TEST_PRODUCT_1["sku"])
     product_card.quantity_input.fill(product_quantity_to_add)

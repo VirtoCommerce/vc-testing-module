@@ -1,5 +1,6 @@
 from playwright.sync_api import Locator
 
+from tests_e2e.components.account_menu_component import AccountMenuComponent
 from tests_e2e.components.currency_selector_component import CurrencySelectorComponent
 from tests_e2e.components.language_selector_component import LanguageSelectorComponent
 
@@ -42,6 +43,12 @@ class TopHeaderComponent:
     def account_menu_button(self) -> Locator:
         return self.element.locator(
             "[data-test-id='main-layout.top-header.account-menu-button']"
+        )
+
+    @property
+    def account_menu_component(self) -> AccountMenuComponent:
+        return AccountMenuComponent(
+            self.element.locator("[data-test-id='main-layout.top-header.account-menu']")
         )
 
     @property
