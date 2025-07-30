@@ -11,11 +11,13 @@ from graphql import (
     GraphQLSchema,
     GraphQLType,
 )
+from dotenv import load_dotenv
 from inflection import camelize, underscore
 from typing import Callable
 
+load_dotenv(override=True)
 
-endpoint_url = f"{os.getenv('backend_base_url')}/graphql"
+endpoint_url = f"{os.getenv('BACKEND_BASE_URL')}/graphql"
 
 python_types_import_map = {
     "int": None,

@@ -17,9 +17,10 @@ import allure
 # from graphql_requests.queries.me.me_query import MeQuery
 from fixtures.auth_token import auth_token
 from fixtures.auth_fixture import auth
-from fixtures.graphql_client import graphql_client
-from fixtures.webapi_client import webapi_client
+from fixtures.graphql_client_fixture import graphql_client
+from fixtures.webapi_client_fixture import webapi_client
 from fixtures.anonymous_catalog_requests_fixture import anonymous_catalog_requests
+from fixtures.requests_tracker_fixture import requests_tracker
 
 # Load environment variables from .env file
 load_dotenv(override=True)

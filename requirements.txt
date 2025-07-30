@@ -58,3 +58,4 @@ aiohttp
 colorama
 inflection
 pydantic
+isort

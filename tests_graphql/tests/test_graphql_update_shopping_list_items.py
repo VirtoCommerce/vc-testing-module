@@ -1,15 +1,23 @@
-import allure, os, pytest
-from graphql_operations.shopping_lists.shopping_lists_operations import ShoppingListsOperations
+import os
+
+import allure
+import pytest
+
+from fixtures.auth_fixture import Auth
+from fixtures.graphql_client_fixture import GraphQLClient
+from graphql_operations.shopping_lists.shopping_lists_operations import (
+    ShoppingListsOperations,
+)
 from graphql_operations.user.user_operations import UserOperations
-from tests_graphql.test_data.test_culture import TEST_CULTURE
-from tests_graphql.test_data.test_currency import TEST_CURRENCY
-from tests_graphql.test_data.test_product import TEST_PRODUCT_1
-from tests_graphql.test_data.test_user import TEST_PERMANENT_USER
+from test_data.test_culture import TEST_CULTURE
+from test_data.test_currency import TEST_CURRENCY
+from test_data.test_product import TEST_PRODUCT_1
+from test_data.test_user import TEST_PERMANENT_USER
 
 
 @pytest.mark.graphql
 @allure.title("Update shopping list items (GraphQL)")
-def test_update_shopping_list_items(config, auth, graphql_client):
+def test_update_shopping_list_items(config, auth: Auth, graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to update shopping list items...", end=" ")
 
     user_operations = UserOperations(graphql_client)
@@ -38,16 +46,18 @@ def test_update_shopping_list_items(config, auth, graphql_client):
 
     shopping_list_item = shopping_list_with_item["items"][0]
 
-    shopping_list_with_updated_item = shopping_lists_operations.update_shopping_list_items(
-        payload={
-            "listId": new_shopping_list["id"],
-            "items": [
-                {
-                    "lineItemId": shopping_list_item["id"],
-                    "quantity": 2,
-                }
-            ],
-        }
+    shopping_list_with_updated_item = (
+        shopping_lists_operations.update_shopping_list_items(
+            payload={
+                "listId": new_shopping_list["id"],
+                "items": [
+                    {
+                        "lineItemId": shopping_list_item["id"],
+                        "quantity": 2,
+                    }
+                ],
+            }
+        )
     )
 
     # Test teardown
@@ -60,6 +70,12 @@ def test_update_shopping_list_items(config, auth, graphql_client):
 
     auth.clear_token()
 
-    assert shopping_list_with_updated_item["id"] is not None, "Shopping list ID is not set"
-    assert shopping_list_with_updated_item["id"] == new_shopping_list["id"], "Shopping list ID does not match"
-    assert shopping_list_with_updated_item["items"][0]["quantity"] == 2, "Shopping list item quantity does not match"
+    assert (
+        shopping_list_with_updated_item["id"] is not None
+    ), "Shopping list ID is not set"
+    assert (
+        shopping_list_with_updated_item["id"] == new_shopping_list["id"]
+    ), "Shopping list ID does not match"
+    assert (
+        shopping_list_with_updated_item["items"][0]["quantity"] == 2
+    ), "Shopping list item quantity does not match"

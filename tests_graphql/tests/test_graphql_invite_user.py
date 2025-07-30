@@ -1,18 +1,27 @@
-import allure, os, pytest
+import os
+
+import allure
+import pytest
+
+from fixtures.auth_fixture import Auth
+from fixtures.graphql_client_fixture import GraphQLClient
 from graphql_operations.contact.contact_operations import ContactOperations
 from graphql_operations.user.user_operations import UserOperations
-from tests_graphql.test_data.test_user import TEST_PERMANENT_CORPORATE_USER
+from test_data.test_user import TEST_PERMANENT_CORPORATE_USER
 
 
 @pytest.mark.graphql
 @allure.feature("Invite user (GraphQL)")
-def test_invite_user(config, auth, graphql_client):
+def test_invite_user(config: dict, auth: Auth, graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to invite user...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     contact_operations = ContactOperations(graphql_client)
 
-    auth.authenticate(TEST_PERMANENT_CORPORATE_USER["username"], TEST_PERMANENT_CORPORATE_USER["password"])
+    auth.authenticate(
+        TEST_PERMANENT_CORPORATE_USER["username"],
+        TEST_PERMANENT_CORPORATE_USER["password"],
+    )
 
     user = user_operations.get_user()
 
@@ -25,6 +34,11 @@ def test_invite_user(config, auth, graphql_client):
             "roleIds": ["org-employee"],
         }
     )
+
+    if invitation_result["succeeded"] == False:
+        raise Exception(
+            f"{os.linesep}Invitation failed: {invitation_result['errors'][0]}"
+        )
 
     invited_contact = contact_operations.fetch_organization_contacts(
         organization_id=user["contact"]["organizationId"],
@@ -57,4 +71,6 @@ def test_invite_user(config, auth, graphql_client):
 
     assert invitation_result["succeeded"] == True, "User was not invited"
     assert invited_contact is not None, "Invited contact was not found"
-    assert invited_contact["status"] == "Invited", "Invited contact status is not Invited"
+    assert (
+        invited_contact["status"] == "Invited"
+    ), "Invited contact status is not Invited"

@@ -1,14 +1,22 @@
-import allure, os, pytest
+import os
+from typing import Any, Dict
+
+import allure
+import pytest
+
+from fixtures.graphql_client_fixture import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
-from tests_graphql.test_data.test_address import TEST_CUSTOMER_ADDRESS, TEST_CUSTOMER_ADDRESS_1
-from tests_graphql.test_data.test_culture import TEST_CULTURE
-from tests_graphql.test_data.test_currency import TEST_CURRENCY
+from test_data.test_address import TEST_CUSTOMER_ADDRESS_1, TEST_CUSTOMER_ADDRESS_2
+from test_data.test_culture import TEST_CULTURE
+from test_data.test_currency import TEST_CURRENCY
 
 
 @pytest.mark.graphql
 @allure.title("Add cart billing address (GraphQL)")
-def test_add_cart_billing_address(config, graphql_client):
+def test_add_cart_billing_address(
+    config: Dict[str, Any], graphql_client: GraphQLClient
+):
     print(f"{os.linesep}Running test to add a cart billing address...", end=" ")
 
     user_operations = UserOperations(graphql_client)
@@ -23,7 +31,7 @@ def test_add_cart_billing_address(config, graphql_client):
             "currencyCode": TEST_CURRENCY["USD"],
             "cultureName": TEST_CULTURE["en-US"],
             "payment": {
-                "billingAddress": TEST_CUSTOMER_ADDRESS,
+                "billingAddress": TEST_CUSTOMER_ADDRESS_1,
             },
         }
     )
@@ -52,32 +60,46 @@ def test_add_cart_billing_address(config, graphql_client):
     assert len(cart["payments"]) > 0, "Cart has not payments"
     assert billing_address is not None, "Billing address is None"
     assert billing_address["id"] is not None, "Billing address ID is None"
-    assert billing_address["city"] == TEST_CUSTOMER_ADDRESS["city"], "Billing address city is not the same"
     assert (
-        billing_address["countryCode"] == TEST_CUSTOMER_ADDRESS["countryCode"]
+        billing_address["city"] == TEST_CUSTOMER_ADDRESS_1["city"]
+    ), "Billing address city is not the same"
+    assert (
+        billing_address["countryCode"] == TEST_CUSTOMER_ADDRESS_1["countryCode"]
     ), "Billing address country code is not the same"
     assert (
-        billing_address["countryName"] == TEST_CUSTOMER_ADDRESS["countryName"]
+        billing_address["countryName"] == TEST_CUSTOMER_ADDRESS_1["countryName"]
     ), "Billing address country name is not the same"
-    assert billing_address["email"] == TEST_CUSTOMER_ADDRESS["email"], "Billing address email is not the same"
     assert (
-        billing_address["firstName"] == TEST_CUSTOMER_ADDRESS["firstName"]
+        billing_address["email"] == TEST_CUSTOMER_ADDRESS_1["email"]
+    ), "Billing address email is not the same"
+    assert (
+        billing_address["firstName"] == TEST_CUSTOMER_ADDRESS_1["firstName"]
     ), "Billing address first name is not the same"
-    assert billing_address["lastName"] == TEST_CUSTOMER_ADDRESS["lastName"], "Billing address last name is not the same"
-    assert billing_address["line1"] == TEST_CUSTOMER_ADDRESS["line1"], "Billing address line 1 is not the same"
-    assert billing_address["phone"] == TEST_CUSTOMER_ADDRESS["phone"], "Billing address phone is not the same"
     assert (
-        billing_address["postalCode"] == TEST_CUSTOMER_ADDRESS["postalCode"]
+        billing_address["lastName"] == TEST_CUSTOMER_ADDRESS_1["lastName"]
+    ), "Billing address last name is not the same"
+    assert (
+        billing_address["line1"] == TEST_CUSTOMER_ADDRESS_1["line1"]
+    ), "Billing address line 1 is not the same"
+    assert (
+        billing_address["phone"] == TEST_CUSTOMER_ADDRESS_1["phone"]
+    ), "Billing address phone is not the same"
+    assert (
+        billing_address["postalCode"] == TEST_CUSTOMER_ADDRESS_1["postalCode"]
     ), "Billing address postal code is not the same"
-    assert billing_address["regionId"] == TEST_CUSTOMER_ADDRESS["regionId"], "Billing address region ID is not the same"
     assert (
-        billing_address["regionName"] == TEST_CUSTOMER_ADDRESS["regionName"]
+        billing_address["regionId"] == TEST_CUSTOMER_ADDRESS_1["regionId"]
+    ), "Billing address region ID is not the same"
+    assert (
+        billing_address["regionName"] == TEST_CUSTOMER_ADDRESS_1["regionName"]
     ), "Billing address region name is not the same"
 
 
 @pytest.mark.graphql
 @allure.title("Update cart billing address (GraphQL)")
-def test_update_cart_billing_address(config, graphql_client):
+def test_update_cart_billing_address(
+    config: Dict[str, Any], graphql_client: GraphQLClient
+):
     print(f"{os.linesep}Running test to update a cart billing address...", end=" ")
 
     user_operations = UserOperations(graphql_client)
@@ -92,7 +114,7 @@ def test_update_cart_billing_address(config, graphql_client):
             "currencyCode": TEST_CURRENCY["USD"],
             "cultureName": TEST_CULTURE["en-US"],
             "payment": {
-                "billingAddress": TEST_CUSTOMER_ADDRESS,
+                "billingAddress": TEST_CUSTOMER_ADDRESS_1,
             },
         }
     )
@@ -100,7 +122,7 @@ def test_update_cart_billing_address(config, graphql_client):
     billing_address = cart["payments"][0]["billingAddress"]
 
     new_address = {
-        **TEST_CUSTOMER_ADDRESS_1,
+        **TEST_CUSTOMER_ADDRESS_2,
         "id": billing_address["id"],
     }
 
@@ -141,24 +163,36 @@ def test_update_cart_billing_address(config, graphql_client):
     assert len(updated_cart["payments"]) > 0, "Cart has not payments"
     assert updated_billing_address is not None, "Billing address is None"
     assert updated_billing_address["id"] is not None, "Billing address ID is None"
-    assert updated_billing_address["city"] == new_address["city"], "Billing address city is not the same"
+    assert (
+        updated_billing_address["city"] == new_address["city"]
+    ), "Billing address city is not the same"
     assert (
         updated_billing_address["countryCode"] == new_address["countryCode"]
     ), "Billing address country code is not the same"
     assert (
         updated_billing_address["countryName"] == new_address["countryName"]
     ), "Billing address country name is not the same"
-    assert updated_billing_address["email"] == new_address["email"], "Billing address email is not the same"
+    assert (
+        updated_billing_address["email"] == new_address["email"]
+    ), "Billing address email is not the same"
     assert (
         updated_billing_address["firstName"] == new_address["firstName"]
     ), "Billing address first name is not the same"
-    assert updated_billing_address["lastName"] == new_address["lastName"], "Billing address last name is not the same"
-    assert updated_billing_address["line1"] == new_address["line1"], "Billing address line 1 is not the same"
-    assert updated_billing_address["phone"] == new_address["phone"], "Billing address phone is not the same"
+    assert (
+        updated_billing_address["lastName"] == new_address["lastName"]
+    ), "Billing address last name is not the same"
+    assert (
+        updated_billing_address["line1"] == new_address["line1"]
+    ), "Billing address line 1 is not the same"
+    assert (
+        updated_billing_address["phone"] == new_address["phone"]
+    ), "Billing address phone is not the same"
     assert (
         updated_billing_address["postalCode"] == new_address["postalCode"]
     ), "Billing address postal code is not the same"
-    assert updated_billing_address["regionId"] == new_address["regionId"], "Billing address region ID is not the same"
+    assert (
+        updated_billing_address["regionId"] == new_address["regionId"]
+    ), "Billing address region ID is not the same"
     assert (
         updated_billing_address["regionName"] == new_address["regionName"]
     ), "Billing address region name is not the same"

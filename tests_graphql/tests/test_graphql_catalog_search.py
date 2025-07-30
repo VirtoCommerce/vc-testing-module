@@ -1,18 +1,28 @@
-import allure, os, pytest
+import os
+from typing import Any, Dict
+
+import allure
+import pytest
+
+from fixtures.graphql_client_fixture import GraphQLClient
 from graphql_operations.catalog.categories_operations import CategoriesOperations
 from graphql_operations.catalog.products_operations import ProductsOperations
 from graphql_operations.user.user_operations import UserOperations
-from tests_graphql.test_data.test_catalog import TEST_CATALOG
-from tests_graphql.test_data.test_category import TEST_CATEGORY_1
-from tests_graphql.test_data.test_culture import TEST_CULTURE
-from tests_graphql.test_data.test_currency import TEST_CURRENCY
-from tests_graphql.test_data.test_product import TEST_PRODUCT_1
+from test_data.test_catalog import TEST_CATALOG
+from test_data.test_category import TEST_CATEGORY_1
+from test_data.test_culture import TEST_CULTURE
+from test_data.test_currency import TEST_CURRENCY
+from test_data.test_product import TEST_PRODUCT_3
 
 
 @pytest.mark.graphql
 @allure.title("Catalog search by product full name (GraphQL)")
-def test_catalog_search_by_product_full_name(config, graphql_client):
-    print(f"{os.linesep}Running test to search catalog by product full name...", end=" ")
+def test_catalog_search_by_product_full_name(
+    config: Dict[str, Any], graphql_client: GraphQLClient
+):
+    print(
+        f"{os.linesep}Running test to search catalog by product full name...", end=" "
+    )
 
     user_operations = UserOperations(graphql_client)
     products_operations = ProductsOperations(graphql_client)
@@ -24,19 +34,26 @@ def test_catalog_search_by_product_full_name(config, graphql_client):
         user_id=user["id"],
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
-        query=TEST_PRODUCT_1["name"],
+        query=TEST_PRODUCT_3["name"],
     )
 
     product = products_response["items"][0]
 
-    assert products_response["totalCount"] == 1, "Total count of products does not match"
-    assert product["name"] == TEST_PRODUCT_1["name"], "Product name does not match"
+    assert (
+        products_response["totalCount"] == 1
+    ), "Total count of products does not match"
+    assert product["name"] == TEST_PRODUCT_3["name"], "Product name does not match"
 
 
 @pytest.mark.graphql
 @allure.title("Catalog search by product name fragment (GraphQL)")
-def test_catalog_search_by_product_name_fragment(config, graphql_client):
-    print(f"{os.linesep}Running test to search catalog by product name fragment...", end=" ")
+def test_catalog_search_by_product_name_fragment(
+    config: Dict[str, Any], graphql_client: GraphQLClient
+):
+    print(
+        f"{os.linesep}Running test to search catalog by product name fragment...",
+        end=" ",
+    )
 
     user_operations = UserOperations(graphql_client)
     products_operations = ProductsOperations(graphql_client)
@@ -48,7 +65,7 @@ def test_catalog_search_by_product_name_fragment(config, graphql_client):
         user_id=user["id"],
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
-        query=TEST_PRODUCT_1["name"][:4],
+        query=TEST_PRODUCT_3["name"][:4],
     )
 
     assert products_response["totalCount"] > 1, "Total count of products does not match"
@@ -56,7 +73,9 @@ def test_catalog_search_by_product_name_fragment(config, graphql_client):
 
 @pytest.mark.graphql
 @allure.title("Catalog search by product SKU (GraphQL)")
-def test_catalog_search_by_product_sku(config, graphql_client):
+def test_catalog_search_by_product_sku(
+    config: Dict[str, Any], graphql_client: GraphQLClient
+):
     print(f"{os.linesep}Running test to search catalog by product SKU...", end=" ")
 
     user_operations = UserOperations(graphql_client)
@@ -69,19 +88,26 @@ def test_catalog_search_by_product_sku(config, graphql_client):
         user_id=user["id"],
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
-        query=TEST_PRODUCT_1["sku"],
+        query=TEST_PRODUCT_3["sku"],
     )
 
     product = products_response["items"][0]
 
-    assert products_response["totalCount"] == 1, "Total count of products does not match"
-    assert product["code"] == TEST_PRODUCT_1["sku"], "Product SKU does not match"
+    assert (
+        products_response["totalCount"] == 1
+    ), "Total count of products does not match"
+    assert product["code"] == TEST_PRODUCT_3["sku"], "Product SKU does not match"
 
 
 @pytest.mark.graphql
 @allure.title("Catalog search by product availability (GraphQL)")
-def test_catalog_search_by_product_availability(config, graphql_client):
-    print(f"{os.linesep}Running test to search catalog by product availability...", end=" ")
+def test_catalog_search_by_product_availability(
+    config: Dict[str, Any], graphql_client: GraphQLClient
+):
+    print(
+        f"{os.linesep}Running test to search catalog by product availability...",
+        end=" ",
+    )
 
     user_operations = UserOperations(graphql_client)
     categories_operations = CategoriesOperations(graphql_client)
@@ -102,7 +128,7 @@ def test_catalog_search_by_product_availability(config, graphql_client):
         user_id=user["id"],
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
-        query=TEST_PRODUCT_1["name"][:4],
+        query=TEST_PRODUCT_3["name"][:4],
         filter=f"category.subtree:{TEST_CATALOG['id']}/{category['id']} availability:InStock",
     )
 
@@ -111,17 +137,23 @@ def test_catalog_search_by_product_availability(config, graphql_client):
         user_id=user["id"],
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
-        query=TEST_PRODUCT_1["name"][:4],
+        query=TEST_PRODUCT_3["name"][:4],
         filter=f"category.subtree:{TEST_CATALOG['id']}/{category['id']}",
     )
 
-    assert products_in_stock_only_response["totalCount"] == 4, "Total count of products does not match"
-    assert products_all_response["totalCount"] == 5, "Total count of products does not match"
+    assert (
+        products_in_stock_only_response["totalCount"] == 4
+    ), "Total count of products does not match"
+    assert (
+        products_all_response["totalCount"] == 5
+    ), "Total count of products does not match"
 
 
 @pytest.mark.graphql
 @allure.title("Catalog search by product brand (GraphQL)")
-def test_catalog_search_by_product_brand(config, graphql_client):
+def test_catalog_search_by_product_brand(
+    config: Dict[str, Any], graphql_client: GraphQLClient
+):
     print(f"{os.linesep}Running test to search catalog by product brand...", end=" ")
 
     user_operations = UserOperations(graphql_client)
@@ -143,16 +175,20 @@ def test_catalog_search_by_product_brand(config, graphql_client):
         user_id=user["id"],
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
-        query=TEST_PRODUCT_1["name"][:4],
-        filter=f"category.subtree:{TEST_CATALOG['id']}/{category['id']} \"BRAND\":\"{TEST_PRODUCT_1['brand']}\"",
+        query=TEST_PRODUCT_3["name"][:4],
+        filter=f"category.subtree:{TEST_CATALOG['id']}/{category['id']} \"BRAND\":\"{TEST_PRODUCT_3['brand']}\"",
     )
 
-    assert products_response["totalCount"] == 1, "Total count of products does not match"
+    assert (
+        products_response["totalCount"] == 1
+    ), "Total count of products does not match"
 
 
 @pytest.mark.graphql
 @allure.title("Catalog search by product price (GraphQL)")
-def test_catalog_search_by_product_price(config, graphql_client):
+def test_catalog_search_by_product_price(
+    config: Dict[str, Any], graphql_client: GraphQLClient
+):
     print(f"{os.linesep}Running test to search catalog by product price...", end=" ")
 
     user_operations = UserOperations(graphql_client)
@@ -174,8 +210,10 @@ def test_catalog_search_by_product_price(config, graphql_client):
         user_id=user["id"],
         currency_code=TEST_CURRENCY["USD"],
         culture_name=TEST_CULTURE["en-US"],
-        query=TEST_PRODUCT_1["name"][:4],
+        query=TEST_PRODUCT_3["name"][:4],
         filter=f"category.subtree:{TEST_CATALOG['id']}/{category['id']} \"price\":[1000 TO 1500]",
     )
 
-    assert products_response["totalCount"] == 2, "Total count of products does not match"
+    assert (
+        products_response["totalCount"] == 2
+    ), "Total count of products does not match"

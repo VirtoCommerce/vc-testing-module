@@ -3,8 +3,8 @@ from pydantic import BaseModel
 
 class PaymentTransactionType(BaseModel):
     def __init__(self):
-        from graphql_client.types.money_type import MoneyType
         from datetime import datetime
+        from graphql_client.types.money_type import MoneyType
 
         self.id: str
         self.isProcessed: bool

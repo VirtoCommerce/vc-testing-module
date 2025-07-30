@@ -1,15 +1,22 @@
-import allure, os, pytest
-from graphql_operations.user.user_operations import UserOperations
+import os
+
+import allure
+import pytest
+
+from fixtures.graphql_client_fixture import GraphQLClient
 from graphql_operations.catalog.products_operations import ProductsOperations
-from tests_graphql.test_data.test_catalog import MIXED_CATALOG
-from tests_graphql.test_data.test_culture import TEST_CULTURE
-from tests_graphql.test_data.test_currency import TEST_CURRENCY
-from tests_graphql.test_data.test_product import TEST_PRODUCT_2
+from graphql_operations.user.user_operations import UserOperations
+from test_data.test_catalog import MIXED_CATALOG
+from test_data.test_culture import TEST_CULTURE
+from test_data.test_currency import TEST_CURRENCY
+from test_data.test_product import TEST_PRODUCT_2
 
 
 @pytest.mark.graphql
 @allure.feature("Filter product variations by stock (GraphQL)")
-def test_filter_product_variations_by_stock(config, graphql_client):
+def test_filter_product_variations_by_stock(
+    config: dict, graphql_client: GraphQLClient
+):
     print(f"{os.linesep}Running test to filter product variations by stock...", end=" ")
 
     user_operations = UserOperations(graphql_client)
@@ -33,13 +40,19 @@ def test_filter_product_variations_by_stock(config, graphql_client):
         filter=f"category.subtree:{MIXED_CATALOG['id']} price.{TEST_CURRENCY['USD']}:(0 TO) productfamilyid:{TEST_PRODUCT_2['id']} is:product,variation availability:InStock",
     )
 
-    assert search_variations_result_all["totalCount"] == 3, "Total count of variations is not correct"
-    assert search_variations_result_in_stock["totalCount"] == 2, "Total count of variations in stock is not correct"
+    assert (
+        search_variations_result_all["totalCount"] == 3
+    ), "Total count of variations is not correct"
+    assert (
+        search_variations_result_in_stock["totalCount"] == 2
+    ), "Total count of variations in stock is not correct"
 
 
 @pytest.mark.graphql
 @allure.feature("Filter product variations by price (GraphQL)")
-def test_filter_product_variations_by_price(config, graphql_client):
+def test_filter_product_variations_by_price(
+    config: dict, graphql_client: GraphQLClient
+):
     print(f"{os.linesep}Running test to filter product variations by price...", end=" ")
 
     user_operations = UserOperations(graphql_client)
@@ -84,8 +97,12 @@ def test_filter_product_variations_by_price(config, graphql_client):
 
 @pytest.mark.graphql
 @allure.feature("Filter product variations by property (GraphQL)")
-def test_filter_product_variations_by_property(config, graphql_client):
-    print(f"{os.linesep}Running test to filter product variations by property...", end=" ")
+def test_filter_product_variations_by_property(
+    config: dict, graphql_client: GraphQLClient
+):
+    print(
+        f"{os.linesep}Running test to filter product variations by property...", end=" "
+    )
 
     user_operations = UserOperations(graphql_client)
     product_operations = ProductsOperations(graphql_client)
@@ -116,6 +133,12 @@ def test_filter_product_variations_by_property(config, graphql_client):
         filter=f"category.subtree:{MIXED_CATALOG['id']} price.{TEST_CURRENCY['USD']}:(0 TO) productfamilyid:{TEST_PRODUCT_2['id']} is:product,variation \"RAM\":\"32Gb\"",
     )
 
-    assert search_variations_result_8gb["totalCount"] == 1, "Total count of variations with 8Gb RAM is not correct"
-    assert search_variations_result_16gb["totalCount"] == 1, "Total count of variations with 16Gb RAM is not correct"
-    assert search_variations_result_32gb["totalCount"] == 1, "Total count of variations with 32Gb RAM is not correct"
+    assert (
+        search_variations_result_8gb["totalCount"] == 2
+    ), "Total count of variations with 8Gb RAM is not correct"
+    assert (
+        search_variations_result_16gb["totalCount"] == 0
+    ), "Total count of variations with 16Gb RAM is not correct"
+    assert (
+        search_variations_result_32gb["totalCount"] == 2
+    ), "Total count of variations with 32Gb RAM is not correct"

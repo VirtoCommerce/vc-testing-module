@@ -1,12 +1,11 @@
 from playwright.sync_api import Locator, Page
-from tests_e2e.components.header_component import HeaderComponent
+from tests_e2e.pages.main_layout_page import MainLayoutPage
 
 
-class SignInPage:
+class SignInPage(MainLayoutPage):
     def __init__(self, page: Page, config: dict):
         self.page = page
         self.config = config
-        self.header_component = HeaderComponent(page, config)
 
     @property
     def url(self) -> str:
@@ -14,36 +13,30 @@ class SignInPage:
 
     @property
     def email_input(self) -> Locator:
-        """Sign in page email input locator"""
-        return self.page.locator("[data-test-id='sign-in-email-input']")
+        return self.page.locator("[data-test-id='sign-in-page.email-input']")
 
     @property
     def password_input(self) -> Locator:
-        """Sign in page password input locator"""
-        return self.page.locator("[data-test-id='sign-in-password-input']")
+        return self.page.locator("[data-test-id='sign-in-page.password-input']")
 
     @property
     def forgot_password_link(self) -> Locator:
-        """Sign in page forgot password link locator"""
-        return self.page.locator("[data-test-id='sign-in-forgot-password-link']")
+        return self.page.locator("[data-test-id='sign-in-page.forgot-password-link']")
 
     @property
     def login_button(self) -> Locator:
-        """Sign in page login button locator"""
-        return self.page.locator("[data-test-id='sign-in-login-button']")
+        return self.page.locator("[data-test-id='sign-in-page.login-button']")
 
     @property
     def sign_up_button(self) -> Locator:
-        """Sign in page sign up button locator"""
-        return self.page.locator("[data-test-id='sign-in-registration-button']")
+        return self.page.locator("[data-test-id='sign-in-page.sign-up-button']")
 
     @property
     def sign_in_error_alert(self) -> Locator:
-        """Sign in page error alert locator"""
-        return self.page.locator("[data-test-id^='sign-in-error-'][data-test-id$='-alert']")
+        return self.page.locator("[data-test-id^='sign-in-page.sign-in-error-'][data-test-id$='-alert']")
 
     def navigate(self) -> None:
-        self.page.goto(f"{self.config['frontend_base_url']}/sign-in")
+        self.page.goto(self.url)
         self.page.wait_for_load_state("networkidle")
 
     def sign_in(self, email: str, password: str) -> None:

@@ -1,15 +1,20 @@
-import allure, os, pytest
+import os
+
+import allure
+import pytest
+
+from fixtures.graphql_client_fixture import GraphQLClient
 from graphql_operations.catalog.categories_operations import CategoriesOperations
 from graphql_operations.seo.seo_operations import SeoOperations
 from graphql_operations.user.user_operations import UserOperations
-from tests_graphql.test_data.test_catalog import TEST_CATALOG
-from tests_graphql.test_data.test_culture import TEST_CULTURE
-from tests_graphql.test_data.test_currency import TEST_CURRENCY
+from test_data.test_catalog import TEST_CATALOG
+from test_data.test_culture import TEST_CULTURE
+from test_data.test_currency import TEST_CURRENCY
 
 
 @pytest.mark.graphql
 @allure.title("Category SEO (GraphQL)")
-def test_category_seo(config, graphql_client):
+def test_category_seo(config: dict, graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to get category SEO...", end=" ")
 
     user_operations = UserOperations(graphql_client)
@@ -47,7 +52,11 @@ def test_category_seo(config, graphql_client):
 
     assert category["seoInfo"] is not None, "SEO info is not found"
     assert category["seoInfo"]["semanticUrl"] is not None, "Semantic URL is not found"
-    assert seo_info["entityInfo"]["semanticUrl"] is not None, "Semantic URL is not found"
-    assert category["seoInfo"]["semanticUrl"] == seo_info["entityInfo"]["semanticUrl"], "Semantic URL does not match"
+    assert (
+        seo_info["entityInfo"]["semanticUrl"] is not None
+    ), "Semantic URL is not found"
+    assert (
+        category["seoInfo"]["semanticUrl"] == seo_info["entityInfo"]["semanticUrl"]
+    ), "Semantic URL does not match"
     assert len(category["breadcrumbs"]) > 0, "Breadcrumbs are empty"
     assert category_breadcrumbs is not None, "Breadcrumb is not found"

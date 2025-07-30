@@ -1,15 +1,21 @@
-import allure, os, pytest
+import os
+
+import allure
+import pytest
+
+from fixtures.auth_fixture import Auth
+from fixtures.graphql_client_fixture import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
-from tests_graphql.test_data.test_culture import TEST_CULTURE
-from tests_graphql.test_data.test_currency import TEST_CURRENCY
-from tests_graphql.test_data.test_product import TEST_PRODUCT_1, TEST_PRODUCT_2
-from tests_graphql.test_data.test_user import TEST_ADMIN_USER
+from test_data.test_culture import TEST_CULTURE
+from test_data.test_currency import TEST_CURRENCY
+from test_data.test_product import TEST_PRODUCT_1, TEST_PRODUCT_2
+from test_data.test_user import TEST_ADMIN_USER
 
 
 @pytest.mark.graphql
 @allure.title("Merge carts (GraphQL)")
-def test_merge_carts(config, auth, graphql_client):
+def test_merge_carts(config: dict, auth: Auth, graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to merge carts...", end=" ")
 
     user_operations = UserOperations(graphql_client)
