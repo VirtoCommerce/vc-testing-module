@@ -3,7 +3,7 @@ import os
 import allure
 import pytest
 
-from fixtures.graphql_client_fixture import GraphQLClient
+from fixtures import GraphQLClient
 from graphql_operations.catalog.products_operations import ProductsOperations
 from graphql_operations.seo.seo_operations import SeoOperations
 from graphql_operations.user.user_operations import UserOperations

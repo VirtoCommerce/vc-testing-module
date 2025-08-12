@@ -3,8 +3,7 @@ import os
 import allure
 import pytest
 
-from fixtures.auth_fixture import Auth
-from fixtures.graphql_client_fixture import GraphQLClient
+from fixtures import Auth, GraphQLClient
 from graphql_operations.shopping_lists.shopping_lists_operations import (
     ShoppingListsOperations,
 )

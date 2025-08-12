@@ -5,9 +5,7 @@ import allure
 import pytest
 from gql.transport.exceptions import TransportQueryError
 
-from fixtures import AnonymousCatalogRequests
-from fixtures.auth_fixture import Auth
-from fixtures.graphql_client_fixture import GraphQLClient
+from fixtures import AnonymousCatalogRequests, Auth, GraphQLClient
 from graphql_operations.catalog.categories_operations import CategoriesOperations
 from graphql_operations.catalog.products_operations import ProductsOperations
 from graphql_operations.user.user_operations import UserOperations
