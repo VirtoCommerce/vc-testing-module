@@ -1,6 +1,6 @@
-from playwright.sync_api import Page
-from tests_e2e.pages.checkout_layout_page import CheckoutLayoutPage
-from playwright.sync_api import Locator
+from playwright.sync_api import Locator, Page
+
+from .checkout_layout_page import CheckoutLayoutPage
 
 
 class CheckoutBillingPage(CheckoutLayoutPage):

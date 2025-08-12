@@ -1,5 +1,6 @@
-from tests_e2e.pages.main_layout_page import MainLayoutPage
 from playwright.sync_api import Page
+
+from .main_layout_page import MainLayoutPage
 
 
 class CheckoutCompletedPage(MainLayoutPage):
@@ -13,4 +14,6 @@ class CheckoutCompletedPage(MainLayoutPage):
 
     @property
     def order_number(self) -> str:
-        return self.page.locator("[data-order-number]").get_attribute("data-order-number")
+        return self.page.locator("[data-order-number]").get_attribute(
+            "data-order-number"
+        )

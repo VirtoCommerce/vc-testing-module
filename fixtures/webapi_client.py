@@ -1,6 +1,11 @@
-from typing import Optional, Dict, Any, Union
-import allure, json, pytest, requests
-from fixtures.auth_fixture import Auth
+import json
+from typing import Any, Dict, Optional, Union
+
+import allure
+import pytest
+import requests
+
+from fixtures.auth import Auth
 
 
 class WebAPISession(requests.Session):
@@ -18,7 +23,9 @@ class WebAPISession(requests.Session):
         else:
             self.headers.pop("Authorization", None)
 
-    def send_request(self, method: str, endpoint: str, **kwargs) -> Union[dict, str, bytes]:
+    def send_request(
+        self, method: str, endpoint: str, **kwargs
+    ) -> Union[dict, str, bytes]:
         self.update_auth_headers()
 
         url = f"{self.config['backend_base_url']}{endpoint}"
@@ -37,22 +44,32 @@ class WebAPISession(requests.Session):
         else:
             return response.text
 
-    def get(self, endpoint: str, params: Optional[dict] = None, **kwargs) -> Union[dict, str, bytes]:
+    def get(
+        self, endpoint: str, params: Optional[dict] = None, **kwargs
+    ) -> Union[dict, str, bytes]:
         return self.send_request("GET", endpoint, params=params, **kwargs)
 
-    def post(self, endpoint: str, data: Optional[dict] = None, **kwargs) -> Union[dict, str, bytes]:
+    def post(
+        self, endpoint: str, data: Optional[dict] = None, **kwargs
+    ) -> Union[dict, str, bytes]:
         return self.send_request("POST", endpoint, data=json.dumps(data), **kwargs)
 
-    def put(self, endpoint: str, data: Optional[dict] = None, **kwargs) -> Union[dict, str, bytes]:
+    def put(
+        self, endpoint: str, data: Optional[dict] = None, **kwargs
+    ) -> Union[dict, str, bytes]:
         return self.send_request("PUT", endpoint, data=json.dumps(data), **kwargs)
 
     def delete(self, endpoint: str, **kwargs) -> Union[dict, str, bytes]:
         return self.send_request("DELETE", endpoint, **kwargs)
 
-    def patch(self, endpoint: str, data: Optional[dict] = None, **kwargs) -> Union[dict, str, bytes]:
+    def patch(
+        self, endpoint: str, data: Optional[dict] = None, **kwargs
+    ) -> Union[dict, str, bytes]:
         return self.send_request("PATCH", endpoint, data=json.dumps(data), **kwargs)
 
-    def request(self, method: str, endpoint: str, data: Optional[dict] = None, **kwargs) -> Union[dict, str, bytes]:
+    def request(
+        self, method: str, endpoint: str, data: Optional[dict] = None, **kwargs
+    ) -> Union[dict, str, bytes]:
         return self.send_request(method, endpoint, data=json.dumps(data), **kwargs)
 
 

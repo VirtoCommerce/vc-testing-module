@@ -1,6 +1,6 @@
 from playwright.sync_api import Page
 
-from tests_e2e.components.top_header_component import TopHeaderComponent
+from tests_e2e.components import TopHeaderComponent
 
 
 class MainLayoutPage:

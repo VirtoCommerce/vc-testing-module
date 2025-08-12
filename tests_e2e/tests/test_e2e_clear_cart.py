@@ -1,17 +1,25 @@
-import allure, os, pytest
+import os
+
+import allure
+import pytest
 from playwright.sync_api import Page, expect
-from fixtures.anonymous_catalog_requests_fixture import AnonymousCatalogRequests
-from tests_e2e.pages.category_page import CategoryPage
-from tests_e2e.pages.cart_page import CartPage
+
+from fixtures import AnonymousCatalogRequests, RequestsTracker
 from test_data.test_category import TEST_CATEGORY_1
 from test_data.test_product import TEST_PRODUCT_1
 from tests_e2e.components.clear_cart_modal_component import ClearCartModalComponent
-from fixtures.requests_tracker_fixture import RequestsTracker
+from tests_e2e.pages.cart_page import CartPage
+from tests_e2e.pages.category_page import CategoryPage
 
 
 @pytest.mark.e2e
 @allure.title("Clear cart (E2E)")
-def test_e2e_clear_cart(config: dict, page: Page, anonymous_catalog_requests: AnonymousCatalogRequests, requests_tracker: RequestsTracker):
+def test_e2e_clear_cart(
+    config: dict,
+    page: Page,
+    anonymous_catalog_requests: AnonymousCatalogRequests,
+    requests_tracker: RequestsTracker,
+):
     print(f"{os.linesep}Running E2E test to clear cart...", end=" ")
 
     anonymous_catalog_requests.toggle(True)
@@ -29,7 +37,9 @@ def test_e2e_clear_cart(config: dict, page: Page, anonymous_catalog_requests: An
     cart_page.navigate()
     cart_page.clear_cart_button.click()
 
-    clear_cart_modal = ClearCartModalComponent(page.locator("[data-test-id='clear-cart-modal']"))
+    clear_cart_modal = ClearCartModalComponent(
+        page.locator("[data-test-id='clear-cart-modal']")
+    )
 
     expect(clear_cart_modal.element).to_be_visible(), "Clear cart modal is not visible"
 
