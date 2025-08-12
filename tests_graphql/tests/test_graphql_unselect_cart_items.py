@@ -1,4 +1,5 @@
 import os
+from typing import Any, Dict
 
 import allure
 import pytest
@@ -13,7 +14,7 @@ from test_data.test_product import TEST_PRODUCT_1, TEST_PRODUCT_2
 
 @pytest.mark.graphql
 @allure.title("Unselect cart items (GraphQL)")
-def test_unselect_cart_items(config: dict, graphql_client: GraphQLClient):
+def test_unselect_cart_items(config: Dict[str, Any], graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to unselect cart items...", end=" ")
 
     user_operations = UserOperations(graphql_client)
@@ -81,7 +82,7 @@ def test_unselect_cart_items(config: dict, graphql_client: GraphQLClient):
 
 @pytest.mark.graphql
 @allure.title("Unselect all cart items (GraphQL)")
-def test_unselect_all_cart_items(config: dict, graphql_client: GraphQLClient):
+def test_unselect_all_cart_items(config: Dict[str, Any], graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to unselect all cart items...", end=" ")
 
     user_operations = UserOperations(graphql_client)

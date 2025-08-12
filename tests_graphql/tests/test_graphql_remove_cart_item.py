@@ -1,4 +1,5 @@
 import os
+from typing import Any, Dict
 
 import allure
 import pytest
@@ -13,7 +14,7 @@ from test_data.test_product import TEST_PRODUCT_1
 
 @pytest.mark.graphql
 @allure.title("Remove item from cart (GraphQL)")
-def test_remove_item_from_cart(config: dict, graphql_client: GraphQLClient):
+def test_remove_item_from_cart(config: Dict[str, Any], graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to remove item from cart...", end=" ")
 
     user_operations = UserOperations(graphql_client)

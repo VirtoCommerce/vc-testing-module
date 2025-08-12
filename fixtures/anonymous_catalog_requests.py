@@ -17,7 +17,8 @@ class AnonymousCatalogRequests:
 
     def toggle(self, value: bool) -> None:
         self.auth.authenticate(
-            username=self.config["username"], password=self.config["password"]
+            username=self.config["test_admin_username"],
+            password=self.config["test_admin_password"],
         )
 
         self.webapi_client.patch(

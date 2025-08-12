@@ -1,4 +1,5 @@
 import os
+from typing import Any, Dict
 
 import allure
 import pytest
@@ -13,7 +14,7 @@ from test_data.test_product import TEST_PRODUCT_1
 
 @pytest.mark.graphql
 @allure.title("Clear anonymous cart (GraphQL)")
-def test_clear_anonymous_cart(config: dict, graphql_client: GraphQLClient):
+def test_clear_anonymous_cart(config: Dict[str, Any], graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to clear anonymous cart...", end=" ")
 
     user_operations = UserOperations(graphql_client)

@@ -1,4 +1,5 @@
 import os
+from typing import Any, Dict
 
 import allure
 import pytest
@@ -10,19 +11,18 @@ from graphql_operations.user.user_operations import UserOperations
 from test_data.test_culture import TEST_CULTURE
 from test_data.test_currency import TEST_CURRENCY
 from test_data.test_product import TEST_PRODUCT_1
-from test_data.test_user import TEST_ADMIN_USER
 
 
 @pytest.mark.graphql
 @allure.title("Get order details (GraphQL)")
-def test_get_order(config: dict, auth: Auth, graphql_client: GraphQLClient):
+def test_get_order(config: Dict[str, Any], auth: Auth, graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to get order details...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
     order_operations = OrderOperations(graphql_client)
 
-    auth.authenticate(TEST_ADMIN_USER["username"], TEST_ADMIN_USER["password"])
+    auth.authenticate(config["test_admin_username"], config["test_admin_password"])
 
     user = user_operations.get_user()
 

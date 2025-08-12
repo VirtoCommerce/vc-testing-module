@@ -1,4 +1,5 @@
 import os
+from typing import Any, Dict
 
 import allure
 import pytest
@@ -6,20 +7,23 @@ import pytest
 from fixtures import Auth, GraphQLClient
 from graphql_operations.contact.contact_operations import ContactOperations
 from graphql_operations.user.user_operations import UserOperations
-from test_data.test_user import TEST_PERMANENT_CORPORATE_USER
 
 
 @pytest.mark.graphql
-@allure.feature("Lock organization contact (GraphQL)")
-def test_lock_organization_contact(auth: Auth, graphql_client: GraphQLClient):
-    print(f"{os.linesep}Running test to lock organization contact...", end=" ")
+@allure.feature("Lock and unlock organization contact (GraphQL)")
+def test_lock_unlock_organization_contact(
+    config: Dict[str, Any], auth: Auth, graphql_client: GraphQLClient
+):
+    print(
+        f"{os.linesep}Running test to lock and unlock organization contact...", end=" "
+    )
 
     user_operations = UserOperations(graphql_client)
     contact_operations = ContactOperations(graphql_client)
 
     auth.authenticate(
-        TEST_PERMANENT_CORPORATE_USER["username"],
-        TEST_PERMANENT_CORPORATE_USER["password"],
+        config["test_permanent_corporate_customer_username"],
+        config["test_permanent_corporate_customer_password"],
     )
 
     user = user_operations.get_user()

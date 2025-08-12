@@ -1,4 +1,5 @@
 import os
+from typing import Any, Dict
 
 import allure
 import pytest
@@ -11,18 +12,22 @@ from graphql_operations.user.user_operations import UserOperations
 from test_data.test_culture import TEST_CULTURE
 from test_data.test_currency import TEST_CURRENCY
 from test_data.test_product import TEST_PRODUCT_1
-from test_data.test_user import TEST_PERMANENT_USER
 
 
 @pytest.mark.graphql
 @allure.title("Update shopping list items (GraphQL)")
-def test_update_shopping_list_items(config, auth: Auth, graphql_client: GraphQLClient):
+def test_update_shopping_list_items(
+    config: Dict[str, Any], auth: Auth, graphql_client: GraphQLClient
+):
     print(f"{os.linesep}Running test to update shopping list items...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     shopping_lists_operations = ShoppingListsOperations(graphql_client)
 
-    auth.authenticate(TEST_PERMANENT_USER["username"], TEST_PERMANENT_USER["password"])
+    auth.authenticate(
+        config["test_permanent_customer_username"],
+        config["test_permanent_customer_password"],
+    )
 
     user = user_operations.get_user()
 

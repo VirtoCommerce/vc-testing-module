@@ -1,4 +1,5 @@
 import os
+from typing import Any, Dict
 
 import allure
 import pytest
@@ -14,7 +15,7 @@ from test_data.test_product import TEST_PRODUCT_1
 
 @pytest.mark.graphql
 @allure.title("Product SEO (GraphQL)")
-def test_product_seo(config: dict, graphql_client: GraphQLClient):
+def test_product_seo(config: Dict[str, Any], graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to get product SEO...", end=" ")
 
     user_operations = UserOperations(graphql_client)

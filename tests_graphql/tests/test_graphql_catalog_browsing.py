@@ -14,7 +14,6 @@ from test_data.test_category import TEST_CATEGORY_1
 from test_data.test_culture import TEST_CULTURE
 from test_data.test_currency import TEST_CURRENCY
 from test_data.test_product import TEST_PRODUCT_1
-from test_data.test_user import TEST_PERMANENT_USER
 
 
 @pytest.mark.graphql
@@ -168,8 +167,8 @@ def test_catalog_browsing_as_registered_user(
     user_operations = UserOperations(graphql_client)
 
     auth.authenticate(
-        username=TEST_PERMANENT_USER["username"],
-        password=TEST_PERMANENT_USER["password"],
+        username=config["test_permanent_customer_username"],
+        password=config["test_permanent_customer_password"],
     )
 
     user = user_operations.get_user()

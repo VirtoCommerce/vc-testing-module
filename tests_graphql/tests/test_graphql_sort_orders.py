@@ -1,4 +1,5 @@
 import os
+from typing import Any, Dict
 
 import allure
 import pytest
@@ -7,18 +8,22 @@ from fixtures import Auth, GraphQLClient
 from graphql_operations.order.order_operations import OrderOperations
 from graphql_operations.user.user_operations import UserOperations
 from test_data.test_culture import TEST_CULTURE
-from test_data.test_user import TEST_PERMANENT_USER
 
 
 @pytest.mark.graphql
 @allure.title("Sort orders by date (GraphQL)")
-def test_sort_orders_by_date(auth: Auth, graphql_client: GraphQLClient):
+def test_sort_orders_by_date(
+    config: Dict[str, Any], auth: Auth, graphql_client: GraphQLClient
+):
     print(f"{os.linesep}Running test to sort orders by date...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     order_operations = OrderOperations(graphql_client)
 
-    auth.authenticate(TEST_PERMANENT_USER["username"], TEST_PERMANENT_USER["password"])
+    auth.authenticate(
+        config["test_permanent_customer_username"],
+        config["test_permanent_customer_password"],
+    )
 
     user = user_operations.get_user()
 
@@ -58,13 +63,18 @@ def test_sort_orders_by_date(auth: Auth, graphql_client: GraphQLClient):
 
 @pytest.mark.graphql
 @allure.title("Sort orders by total amount (GraphQL)")
-def test_sort_orders_by_total_amount(auth: Auth, graphql_client: GraphQLClient):
+def test_sort_orders_by_total_amount(
+    config: Dict[str, Any], auth: Auth, graphql_client: GraphQLClient
+):
     print(f"{os.linesep}Running test to sort orders by total amount...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     order_operations = OrderOperations(graphql_client)
 
-    auth.authenticate(TEST_PERMANENT_USER["username"], TEST_PERMANENT_USER["password"])
+    auth.authenticate(
+        config["test_permanent_customer_username"],
+        config["test_permanent_customer_password"],
+    )
 
     user = user_operations.get_user()
 

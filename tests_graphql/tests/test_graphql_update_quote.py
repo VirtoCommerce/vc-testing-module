@@ -1,4 +1,5 @@
 import os
+from typing import Any, Dict
 
 import allure
 import pytest
@@ -11,19 +12,23 @@ from test_data.test_address import TEST_CUSTOMER_ADDRESS_1
 from test_data.test_culture import TEST_CULTURE
 from test_data.test_currency import TEST_CURRENCY
 from test_data.test_product import TEST_PRODUCT_1
-from test_data.test_user import TEST_PERMANENT_USER
 
 
 @pytest.mark.graphql
 @allure.title("Change quote item quantity (GraphQL)")
-def test_change_quote_item_quantity(config, auth: Auth, graphql_client: GraphQLClient):
+def test_change_quote_item_quantity(
+    config: Dict[str, Any], auth: Auth, graphql_client: GraphQLClient
+):
     print(f"{os.linesep}Running test to change quote item quantity...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
     quote_operations = QuoteOperations(graphql_client)
 
-    auth.authenticate(TEST_PERMANENT_USER["username"], TEST_PERMANENT_USER["password"])
+    auth.authenticate(
+        config["test_permanent_customer_username"],
+        config["test_permanent_customer_password"],
+    )
 
     user = user_operations.get_user()
 
@@ -79,14 +84,19 @@ def test_change_quote_item_quantity(config, auth: Auth, graphql_client: GraphQLC
 
 @pytest.mark.graphql
 @allure.title("Change quote comment (GraphQL)")
-def test_change_quote_comment(config, auth: Auth, graphql_client: GraphQLClient):
+def test_change_quote_comment(
+    config: Dict[str, Any], auth: Auth, graphql_client: GraphQLClient
+):
     print(f"{os.linesep}Running test to change quote comment...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
     quote_operations = QuoteOperations(graphql_client)
 
-    auth.authenticate(TEST_PERMANENT_USER["username"], TEST_PERMANENT_USER["password"])
+    auth.authenticate(
+        config["test_permanent_customer_username"],
+        config["test_permanent_customer_password"],
+    )
 
     user = user_operations.get_user()
 
@@ -134,7 +144,7 @@ def test_change_quote_comment(config, auth: Auth, graphql_client: GraphQLClient)
 @pytest.mark.graphql
 @allure.title("Remove quote shipping and billing addresses (GraphQL)")
 def test_change_quote_shipping_and_billing_addresses(
-    config, auth: Auth, graphql_client: GraphQLClient
+    config: Dict[str, Any], auth: Auth, graphql_client: GraphQLClient
 ):
     print(
         f"{os.linesep}Running test to change quote shipping and billing addresses...",
@@ -145,7 +155,10 @@ def test_change_quote_shipping_and_billing_addresses(
     cart_operations = CartOperations(graphql_client)
     quote_operations = QuoteOperations(graphql_client)
 
-    auth.authenticate(TEST_PERMANENT_USER["username"], TEST_PERMANENT_USER["password"])
+    auth.authenticate(
+        config["test_permanent_customer_username"],
+        config["test_permanent_customer_password"],
+    )
 
     user = user_operations.get_user()
 
@@ -199,14 +212,19 @@ def test_change_quote_shipping_and_billing_addresses(
 
 @pytest.mark.graphql
 @allure.title("Remove quote item (GraphQL)")
-def test_remove_quote_item(config, auth: Auth, graphql_client: GraphQLClient):
+def test_remove_quote_item(
+    config: Dict[str, Any], auth: Auth, graphql_client: GraphQLClient
+):
     print(f"{os.linesep}Running test to remove quote item...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
     quote_operations = QuoteOperations(graphql_client)
 
-    auth.authenticate(TEST_PERMANENT_USER["username"], TEST_PERMANENT_USER["password"])
+    auth.authenticate(
+        config["test_permanent_customer_username"],
+        config["test_permanent_customer_password"],
+    )
 
     user = user_operations.get_user()
 
@@ -251,14 +269,19 @@ def test_remove_quote_item(config, auth: Auth, graphql_client: GraphQLClient):
 
 @pytest.mark.graphql
 @allure.title("Submit quote request (GraphQL)")
-def test_submit_quote_request(config, auth: Auth, graphql_client: GraphQLClient):
+def test_submit_quote_request(
+    config: Dict[str, Any], auth: Auth, graphql_client: GraphQLClient
+):
     print(f"{os.linesep}Running test to submit quote request...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
     quote_operations = QuoteOperations(graphql_client)
 
-    auth.authenticate(TEST_PERMANENT_USER["username"], TEST_PERMANENT_USER["password"])
+    auth.authenticate(
+        config["test_permanent_customer_username"],
+        config["test_permanent_customer_password"],
+    )
 
     user = user_operations.get_user()
 
