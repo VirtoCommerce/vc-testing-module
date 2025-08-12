@@ -1,9 +1,13 @@
-TEST_USER = {"username": "e2e-gql-test@test.com", "password": "Password1!", "email": "e2e-gql-test@test.com"}
+TEST_USER = {
+    "username": "e2e-gql-test@test.com",
+    "password": "Password1!",
+    "email": "e2e-gql-test@test.com",
+}
 
 TEST_PERMANENT_USER = {
     "id": "ab4a184e-e35d-411f-abff-fb2d4850ff63",
     "username": "e2e-test-customer@test.com",
-    "password": "Password1!",
+    "password": "Password123!",
     "email": "e2e-test-customer@test.com",
 }
 
