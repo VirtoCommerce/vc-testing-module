@@ -77,7 +77,7 @@ jobs:
       ADMIN_PASSWORD: Password3
       ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
       USER_EMAIL: b2badmin@test.com
-      PASSWORD: Password1
+      PASSWORD: Password1!
       FRONT_ADMIN: e2e-admin@test.com      
       PASSWORD_FRONT_ADMIN: Password1
       API_KEY: ${{ secrets.API_KEY }}
