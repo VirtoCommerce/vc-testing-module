@@ -21,7 +21,7 @@ def auth_token(config, request) -> str:
             if current_time < token_data["expires_at"]:
                 return token_data["token"]
 
-        url = f"{config['backend_base_url']}/connect/token"
+        url = f"{config['frontend_base_url']}/connect/token"
 
         headers = {
             "Content-Type": "application/x-www-form-urlencoded",
