@@ -37,11 +37,8 @@ def config():
         "front_admin": os.getenv("FRONT_ADMIN"),
         "password": os.getenv("PASSWORD"),
         "password_front_admin": os.getenv("PASSWORD_FRONT_ADMIN"),
-        "api_key": os.getenv("API_KEY", "ec15f69d-fbf0-4117-b40b-286819c164fb"),
-        # Optional OIDC fields
-        "client_id": os.getenv("CLIENT_ID"),
-        "client_secret": os.getenv("CLIENT_SECRET"),
-        "scope": os.getenv("OIDC_SCOPE", "openid profile offline_access"),
+        "api_key": os.getenv("API_KEY", "ec15f69d-fbf0-4117-b40b-286819c164fb")    
+       
     }
 
 

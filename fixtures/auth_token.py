@@ -29,7 +29,7 @@ def auth_token(config, request) -> str:
 
         data = {
             "grant_type": "password",
-            "scope": config.get("scope") or "openid profile offline_access",
+            "scope": "offline_access",
             "storeId": config["store_id"],
             "username": config["username"],
             "password": config["password"],
