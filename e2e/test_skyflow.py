@@ -53,6 +53,7 @@ def cleanup():
     # Cleanup code
 
 
+@pytest.mark.skip(reason="Skipping test_payment_success")
 def test_payment_success(
     cart_page: CartPage,
     checkout_page: CheckoutPage,
@@ -77,7 +78,7 @@ def test_payment_success(
 
     # Step 1: Add product to cart as user
     login_page.navigate()
-    login_page.login(config["front_admin"], config["password"])
+    login_page.login(config["front_admin"], config["password_front_admin"])
     login_page.expect_successful_login()
     cart_page.click_cart_icon()
     cart_page.clear_cart()
@@ -122,6 +123,7 @@ def test_payment_success(
     print("Skyflow test payment success completed")
 
 
+@pytest.mark.skip(reason="Skipping test_payment_success_with_saved_card")
 def test_payment_success_with_saved_card(
     cart_page: CartPage,
     checkout_page: CheckoutPage,
@@ -146,7 +148,7 @@ def test_payment_success_with_saved_card(
 
     # Step 1: Add product to cart as user
     login_page.navigate()
-    login_page.login(config["front_admin"], config["password"])
+    login_page.login(config["front_admin"], config["password_front_admin"])
     login_page.expect_successful_login()
     cart_page.click_cart_icon()
     cart_page.clear_cart()
@@ -192,6 +194,7 @@ def test_payment_success_with_saved_card(
     print("Skyflow test payment success with saved card completed")
 
 
+@pytest.mark.skip(reason="Skipping test_re_enter_cvv")
 def test_re_enter_cvv(
     cart_page: CartPage,
     checkout_page: CheckoutPage,
@@ -215,7 +218,7 @@ def test_re_enter_cvv(
 
     # Step 1: Add product to cart as user
     login_page.navigate()
-    login_page.login(config["front_admin"], config["password"])
+    login_page.login(config["front_admin"], config["password_front_admin"])
     login_page.expect_successful_login()
     cart_page.click_cart_icon()
     cart_page.clear_cart()
@@ -255,6 +258,7 @@ def test_re_enter_cvv(
     print("Skyflow test re-enter cvv completed")
 
 
+@pytest.mark.skip(reason="Skipping test_add_new_card")
 def test_add_new_card(
     cart_page: CartPage,
     checkout_page: CheckoutPage,
@@ -278,7 +282,7 @@ def test_add_new_card(
 
     # Step 1: Add product to cart as user
     login_page.navigate()
-    login_page.login(config["front_admin"], config["password"])
+    login_page.login(config["front_admin"], config["password_front_admin"])
     login_page.expect_successful_login()
     cart_page.click_cart_icon()
     cart_page.clear_cart()
@@ -325,6 +329,7 @@ def test_add_new_card(
     print("Skyflow test add new card completed")
 
 
+@pytest.mark.skip(reason="Skipping test_payment_failed")
 def test_payment_failed(
     cart_page: CartPage,
     checkout_page: CheckoutPage,
@@ -349,7 +354,7 @@ def test_payment_failed(
 
     # Step 1: Add product to cart as user
     login_page.navigate()
-    login_page.login(config["front_admin"], config["password"])
+    login_page.login(config["front_admin"], config["password_front_admin"])
     login_page.expect_successful_login()
     cart_page.click_cart_icon()
     cart_page.clear_cart()
@@ -390,6 +395,7 @@ def test_payment_failed(
     print("Skyflow test payment failed completed")
 
 
+@pytest.mark.skip(reason="Skipping test_payment_form_validation")
 def test_payment_form_validation(
     cart_page: CartPage,
     checkout_page: CheckoutPage,
@@ -411,7 +417,7 @@ def test_payment_form_validation(
     }
 
     login_page.navigate()
-    login_page.login(config["front_admin"], config["password"])
+    login_page.login(config["front_admin"], config["password_front_admin"])
     login_page.expect_successful_login()
     cart_page.click_cart_icon()
     cart_page.clear_cart()

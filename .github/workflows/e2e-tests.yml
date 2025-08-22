@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        browser: [webkit] #chromium, firefox
+        browser: [chromium] #chromium, firefox, webkit
 
     env:
       FRONTEND_BASE_URL: https://vcst-qa-storefront.govirto.com
@@ -24,6 +24,7 @@ jobs:
       USER_EMAIL: b2badmin@test.com
       FRONT_ADMIN: e2e-admin@test.com
       PASSWORD: Password1
+      PASSWORD_FRONT_ADMIN: Password1!
       API_KEY: ${{ secrets.API_KEY }}
       STORE_ID: B2B-store
       PLAYWRIGHT_HEADLESS: "true"
@@ -78,6 +79,7 @@ jobs:
       USER_EMAIL: b2badmin@test.com
       FRONT_ADMIN: e2e-admin@test.com
       PASSWORD: Password1
+      PASSWORD_FRONT_ADMIN: Password1!
       API_KEY: ${{ secrets.API_KEY }}
       STORE_ID: B2B-store
       PLAYWRIGHT_HEADLESS: "true"
