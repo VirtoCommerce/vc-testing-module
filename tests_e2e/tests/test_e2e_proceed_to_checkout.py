@@ -1,12 +1,16 @@
-import allure, os, pytest
+import os
+
+import allure
+import pytest
 from playwright.sync_api import Page, expect
-from fixtures.requests_tracker_fixture import RequestsTracker
-from tests_e2e.pages.sign_in_page import SignInPage
-from tests_e2e.pages.category_page import CategoryPage
+
+from fixtures import RequestsTracker
 from test_data.test_category import TEST_CATEGORY_1
 from test_data.test_product import TEST_PRODUCT_1
 from tests_e2e.pages.cart_page import CartPage
+from tests_e2e.pages.category_page import CategoryPage
 from tests_e2e.pages.checkout_shipping_page import CheckoutShippingPage
+from tests_e2e.pages.sign_in_page import SignInPage
 
 
 @pytest.mark.e2e
@@ -37,7 +41,9 @@ def test_e2e_proceed_to_checkout(config: dict, page: Page):
 
     checkout_page = CheckoutShippingPage(config, page)
 
-    expect(checkout_page.page).to_have_url(checkout_page.url), "Checkout page is not loaded"
+    expect(checkout_page.page).to_have_url(
+        checkout_page.url
+    ), "Checkout page is not loaded"
 
     cart_page.navigate()
     cart_page.clear_cart()

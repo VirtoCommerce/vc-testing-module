@@ -1,28 +1,32 @@
 import os
+from typing import Any, Dict
 
 import allure
 import pytest
 
-from fixtures.auth_fixture import Auth
-from fixtures.graphql_client_fixture import GraphQLClient
+from fixtures import Auth, GraphQLClient
 from graphql_operations.shopping_lists.shopping_lists_operations import (
     ShoppingListsOperations,
 )
 from graphql_operations.user.user_operations import UserOperations
 from test_data.test_culture import TEST_CULTURE
 from test_data.test_currency import TEST_CURRENCY
-from test_data.test_user import TEST_PERMANENT_USER
 
 
 @pytest.mark.graphql
 @allure.title("Create shopping list (GraphQL)")
-def test_create_shopping_list(config: dict, auth: Auth, graphql_client: GraphQLClient):
+def test_create_shopping_list(
+    config: Dict[str, Any], auth: Auth, graphql_client: GraphQLClient
+):
     print(f"{os.linesep}Running test to create shopping list...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     shopping_lists_operations = ShoppingListsOperations(graphql_client)
 
-    auth.authenticate(TEST_PERMANENT_USER["username"], TEST_PERMANENT_USER["password"])
+    auth.authenticate(
+        config["test_permanent_customer_username"],
+        config["test_permanent_customer_password"],
+    )
 
     user = user_operations.get_user()
 

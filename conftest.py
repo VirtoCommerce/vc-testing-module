@@ -1,26 +1,42 @@
-import os
-from dotenv import load_dotenv
+import allure
 import pytest
-import requests
-import datetime
-from gql import Client, gql
-from gql.transport.requests import RequestsHTTPTransport
-from playwright.sync_api import sync_playwright, expect
+from playwright.sync_api import expect
+from pytest import Parser
+
+from fixtures.anonymous_catalog_requests import anonymous_catalog_requests
+from fixtures.auth import auth
 from fixtures.auth_token import auth_token
 from fixtures.authenticated_page import authenticated_page
-
-# from fixtures.clear_cart_if_not_empty import clear_cart_if_not_empty
-# from graphql_requests.queries.me.me_query import MeQuery
-from playwright.sync_api import expect
-import allure
-
-# from graphql_requests.queries.me.me_query import MeQuery
-from fixtures.auth_token import auth_token
+from fixtures.checkout_mode import checkout_mode
+from fixtures.config import config
+from fixtures.graphql_client import graphql_client
+from fixtures.product_quantity_control import product_quantity_control
+from fixtures.requests_tracker import requests_tracker
+from fixtures.webapi_client import webapi_client
 from fixtures.auth_fixture import auth
-from fixtures.graphql_client_fixture import graphql_client
-from fixtures.webapi_client_fixture import webapi_client
-from fixtures.anonymous_catalog_requests_fixture import anonymous_catalog_requests
-from fixtures.requests_tracker_fixture import requests_tracker
+
+
+def pytest_addoption(parser: Parser):
+    parser.addoption(
+        "--checkout-mode",
+        action="store",
+        choices=["single-page", "multi-step"],
+        default="single-page",
+        help="Select checkout flow to test (e.g., single-page, multi-step)",
+    )
+    parser.addoption(
+        "--product-quantity-control",
+        action="store",
+        choices=["stepper", "button"],
+        default="stepper",
+        help="Choose quantity selector (e.g., stepper, button)",
+    )
+    parser.addoption(
+        "--show-browser",
+        action="store_true",
+        default=False,
+        help="Run browser in headed mode",
+    )
 
 # Load environment variables from .env file
 load_dotenv(override=True)
@@ -91,7 +107,9 @@ def authenticated_page(auth_token, config, browser_context):
 
     # Set auth object in localStorage
     page = browser_context.new_page()
-    page.goto(config["frontend_base_url"])  # Wait for page load before manipulating storage
+    page.goto(
+        config["frontend_base_url"]
+    )  # Wait for page load before manipulating storage
     page.evaluate(
         f"""
         localStorage.setItem('auth', JSON.stringify({auth_token[1]}));

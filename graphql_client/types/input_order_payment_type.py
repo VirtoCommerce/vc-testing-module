@@ -4,8 +4,8 @@ from pydantic import BaseModel
 class InputOrderPaymentType(BaseModel):
     def __init__(self):
         from graphql_client.types.input_order_address_type import InputOrderAddressType
-        from decimal import Decimal
         from graphql_client.types.input_dynamic_property_value_type import InputDynamicPropertyValueType
+        from decimal import Decimal
 
         self.id: str | None
         self.outerId: str | None

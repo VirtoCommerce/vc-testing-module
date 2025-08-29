@@ -1,7 +1,8 @@
-from playwright.sync_api import Page
 from typing import Set
-from playwright.async_api import Request
+
 import pytest
+from playwright.async_api import Request
+from playwright.sync_api import Page
 
 
 class RequestsTracker:
@@ -21,13 +22,17 @@ class RequestsTracker:
     def requests_count(self) -> int:
         return len(self._requests)
 
-    def wait_for_all_requests(self, timeout: float = 5.0, interval: float = 0.1) -> None:
+    def wait_for_all_requests(
+        self, timeout: float = 5.0, interval: float = 0.1
+    ) -> None:
         import time
+
         start = time.time()
         while time.time() - start < timeout:
             if self.requests_count() == 0:
                 return
             time.sleep(interval)
+
 
 @pytest.fixture
 def requests_tracker(page: Page) -> RequestsTracker:

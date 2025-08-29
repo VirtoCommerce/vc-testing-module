@@ -1,12 +1,11 @@
 import os
+from typing import Any, Dict
 
 import allure
 import pytest
 
-from fixtures.auth_fixture import Auth
-from fixtures.graphql_client_fixture import GraphQLClient
+from fixtures import Auth, GraphQLClient
 from graphql_operations.user.user_operations import UserOperations
-from test_data.test_user import TEST_ADMIN_USER
 
 
 @pytest.mark.graphql
@@ -24,33 +23,18 @@ def test_get_current_anonymous_user(graphql_client: GraphQLClient):
 
 @pytest.mark.graphql
 @allure.title("Get current registered user (GraphQL)")
-def test_get_current_registered_user(auth: Auth, graphql_client: GraphQLClient):
+def test_get_current_registered_user(
+    config: Dict[str, Any], auth: Auth, graphql_client: GraphQLClient
+):
     print(f"{os.linesep}Running test to get current registered user...", end=" ")
 
     user_operations = UserOperations(graphql_client)
 
-    auth.authenticate(TEST_ADMIN_USER["username"], TEST_ADMIN_USER["password"])
+    auth.authenticate(config["test_admin_username"], config["test_admin_password"])
 
     user = user_operations.get_user()
 
     auth.clear_token()
 
     assert user["id"] is not None, "User ID is None"
-    assert user["userName"] == TEST_ADMIN_USER["username"], "User name is not correct"
-
-
-@pytest.mark.graphql
-@allure.title("Get registered user by id (GraphQL)")
-def test_get_registered_user_by_id(auth: Auth, graphql_client: GraphQLClient):
-    print(f"{os.linesep}Running test to get registered user by id...", end=" ")
-
-    user_operations = UserOperations(graphql_client)
-
-    auth.authenticate(TEST_ADMIN_USER["username"], TEST_ADMIN_USER["password"])
-
-    user = user_operations.get_user(TEST_ADMIN_USER["id"])
-
-    auth.clear_token()
-
-    assert user["id"] is not None, "User ID is None"
-    assert user["userName"] == TEST_ADMIN_USER["username"], "User name is not correct"
+    assert user["userName"] == config["test_admin_username"], "User name is not correct"

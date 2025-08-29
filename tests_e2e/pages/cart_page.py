@@ -1,8 +1,10 @@
-from tests_e2e.components.clear_cart_modal_component import ClearCartModalComponent
-from tests_e2e.pages.main_layout_page import MainLayoutPage
-from playwright.sync_api import Locator, Page
-from tests_e2e.components.line_item_component import LineItemComponent
 from typing import List, Optional
+
+from playwright.sync_api import Locator, Page
+
+from tests_e2e.components import ClearCartModalComponent, LineItemComponent
+
+from .main_layout_page import MainLayoutPage
 
 
 class CartPage(MainLayoutPage):
@@ -16,7 +18,10 @@ class CartPage(MainLayoutPage):
 
     @property
     def line_items(self) -> List[LineItemComponent]:
-        return [LineItemComponent(item) for item in self.page.locator("[data-test-id='line-item']").all()]
+        return [
+            LineItemComponent(item)
+            for item in self.page.locator("[data-test-id='line-item']").all()
+        ]
 
     @property
     def clear_cart_button(self) -> Locator:
@@ -42,6 +47,8 @@ class CartPage(MainLayoutPage):
 
     def clear_cart(self) -> None:
         self.clear_cart_button.click()
-        modal = ClearCartModalComponent(self.page.locator("[data-test-id='clear-cart-modal']"))
+        modal = ClearCartModalComponent(
+            self.page.locator("[data-test-id='clear-cart-modal']")
+        )
         modal.yes_button.click()
         self.page.wait_for_load_state("networkidle")

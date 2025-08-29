@@ -1,27 +1,31 @@
 import os
+from typing import Any, Dict
 
 import allure
 import pytest
 
-from fixtures.auth_fixture import Auth
-from fixtures.graphql_client_fixture import GraphQLClient
+from fixtures import Auth, GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.order.order_operations import OrderOperations
 from graphql_operations.user.user_operations import UserOperations
 from test_data.test_culture import TEST_CULTURE
 from test_data.test_order import TEST_ORDER_1
-from test_data.test_user import TEST_PERMANENT_USER
 
 
 @pytest.mark.graphql
 @allure.title("Search order (GraphQL)")
-def test_search_order(auth: Auth, graphql_client: GraphQLClient):
+def test_search_order(
+    config: Dict[str, Any], auth: Auth, graphql_client: GraphQLClient
+):
     print(f"{os.linesep}Running test to search order...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     order_operations = OrderOperations(graphql_client)
 
-    auth.authenticate(TEST_PERMANENT_USER["username"], TEST_PERMANENT_USER["password"])
+    auth.authenticate(
+        config["test_permanent_customer_username"],
+        config["test_permanent_customer_password"],
+    )
 
     user = user_operations.get_user()
 

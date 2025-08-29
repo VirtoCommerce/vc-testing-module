@@ -1,9 +1,10 @@
 import os
+from typing import Any, Dict
 
 import allure
 import pytest
 
-from fixtures.graphql_client_fixture import GraphQLClient
+from fixtures import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
 from test_data.test_culture import TEST_CULTURE
@@ -13,7 +14,7 @@ from test_data.test_product import TEST_PRODUCT_1, TEST_PRODUCT_2
 
 @pytest.mark.graphql
 @allure.title("Select cart items (GraphQL)")
-def test_select_cart_items(config: dict, graphql_client: GraphQLClient):
+def test_select_cart_items(config: Dict[str, Any], graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to select cart items...", end=" ")
 
     user_operations = UserOperations(graphql_client)
@@ -94,7 +95,7 @@ def test_select_cart_items(config: dict, graphql_client: GraphQLClient):
 
 @pytest.mark.graphql
 @allure.title("Select all cart items (GraphQL)")
-def test_select_all_cart_items(config: dict, graphql_client: GraphQLClient):
+def test_select_all_cart_items(config: Dict[str, Any], graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to select all cart items...", end=" ")
 
     user_operations = UserOperations(graphql_client)

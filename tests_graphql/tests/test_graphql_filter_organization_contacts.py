@@ -1,19 +1,18 @@
 import os
+from typing import Any, Dict
 
 import allure
 import pytest
 
-from fixtures.auth_fixture import Auth
-from fixtures.graphql_client_fixture import GraphQLClient
+from fixtures import Auth, GraphQLClient
 from graphql_operations.contact.contact_operations import ContactOperations
 from graphql_operations.user.user_operations import UserOperations
-from test_data.test_user import TEST_PERMANENT_CORPORATE_USER
 
 
 @pytest.mark.graphql
 @allure.title("Filter organization contacts by role (GraphQL)")
 def test_filter_organization_contacts_by_role(
-    auth: Auth, graphql_client: GraphQLClient
+    config: Dict[str, Any], auth: Auth, graphql_client: GraphQLClient
 ):
     print(
         f"{os.linesep}Running test to filter organization contacts by role...", end=" "
@@ -23,8 +22,8 @@ def test_filter_organization_contacts_by_role(
     contact_operations = ContactOperations(graphql_client)
 
     auth.authenticate(
-        TEST_PERMANENT_CORPORATE_USER["username"],
-        TEST_PERMANENT_CORPORATE_USER["password"],
+        config["test_permanent_corporate_customer_username"],
+        config["test_permanent_corporate_customer_password"],
     )
 
     user = user_operations.get_user()
@@ -77,7 +76,7 @@ def test_filter_organization_contacts_by_role(
 @pytest.mark.graphql
 @allure.title("Filter organization contacts by status (GraphQL)")
 def test_filter_organization_contacts_by_status(
-    auth: Auth, graphql_client: GraphQLClient
+    config: Dict[str, Any], auth: Auth, graphql_client: GraphQLClient
 ):
     print(
         f"{os.linesep}Running test to filter organization contacts by status...",
@@ -88,8 +87,8 @@ def test_filter_organization_contacts_by_status(
     contact_operations = ContactOperations(graphql_client)
 
     auth.authenticate(
-        TEST_PERMANENT_CORPORATE_USER["username"],
-        TEST_PERMANENT_CORPORATE_USER["password"],
+        config["test_permanent_corporate_customer_username"],
+        config["test_permanent_corporate_customer_password"],
     )
 
     user = user_operations.get_user()

@@ -1,9 +1,10 @@
 import os
+from typing import Any, Dict
 
 import allure
 import pytest
 
-from fixtures.graphql_client_fixture import GraphQLClient
+from fixtures import GraphQLClient
 from graphql_operations.catalog.categories_operations import CategoriesOperations
 from graphql_operations.seo.seo_operations import SeoOperations
 from graphql_operations.user.user_operations import UserOperations
@@ -14,7 +15,7 @@ from test_data.test_currency import TEST_CURRENCY
 
 @pytest.mark.graphql
 @allure.title("Category SEO (GraphQL)")
-def test_category_seo(config: dict, graphql_client: GraphQLClient):
+def test_category_seo(config: Dict[str, Any], graphql_client: GraphQLClient):
     print(f"{os.linesep}Running test to get category SEO...", end=" ")
 
     user_operations = UserOperations(graphql_client)

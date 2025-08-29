@@ -1,9 +1,10 @@
 import os
+from typing import Any, Dict
 
 import allure
 import pytest
 
-from fixtures.graphql_client_fixture import GraphQLClient
+from fixtures import GraphQLClient
 from graphql_operations.catalog.products_operations import ProductsOperations
 from graphql_operations.user.user_operations import UserOperations
 from test_data.test_catalog import MIXED_CATALOG
@@ -15,7 +16,7 @@ from test_data.test_product import TEST_PRODUCT_2
 @pytest.mark.graphql
 @allure.feature("Filter product variations by stock (GraphQL)")
 def test_filter_product_variations_by_stock(
-    config: dict, graphql_client: GraphQLClient
+    config: Dict[str, Any], graphql_client: GraphQLClient
 ):
     print(f"{os.linesep}Running test to filter product variations by stock...", end=" ")
 
@@ -51,7 +52,7 @@ def test_filter_product_variations_by_stock(
 @pytest.mark.graphql
 @allure.feature("Filter product variations by price (GraphQL)")
 def test_filter_product_variations_by_price(
-    config: dict, graphql_client: GraphQLClient
+    config: Dict[str, Any], graphql_client: GraphQLClient
 ):
     print(f"{os.linesep}Running test to filter product variations by price...", end=" ")
 
@@ -98,7 +99,7 @@ def test_filter_product_variations_by_price(
 @pytest.mark.graphql
 @allure.feature("Filter product variations by property (GraphQL)")
 def test_filter_product_variations_by_property(
-    config: dict, graphql_client: GraphQLClient
+    config: Dict[str, Any], graphql_client: GraphQLClient
 ):
     print(
         f"{os.linesep}Running test to filter product variations by property...", end=" "

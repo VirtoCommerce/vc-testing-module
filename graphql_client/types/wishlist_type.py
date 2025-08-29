@@ -3,10 +3,10 @@ from pydantic import BaseModel
 
 class WishlistType(BaseModel):
     def __init__(self):
+        from datetime import datetime
         from graphql_client.types.wishlist_scope_type import WishlistScopeType
         from graphql_client.types.line_item_type import LineItemType
         from graphql_client.types.currency_type import CurrencyType
-        from datetime import datetime
 
         self.id: str
         self.name: str
