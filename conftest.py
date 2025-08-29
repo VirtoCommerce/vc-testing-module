@@ -13,7 +13,6 @@ from fixtures.graphql_client import graphql_client
 from fixtures.product_quantity_control import product_quantity_control
 from fixtures.requests_tracker import requests_tracker
 from fixtures.webapi_client import webapi_client
-from fixtures.auth_fixture import auth
 
 
 def pytest_addoption(parser: Parser):
