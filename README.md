@@ -52,21 +52,21 @@ To execute your Playwright tests with pytest, run:
 # To run functional tests:
 pytest -v -s test_graphql/tests
 # To run visual tests:
-pytest e2e/ -v --headed
+pytest e2e/ -v -s --show-browser
 
 # Run a specific test
 pytest tests/test_auth.py -k test_user_registration
 pytest tests/test_auth.py -k test_user_login
 
 # Run with more detailed output
-pytest tests/test_auth.py -v
+pytest tests/test_auth.py -v -s
 
 ```
 
 If you want to run Playwright tests in headed mode (with browser UI), use:
 
 ```sh
-pytest --headed
+pytest --show-browser
 ```
 
 For running tests in a specific browser, specify it as follows:
