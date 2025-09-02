@@ -1,0 +1,983 @@
+MobileProcessors:
+  AMD:
+    Ryzen 3:
+      3300U:
+        Cores: 4
+        Threads: 4
+        CPU Base Frequency: 2.1 GHz
+        CPU Boost Frequency: 3.5 GHz
+        L3 Cache: 4 MB
+        GPU Model: AMD Vega 6
+        GPU Frequency: 1.2 GHz
+        TDP: 15 W
+      3350U:
+        Cores: 4
+        Threads: 4
+        CPU Base Frequency: 2.1 GHz
+        CPU Boost Frequency: 3.5 GHz
+        L3 Cache: 4 MB
+        GPU Model: AMD Vega 6
+        GPU Frequency: 1.2 GHz
+        TDP: 15 W
+      4300U:
+        Cores: 4
+        Threads: 4
+        CPU Base Frequency: 2.7 GHz
+        CPU Boost Frequency: 3.7 GHz
+        L3 Cache: 4 MB
+        GPU Model: AMD Radeon Graphics
+        GPU Frequency: 1.4 GHz
+        TDP: 15 W
+      Pro 4450U:
+        Cores: 4
+        Threads: 8
+        CPU Base Frequency: 2.5 GHz
+        CPU Boost Frequency: 3.7 GHz
+        L3 Cache: 4 MB
+        GPU Model: AMD Radeon Graphics
+        GPU Frequency: 1.4 GHz
+        TDP: 15 W
+      5300U:
+        Cores: 4
+        Threads: 8
+        CPU Base Frequency: 2.6 GHz
+        CPU Boost Frequency: 3.8 GHz
+        L3 Cache: 4 MB
+        GPU Model: AMD Radeon Graphics
+        GPU Frequency: 1.5 GHz
+        TDP: 25 W
+      5400U:
+        Cores: 4
+        Threads: 8
+        CPU Base Frequency: 2.7 GHz
+        CPU Boost Frequency: 4.1 GHz
+        L3 Cache: 8 MB
+        GPU Model: AMD Radeon Graphics
+        GPU Frequency: 1.6 GHz
+        TDP: 25 W
+      5125C:
+        Cores: 2
+        Threads: 4
+        CPU Base Frequency: 3.0 GHz
+        L3 Cache: 8 MB
+        GPU Model: AMD Radeon Graphics
+        GPU Frequency: 1.5 GHz
+        TDP: 15 W
+      5425U:
+        Cores: 4
+        Threads: 8
+        CPU Base Frequency: 2.7 GHz
+        CPU Boost Frequency: 4.1 GHz
+        L3 Cache: 8 MB
+        GPU Model: AMD Radeon Graphics
+        GPU Frequency: 1.6 GHz
+        TDP: 25 W
+      7320U:
+        Cores: 4
+        Threads: 8
+        CPU Base Frequency: 2.4 GHz
+        CPU Boost Frequency: 4.1 GHz
+        L3 Cache: 4 MB
+        GPU Model: AMD Radeon 610M Graphics
+        GPU Frequency: 1.9 GHz
+        TDP: 15 W
+      PRO 7330U:
+        Cores: 4
+        Threads: 8
+        CPU Base Frequency: 2.3 GHz
+        CPU Boost Frequency: 4.3 GHz
+        L3 Cache: 8 MB
+        GPU Model: AMD Vega 6 CU
+        GPU Frequency: 1.8 GHz
+        TDP: 15 W
+      7335U:
+        Cores: 4
+        Threads: 8
+        CPU Base Frequency: 3.0 GHz
+        CPU Boost Frequency: 4.3 GHz
+        L3 Cache: 8 MB
+        GPU Model: AMD Radeon 660M 4 UC
+        GPU Frequency: 1.8 GHz
+        TDP: 30 W
+      7440U:
+        Cores: 4
+        Threads: 8
+        CPU Base Frequency: 3.6 GHz
+        CPU Boost Frequency: 4.7 GHz
+        L3 Cache: 8 MB
+        GPU Model: AMD Radeon 740M 4 CU
+        GPU Frequency: 2.5 GHz
+        TDP: 30 W
+      8440U:
+        Cores: 4
+        Threads: 8
+        CPU Base Frequency: 3.6 GHz
+        CPU Boost Frequency: 4.7 GHz
+        L3 Cache: 8 MB
+        GPU Model: AMD Radeon 740M 4 CU
+        GPU Frequency: 2.5 GHz
+        TDP: 30 W
+    Ryzen 5:
+      3450U:
+        Cores: 4
+        Threads: 8
+        CPU Base Frequency: 2.1 GHz
+        CPU Boost Frequency: 3.5 GHz
+        L3 Cache: 4 MB
+        GPU Model: AMD Vega 8
+        GPU Frequency: 1.2 GHz
+        TDP: 15 W
+      3500U:
+        Cores: 4
+        Threads: 8
+        CPU Base Frequency: 2.1 GHz
+        CPU Boost Frequency: 3.7 GHz
+        L3 Cache: 4 MB
+        GPU Model: AMD Vega 8
+        GPU Frequency: 1.2 GHz
+        TDP: 15 W
+      3500C:
+        Cores: 4
+        Threads: 8
+        CPU Base Frequency: 2.1 GHz
+        CPU Boost Frequency: 3.7 GHz
+        L3 Cache: 4 MB
+        GPU Model: AMD Vega 8
+        GPU Frequency: 1.2 GHz
+        TDP: 15 W
+      3550H:
+        Cores: 4
+        Threads: 8
+        CPU Base Frequency: 2.1 GHz
+        CPU Boost Frequency: 3.7 GHz
+        L3 Cache: 4 MB
+        GPU Model: AMD Vega 8
+        GPU Frequency: 1.2 GHz
+        TDP: 35 W
+      3580H:
+        Cores: 4
+        Threads: 8
+        CPU Base Frequency: 2.1 GHz
+        CPU Boost Frequency: 3.7 GHz
+        L3 Cache: 4 MB
+        GPU Model: AMD Vega 9
+        GPU Frequency: 1.3 GHz
+        TDP: 15 W
+      4500U:
+        Cores: 6
+        Threads: 6
+        CPU Base Frequency: 2.3 GHz
+        CPU Boost Frequency: 4.0 GHz
+        L3 Cache: 8 MB
+        GPU Model: AMD Radeon Graphics
+        GPU Frequency: 1.5 GHz
+        TDP: 15 W
+      4600U:
+        Cores: 6
+        Threads: 12
+        CPU Base Frequency: 2.1 GHz
+        CPU Boost Frequency: 4.0 GHz
+        L3 Cache: 8 MB
+        GPU Model: AMD Radeon Graphics
+        GPU Frequency: 1.5 GHz
+        TDP: 15 W
+      Pro 4650U:
+        Cores: 6
+        Threads: 12
+        CPU Base Frequency: 2.1 GHz
+        CPU Boost Frequency: 4.0 GHz
+        L3 Cache: 8 MB
+        GPU Model: AMD Radeon Graphics
+        GPU Frequency: 1.5 GHz
+        TDP: 15 W
+      4680U:
+        Cores: 6
+        Threads: 12
+        CPU Base Frequency: 2.1 GHz
+        CPU Boost Frequency: 4.0 GHz
+        L3 Cache: 8 MB
+        GPU Model: AMD Radeon Graphics
+        GPU Frequency: 1.5 GHz
+        TDP: 15 W
+      4600HS:
+        Cores: 6
+        Threads: 12
+        CPU Base Frequency: 3.0 GHz
+        CPU Boost Frequency: 4.0 GHz
+        L3 Cache: 8 MB
+        GPU Model: AMD Radeon Graphics
+        GPU Frequency: 1.5 GHz
+        TDP: 35 W
+      4600H:
+        Cores: 6
+        Threads: 12
+        CPU Base Frequency: 3.0 GHz
+        CPU Boost Frequency: 4.0 GHz
+        L3 Cache: 8 MB
+        GPU Model: AMD Radeon Graphics
+        GPU Frequency: 1.5 GHz
+        TDP: 45 W
+      5500U:
+        Cores: 6
+        Threads: 12
+        CPU Base Frequency: 2.1 GHz
+        CPU Boost Frequency: 4.0 GHz
+        L3 Cache: 8 MB
+        GPU Model: AMD Radeon Graphics
+        GPU Frequency: 1.8 GHz
+        TDP: 25 W
+      5560U:
+        Cores: 6
+        Threads: 12
+        CPU Base Frequency: 2.3 GHz
+        CPU Boost Frequency: 4.0 GHz
+        L3 Cache: 8 MB
+        GPU Model: AMD Radeon Graphics
+        GPU Frequency: 1.6 GHz
+        TDP: 25 W
+      5600U:
+        Cores: 6
+        Threads: 12
+        CPU Base Frequency: 2.3 GHz
+        CPU Boost Frequency: 4.2 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon Graphics
+        GPU Frequency: 1.8 GHz
+        TDP: 25 W
+      5600HS:
+        Cores: 6
+        Threads: 12
+        CPU Base Frequency: 3.0 GHz
+        CPU Boost Frequency: 4.2 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon Graphics
+        GPU Frequency: 1.8 GHz
+        TDP: 35 W
+      5600H:
+        Cores: 6
+        Threads: 12
+        CPU Base Frequency: 3.3 GHz
+        CPU Boost Frequency: 4.2 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon Graphics
+        GPU Frequency: 1.8 GHz
+        TDP: 54 W
+      5625U:
+        Cores: 6
+        Threads: 12
+        CPU Base Frequency: 2.3 GHz
+        CPU Boost Frequency: 4.3 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon Graphics
+        GPU Frequency: 1.8 GHz
+        TDP: 15 W
+      6600U:
+        Cores: 6
+        Threads: 12
+        CPU Base Frequency: 2.9 GHz
+        CPU Boost Frequency: 4.5 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon 660M Graphics
+        GPU Frequency: 1.9 GHz
+        TDP: 28 W
+      6600HS:
+        Cores: 6
+        Threads: 12
+        CPU Base Frequency: 3.3 GHz
+        CPU Boost Frequency: 4.5 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon 660M Graphics
+        GPU Frequency: 1.9 GHz
+        TDP: 35 W
+      6600H:
+        Cores: 6
+        Threads: 12
+        CPU Base Frequency: 3.3 GHz
+        CPU Boost Frequency: 4.5 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon 660M Graphics
+        GPU Frequency: 1.9 GHz
+        TDP: 45 W
+      7520U:
+        Cores: 4
+        Threads: 8
+        CPU Base Frequency: 2.8 GHz
+        CPU Boost Frequency: 4.3 GHz
+        L3 Cache: 4 MB
+        GPU Model: AMD Radeon 610M Graphics
+        GPU Frequency: 1.9 GHz
+        TDP: 15 W
+      7430U:
+        Cores: 6
+        Threads: 12
+        CPU Base Frequency: 2.3 GHz
+        CPU Boost Frequency: 4.3 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Vega 7 CU
+        GPU Frequency: 1.8 GHz
+        TDP: 15 W
+      PRO 7530U:
+        Cores: 6
+        Threads: 12
+        CPU Base Frequency: 2.0 GHz
+        CPU Boost Frequency: 4.5 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Vega 7 CU
+        GPU Frequency: 2.0 GHz
+        TDP: 15 W
+      7235H:
+        Cores: 4
+        Threads: 8
+        CPU Base Frequency: 3.2 GHz
+        CPU Boost Frequency: 4.2 GHz
+        L3 Cache: 8 MB
+        TDP: 53 W
+      7235HS:
+        Cores: 4
+        Threads: 8
+        CPU Base Frequency: 3.3 GHz
+        CPU Boost Frequency: 4.2 GHz
+        L3 Cache: 8 MB
+        TDP: 53 W
+      7535U:
+        Cores: 6
+        Threads: 12
+        CPU Base Frequency: 2.9 GHz
+        CPU Boost Frequency: 4.55 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon 660M 6 CU
+        GPU Frequency: 1.9 GHz
+        TDP: 30 W
+      7535H:
+        Cores: 6
+        Threads: 12
+        CPU Base Frequency: 3.3 GHz
+        CPU Boost Frequency: 4.55 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon 660M 6 CU
+        GPU Frequency: 1.9 GHz
+        TDP: 54 W
+      7535HS:
+        Cores: 6
+        Threads: 12
+        CPU Base Frequency: 3.3 GHz
+        CPU Boost Frequency: 4.55 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon 660M 6 CU
+        GPU Frequency: 1.9 GHz
+        TDP: 54 W
+      PRO 7540U:
+        Cores: 6
+        Threads: 12
+        CPU Base Frequency: 3.2 GHz
+        CPU Boost Frequency: 4.9 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon 740M 4 CU
+        GPU Frequency: 2.5 GHz
+        TDP: 30 W
+      PRO 7545U:
+        Cores: 6
+        Threads: 12
+        CPU Base Frequency: 3.7 GHz
+        CPU Boost Frequency: 4.9 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon 740M 4 CU
+        GPU Frequency: 2.8 GHz
+        TDP: 30 W
+      PRO 7640U:
+        Cores: 6
+        Threads: 12
+        CPU Base Frequency: 3.5 GHz
+        CPU Boost Frequency: 4.9 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon 760M 8 CU
+        GPU Frequency: 2.6 GHz
+        TDP: 30 W
+      7640H:
+        Cores: 6
+        Threads: 12
+        CPU Base Frequency: 4.3 GHz
+        CPU Boost Frequency: 5.0 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon 760M 8 CU
+        GPU Frequency: 2.6 GHz
+        TDP: 54 W
+      PRO 7640HS:
+        Cores: 6
+        Threads: 12
+        CPU Base Frequency: 4.3 GHz
+        CPU Boost Frequency: 5.0 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon 760M 8 CU
+        GPU Frequency: 2.6 GHz
+        TDP: 54 W
+      7645HX:
+        Cores: 6
+        Threads: 12
+        CPU Base Frequency: 4.0 GHz
+        CPU Boost Frequency: 5.0 GHz
+        L3 Cache: 32 MB
+        TDP: 75 W
+      8540U:
+        Cores: 6
+        Threads: 12
+        CPU Base Frequency: 3.7 GHz
+        CPU Boost Frequency: 4.9 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon 740M 4 CU
+        GPU Frequency: 2.8 GHz
+        TDP: 30 W
+      8640U:
+        Cores: 6
+        Threads: 12
+        CPU Base Frequency: 3.5 GHz
+        CPU Boost Frequency: 4.9 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon 760M 8 CU
+        GPU Frequency: 2.6 GHz
+        TDP: 30 W
+      8640HS:
+        Cores: 6
+        Threads: 12
+        CPU Base Frequency: 3.5 GHz
+        CPU Boost Frequency: 4.9 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon 760M 8 CU
+        GPU Frequency: 2.6 GHz
+        TDP: 30 W
+      8645HS:
+        Cores: 6
+        Threads: 12
+        CPU Base Frequency: 4.3 GHz
+        CPU Boost Frequency: 5.0 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon 760M 8 CU
+        GPU Frequency: 2.6 GHz
+        TDP: 54 W
+    Ryzen 7:
+      3700U:
+        Cores: 4
+        Threads: 8
+        CPU Base Frequency: 2.3 GHz
+        CPU Boost Frequency: 4.0 GHz
+        L3 Cache: 4 MB
+        GPU Model: AMD RX Vega 10
+        GPU Frequency: 1.4 GHz
+        TDP: 15 W
+      3700C:
+        Cores: 4
+        Threads: 8
+        CPU Base Frequency: 2.3 GHz
+        CPU Boost Frequency: 4.0 GHz
+        L3 Cache: 4 MB
+        GPU Model: AMD RX Vega 10
+        GPU Frequency: 1.4 GHz
+        TDP: 15 W
+      3750H:
+        Cores: 4
+        Threads: 8
+        CPU Base Frequency: 2.3 GHz
+        CPU Boost Frequency: 4.0 GHz
+        L3 Cache: 4 MB
+        GPU Model: AMD RX Vega 10
+        GPU Frequency: 1.4 GHz
+        TDP: 35 W
+      3780H:
+        Cores: 4
+        Threads: 8
+        CPU Base Frequency: 2.3 GHz
+        CPU Boost Frequency: 4.0 GHz
+        L3 Cache: 4 MB
+        GPU Model: AMD RX Vega 11
+        GPU Frequency: 1.4 GHz
+        TDP: 15 W
+      4700U:
+        Cores: 8
+        Threads: 8
+        CPU Base Frequency: 2.0 GHz
+        CPU Boost Frequency: 4.1 GHz
+        L3 Cache: 8 MB
+        GPU Model: AMD Radeon Graphics
+        GPU Frequency: 1.6 GHz
+        TDP: 15 W
+      Pro 4750U:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 1.7 GHz
+        CPU Boost Frequency: 4.1 GHz
+        L3 Cache: 8 MB
+        GPU Model: AMD Radeon Graphics
+        GPU Frequency: 1.6 GHz
+        TDP: 15 W
+      4800U:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 1.8 GHz
+        CPU Boost Frequency: 4.2 GHz
+        L3 Cache: 8 MB
+        GPU Model: AMD Radeon Graphics
+        GPU Frequency: 1.6 GHz
+        TDP: 15 W
+      4800H:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 1.8 GHz
+        CPU Boost Frequency: 4.2 GHz
+        L3 Cache: 8 MB
+        GPU Model: AMD Radeon Graphics
+        GPU Frequency: 1.75 GHz
+        TDP: 15 W
+      4980U:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 2.0 GHz
+        CPU Boost Frequency: 4.4 GHz
+        L3 Cache: 8 MB
+        GPU Model: AMD Radeon Graphics
+        GPU Frequency: 1.8 GHz
+        TDP: 15 W
+      4980H:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 2.0 GHz
+        CPU Boost Frequency: 4.4 GHz
+        L3 Cache: 8 MB
+        GPU Model: AMD Radeon Graphics
+        GPU Frequency: 1.95 GHz
+        TDP: 15 W
+      4800HS:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 2.9 GHz
+        CPU Boost Frequency: 4.2 GHz
+        L3 Cache: 8 MB
+        GPU Model: AMD Radeon Graphics
+        GPU Frequency: 1.6 GHz
+        TDP: 45 W
+      4800H:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 3.0 GHz
+        CPU Boost Frequency: 4.3 GHz
+        L3 Cache: 8 MB
+        GPU Model: AMD Radeon Graphics
+        GPU Frequency: 1.6 GHz
+        TDP: 45 W
+      5700U:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 1.8 GHz
+        CPU Boost Frequency: 4.3 GHz
+        L3 Cache: 8 MB
+        GPU Model: AMD Radeon Graphics
+        GPU Frequency: 1.9 GHz
+        TDP: 25 W
+      5800U:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 1.9 GHz
+        CPU Boost Frequency: 4.4 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon Graphics
+        GPU Frequency: 2.0 GHz
+        TDP: 25 W
+      5800HS:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 2.8 GHz
+        CPU Boost Frequency: 4.2 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon Graphics
+        GPU Frequency: 2.0 GHz
+        TDP: 35 W
+      5800H:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 3.2 GHz
+        CPU Boost Frequency: 4.2 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon Graphics
+        GPU Frequency: 2.0 GHz
+        TDP: 54 W
+      5825U:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 2.0 GHz
+        CPU Boost Frequency: 4.5 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon Graphics
+        GPU Frequency: 2.0 GHz
+        TDP: 15 W
+      6800U:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 2.7 GHz
+        CPU Boost Frequency: 4.7 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon 680M Graphics
+        GPU Frequency: 2.2 GHz
+        TDP: 28 W
+      6800HS:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 3.2 GHz
+        CPU Boost Frequency: 4.7 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon 680M Graphics
+        GPU Frequency: 2.2 GHz
+        TDP: 35 W
+      6800H:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 3.2 GHz
+        CPU Boost Frequency: 4.7 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon 680M Graphics
+        GPU Frequency: 2.2 GHz
+        TDP: 45 W
+      PRO 7730U:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 2.0 GHz
+        CPU Boost Frequency: 4.5 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Vega 8 CU
+        GPU Frequency: 2.0 GHz
+        TDP: 15 W
+      7435H:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 3.1 GHz
+        CPU Boost Frequency: 4.5 GHz
+        L3 Cache: 16 MB
+        TDP: 54 W
+      7435HS:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 3.1 GHz
+        CPU Boost Frequency: 4.5 GHz
+        L3 Cache: 16 MB
+        TDP: 54 W
+      7735U:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 2.7 GHz
+        CPU Boost Frequency: 4.75 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon 680M 12 CU
+        GPU Frequency: 2.2 GHz
+        TDP: 30 W
+      7736U:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 2.7 GHz
+        CPU Boost Frequency: 4.7 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon 680M 12 CU
+        GPU Frequency: 2.2 GHz
+        TDP: 28 W
+      7735H:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 3.2 GHz
+        CPU Boost Frequency: 4.75 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon 680M 12 CU
+        GPU Frequency: 2.2 GHz
+        TDP: 54 W
+      7735HS:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 3.2 GHz
+        CPU Boost Frequency: 4.75 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon 680M 12 CU
+        GPU Frequency: 2.2 GHz
+        TDP: 54 W
+      PRO 7840U:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 3.3 GHz
+        CPU Boost Frequency: 5.1 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon 780M 12 CU
+        GPU Frequency: 2.7 GHz
+        TDP: 30 W
+      7840H:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 3.8 GHz
+        CPU Boost Frequency: 5.1 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon 780M 12 CU
+        GPU Frequency: 2.7 GHz
+        TDP: 54 W
+      PRO 7840HS:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 3.8 GHz
+        CPU Boost Frequency: 5.1 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon 780M 12 CU
+        GPU Frequency: 2.7 GHz
+        TDP: 54 W
+      7745HX:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 3.6 GHz
+        CPU Boost Frequency: 5.1 GHz
+        L3 Cache: 32 MB
+        TDP: 75 W
+      7840HX:
+        Cores: 12
+        Threads: 24
+        CPU Base Frequency: 2.9 GHz
+        CPU Boost Frequency: 5.1 GHz
+        L3 Cache: 64 MB
+        TDP: 75 W
+      8840U:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 3.3 GHz
+        CPU Boost Frequency: 5.1 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon 780M 12 CU
+        GPU Frequency: 2.7 GHz
+        TDP: 30 W
+      8840HS:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 3.3 GHz
+        CPU Boost Frequency: 5.1 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon 780M 12 CU
+        GPU Frequency: 2.7 GHz
+        TDP: 30 W
+      8845HS:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 3.8 GHz
+        CPU Boost Frequency: 5.1 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon 780M 12 CU
+        GPU Frequency: 2.7 GHz
+        TDP: 54 W
+    Ryzen 9:
+      4900HS:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 3.0 GHz
+        CPU Boost Frequency: 4.3 GHz
+        L3 Cache: 8 MB
+        GPU Model: AMD Radeon Graphics
+        GPU Frequency: 1.75 GHz
+        TDP: 35 W
+      4900H:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 3.3 GHz
+        CPU Boost Frequency: 4.4 GHz
+        L3 Cache: 8 MB
+        GPU Model: AMD Radeon Graphics
+        GPU Frequency: 1.75 GHz
+        TDP: 45 W
+      5900HS:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 3.0 GHz
+        CPU Boost Frequency: 4.6 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon Graphics
+        GPU Frequency: 2.1 GHz
+        TDP: 35 W
+      5900HX:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 3.3 GHz
+        CPU Boost Frequency: 4.6 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon Graphics
+        GPU Frequency: 2.1 GHz
+        TDP: 54 W
+      5980HS:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 3.0 GHz
+        CPU Boost Frequency: 4.8 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon Graphics
+        GPU Frequency: 2.1 GHz
+        TDP: 35 W
+      5980HX:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 3.3 GHz
+        CPU Boost Frequency: 4.8 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon Graphics
+        GPU Frequency: 2.1 GHz
+        TDP: 54 W
+      6900HS:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 3.3 GHz
+        CPU Boost Frequency: 4.9 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon 680M Graphics
+        GPU Frequency: 2.4 GHz
+        TDP: 35 W
+      6900HX:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 3.3 GHz
+        CPU Boost Frequency: 4.9 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon 680M Graphics
+        GPU Frequency: 2.4 GHz
+        TDP: 45 W
+      6980HS:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 3.3 GHz
+        CPU Boost Frequency: 5.0 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon 680M Graphics
+        GPU Frequency: 2.4 GHz
+        TDP: 35 W
+      6980HX:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 3.3 GHz
+        CPU Boost Frequency: 5.0 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon 680M Graphics
+        GPU Frequency: 2.4 GHz
+        TDP: 45 W
+      7940H:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 4.0 GHz
+        CPU Boost Frequency: 5.2 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon 780M 12 CU
+        GPU Frequency: 2.8 GHz
+        TDP: 54 W
+      PRO 7940HS:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 4.0 GHz
+        CPU Boost Frequency: 5.2 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon 780M 12 CU
+        GPU Frequency: 2.8 GHz
+        TDP: 54 W
+      7845HX:
+        Cores: 12
+        Threads: 24
+        CPU Base Frequency: 3.6 GHz
+        CPU Boost Frequency: 5.2 GHz
+        L3 Cache: 64 MB
+        TDP: 75 W
+      7845HX:
+        Cores: 12
+        Threads: 24
+        CPU Base Frequency: 3.0 GHz
+        CPU Boost Frequency: 5.2 GHz
+        L3 Cache: 64 MB
+        TDP: 75 W
+      7940HX:
+        Cores: 12
+        Threads: 24
+        CPU Base Frequency: 2.9 GHz
+        CPU Boost Frequency: 5.2 GHz
+        L3 Cache: 64 MB
+        TDP: 75 W
+      7945HX:
+        Cores: 16
+        Threads: 32
+        CPU Base Frequency: 2.5 GHz
+        CPU Boost Frequency: 5.4 GHz
+        L3 Cache: 64 MB
+        TDP: 75 W
+      7945HX3D:
+        Cores: 16
+        Threads: 32
+        CPU Base Frequency: 2.3 GHz
+        CPU Boost Frequency: 5.4 GHz
+        L3 Cache: 128 MB
+        TDP: 75 W
+      8945HS:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 4.0 GHz
+        CPU Boost Frequency: 5.2 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon 780M 12 CU
+        GPU Frequency: 2.8 GHz
+        TDP: 54 W
+    Ryzen AI 5:
+      330:
+        Cores: 4
+        Threads: 8
+        CPU Base Frequency: 2.0 GHz
+        CPU Boost Frequency: 4.5 GHz
+        L3 Cache: 8 MB
+        GPU Model: AMD Radeon 820M 2 CU
+        GPU Frequency: 2.8 GHz
+        TDP: 28 W
+      PRO 340:
+        Cores: 6
+        Threads: 12
+        CPU Base Frequency: 2.0 GHz
+        CPU Boost Frequency: 4.8 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon 840M 4 CU
+        GPU Frequency: 2.9 GHz
+        TDP: 54 W
+    Ryzen AI 7:
+      PRO 350:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 2.0 GHz
+        CPU Boost Frequency: 5.0 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon 860M 8 CU
+        GPU Frequency: 3.0 GHz
+        TDP: 54 W
+      PRO 360:
+        Cores: 8
+        Threads: 16
+        CPU Base Frequency: 2.0 GHz
+        CPU Boost Frequency: 5.0 GHz
+        L3 Cache: 16 MB
+        GPU Model: AMD Radeon 880M 12 CU
+        GPU Frequency: 2.9 GHz
+        TDP: 54 W
+    Ryzen AI 9:
+      365:
+        Cores: 10
+        Threads: 20
+        CPU Base Frequency: 2.0 GHz
+        CPU Boost Frequency: 5.0 GHz
+        L3 Cache: 24 MB
+        GPU Model: AMD Radeon 880M 12 CU
+        GPU Frequency: 2.9 GHz
+        TDP: 54 W
+      PRO HX 370:
+        Cores: 12
+        Threads: 24
+        CPU Base Frequency: 2.0 GHz
+        CPU Boost Frequency: 5.1 GHz
+        L3 Cache: 24 MB
+        GPU Model: AMD Radeon 890M 16 CU
+        GPU Frequency: 2.9 GHz
+        TDP: 54 W
+      PRO HX 375:
+        Cores: 12
+        Threads: 24
+        CPU Base Frequency: 2.0 GHz
+        CPU Boost Frequency: 5.1 GHz
+        L3 Cache: 24 MB
+        GPU Model: AMD Radeon 890M 16 CU
+        GPU Frequency: 2.9 GHz
+        TDP: 54 W

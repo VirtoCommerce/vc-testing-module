@@ -1,6 +1,6 @@
 import json
 import os
-from typing import Any, Dict, List
+from typing import Any, Dict
 
 from colorama import Fore, Style
 from colorama import init as init_colorama
@@ -15,6 +15,14 @@ class TestDataSeeder:
         self.auth = Auth(config)
         self.webapi_client = WebAPISession(config, self.auth)
         self.test_data = None
+        self.test_data_users = None
+        self.store_id = None
+
+    def get_file_path(self, file_name: str) -> str:
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        file_path = os.path.join(script_dir, file_name)
+
+        return file_path
 
     def authenticate(self, username: str, password: str) -> None:
         self.auth.authenticate(username, password)
@@ -23,11 +31,41 @@ class TestDataSeeder:
         self.auth.clear_token()
 
     def load_test_data(self, file_path: str) -> None:
-        script_dir = os.path.dirname(os.path.abspath(__file__))
-        test_data_file_path = os.path.join(script_dir, file_path)
-
-        with open(test_data_file_path, "r") as file:
+        with open(self.get_file_path(file_path), "r") as file:
             self.test_data = json.load(file)
+
+    def load_test_data_users(self, file_path: str) -> None:
+        with open(self.get_file_path(file_path), "r") as file:
+            self.test_data_users = json.load(file)
+
+    def create_languages(self) -> None:
+        if not self.test_data["languages"]:
+            raise ValueError("No languages found in test data")
+
+        for language in self.test_data["languages"]:
+            print(f'Creating language "{language}"...', end=" ")
+
+            default_culture = self.test_data["languages"][0]
+
+            self.webapi_client.post(
+                "/api/platform/settings",
+                data=[
+                    {
+                        "allowedValues": self.test_data["languages"],
+                        "defaultValue": default_culture,
+                        "groupName": "General",
+                        "isDictionary": True,
+                        "isHasValues": True,
+                        "moduleId": "Platform",
+                        "name": "VirtoCommerce.Core.General.Languages",
+                        "translatedName": "Languages",
+                        "value": default_culture,
+                        "valueType": "ShortText",
+                    }
+                ],
+            )
+
+            print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
     def create_currencies(self) -> None:
         if not self.test_data["currencies"]:
@@ -127,6 +165,7 @@ class TestDataSeeder:
             print(f'Creating store "{store["name"]}"...', end=" ")
 
             store["url"] = f"{self.config['frontend_base_url']}"
+            self.store_id = store["id"]
 
             self.webapi_client.post(
                 "/api/stores",
@@ -134,6 +173,22 @@ class TestDataSeeder:
             )
 
             print(Fore.GREEN + "OK" + Style.RESET_ALL)
+
+    def create_aggregation_properties(self) -> None:
+        if not self.test_data["aggregationProperties"]:
+            raise ValueError("No aggregation properties found in test data")
+
+        if not self.store_id:
+            raise ValueError("Store ID not found")
+
+        print(f"Creating aggregation properties...", end=" ")
+
+        self.webapi_client.put(
+            f"/api/catalog/aggregationproperties/{self.store_id}/properties",
+            data=self.test_data["aggregationProperties"],
+        )
+
+        print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
     def create_categories(self) -> None:
         if not self.test_data["categories"]:
@@ -196,6 +251,65 @@ class TestDataSeeder:
 
             print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
+    def create_roles(self) -> None:
+        if not self.test_data["roles"]:
+            raise ValueError("No roles found in test data")
+
+        for role in self.test_data["roles"]:
+            print(f'Creating role "{role["name"]}"...', end=" ")
+
+            self.webapi_client.put(
+                "/api/platform/security/roles",
+                data=role,
+            )
+
+            print(Fore.GREEN + "OK" + Style.RESET_ALL)
+
+    def create_organizations(self) -> None:
+        if not self.test_data["organizations"]:
+            raise ValueError("No organizations found in test data")
+
+        for organization in self.test_data["organizations"]:
+            print(f'Creating organization "{organization["name"]}"...', end=" ")
+
+            self.webapi_client.post(
+                "/api/members",
+                data=organization,
+            )
+
+            print(Fore.GREEN + "OK" + Style.RESET_ALL)
+
+    def create_contacts(self) -> None:
+        if not self.test_data["contacts"]:
+            raise ValueError("No contacts found in test data")
+
+        for contact in self.test_data["contacts"]:
+            print(
+                f'Creating contact "{contact["firstName"]} {contact["lastName"]}"...',
+                end=" ",
+            )
+
+            self.webapi_client.post(
+                "/api/members",
+                data=contact,
+            )
+
+            print(Fore.GREEN + "OK" + Style.RESET_ALL)
+
+    def create_users(self) -> None:
+        if not self.test_data_users:
+            raise ValueError("No users found in test data")
+
+        for user in self.test_data_users:
+            print(f'Creating user "{user["userName"]}"...', end=" ")
+
+            self.webapi_client.post(
+                "/api/platform/security/users/create",
+                data=user,
+            )
+
+            print(Fore.GREEN + "OK" + Style.RESET_ALL)
+
 
 def get_config():
     load_dotenv(override=True)
@@ -210,23 +324,46 @@ def get_config():
 
 
 if __name__ == "__main__":
+    init_colorama()
+
     config = get_config()
 
     seeder = TestDataSeeder(config)
     seeder.authenticate(config["admin_username"], config["admin_password"])
 
+    """
+    seeder.load_test_data("test_data_new.json")
+    seeder.create_languages()
+    seeder.create_currencies()
+    seeder.create_fulfillment_centers()
+    seeder.create_catalogs()
+    seeder.create_catalog_properties()
+    seeder.create_stores()
+    seeder.create_aggregation_properties()
+    seeder.create_pricelists()
+    seeder.create_pricelist_assignments()
+    seeder.create_categories()
+    seeder.create_products()
+    """
+
     seeder.load_test_data("test_data.json")
+    seeder.load_test_data_users("test_data_users.json")
 
     seeder.create_currencies()
     seeder.create_fulfillment_centers()
     seeder.create_catalogs()
     seeder.create_catalog_properties()
     seeder.create_stores()
+    seeder.create_aggregation_properties()
     seeder.create_pricelists()
     seeder.create_pricelist_assignments()
     seeder.create_categories()
     seeder.create_products()
     seeder.create_products_inventories()
     seeder.create_prices()
+    seeder.create_roles()
+    seeder.create_organizations()
+    seeder.create_contacts()
+    seeder.create_users()
 
     seeder.clear_token()

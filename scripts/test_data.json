@@ -303,12 +303,104 @@
             "storeState": "Open",
             "defaultCurrency": "USD",
             "defaultLanguage": "en-US",
+            "mainFulfillmentCenterId": "autotests-ffc-morrisville-il",
             "currencies": [
                 "USD"
             ],
             "languages": [
                 "en-US"
+            ],
+            "additionalFulfillmentCenters": [
+                "autotests-ffc-morrisville-nc",
+                "autotests-ffc-riverton-oh"
             ]
+        }
+    ],
+    "aggregationProperties": [
+        {
+            "name": "Battery",
+            "type": "Attribute",
+            "isSelected": true
+        },
+        {
+            "name": "Color",
+            "type": "Attribute",
+            "isSelected": true
+        },
+        {
+            "name": "DiscreteGraphics",
+            "type": "Attribute",
+            "isSelected": true
+        },
+        {
+            "name": "DisplayRefreshRate",
+            "type": "Attribute",
+            "isSelected": true
+        },
+        {
+            "name": "DisplayResolution",
+            "type": "Attribute",
+            "isSelected": true
+        },
+        {
+            "name": "DisplaySize",
+            "type": "Attribute",
+            "isSelected": true
+        },
+        {
+            "name": "DisplayTechnology",
+            "type": "Attribute",
+            "isSelected": true
+        },
+        {
+            "name": "IntegratedGraphics",
+            "type": "Attribute",
+            "isSelected": true
+        },
+        {
+            "name": "Network",
+            "type": "Attribute",
+            "isSelected": true
+        },
+        {
+            "name": "OperatingSystem",
+            "type": "Attribute",
+            "isSelected": true
+        },
+        {
+            "name": "Price USD",
+            "type": "PriceRange",
+            "isSelected": true
+        },
+        {
+            "name": "Processor",
+            "type": "Attribute",
+            "isSelected": true
+        },
+        {
+            "name": "ProcessorCores",
+            "type": "Attribute",
+            "isSelected": true
+        },
+        {
+            "name": "ProcessorFrequency",
+            "type": "Attribute",
+            "isSelected": true
+        },
+        {
+            "name": "RamSize",
+            "type": "Attribute",
+            "isSelected": true
+        },
+        {
+            "name": "SsdCapacity",
+            "type": "Attribute",
+            "isSelected": true
+        },
+        {
+            "name": "SsdInterface",
+            "type": "Attribute",
+            "isSelected": true
         }
     ],
     "pricelists": [
@@ -388,6 +480,12 @@
             "code": "autotests-product-laptop-acer-aspire-16-ai",
             "vendor": "Acer",
             "productType": "Physical",
+            "weightUnit": "kg",
+            "measureUnit": "mm",
+            "weight": 1.63,
+            "width": 360.3,
+            "height": 17.9,
+            "length": 232.5,
             "properties": [
                 {
                     "id": "autotests-product-property-operating-system",
@@ -2514,11 +2612,11 @@
             ]
         },
         {
-            "id": "autotests-product-laptop-acer-helios-18-ai",
+            "id": "autotests-product-laptop-acer-predator-helios-18-ai",
             "catalogId": "autotests-catalog-electronics",
             "categoryId": "autotests-category-laptops-gaming",
-            "name": "[AUTOTESTS] Acer Helios 18 AI",
-            "code": "autotests-product-laptop-acer-helios-18-ai",
+            "name": "[AUTOTESTS] Acer Predator Helios 18 AI",
+            "code": "autotests-product-laptop-acer-predator-helios-18-ai",
             "vendor": "Acer",
             "productType": "Physical",
             "properties": [
@@ -5050,8 +5148,8 @@
             "inStockQuantity": "194"
         },
         {
-            "productId": "autotests-product-laptop-acer-helios-18-ai",
-            "productName": "[AUTOTESTS] Acer Helios 18 AI",
+            "productId": "autotests-product-laptop-acer-predator-helios-18-ai",
+            "productName": "[AUTOTESTS] Acer Predator Helios 18 AI",
             "fulfillmentCenterId": "autotests-ffc-springfield-il",
             "fulfillmentCenterName": "[AUTOTESTS] Illinois FFC",
             "inStockQuantity": "67"
@@ -5458,10 +5556,10 @@
             ]
         },
         {
-            "productId": "autotests-product-laptop-acer-helios-18-ai",
+            "productId": "autotests-product-laptop-acer-predator-helios-18-ai",
             "product": {
-                "id": "autotests-product-laptop-acer-helios-18-ai",
-                "name": "[AUTOTESTS] Acer Helios 18 AI"
+                "id": "autotests-product-laptop-acer-predator-helios-18-ai",
+                "name": "[AUTOTESTS] Acer Predator Helios 18 AI"
             },
             "prices": [
                 {
@@ -5470,7 +5568,7 @@
                     "list": 2999.99,
                     "minQuantity": 1,
                     "pricelistId": "autotests-pricelist-electronics",
-                    "productId": "autotests-product-laptop-acer-helios-18-ai"
+                    "productId": "autotests-product-laptop-acer-predator-helios-18-ai"
                 }
             ]
         },
@@ -5951,6 +6049,323 @@
                     "pricelistId": "autotests-pricelist-electronics",
                     "productId": "autotests-product-software-microsoft-office-home-2024"
                 }
+            ]
+        }
+    ],
+    "roles": [
+        {
+            "id": "role-organization-employee",
+            "name": "Organization Employee",
+            "description": "Organization Employee",
+            "permissions": [
+                {
+                    "name": "storefront:organization:view"
+                },
+                {
+                    "name": "storefront:user:view"
+                }
+            ]
+        },
+        {
+            "id": "role-organization-maintainer",
+            "name": "Organization Maintainer",
+            "description": "Organization Maintainer",
+            "permissions": [
+                {
+                    "name": "storefront:organization:edit"
+                },
+                {
+                    "name": "storefront:user:organization:view"
+                },
+                {
+                    "name": "storefront:user:create"
+                },
+                {
+                    "name": "storefront:user:delete"
+                },
+                {
+                    "name": "storefront:user:edit"
+                },
+                {
+                    "name": "storefront:user:invite"
+                },
+                {
+                    "name": "storefront:user:view"
+                }
+            ]
+        },
+        {
+            "id": "role-purchasing-agent",
+            "name": "Purchasing Agent",
+            "description": "Purchasing Agent",
+            "permissions": [
+                {
+                    "name": "storefront:organization:view"
+                },
+                {
+                    "name": "storefront:user:view"
+                }
+            ]
+        },
+        {
+            "id": "role-store-administrator",
+            "name": "Store Administrator",
+            "description": "Store Administrator",
+            "permissions": [
+                {
+                    "name": "storefront:order:changestatus"
+                },
+                {
+                    "name": "storefront:order:view"
+                },
+                {
+                    "name": "storefront:organization:edit"
+                },
+                {
+                    "name": "storefront:organization:view"
+                },
+                {
+                    "name": "storefront:user:create"
+                },
+                {
+                    "name": "storefront:user:delete"
+                },
+                {
+                    "name": "storefront:user:edit"
+                },
+                {
+                    "name": "storefront:user:invite"
+                },
+                {
+                    "name": "storefront:user:view"
+                }
+            ]
+        },
+        {
+            "id": "role-store-manager",
+            "name": "Store Manager",
+            "description": "Store Manager",
+            "permissions": [
+                {
+                    "name": "storefront:order:changestatus"
+                },
+                {
+                    "name": "storefront:order:view"
+                },
+                {
+                    "name": "storefront:organaization:view"
+                }
+            ]
+        }
+    ],
+    "organizations": [
+        {
+            "id": "autotests-organization-electronics-store",
+            "name": "[AUTOTESTS] Electronics Store",
+            "description": "[AUTOTESTS] Electronics Store",
+            "memberType": "Organization",
+            "status": "Approved",
+            "emails": [
+                "electronics-store@autotests.com"
+            ],
+            "phones": [
+                "(217) 555-0198"
+            ],
+            "addresses": [
+                {
+                    "addressType": "BillingAndShipping",
+                    "city": "Springfield",
+                    "countryCode": "USA",
+                    "countryName": "United States of America",
+                    "email": "electronics-store@autotests.com",
+                    "line1": "742 Evergreen Terrace",
+                    "phone": "(217) 555-0198",
+                    "postalCode": "62704",
+                    "regionId": "IL",
+                    "regionName": "Illinois"
+                }
+            ]
+        }
+    ],
+    "contacts": [
+        {
+            "id": "autotests-contact-electronics-store-employee-1",
+            "firstName": "[AUTOTESTS]",
+            "lastName": "Employee 1",
+            "memberType": "Contact",
+            "status": "Approved",
+            "organizations": [
+                "autotests-organization-electronics-store"
+            ]
+        },
+        {
+            "id": "autotests-contact-electronics-store-employee-2",
+            "firstName": "[AUTOTESTS]",
+            "lastName": "Employee 2",
+            "memberType": "Contact",
+            "status": "Approved",
+            "organizations": [
+                "autotests-organization-electronics-store"
+            ]
+        },
+        {
+            "id": "autotests-contact-electronics-store-employee-3",
+            "firstName": "[AUTOTESTS]",
+            "lastName": "Employee 3",
+            "memberType": "Contact",
+            "status": "Approved",
+            "organizations": [
+                "autotests-organization-electronics-store"
+            ]
+        },
+        {
+            "id": "autotests-contact-electronics-store-employee-4",
+            "firstName": "[AUTOTESTS]",
+            "lastName": "Employee 4",
+            "memberType": "Contact",
+            "status": "Approved",
+            "organizations": [
+                "autotests-organization-electronics-store"
+            ]
+        },
+        {
+            "id": "autotests-contact-electronics-store-employee-5",
+            "firstName": "[AUTOTESTS]",
+            "lastName": "Employee 5",
+            "memberType": "Contact",
+            "status": "Approved",
+            "organizations": [
+                "autotests-organization-electronics-store"
+            ]
+        },
+        {
+            "id": "autotests-contact-electronics-store-employee-6",
+            "firstName": "[AUTOTESTS]",
+            "lastName": "Employee 6",
+            "memberType": "Contact",
+            "status": "Approved",
+            "organizations": [
+                "autotests-organization-electronics-store"
+            ]
+        },
+        {
+            "id": "autotests-contact-electronics-store-employee-7",
+            "firstName": "[AUTOTESTS]",
+            "lastName": "Employee 7",
+            "memberType": "Contact",
+            "status": "Approved",
+            "organizations": [
+                "autotests-organization-electronics-store"
+            ]
+        },
+        {
+            "id": "autotests-contact-electronics-store-employee-8",
+            "firstName": "[AUTOTESTS]",
+            "lastName": "Employee 8",
+            "memberType": "Contact",
+            "status": "Approved",
+            "organizations": [
+                "autotests-organization-electronics-store"
+            ]
+        },
+        {
+            "id": "autotests-contact-electronics-store-employee-9",
+            "firstName": "[AUTOTESTS]",
+            "lastName": "Employee 9",
+            "memberType": "Contact",
+            "status": "Approved",
+            "organizations": [
+                "autotests-organization-electronics-store"
+            ]
+        },
+        {
+            "id": "autotests-contact-electronics-store-maintainer-1",
+            "firstName": "[AUTOTESTS]",
+            "lastName": "Store Maintainer 1",
+            "memberType": "Contact",
+            "status": "Approved",
+            "organizations": [
+                "autotests-organization-electronics-store"
+            ]
+        },
+        {
+            "id": "autotests-contact-electronics-store-purchasing-agent-1",
+            "firstName": "[AUTOTESTS]",
+            "lastName": "Purchasing Agent 1",
+            "memberType": "Contact",
+            "status": "Approved",
+            "organizations": [
+                "autotests-organization-electronics-store"
+            ]
+        },
+        {
+            "id": "autotests-contact-electronics-store-purchasing-agent-2",
+            "firstName": "[AUTOTESTS]",
+            "lastName": "Purchasing Agent 2",
+            "memberType": "Contact",
+            "status": "Approved",
+            "organizations": [
+                "autotests-organization-electronics-store"
+            ]
+        },
+        {
+            "id": "autotests-contact-electronics-store-purchasing-agent-3",
+            "firstName": "[AUTOTESTS]",
+            "lastName": "Purchasing Agent 3",
+            "memberType": "Contact",
+            "status": "Approved",
+            "organizations": [
+                "autotests-organization-electronics-store"
+            ]
+        },
+        {
+            "id": "autotests-contact-electronics-store-administrator",
+            "firstName": "[AUTOTESTS]",
+            "lastName": "Store Administrator",
+            "memberType": "Contact",
+            "status": "Approved",
+            "organizations": [
+                "autotests-organization-electronics-store"
+            ]
+        },
+        {
+            "id": "autotests-contact-electronics-store-manager-1",
+            "firstName": "[AUTOTESTS]",
+            "lastName": "Store Manager 1",
+            "memberType": "Contact",
+            "status": "Approved",
+            "organizations": [
+                "autotests-organization-electronics-store"
+            ]
+        },
+        {
+            "id": "autotests-contact-electronics-store-manager-2",
+            "firstName": "[AUTOTESTS]",
+            "lastName": "Store Manager 2",
+            "memberType": "Contact",
+            "status": "Approved",
+            "organizations": [
+                "autotests-organization-electronics-store"
+            ]
+        },
+        {
+            "id": "autotests-contact-electronics-store-manager-3",
+            "firstName": "[AUTOTESTS]",
+            "lastName": "Store Manager 3",
+            "memberType": "Contact",
+            "status": "Approved",
+            "organizations": [
+                "autotests-organization-electronics-store"
+            ]
+        },
+        {
+            "id": "autotests-contact-electronics-store-manager-4",
+            "firstName": "[AUTOTESTS]",
+            "lastName": "Store Manager 4",
+            "memberType": "Contact",
+            "status": "Approved",
+            "organizations": [
+                "autotests-organization-electronics-store"
             ]
         }
     ]

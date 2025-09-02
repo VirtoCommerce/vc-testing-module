@@ -59,3 +59,6 @@ colorama
 inflection
 pydantic
 isort
+faker
+rich
+pandas
