@@ -303,7 +303,7 @@
             "storeState": "Open",
             "defaultCurrency": "USD",
             "defaultLanguage": "en-US",
-            "mainFulfillmentCenterId": "autotests-ffc-morrisville-il",
+            "mainFulfillmentCenterId": "autotests-ffc-springfield-il",
             "currencies": [
                 "USD"
             ],
