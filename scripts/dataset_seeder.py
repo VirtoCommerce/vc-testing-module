@@ -9,13 +9,12 @@ from dotenv import load_dotenv
 from fixtures import Auth, WebAPISession
 
 
-class TestDataSeeder:
+class DatasetSeeder:
     def __init__(self, config: Dict[str, Any]):
         self.config = config
         self.auth = Auth(config)
         self.webapi_client = WebAPISession(config, self.auth)
         self.test_data = None
-        self.test_data_users = None
         self.store_id = None
 
     def get_file_path(self, file_name: str) -> str:
@@ -27,7 +26,7 @@ class TestDataSeeder:
     def authenticate(self, username: str, password: str) -> None:
         self.auth.authenticate(username, password)
 
-    def clear_token(self) -> None:
+    def sign_out(self) -> None:
         self.auth.clear_token()
 
     def load_test_data(self, file_path: str) -> None:
@@ -79,6 +78,18 @@ class TestDataSeeder:
                 data=currency,
             )
 
+            print(Fore.GREEN + "OK" + Style.RESET_ALL)
+
+    def create_measures(self) -> None:
+        if not self.test_data["measures"]:
+            raise ValueError("No measures found in test data")
+
+        for measure in self.test_data["measures"]:
+            print(f'Creating measure "{measure["name"]}"...', end=" ")
+            self.webapi_client.put(
+                "/api/catalog/measures",
+                data=measure,
+            )
             print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
     def create_fulfillment_centers(self) -> None:
@@ -140,19 +151,33 @@ class TestDataSeeder:
 
             print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
-    def create_catalog_properties(self) -> None:
-        if not self.test_data["catalogProperties"]:
-            raise ValueError("No catalog properties found in test data")
+    def create_property_groups(self) -> None:
+        if not self.test_data["propertyGroups"]:
+            raise ValueError("No property groups found in test data")
 
-        for catalog_property in self.test_data["catalogProperties"]:
+        for property_group in self.test_data["propertyGroups"]:
+            print(f'Creating property group "{property_group["name"]}"...', end=" ")
+
+            self.webapi_client.post(
+                "/api/catalog/propertygroups",
+                data=property_group,
+            )
+
+            print(Fore.GREEN + "OK" + Style.RESET_ALL)
+
+    def create_properties(self) -> None:
+        if not self.test_data["properties"]:
+            raise ValueError("No properties found in test data")
+
+        for property in self.test_data["properties"]:
             print(
-                f'Creating catalog property "{catalog_property["name"]}"...',
+                f'Creating property "{property["name"]}"...',
                 end=" ",
             )
 
             self.webapi_client.post(
-                f"/api/catalog/properties?id={catalog_property['id']}",
-                data=catalog_property,
+                f"/api/catalog/properties?id={property['id']}",
+                data=property,
             )
 
             print(Fore.GREEN + "OK" + Style.RESET_ALL)
@@ -297,12 +322,13 @@ class TestDataSeeder:
             print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
     def create_users(self) -> None:
-        if not self.test_data_users:
+        if not self.test_data["users"]:
             raise ValueError("No users found in test data")
 
-        for user in self.test_data_users:
+        for user in self.test_data["users"]:
             print(f'Creating user "{user["userName"]}"...', end=" ")
 
+            user["password"] = self.config["users_password"]
             self.webapi_client.post(
                 "/api/platform/security/users/create",
                 data=user,
@@ -320,6 +346,7 @@ def get_config():
         "store_id": os.getenv("STORE_ID"),
         "admin_username": os.getenv("ADMIN_USERNAME"),
         "admin_password": os.getenv("ADMIN_PASSWORD"),
+        "users_password": os.getenv("USERS_PASSWORD"),
     }
 
 
@@ -328,36 +355,22 @@ if __name__ == "__main__":
 
     config = get_config()
 
-    seeder = TestDataSeeder(config)
+    seeder = DatasetSeeder(config)
     seeder.authenticate(config["admin_username"], config["admin_password"])
 
-    """
-    seeder.load_test_data("test_data_new.json")
+    seeder.load_test_data("dataset.json")
     seeder.create_languages()
     seeder.create_currencies()
     seeder.create_fulfillment_centers()
+    seeder.create_measures()
     seeder.create_catalogs()
-    seeder.create_catalog_properties()
+    seeder.create_property_groups()
     seeder.create_stores()
-    seeder.create_aggregation_properties()
     seeder.create_pricelists()
     seeder.create_pricelist_assignments()
     seeder.create_categories()
-    seeder.create_products()
-    """
-
-    seeder.load_test_data("test_data.json")
-    seeder.load_test_data_users("test_data_users.json")
-
-    seeder.create_currencies()
-    seeder.create_fulfillment_centers()
-    seeder.create_catalogs()
-    seeder.create_catalog_properties()
-    seeder.create_stores()
+    seeder.create_properties()
     seeder.create_aggregation_properties()
-    seeder.create_pricelists()
-    seeder.create_pricelist_assignments()
-    seeder.create_categories()
     seeder.create_products()
     seeder.create_products_inventories()
     seeder.create_prices()
@@ -366,4 +379,4 @@ if __name__ == "__main__":
     seeder.create_contacts()
     seeder.create_users()
 
-    seeder.clear_token()
+    seeder.sign_out()
