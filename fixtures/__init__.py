@@ -8,7 +8,7 @@ from .config import config
 from .graphql_client import GraphQLClient, graphql_client
 from .product_quantity_control import product_quantity_control
 from .requests_tracker import RequestsTracker, requests_tracker
-from .webapi_client import webapi_client
+from .webapi_client import WebAPISession, webapi_client
 
 __all__ = [
     "anonymous_catalog_requests",
@@ -23,4 +23,5 @@ __all__ = [
     "requests_tracker",
     "RequestsTracker",
     "webapi_client",
+    "WebAPISession",
 ]
