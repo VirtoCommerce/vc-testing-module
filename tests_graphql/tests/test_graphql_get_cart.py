@@ -1,32 +1,36 @@
 import os
+import random
 from typing import Any, Dict
 
 import allure
 import pytest
 
-from fixtures import Auth, GraphQLClient
+from fixtures.auth import Auth
+from fixtures.graphql_client import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
-from test_data.test_culture import TEST_CULTURE
-from test_data.test_currency import TEST_CURRENCY
-from test_data.test_product import TEST_PRODUCT_1
 
 
 @pytest.mark.graphql
 @allure.title("Get null cart (GraphQL)")
-def test_get_null_cart(config: Dict[str, Any], graphql_client: GraphQLClient):
+def test_get_null_cart(
+    config: Dict[str, Any], dataset: Dict[str, Any], graphql_client: GraphQLClient
+):
     print(f"{os.linesep}Running test to get null cart...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
 
-    user = user_operations.get_user()
+    currency = dataset["currencies"][0]["code"]
+    culture = dataset["languages"][0]
+
+    user = user_operations.get_me()
 
     cart = cart_operations.get_cart(
         store_id=config["store_id"],
         user_id=user["id"],
-        currency_code=TEST_CURRENCY["USD"],
-        culture_name=TEST_CULTURE["en-US"],
+        currency_code=currency,
+        culture_name=culture,
     )
 
     assert cart is None, "Cart is not None"
@@ -34,22 +38,34 @@ def test_get_null_cart(config: Dict[str, Any], graphql_client: GraphQLClient):
 
 @pytest.mark.graphql
 @allure.title("Get anonymous cart (GraphQL)")
-def test_get_anonymous_cart(config: Dict[str, Any], graphql_client: GraphQLClient):
+def test_get_anonymous_cart(
+    config: Dict[str, Any], dataset: Dict[str, Any], graphql_client: GraphQLClient
+):
     print(f"{os.linesep}Running test to get anonymous cart...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
 
-    user = user_operations.get_user()
+    currency = dataset["currencies"][0]["code"]
+    culture = dataset["languages"][0]
+    product_id_in_stock = random.choice(
+        [
+            product_inventory
+            for product_inventory in dataset["productsInventories"]
+            if product_inventory["inStockQuantity"] > "0"
+        ]
+    )["productId"]
+
+    user = user_operations.get_me()
 
     cart = cart_operations.add_item_to_cart(
         payload={
             "storeId": config["store_id"],
             "userId": user["id"],
-            "productId": TEST_PRODUCT_1["id"],
+            "productId": product_id_in_stock,
             "quantity": 1,
-            "currencyCode": TEST_CURRENCY["USD"],
-            "cultureName": TEST_CULTURE["en-US"],
+            "currencyCode": currency,
+            "cultureName": culture,
         }
     )
 
@@ -69,25 +85,39 @@ def test_get_anonymous_cart(config: Dict[str, Any], graphql_client: GraphQLClien
 @pytest.mark.graphql
 @allure.title("Get registered user cart (GraphQL)")
 def test_get_registered_user_cart(
-    config: Dict[str, Any], auth: Auth, graphql_client: GraphQLClient
+    config: Dict[str, Any],
+    dataset: Dict[str, Any],
+    auth: Auth,
+    graphql_client: GraphQLClient,
 ):
     print(f"{os.linesep}Running test to get registered user cart...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
 
-    auth.authenticate(config["test_admin_username"], config["test_admin_password"])
+    currency = dataset["currencies"][0]["code"]
+    culture = dataset["languages"][0]
+    dataset_user = dataset["users"][0]
+    product_id_in_stock = random.choice(
+        [
+            product_inventory
+            for product_inventory in dataset["productsInventories"]
+            if product_inventory["inStockQuantity"] > "0"
+        ]
+    )["productId"]
 
-    user = user_operations.get_user()
+    auth.authenticate(dataset_user["userName"], config["users_password"])
+
+    user = user_operations.get_me()
 
     cart = cart_operations.add_item_to_cart(
         payload={
             "storeId": config["store_id"],
             "userId": user["id"],
-            "productId": TEST_PRODUCT_1["id"],
+            "productId": product_id_in_stock,
             "quantity": 1,
-            "currencyCode": TEST_CURRENCY["USD"],
-            "cultureName": TEST_CULTURE["en-US"],
+            "currencyCode": currency,
+            "cultureName": culture,
         }
     )
 

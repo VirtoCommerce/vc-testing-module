@@ -1,0 +1,3760 @@
+- id: intel_core_i3_12th_gen_processors
+  name: 12th Generation Intel® Core™ i3 Processors
+  models:
+    - id: intel_core_i3_1210u
+      name: Intel® Core™ i3-1210U Processor
+      launch_date: Q1'22
+      socket: FCBGA1781
+      total_cores: 6
+      total_threads: 8
+      max_turbo_frequency_ghz: 4.40
+      intel_smart_cache_mb: 10
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [LPDDR4x-4267, LPDDR5-5200]
+      gpu_model: Intel® UHD Graphics
+      gpu_frequency_ghz: 0.85
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 4.0]
+      pcie_lanes_number: 14
+    - id: intel_core_i3_1215u
+      name: Intel® Core™ i3-1215U Processor
+      launch_date: Q1'22
+      socket: FCBGA1744
+      total_cores: 6
+      total_threads: 8
+      max_turbo_frequency_ghz: 4.40
+      intel_smart_cache_mb: 10
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-4800, LPDDR5-5200]
+      gpu_model: Intel® UHD Graphics
+      gpu_frequency_ghz: 1.10
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0,4.0]
+      pcie_lanes_number: 20
+    - id: intel_core_i3_1220p
+      name: Intel® Core™ i3-1220P Processor
+      launch_date: Q1'22
+      socket: FCBGA1744
+      total_cores: 10
+      total_threads: 12
+      max_turbo_frequency_ghz: 4.40
+      intel_smart_cache_mb: 12
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-4800, LPDDR5-5200]
+      gpu_model: Intel® UHD Graphics
+      gpu_frequency_ghz: 1.10
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 4.0]
+      pcie_lanes_number: 20
+- id: intel_core_i5_12th_gen_processors
+  name: 12th Generation Intel® Core™ i5 Processors
+  models:
+    - id: intel_core_i5_12450hx
+      name: Intel® Core™ i5-12450HX Processor
+      launch_date: Q2'22
+      socket: FCBGA1964
+      total_cores: 8
+      total_threads: 12
+      max_turbo_frequency_ghz: 4.40
+      intel_smart_cache_mb: 12
+      max_memory_size_gb: 128
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, DDR5-4800]
+      gpu_model: Intel® UHD Graphics
+      gpu_frequency_ghz: 1.30
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 20
+    - id: intel_core_i5_12600hx
+      name: Intel® Core™ i5-12600HX Processor
+      launch_date: Q2'22
+      socket: FCBGA1964
+      total_cores: 12
+      total_threads: 16
+      max_turbo_frequency_ghz: 4.60
+      intel_smart_cache_mb: 18
+      max_memory_size_gb: 128
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, DDR5-4800]
+      gpu_model: Intel® UHD Graphics
+      gpu_frequency_ghz: 1.35
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 28
+    - id: intel_core_i5_1230u
+      name: Intel® Core™ i5-1230U Processor
+      launch_date: Q1'22
+      socket: FCBGA1781
+      total_cores: 10
+      total_threads: 12
+      max_turbo_frequency_ghz: 4.40
+      intel_smart_cache_mb: 12
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [LPDDR4x-4267, LPDDR5-5200]
+      gpu_model: Intel® Iris® Xe Graphics
+      gpu_frequency_ghz: 0.85
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 4.0]
+      pcie_lanes_number: 14
+    - id: intel_core_i5_1235u
+      name: Intel® Core™ i5-1235U Processor
+      launch_date: Q1'22
+      socket: FCBGA1744
+      total_cores: 10
+      total_threads: 12
+      max_turbo_frequency_ghz: 4.40
+      intel_smart_cache_mb: 12
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR4-3200,LPDDR4x-4267, DDR5-4800, LPDDR5-5200]
+      gpu_model: Intel® Iris® Xe Graphics
+      gpu_frequency_ghz: 1.20
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 4.0]
+      pcie_lanes_number: 20
+    - id: intel_core_i5_1240p
+      name: Intel® Core™ i5-1240P Processor
+      launch_date: Q1'22
+      socket: FCBGA1744
+      total_cores: 12
+      total_threads: 16
+      max_turbo_frequency_ghz: 4.40
+      intel_smart_cache_mb: 12
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-4800, LPDDR5-5200]
+      gpu_model: Intel® Iris® Xe Graphics
+      gpu_frequency_ghz: 1.30
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 4.0]
+      pcie_lanes_number: 20
+    - id: intel_core_i5_1240u
+      name: Intel® Core™ i5-1240U Processor
+      launch_date: Q1'22
+      socket: FCBGA1744
+      total_cores: 10
+      total_threads: 12
+      max_turbo_frequency_ghz: 4.40
+      intel_smart_cache_mb: 12
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [LPDDR4x-4267, LPDDR5-5200]
+      gpu_model: Intel® Iris® Xe Graphics
+      gpu_frequency_ghz: 0.90
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 4.0]
+      pcie_lanes_number: 14
+    - id: intel_core_i5_1245u
+      name: Intel® Core™ i5-1245U Processor
+      launch_date: Q1'22
+      socket: FCBGA1744
+      total_cores: 10
+      total_threads: 12
+      max_turbo_frequency_ghz: 4.40
+      intel_smart_cache_mb: 12
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-4800, LPDDR5-5200]
+      gpu_model: Intel® Iris® Xe Graphics
+      gpu_frequency_ghz: 1.20
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 4.0]
+      pcie_lanes_number: 20
+    - id: intel_core_i5_1250p
+      name: Intel® Core™ i5-1250P Processor
+      launch_date: Q1'22
+      socket: FCBGA1744
+      total_cores: 12
+      total_threads: 16
+      max_turbo_frequency_ghz: 4.40
+      intel_smart_cache_mb: 12
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-4800, LPDDR5-5200]
+      gpu_model: Intel® Iris® Xe Graphics
+      gpu_frequency_ghz: 1.40
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 4.0]
+      pcie_lanes_number: 20
+    - id: intel_core_i5_12450h
+      name: Intel® Core™ i5-12450H Processor
+      launch_date: Q1'22
+      socket: FCBGA1744
+      total_cores: 8
+      total_threads: 12
+      max_turbo_frequency_ghz: 4.40
+      intel_smart_cache_mb: 12
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-4800, LPDDR5-5200]
+      gpu_model: Intel® UHD Graphics
+      gpu_frequency_ghz: 1.20
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 4.0]
+      pcie_lanes_number: 28
+    - id: intel_core_i5_12500h
+      name: Intel® Core™ i5-12500H Processor
+      launch_date: Q1'22
+      socket: FCBGA1744
+      total_cores: 12
+      total_threads: 16
+      max_turbo_frequency_ghz: 4.50
+      intel_smart_cache_mb: 18
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-4800, LPDDR5-5200]
+      gpu_model: Intel® Iris® Xe Graphics
+      gpu_frequency_ghz: 1.30
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 4.0]
+      pcie_lanes_number: 28
+    - id: intel_core_i5_12600h
+      name: Intel® Core™ i5-12600H Processor
+      launch_date: Q1'22
+      socket: FCBGA1744
+      total_cores: 12
+      total_threads: 16
+      max_turbo_frequency_ghz: 4.50
+      intel_smart_cache_mb: 18
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-4800, LPDDR5-5200]
+      gpu_model: Intel® Iris® Xe Graphics
+      gpu_frequency_ghz: 1.40
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 4.0]
+      pcie_lanes_number: 28
+- id: intel_core_i7_12th_gen_processors
+  name: 12th Generation Intel® Core™ i7 Processors
+  models:
+    - id: intel_core_i7_12650hx
+      name: Intel® Core™ i7-12650HX Processor
+      launch_date: Q2'22
+      socket: FCBGA1964
+      total_cores: 14
+      total_threads: 20
+      max_turbo_frequency_ghz: 4.70
+      intel_smart_cache_mb: 24
+      max_memory_size_gb: 128
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, DDR5-4800]
+      gpu_model: Intel® UHD Graphics
+      gpu_frequency_ghz: 1.45
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 20
+    - id: intel_core_i7_12800hx
+      name: Intel® Core™ i7-12800HX Processor
+      launch_date: Q2'22
+      socket: FCBGA1964
+      total_cores: 16
+      total_threads: 24
+      max_turbo_frequency_ghz: 4.80
+      intel_smart_cache_mb: 25
+      max_memory_size_gb: 128
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, DDR5-4800]
+      gpu_model: Intel® UHD Graphics
+      gpu_frequency_ghz: 1.45
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 20
+    - id: intel_core_i7_12850hx
+      name: Intel® Core™ i7-12850HX Processor
+      launch_date: Q2'22
+      socket: FCBGA1964
+      total_cores: 16
+      total_threads: 24
+      max_turbo_frequency_ghz: 4.80
+      intel_smart_cache_mb: 25
+      max_memory_size_gb: 128
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, DDR5-4800]
+      gpu_model: Intel® UHD Graphics
+      gpu_frequency_ghz: 1.45
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 20
+    - id: intel_core_i7_1250u
+      name: Intel® Core™ i7-1250U Processor
+      launch_date: Q1'22
+      socket: FCBGA1781
+      total_cores: 10
+      total_threads: 12
+      max_turbo_frequency_ghz: 4.70
+      intel_smart_cache_mb: 12
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [LPDDR4x-4267, LPDDR5-5200]
+      gpu_model: Intel® Iris® Xe Graphics
+      gpu_frequency_ghz: 0.95
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 4.0]
+      pcie_lanes_number: 14
+    - id: intel_core_i7_1255u
+      name: Intel® Core™ i7-1255U Processor
+      launch_date: Q1'22
+      socket: FCBGA1744
+      total_cores: 10
+      total_threads: 12
+      max_turbo_frequency_ghz: 4.70
+      intel_smart_cache_mb: 12
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-4800, LPDDR5-5200]
+      gpu_model: Intel® Iris® Xe Graphics
+      gpu_frequency_ghz: 1.25
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 4.0]
+      pcie_lanes_number: 20
+    - id: intel_core_i7_1260p
+      name: Intel® Core™ i7-1260P Processor
+      launch_date: Q1'22
+      socket: FCBGA1744
+      total_cores: 12
+      total_threads: 16
+      max_turbo_frequency_ghz: 4.70
+      intel_smart_cache_mb: 18
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-4800, LPDDR5-5200]
+      gpu_model: Intel® Iris® Xe Graphics
+      gpu_frequency_ghz: 1.40
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 4.0]
+      pcie_lanes_number: 20
+    - id: intel_core_i7_1260u
+      name: Intel® Core™ i7-1260U Processor
+      launch_date: Q1'22
+      socket: FCBGA1781
+      total_cores: 10
+      total_threads: 12
+      max_turbo_frequency_ghz: 4.70
+      intel_smart_cache_mb: 12
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [LPDDR4x-4267, LPDDR5-5200]
+      gpu_model: Intel® Iris® Xe Graphics
+      gpu_frequency_ghz: 0.95
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 4.0]
+      pcie_lanes_number: 14
+    - id: intel_core_i7_1265u
+      name: Intel® Core™ i7-1265U Processor
+      launch_date: Q1'22
+      socket: FCBGA1744
+      total_cores: 10
+      total_threads: 12
+      max_turbo_frequency_ghz: 4.80
+      intel_smart_cache_mb: 12
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-4800, LPDDR5-5200]
+      gpu_model: Intel® Iris® Xe Graphics
+      gpu_frequency_ghz: 1.25
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 4.0]
+      pcie_lanes_number: 20
+    - id: intel_core_i7_1270p
+      name: Intel® Core™ i7-1270P Processor
+      launch_date: Q1'22
+      socket: FCBGA1744
+      total_cores: 12
+      total_threads: 16
+      max_turbo_frequency_ghz: 4.80
+      intel_smart_cache_mb: 18
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-4800, LPDDR5-5200]
+      gpu_model: Intel® Iris® Xe Graphics
+      gpu_frequency_ghz: 1.40
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 4.0]
+      pcie_lanes_number: 20
+    - id: intel_core_i7_1280p
+      name: Intel® Core™ i7-1280P Processor
+      launch_date: Q1'22
+      socket: FCBGA1744
+      total_cores: 14
+      total_threads: 20
+      max_turbo_frequency_ghz: 4.80
+      intel_smart_cache_mb: 24
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-4800, LPDDR5-5200]
+      gpu_model: Intel® Iris® Xe Graphics
+      gpu_frequency_ghz: 1.45
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 4.0]
+      pcie_lanes_number: 20
+    - id: intel_core_i7_12650h
+      name: Intel® Core™ i7-12650H Processor
+      launch_date: Q1'22
+      socket: FCBGA1744
+      total_cores: 10
+      total_threads: 16
+      max_turbo_frequency_ghz: 4.70
+      intel_smart_cache_mb: 24
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-4800, LPDDR5-5200]
+      gpu_model: Intel® UHD Graphics
+      gpu_frequency_ghz: 1.40
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 4.0]
+      pcie_lanes_number: 28
+    - id: intel_core_i7_12700h
+      name: Intel® Core™ i7-12700H Processor
+      launch_date: Q1'22
+      socket: FCBGA1744
+      total_cores: 14
+      total_threads: 20
+      max_turbo_frequency_ghz: 4.70
+      intel_smart_cache_mb: 24
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-4800, LPDDR5-5200]
+      gpu_model: Intel® Iris® Xe Graphics
+      gpu_frequency_ghz: 1.40
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 4.0]
+      pcie_lanes_number: 28
+    - id: intel_core_i7_12800h
+      name: Intel® Core™ i7-12800H Processor
+      launch_date: Q1'22
+      socket: FCBGA1744
+      total_cores: 14
+      total_threads: 20
+      max_turbo_frequency_ghz: 4.80
+      intel_smart_cache_mb: 24
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-4800, LPDDR5-5200]
+      gpu_model: Intel® Iris® Xe Graphics
+      gpu_frequency_ghz: 1.40
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 4.0]
+      pcie_lanes_number: 28
+- id: intel_core_i9_12th_gen_processors
+  name: 12th Generation Intel® Core™ i9 Processors
+  models:
+    - id: intel_core_i9_12900hx
+      name: Intel® Core™ i9-12900HX Processor
+      launch_date: Q2'22
+      socket: FCBGA1964
+      total_cores: 16
+      total_threads: 24
+      max_turbo_frequency_ghz: 5.00
+      intel_smart_cache_mb: 30
+      max_memory_size_gb: 128
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, DDR5-4800]
+      gpu_model: Intel® UHD Graphics
+      gpu_frequency_ghz: 1.55
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 20
+    - id: intel_core_i9_12950hx
+      name: Intel® Core™ i9-12950HX Processor
+      launch_date: Q2'22
+      socket: FCBGA1964
+      total_cores: 16
+      total_threads: 24
+      max_turbo_frequency_ghz: 5.00
+      intel_smart_cache_mb: 30
+      max_memory_size_gb: 128
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, DDR5-4800]
+      gpu_model: Intel® UHD Graphics
+      gpu_frequency_ghz: 1.55
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 20
+    - id: intel_core_i9_12900h
+      name: Intel® Core™ i9-12900H Processor
+      launch_date: Q1'22
+      socket: FCBGA1744
+      total_cores: 14
+      total_threads: 20
+      max_turbo_frequency_ghz: 5.00
+      intel_smart_cache_mb: 24
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-4800, LPDDR5-5200]
+      gpu_model: Intel® Iris® Xe Graphics
+      gpu_frequency_ghz: 1.45
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 4.0]
+      pcie_lanes_number: 28
+    - id: intel_core_i9_12900hk
+      name: Intel® Core™ i9-12900HK Processor
+      launch_date: Q1'22
+      socket: FCBGA1744
+      total_cores: 14
+      total_threads: 20
+      max_turbo_frequency_ghz: 5.00
+      intel_smart_cache_mb: 24
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-4800, LPDDR5-5200]
+      gpu_model: Intel® Iris® Xe Graphics
+      gpu_frequency_ghz: 1.45
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 4.0]
+      pcie_lanes_number: 28
+- id: intel_core_i3_13th_gen_processors
+  name: 13th Generation Intel® Core™ i3 Processors
+  models:
+    - id: intel_core_i3_1305u
+      name: Intel® Core™ i3-1305U Processor
+      launch_date: Q1'23
+      socket: FCBGA1744
+      total_cores: 5
+      total_threads: 6
+      max_turbo_frequency_ghz: 4.50
+      intel_smart_cache_mb: 10
+      max_memory_size_gb: 96
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-5200, LPDDR5x-5200]
+      gpu_model: Intel® UHD Graphics
+      gpu_frequency_ghz: 1.25
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 4.0]
+      pcie_lanes_number: 20
+    - id: intel_core_i3_1315u
+      name: Intel® Core™ i3-1315U Processor
+      launch_date: Q1'23
+      socket: FCBGA1744
+      total_cores: 6
+      total_threads: 8
+      max_turbo_frequency_ghz: 4.50
+      intel_smart_cache_mb: 10
+      max_memory_size_gb: 96
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-5200, LPDDR5x-5200]
+      gpu_model: Intel® UHD Graphics
+      gpu_frequency_ghz: 1.25
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 4.0]
+      pcie_lanes_number: 20
+- id: intel_core_i5_13th_gen_processors
+  name: 13th Generation Intel® Core™ i5 Processors
+  models:
+    - id: intel_core_i5_1334u
+      name: Intel® Core™ i5-1334U Processor
+      launch_date: Q1'23
+      socket: FCBGA1744
+      total_cores: 10
+      total_threads: 12
+      max_turbo_frequency_ghz: 4.60
+      intel_smart_cache_mb: 12
+      max_memory_size_gb: 96
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-5200, LPDDR5x-5200]
+      gpu_model: Intel® Iris® Xe Graphics
+      gpu_frequency_ghz: 1.25
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 4.0]
+      pcie_lanes_number: 20
+    - id: intel_core_i5_1335u
+      name: Intel® Core™ i5-1335U Processor
+      launch_date: Q1'23
+      socket: FCBGA1744
+      total_cores: 10
+      total_threads: 12
+      max_turbo_frequency_ghz: 4.60
+      intel_smart_cache_mb: 12
+      max_memory_size_gb: 96
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-5200, LPDDR5x-6400]
+      gpu_model: Intel® Iris® Xe Graphics
+      gpu_frequency_ghz: 1.25
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 4.0]
+      pcie_lanes_number: 20
+    - id: intel_core_i5_1340p
+      name: Intel® Core™ i5-1340P Processor
+      launch_date: Q1'23
+      socket: FCBGA1744
+      total_cores: 12
+      total_threads: 16
+      max_turbo_frequency_ghz: 4.60
+      intel_smart_cache_mb: 12
+      max_memory_size_gb: 96
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-5200, LPDDR5x-6400]
+      gpu_model: Intel® Iris® Xe Graphics
+      gpu_frequency_ghz: 1.45
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 4.0]
+      pcie_lanes_number: 20
+    - id: intel_core_i5_13420h
+      name: Intel® Core™ i5-13420H Processor
+      launch_date: Q1'23
+      socket: FCBGA1744
+      total_cores: 8
+      total_threads: 12
+      max_turbo_frequency_ghz: 4.60
+      intel_smart_cache_mb: 12
+      max_memory_size_gb: 96
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-5200, LPDDR5x-5200]
+      gpu_model: Intel® UHD Graphics
+      gpu_frequency_ghz: 1.40
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 5.0]
+      pcie_lanes_number: 28
+    - id: intel_core_i5_13450hx
+      name: Intel® Core™ i5-13450HX Processor
+      launch_date: Q1'23
+      socket: FCBGA1964
+      total_cores: 10
+      total_threads: 16
+      max_turbo_frequency_ghz: 4.60
+      intel_smart_cache_mb: 20
+      max_memory_size_gb: 192
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, DDR5-4800]
+      gpu_model: Intel® UHD Graphics
+      gpu_frequency_ghz: 1.45
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 20
+    - id: intel_core_i5_1345u
+      name: Intel® Core™ i5-1345U Processor
+      launch_date: Q1'23
+      socket: FCBGA1744
+      total_cores: 10
+      total_threads: 12
+      max_turbo_frequency_ghz: 4.70
+      intel_smart_cache_mb: 12
+      max_memory_size_gb: 96
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-5200, LPDDR5x-6400]
+      gpu_model: Intel® Iris® Xe Graphics
+      gpu_frequency_ghz: 1.25
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 4.0]
+      pcie_lanes_number: 20
+    - id: intel_core_i5_13500h
+      name: Intel® Core™ i5-13500H Processor
+      launch_date: Q1'23
+      socket: FCBGA1744
+      total_cores: 12
+      total_threads: 16
+      max_turbo_frequency_ghz: 4.70
+      intel_smart_cache_mb: 18
+      max_memory_size_gb: 96
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-5200]
+      gpu_model: Intel® Iris® Xe Graphics
+      gpu_frequency_ghz: 1.45
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 5.0]
+      pcie_lanes_number: 28
+    - id: intel_core_i5_13500hx
+      name: Intel® Core™ i5-13500HX Processor
+      launch_date: Q1'23
+      socket: FCBGA1964
+      total_cores: 14
+      total_threads: 20
+      max_turbo_frequency_ghz: 4.70
+      intel_smart_cache_mb: 24
+      max_memory_size_gb: 192
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, DDR5-4800]
+      gpu_model: Intel® UHD Graphics
+      gpu_frequency_ghz: 1.50
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 20
+    - id: intel_core_i5_13505h
+      name: Intel® Core™ i5-13505H Processor
+      launch_date: Q1'23
+      socket: FCBGA1792
+      total_cores: 12
+      total_threads: 16
+      max_turbo_frequency_ghz: 4.70
+      intel_smart_cache_mb: 18
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-5200, LPDDR5x-6400]
+      gpu_model: Intel® Iris® Xe Graphics
+      gpu_frequency_ghz: 1.45
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 5.0]
+      pcie_lanes_number: 20
+    - id: intel_core_i5_1350p
+      name: Intel® Core™ i5-1350P Processor
+      launch_date: Q1'23
+      socket: FCBGA1744
+      total_cores: 12
+      total_threads: 16
+      max_turbo_frequency_ghz: 4.70
+      intel_smart_cache_mb: 12
+      max_memory_size_gb: 96
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-5200, LPDDR5x-6400]
+      gpu_model: Intel® Iris® Xe Graphics
+      gpu_frequency_ghz: 1.50
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 4.0]
+      pcie_lanes_number: 20
+    - id: intel_core_i5_13600h
+      name: Intel® Core™ i5-13600H Processor
+      launch_date: Q1'23
+      socket: FCBGA1744
+      total_cores: 12
+      total_threads: 16
+      max_turbo_frequency_ghz: 4.80
+      intel_smart_cache_mb: 18
+      max_memory_size_gb: 96
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-5200, LPDDR5x-6400]
+      gpu_model: Intel® Iris® Xe Graphics
+      gpu_frequency_ghz: 1.50
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 5.0]
+      pcie_lanes_number: 28
+    - id: intel_core_i5_13600hx
+      name: Intel® Core™ i5-13600HX Processor
+      launch_date: Q1'23
+      socket: FCBGA1964
+      total_cores: 14
+      total_threads: 20
+      max_turbo_frequency_ghz: 4.80
+      intel_smart_cache_mb: 24
+      max_memory_size_gb: 192
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, DDR5-4800]
+      gpu_model: Intel® UHD Graphics
+      gpu_frequency_ghz: 1.50
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 20
+- id: intel_core_i7_13th_gen_processors
+  name: 13th Generation Intel® Core™ i7 Processors
+  models:
+    - id: intel_core_i7_1355u
+      name: Intel® Core™ i7-1355U Processor
+      launch_date: Q1'23
+      socket: FCBGA1744
+      total_cores: 10
+      total_threads: 12
+      max_turbo_frequency_ghz: 5.00
+      intel_smart_cache_mb: 12
+      max_memory_size_gb: 96
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-5200, LPDDR5x-6400]
+      gpu_model: Intel® Iris® Xe Graphics
+      gpu_frequency_ghz: 1.3
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 4.0]
+      pcie_lanes_number: 20
+    - id: intel_core_i7_1360p
+      name: Intel® Core™ i7-1360P Processor
+      launch_date: Q1'23
+      socket: FCBGA1744
+      total_cores: 12
+      total_threads: 16
+      max_turbo_frequency_ghz: 5.00
+      intel_smart_cache_mb: 18
+      max_memory_size_gb: 96
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-5200, LPDDR5x-6400]
+      gpu_model: Intel® Iris® Xe Graphics
+      gpu_frequency_ghz: 1.50
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 4.0]
+      pcie_lanes_number: 20
+    - id: intel_core_i7_13620h
+      name: Intel® Core™ i7-13620H Processor
+      launch_date: Q1'23
+      socket: FCBGA1744
+      total_cores: 10
+      total_threads: 16
+      max_turbo_frequency_ghz: 4.90
+      intel_smart_cache_mb: 24
+      max_memory_size_gb: 96
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-5200, LPDDR5x-5200]
+      gpu_model: Intel® UHD Graphics
+      gpu_frequency_ghz: 1.50
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 5.0]
+      pcie_lanes_number: 28
+    - id: intel_core_i7_13650hx
+      name: Intel® Core™ i7-13650HX Processor
+      launch_date: Q1'23
+      socket: FCBGA1964
+      total_cores: 14
+      total_threads: 20
+      max_turbo_frequency_ghz: 4.90
+      intel_smart_cache_mb: 24
+      max_memory_size_gb: 192
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, DDR5-4800]
+      gpu_model: Intel® UHD Graphics
+      gpu_frequency_ghz: 1.55
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 20
+    - id: intel_core_i7_1365u
+      name: Intel® Core™ i7-1365U Processor
+      launch_date: Q1'23
+      socket: FCBGA1744
+      total_cores: 10
+      total_threads: 12
+      max_turbo_frequency_ghz: 5.20
+      intel_smart_cache_mb: 12
+      max_memory_size_gb: 96
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-5200, LPDDR5x-6400]
+      gpu_model: Intel® Iris® Xe Graphics
+      gpu_frequency_ghz: 1.30
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 4.0]
+      pcie_lanes_number: 20
+    - id: intel_core_i7_13700hx
+      name: Intel® Core™ i7-13700HX Processor
+      launch_date: Q1'23
+      socket: FCBGA1964
+      total_cores: 14
+      total_threads: 20
+      max_turbo_frequency_ghz: 5.00
+      intel_smart_cache_mb: 24
+      max_memory_size_gb: 96
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-5200, LPDDR5x-6400]
+      gpu_model: Intel® Iris® Xe Graphics
+      gpu_frequency_ghz: 1.50
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 5.0]
+      pcie_lanes_number: 28
+    - id: intel_core_i7_13705h
+      name: Intel® Core™ i7-13705H Processor
+      launch_date: Q1'23
+      socket: FCBGA1792
+      total_cores: 14
+      total_threads: 20
+      max_turbo_frequency_ghz: 5.00
+      intel_smart_cache_mb: 24
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-5200, LPDDR5x-6400]
+      gpu_model: Intel® Iris® Xe Graphics
+      gpu_frequency_ghz: 1.50
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 5.0]
+      pcie_lanes_number: 28
+    - id: intel_core_i7_1370p
+      name: Intel® Core™ i7-1370P Processor
+      launch_date: Q1'23
+      socket: FCBGA1744
+      total_cores: 14
+      total_threads: 20
+      max_turbo_frequency_ghz: 5.20
+      intel_smart_cache_mb: 24
+      max_memory_size_gb: 96
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-5200, LPDDR5x-6400]
+      gpu_model: Intel® Iris® Xe Graphics
+      gpu_frequency_ghz: 1.50
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 4.0]
+      pcie_lanes_number: 20
+    - id: intel_core_i7_13800h
+      name: Intel® Core™ i7-13800H Processor
+      launch_date: Q1'23
+      socket: FCBGA1744
+      total_cores: 14
+      total_threads: 20
+      max_turbo_frequency_ghz: 5.20
+      intel_smart_cache_mb: 24
+      max_memory_size_gb: 96
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-5200, LPDDR5x-6400]
+      gpu_model: Intel® Iris® Xe Graphics
+      gpu_frequency_ghz: 1.50
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 5.0]
+      pcie_lanes_number: 28
+    - id: intel_core_i7_13850hx
+      name: Intel® Core™ i7-13850HX Processor
+      launch_date: Q1'23
+      socket: FCBGA1964
+      total_cores: 20
+      total_threads: 28
+      max_turbo_frequency_ghz: 5.30
+      intel_smart_cache_mb: 30
+      max_memory_size_gb: 192
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, DDR5-5600]
+      gpu_model: Intel® UHD Graphics
+      gpu_frequency_ghz: 1.60
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 20
+- id: intel_core_i9_13th_gen_processors
+  name: 13th Generation Intel® Core™ i9 Processors
+  models:
+    - id: intel_core_i9_13900h
+      name: Intel® Core™ i9-13900H Processor
+      launch_date: Q1'23
+      socket: FCBGA1744
+      total_cores: 14
+      total_threads: 20
+      max_turbo_frequency_ghz: 5.40
+      intel_smart_cache_mb: 24
+      max_memory_size_gb: 96
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-5200, LPDDR5-6400]
+      gpu_model: Intel® Iris® Xe Graphics
+      gpu_frequency_ghz: 1.50
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 5.0]
+      pcie_lanes_number: 28
+    - id: intel_core_i9_13900hk
+      name: Intel® Core™ i9-13900HK Processor
+      launch_date: Q1'23
+      socket: FCBGA1744
+      total_cores: 14
+      total_threads: 20
+      max_turbo_frequency_ghz: 5.40
+      intel_smart_cache_mb: 24
+      max_memory_size_gb: 96
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-5200, LPDDR5-6400]
+      gpu_model: Intel® Iris® Xe Graphics
+      gpu_frequency_ghz: 1.50
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 5.0]
+      pcie_lanes_number: 28
+    - id: intel_core_i9_13900hx
+      name: Intel® Core™ i9-13900HX Processor
+      launch_date: Q1'23
+      socket: FCBGA1964
+      total_cores: 24
+      total_threads: 32
+      max_turbo_frequency_ghz: 5.40
+      intel_smart_cache_mb: 36
+      max_memory_size_gb: 192
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, DDR5-5600]
+      gpu_model: Intel® UHD Graphics
+      gpu_frequency_ghz: 1.65
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 20
+    - id: intel_core_i9_13905h
+      name: Intel® Core™ i9-13905H Processor
+      launch_date: Q1'23
+      socket: FCBGA1792
+      total_cores: 14
+      total_threads: 20
+      max_turbo_frequency_ghz: 5.40
+      intel_smart_cache_mb: 24
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-5200, LPDDR5-6400]
+      gpu_model: Intel® Iris® Xe Graphics
+      gpu_frequency_ghz: 1.50
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 5.0]
+      pcie_lanes_number: 28
+    - id: intel_core_i9_13950hx
+      name: Intel® Core™ i9-13950HX Processor
+      launch_date: Q1'23
+      socket: FCBGA1964
+      total_cores: 24
+      total_threads: 32
+      max_turbo_frequency_ghz: 5.50
+      intel_smart_cache_mb: 36
+      max_memory_size_gb: 192
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, DDR5-5600]
+      gpu_model: Intel® UHD Graphics
+      gpu_frequency_ghz: 1.65
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 20
+    - id: intel_core_i9_13980hx
+      name: Intel® Core™ i9-13980HX Processor
+      launch_date: Q1'23
+      socket: FCBGA1964
+      total_cores: 24
+      total_threads: 32
+      max_turbo_frequency_ghz: 5.60
+      intel_smart_cache_mb: 36
+      max_memory_size_gb: 192
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, DDR5-5600]
+      gpu_model: Intel® UHD Graphics
+      gpu_frequency_ghz: 1.65
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 20
+- id: intel_core_i5_14th_gen_processors
+  name: 14th Generation Intel® Core™ i5 Processors
+  models:
+    - id: intel_core_i5_14450hx
+      name: Intel® Core™ i5-14450HX Processor
+      launch_date: Q1'24
+      socket: FCBGA1964
+      total_cores: 10
+      total_threads: 16
+      max_turbo_frequency_ghz: 4.80
+      intel_smart_cache_mb: 20
+      max_memory_size_gb: 192
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, DDR5-5600]
+      gpu_model: Intel® UHD Graphics
+      gpu_frequency_ghz: 1.50
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 20
+    - id: intel_core_i5_14500hx
+      name: Intel® Core™ i5-14500HX Processor
+      launch_date: Q1'24
+      socket: FCBGA1964
+      total_cores: 14
+      total_threads: 20
+      max_turbo_frequency_ghz: 4.90
+      intel_smart_cache_mb: 24
+      max_memory_size_gb: 192
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, DDR5-5600]
+      gpu_model: Intel® UHD Graphics
+      gpu_frequency_ghz: 1.55
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 20
+- id: intel_core_i7_14th_gen_processors
+  name: 14th Generation Intel® Core™ i7 Processors
+  models:
+    - id: intel_core_i7_14650hx
+      name: Intel® Core™ i7-14650HX Processor
+      launch_date: Q1'24
+      socket: FCBGA1964
+      total_cores: 16
+      total_threads: 24
+      max_turbo_frequency_ghz: 5.20
+      intel_smart_cache_mb: 30
+      max_memory_size_gb: 192
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, DDR5-5600]
+      gpu_model: Intel® UHD Graphics
+      gpu_frequency_ghz: 1.60
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 20
+    - id: intel_core_i7_14700hx
+      name: Intel® Core™ i7-14700HX Processor
+      launch_date: Q1'24
+      socket: FCBGA1964
+      total_cores: 20
+      total_threads: 28
+      max_turbo_frequency_ghz: 5.50
+      intel_smart_cache_mb: 33
+      max_memory_size_gb: 192
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, DDR5-5600]
+      gpu_model: Intel® UHD Graphics
+      gpu_frequency_ghz: 1.60
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 20
+- id: intel_core_i9_14th_gen_processors
+  name: 14th Generation Intel® Core™ i9 Processors
+  models:
+    - id: intel_core_i9_14900hx
+      name: Intel® Core™ i9-14900HX Processor
+      launch_date: Q1'24
+      socket: FCBGA1964
+      total_cores: 24
+      total_threads: 32
+      max_turbo_frequency_ghz: 5.80
+      intel_smart_cache_mb: 36
+      max_memory_size_gb: 192
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, DDR5-5600]
+      gpu_model: Intel® UHD Graphics
+      gpu_frequency_ghz: 1.65
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 20
+- id: intel_core_series_1_processors
+  name: Intel® Core™ Processors (Series 1)
+  models:
+    - id: intel_core_3_100u
+      name: Intel® Core™ 3 100U Processor
+      launch_date: Q1'24
+      socket: FCBGA1744
+      total_cores: 6
+      total_threads: 8
+      max_turbo_frequency_ghz: 4.70
+      intel_smart_cache_mb: 10
+      max_memory_size_gb: 96
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-5200, LPDDR5x-5200]
+      gpu_model: Intel® Graphics
+      gpu_frequency_ghz: 1.25
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 4.0]
+      pcie_lanes_number: 20
+    - id: intel_core_5_120u
+      name: Intel® Core™ 5 120U Processor
+      launch_date: Q1'24
+      socket: FCBGA1744
+      total_cores: 10
+      total_threads: 12
+      max_turbo_frequency_ghz: 5.00
+      intel_smart_cache_mb: 12
+      max_memory_size_gb: 96
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-5200, LPDDR5x-6400]
+      gpu_model: Intel® Graphics
+      gpu_frequency_ghz: 1.3
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 4.0]
+      pcie_lanes_number: 20
+    - id: intel_core_7_150u
+      name: Intel® Core™ 7 150U Processor
+      launch_date: Q1'24
+      socket: FCBGA1744
+      total_cores: 10
+      total_threads: 12
+      max_turbo_frequency_ghz: 5.40
+      intel_smart_cache_mb: 12
+      max_memory_size_gb: 96
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-5200, LPDDR5x-6400]
+      gpu_model: Intel® Graphics
+      gpu_frequency_ghz: 1.30
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 4.0]
+      pcie_lanes_number: 20
+- id: intel_core_series_2_processors
+  name: Intel® Core™ Processors (Series 2)
+  models:
+    - id: intel_core_5_220u
+      name: Intel® Core™ 5 220U Processor
+      launch_date: Q1'25
+      socket: FCBGA1744
+      total_cores: 10
+      total_threads: 12
+      max_turbo_frequency_ghz: 5.00
+      intel_smart_cache_mb: 12
+      max_memory_size_gb: 96
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-5200, LPDDR5x-6400]
+      gpu_model: Intel® Graphics
+      gpu_frequency_ghz: 1.30
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 4.0]
+      pcie_lanes_number: 20
+    - id: intel_core_5_210h
+      name: Intel® Core™ 5 210H Processor
+      launch_date: Q4'24
+      socket: FCBGA1744
+      total_cores: 8
+      total_threads: 12
+      max_turbo_frequency_ghz: 4.80
+      intel_smart_cache_mb: 12
+      max_memory_size_gb: 96
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-5200, LPDDR5x-5200]
+      gpu_model: Intel® Graphics
+      gpu_frequency_ghz: 1.40
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 5.0]
+      pcie_lanes_number: 28
+    - id: intel_core_5_220h
+      name: Intel® Core™ 5 220H Processor
+      launch_date: Q4'24
+      socket: FCBGA1744
+      total_cores: 12
+      total_threads: 16
+      max_turbo_frequency_ghz: 4.90
+      intel_smart_cache_mb: 18
+      max_memory_size_gb: 96
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-5200, LPDDR5x-6400]
+      gpu_model: Intel® Graphics
+      gpu_frequency_ghz: 1.50
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 5.0]
+      pcie_lanes_number: 28
+    - id: intel_core_7_250u
+      name: Intel® Core™ 7 250U Processor
+      launch_date: Q1'25
+      socket: FCBGA1744
+      total_cores: 10
+      total_threads: 12
+      max_turbo_frequency_ghz: 5.40
+      intel_smart_cache_mb: 12
+      max_memory_size_gb: 96
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-5200, LPDDR5x-6400]
+      gpu_model: Intel® Graphics
+      gpu_frequency_ghz: 1.30
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 4.0]
+      pcie_lanes_number: 20
+    - id: intel_core_7_240h
+      name: Intel® Core™ 7 240H Processor
+      launch_date: Q4'24
+      socket: FCBGA1744
+      total_cores: 10
+      total_threads: 16
+      max_turbo_frequency_ghz: 5.20
+      intel_smart_cache_mb: 24
+      max_memory_size_gb: 96
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-5600, LPDDR5x-6400]
+      gpu_model: Intel® Graphics
+      gpu_frequency_ghz: 1.55
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 5.0]
+      pcie_lanes_number: 28
+    - id: intel_core_7_250h
+      name: Intel® Core™ 7 250H Processor
+      launch_date: Q4'24
+      socket: FCBGA1744
+      total_cores: 14
+      total_threads: 20
+      max_turbo_frequency_ghz: 5.40
+      intel_smart_cache_mb: 24
+      max_memory_size_gb: 96
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-5600, LPDDR5x-6400]
+      gpu_model: Intel® Graphics
+      gpu_frequency_ghz: 1.55
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 5.0]
+      pcie_lanes_number: 28
+    - id: intel_core_9_270h
+      name: Intel® Core™ 9 270H Processor
+      launch_date: Q4'24
+      socket: FCBGA1744
+      total_cores: 14
+      total_threads: 20
+      max_turbo_frequency_ghz: 5.80
+      intel_smart_cache_mb: 24
+      max_memory_size_gb: 96
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267, DDR5-5600, LPDDR5x-6400]
+      gpu_model: Intel® Graphics
+      gpu_frequency_ghz: 1.55
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 5.0]
+      pcie_lanes_number: 28
+- id: intel_core_n_series_processors
+  name: Intel® Core™ Processors N-series
+  models:
+    - id: intel_core_i3_n300
+      name: Intel® Core™ i3-N300 Processor
+      launch_date: Q1'23
+      socket: FCBGA1264
+      total_cores: 8
+      total_threads: 8
+      max_turbo_frequency_ghz: 3.80
+      intel_smart_cache_mb: 6
+      max_memory_size_gb: 16
+      max_memory_channels: 1
+      memory_types: [DDR4-3200, DDR5-4800, LPDDR5-4800]
+      gpu_model: Intel® UHD Graphics
+      gpu_frequency_ghz: 1.25
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0]
+      pcie_lanes_number: 9
+    - id: intel_core_i3_n305
+      name: Intel® Core™ i3-N305 Processor
+      launch_date: Q1'23
+      socket: FCBGA1264
+      total_cores: 8
+      total_threads: 8
+      max_turbo_frequency_ghz: 3.80
+      intel_smart_cache_mb: 6
+      max_memory_size_gb: 16
+      max_memory_channels: 1
+      memory_types: [DDR4-3200, DDR5-4800, LPDDR5-4800]
+      gpu_model: Intel® UHD Graphics
+      gpu_frequency_ghz: 1.25
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0]
+      pcie_lanes_number: 9
+    - id: intel_core_3_n350
+      name: Intel® Core™ 3 N350 Processor
+      launch_date: Q1'25
+      socket: FCBGA1264
+      total_cores: 8
+      total_threads: 8
+      max_turbo_frequency_ghz: 3.90
+      intel_smart_cache_mb: 6
+      max_memory_size_gb: 16
+      max_memory_channels: 1
+      memory_types: [DDR4-3200, DDR5-4800, LPDDR5-4800]
+      gpu_model: Intel® Graphics
+      gpu_frequency_ghz: 1.35
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0]
+      pcie_lanes_number: 9
+    - id: intel_core_3_n355
+      name: Intel® Core™ 3 N355 Processor
+      launch_date: Q1'25
+      socket: FCBGA1264
+      total_cores: 8
+      total_threads: 8
+      max_turbo_frequency_ghz: 3.90
+      intel_smart_cache_mb: 6
+      max_memory_size_gb: 16
+      max_memory_channels: 1
+      memory_types: [DDR4-3200, DDR5-4800, LPDDR5-4800]
+      gpu_model: Intel® Graphics
+      gpu_frequency_ghz: 1.35
+      gpu_directx_support: 12.1
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0]
+      pcie_lanes_number: 9
+- id: intel_core_ultra_series_1_processors
+  name: Intel® Core™ Ultra Processors (Series 1)
+  models:
+    - id: intel_core_ultra_5_125h
+      name: Intel® Core™ Ultra 5 125H Processor
+      launch_date: Q4'23
+      socket: FCBGA2049
+      total_cores: 14
+      total_threads: 18
+      max_turbo_frequency_ghz: 4.50
+      intel_smart_cache_mb: 18
+      max_memory_size_gb: 96
+      max_memory_channels: 2
+      memory_types: [DDR5-5600, LPDDR5x-7467]
+      gpu_model: Intel® Arc™ graphics
+      gpu_frequency_ghz: 2.20
+      gpu_directx_support: 12.2
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 28
+    - id: intel_core_ultra_5_125u
+      name: Intel® Core™ Ultra 5 125U Processor
+      launch_date: Q4'23
+      socket: FCBGA2049
+      total_cores: 12
+      total_threads: 14
+      max_turbo_frequency_ghz: 4.30
+      intel_smart_cache_mb: 12
+      max_memory_size_gb: 96
+      max_memory_channels: 2
+      memory_types: [DDR5-5600, LPDDR5x-7467]
+      gpu_model: Intel® Graphics
+      gpu_frequency_ghz: 1.85
+      gpu_directx_support: 12.2
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+    - id: intel_core_ultra_5_134u
+      name: Intel® Core™ Ultra 5 134U Processor
+      launch_date: Q4'23
+      socket: FCBGA2551
+      total_cores: 12
+      total_threads: 14
+      max_turbo_frequency_ghz: 4.40
+      intel_smart_cache_mb: 12
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [LPDDR5x-6400]
+      gpu_model: Intel® Graphics
+      gpu_frequency_ghz: 1.75
+      gpu_directx_support: 12.2
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 4.0]
+      pcie_lanes_number: 12
+    - id: intel_core_ultra_5_135h
+      name: Intel® Core™ Ultra 5 135H Processor
+      launch_date: Q4'23
+      socket: FCBGA2049
+      total_cores: 14
+      total_threads: 18
+      max_turbo_frequency_ghz: 4.60
+      intel_smart_cache_mb: 18
+      max_memory_size_gb: 96
+      max_memory_channels: 2
+      memory_types: [DDR5-5600, LPDDR5x-7467]
+      gpu_model: Intel® Arc™ graphics
+      gpu_frequency_ghz: 2.20
+      gpu_directx_support: 12.2
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 28
+    - id: intel_core_ultra_5_135u
+      name: Intel® Core™ Ultra 5 135U Processor
+      launch_date: Q4'23
+      socket: FCBGA2049
+      total_cores: 12
+      total_threads: 14
+      max_turbo_frequency_ghz: 4.40
+      intel_smart_cache_mb: 12
+      max_memory_size_gb: 96
+      max_memory_channels: 2
+      memory_types: [DDR5-5600, LPDDR5x-7467]
+      gpu_model: Intel® Graphics
+      gpu_frequency_ghz: 1.90
+      gpu_directx_support: 12.2
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+    - id: intel_core_ultra_7_155h
+      name: Intel® Core™ Ultra 7 155H Processor
+      launch_date: Q4'23
+      socket: FCBGA2049
+      total_cores: 16
+      total_threads: 22
+      max_turbo_frequency_ghz: 4.80
+      intel_smart_cache_mb: 24
+      max_memory_size_gb: 96
+      max_memory_channels: 2
+      memory_types: [DDR5-5600, LPDDR5x-7467]
+      gpu_model: Intel® Arc™ graphics
+      gpu_frequency_ghz: 2.25
+      gpu_directx_support: 12.2
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 28
+    - id: intel_core_ultra_7_155u
+      name: Intel® Core™ Ultra 7 155U Processor
+      launch_date: Q4'23
+      socket: FCBGA2049
+      total_cores: 12
+      total_threads: 14
+      max_turbo_frequency_ghz: 4.80
+      intel_smart_cache_mb: 12
+      max_memory_size_gb: 96
+      max_memory_channels: 2
+      memory_types: [DDR5-5600, LPDDR5x-7467]
+      gpu_model: Intel® Graphics
+      gpu_frequency_ghz: 1.95
+      gpu_directx_support: 12.2
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+    - id: intel_core_ultra_7_164u
+      name: Intel® Core™ Ultra 7 164U Processor
+      launch_date: Q4'23
+      socket: FCBGA2551
+      total_cores: 12
+      total_threads: 14
+      max_turbo_frequency_ghz: 4.80
+      intel_smart_cache_mb: 12
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [LPDDR5x-6400]
+      gpu_model: Intel® Graphics
+      gpu_frequency_ghz: 1.80
+      gpu_directx_support: 12.2
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0, 4.0]
+      pcie_lanes_number: 12
+    - id: intel_core_ultra_7_165h
+      name: Intel® Core™ Ultra 7 165H Processor
+      launch_date: Q4'23
+      socket: FCBGA2049
+      total_cores: 16
+      total_threads: 22
+      max_turbo_frequency_ghz: 5.00
+      intel_smart_cache_mb: 24
+      max_memory_size_gb: 96
+      max_memory_channels: 2
+      memory_types: [DDR5-5600, LPDDR5x-7467]
+      gpu_model: Intel® Arc™ graphics
+      gpu_frequency_ghz: 2.30
+      gpu_directx_support: 12.2
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 28
+    - id: intel_core_ultra_7_165u
+      name: Intel® Core™ Ultra 7 165U Processor
+      launch_date: Q4'23
+      socket: FCBGA2049
+      total_cores: 12
+      total_threads: 14
+      max_turbo_frequency_ghz: 4.90
+      intel_smart_cache_mb: 12
+      max_memory_size_gb: 96
+      max_memory_channels: 2
+      memory_types: [DDR5-5600, LPDDR5x-7467]
+      gpu_model: Intel® Graphics
+      gpu_frequency_ghz: 2.00
+      gpu_directx_support: 12.2
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+    - id: intel_core_ultra_9_185h
+      name: Intel® Core™ Ultra 9 185H Processor
+      launch_date: Q4'23
+      socket: FCBGA2049
+      total_cores: 16
+      total_threads: 22
+      max_turbo_frequency_ghz: 5.10
+      intel_smart_cache_mb: 24
+      max_memory_size_gb: 96
+      max_memory_channels: 2
+      memory_types: [DDR5-5600, LPDDR5x-7467]
+      gpu_model: Intel® Arc™ graphics
+      gpu_frequency_ghz: 2.35
+      gpu_directx_support: 12.2
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 28
+- id: intel_core_ultra_series_2_processors
+  name: Intel® Core™ Ultra Processors (Series 2)
+  models:
+    - id: intel_core_ultra_5_235ua
+      name: Intel® Core™ Ultra 5 235UA Processor
+      launch_date: Q3'25
+      total_cores: 10
+      total_threads: 14
+      max_turbo_frequency_ghz: 4.90
+      intel_smart_cache_mb: 12
+      max_memory_size_gb: 128
+      max_memory_channels: 2
+      memory_types: [DDR5-6400, LPDDR5x-8400]
+      gpu_model: Intel® Graphics
+      gpu_frequency_ghz: 2.05
+      gpu_directx_support: 12.2
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+    - id: intel_core_ultra_5_225h
+      name: Intel® Core™ Ultra 5 225H Processor
+      launch_date: Q1'25
+      socket: FCBGA2049
+      total_cores: 14
+      total_threads: 14
+      max_turbo_frequency_ghz: 4.90
+      intel_smart_cache_mb: 18
+      max_memory_size_gb: 128
+      max_memory_channels: 2
+      memory_types: [DDR5-6400, LPDDR5x-8400]
+      gpu_model: Intel® Arc™ 130T GPU
+      gpu_frequency_ghz: 2.20
+      gpu_directx_support: 12.2
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 28
+    - id: intel_core_ultra_5_225u
+      name: Intel® Core™ Ultra 5 225U Processor
+      launch_date: Q1'25
+      socket: FCBGA2049
+      total_cores: 12
+      total_threads: 14
+      max_turbo_frequency_ghz: 4.80
+      intel_smart_cache_mb: 12
+      max_memory_size_gb: 128
+      max_memory_channels: 2
+      memory_types: [DDR5-6400, LPDDR5x-8400]
+      gpu_model: Intel® Graphics
+      gpu_frequency_ghz: 2.00
+      gpu_directx_support: 12.2
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+    - id: intel_core_ultra_5_235h
+      name: Intel® Core™ Ultra 5 235H Processor
+      launch_date: Q1'25
+      socket: FCBGA2049
+      total_cores: 14
+      total_threads: 14
+      max_turbo_frequency_ghz: 5.00
+      intel_smart_cache_mb: 18
+      max_memory_size_gb: 128
+      max_memory_channels: 2
+      memory_types: [DDR5-6400, LPDDR5x-8400]
+      gpu_model: Intel® Arc™ 140T GPU
+      gpu_frequency_ghz: 2.25
+      gpu_directx_support: 12.2
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 28
+    - id: intel_core_ultra_5_235hx
+      name: Intel® Core™ Ultra 5 235HX Processor
+      launch_date: Q1'25
+      socket: FCBGA2114
+      total_cores: 14
+      total_threads: 14
+      max_turbo_frequency_ghz: 5.10
+      intel_smart_cache_mb: 24
+      max_memory_size_gb: 256
+      max_memory_channels: 2
+      memory_types: [DDR5-6400]
+      gpu_model: Intel® Graphics
+      gpu_frequency_ghz: 1.80
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.5
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 24
+    - id: intel_core_ultra_5_235u
+      name: Intel® Core™ Ultra 5 235U Processor
+      launch_date: Q1'25
+      socket: FCBGA2049
+      total_cores: 12
+      total_threads: 14
+      max_turbo_frequency_ghz: 4.90
+      intel_smart_cache_mb: 12
+      max_memory_size_gb: 128
+      max_memory_channels: 2
+      memory_types: [DDR5-6400, LPDDR5x-8400]
+      gpu_model: Intel® Graphics
+      gpu_frequency_ghz: 2.05
+      gpu_directx_support: 12.2
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+    - id: intel_core_ultra_5_245hx
+      name: Intel® Core™ Ultra 5 245HX Processor
+      launch_date: Q1'25
+      socket: FCBGA2114
+      total_cores: 14
+      total_threads: 14
+      max_turbo_frequency_ghz: 5.10
+      intel_smart_cache_mb: 24
+      max_memory_size_gb: 256
+      max_memory_channels: 2
+      memory_types: [DDR5-6400]
+      gpu_model: Intel® Graphics
+      gpu_frequency_ghz: 1.90
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.5
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 24
+    - id: intel_core_ultra_7_255h
+      name: Intel® Core™ Ultra 7 255H Processor
+      launch_date: Q1'25
+      socket: FCBGA2049
+      total_cores: 16
+      total_threads: 16
+      max_turbo_frequency_ghz: 5.10
+      intel_smart_cache_mb: 24
+      max_memory_size_gb: 128
+      max_memory_channels: 2
+      memory_types: [DDR5-6400, LPDDR5x-8400]
+      gpu_model: Intel® Arc™ 140T GPU
+      gpu_frequency_ghz: 2.25
+      gpu_directx_support: 12.2
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 28
+    - id: intel_core_ultra_7_255hx
+      name: Intel® Core™ Ultra 7 255HX Processor
+      launch_date: Q1'25
+      socket: FCBGA2114
+      total_cores: 20
+      total_threads: 20
+      max_turbo_frequency_ghz: 5.20
+      intel_smart_cache_mb: 36
+      max_memory_size_gb: 256
+      max_memory_channels: 2
+      memory_types: [DDR5-6400]
+      gpu_model: Intel® Graphics
+      gpu_frequency_ghz: 1.85
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.5
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 24
+    - id: intel_core_ultra_7_255u
+      name: Intel® Core™ Ultra 7 255U Processor
+      launch_date: Q1'25
+      socket: FCBGA2049
+      total_cores: 12
+      total_threads: 14
+      max_turbo_frequency_ghz: 5.20
+      intel_smart_cache_mb: 12
+      max_memory_size_gb: 128
+      max_memory_channels: 2
+      memory_types: [DDR5-6400, LPDDR5x-8400]
+      gpu_model: Intel® Graphics
+      gpu_frequency_ghz: 2.10
+      gpu_directx_support: 12.2
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+    - id: intel_core_ultra_7_265h
+      name: Intel® Core™ Ultra 7 265H Processor
+      launch_date: Q1'25
+      socket: FCBGA2049
+      total_cores: 16
+      total_threads: 16
+      max_turbo_frequency_ghz: 5.30
+      intel_smart_cache_mb: 24
+      max_memory_size_gb: 128
+      max_memory_channels: 2
+      memory_types: [DDR5-6400, LPDDR5x-8400]
+      gpu_model: Intel® Arc™ 140T GPU
+      gpu_frequency_ghz: 2.30
+      gpu_directx_support: 12.2
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 28
+    - id: intel_core_ultra_7_265hx
+      name: Intel® Core™ Ultra 7 265HX Processor
+      launch_date: Q1'25
+      socket: FCBGA2114
+      total_cores: 20
+      total_threads: 20
+      max_turbo_frequency_ghz: 5.30
+      intel_smart_cache_mb: 36
+      max_memory_size_gb: 256
+      max_memory_channels: 2
+      memory_types: [DDR5-6400]
+      gpu_model: Intel® Graphics
+      gpu_frequency_ghz: 1.90
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.5
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 24
+    - id: intel_core_ultra_7_265u
+      name: Intel® Core™ Ultra 7 265U Processor
+      launch_date: Q1'25
+      socket: FCBGA2049
+      total_cores: 12
+      total_threads: 14
+      max_turbo_frequency_ghz: 5.30
+      intel_smart_cache_mb: 12
+      max_memory_size_gb: 128
+      max_memory_channels: 2
+      memory_types: [DDR5-6400, LPDDR5x-8400]
+      gpu_model: Intel® Graphics
+      gpu_frequency_ghz: 2.10
+      gpu_directx_support: 12.2
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+    - id: intel_core_ultra_9_275hx
+      name: Intel® Core™ Ultra 9 275HX Processor
+      launch_date: Q1'25
+      socket: FCBGA2114
+      total_cores: 24
+      total_threads: 24
+      max_turbo_frequency_ghz: 5.40
+      intel_smart_cache_mb: 40
+      max_memory_size_gb: 256
+      max_memory_channels: 2
+      memory_types: [DDR5-6400]
+      gpu_model: Intel® Graphics
+      gpu_frequency_ghz: 1.90
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.5
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 24
+    - id: intel_core_ultra_9_285h
+      name: Intel® Core™ Ultra 9 285H Processor
+      launch_date: Q1'25
+      socket: FCBGA2049
+      total_cores: 16
+      total_threads: 16
+      max_turbo_frequency_ghz: 5.40
+      intel_smart_cache_mb: 24
+      max_memory_size_gb: 128
+      max_memory_channels: 2
+      memory_types: [DDR5-6400, LPDDR5x-8400]
+      gpu_model: Intel® Arc™ 140T GPU
+      gpu_frequency_ghz: 2.35
+      gpu_directx_support: 12.2
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 28
+    - id: intel_core_ultra_9_285hx
+      name: Intel® Core™ Ultra 9 285HX Processor
+      launch_date: Q1'25
+      socket: FCBGA2114
+      total_cores: 24
+      total_threads: 24
+      max_turbo_frequency_ghz: 5.50
+      intel_smart_cache_mb: 40
+      max_memory_size_gb: 256
+      max_memory_channels: 2
+      memory_types: [DDR5-6400]
+      gpu_model: Intel® Graphics
+      gpu_frequency_ghz: 1.95
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.5
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 24
+    - id: intel_core_ultra_5_226v
+      name: Intel® Core™ Ultra 5 226V Processor
+      launch_date: Q3'24
+      socket: FCBGA2833
+      total_cores: 8
+      total_threads: 8
+      max_turbo_frequency_ghz: 4.50
+      intel_smart_cache_mb: 8
+      max_memory_size_gb: 16
+      max_memory_channels: 2
+      memory_types: [LPDDR5x-8533]
+      gpu_model: Intel® Arc™ 130V GPU
+      gpu_frequency_ghz: 1.85
+      gpu_directx_support: 12.2
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 8
+    - id: intel_core_ultra_5_228v
+      name: Intel® Core™ Ultra 5 228V Processor
+      launch_date: Q3'24
+      socket: FCBGA2833
+      total_cores: 8
+      total_threads: 8
+      max_turbo_frequency_ghz: 4.50
+      intel_smart_cache_mb: 8
+      max_memory_size_gb: 32
+      max_memory_channels: 2
+      memory_types: [LPDDR5x-8533]
+      gpu_model: Intel® Arc™ 130V GPU
+      gpu_frequency_ghz: 1.85
+      gpu_directx_support: 12.2
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 8
+    - id: intel_core_ultra_5_236v
+      name: Intel® Core™ Ultra 5 236V Processor
+      launch_date: Q3'24
+      socket: FCBGA2833
+      total_cores: 8
+      total_threads: 8
+      max_turbo_frequency_ghz: 4.70
+      intel_smart_cache_mb: 8
+      max_memory_size_gb: 16
+      max_memory_channels: 2
+      memory_types: [LPDDR5x-8533]
+      gpu_model: Intel® Arc™ 130V GPU
+      gpu_frequency_ghz: 1.85
+      gpu_directx_support: 12.2
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 8
+    - id: intel_core_ultra_5_238v
+      name: Intel® Core™ Ultra 5 238V Processor
+      launch_date: Q3'24
+      socket: FCBGA2833
+      total_cores: 8
+      total_threads: 8
+      max_turbo_frequency_ghz: 4.70
+      intel_smart_cache_mb: 8
+      max_memory_size_gb: 32
+      max_memory_channels: 2
+      memory_types: [LPDDR5x-8533]
+      gpu_model: Intel® Arc™ 130V GPU
+      gpu_frequency_ghz: 1.85
+      gpu_directx_support: 12.2
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 8
+    - id: intel_core_ultra_7_256v
+      name: Intel® Core™ Ultra 7 256V Processor
+      launch_date: Q3'24
+      socket: FCBGA2833
+      total_cores: 8
+      total_threads: 8
+      max_turbo_frequency_ghz: 4.80
+      intel_smart_cache_mb: 12
+      max_memory_size_gb: 16
+      max_memory_channels: 2
+      memory_types: [LPDDR5x-8533]
+      gpu_model: Intel® Arc™ 140V GPU
+      gpu_frequency_ghz: 1.95
+      gpu_directx_support: 12.2
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 8
+    - id: intel_core_ultra_7_258v
+      name: Intel® Core™ Ultra 7 258V Processor
+      launch_date: Q3'24
+      socket: FCBGA2833
+      total_cores: 8
+      total_threads: 8
+      max_turbo_frequency_ghz: 4.80
+      intel_smart_cache_mb: 12
+      max_memory_size_gb: 32
+      max_memory_channels: 2
+      memory_types: [LPDDR5x-8533]
+      gpu_model: Intel® Arc™ 140V GPU
+      gpu_frequency_ghz: 1.95
+      gpu_directx_support: 12.2
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 8
+    - id: intel_core_ultra_7_266v
+      name: Intel® Core™ Ultra 7 266V Processor
+      launch_date: Q3'24
+      socket: FCBGA2833
+      total_cores: 8
+      total_threads: 8
+      max_turbo_frequency_ghz: 5.00
+      intel_smart_cache_mb: 12
+      max_memory_size_gb: 16
+      max_memory_channels: 2
+      memory_types: [LPDDR5x-8533]
+      gpu_model: Intel® Arc™ 140V GPU
+      gpu_frequency_ghz: 2.00
+      gpu_directx_support: 12.2
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 8
+    - id: intel_core_ultra_7_268v
+      name: Intel® Core™ Ultra 7 268V Processor
+      launch_date: Q3'24
+      socket: FCBGA2833
+      total_cores: 8
+      total_threads: 8
+      max_turbo_frequency_ghz: 5.00
+      intel_smart_cache_mb: 12
+      max_memory_size_gb: 32
+      max_memory_channels: 2
+      memory_types: [LPDDR5x-8533]
+      gpu_model: Intel® Arc™ 140V GPU
+      gpu_frequency_ghz: 2.00
+      gpu_directx_support: 12.2
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 8
+    - id: intel_core_ultra_9_288v
+      name: Intel® Core™ Ultra 9 288V Processor
+      launch_date: Q3'24
+      socket: FCBGA2833
+      total_cores: 8
+      total_threads: 8
+      max_turbo_frequency_ghz: 5.10
+      intel_smart_cache_mb: 12
+      max_memory_size_gb: 32
+      max_memory_channels: 2
+      memory_types: [LPDDR5x-8533]
+      gpu_model: Intel® Arc™ 140V GPU
+      gpu_frequency_ghz: 2.05
+      gpu_directx_support: 12.2
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 3.0
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0, 5.0]
+      pcie_lanes_number: 8
+- id: amd_ryzen_6000_series
+  name: AMD Ryzen 6000 Series
+  models:
+    - id: amd_ryzen_5_6600h
+      name: AMD Ryzen™ 5 6600H
+      socket: FP7
+      total_cores: 6
+      total_threads: 12
+      max_turbo_frequency_ghz: 4.50
+      cache_l1_kb: 384
+      cache_l2_mb: 3
+      cache_l3_mb: 16
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR5-4800, LPDDR5-6400]
+      gpu_model: AMD Radeon™ 660M
+      gpu_frequency_ghz: 1.9
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+    - id: amd_ryzen_5_6600hs
+      name: AMD Ryzen™ 5 6600HS
+      socket: FP7
+      total_cores: 6
+      total_threads: 12
+      max_turbo_frequency_ghz: 4.50
+      cache_l1_kb: 384
+      cache_l2_mb: 3
+      cache_l3_mb: 16
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR5-4800, LPDDR5-6400]
+      gpu_model: AMD Radeon™ 660M
+      gpu_frequency_ghz: 1.9
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+    - id: amd_ryzen_5_6600u
+      name: AMD Ryzen™ 5 6600U
+      socket: FP7
+      total_cores: 6
+      total_threads: 12
+      max_turbo_frequency_ghz: 4.50
+      cache_l1_kb: 384
+      cache_l2_mb: 3
+      cache_l3_mb: 16
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR5-4800, LPDDR5-6400]
+      gpu_model: AMD Radeon™ 660M
+      gpu_frequency_ghz: 1.9
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+    - id: amd_ryzen_7_6800h
+      name: AMD Ryzen™ 7 6800H
+      socket: FP7
+      total_cores: 8
+      total_threads: 16
+      max_turbo_frequency_ghz: 4.70
+      cache_l1_kb: 512
+      cache_l2_mb: 4
+      cache_l3_mb: 16
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR5-4800, LPDDR5-6400]
+      gpu_model: AMD Radeon™ 680M
+      gpu_frequency_ghz: 2.20
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+    - id: amd_ryzen_7_6800hs
+      name: AMD Ryzen™ 7 6800HS
+      socket: FP7
+      total_cores: 8
+      total_threads: 16
+      max_turbo_frequency_ghz: 4.70
+      cache_l1_kb: 512
+      cache_l2_mb: 4
+      cache_l3_mb: 16
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR5-4800, LPDDR5-6400]
+      gpu_model: AMD Radeon™ 680M
+      gpu_frequency_ghz: 2.20
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+    - id: amd_ryzen_7_6800u
+      name: AMD Ryzen™ 7 6800U
+      socket: FP7
+      total_cores: 8
+      total_threads: 16
+      max_turbo_frequency_ghz: 4.70
+      cache_l1_kb: 512
+      cache_l2_mb: 4
+      cache_l3_mb: 16
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR5-4800, LPDDR5-6400]
+      gpu_model: AMD Radeon™ 680M
+      gpu_frequency_ghz: 2.20
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+    - id: amd_ryzen_9_6900hs
+      name: AMD Ryzen™ 9 6900HS
+      socket: FP7
+      total_cores: 8
+      total_threads: 16
+      max_turbo_frequency_ghz: 4.90
+      cache_l1_kb: 512
+      cache_l2_mb: 4
+      cache_l3_mb: 16
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR5-4800, LPDDR5-6400]
+      gpu_model: AMD Radeon™ 680M
+      gpu_frequency_ghz: 2.40
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+    - id: amd_ryzen_9_6900hx
+      name: AMD Ryzen™ 9 6900HX
+      socket: FP7
+      total_cores: 8
+      total_threads: 16
+      max_turbo_frequency_ghz: 4.90
+      cache_l1_kb: 512
+      cache_l2_mb: 4
+      cache_l3_mb: 16
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR5-4800, LPDDR5-6400]
+      gpu_model: AMD Radeon™ 680M
+      gpu_frequency_ghz: 2.40
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+    - id: amd_ryzen_9_6980hs
+      name: AMD Ryzen™ 9 6980HS
+      socket: FP7
+      total_cores: 8
+      total_threads: 16
+      max_turbo_frequency_ghz: 5.00
+      cache_l1_kb: 512
+      cache_l2_mb: 4
+      cache_l3_mb: 16
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR5-4800, LPDDR5-6400]
+      gpu_model: AMD Radeon™ 680M
+      gpu_frequency_ghz: 2.40
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+    - id: amd_ryzen_9_6980hx
+      name: AMD Ryzen™ 9 6980HX
+      socket: FP7
+      total_cores: 8
+      total_threads: 16
+      max_turbo_frequency_ghz: 5.00
+      cache_l1_kb: 512
+      cache_l2_mb: 4
+      cache_l3_mb: 16
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR5-4800, LPDDR5-6400]
+      gpu_model: AMD Radeon™ 680M
+      gpu_frequency_ghz: 2.40
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+- id: amd_ryzen_7000_series
+  name: AMD Ryzen 7000 Series
+  models:
+    - id: amd_ryzen_5_7235hs
+      name: AMD Ryzen™ 5 7235HS
+      socket: FP7r2
+      total_cores: 4
+      total_threads: 8
+      max_turbo_frequency_ghz: 4.20
+      cache_l1_kb: 384
+      cache_l2_mb: 2
+      cache_l3_mb: 8
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR5-4800]
+      pcie_revision: [4.0]
+      pcie_lanes_number: 28
+    - id: amd_ryzen_3_7320c
+      name: AMD Ryzen™ 3 7320C
+      socket: FT6
+      total_cores: 4
+      total_threads: 8
+      max_turbo_frequency_ghz: 4.10
+      cache_l1_kb: 256
+      cache_l2_mb: 2
+      cache_l3_mb: 4
+      max_memory_size_gb: 16
+      max_memory_channels: 2
+      gpu_model: AMD Radeon™ 610M
+      gpu_frequency_ghz: 1.9
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      memory_types: [LPDDR5-5500]
+      pcie_revision: [3.0]
+      pcie_lanes_number: 4
+    - id: amd_ryzen_3_7320u
+      name: AMD Ryzen™ 3 7320U
+      socket: FP6
+      total_cores: 4
+      total_threads: 8
+      max_turbo_frequency_ghz: 4.10
+      cache_l1_kb: 256
+      cache_l2_mb: 2
+      cache_l3_mb: 4
+      max_memory_size_gb: 16
+      max_memory_channels: 2
+      memory_types: [LPDDR5-5500]
+      gpu_model: AMD Radeon™ 610M
+      gpu_frequency_ghz: 1.9
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0]
+      pcie_lanes_number: 4
+    - id: amd_ryzen_3_7330u
+      name: AMD Ryzen™ 3 7330U
+      socket: FP6
+      total_cores: 4
+      total_threads: 8
+      max_turbo_frequency_ghz: 4.30
+      cache_l1_kb: 256
+      cache_l2_mb: 2
+      cache_l3_mb: 8
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267]
+      gpu_model: AMD Radeon™ 610M
+      gpu_frequency_ghz: 1.9
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0]
+      pcie_lanes_number: 20
+    - id: amd_ryzen_3_7335u
+      name: AMD Ryzen™ 3 7335U
+      socket: FP7
+      total_cores: 4
+      total_threads: 8
+      max_turbo_frequency_ghz: 4.30
+      cache_l1_kb: 512
+      cache_l2_mb: 2
+      cache_l3_mb: 8
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      gpu_model: AMD Radeon™ 660M
+      gpu_frequency_ghz: 1.80
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      memory_types: [DDR5-4800, LPDDR5-6400]
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+    - id: amd_ryzen_5_7430u
+      name: AMD Ryzen™ 5 7430U
+      socket: FP6
+      total_cores: 6
+      total_threads: 12
+      max_turbo_frequency_ghz: 4.30
+      cache_l1_kb: 384
+      cache_l2_mb: 3
+      cache_l3_mb: 16
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      gpu_model: AMD Radeon™ Graphics
+      gpu_frequency_ghz: 1.80
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      memory_types: [DDR4-3200, LPDDR4x-4267]
+      pcie_revision: [3.0]
+      pcie_lanes_number: 20
+    - id: amd_ryzen_7_7435hs
+      name: AMD Ryzen™ 7 7435HS
+      socket: FP7r2
+      total_cores: 8
+      total_threads: 16
+      max_turbo_frequency_ghz: 4.50
+      cache_l1_kb: 512
+      cache_l2_mb: 4
+      cache_l3_mb: 16
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR5-4800]
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+    - id: amd_ryzen_3_7440u
+      name: AMD Ryzen™ 3 7440U
+      socket: FP7r2
+      total_cores: 4
+      total_threads: 8
+      max_turbo_frequency_ghz: 4.70
+      cache_l1_kb: 256
+      cache_l2_mb: 4
+      cache_l3_mb: 8
+      max_memory_size_gb: 256
+      max_memory_channels: 2
+      memory_types: [DDR-5600, LPDDR5-7500]
+      gpu_model: AMD Radeon™ 740M
+      gpu_frequency_ghz: 2.50
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 14
+    - id: amd_ryzen_7_7445hs
+      name: AMD Ryzen™ 7 7445HS
+      socket: FP7r2
+      total_cores: 6
+      total_threads: 12
+      max_turbo_frequency_ghz: 4.70
+      cache_l1_kb: 512
+      cache_l2_mb: 6
+      cache_l3_mb: 16
+      max_memory_size_gb: 256
+      max_memory_channels: 2
+      memory_types: [DDR5-5600, LPDDR5x-7500]
+      gpu_model: AMD Radeon™ 740M
+      gpu_frequency_ghz: 2.70
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 14
+    - id: amd_ryzen_5_7520c
+      name: AMD Ryzen™ 5 7520C
+      socket: FT6
+      total_cores: 4
+      total_threads: 8
+      max_turbo_frequency_ghz: 4.30
+      cache_l1_kb: 256
+      cache_l2_mb: 2
+      cache_l3_mb: 4
+      max_memory_size_gb: 16
+      max_memory_channels: 2
+      memory_types: [LPDDR5-5500]
+      gpu_model: AMD Radeon™ 610M
+      gpu_frequency_ghz: 1.90
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0]
+      pcie_lanes_number: 4
+    - id: amd_ryzen_5_7520u
+      name: AMD Ryzen™ 5 7520U
+      socket: FT6
+      total_cores: 4
+      total_threads: 8
+      max_turbo_frequency_ghz: 4.30
+      cache_l1_kb: 256
+      cache_l2_mb: 2
+      cache_l3_mb: 4
+      max_memory_size_gb: 16
+      max_memory_channels: 2
+      memory_types: [LPDDR5-5500]
+      gpu_model: AMD Radeon™ 610M
+      gpu_frequency_ghz: 1.90
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0]
+      pcie_lanes_number: 4
+    - id: amd_ryzen_5_7530u
+      name: AMD Ryzen™ 5 7530U
+      socket: FP6
+      total_cores: 6
+      total_threads: 12
+      max_turbo_frequency_ghz: 4.30
+      cache_l1_kb: 384
+      cache_l2_mb: 3
+      cache_l3_mb: 16
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267]
+      gpu_model: AMD Radeon™ Graphics
+      gpu_frequency_ghz: 2.00
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0]
+      pcie_lanes_number: 20
+    - id: amd_ryzen_5_7533hs
+      name: AMD Ryzen™ 5 7533HS
+      socket: FP7r2
+      total_cores: 6
+      total_threads: 12
+      max_turbo_frequency_ghz: 4.40
+      cache_l1_kb: 512
+      cache_l2_mb: 3
+      cache_l3_mb: 16
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR5-4800, LPDDR5-6400]
+      gpu_model: AMD Radeon™ 660M
+      gpu_frequency_ghz: 1.80
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+    - id: amd_ryzen_5_7535hs
+      name: AMD Ryzen™ 5 7535HS
+      socket: FP7
+      total_cores: 6
+      total_threads: 12
+      max_turbo_frequency_ghz: 4.55
+      cache_l1_kb: 512
+      cache_l2_mb: 3
+      cache_l3_mb: 16
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR5-4800, LPDDR5-6400]
+      gpu_model: AMD Radeon™ 660M
+      gpu_frequency_ghz: 1.90
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+    - id: amd_ryzen_5_7535u
+      name: AMD Ryzen™ 5 7535U
+      socket: FP7
+      total_cores: 6
+      total_threads: 12
+      max_turbo_frequency_ghz: 4.55
+      cache_l1_kb: 512
+      cache_l2_mb: 3
+      cache_l3_mb: 16
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR5-4800, LPDDR5-6400]
+      gpu_model: AMD Radeon™ 660M
+      gpu_frequency_ghz: 1.90
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+    - id: amd_ryzen_5_7540u
+      name: AMD Ryzen™ 5 7540U
+      socket: FP7
+      total_cores: 6
+      total_threads: 12
+      max_turbo_frequency_ghz: 4.90
+      cache_l1_kb: 512
+      cache_l2_mb: 6
+      cache_l3_mb: 16
+      max_memory_size_gb: 256
+      max_memory_channels: 2
+      memory_types: [DDR5-5600, LPDDR5x-7500]
+      gpu_model: AMD Radeon™ 740M
+      gpu_frequency_ghz: 2.50
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 14
+    - id: amd_ryzen_5_7545u
+      name: AMD Ryzen™ 5 7545U
+      socket: FP7
+      total_cores: 6
+      total_threads: 12
+      max_turbo_frequency_ghz: 4.90
+      cache_l1_kb: 512
+      cache_l2_mb: 6
+      cache_l3_mb: 16
+      max_memory_size_gb: 256
+      max_memory_channels: 2
+      memory_types: [DDR5-5600, LPDDR5x-7500]
+      gpu_model: AMD Radeon™ 740M
+      gpu_frequency_ghz: 2.80
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 14
+    - id: amd_ryzen_5_7640hs
+      name: AMD Ryzen™ 5 7640HS
+      socket: FP7
+      total_cores: 6
+      total_threads: 12
+      max_turbo_frequency_ghz: 5.00
+      cache_l1_kb: 384
+      cache_l2_mb: 6
+      cache_l3_mb: 16
+      max_memory_size_gb: 256
+      max_memory_channels: 2
+      memory_types: [DDR5-5600, LPDDR5x-7500]
+      gpu_model: AMD Radeon™ 760M
+      gpu_frequency_ghz: 2.60
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+    - id: amd_ryzen_5_7640u
+      name: AMD Ryzen™ 5 7640U
+      socket: FP7
+      total_cores: 6
+      total_threads: 12
+      max_turbo_frequency_ghz: 5.00
+      cache_l1_kb: 384
+      cache_l2_mb: 6
+      cache_l3_mb: 16
+      max_memory_size_gb: 256
+      max_memory_channels: 2
+      memory_types: [DDR5-5600, LPDDR5x-7500]
+      gpu_model: AMD Radeon™ 760M
+      gpu_frequency_ghz: 2.60
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+    - id: amd_ryzen_5_7645hx
+      name: AMD Ryzen™ 5 7645HX
+      socket: FL1
+      total_cores: 6
+      total_threads: 12
+      max_turbo_frequency_ghz: 5.00
+      cache_l1_kb: 384
+      cache_l2_mb: 6
+      cache_l3_mb: 32
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR5-5200]
+      gpu_model: AMD Radeon™ 610M
+      gpu_frequency_ghz: 2.20
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [5.0]
+      pcie_lanes_number: 28
+    - id: amd_ryzen_7_7730u
+      name: AMD Ryzen™ 7 7730U
+      socket: FP6
+      total_cores: 8
+      total_threads: 16
+      max_turbo_frequency_ghz: 4.50
+      cache_l1_kb: 512
+      cache_l2_mb: 4
+      cache_l3_mb: 16
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR4-3200, LPDDR4x-4267]
+      gpu_model: AMD Radeon™ Graphics
+      gpu_frequency_ghz: 2.00
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [3.0]
+      pcie_lanes_number: 20
+    - id: amd_ryzen_7_7735hs
+      name: AMD Ryzen™ 7 7735HS
+      socket: FP7
+      total_cores: 8
+      total_threads: 16
+      max_turbo_frequency_ghz: 4.75
+      cache_l1_kb: 512
+      cache_l2_mb: 4
+      cache_l3_mb: 16
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR5-4800, LPDDR5-6400]
+      gpu_model: AMD Radeon™ 680M
+      gpu_frequency_ghz: 2.20
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+    - id: amd_ryzen_7_7735u
+      name: AMD Ryzen™ 7 7735U
+      socket: FP7
+      total_cores: 8
+      total_threads: 16
+      max_turbo_frequency_ghz: 4.75
+      cache_l1_kb: 512
+      cache_l2_mb: 4
+      cache_l3_mb: 16
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR5-4800, LPDDR5-6400]
+      gpu_model: AMD Radeon™ 680M
+      gpu_frequency_ghz: 2.20
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+    - id: amd_ryzen_7_7736u
+      name: AMD Ryzen™ 7 7736U
+      socket: FP7
+      total_cores: 8
+      total_threads: 16
+      max_turbo_frequency_ghz: 4.70
+      cache_l1_kb: 512
+      cache_l2_mb: 4
+      cache_l3_mb: 16
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR5-4800, LPDDR5-6400]
+      gpu_model: AMD Radeon™ 680M
+      gpu_frequency_ghz: 2.20
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+    - id: amd_ryzen_7_7745hx
+      name: AMD Ryzen™ 7 7745HX
+      socket: FL1
+      total_cores: 8
+      total_threads: 16
+      max_turbo_frequency_ghz: 5.10
+      cache_l1_kb: 512
+      cache_l2_mb: 8
+      cache_l3_mb: 32
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR5-5200]
+      gpu_model: AMD Radeon™ 610M
+      gpu_frequency_ghz: 2.20
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [5.0]
+      pcie_lanes_number: 28
+    - id: amd_ryzen_7_7840hs
+      name: AMD Ryzen™ 7 7840HS
+      socket: FP7
+      total_cores: 8
+      total_threads: 16
+      max_turbo_frequency_ghz: 5.10
+      cache_l1_kb: 512
+      cache_l2_mb: 8
+      cache_l3_mb: 16
+      max_memory_size_gb: 256
+      max_memory_channels: 2
+      memory_types: [DDR5-5600, LPDDR5x-7500]
+      gpu_model: AMD Radeon™ 780M
+      gpu_frequency_ghz: 2.70
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+    - id: amd_ryzen_7_7840hx
+      name: AMD Ryzen™ 7 7840HX
+      socket: FL1
+      total_cores: 12
+      total_threads: 24
+      max_turbo_frequency_ghz: 5.10
+      cache_l1_kb: 768
+      cache_l2_mb: 12
+      cache_l3_mb: 64
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR5-5200]
+      gpu_model: AMD Radeon™ 610M
+      gpu_frequency_ghz: 2.20
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [5.0]
+      pcie_lanes_number: 28
+    - id: amd_ryzen_7_7840u
+      name: AMD Ryzen™ 7 7840U
+      socket: FP7
+      total_cores: 8
+      total_threads: 16
+      max_turbo_frequency_ghz: 5.10
+      cache_l1_kb: 512
+      cache_l2_mb: 8
+      cache_l3_mb: 16
+      max_memory_size_gb: 256
+      max_memory_channels: 2
+      memory_types: [DDR5-5600, LPDDR5x-7500]
+      gpu_model: AMD Radeon™ 780M
+      gpu_frequency_ghz: 2.70
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+    - id: amd_ryzen_9_7845hx
+      name: AMD Ryzen™ 9 7845HX
+      socket: FL1
+      total_cores: 12
+      total_threads: 24
+      max_turbo_frequency_ghz: 5.20
+      cache_l1_kb: 764
+      cache_l2_mb: 12
+      cache_l3_mb: 64
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR5-5200]
+      gpu_model: AMD Radeon™ 610M
+      gpu_frequency_ghz: 2.20
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [5.0]
+      pcie_lanes_number: 28
+    - id: amd_ryzen_9_7940hx
+      name: AMD Ryzen™ 9 7940HX
+      socket: FL1
+      total_cores: 16
+      total_threads: 32
+      max_turbo_frequency_ghz: 5.20
+      cache_l1_kb: 1024
+      cache_l2_mb: 16
+      cache_l3_mb: 64
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR5-5200]
+      gpu_model: AMD Radeon™ 610M
+      gpu_frequency_ghz: 2.20
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [5.0]
+      pcie_lanes_number: 28
+    - id: amd_ryzen_9_7940hs
+      name: AMD Ryzen™ 9 7940HS
+      socket: FP7
+      total_cores: 8
+      total_threads: 16
+      max_turbo_frequency_ghz: 5.20
+      cache_l1_kb: 512
+      cache_l2_mb: 8
+      cache_l3_mb: 16
+      max_memory_size_gb: 256
+      max_memory_channels: 2
+      memory_types: [DDR5-5600, LPDDR5x-7500]
+      gpu_model: AMD Radeon™ 780M
+      gpu_frequency_ghz: 2.80
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+    - id: amd_ryzen_9_7945hx
+      name: AMD Ryzen™ 9 7945HX
+      socket: FL1
+      total_cores: 16
+      total_threads: 32
+      max_turbo_frequency_ghz: 5.40
+      cache_l1_kb: 1024
+      cache_l2_mb: 16
+      cache_l3_mb: 64
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR5-5200]
+      gpu_model: AMD Radeon™ 610M
+      gpu_frequency_ghz: 2.20
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [5.0]
+      pcie_lanes_number: 28
+    - id: amd_ryzen_9_7945hx3d
+      name: AMD Ryzen™ 9 7945HX3D
+      socket: FL1
+      total_cores: 16
+      total_threads: 32
+      max_turbo_frequency_ghz: 5.40
+      cache_l1_kb: 1024
+      cache_l2_mb: 16
+      cache_l3_mb: 128
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR5-5200]
+      gpu_model: AMD Radeon™ 610M
+      gpu_frequency_ghz: 2.20
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [5.0]
+      pcie_lanes_number: 28
+- id: amd_ryzen_8000_series
+  name: AMD Ryzen 8000 Series
+  models:
+    - id: amd_ryzen_3_8440u
+      name: AMD Ryzen™ 3 8440U
+      socket: FP7
+      total_cores: 4
+      total_threads: 8
+      max_turbo_frequency_ghz: 4.70
+      cache_l1_kb: 256
+      cache_l2_mb: 4
+      cache_l3_mb: 8
+      max_memory_size_gb: 256
+      max_memory_channels: 2
+      memory_types: [DDR-5600, LPDDR5-7500]
+      gpu_model: AMD Radeon™ 740M
+      gpu_frequency_ghz: 2.50
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 14
+    - id: amd_ryzen_5_8540u
+      name: AMD Ryzen™ 5 8540U
+      socket: FP7
+      total_cores: 6
+      total_threads: 12
+      max_turbo_frequency_ghz: 4.90
+      cache_l1_kb: 384
+      cache_l2_mb: 6
+      cache_l3_mb: 16
+      max_memory_size_gb: 256
+      max_memory_channels: 2
+      memory_types: [DDR5-5600, LPDDR5x-7500]
+      gpu_model: AMD Radeon™ 740M
+      gpu_frequency_ghz: 2.80
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 14
+    - id: amd_ryzen_5_8640hs
+      name: AMD Ryzen™ 5 8640HS
+      socket: FP7
+      total_cores: 6
+      total_threads: 12
+      max_turbo_frequency_ghz: 4.90
+      cache_l1_kb: 384
+      cache_l2_mb: 6
+      cache_l3_mb: 16
+      max_memory_size_gb: 256
+      max_memory_channels: 2
+      memory_types: [DDR5-5600, LPDDR5x-7500]
+      gpu_model: AMD Radeon™ 760M
+      gpu_frequency_ghz: 2.60
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+    - id: amd_ryzen_5_8640u
+      name: AMD Ryzen™ 5 8640U
+      socket: FP7
+      total_cores: 6
+      total_threads: 12
+      max_turbo_frequency_ghz: 4.90
+      cache_l1_kb: 384
+      cache_l2_mb: 6
+      cache_l3_mb: 16
+      max_memory_size_gb: 256
+      max_memory_channels: 2
+      memory_types: [DDR5-5600, LPDDR5x-7500]
+      gpu_model: AMD Radeon™ 760M
+      gpu_frequency_ghz: 2.60
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+    - id: amd_ryzen_5_8645hs
+      name: AMD Ryzen™ 5 8645HS
+      socket: FP7
+      total_cores: 6
+      total_threads: 12
+      max_turbo_frequency_ghz: 5.00
+      cache_l1_kb: 384
+      cache_l2_mb: 6
+      cache_l3_mb: 16
+      max_memory_size_gb: 256
+      max_memory_channels: 2
+      memory_types: [DDR5-5600, LPDDR5x-7500]
+      gpu_model: AMD Radeon™ 760M
+      gpu_frequency_ghz: 2.60
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+    - id: amd_ryzen_7_8745hx
+      name: AMD Ryzen™ 7 8745HX
+      socket: FL1
+      total_cores: 8
+      total_threads: 16
+      max_turbo_frequency_ghz: 5.10
+      cache_l1_kb: 512
+      cache_l2_mb: 8
+      cache_l3_mb: 32
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR5-5200]
+      gpu_model: AMD Radeon™ 610M
+      gpu_frequency_ghz: 2.20
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [5.0]
+      pcie_lanes_number: 28
+    - id: amd_ryzen_7_8840hs
+      name: AMD Ryzen™ 7 8840HS
+      socket: FP7
+      total_cores: 8
+      total_threads: 16
+      max_turbo_frequency_ghz: 5.10
+      cache_l1_kb: 512
+      cache_l2_mb: 8
+      cache_l3_mb: 16
+      max_memory_size_gb: 256
+      max_memory_channels: 2
+      memory_types: [DDR5-5600, LPDDR5x-7500]
+      gpu_model: AMD Radeon™ 780M
+      gpu_frequency_ghz: 2.70
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+    - id: amd_ryzen_7_8840hx
+      name: AMD Ryzen™ 7 8840HX
+      socket: FL1
+      total_cores: 12
+      total_threads: 24
+      max_turbo_frequency_ghz: 5.10
+      cache_l1_kb: 768
+      cache_l2_mb: 12
+      cache_l3_mb: 64
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR5-5200]
+      gpu_model: AMD Radeon™ 610M
+      gpu_frequency_ghz: 2.20
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [5.0]
+      pcie_lanes_number: 28
+    - id: amd_ryzen_7_8840u
+      name: AMD Ryzen™ 7 8840U
+      socket: FP7
+      total_cores: 8
+      total_threads: 16
+      max_turbo_frequency_ghz: 5.10
+      cache_l1_kb: 512
+      cache_l2_mb: 8
+      cache_l3_mb: 16
+      max_memory_size_gb: 256
+      max_memory_channels: 2
+      memory_types: [DDR5-5600, LPDDR5x-7500]
+      gpu_model: AMD Radeon™ 780M
+      gpu_frequency_ghz: 2.70
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+    - id: amd_ryzen_7_8845hs
+      name: AMD Ryzen™ 7 8845HS
+      socket: FP7
+      total_cores: 8
+      total_threads: 16
+      max_turbo_frequency_ghz: 5.10
+      cache_l1_kb: 512
+      cache_l2_mb: 8
+      cache_l3_mb: 16
+      max_memory_size_gb: 256
+      max_memory_channels: 2
+      memory_types: [DDR5-5600, LPDDR5x-7500]
+      gpu_model: AMD Radeon™ 780M
+      gpu_frequency_ghz: 2.70
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+    - id: amd_ryzen_9_8940hx
+      name: AMD Ryzen™ 9 8940HX
+      socket: FL1
+      total_cores: 16
+      total_threads: 32
+      max_turbo_frequency_ghz: 5.30
+      cache_l1_kb: 1024
+      cache_l2_mb: 16
+      cache_l3_mb: 64
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR5-5200]
+      gpu_model: AMD Radeon™ 610M
+      gpu_frequency_ghz: 2.20
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [5.0]
+      pcie_lanes_number: 28
+    - id: amd_ryzen_9_8945hs
+      name: AMD Ryzen™ 9 8945HS
+      socket: FP7
+      total_cores: 8
+      total_threads: 16
+      max_turbo_frequency_ghz: 5.20
+      cache_l1_kb: 512
+      cache_l2_mb: 8
+      cache_l3_mb: 16
+      max_memory_size_gb: 256
+      max_memory_channels: 2
+      memory_types: [DDR5-5600, LPDDR5x-7500]
+      gpu_model: AMD Radeon™ 780M
+      gpu_frequency_ghz: 2.80
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+    - id: amd_ryzen_9_8945hx
+      name: AMD Ryzen™ 9 8945HX
+      socket: FL1
+      total_cores: 16
+      total_threads: 32
+      max_turbo_frequency_ghz: 5.40
+      cache_l1_kb: 1024
+      cache_l2_mb: 16
+      cache_l3_mb: 64
+      max_memory_size_gb: 64
+      max_memory_channels: 2
+      memory_types: [DDR5-5200]
+      gpu_model: AMD Radeon™ 610M
+      gpu_frequency_ghz: 2.20
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [5.0]
+      pcie_lanes_number: 28
+- id: amd_ryzen_9000_series
+  name: AMD Ryzen 9000 Series
+  models:
+    - id: amd_ryzen_9_9850hx
+      name: AMD Ryzen™ 9 9850HX
+      socket: FL1
+      total_cores: 12
+      total_threads: 24
+      max_turbo_frequency_ghz: 5.20
+      cache_l1_kb: 960
+      cache_l2_mb: 12
+      cache_l3_mb: 64
+      max_memory_size_gb: 96
+      max_memory_channels: 2
+      memory_types: [DDR5-5600]
+      gpu_model: AMD Radeon™ 610M
+      gpu_frequency_ghz: 2.20
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [5.0]
+      pcie_lanes_number: 28
+    - id: amd_ryzen_9_9955hx
+      name: AMD Ryzen™ 9 9955HX
+      socket: FL1
+      total_cores: 16
+      total_threads: 32
+      max_turbo_frequency_ghz: 5.40
+      cache_l1_kb: 1280
+      cache_l2_mb: 16
+      cache_l3_mb: 64
+      max_memory_size_gb: 96
+      max_memory_channels: 2
+      memory_types: [DDR5-5600]
+      gpu_model: AMD Radeon™ 610M
+      gpu_frequency_ghz: 2.20
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [5.0]
+      pcie_lanes_number: 28
+    - id: amd_ryzen_9_9955hx3d
+      name: AMD Ryzen™ 9 9955HX3D
+      socket: FL1
+      total_cores: 16
+      total_threads: 32
+      max_turbo_frequency_ghz: 5.40
+      cache_l1_kb: 1280
+      cache_l2_mb: 16
+      cache_l3_mb: 128
+      max_memory_size_gb: 96
+      max_memory_channels: 2
+      memory_types: [DDR5-5600]
+      gpu_model: AMD Radeon™ 610M
+      gpu_frequency_ghz: 2.20
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [5.0]
+      pcie_lanes_number: 28
+- id: amd_ryzen_200_series
+  name: AMD Ryzen 200 Series
+  models:
+    - id: amd_ryzen_3_210
+      name: AMD Ryzen™ 3 210
+      socket: FP8
+      total_cores: 4
+      total_threads: 8
+      max_turbo_frequency_ghz: 4.70
+      cache_l1_kb: 256
+      cache_l2_mb: 4
+      cache_l3_mb: 8
+      max_memory_size_gb: 256
+      max_memory_channels: 2
+      memory_types: [DDR5-5600, LPDDR5x-7500]
+      gpu_model: AMD Radeon™ 740M
+      gpu_frequency_ghz: 2.5
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 14
+    - id: amd_ryzen_5_220
+      name: AMD Ryzen™ 5 220
+      socket: FP8
+      total_cores: 6
+      total_threads: 12
+      max_turbo_frequency_ghz: 4.90
+      cache_l1_kb: 384
+      cache_l2_mb: 6
+      cache_l3_mb: 12
+      max_memory_size_gb: 256
+      max_memory_channels: 2
+      memory_types: [DDR5-5600, LPDDR5x-7500]
+      gpu_model: AMD Radeon™ 740M
+      gpu_frequency_ghz: 2.80
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 14
+    - id: amd_ryzen_5_230
+      name: AMD Ryzen™ 5 230
+      socket: FP8
+      total_cores: 6
+      total_threads: 12
+      max_turbo_frequency_ghz: 4.90
+      cache_l1_kb: 384
+      cache_l2_mb: 6
+      cache_l3_mb: 16
+      max_memory_size_gb: 256
+      max_memory_channels: 2
+      memory_types: [DDR5-5600, LPDDR5x-7500]
+      gpu_model: AMD Radeon™ 760M
+      gpu_frequency_ghz: 2.60
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+    - id: amd_ryzen_5_240
+      name: AMD Ryzen™ 5 240
+      socket: FP8
+      total_cores: 6
+      total_threads: 12
+      max_turbo_frequency_ghz: 5.00
+      cache_l1_kb: 384
+      cache_l2_mb: 6
+      cache_l3_mb: 16
+      max_memory_size_gb: 256
+      max_memory_channels: 2
+      memory_types: [DDR5-5600, LPDDR5x-7500]
+      gpu_model: AMD Radeon™ 760M
+      gpu_frequency_ghz: 2.60
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+    - id: amd_ryzen_7_250
+      name: AMD Ryzen™ 7 250
+      socket: FP8
+      total_cores: 8
+      total_threads: 16
+      max_turbo_frequency_ghz: 5.10
+      cache_l1_kb: 512
+      cache_l2_mb: 8
+      cache_l3_mb: 16
+      max_memory_size_gb: 256
+      max_memory_channels: 2
+      memory_types: [DDR5-5600, LPDDR5x-7500]
+      gpu_model: AMD Radeon™ 780M
+      gpu_frequency_ghz: 2.70
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+    - id: amd_ryzen_7_260
+      name: AMD Ryzen™ 7 260
+      socket: FP8
+      total_cores: 8
+      total_threads: 16
+      max_turbo_frequency_ghz: 5.10
+      cache_l1_kb: 512
+      cache_l2_mb: 8
+      cache_l3_mb: 16
+      max_memory_size_gb: 256
+      max_memory_channels: 2
+      memory_types: [DDR5-5600, LPDDR5x-7500]
+      gpu_model: AMD Radeon™ 780M
+      gpu_frequency_ghz: 2.70
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+    - id: amd_ryzen_9_270
+      name: AMD Ryzen™ 9 270
+      socket: FP8
+      total_cores: 8
+      total_threads: 16
+      max_turbo_frequency_ghz: 5.20
+      cache_l1_kb: 768
+      cache_l2_mb: 8
+      cache_l3_mb: 16
+      max_memory_size_gb: 256
+      max_memory_channels: 2
+      memory_types: [DDR5-5600, LPDDR5x-7500]
+      gpu_model: AMD Radeon™ 780M
+      gpu_frequency_ghz: 2.80
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 20
+- id: amd_ryzen_ai_300_series
+  name: AMD Ryzen AI 300 Series
+  models:
+    - id: amd_ryzen_ai_5_330
+      name: AMD Ryzen™ AI 5 330
+      socket: FP8
+      total_cores: 4
+      total_threads: 8
+      max_turbo_frequency_ghz: 4.50
+      cache_l1_kb: 256
+      cache_l2_mb: 4
+      cache_l3_mb: 8
+      max_memory_size_gb: 256
+      max_memory_channels: 2
+      memory_types: [DDR5-5600, LPDDR5x-8000]
+      gpu_model: AMD Radeon™ 820M
+      gpu_frequency_ghz: 2.80
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 14
+    - id: amd_ryzen_ai_5_340
+      name: AMD Ryzen™ AI 5 340
+      socket: FP8
+      total_cores: 6
+      total_threads: 12
+      max_turbo_frequency_ghz: 4.70
+      cache_l1_kb: 384
+      cache_l2_mb: 6
+      cache_l3_mb: 16
+      max_memory_size_gb: 256
+      max_memory_channels: 2
+      memory_types: [DDR5-5600, LPDDR5x-8000]
+      gpu_model: AMD Radeon™ 820M
+      gpu_frequency_ghz: 2.80
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 16
+    - id: amd_ryzen_ai_7_350
+      name: AMD Ryzen™ AI 7 350
+      socket: FP8
+      total_cores: 8
+      total_threads: 16
+      max_turbo_frequency_ghz: 5.00
+      cache_l1_kb: 512
+      cache_l2_mb: 8
+      cache_l3_mb: 16
+      max_memory_size_gb: 256
+      max_memory_channels: 2
+      memory_types: [DDR5-5600, LPDDR5x-8000]
+      gpu_model: AMD Radeon™ 860M
+      gpu_frequency_ghz: 3.00
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 16
+    - id: amd_ryzen_ai_9_365
+      name: AMD Ryzen™ AI 9 365
+      socket: FP8
+      total_cores: 10
+      total_threads: 20
+      max_turbo_frequency_ghz: 5.00
+      cache_l1_kb: 768
+      cache_l2_mb: 10
+      cache_l3_mb: 24
+      max_memory_size_gb: 256
+      max_memory_channels: 2
+      memory_types: [DDR5-5600, LPDDR5x-8000]
+      gpu_model: AMD Radeon™ 880M
+      gpu_frequency_ghz: 2.90
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 16
+    - id: amd_ryzen_ai_9_hx_370
+      name: AMD Ryzen™ AI 9 HX 370
+      socket: FP8
+      total_cores: 12
+      total_threads: 24
+      max_turbo_frequency_ghz: 5.10
+      cache_l1_kb: 768
+      cache_l2_mb: 12
+      cache_l3_mb: 24
+      max_memory_size_gb: 256
+      max_memory_channels: 2
+      memory_types: [DDR5-5600, LPDDR5x-8000]
+      gpu_model: AMD Radeon™ 890M
+      gpu_frequency_ghz: 2.90
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 16
+    - id: amd_ryzen_ai_9_hx_375
+      name: AMD Ryzen™ AI 9 HX 375
+      socket: FP8
+      total_cores: 12
+      total_threads: 24
+      max_turbo_frequency_ghz: 5.10
+      cache_l1_kb: 768
+      cache_l2_mb: 12
+      cache_l3_mb: 24
+      max_memory_size_gb: 256
+      max_memory_channels: 2
+      memory_types: [DDR5-5600, LPDDR5x-8000]
+      gpu_model: AMD Radeon™ 890M
+      gpu_frequency_ghz: 2.90
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 16
+- id: amd_ryzen_ai_max
+  name: AMD Ryzen AI Max
+  models:
+    - id: amd_ryzen_ai_max_385
+      name: AMD Ryzen™ AI Max 385
+      socket: FP11
+      total_cores: 8
+      total_threads: 16
+      max_turbo_frequency_ghz: 5.00
+      cache_l1_kb: 768
+      cache_l2_mb: 8
+      cache_l3_mb: 32
+      max_memory_size_gb: 128
+      max_memory_channels: 2
+      memory_types: [LPDDR5x-8000]
+      gpu_model: AMD Radeon™ 8050S
+      gpu_frequency_ghz: 2.80
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 16
+    - id: amd_ryzen_ai_max_390
+      name: AMD Ryzen™ AI Max 390
+      socket: FP11
+      total_cores: 12
+      total_threads: 24
+      max_turbo_frequency_ghz: 5.00
+      cache_l1_kb: 768
+      cache_l2_mb: 12
+      cache_l3_mb: 64
+      max_memory_size_gb: 128
+      max_memory_channels: 2
+      memory_types: [LPDDR5x-8000]
+      gpu_model: AMD Radeon™ 8050S
+      gpu_frequency_ghz: 2.80
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 16
+    - id: amd_ryzen_ai_max_plus_395
+      name: AMD Ryzen™ AI Max+ 395
+      socket: FP11
+      total_cores: 16
+      total_threads: 32
+      max_turbo_frequency_ghz: 5.10
+      cache_l1_kb: 768
+      cache_l2_mb: 16
+      cache_l3_mb: 64
+      max_memory_size_gb: 128
+      max_memory_channels: 2
+      memory_types: [LPDDR5x-8000]
+      gpu_model: AMD Radeon™ 8060S
+      gpu_frequency_ghz: 2.90
+      gpu_directx_support: 12
+      gpu_opengl_support: 4.6
+      gpu_opencl_support: 2.2
+      gpu_hdmi_version: 2.1
+      pcie_revision: [4.0]
+      pcie_lanes_number: 16

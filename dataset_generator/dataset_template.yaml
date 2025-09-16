@@ -1,0 +1,159 @@
+languages:
+- en-US
+currencies:
+- USD
+- EUR
+measures:
+- name: Display Size
+  code: DisplaySize
+  units:
+  - name: Inch
+    code: Inch
+    symbol: ''
+    conversion_factor: 1
+    localized_name_en_us: Inch
+- name: Display Refresh Rate
+  code: DisplayRefreshRate
+  units:
+  - name: Hertz
+    code: Hertz
+    symbol: Hz
+    conversion_factor: 1
+    localized_name_en_us: Hertz
+- name: CPU Max Frequency
+  code: CpuMaxFrequency
+  units:
+  - name: Gigahertz
+    code: Gigahertz
+    symbol: GHz
+    conversion_factor: 1
+    localized_name_en_us: Gigahertz
+- name: RAM Size
+  code: RamSize
+  units:
+  - name: Gigabyte
+    code: Gigabyte
+    symbol: GB
+    conversion_factor: 1
+    localized_name_en_us: Gigabyte
+- name: RAM Max Size
+  code: RamMaxSize
+  units:
+  - name: Gigabyte
+    code: Gigabyte
+    symbol: GB
+    conversion_factor: 1
+    localized_name_en_us: Gigabyte
+- name: RAM Frequency
+  code: RamFrequency
+  units:
+  - name: Megahertz
+    code: Megahertz
+    symbol: Hz
+    conversion_factor: 1
+    localized_name_en_us: Megahertz
+- name: GPU Memory Size
+  code: GpuMemorySize
+  units:
+  - name: Gigabyte
+    code: Gigabyte
+    symbol: GB
+    conversion_factor: 1
+    localized_name_en_us: Gigabyte
+- name: SSD Size
+  code: SsdSize
+  units:
+  - name: Gigabyte
+    code: Gigabyte
+    symbol: GB
+    conversion_factor: 1
+    localized_name_en_us: Gigabyte
+fulfillment_centers:
+- name: USA Springfield IL FFC
+  address:
+    city: Springfield
+    country_code: USA
+    country_name: United States of America
+    line1: 742 Evergreen Terrace
+    postal_code: 62704
+    region_code: IL
+    region_name: Illinois
+    email: ffc_usa_springfield_il@aacme.com
+    phone: +1-217-555-0198
+- name: USA Riverton OH FFC
+  address:
+    city: Riverton
+    country_code: USA
+    country_name: United States of America
+    line1: 1284 Maple Hollow Drive
+    postal_code: 43055
+    region_code: OH
+    region_name: Ohio
+    email: ffc_usa_riverton_oh@aacme.com
+    phone: +1-740-559-6704
+- name: USA Morrisville NC FFC
+  address:
+    city: Morrisville
+    country_code: USA
+    country_name: United States of America
+    line1: 1593 Patton Lane
+    postal_code: 27560
+    region_code: NC
+    region_name: North Carolina
+    email: ffc_usa_morrisville_nc@aacme.com
+    phone: +1-919-264-8323
+catalog:
+  name: ACME Catalog
+store:
+  name: ACME Store
+  currency: USD
+  language_code: en-US
+  status: Open
+  currencies:
+  - EUR
+
+  name: ACME Pricelist Assignment
+categories:
+- name: Electronics
+  categories:
+  - name: Laptops
+    models:
+    - Acer: []
+    - Apple: []
+    - Asus: []
+    - Lenovo: []
+    - MSI: []
+    - HP: []
+    - Dell: []
+    - Microsoft: []
+    properties:
+    - name: Brand
+      type: ShortText
+      values: [Apple, Dell, HP, Lenovo, MSI, Asus, Acer]
+    - name: Operating System
+      type: ShortText
+    - name: Color
+      type: ShortText
+    - name: Display Technology
+      type: ShortText
+    - name: Display Resolution
+      type: ShortText
+      values: [1920x1080, 1920x1200, 2560x1600, 2880x1800, 3840x2400]
+    - name: Display Size
+      type: Measure.DisplaySize
+      values: [14, 15.6, 16, 17.3]
+    - name: Display Refresh Rate
+      type: Measure.DisplayRefreshRate
+      values: [60, 90, 120, 144, 165, 240]
+    - name: CPU Model
+      type: ShortText
+    - name: CPU Cores
+      type: Integer
+    - name: CPU Threads
+      type: Integer
+    - name: CPU Max Frequency
+      type: Measure.CpuMaxFrequency
+    products:
+  - name: SSD
+  - name: RAM
+  - name: Software

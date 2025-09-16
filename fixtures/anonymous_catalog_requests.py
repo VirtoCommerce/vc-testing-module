@@ -3,8 +3,8 @@ from typing import Any, Dict
 import allure
 import pytest
 
-from fixtures.auth import Auth
-from fixtures.webapi_client import WebAPISession
+from .auth import Auth
+from .webapi_client import WebAPISession
 
 
 class AnonymousCatalogRequests:
@@ -17,8 +17,8 @@ class AnonymousCatalogRequests:
 
     def toggle(self, value: bool) -> None:
         self.auth.authenticate(
-            username=self.config["test_admin_username"],
-            password=self.config["test_admin_password"],
+            username=self.config["admin_username"],
+            password=self.config["admin_password"],
         )
 
         self.webapi_client.patch(

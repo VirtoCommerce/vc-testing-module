@@ -4,37 +4,61 @@ from typing import Any, Dict
 import allure
 import pytest
 
-from fixtures import Auth, GraphQLClient
+from fixtures.auth import Auth
+from fixtures.graphql_client import GraphQLClient
 from graphql_operations.contact.contact_operations import ContactOperations
 from graphql_operations.user.user_operations import UserOperations
-from test_data.test_address import TEST_CUSTOMER_ADDRESS_1
 
 
 @pytest.mark.graphql
 @allure.title("Add address to favorites (GraphQL)")
 def test_add_address_to_favorites(
-    config: Dict[str, Any], auth: Auth, graphql_client: GraphQLClient
+    config: Dict[str, Any],
+    dataset: Dict[str, Any],
+    auth: Auth,
+    graphql_client: GraphQLClient,
 ):
     print(f"{os.linesep}Running test to add address to favorites...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     contact_operations = ContactOperations(graphql_client)
 
-    auth.authenticate(
-        config["test_permanent_corporate_customer_username"],
-        config["test_permanent_corporate_customer_password"],
-    )
+    auth.authenticate(dataset["users"][0]["userName"], config["admin_password"])
 
-    user = user_operations.get_user()
+    user = user_operations.get_me()
+
+    temp_address = {
+        "addressType": 3,
+        "city": "Austin",
+        "countryCode": "USA",
+        "countryName": "United States of America",
+        "line1": "1600 Hollow Creek Drive",
+        "postalCode": "78704",
+        "regionId": "TX",
+        "regionName": "Texas",
+    }
 
     contact = contact_operations.update_contact_addresses(
         payload={
             "memberId": user["contact"]["organizationId"],
-            "addresses": [TEST_CUSTOMER_ADDRESS_1],
+            "addresses": [temp_address],
         }
     )
 
-    added_address = contact["addresses"]["items"][0]
+    added_address = next(
+        (
+            address
+            for address in contact["addresses"]["items"]
+            if address["city"] == temp_address["city"]
+            and address["countryCode"] == temp_address["countryCode"]
+            and address["countryName"] == temp_address["countryName"]
+            and address["line1"] == temp_address["line1"]
+            and address["postalCode"] == temp_address["postalCode"]
+            and address["regionId"] == temp_address["regionId"]
+            and address["regionName"] == temp_address["regionName"]
+        ),
+        None,
+    )
 
     contact_operations.add_address_to_favorites(
         payload={"addressId": added_address["id"]}

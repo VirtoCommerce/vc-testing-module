@@ -1,6 +1,10 @@
+import datetime
+import os
+
 import allure
 import pytest
-from playwright.sync_api import expect
+from dotenv import load_dotenv
+from playwright.sync_api import expect, sync_playwright
 from pytest import Parser
 
 from fixtures.anonymous_catalog_requests import anonymous_catalog_requests
@@ -9,10 +13,29 @@ from fixtures.auth_token import auth_token
 from fixtures.authenticated_page import authenticated_page
 from fixtures.checkout_mode import checkout_mode
 from fixtures.config import config
+from fixtures.dataset import dataset
 from fixtures.graphql_client import graphql_client
 from fixtures.product_quantity_control import product_quantity_control
 from fixtures.requests_tracker import requests_tracker
 from fixtures.webapi_client import webapi_client
+
+load_dotenv(override=True)
+
+
+@pytest.fixture(scope="session")
+def config():
+    return {
+        "backend_base_url": os.getenv(
+            "BACKEND_BASE_URL", "https://vcst-qa.govirto.com"
+        ),
+        "frontend_base_url": os.getenv(
+            "FRONTEND_BASE_URL", "https://vcst-qa-storefront.govirto.com"
+        ),
+        "admin_username": os.getenv("ADMIN_USERNAME"),
+        "admin_password": os.getenv("ADMIN_PASSWORD"),
+        "store_id": os.getenv("STORE_ID"),
+        "users_password": os.getenv("USERS_PASSWORD"),
+    }
 
 
 def pytest_addoption(parser: Parser):
@@ -36,10 +59,6 @@ def pytest_addoption(parser: Parser):
         default=False,
         help="Run browser in headed mode",
     )
-
-def pytest_addoption(parser):
-
-    parser.addoption("--show-browser", action="store_true", default=False, help="Run browser in headed mode")
 
 
 @pytest.fixture(scope="session")

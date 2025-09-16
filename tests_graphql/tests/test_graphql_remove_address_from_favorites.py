@@ -4,44 +4,45 @@ from typing import Any, Dict
 import allure
 import pytest
 
-from fixtures import Auth, GraphQLClient
+from fixtures.auth import Auth
+from fixtures.graphql_client import GraphQLClient
 from graphql_operations.contact.contact_operations import ContactOperations
 from graphql_operations.user.user_operations import UserOperations
-from test_data.test_address import TEST_CUSTOMER_ADDRESS_1
 
 
 @pytest.mark.graphql
 @allure.title("Add address to favorites (GraphQL)")
 def test_add_address_to_favorites(
-    config: Dict[str, Any], auth: Auth, graphql_client: GraphQLClient
+    config: Dict[str, Any],
+    dataset: Dict[str, Any],
+    auth: Auth,
+    graphql_client: GraphQLClient,
 ):
     print(f"{os.linesep}Running test to add address to favorites...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     contact_operations = ContactOperations(graphql_client)
 
+    dataset_user = dataset["users"][0]
+
     auth.authenticate(
-        config["test_permanent_corporate_customer_username"],
-        config["test_permanent_corporate_customer_password"],
+        dataset_user["userName"],
+        config["users_password"],
     )
 
-    user = user_operations.get_user()
+    user = user_operations.get_me()
 
-    contact = contact_operations.update_contact_addresses(
-        payload={
-            "memberId": user["contact"]["organizationId"],
-            "addresses": [TEST_CUSTOMER_ADDRESS_1],
-        }
+    organization = contact_operations.fetch_organization_addresses(
+        organization_id=user["contact"]["organizationId"],
+        user_id=user["id"],
     )
-
-    added_address = contact["addresses"]["items"][0]
 
     contact_operations.add_address_to_favorites(
-        payload={"addressId": added_address["id"]}
+        payload={"addressId": organization["addresses"]["items"][0]["id"]}
     )
 
     contact_operations.remove_address_from_favorites(
-        payload={"addressId": added_address["id"]}
+        payload={"addressId": organization["addresses"]["items"][0]["id"]}
     )
 
     organization = contact_operations.fetch_organization_addresses(
@@ -49,24 +50,13 @@ def test_add_address_to_favorites(
         user_id=user["id"],
     )
 
-    favorite_address = next(
-        (
-            address
-            for address in organization["addresses"]["items"]
-            if address["isFavorite"]
-        ),
-        None,
-    )
-
     # Test teardown
-
-    contact_operations.delete_contact_address(
-        payload={
-            "memberId": user["contact"]["organizationId"],
-            "addresses": [added_address],
-        }
-    )
 
     auth.clear_token()
 
-    assert favorite_address is None, "Favorite address is not removed"
+    assert (
+        len(organization["addresses"]["items"]) == 1
+    ), "Organization addresses quantity mismatch"
+    assert (
+        organization["addresses"]["items"][0]["isFavorite"] is False
+    ), "Favorite address is not removed"

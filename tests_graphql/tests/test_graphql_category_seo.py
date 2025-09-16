@@ -4,48 +4,55 @@ from typing import Any, Dict
 import allure
 import pytest
 
-from fixtures import GraphQLClient
+from fixtures.graphql_client import GraphQLClient
 from graphql_operations.catalog.categories_operations import CategoriesOperations
 from graphql_operations.seo.seo_operations import SeoOperations
 from graphql_operations.user.user_operations import UserOperations
-from test_data.test_catalog import TEST_CATALOG
-from test_data.test_culture import TEST_CULTURE
-from test_data.test_currency import TEST_CURRENCY
 
 
 @pytest.mark.graphql
 @allure.title("Category SEO (GraphQL)")
-def test_category_seo(config: Dict[str, Any], graphql_client: GraphQLClient):
+def test_category_seo(
+    config: Dict[str, Any], dataset: Dict[str, Any], graphql_client: GraphQLClient
+):
     print(f"{os.linesep}Running test to get category SEO...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     categories_operations = CategoriesOperations(graphql_client)
     seo_operations = SeoOperations(graphql_client)
 
-    user = user_operations.get_user()
+    currency = dataset["currencies"][0]["code"]
+    culture = dataset["languages"][0]
+    catalog = dataset["catalogs"][0]
+
+    user = user_operations.get_me()
 
     categories_response = categories_operations.get_categories(
         store_id=config["store_id"],
         user_id=user["id"],
-        currency_code=TEST_CURRENCY["USD"],
-        culture_name=TEST_CULTURE["en-US"],
-        filter=f"category.subtree:{TEST_CATALOG['id']}",
+        currency_code=currency,
+        culture_name=culture,
+        filter=f"category.subtree:{catalog['id']}",
     )
 
-    category_to_browse = categories_response["items"][0]
+    category_to_browse = next(
+        category
+        for category in dataset["categories"]
+        if category["id"] == "category-acme-laptops"
+    )
 
     category = categories_operations.get_category(
         store_id=config["store_id"],
         user_id=user["id"],
-        currency_code=TEST_CURRENCY["USD"],
-        culture_name=TEST_CULTURE["en-US"],
+        currency_code=currency,
+        culture_name=culture,
         id=category_to_browse["id"],
     )
 
     seo_info = seo_operations.get_slug_info(
         store_id=config["store_id"],
         user_id=user["id"],
-        culture_name=TEST_CULTURE["en-US"],
+        culture_name=culture,
         slug=category["slug"],
     )
 

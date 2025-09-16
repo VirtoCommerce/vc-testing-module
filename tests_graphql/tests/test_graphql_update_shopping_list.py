@@ -4,39 +4,45 @@ from typing import Any, Dict
 import allure
 import pytest
 
-from fixtures import Auth, GraphQLClient
+from fixtures.auth import Auth
+from fixtures.graphql_client import GraphQLClient
 from graphql_operations.shopping_lists.shopping_lists_operations import (
     ShoppingListsOperations,
 )
 from graphql_operations.user.user_operations import UserOperations
-from test_data.test_culture import TEST_CULTURE
-from test_data.test_currency import TEST_CURRENCY
 
 
 @pytest.mark.graphql
 @allure.title("Update shopping list (GraphQL)")
 def test_update_shopping_list(
-    config: Dict[str, Any], auth: Auth, graphql_client: GraphQLClient
+    config: Dict[str, Any],
+    dataset: Dict[str, Any],
+    auth: Auth,
+    graphql_client: GraphQLClient,
 ):
     print(f"{os.linesep}Running test to update shopping list...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     shopping_lists_operations = ShoppingListsOperations(graphql_client)
 
+    currency = dataset["currencies"][0]["code"]
+    culture = dataset["languages"][0]
+    dataset_user = dataset["users"][0]
+
     auth.authenticate(
-        config["test_permanent_corporate_customer_username"],
-        config["test_permanent_corporate_customer_password"],
+        dataset_user["userName"],
+        config["users_password"],
     )
 
-    user = user_operations.get_user()
+    user = user_operations.get_me()
 
     new_shopping_list = shopping_lists_operations.create_shopping_list(
         payload={
             "userId": user["id"],
             "storeId": config["store_id"],
-            "listName": "[E2E test] Test shopping list",
-            "cultureName": TEST_CULTURE["en-US"],
-            "currencyCode": TEST_CURRENCY["USD"],
+            "listName": "Test shopping list",
+            "cultureName": culture,
+            "currencyCode": currency,
             "scope": "Organization",
         }
     )
@@ -44,9 +50,9 @@ def test_update_shopping_list(
     updated_shopping_list = shopping_lists_operations.update_shopping_list(
         payload={
             "listId": new_shopping_list["id"],
-            "listName": "[E2E test] Updated shopping list",
+            "listName": "Updated shopping list",
             "description": "Updated description",
-            "cultureName": TEST_CULTURE["en-US"],
+            "cultureName": culture,
             "scope": "Private",
         }
     )
@@ -65,7 +71,7 @@ def test_update_shopping_list(
         updated_shopping_list["id"] == new_shopping_list["id"]
     ), "Shopping list ID does not match"
     assert (
-        updated_shopping_list["name"] == "[E2E test] Updated shopping list"
+        updated_shopping_list["name"] == "Updated shopping list"
     ), "Shopping list name does not match"
     assert (
         updated_shopping_list["scope"] == "Private"

@@ -4,38 +4,41 @@ from typing import Any, Dict
 import allure
 import pytest
 
-from fixtures import GraphQLClient
+from fixtures.graphql_client import GraphQLClient
 from graphql_operations.catalog.products_operations import ProductsOperations
 from graphql_operations.seo.seo_operations import SeoOperations
 from graphql_operations.user.user_operations import UserOperations
-from test_data.test_culture import TEST_CULTURE
-from test_data.test_currency import TEST_CURRENCY
-from test_data.test_product import TEST_PRODUCT_1
 
 
 @pytest.mark.graphql
 @allure.title("Product SEO (GraphQL)")
-def test_product_seo(config: Dict[str, Any], graphql_client: GraphQLClient):
+def test_product_seo(
+    config: Dict[str, Any], dataset: Dict[str, Any], graphql_client: GraphQLClient
+):
     print(f"{os.linesep}Running test to get product SEO...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     products_operations = ProductsOperations(graphql_client)
     seo_operations = SeoOperations(graphql_client)
 
-    user = user_operations.get_user()
+    currency = dataset["currencies"][0]["code"]
+    culture = dataset["languages"][0]
+    product = dataset["products"][0]
+
+    user = user_operations.get_me()
 
     product = products_operations.get_product(
         store_id=config["store_id"],
         user_id=user["id"],
-        culture_name=TEST_CULTURE["en-US"],
-        currency_code=TEST_CURRENCY["USD"],
-        id=TEST_PRODUCT_1["id"],
+        culture_name=culture,
+        currency_code=currency,
+        id=product["id"],
     )
 
     seo_info = seo_operations.get_slug_info(
         store_id=config["store_id"],
         user_id=user["id"],
-        culture_name=TEST_CULTURE["en-US"],
+        culture_name=culture,
         slug=product["slug"],
     )
 

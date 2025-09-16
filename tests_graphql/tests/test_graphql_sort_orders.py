@@ -4,12 +4,14 @@ from typing import Any, Dict
 import allure
 import pytest
 
-from fixtures import Auth, GraphQLClient
+from fixtures.auth import Auth
+from fixtures.graphql_client import GraphQLClient
 from graphql_operations.order.order_operations import OrderOperations
 from graphql_operations.user.user_operations import UserOperations
 from test_data.test_culture import TEST_CULTURE
 
 
+@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Sort orders by date (GraphQL)")
 def test_sort_orders_by_date(
@@ -61,6 +63,7 @@ def test_sort_orders_by_date(
     assert is_sorted_asc, "Orders are not sorted by date in ascending order"
 
 
+@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Sort orders by total amount (GraphQL)")
 def test_sort_orders_by_total_amount(

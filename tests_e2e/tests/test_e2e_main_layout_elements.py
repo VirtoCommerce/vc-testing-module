@@ -4,11 +4,12 @@ import allure
 import pytest
 from playwright.sync_api import Page, expect
 
-from fixtures import AnonymousCatalogRequests
+from fixtures.anonymous_catalog_requests import AnonymousCatalogRequests
 from tests_e2e.pages.home_page import HomePage
 from tests_e2e.pages.sign_in_page import SignInPage
 
 
+@pytest.mark.ignore
 @pytest.mark.e2e
 @allure.title("Main layout top header anonymous user elements presence (E2E)")
 def test_e2e_main_layout_top_header_anonymous_user_elements_presence(

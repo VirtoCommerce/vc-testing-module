@@ -4,34 +4,45 @@ from typing import Any, Dict
 import allure
 import pytest
 
-from fixtures import Auth, GraphQLClient
+from fixtures.auth import Auth
+from fixtures.graphql_client import GraphQLClient
 from graphql_operations.contact.contact_operations import ContactOperations
 from graphql_operations.user.user_operations import UserOperations
-from test_data.test_customer import TEST_CUSTOMER
-from test_data.test_organization import TEST_ORGANIZATION
 
 
 @pytest.mark.graphql
 @allure.title("Register customer (GraphQL)")
 def test_register_customer(
-    config: Dict[str, Any], auth: Auth, graphql_client: GraphQLClient
+    config: Dict[str, Any],
+    dataset: Dict[str, Any],
+    auth: Auth,
+    graphql_client: GraphQLClient,
 ):
     print(f"{os.linesep}Running test to register customer...", end=" ")
 
-    auth.authenticate(config["test_admin_username"], config["test_admin_password"])
-
     contact_operations = ContactOperations(graphql_client)
+
+    dataset_user = next(
+        user
+        for user in dataset["users"]
+        if user["id"] == "user-acme-store-administrator"
+    )
+
+    auth.authenticate(dataset_user["userName"], config["users_password"])
+
+    temp_email = "some-email@acme.com"
+
     create_contact_result = contact_operations.create_contact(
         payload={
             "storeId": config["store_id"],
             "account": {
-                "username": config["test_customer_username"],
-                "email": config["test_customer_username"],
-                "password": config["test_customer_password"],
+                "username": temp_email,
+                "email": temp_email,
+                "password": config["users_password"],
             },
             "contact": {
-                "firstName": TEST_CUSTOMER["firstName"],
-                "lastName": TEST_CUSTOMER["lastName"],
+                "firstName": "ACME",
+                "lastName": "Customer",
             },
         }
     )
@@ -46,7 +57,7 @@ def test_register_customer(
     user_operations = UserOperations(graphql_client)
     user_operations.delete_users(
         payload={
-            "userNames": [config["test_customer_username"]],
+            "userNames": [temp_email],
         }
     )
 
@@ -63,27 +74,39 @@ def test_register_customer(
 @pytest.mark.graphql
 @allure.title("Register organization (GraphQL)")
 def test_register_organization(
-    config: Dict[str, Any], auth: Auth, graphql_client: GraphQLClient
+    config: Dict[str, Any],
+    dataset: Dict[str, Any],
+    auth: Auth,
+    graphql_client: GraphQLClient,
 ):
     print(f"{os.linesep}Running test to register organization...", end=" ")
 
-    auth.authenticate(config["test_admin_username"], config["test_admin_password"])
-
     contact_operations = ContactOperations(graphql_client)
+
+    dataset_user = next(
+        user
+        for user in dataset["users"]
+        if user["id"] == "user-acme-store-administrator"
+    )
+
+    auth.authenticate(dataset_user["userName"], config["users_password"])
+
+    temp_email = "some-email@acme.com"
+
     create_contact_result = contact_operations.create_contact(
         payload={
             "storeId": config["store_id"],
             "account": {
-                "username": config["test_customer_username"],
-                "email": config["test_customer_username"],
-                "password": config["test_customer_password"],
+                "username": temp_email,
+                "email": temp_email,
+                "password": config["users_password"],
             },
             "contact": {
-                "firstName": TEST_CUSTOMER["firstName"],
-                "lastName": TEST_CUSTOMER["lastName"],
+                "firstName": "ACME",
+                "lastName": "Customer",
             },
             "organization": {
-                "name": TEST_ORGANIZATION["name"],
+                "name": "Temp Organization",
             },
         }
     )
@@ -103,7 +126,7 @@ def test_register_organization(
     user_operations = UserOperations(graphql_client)
     user_operations.delete_users(
         payload={
-            "userNames": [config["test_customer_username"]],
+            "userNames": [temp_email],
         }
     )
 

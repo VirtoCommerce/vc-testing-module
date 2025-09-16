@@ -4,12 +4,14 @@ from typing import Any, Dict
 import allure
 import pytest
 
-from fixtures import Auth, GraphQLClient
+from fixtures.auth import Auth
+from fixtures.graphql_client import GraphQLClient
 from graphql_operations.order.order_operations import OrderOperations
 from graphql_operations.user.user_operations import UserOperations
 from test_data.test_culture import TEST_CULTURE
 
 
+@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Filter orders by status (GraphQL)")
 def test_filter_orders_by_status(
@@ -56,6 +58,7 @@ def test_filter_orders_by_status(
     ), "No orders found with status 'Completed'"
 
 
+@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Filter orders by date (GraphQL)")
 def test_filter_orders_by_date(

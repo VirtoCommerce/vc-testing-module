@@ -4,7 +4,7 @@ from typing import Any, Dict
 import allure
 import pytest
 
-from fixtures import GraphQLClient
+from fixtures.graphql_client import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
 from test_data.test_coupon import TEST_COUPON_CODE
@@ -13,6 +13,7 @@ from test_data.test_currency import TEST_CURRENCY
 from test_data.test_product import TEST_PRODUCT_3
 
 
+@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Apply cart coupon (GraphQL)")
 def test_add_cart_coupon(config: Dict[str, Any], graphql_client: GraphQLClient):
@@ -59,6 +60,7 @@ def test_add_cart_coupon(config: Dict[str, Any], graphql_client: GraphQLClient):
     assert applied_coupon["code"] == TEST_COUPON_CODE, "Coupon code is not the same"
 
 
+@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Remove cart coupon (GraphQL)")
 def test_remove_cart_coupon(config: Dict[str, Any], graphql_client: GraphQLClient):

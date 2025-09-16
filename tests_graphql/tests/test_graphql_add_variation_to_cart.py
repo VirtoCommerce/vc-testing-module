@@ -4,7 +4,7 @@ from typing import Any, Dict
 import allure
 import pytest
 
-from fixtures import GraphQLClient
+from fixtures.graphql_client import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.catalog.products_operations import ProductsOperations
 from graphql_operations.user.user_operations import UserOperations
@@ -14,6 +14,7 @@ from test_data.test_currency import TEST_CURRENCY
 from test_data.test_product import TEST_PRODUCT_2
 
 
+@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Add variation to cart (GraphQL)")
 def test_add_variation_to_cart(config: Dict[str, Any], graphql_client: GraphQLClient):

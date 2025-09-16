@@ -1,40 +1,57 @@
 import os
+import random
 from typing import Any, Dict
 
 import allure
 import pytest
 
-from fixtures import GraphQLClient
+from fixtures.graphql_client import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
-from test_data.test_culture import TEST_CULTURE
-from test_data.test_currency import TEST_CURRENCY
-from test_data.test_product import TEST_PRODUCT_1, TEST_PRODUCT_2
 
 
 @pytest.mark.graphql
 @allure.title("Unselect cart items (GraphQL)")
-def test_unselect_cart_items(config: Dict[str, Any], graphql_client: GraphQLClient):
+def test_unselect_cart_items(
+    config: Dict[str, Any], dataset: Dict[str, Any], graphql_client: GraphQLClient
+):
     print(f"{os.linesep}Running test to unselect cart items...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
 
-    user = user_operations.get_user()
+    currency = dataset["currencies"][0]["code"]
+    culture = dataset["languages"][0]
+    product_id_in_stock_1 = random.choice(
+        [
+            product
+            for product in dataset["productsInventories"]
+            if product["inStockQuantity"] > "0"
+        ]
+    )["productId"]
+    product_id_in_stock_2 = random.choice(
+        [
+            product
+            for product in dataset["productsInventories"]
+            if product["inStockQuantity"] > "0"
+        ]
+    )["productId"]
+
+    user = user_operations.get_me()
 
     cart = cart_operations.add_items_to_cart(
         payload={
             "storeId": config["store_id"],
             "userId": user["id"],
-            "currencyCode": TEST_CURRENCY["USD"],
-            "cultureName": TEST_CULTURE["en-US"],
+            "currencyCode": currency,
+            "cultureName": culture,
             "cartItems": [
                 {
-                    "productId": TEST_PRODUCT_1["id"],
+                    "productId": product_id_in_stock_1,
                     "quantity": 1,
                 },
                 {
-                    "productId": TEST_PRODUCT_2["id"],
+                    "productId": product_id_in_stock_2,
                     "quantity": 2,
                 },
             ],
@@ -42,15 +59,15 @@ def test_unselect_cart_items(config: Dict[str, Any], graphql_client: GraphQLClie
     )
 
     line_item_to_unselect = next(
-        item for item in cart["items"] if item["productId"] == TEST_PRODUCT_2["id"]
+        item for item in cart["items"] if item["productId"] == product_id_in_stock_2
     )
 
     updated_cart = cart_operations.unselect_cart_items(
         payload={
             "storeId": config["store_id"],
             "userId": user["id"],
-            "currencyCode": TEST_CURRENCY["USD"],
-            "cultureName": TEST_CULTURE["en-US"],
+            "currencyCode": currency,
+            "cultureName": culture,
             "lineItemIds": [line_item_to_unselect["id"]],
         }
     )
@@ -58,7 +75,7 @@ def test_unselect_cart_items(config: Dict[str, Any], graphql_client: GraphQLClie
     unselected_line_item = next(
         item
         for item in updated_cart["items"]
-        if item["productId"] == TEST_PRODUCT_2["id"]
+        if item["productId"] == product_id_in_stock_2
     )
 
     # Test teardown
@@ -76,33 +93,52 @@ def test_unselect_cart_items(config: Dict[str, Any], graphql_client: GraphQLClie
         item["quantity"] for item in updated_cart["items"]
     )
     assert unselected_line_item["selectedForCheckout"] is False
-    assert unselected_line_item["productId"] == TEST_PRODUCT_2["id"]
+    assert unselected_line_item["productId"] == product_id_in_stock_2
     assert unselected_line_item["quantity"] == 2
 
 
 @pytest.mark.graphql
 @allure.title("Unselect all cart items (GraphQL)")
-def test_unselect_all_cart_items(config: Dict[str, Any], graphql_client: GraphQLClient):
+def test_unselect_all_cart_items(
+    config: Dict[str, Any], dataset: Dict[str, Any], graphql_client: GraphQLClient
+):
     print(f"{os.linesep}Running test to unselect all cart items...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
 
-    user = user_operations.get_user()
+    currency = dataset["currencies"][0]["code"]
+    culture = dataset["languages"][0]
+    product_id_in_stock_1 = random.choice(
+        [
+            product
+            for product in dataset["productsInventories"]
+            if product["inStockQuantity"] > "0"
+        ]
+    )["productId"]
+    product_id_in_stock_2 = random.choice(
+        [
+            product
+            for product in dataset["productsInventories"]
+            if product["inStockQuantity"] > "0"
+        ]
+    )["productId"]
+
+    user = user_operations.get_me()
 
     cart_operations.add_items_to_cart(
         payload={
             "storeId": config["store_id"],
             "userId": user["id"],
-            "currencyCode": TEST_CURRENCY["USD"],
-            "cultureName": TEST_CULTURE["en-US"],
+            "currencyCode": currency,
+            "cultureName": culture,
             "cartItems": [
                 {
-                    "productId": TEST_PRODUCT_1["id"],
+                    "productId": product_id_in_stock_1,
                     "quantity": 1,
                 },
                 {
-                    "productId": TEST_PRODUCT_2["id"],
+                    "productId": product_id_in_stock_2,
                     "quantity": 2,
                 },
             ],
@@ -113,8 +149,8 @@ def test_unselect_all_cart_items(config: Dict[str, Any], graphql_client: GraphQL
         payload={
             "storeId": config["store_id"],
             "userId": user["id"],
-            "currencyCode": TEST_CURRENCY["USD"],
-            "cultureName": TEST_CULTURE["en-US"],
+            "currencyCode": currency,
+            "cultureName": culture,
         }
     )
 

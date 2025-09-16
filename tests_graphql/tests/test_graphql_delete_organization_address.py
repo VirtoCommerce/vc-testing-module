@@ -4,41 +4,56 @@ from typing import Any, Dict
 import allure
 import pytest
 
-from fixtures import Auth, GraphQLClient
+from fixtures.auth import Auth
+from fixtures.graphql_client import GraphQLClient
 from graphql_operations.contact.contact_operations import ContactOperations
 from graphql_operations.user.user_operations import UserOperations
-from test_data.test_address import TEST_CUSTOMER_ADDRESS_1
 
 
 @pytest.mark.graphql
 @allure.title("Delete organization address (GraphQL)")
 def test_delete_organization_address(
-    config: Dict[str, Any], auth: Auth, graphql_client: GraphQLClient
+    config: Dict[str, Any],
+    dataset: Dict[str, Any],
+    auth: Auth,
+    graphql_client: GraphQLClient,
 ):
     print(f"{os.linesep}Running test to delete organization address...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     contact_operations = ContactOperations(graphql_client)
 
+    currency = dataset["currencies"][0]["code"]
+    culture = dataset["languages"][0]
+    dataset_user = dataset["users"][0]
+
     auth.authenticate(
-        config["test_permanent_corporate_customer_username"],
-        config["test_permanent_corporate_customer_password"],
+        dataset_user["userName"],
+        config["users_password"],
     )
 
-    user = user_operations.get_user()
+    user = user_operations.get_me()
 
     organization = contact_operations.fetch_organization_addresses(
         user["contact"]["organizationId"], user["id"]
     )
 
-    contact = contact_operations.update_contact_addresses(
+    organization_original_address = organization["addresses"]["items"][0]
+
+    address_to_add = {
+        **organization_original_address,
+        "id": "temp-address-id",
+        "line1": "1234 Some Street",
+        "line2": "Some Flat",
+    }
+    del address_to_add["isFavorite"]
+
+    added_address = contact_operations.update_contact_addresses(
         payload={
             "memberId": user["contact"]["organizationId"],
-            "addresses": [TEST_CUSTOMER_ADDRESS_1],
+            "addresses": [address_to_add],
         }
-    )
-
-    added_address = contact["addresses"]["items"][0]
+    )["addresses"]["items"][0]
 
     updated_contact = contact_operations.delete_contact_address(
         payload={
@@ -54,5 +69,5 @@ def test_delete_organization_address(
     auth.clear_token()
 
     assert (
-        len(updated_contact["addresses"]["items"]) == 0
+        len(updated_contact["addresses"]["items"]) == 1
     ), "Contact addresses are not deleted"
