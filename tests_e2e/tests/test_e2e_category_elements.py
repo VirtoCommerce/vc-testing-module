@@ -1,24 +1,35 @@
 import os
+from typing import Any, Dict
 
 import allure
 import pytest
 from playwright.sync_api import Page, expect
 
-from fixtures import AnonymousCatalogRequests
-from test_data.test_category import TEST_CATEGORY_1
+from fixtures.anonymous_catalog_requests import AnonymousCatalogRequests
 from tests_e2e.pages.category_page import CategoryPage
 
 
 @pytest.mark.e2e
 @allure.title("Category elements (E2E)")
 def test_e2e_category_elements(
-    config: dict, page: Page, anonymous_catalog_requests: AnonymousCatalogRequests
+    config: Dict[str, Any],
+    dataset: Dict[str, Any],
+    page: Page,
+    anonymous_catalog_requests: AnonymousCatalogRequests,
 ):
     print(f"{os.linesep}Running E2E test to check category elements...", end=" ")
 
     anonymous_catalog_requests.toggle(True)
 
-    category_page = CategoryPage(config, page, TEST_CATEGORY_1["seoPath"])
+    category_to_browse = next(
+        category
+        for category in dataset["categories"]
+        if category["id"] == "category-acme-laptops"
+    )
+
+    category_page = CategoryPage(
+        config, page, category_to_browse["seoInfos"][0]["semanticUrl"]
+    )
     category_page.navigate()
     category_page.view_switcher.switch_category_view("grid")
 

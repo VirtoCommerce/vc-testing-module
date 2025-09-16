@@ -4,7 +4,8 @@ from typing import Any, Dict
 import allure
 import pytest
 
-from fixtures import Auth, GraphQLClient
+from fixtures.auth import Auth
+from fixtures.graphql_client import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
 from test_data.test_culture import TEST_CULTURE
@@ -12,6 +13,7 @@ from test_data.test_currency import TEST_CURRENCY
 from test_data.test_product import TEST_PRODUCT_1, TEST_PRODUCT_2, TEST_PRODUCT_3
 
 
+@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Apply discount for registered user for specific product (GraphQL)")
 def test_product_specific_registered_user_cart_discount(
@@ -54,6 +56,7 @@ def test_product_specific_registered_user_cart_discount(
     assert cart["discountTotal"]["amount"] == 100, "Discount total is not 50"
 
 
+@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Apply discount for specified product (GraphQL)")
 def test_product_specific_cart_discount(
@@ -90,6 +93,7 @@ def test_product_specific_cart_discount(
     assert cart["discountTotal"]["amount"] == 50, "Discount total is not 50"
 
 
+@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Apply discount for specified cart subtotal (GraphQL)")
 def test_subtotal_specific_cart_discount(

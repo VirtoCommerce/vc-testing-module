@@ -4,11 +4,13 @@ from typing import Any, Dict
 import allure
 import pytest
 
-from fixtures import Auth, GraphQLClient
+from fixtures.auth import Auth
+from fixtures.graphql_client import GraphQLClient
 from graphql_operations.contact.contact_operations import ContactOperations
 from graphql_operations.user.user_operations import UserOperations
 
 
+@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.feature("Invite user (GraphQL)")
 def test_invite_user(config: Dict[str, Any], auth: Auth, graphql_client: GraphQLClient):

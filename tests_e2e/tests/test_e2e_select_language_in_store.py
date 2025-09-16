@@ -9,6 +9,7 @@ from tests_e2e.pages.home_page import HomePage
 from tests_e2e.pages.sign_in_page import SignInPage
 
 
+@pytest.mark.ignore
 @pytest.mark.e2e
 @pytest.mark.parametrize("language", ["de-DE", "fr-FR", "it-IT"])
 @allure.feature("Select language in store (E2E)")

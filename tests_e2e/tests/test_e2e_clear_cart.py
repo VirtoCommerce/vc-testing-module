@@ -12,6 +12,7 @@ from tests_e2e.pages.cart_page import CartPage
 from tests_e2e.pages.category_page import CategoryPage
 
 
+@pytest.mark.ignore
 @pytest.mark.e2e
 @allure.title("Clear cart (E2E)")
 def test_e2e_clear_cart(

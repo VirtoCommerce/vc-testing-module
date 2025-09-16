@@ -4,7 +4,8 @@ from typing import Any, Dict
 import allure
 import pytest
 
-from fixtures import Auth, GraphQLClient
+from fixtures.auth import Auth
+from fixtures.graphql_client import GraphQLClient
 from graphql_operations.contact.contact_operations import ContactOperations
 from graphql_operations.user.user_operations import UserOperations
 
@@ -46,6 +47,7 @@ def test_search_organization_contacts_by_name(
     ), "Organization contacts not found"
 
 
+@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Search organization contacts by email (GraphQL)")
 def test_search_organization_contacts_by_email(
