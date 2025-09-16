@@ -1072,7 +1072,8 @@
         {
             "name": "Price USD",
             "type": "PriceRange",
-            "isSelected": true
+            "isSelected": true,
+            "currency": "USD"
         },
         {
             "name": "CpuModel",

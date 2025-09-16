@@ -6,7 +6,8 @@ from colorama import Fore, Style
 from colorama import init as init_colorama
 from dotenv import load_dotenv
 
-from fixtures import Auth, WebAPISession
+from fixtures.auth import Auth
+from fixtures.webapi_client import WebAPISession
 
 
 class DatasetSeeder:
