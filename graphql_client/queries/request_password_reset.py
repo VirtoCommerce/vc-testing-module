@@ -7,8 +7,10 @@ class RequestPasswordResetQuery:
 
     def execute(self, variables: dict, return_fields: str = None) -> bool:
         query_string = f"""
-            query requestPasswordReset($loginOrEmail: String!, $urlSuffix: String) {{
+            query requestPasswordReset($storeId: String, $cultureName: String, $loginOrEmail: String!, $urlSuffix: String) {{
                 requestPasswordReset(
+                    storeId: $storeId,
+                    cultureName: $cultureName,
                     loginOrEmail: $loginOrEmail,
                     urlSuffix: $urlSuffix
                 )

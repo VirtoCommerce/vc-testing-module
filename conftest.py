@@ -12,16 +12,19 @@ from gql.transport.requests import RequestsHTTPTransport
 # from graphql_requests.queries.me.me_query import MeQuery
 from playwright.sync_api import expect, sync_playwright
 
-from fixtures.anonymous_catalog_requests_fixture import anonymous_catalog_requests
-from fixtures.auth_fixture import auth
-
-# from graphql_requests.queries.me.me_query import MeQuery
-from fixtures.auth_token import auth_token
-from fixtures.authenticated_page import authenticated_page
-from fixtures.dataset_fixture import dataset
-from fixtures.graphql_client_fixture import graphql_client
-from fixtures.requests_tracker_fixture import requests_tracker
-from fixtures.webapi_client_fixture import webapi_client
+from fixtures import (
+    anonymous_catalog_requests,
+    auth,
+    auth_token,
+    authenticated_page,
+    checkout_mode,
+    config,
+    graphql_client,
+    product_quantity_control,
+    requests_tracker,
+    webapi_client,
+)
+from fixtures.anonymous_catalog_requests import anonymous_catalog_requests
 
 load_dotenv(override=True)
 
@@ -42,8 +45,38 @@ def config():
     }
 
 
-def pytest_addoption(parser):
+import allure
+import pytest
+from playwright.sync_api import expect
+from pytest import Parser
 
+from fixtures.anonymous_catalog_requests import anonymous_catalog_requests
+from fixtures.auth import auth
+from fixtures.auth_token import auth_token
+from fixtures.authenticated_page import authenticated_page
+from fixtures.checkout_mode import checkout_mode
+from fixtures.config import config
+from fixtures.graphql_client import graphql_client
+from fixtures.product_quantity_control import product_quantity_control
+from fixtures.requests_tracker import requests_tracker
+from fixtures.webapi_client import webapi_client
+
+
+def pytest_addoption(parser: Parser):
+    parser.addoption(
+        "--checkout-mode",
+        action="store",
+        choices=["single-page", "multi-step"],
+        default="single-page",
+        help="Select checkout flow to test (e.g., single-page, multi-step)",
+    )
+    parser.addoption(
+        "--product-quantity-control",
+        action="store",
+        choices=["stepper", "button"],
+        default="stepper",
+        help="Choose quantity selector (e.g., stepper, button)",
+    )
     parser.addoption(
         "--show-browser",
         action="store_true",

@@ -4,14 +4,12 @@ from typing import Any, Dict
 import allure
 import pytest
 
-from fixtures.auth_fixture import Auth
-from fixtures.graphql_client_fixture import GraphQLClient
+from fixtures import Auth, GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
 from test_data.test_culture import TEST_CULTURE
 from test_data.test_currency import TEST_CURRENCY
 from test_data.test_product import TEST_PRODUCT_1, TEST_PRODUCT_2, TEST_PRODUCT_3
-from test_data.test_user import TEST_ADMIN_USER
 
 
 @pytest.mark.graphql
@@ -27,7 +25,7 @@ def test_product_specific_registered_user_cart_discount(
     user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
 
-    auth.authenticate(TEST_ADMIN_USER["username"], TEST_ADMIN_USER["password"])
+    auth.authenticate(config["test_admin_username"], config["test_admin_password"])
 
     user = user_operations.get_user()
 
@@ -52,7 +50,7 @@ def test_product_specific_registered_user_cart_discount(
 
     auth.clear_token()
 
-    assert user["userName"] == TEST_ADMIN_USER["username"], "User name is not correct"
+    assert user["userName"] == config["test_admin_username"], "User name is not correct"
     assert cart["discountTotal"]["amount"] == 100, "Discount total is not 50"
 
 

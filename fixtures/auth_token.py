@@ -11,6 +11,11 @@ def auth_token(config, request) -> str:
     token_data = {"token": None, "expires_at": None}
 
     def get_token():
+        # Validate required config upfront for clearer errors
+        missing = [k for k in ("store_id", "username", "password", "backend_base_url") if not config.get(k)]
+        if missing:
+            raise RuntimeError(f"Missing required config values for token request: {', '.join(missing)}")
+
         if token_data["token"] and token_data["expires_at"]:
             current_time = datetime.datetime.now(datetime.timezone.utc)
             if current_time < token_data["expires_at"]:
@@ -30,8 +35,21 @@ def auth_token(config, request) -> str:
             "password": config["password"],
         }
 
+        # Optionally include client credentials if provided by environment
+        if config.get("client_id"):
+            data["client_id"] = config["client_id"]
+        if config.get("client_secret"):
+            data["client_secret"] = config["client_secret"]
+
         response = requests.post(url, data=data, headers=headers)
-        response.raise_for_status()
+        try:
+            response.raise_for_status()
+        except requests.HTTPError:
+            try:
+                allure.attach(response.text, name="/connect/token response", attachment_type=allure.attachment_type.TEXT)
+            except Exception:
+                pass
+            raise
 
         response_data = response.json()
         expires_in = response_data.get("expires_in", 0)
@@ -40,7 +58,15 @@ def auth_token(config, request) -> str:
         token_data["token"] = response_data["access_token"]
         token_data["expires_at"] = expires_at
 
-        return token_data["token"]
+        # Build a minimal auth object for storefront localStorage
+        auth_local_storage = {
+            "accessToken": response_data["access_token"],
+            "tokenType": response_data.get("token_type", "Bearer"),
+            "expiresIn": expires_in,
+            "userName": config["username"],
+        }
+
+        return token_data["token"], __import__("json").dumps(auth_local_storage)
 
     # Get initial token
     token = get_token()

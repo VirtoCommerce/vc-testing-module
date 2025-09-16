@@ -4,8 +4,8 @@ from pydantic import BaseModel
 class CatalogDiscountType(BaseModel):
     def __init__(self):
         from graphql_client.types.promotion import Promotion
-        from decimal import Decimal
         from graphql_client.types.money_type import MoneyType
+        from decimal import Decimal
 
         self.coupon: str | None
         self.description: str | None

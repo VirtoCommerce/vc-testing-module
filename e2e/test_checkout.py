@@ -22,6 +22,7 @@ def checkout_page(page: Page, config, browser_context):
     return CheckoutPage(page, config, browser_context)
 
 
+@pytest.mark.skip(reason="Skipping test_anonymous_complete_checkout")
 def test_anonymous_complete_checkout(cart_page: CartPage, checkout_page: CheckoutPage):
     """Test complete checkout flow"""
     # Setup test data

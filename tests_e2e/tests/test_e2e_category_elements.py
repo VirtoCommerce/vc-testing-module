@@ -1,13 +1,19 @@
-import allure, os, pytest
+import os
+
+import allure
+import pytest
 from playwright.sync_api import Page, expect
-from tests_e2e.pages.category_page import CategoryPage
-from fixtures.anonymous_catalog_requests_fixture import AnonymousCatalogRequests
+
+from fixtures import AnonymousCatalogRequests
 from test_data.test_category import TEST_CATEGORY_1
+from tests_e2e.pages.category_page import CategoryPage
 
 
 @pytest.mark.e2e
 @allure.title("Category elements (E2E)")
-def test_e2e_category_elements(config: dict, page: Page, anonymous_catalog_requests: AnonymousCatalogRequests):
+def test_e2e_category_elements(
+    config: dict, page: Page, anonymous_catalog_requests: AnonymousCatalogRequests
+):
     print(f"{os.linesep}Running E2E test to check category elements...", end=" ")
 
     anonymous_catalog_requests.toggle(True)

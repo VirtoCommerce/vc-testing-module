@@ -8,7 +8,7 @@ class ProductsQuery:
 
     def execute(self, variables: dict, return_fields: str = None) -> ProductConnection:
         query_string = f"""
-            query products($after: String, $first: Int, $storeId: String!, $userId: String, $currencyCode: String, $cultureName: String, $query: String, $filter: String, $facet: String, $fuzzy: Boolean, $fuzzyLevel: Int, $sort: String, $productIds: [String], $selectedAddressId: String, $selectedAddress: String, $custom: String) {{
+            query products($after: String, $first: Int, $storeId: String!, $userId: String, $currencyCode: String, $cultureName: String, $query: String, $filter: String, $preserveUserQuery: Boolean, $facet: String, $fuzzy: Boolean, $fuzzyLevel: Int, $sort: String, $productIds: [String], $selectedAddressId: String, $selectedAddress: String, $custom: String) {{
                 products(
                     after: $after,
                     first: $first,
@@ -18,6 +18,7 @@ class ProductsQuery:
                     cultureName: $cultureName,
                     query: $query,
                     filter: $filter,
+                    preserveUserQuery: $preserveUserQuery,
                     facet: $facet,
                     fuzzy: $fuzzy,
                     fuzzyLevel: $fuzzyLevel,

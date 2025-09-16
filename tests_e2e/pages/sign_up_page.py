@@ -1,6 +1,8 @@
 from typing import Optional
+
 from playwright.sync_api import Locator, Page
-from tests_e2e.pages.main_layout_page import MainLayoutPage
+
+from tests_e2e.pages import MainLayoutPage
 
 
 class SignUpPage(MainLayoutPage):
@@ -14,11 +16,15 @@ class SignUpPage(MainLayoutPage):
 
     @property
     def personal_registration_radio_button(self) -> Locator:
-        return self.page.locator("[data-test-id='sign-up-personal-registration-radio-button']")
+        return self.page.locator(
+            "[data-test-id='sign-up-personal-registration-radio-button']"
+        )
 
     @property
     def organization_registration_radio_button(self) -> Locator:
-        return self.page.locator("[data-test-id='sign-up-organization-registration-radio-button']")
+        return self.page.locator(
+            "[data-test-id='sign-up-organization-registration-radio-button']"
+        )
 
     @property
     def first_name_input(self) -> Locator:

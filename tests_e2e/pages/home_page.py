@@ -1,5 +1,6 @@
 from playwright.sync_api import Page
-from tests_e2e.pages.main_layout_page import MainLayoutPage
+
+from .main_layout_page import MainLayoutPage
 
 
 class HomePage(MainLayoutPage):

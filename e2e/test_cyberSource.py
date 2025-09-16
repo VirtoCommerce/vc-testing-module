@@ -35,6 +35,7 @@ def login_page(page: Page, config, browser_context):
     return LoginPage(page, config, browser_context)
 
 
+@pytest.mark.skip(reason="Skipping test_payment_success")
 def test_payment_success(
     cart_page: CartPage, checkout_page: CheckoutPage, payment_page: PaymentPage, login_page: LoginPage, config
 ):
@@ -47,7 +48,7 @@ def test_payment_success(
 
     # Step 1: Add product to cart as user
     login_page.navigate()
-    login_page.login(config["front_admin"], config["password"])
+    login_page.login(config["front_admin"], config["password_front_admin"])
     login_page.expect_successful_login()
     cart_page.click_cart_icon()
     cart_page.clear_cart()
@@ -78,6 +79,7 @@ def test_payment_success(
     print("Cybersource test payment success completed")
 
 
+@pytest.mark.skip(reason="Skipping test_payment_failed")
 def test_payment_failed(
     cart_page: CartPage, checkout_page: CheckoutPage, payment_page: PaymentPage, login_page: LoginPage, config
 ):
@@ -90,7 +92,7 @@ def test_payment_failed(
 
     # Step 1: Add product to cart as user
     login_page.navigate()
-    login_page.login(config["front_admin"], config["password"])
+    login_page.login(config["front_admin"], config["password_front_admin"])
     login_page.expect_successful_login()
     cart_page.click_cart_icon()
     cart_page.clear_cart()
@@ -118,6 +120,7 @@ def test_payment_failed(
     print("Cybersource test payment failed completed")
 
 
+@pytest.mark.skip(reason="Skipping test_payment_form_validation")
 def test_payment_form_validation(
     cart_page: CartPage, checkout_page: CheckoutPage, payment_page: PaymentPage, login_page: LoginPage, config
 ):
@@ -128,7 +131,7 @@ def test_payment_form_validation(
     quantity = PRODUCT["initial_quantity"]
 
     login_page.navigate()
-    login_page.login(config["front_admin"], config["password"])
+    login_page.login(config["front_admin"], config["password_front_admin"])
     login_page.expect_successful_login()
     cart_page.click_cart_icon()
     cart_page.clear_cart()

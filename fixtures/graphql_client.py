@@ -1,9 +1,11 @@
+from typing import Any, Dict
+
 import allure
-from fixtures.auth_fixture import Auth
 import pytest
 from gql import Client
 from gql.transport.requests import RequestsHTTPTransport
-from typing import Dict, Any
+
+from fixtures.auth import Auth
 
 
 class GraphQLClient(Client):

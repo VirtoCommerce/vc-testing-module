@@ -4,7 +4,7 @@ import allure
 import pytest
 from playwright.sync_api import Page, expect
 
-from fixtures.anonymous_catalog_requests_fixture import AnonymousCatalogRequests
+from fixtures import AnonymousCatalogRequests
 from tests_e2e.pages.home_page import HomePage
 from tests_e2e.pages.sign_in_page import SignInPage
 

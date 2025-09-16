@@ -1,5 +1,6 @@
 from playwright.sync_api import Locator, Page
-from tests_e2e.pages.main_layout_page import MainLayoutPage
+
+from tests_e2e.pages import MainLayoutPage
 
 
 class SignInPage(MainLayoutPage):
@@ -33,7 +34,9 @@ class SignInPage(MainLayoutPage):
 
     @property
     def sign_in_error_alert(self) -> Locator:
-        return self.page.locator("[data-test-id^='sign-in-page.sign-in-error-'][data-test-id$='-alert']")
+        return self.page.locator(
+            "[data-test-id^='sign-in-page.sign-in-error-'][data-test-id$='-alert']"
+        )
 
     def navigate(self) -> None:
         self.page.goto(self.url)

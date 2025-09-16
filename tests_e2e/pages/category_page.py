@@ -1,8 +1,10 @@
-from tests_e2e.pages.main_layout_page import MainLayoutPage
+from typing import List, Literal, Optional
+
 from playwright.sync_api import Locator, Page
-from tests_e2e.components.category_view_switcher_component import CategoryViewSwitcherComponent
-from tests_e2e.components.product_card_component import ProductCardComponent
-from typing import List, Optional
+
+from tests_e2e.components import CategoryViewSwitcherComponent, ProductCardComponent
+
+from .main_layout_page import MainLayoutPage
 
 
 class CategoryPage(MainLayoutPage):
@@ -17,7 +19,9 @@ class CategoryPage(MainLayoutPage):
 
     @property
     def view_switcher(self) -> CategoryViewSwitcherComponent:
-        return CategoryViewSwitcherComponent(self.page.locator("[data-test-id='category-page.view-switcher']"))
+        return CategoryViewSwitcherComponent(
+            self.page.locator("[data-test-id='category-page.view-switcher']")
+        )
 
     @property
     def products_grid_view(self) -> Locator:
@@ -29,7 +33,12 @@ class CategoryPage(MainLayoutPage):
 
     @property
     def product_cards(self) -> List[ProductCardComponent]:
-        return [ProductCardComponent(card) for card in self.products_grid_view.locator("[data-test-id='product-card']").all()]
+        return [
+            ProductCardComponent(card)
+            for card in self.products_grid_view.locator(
+                "[data-test-id='product-card']"
+            ).all()
+        ]
 
     def navigate(self) -> None:
         self.page.goto(self.url)

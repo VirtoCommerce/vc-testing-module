@@ -1,28 +1,29 @@
 import os
+from typing import Any, Dict
 
 import allure
 import pytest
 
-from fixtures.auth_fixture import Auth
-from fixtures.graphql_client_fixture import GraphQLClient
+from fixtures import Auth, GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.quote.quote_operations import QuoteOperations
 from graphql_operations.user.user_operations import UserOperations
 from test_data.test_culture import TEST_CULTURE
 from test_data.test_currency import TEST_CURRENCY
 from test_data.test_product import TEST_PRODUCT_1
-from test_data.test_user import TEST_ADMIN_USER
 
 
 @pytest.mark.graphql
 @allure.title("Create empty quote (GraphQL)")
-def test_create_empty_quote(config: dict, auth: Auth, graphql_client: GraphQLClient):
+def test_create_empty_quote(
+    config: Dict[str, Any], auth: Auth, graphql_client: GraphQLClient
+):
     print(f"{os.linesep}Running test to create empty quote...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     quote_operations = QuoteOperations(graphql_client)
 
-    auth.authenticate(TEST_ADMIN_USER["username"], TEST_ADMIN_USER["password"])
+    auth.authenticate(config["test_admin_username"], config["test_admin_password"])
 
     user = user_operations.get_user()
 
@@ -49,7 +50,7 @@ def test_create_empty_quote(config: dict, auth: Auth, graphql_client: GraphQLCli
 @pytest.mark.graphql
 @allure.title("Create quote with items from cart (GraphQL)")
 def test_create_quote_with_items_from_cart(
-    config: dict, auth: Auth, graphql_client: GraphQLClient
+    config: Dict[str, Any], auth: Auth, graphql_client: GraphQLClient
 ):
     print(f"{os.linesep}Running test to create quote with items from cart...", end=" ")
 
@@ -57,7 +58,7 @@ def test_create_quote_with_items_from_cart(
     cart_operations = CartOperations(graphql_client)
     quote_operations = QuoteOperations(graphql_client)
 
-    auth.authenticate(TEST_ADMIN_USER["username"], TEST_ADMIN_USER["password"])
+    auth.authenticate(config["test_admin_username"], config["test_admin_password"])
 
     user = user_operations.get_user()
 

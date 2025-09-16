@@ -14,22 +14,19 @@ jobs:
       fail-fast: false
       matrix:
         browser: [chromium]
-
-    env:
-      FRONTEND_BASE_URL: https://vcst-qa-storefront.govirto.com
-      BACKEND_BASE_URL: https://vcst-qa.govirto.com
-      ADMIN_USERNAME: admin
-      ADMIN_PASSWORD: Password3
-      ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
-      USER_EMAIL: b2badmin@test.com
-      FRONT_ADMIN: e2e-admin@test.com
-      PASSWORD: Password1
-      API_KEY: ${{ secrets.API_KEY }}
-      STORE_ID: B2B-store
-      PLAYWRIGHT_HEADLESS: "true"
       
     steps:
     - uses: actions/checkout@v4
+
+    - name: Create .env file
+      shell: bash
+      env:
+        SECRET_ENV_FILE: ${{ secrets.VC_TESTING_MODULE_ENV_FILE }}
+      run: |
+        echo "Creating .env file..."
+        echo "$SECRET_ENV_FILE" > .env
+        chmod 600 .env
+        echo "..Done."
     
     - name: Set up Python
       uses: actions/setup-python@v5

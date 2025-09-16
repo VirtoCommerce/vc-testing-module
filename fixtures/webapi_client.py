@@ -7,7 +7,8 @@ import pytest
 import requests
 from colorama import Fore, Style
 
-from fixtures.auth_fixture import Auth
+from fixtures import Auth
+from fixtures.auth import Auth
 
 
 class WebAPISession(requests.Session):
