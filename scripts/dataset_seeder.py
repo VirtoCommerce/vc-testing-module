@@ -375,7 +375,7 @@ if __name__ == "__main__":
     seeder.authenticate(config["admin_username"], config["admin_password"])
 
     seeder.load_test_data("dataset.json")
-    """
+
     seeder.create_languages()
     seeder.create_currencies()
     seeder.create_fulfillment_centers()
@@ -395,7 +395,5 @@ if __name__ == "__main__":
     seeder.create_organizations()
     seeder.create_contacts()
     seeder.create_users()
-    """
 
-    seeder.create_organizations()
     seeder.sign_out()
