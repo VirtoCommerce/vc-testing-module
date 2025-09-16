@@ -11983,7 +11983,7 @@
     ],
     "roles": [
         {
-            "id": "role-organization-employee",
+            "id": "org-employee",
             "name": "Organization Employee",
             "description": "Organization Employee",
             "permissions": [
@@ -11996,7 +11996,7 @@
             ]
         },
         {
-            "id": "role-organization-maintainer",
+            "id": "org-maintainer",
             "name": "Organization Maintainer",
             "description": "Organization Maintainer",
             "permissions": [
@@ -12024,7 +12024,7 @@
             ]
         },
         {
-            "id": "role-purchasing-agent",
+            "id": "purchasing-agent",
             "name": "Purchasing Agent",
             "description": "Purchasing Agent",
             "permissions": [
@@ -12037,7 +12037,7 @@
             ]
         },
         {
-            "id": "role-store-administrator",
+            "id": "store-admin",
             "name": "Store Administrator",
             "description": "Store Administrator",
             "permissions": [
@@ -12071,7 +12071,7 @@
             ]
         },
         {
-            "id": "role-store-manager",
+            "id": "store-manager",
             "name": "Store Manager",
             "description": "Store Manager",
             "permissions": [
@@ -12126,6 +12126,9 @@
             "defaultOrganizationId": "organization-acme-store",
             "organizations": [
                 "organization-acme-store"
+            ],
+            "emails": [
+                "acme_store_employee_1@acme.com"
             ]
         },
         {
@@ -12137,6 +12140,9 @@
             "defaultOrganizationId": "organization-acme-store",
             "organizations": [
                 "organization-acme-store"
+            ],
+            "emails": [
+                "acme_store_employee_2@acme.com"
             ]
         },
         {
@@ -12148,6 +12154,9 @@
             "defaultOrganizationId": "organization-acme-store",
             "organizations": [
                 "organization-acme-store"
+            ],
+            "emails": [
+                "acme_store_employee_3@acme.com"
             ]
         },
         {
@@ -12159,6 +12168,9 @@
             "defaultOrganizationId": "organization-acme-store",
             "organizations": [
                 "organization-acme-store"
+            ],
+            "emails": [
+                "acme_store_employee_4@acme.com"
             ]
         },
         {
@@ -12170,6 +12182,9 @@
             "defaultOrganizationId": "organization-acme-store",
             "organizations": [
                 "organization-acme-store"
+            ],
+            "emails": [
+                "acme_store_employee_5@acme.com"
             ]
         },
         {
@@ -12181,6 +12196,9 @@
             "defaultOrganizationId": "organization-acme-store",
             "organizations": [
                 "organization-acme-store"
+            ],
+            "emails": [
+                "acme_store_employee_6@acme.com"
             ]
         },
         {
@@ -12192,6 +12210,9 @@
             "defaultOrganizationId": "organization-acme-store",
             "organizations": [
                 "organization-acme-store"
+            ],
+            "emails": [
+                "acme_store_employee_7@acme.com"
             ]
         },
         {
@@ -12203,6 +12224,9 @@
             "defaultOrganizationId": "organization-acme-store",
             "organizations": [
                 "organization-acme-store"
+            ],
+            "emails": [
+                "acme_store_employee_8@acme.com"
             ]
         },
         {
@@ -12214,6 +12238,9 @@
             "defaultOrganizationId": "organization-acme-store",
             "organizations": [
                 "organization-acme-store"
+            ],
+            "emails": [
+                "acme_store_employee_9@acme.com"
             ]
         },
         {
@@ -12225,6 +12252,9 @@
             "defaultOrganizationId": "organization-acme-store",
             "organizations": [
                 "organization-acme-store"
+            ],
+            "emails": [
+                "acme_store_maintainer_1@acme.com"
             ]
         },
         {
@@ -12236,6 +12266,9 @@
             "defaultOrganizationId": "organization-acme-store",
             "organizations": [
                 "organization-acme-store"
+            ],
+            "emails": [
+                "acme_store_purchasing_agent_1@acme.com"
             ]
         },
         {
@@ -12247,6 +12280,9 @@
             "defaultOrganizationId": "organization-acme-store",
             "organizations": [
                 "organization-acme-store"
+            ],
+            "emails": [
+                "acme_store_purchasing_agent_2@acme.com"
             ]
         },
         {
@@ -12258,6 +12294,9 @@
             "defaultOrganizationId": "organization-acme-store",
             "organizations": [
                 "organization-acme-store"
+            ],
+            "emails": [
+                "acme_store_purchasing_agent_3@acme.com"
             ]
         },
         {
@@ -12269,6 +12308,9 @@
             "defaultOrganizationId": "organization-acme-store",
             "organizations": [
                 "organization-acme-store"
+            ],
+            "emails": [
+                "acme_store_administrator@acme.com"
             ]
         },
         {
@@ -12280,6 +12322,9 @@
             "defaultOrganizationId": "organization-acme-store",
             "organizations": [
                 "organization-acme-store"
+            ],
+            "emails": [
+                "acme_store_manager_1@acme.com"
             ]
         },
         {
@@ -12291,6 +12336,9 @@
             "defaultOrganizationId": "organization-acme-store",
             "organizations": [
                 "organization-acme-store"
+            ],
+            "emails": [
+                "acme_store_manager_2@acme.com"
             ]
         },
         {
@@ -12302,6 +12350,9 @@
             "defaultOrganizationId": "organization-acme-store",
             "organizations": [
                 "organization-acme-store"
+            ],
+            "emails": [
+                "acme_store_manager_3@acme.com"
             ]
         },
         {
@@ -12313,6 +12364,9 @@
             "defaultOrganizationId": "organization-acme-store",
             "organizations": [
                 "organization-acme-store"
+            ],
+            "emails": [
+                "acme_store_manager_4@acme.com"
             ]
         }
     ],
@@ -12328,7 +12382,7 @@
             "storeId": "store-acme",
             "roles": [
                 {
-                    "id": "role-organization-employee",
+                    "id": "org-employee",
                     "name": "Organization Employee",
                     "normalizedName": "ORGANIZATION EMPLOYEE"
                 }
@@ -12345,7 +12399,7 @@
             "storeId": "store-acme",
             "roles": [
                 {
-                    "id": "role-organization-employee",
+                    "id": "org-employee",
                     "name": "Organization Employee",
                     "normalizedName": "ORGANIZATION EMPLOYEE"
                 }
@@ -12362,7 +12416,7 @@
             "storeId": "store-acme",
             "roles": [
                 {
-                    "id": "role-organization-employee",
+                    "id": "org-employee",
                     "name": "Organization Employee",
                     "normalizedName": "ORGANIZATION EMPLOYEE"
                 }
@@ -12379,7 +12433,7 @@
             "storeId": "store-acme",
             "roles": [
                 {
-                    "id": "role-organization-employee",
+                    "id": "org-employee",
                     "name": "Organization Employee",
                     "normalizedName": "ORGANIZATION EMPLOYEE"
                 }
@@ -12396,7 +12450,7 @@
             "storeId": "store-acme",
             "roles": [
                 {
-                    "id": "role-organization-employee",
+                    "id": "org-employee",
                     "name": "Organization Employee",
                     "normalizedName": "ORGANIZATION EMPLOYEE"
                 }
@@ -12413,7 +12467,7 @@
             "storeId": "store-acme",
             "roles": [
                 {
-                    "id": "role-organization-employee",
+                    "id": "org-employee",
                     "name": "Organization Employee",
                     "normalizedName": "ORGANIZATION EMPLOYEE"
                 }
@@ -12430,7 +12484,7 @@
             "storeId": "store-acme",
             "roles": [
                 {
-                    "id": "role-organization-employee",
+                    "id": "org-employee",
                     "name": "Organization Employee",
                     "normalizedName": "ORGANIZATION EMPLOYEE"
                 }
@@ -12447,7 +12501,7 @@
             "storeId": "store-acme",
             "roles": [
                 {
-                    "id": "role-organization-employee",
+                    "id": "org-employee",
                     "name": "Organization Employee",
                     "normalizedName": "ORGANIZATION EMPLOYEE"
                 }
@@ -12464,7 +12518,7 @@
             "storeId": "store-acme",
             "roles": [
                 {
-                    "id": "role-organization-employee",
+                    "id": "org-employee",
                     "name": "Organization Employee",
                     "normalizedName": "ORGANIZATION EMPLOYEE"
                 }
@@ -12481,7 +12535,7 @@
             "storeId": "store-acme",
             "roles": [
                 {
-                    "id": "role-organization-maintainer",
+                    "id": "org-maintainer",
                     "name": "Organization Maintainer",
                     "normalizedName": "ORGANIZATION MAINTAINER"
                 }
@@ -12498,7 +12552,7 @@
             "storeId": "store-acme",
             "roles": [
                 {
-                    "id": "role-purchasing-agent",
+                    "id": "purchasing-agent",
                     "name": "Purchasing Agent",
                     "normalizedName": "PURCHASING AGENT"
                 }
@@ -12515,7 +12569,7 @@
             "storeId": "store-acme",
             "roles": [
                 {
-                    "id": "role-purchasing-agent",
+                    "id": "purchasing-agent",
                     "name": "Purchasing Agent",
                     "normalizedName": "PURCHASING AGENT"
                 }
@@ -12532,7 +12586,7 @@
             "storeId": "store-acme",
             "roles": [
                 {
-                    "id": "role-purchasing-agent",
+                    "id": "purchasing-agent",
                     "name": "Purchasing Agent",
                     "normalizedName": "PURCHASING AGENT"
                 }
@@ -12550,7 +12604,7 @@
             "storeId": "store-acme",
             "roles": [
                 {
-                    "id": "role-store-administrator",
+                    "id": "store-admin",
                     "name": "Store Administrator",
                     "normalizedName": "STORE ADMINISTRATOR"
                 }
@@ -12567,7 +12621,7 @@
             "storeId": "store-acme",
             "roles": [
                 {
-                    "id": "role-store-manager",
+                    "id": "store-manager",
                     "name": "Store Manager",
                     "normalizedName": "STORE MANAGER"
                 }
@@ -12584,7 +12638,7 @@
             "storeId": "store-acme",
             "roles": [
                 {
-                    "id": "role-store-manager",
+                    "id": "store-manager",
                     "name": "Store Manager",
                     "normalizedName": "STORE MANAGER"
                 }
@@ -12601,7 +12655,7 @@
             "storeId": "store-acme",
             "roles": [
                 {
-                    "id": "role-store-manager",
+                    "id": "store-manager",
                     "name": "Store Manager",
                     "normalizedName": "STORE MANAGER"
                 }
@@ -12618,7 +12672,7 @@
             "storeId": "store-acme",
             "roles": [
                 {
-                    "id": "role-store-manager",
+                    "id": "store-manager",
                     "name": "Store Manager",
                     "normalizedName": "STORE MANAGER"
                 }
