@@ -10,7 +10,6 @@ from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
 
 
-@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Apply gifts for specified product (GraphQL)")
 def test_gift_specific_product(
