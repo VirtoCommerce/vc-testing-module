@@ -11,12 +11,12 @@ from graphql_operations.user.user_operations import UserOperations
 
 
 @pytest.mark.graphql
-@allure.title("Apply gifts for specified product (GraphQL)")
-def test_gift_specific_product(
+@allure.title("Apply gifts for specified product quantity (GraphQL)")
+def test_gift_specific_product_quantity(
     config: Dict[str, Any], dataset: Dict[str, Any], graphql_client: GraphQLClient
 ):
     print(
-        f"{os.linesep}Running test to apply gifts for specified product in cart...",
+        f"{os.linesep}Running test to apply gifts for specified product quantity in cart...",
         end=" ",
     )
 
