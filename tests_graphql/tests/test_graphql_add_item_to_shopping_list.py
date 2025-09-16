@@ -10,40 +10,43 @@ from graphql_operations.shopping_lists.shopping_lists_operations import (
     ShoppingListsOperations,
 )
 from graphql_operations.user.user_operations import UserOperations
-from test_data.test_culture import TEST_CULTURE
-from test_data.test_currency import TEST_CURRENCY
-from test_data.test_product import TEST_PRODUCT_1
-from test_data.test_user import TEST_PERMANENT_USER
 
 
 @pytest.mark.graphql
 @allure.title("Add item to shopping list (GraphQL)")
 def test_add_item_to_shopping_list(
-    config: Dict[str, Any], auth: Auth, graphql_client: GraphQLClient
+    config: Dict[str, Any],
+    dataset: Dict[str, Any],
+    auth: Auth,
+    graphql_client: GraphQLClient,
 ):
     print(f"{os.linesep}Running test to add item to shopping list...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     shopping_lists_operations = ShoppingListsOperations(graphql_client)
 
-    auth.authenticate(TEST_PERMANENT_USER["username"], TEST_PERMANENT_USER["password"])
+    currency = dataset["currencies"][0]["code"]
+    culture = dataset["languages"][0]
+    product = dataset["products"][0]
 
-    user = user_operations.get_user()
+    auth.authenticate(dataset["users"][0]["userName"], config["users_password"])
+
+    user = user_operations.get_me()
 
     shopping_list = shopping_lists_operations.create_shopping_list(
         payload={
             "userId": user["id"],
             "storeId": config["store_id"],
-            "listName": "[E2E test] Test shopping list",
-            "cultureName": TEST_CULTURE["en-US"],
-            "currencyCode": TEST_CURRENCY["USD"],
+            "listName": "Test shopping list",
+            "cultureName": culture,
+            "currencyCode": currency,
             "scope": "Private",
         }
     )
 
     shopping_list_with_item = shopping_lists_operations.add_item_to_shopping_list(
         list_id=shopping_list["id"],
-        product_id=TEST_PRODUCT_1["id"],
+        product_id=product["id"],
         quantity=1,
     )
 

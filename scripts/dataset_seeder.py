@@ -30,7 +30,7 @@ class DatasetSeeder:
         self.auth.clear_token()
 
     def load_test_data(self, file_path: str) -> None:
-        with open(self.get_file_path(file_path), "r") as file:
+        with open(self.get_file_path(file_path), "r", encoding="utf-8") as file:
             self.test_data = json.load(file)
 
     def load_test_data_users(self, file_path: str) -> None:
@@ -197,6 +197,22 @@ class DatasetSeeder:
                 data=store,
             )
 
+            payment_methods = self.webapi_client.post(
+                "/api/payment/search", data={"storeId": self.store_id}
+            )["results"]
+
+            shipping_methods = self.webapi_client.post(
+                "/api/shipping/search", data={"storeId": self.store_id}
+            )["results"]
+
+            for payment_method in payment_methods:
+                payment_method["isActive"] = True
+                self.webapi_client.put("/api/payment", data=payment_method)
+
+            for shipping_method in shipping_methods:
+                shipping_method["isActive"] = True
+                self.webapi_client.put("/api/shipping", data=shipping_method)
+
             print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
     def create_aggregation_properties(self) -> None:
@@ -359,6 +375,7 @@ if __name__ == "__main__":
     seeder.authenticate(config["admin_username"], config["admin_password"])
 
     seeder.load_test_data("dataset.json")
+    """
     seeder.create_languages()
     seeder.create_currencies()
     seeder.create_fulfillment_centers()
@@ -378,5 +395,7 @@ if __name__ == "__main__":
     seeder.create_organizations()
     seeder.create_contacts()
     seeder.create_users()
+    """
 
+    seeder.create_organizations()
     seeder.sign_out()

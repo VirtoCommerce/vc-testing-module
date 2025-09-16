@@ -1,48 +1,55 @@
+import datetime
 import os
-from dotenv import load_dotenv
+
+import allure
 import pytest
 import requests
-import datetime
+from dotenv import load_dotenv
 from gql import Client, gql
 from gql.transport.requests import RequestsHTTPTransport
-from playwright.sync_api import sync_playwright, expect
-from fixtures.auth_token import auth_token
-from fixtures.authenticated_page import authenticated_page
 
 # from fixtures.clear_cart_if_not_empty import clear_cart_if_not_empty
 # from graphql_requests.queries.me.me_query import MeQuery
-from playwright.sync_api import expect
-import allure
+from playwright.sync_api import expect, sync_playwright
+
+from fixtures.anonymous_catalog_requests_fixture import anonymous_catalog_requests
+from fixtures.auth_fixture import auth
 
 # from graphql_requests.queries.me.me_query import MeQuery
 from fixtures.auth_token import auth_token
-from fixtures.auth_fixture import auth
+from fixtures.authenticated_page import authenticated_page
+from fixtures.dataset_fixture import dataset
 from fixtures.graphql_client_fixture import graphql_client
-from fixtures.webapi_client_fixture import webapi_client
-from fixtures.anonymous_catalog_requests_fixture import anonymous_catalog_requests
 from fixtures.requests_tracker_fixture import requests_tracker
+from fixtures.webapi_client_fixture import webapi_client
 
-# Load environment variables from .env file
 load_dotenv(override=True)
 
 
 @pytest.fixture(scope="session")
 def config():
-    """Fixture that loads test configuration from environment variables"""
     return {
-        "backend_base_url": os.getenv("BACKEND_BASE_URL", "https://vcst-qa.govirto.com"),
-        "frontend_base_url": os.getenv("FRONTEND_BASE_URL", "https://vcst-qa-storefront.govirto.com"),
+        "backend_base_url": os.getenv(
+            "BACKEND_BASE_URL", "https://vcst-qa.govirto.com"
+        ),
+        "frontend_base_url": os.getenv(
+            "FRONTEND_BASE_URL", "https://vcst-qa-storefront.govirto.com"
+        ),
+        "admin_username": os.getenv("ADMIN_USERNAME"),
+        "admin_password": os.getenv("ADMIN_PASSWORD"),
         "store_id": os.getenv("STORE_ID"),
-        "username": os.getenv("USER_EMAIL"),
-        "front_admin": os.getenv("FRONT_ADMIN"),
-        "password": os.getenv("PASSWORD"),
-        "api_key": os.getenv("API_KEY", "ec15f69d-fbf0-4117-b40b-286819c164fb"),
+        "users_password": os.getenv("USERS_PASSWORD"),
     }
 
 
 def pytest_addoption(parser):
 
-    parser.addoption("--show-browser", action="store_true", default=False, help="Run browser in headed mode")
+    parser.addoption(
+        "--show-browser",
+        action="store_true",
+        default=False,
+        help="Run browser in headed mode",
+    )
 
 
 @pytest.fixture(scope="session")
@@ -89,7 +96,9 @@ def authenticated_page(auth_token, config, browser_context):
 
     # Set auth object in localStorage
     page = browser_context.new_page()
-    page.goto(config["frontend_base_url"])  # Wait for page load before manipulating storage
+    page.goto(
+        config["frontend_base_url"]
+    )  # Wait for page load before manipulating storage
     page.evaluate(
         f"""
         localStorage.setItem('auth', JSON.stringify({auth_token[1]}));

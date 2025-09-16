@@ -7,29 +7,32 @@ import pytest
 from fixtures.graphql_client_fixture import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
-from test_data.test_culture import TEST_CULTURE
-from test_data.test_currency import TEST_CURRENCY
-from test_data.test_product import TEST_PRODUCT_1
 
 
 @pytest.mark.graphql
 @allure.title("Add cart shipment (GraphQL)")
-def test_add_cart_shipment(config: Dict[str, Any], graphql_client: GraphQLClient):
+def test_add_cart_shipment(
+    config: Dict[str, Any], dataset: Dict[str, Any], graphql_client: GraphQLClient
+):
     print(f"{os.linesep}Running test to add a cart shipment...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
 
-    user = user_operations.get_user()
+    currency = dataset["currencies"][0]["code"]
+    culture = dataset["languages"][0]
+    product = dataset["products"][0]
+
+    user = user_operations.get_me()
 
     cart = cart_operations.add_item_to_cart(
         payload={
             "storeId": config["store_id"],
             "userId": user["id"],
-            "productId": TEST_PRODUCT_1["id"],
+            "productId": product["id"],
             "quantity": 1,
-            "currencyCode": TEST_CURRENCY["USD"],
-            "cultureName": TEST_CULTURE["en-US"],
+            "currencyCode": currency,
+            "cultureName": culture,
         }
     )
 
@@ -52,8 +55,8 @@ def test_add_cart_shipment(config: Dict[str, Any], graphql_client: GraphQLClient
         payload={
             "storeId": config["store_id"],
             "userId": user["id"],
-            "currencyCode": TEST_CURRENCY["USD"],
-            "cultureName": TEST_CULTURE["en-US"],
+            "currencyCode": currency,
+            "cultureName": culture,
             "shipment": shipment,
         }
     )
@@ -65,8 +68,8 @@ def test_add_cart_shipment(config: Dict[str, Any], graphql_client: GraphQLClient
         payload={
             "storeId": config["store_id"],
             "userId": user["id"],
-            "currencyCode": TEST_CURRENCY["USD"],
-            "cultureName": TEST_CULTURE["en-US"],
+            "currencyCode": currency,
+            "cultureName": culture,
         }
     )
     cart_operations.remove_cart(
@@ -95,22 +98,28 @@ def test_add_cart_shipment(config: Dict[str, Any], graphql_client: GraphQLClient
 
 @pytest.mark.graphql
 @allure.title("Update cart shipment (GraphQL)")
-def test_update_cart_shipment(config: Dict[str, Any], graphql_client: GraphQLClient):
+def test_update_cart_shipment(
+    config: Dict[str, Any], dataset: Dict[str, Any], graphql_client: GraphQLClient
+):
     print(f"{os.linesep}Running test to update a cart shipment...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
 
-    user = user_operations.get_user()
+    currency = dataset["currencies"][0]["code"]
+    culture = dataset["languages"][0]
+    product = dataset["products"][0]
+
+    user = user_operations.get_me()
 
     cart = cart_operations.add_item_to_cart(
         payload={
             "storeId": config["store_id"],
             "userId": user["id"],
-            "productId": TEST_PRODUCT_1["id"],
+            "productId": product["id"],
             "quantity": 1,
-            "currencyCode": TEST_CURRENCY["USD"],
-            "cultureName": TEST_CULTURE["en-US"],
+            "currencyCode": currency,
+            "cultureName": culture,
         }
     )
 
@@ -133,8 +142,8 @@ def test_update_cart_shipment(config: Dict[str, Any], graphql_client: GraphQLCli
         payload={
             "storeId": config["store_id"],
             "userId": user["id"],
-            "currencyCode": TEST_CURRENCY["USD"],
-            "cultureName": TEST_CULTURE["en-US"],
+            "currencyCode": currency,
+            "cultureName": culture,
             "shipment": shipment,
         }
     )
@@ -159,8 +168,8 @@ def test_update_cart_shipment(config: Dict[str, Any], graphql_client: GraphQLCli
         payload={
             "storeId": config["store_id"],
             "userId": user["id"],
-            "currencyCode": TEST_CURRENCY["USD"],
-            "cultureName": TEST_CULTURE["en-US"],
+            "currencyCode": currency,
+            "cultureName": culture,
             "shipment": new_shipment,
         }
     )
@@ -172,8 +181,8 @@ def test_update_cart_shipment(config: Dict[str, Any], graphql_client: GraphQLCli
         payload={
             "storeId": config["store_id"],
             "userId": user["id"],
-            "currencyCode": TEST_CURRENCY["USD"],
-            "cultureName": TEST_CULTURE["en-US"],
+            "currencyCode": currency,
+            "cultureName": culture,
         }
     )
     cart_operations.remove_cart(

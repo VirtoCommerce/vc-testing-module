@@ -1125,28 +1125,68 @@
             "code": "category-acme-laptops",
             "catalogId": "catalog-acme",
             "name": "Laptops",
-            "seoObjectType": "Category"
+            "seoObjectType": "Category",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-category-laptops",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Laptops",
+                    "semanticUrl": "laptops",
+                    "storeId": "store-acme"
+                }
+            ]
         },
         {
             "id": "category-acme-ram",
             "code": "category-acme-ram",
             "catalogId": "catalog-acme",
             "name": "RAM",
-            "seoObjectType": "Category"
+            "seoObjectType": "Category",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-category-ram",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "RAM",
+                    "semanticUrl": "ram",
+                    "storeId": "store-acme"
+                }
+            ]
         },
         {
             "id": "category-acme-ssd",
             "code": "category-acme-ssd",
             "catalogId": "catalog-acme",
             "name": "SSD",
-            "seoObjectType": "Category"
+            "seoObjectType": "Category",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-category-ssd",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "SSD",
+                    "semanticUrl": "ssd",
+                    "storeId": "store-acme"
+                }
+            ]
         },
         {
             "id": "category-acme-software",
             "code": "category-acme-software",
             "catalogId": "catalog-acme",
             "name": "Software",
-            "seoObjectType": "Category"
+            "seoObjectType": "Category",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-category-software",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Software",
+                    "semanticUrl": "software",
+                    "storeId": "store-acme"
+                }
+            ]
         }
     ],
     "products": [
@@ -1158,6 +1198,17 @@
             "code": "product-acme-laptop-acer-aspire-16-ai",
             "vendor": "Acer",
             "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-acer-aspire-16-ai",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Acer Aspire 16 AI",
+                    "semanticUrl": "acer-aspire-16-ai",
+                    "storeId": "store-acme"
+                }
+            ],
             "properties": [
                 {
                     "id": "property-acme-battery-capacity",
@@ -1559,6 +1610,17 @@
             "code": "product-acme-laptop-asus-zenbook-a14-ux3407",
             "vendor": "Asus",
             "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-asus-zenbook-a14-ux3407",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Asus Zenbook A14 (UX3407)",
+                    "semanticUrl": "asus-zenbook-a14-ux3407",
+                    "storeId": "store-acme"
+                }
+            ],
             "properties": [
                 {
                     "id": "property-acme-battery-capacity",
@@ -1960,6 +2022,17 @@
             "code": "product-acme-laptop-asus-vivobook-16-x1607qa",
             "vendor": "Asus",
             "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-asus-vivobook-16-x1607qa",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Asus Vivobook 16 (X1607QA)",
+                    "semanticUrl": "asus-vivobook-16-x1607qa",
+                    "storeId": "store-acme"
+                }
+            ],
             "properties": [
                 {
                     "id": "property-acme-battery-capacity",
@@ -2361,6 +2434,17 @@
             "code": "product-acme-laptop-asus-v16-v3607vu",
             "vendor": "Asus",
             "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-asus-v16-v3607vu",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Asus V16 (V3607VU)",
+                    "semanticUrl": "asus-v16-v3607vu",
+                    "storeId": "store-acme"
+                }
+            ],
             "properties": [
                 {
                     "id": "property-acme-battery-capacity",
@@ -2820,6 +2904,17 @@
             "code": "product-acme-laptop-hp-pavilion-16-ag0087nr",
             "vendor": "HP",
             "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-hp-pavilion-16-ag0087nr",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "HP Pavilion 16 (AG0087NR)",
+                    "semanticUrl": "hp-pavilion-16-ag0087nr",
+                    "storeId": "store-acme"
+                }
+            ],
             "properties": [
                 {
                     "id": "property-acme-battery-capacity",
@@ -3222,6 +3317,17 @@
             "code": "product-acme-laptop-hp-omnibook-5-ai-16-af1037nr",
             "vendor": "HP",
             "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-hp-omnibook-5-ai-16-af1037nr",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "HP OmniBook 5 AI 16 (AF1037NR)",
+                    "semanticUrl": "hp-omnibook-5-ai-16-af1037nr",
+                    "storeId": "store-acme"
+                }
+            ],
             "properties": [
                 {
                     "id": "property-acme-battery-capacity",
@@ -3624,6 +3730,17 @@
             "code": "product-acme-laptop-lenovo-thinkpad-t14-gen-6",
             "vendor": "Lenovo",
             "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-lenovo-thinkpad-t14-gen-6",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Lenovo ThinkPad T14 Gen 6",
+                    "semanticUrl": "lenovo-thinkpad-t14-gen-6",
+                    "storeId": "store-acme"
+                }
+            ],
             "properties": [
                 {
                     "id": "property-acme-battery-capacity",
@@ -4026,6 +4143,17 @@
             "code": "product-acme-laptop-lenovo-ideapad-5i",
             "vendor": "Lenovo",
             "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-lenovo-ideapad-5i",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Lenovo Ideapad 5i",
+                    "semanticUrl": "lenovo-ideapad-5i",
+                    "storeId": "store-acme"
+                }
+            ],
             "properties": [
                 {
                     "id": "property-acme-battery-capacity",
@@ -4428,6 +4556,17 @@
             "code": "product-acme-laptop-lenovo-loq-15-ahp9",
             "vendor": "Lenovo",
             "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-lenovo-loq-15-ahp9",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Lenovo Loq 15 (AHP9)",
+                    "semanticUrl": "lenovo-loq-15-ahp9",
+                    "storeId": "store-acme"
+                }
+            ],
             "properties": [
                 {
                     "id": "property-acme-battery-capacity",
@@ -4890,6 +5029,17 @@
             "code": "product-acme-laptop-lenovo-legion-5-gen-10",
             "vendor": "Lenovo",
             "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-lenovo-legion-5-gen-10",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Lenovo Legion 5 Gen 10",
+                    "semanticUrl": "lenovo-legion-5-gen-10",
+                    "storeId": "store-acme"
+                }
+            ],
             "properties": [
                 {
                     "id": "property-acme-battery-capacity",
@@ -5352,6 +5502,17 @@
             "code": "product-acme-laptop-lenovo-legion-9i-gen-10",
             "vendor": "Lenovo",
             "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-lenovo-legion-9i-gen-10",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Lenovo Legion 9i Gen 10",
+                    "semanticUrl": "lenovo-legion-9i-gen-10",
+                    "storeId": "store-acme"
+                }
+            ],
             "properties": [
                 {
                     "id": "property-acme-battery-capacity",
@@ -5826,6 +5987,17 @@
             "code": "product-acme-laptop-acer-predator-helios-18-ai",
             "vendor": "Acer",
             "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-acer-predator-helios-18-ai",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Acer Predator Helios 18 AI",
+                    "semanticUrl": "acer-predator-helios-18-ai",
+                    "storeId": "store-acme"
+                }
+            ],
             "properties": [
                 {
                     "id": "property-acme-battery-capacity",
@@ -6285,6 +6457,17 @@
             "code": "product-acme-laptop-acer-nitro-v16",
             "vendor": "Acer",
             "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-acer-nitro-v16",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Acer Nitro V16",
+                    "semanticUrl": "acer-nitro-v16",
+                    "storeId": "store-acme"
+                }
+            ],
             "properties": [
                 {
                     "id": "property-acme-battery-capacity",
@@ -6744,6 +6927,17 @@
             "code": "product-acme-laptop-asus-tuf-gaming-a14",
             "vendor": "Asus",
             "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-asus-tuf-gaming-a14",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Asus Tuf Gaming A14",
+                    "semanticUrl": "asus-tuf-gaming-a14",
+                    "storeId": "store-acme"
+                }
+            ],
             "properties": [
                 {
                     "id": "property-acme-battery-capacity",
@@ -7203,6 +7397,17 @@
             "code": "product-acme-laptop-asus-rog-strix-g16",
             "vendor": "Asus",
             "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-asus-rog-strix-g16",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Asus Rog Strix G16",
+                    "semanticUrl": "asus-rog-strix-g16",
+                    "storeId": "store-acme"
+                }
+            ],
             "properties": [
                 {
                     "id": "property-acme-battery-capacity",
@@ -7662,6 +7867,17 @@
             "code": "product-acme-laptop-asus-rog-strix-scar-18",
             "vendor": "Asus",
             "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-asus-rog-strix-scar-18",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Asus Rog Strix Scar 18",
+                    "semanticUrl": "asus-rog-strix-scar-18",
+                    "storeId": "store-acme"
+                }
+            ],
             "properties": [
                 {
                     "id": "property-acme-battery-capacity",
@@ -8121,6 +8337,17 @@
             "code": "product-acme-laptop-hp-omen-17",
             "vendor": "HP",
             "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-hp-omen-17",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "HP Omen 17",
+                    "semanticUrl": "hp-omen-17",
+                    "storeId": "store-acme"
+                }
+            ],
             "properties": [
                 {
                     "id": "property-acme-battery-capacity",
@@ -8580,6 +8807,17 @@
             "code": "product-acme-laptop-hp-omen-transcend-14",
             "vendor": "HP",
             "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-hp-omen-transcend-14",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "HP Omen Transcend 14",
+                    "semanticUrl": "hp-omen-transcend-14",
+                    "storeId": "store-acme"
+                }
+            ],
             "properties": [
                 {
                     "id": "property-acme-battery-capacity",
@@ -9039,6 +9277,17 @@
             "code": "product-acme-laptop-lenovo-thinkpad-x1-carbon-gen-13-aura",
             "vendor": "HP",
             "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-lenovo-thinkpad-x1-carbon-gen-13-aura",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Lenovo ThinkPad X1 Carbon Gen 13 Aura Edition",
+                    "semanticUrl": "lenovo-thinkpad-x1-carbon-gen-13-aura",
+                    "storeId": "store-acme"
+                }
+            ],
             "properties": [
                 {
                     "id": "property-acme-battery-capacity",
@@ -9454,6 +9703,17 @@
             "code": "product-acme-laptop-lenovo-thinkpad-p1-gen-7-mobile-workstation",
             "vendor": "Lenovo",
             "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-lenovo-thinkpad-p1-gen-7-mobile-workstation",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Lenovo ThinkPad P1 Gen 7 Mobile Workstation",
+                    "semanticUrl": "lenovo-thinkpad-p1-gen-7-mobile-workstation",
+                    "storeId": "store-acme"
+                }
+            ],
             "properties": [
                 {
                     "id": "property-acme-battery-capacity",
@@ -9869,6 +10129,17 @@
             "code": "product-acme-laptop-acer-travelmate-p16-14-ai",
             "vendor": "Acer",
             "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-acer-travelmate-p16-14-ai",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Acer Travelmate P16 14 AI",
+                    "semanticUrl": "acer-travelmate-p16-14-ai",
+                    "storeId": "store-acme"
+                }
+            ],
             "properties": [
                 {
                     "id": "property-acme-battery-capacity",
@@ -10284,6 +10555,17 @@
             "code": "product-acme-laptop-asus-expertbook-b5-b5605",
             "vendor": "Asus",
             "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-asus-expertbook-b5-b5605",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Asus ExpertBook B5 (B5605)",
+                    "semanticUrl": "asus-expertbook-b5-b5605",
+                    "storeId": "store-acme"
+                }
+            ],
             "properties": [
                 {
                     "id": "property-acme-battery-capacity",
@@ -10699,6 +10981,17 @@
             "code": "product-acme-laptop-hp-omnibook-x-flip-16",
             "vendor": "HP",
             "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-hp-omnibook-x-flip-16",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "HP OmniBook X Flip 16",
+                    "semanticUrl": "hp-omnibook-x-flip-16",
+                    "storeId": "store-acme"
+                }
+            ],
             "properties": [
                 {
                     "id": "property-acme-battery-capacity",
@@ -11113,14 +11406,14 @@
             "productName": "Acer Aspire 16 AI",
             "fulfillmentCenterId": "ffc-acme-usa-morrisville-nc",
             "fulfillmentCenterName": "USA Morrisville NC FFC",
-            "inStockQuantity": "50"
+            "inStockQuantity": "0"
         },
         {
             "productId": "product-acme-laptop-acer-aspire-16-ai",
             "productName": "Acer Aspire 16 AI",
             "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
             "fulfillmentCenterName": "USA Riverton OH FFC",
-            "inStockQuantity": "15"
+            "inStockQuantity": "0"
         },
         {
             "productId": "product-acme-laptop-asus-zenbook-a14-ux3407",
@@ -11829,6 +12122,7 @@
             "lastName": "Employee 1",
             "memberType": "Contact",
             "status": "Approved",
+            "defaultOrganizationId": "organization-acme-store",
             "organizations": [
                 "organization-acme-store"
             ]
@@ -11839,6 +12133,7 @@
             "lastName": "Employee 2",
             "memberType": "Contact",
             "status": "Approved",
+            "defaultOrganizationId": "organization-acme-store",
             "organizations": [
                 "organization-acme-store"
             ]
@@ -11849,6 +12144,7 @@
             "lastName": "Employee 3",
             "memberType": "Contact",
             "status": "Approved",
+            "defaultOrganizationId": "organization-acme-store",
             "organizations": [
                 "organization-acme-store"
             ]
@@ -11859,6 +12155,7 @@
             "lastName": "Employee 4",
             "memberType": "Contact",
             "status": "Approved",
+            "defaultOrganizationId": "organization-acme-store",
             "organizations": [
                 "organization-acme-store"
             ]
@@ -11869,6 +12166,7 @@
             "lastName": "Employee 5",
             "memberType": "Contact",
             "status": "Approved",
+            "defaultOrganizationId": "organization-acme-store",
             "organizations": [
                 "organization-acme-store"
             ]
@@ -11879,6 +12177,7 @@
             "lastName": "Employee 6",
             "memberType": "Contact",
             "status": "Approved",
+            "defaultOrganizationId": "organization-acme-store",
             "organizations": [
                 "organization-acme-store"
             ]
@@ -11889,6 +12188,7 @@
             "lastName": "Employee 7",
             "memberType": "Contact",
             "status": "Approved",
+            "defaultOrganizationId": "organization-acme-store",
             "organizations": [
                 "organization-acme-store"
             ]
@@ -11898,7 +12198,8 @@
             "firstName": "ACME",
             "lastName": "Employee 8",
             "memberType": "Contact",
-            "status": "Approved",
+            "status": "Invited",
+            "defaultOrganizationId": "organization-acme-store",
             "organizations": [
                 "organization-acme-store"
             ]
@@ -11908,7 +12209,8 @@
             "firstName": "ACME",
             "lastName": "Employee 9",
             "memberType": "Contact",
-            "status": "Approved",
+            "status": "Locked",
+            "defaultOrganizationId": "organization-acme-store",
             "organizations": [
                 "organization-acme-store"
             ]
@@ -11919,6 +12221,7 @@
             "lastName": "Store Maintainer 1",
             "memberType": "Contact",
             "status": "Approved",
+            "defaultOrganizationId": "organization-acme-store",
             "organizations": [
                 "organization-acme-store"
             ]
@@ -11929,6 +12232,7 @@
             "lastName": "Purchasing Agent 1",
             "memberType": "Contact",
             "status": "Approved",
+            "defaultOrganizationId": "organization-acme-store",
             "organizations": [
                 "organization-acme-store"
             ]
@@ -11939,6 +12243,7 @@
             "lastName": "Purchasing Agent 2",
             "memberType": "Contact",
             "status": "Approved",
+            "defaultOrganizationId": "organization-acme-store",
             "organizations": [
                 "organization-acme-store"
             ]
@@ -11949,6 +12254,7 @@
             "lastName": "Purchasing Agent 3",
             "memberType": "Contact",
             "status": "Approved",
+            "defaultOrganizationId": "organization-acme-store",
             "organizations": [
                 "organization-acme-store"
             ]
@@ -11959,6 +12265,7 @@
             "lastName": "Store Administrator",
             "memberType": "Contact",
             "status": "Approved",
+            "defaultOrganizationId": "organization-acme-store",
             "organizations": [
                 "organization-acme-store"
             ]
@@ -11969,6 +12276,7 @@
             "lastName": "Store Manager 1",
             "memberType": "Contact",
             "status": "Approved",
+            "defaultOrganizationId": "organization-acme-store",
             "organizations": [
                 "organization-acme-store"
             ]
@@ -11979,6 +12287,7 @@
             "lastName": "Store Manager 2",
             "memberType": "Contact",
             "status": "Approved",
+            "defaultOrganizationId": "organization-acme-store",
             "organizations": [
                 "organization-acme-store"
             ]
@@ -11989,6 +12298,7 @@
             "lastName": "Store Manager 3",
             "memberType": "Contact",
             "status": "Approved",
+            "defaultOrganizationId": "organization-acme-store",
             "organizations": [
                 "organization-acme-store"
             ]
@@ -11999,6 +12309,7 @@
             "lastName": "Store Manager 4",
             "memberType": "Contact",
             "status": "Approved",
+            "defaultOrganizationId": "organization-acme-store",
             "organizations": [
                 "organization-acme-store"
             ]
@@ -12013,6 +12324,7 @@
             "userType": "Customer",
             "emailConfirmed": true,
             "memberId": "contact-acme-store-employee-1",
+            "storeId": "store-acme",
             "roles": [
                 {
                     "id": "role-organization-employee",
@@ -12029,6 +12341,7 @@
             "userType": "Customer",
             "emailConfirmed": true,
             "memberId": "contact-acme-store-employee-2",
+            "storeId": "store-acme",
             "roles": [
                 {
                     "id": "role-organization-employee",
@@ -12045,6 +12358,7 @@
             "userType": "Customer",
             "emailConfirmed": true,
             "memberId": "contact-acme-store-employee-3",
+            "storeId": "store-acme",
             "roles": [
                 {
                     "id": "role-organization-employee",
@@ -12061,6 +12375,7 @@
             "userType": "Customer",
             "emailConfirmed": true,
             "memberId": "contact-acme-store-employee-4",
+            "storeId": "store-acme",
             "roles": [
                 {
                     "id": "role-organization-employee",
@@ -12077,6 +12392,7 @@
             "userType": "Customer",
             "emailConfirmed": true,
             "memberId": "contact-acme-store-employee-5",
+            "storeId": "store-acme",
             "roles": [
                 {
                     "id": "role-organization-employee",
@@ -12093,6 +12409,7 @@
             "userType": "Customer",
             "emailConfirmed": true,
             "memberId": "contact-acme-store-employee-6",
+            "storeId": "store-acme",
             "roles": [
                 {
                     "id": "role-organization-employee",
@@ -12109,6 +12426,7 @@
             "userType": "Customer",
             "emailConfirmed": true,
             "memberId": "contact-acme-store-employee-7",
+            "storeId": "store-acme",
             "roles": [
                 {
                     "id": "role-organization-employee",
@@ -12121,10 +12439,11 @@
             "id": "user-acme-store-employee-8",
             "userName": "acme_store_employee_8@acme.com",
             "email": "acme_store_employee_8@acme.com",
-            "status": "Approved",
+            "status": "New",
             "userType": "Customer",
             "emailConfirmed": true,
             "memberId": "contact-acme-store-employee-8",
+            "storeId": "store-acme",
             "roles": [
                 {
                     "id": "role-organization-employee",
@@ -12141,6 +12460,7 @@
             "userType": "Customer",
             "emailConfirmed": true,
             "memberId": "contact-acme-store-employee-9",
+            "storeId": "store-acme",
             "roles": [
                 {
                     "id": "role-organization-employee",
@@ -12157,6 +12477,7 @@
             "userType": "Manager",
             "emailConfirmed": true,
             "memberId": "contact-acme-store-maintainer-1",
+            "storeId": "store-acme",
             "roles": [
                 {
                     "id": "role-organization-maintainer",
@@ -12173,6 +12494,7 @@
             "userType": "Manager",
             "emailConfirmed": true,
             "memberId": "contact-acme-store-purchasing-agent-1",
+            "storeId": "store-acme",
             "roles": [
                 {
                     "id": "role-purchasing-agent",
@@ -12189,6 +12511,7 @@
             "userType": "Manager",
             "emailConfirmed": true,
             "memberId": "contact-acme-store-purchasing-agent-2",
+            "storeId": "store-acme",
             "roles": [
                 {
                     "id": "role-purchasing-agent",
@@ -12205,6 +12528,7 @@
             "userType": "Manager",
             "emailConfirmed": true,
             "memberId": "contact-acme-store-purchasing-agent-3",
+            "storeId": "store-acme",
             "roles": [
                 {
                     "id": "role-purchasing-agent",
@@ -12222,6 +12546,7 @@
             "isAdministrator": true,
             "emailConfirmed": true,
             "memberId": "contact-acme-store-administrator",
+            "storeId": "store-acme",
             "roles": [
                 {
                     "id": "role-store-administrator",
@@ -12238,6 +12563,7 @@
             "userType": "Manager",
             "emailConfirmed": true,
             "memberId": "contact-acme-store-manager-1",
+            "storeId": "store-acme",
             "roles": [
                 {
                     "id": "role-store-manager",
@@ -12254,6 +12580,7 @@
             "userType": "Manager",
             "emailConfirmed": true,
             "memberId": "contact-acme-store-manager-2",
+            "storeId": "store-acme",
             "roles": [
                 {
                     "id": "role-store-manager",
@@ -12270,6 +12597,7 @@
             "userType": "Manager",
             "emailConfirmed": true,
             "memberId": "contact-acme-store-manager-3",
+            "storeId": "store-acme",
             "roles": [
                 {
                     "id": "role-store-manager",
@@ -12286,6 +12614,7 @@
             "userType": "Manager",
             "emailConfirmed": true,
             "memberId": "contact-acme-store-manager-4",
+            "storeId": "store-acme",
             "roles": [
                 {
                     "id": "role-store-manager",
