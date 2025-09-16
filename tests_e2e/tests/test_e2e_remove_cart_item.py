@@ -1,7 +1,7 @@
 import allure, os, pytest
 from playwright.sync_api import Page, expect
-from fixtures.anonymous_catalog_requests_fixture import AnonymousCatalogRequests
-from fixtures.requests_tracker_fixture import RequestsTracker
+from fixtures.anonymous_catalog_requests import AnonymousCatalogRequests
+from fixtures.requests_tracker import RequestsTracker
 from tests_e2e.pages.category_page import CategoryPage
 from test_data.test_category import TEST_CATEGORY_1
 from test_data.test_product import TEST_PRODUCT_1
