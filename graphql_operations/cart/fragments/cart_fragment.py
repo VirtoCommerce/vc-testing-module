@@ -1,6 +1,7 @@
-from graphql_operations.cart.fragments.cart_address_fragment import CART_ADDRESS_FRAGMENT
+from graphql_operations.cart.fragments.cart_address_fragment import (
+    CART_ADDRESS_FRAGMENT,
+)
 from graphql_operations.cart.fragments.coupon_fragment import COUPON_FRAGMENT
-
 
 CART_FRAGMENT = f"""
     id
@@ -12,6 +13,18 @@ CART_FRAGMENT = f"""
         quantity
         productId
         selectedForCheckout
+        discountTotal {{
+            amount
+        }}
+        listPrice {{
+            amount
+        }}
+        salePrice {{
+            amount
+        }}
+        placedPrice {{
+            amount
+        }}
     }}
     coupons {{
         {COUPON_FRAGMENT}

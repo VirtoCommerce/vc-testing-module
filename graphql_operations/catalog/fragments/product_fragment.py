@@ -1,7 +1,8 @@
-from graphql_operations.catalog.fragments.availability_data_fragment import AVAILABILITY_DATA_FRAGMENT
+from graphql_operations.catalog.fragments.availability_data_fragment import (
+    AVAILABILITY_DATA_FRAGMENT,
+)
 from graphql_operations.catalog.fragments.breadcrumb_fragment import BREADCRUMB_FRAGMENT
 from graphql_operations.seo.fragments.seo_info_fragment import SEO_INFO_FRAGMENT
-
 
 PRODUCT_FRAGMENT = f"""
     id
@@ -17,5 +18,19 @@ PRODUCT_FRAGMENT = f"""
     }}
     availabilityData {{
         {AVAILABILITY_DATA_FRAGMENT}
+    }}
+    price {{
+        actual {{
+            amount
+        }}
+        list {{
+            amount
+        }}
+        sale {{
+            amount
+        }}
+        discountAmount {{
+            amount
+        }}
     }}
 """
