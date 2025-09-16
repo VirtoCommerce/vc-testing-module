@@ -1,4 +1,5 @@
 import os
+import random
 from typing import Any, Dict
 
 import allure
@@ -7,30 +8,38 @@ import pytest
 from fixtures.graphql_client import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
-from test_data.test_coupon import TEST_COUPON_CODE
-from test_data.test_culture import TEST_CULTURE
-from test_data.test_currency import TEST_CURRENCY
-from test_data.test_product import TEST_PRODUCT_3
 
 
-@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Apply cart coupon (GraphQL)")
-def test_add_cart_coupon(config: Dict[str, Any], graphql_client: GraphQLClient):
+def test_add_cart_coupon(
+    config: Dict[str, Any], dataset: Dict[str, Any], graphql_client: GraphQLClient
+):
     print(f"{os.linesep}Running test to apply coupon to cart...", end=" ")
+
+    currency = dataset["currencies"][0]["code"]
+    culture = dataset["languages"][0]
+    coupon_code = dataset["coupons"][0]["code"]
+    product_id_in_stock = random.choice(
+        [
+            product_inventory
+            for product_inventory in dataset["productsInventories"]
+            if product_inventory["inStockQuantity"] > "0"
+        ]
+    )["productId"]
 
     user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
 
-    user = user_operations.get_user()
+    user = user_operations.get_me()
 
     cart = cart_operations.add_item_to_cart(
         payload={
             "storeId": config["store_id"],
             "userId": user["id"],
-            "currencyCode": TEST_CURRENCY["USD"],
-            "cultureName": TEST_CULTURE["en-US"],
-            "productId": TEST_PRODUCT_3["id"],
+            "currencyCode": currency,
+            "cultureName": culture,
+            "productId": product_id_in_stock,
             "quantity": 1,
         }
     )
@@ -39,15 +48,25 @@ def test_add_cart_coupon(config: Dict[str, Any], graphql_client: GraphQLClient):
         payload={
             "storeId": config["store_id"],
             "userId": user["id"],
-            "couponCode": TEST_COUPON_CODE,
-            "currencyCode": TEST_CURRENCY["USD"],
-            "cultureName": TEST_CULTURE["en-US"],
+            "couponCode": coupon_code,
+            "currencyCode": currency,
+            "cultureName": culture,
         }
     )
 
     applied_coupon = cart_with_coupon["coupons"][0]
 
     # Test teardown
+    cart_operations.remove_coupon(
+        payload={
+            "storeId": config["store_id"],
+            "userId": user["id"],
+            "couponCode": coupon_code,
+            "currencyCode": currency,
+            "cultureName": culture,
+        }
+    )
+
     cart_operations.remove_cart(
         payload={
             "cartId": cart_with_coupon["id"],
@@ -57,60 +76,5 @@ def test_add_cart_coupon(config: Dict[str, Any], graphql_client: GraphQLClient):
 
     assert cart_with_coupon["id"] == cart["id"], "Cart ID is not the same"
     assert applied_coupon["isAppliedSuccessfully"], "Coupon is not applied successfully"
-    assert applied_coupon["code"] == TEST_COUPON_CODE, "Coupon code is not the same"
-
-
-@pytest.mark.ignore
-@pytest.mark.graphql
-@allure.title("Remove cart coupon (GraphQL)")
-def test_remove_cart_coupon(config: Dict[str, Any], graphql_client: GraphQLClient):
-    print(f"{os.linesep}Running test to remove coupon from cart...", end=" ")
-
-    user_operations = UserOperations(graphql_client)
-    cart_operations = CartOperations(graphql_client)
-
-    user = user_operations.get_user()
-
-    cart = cart_operations.add_item_to_cart(
-        payload={
-            "storeId": config["store_id"],
-            "userId": user["id"],
-            "currencyCode": TEST_CURRENCY["USD"],
-            "cultureName": TEST_CULTURE["en-US"],
-            "productId": TEST_PRODUCT_3["id"],
-            "quantity": 1,
-        }
-    )
-
-    cart_operations.apply_coupon(
-        payload={
-            "storeId": config["store_id"],
-            "userId": user["id"],
-            "couponCode": TEST_COUPON_CODE,
-            "currencyCode": TEST_CURRENCY["USD"],
-            "cultureName": TEST_CULTURE["en-US"],
-        }
-    )
-
-    cart_without_coupon = cart_operations.remove_coupon(
-        payload={
-            "storeId": config["store_id"],
-            "userId": user["id"],
-            "couponCode": TEST_COUPON_CODE,
-            "currencyCode": TEST_CURRENCY["USD"],
-            "cultureName": TEST_CULTURE["en-US"],
-        }
-    )
-
-    # Test teardown
-    cart_operations.remove_cart(
-        payload={
-            "cartId": cart_without_coupon["id"],
-            "userId": user["id"],
-        }
-    )
-
-    assert cart_without_coupon["id"] == cart["id"], "Cart ID is not the same"
-    assert (
-        len(cart_without_coupon["coupons"]) == 0
-    ), "Coupon is not removed successfully"
+    assert applied_coupon["code"] == coupon_code, "Coupon code is not the same"
+    assert cart["discountTotal"]["amount"] > 0, "Discount total is not greater than 0"

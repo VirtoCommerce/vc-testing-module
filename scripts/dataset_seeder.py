@@ -15,7 +15,7 @@ class DatasetSeeder:
         self.config = config
         self.auth = Auth(config)
         self.webapi_client = WebAPISession(config, self.auth)
-        self.test_data = None
+        self.dataset = None
         self.store_id = None
 
     def get_file_path(self, file_name: str) -> str:
@@ -30,28 +30,24 @@ class DatasetSeeder:
     def sign_out(self) -> None:
         self.auth.clear_token()
 
-    def load_test_data(self, file_path: str) -> None:
+    def fetch_dataset(self, file_path: str) -> None:
         with open(self.get_file_path(file_path), "r", encoding="utf-8") as file:
-            self.test_data = json.load(file)
-
-    def load_test_data_users(self, file_path: str) -> None:
-        with open(self.get_file_path(file_path), "r") as file:
-            self.test_data_users = json.load(file)
+            self.dataset = json.load(file)
 
     def create_languages(self) -> None:
-        if not self.test_data["languages"]:
-            raise ValueError("No languages found in test data")
+        if not self.dataset["languages"]:
+            raise ValueError("No languages found in dataset")
 
-        for language in self.test_data["languages"]:
+        for language in self.dataset["languages"]:
             print(f'Creating language "{language}"...', end=" ")
 
-            default_culture = self.test_data["languages"][0]
+            default_culture = self.dataset["languages"][0]
 
             self.webapi_client.post(
                 "/api/platform/settings",
                 data=[
                     {
-                        "allowedValues": self.test_data["languages"],
+                        "allowedValues": self.dataset["languages"],
                         "defaultValue": default_culture,
                         "groupName": "General",
                         "isDictionary": True,
@@ -68,10 +64,10 @@ class DatasetSeeder:
             print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
     def create_currencies(self) -> None:
-        if not self.test_data["currencies"]:
-            raise ValueError("No currencies found in test data")
+        if not self.dataset["currencies"]:
+            raise ValueError("No currencies found in dataset")
 
-        for currency in self.test_data["currencies"]:
+        for currency in self.dataset["currencies"]:
             print(f'Creating currency "{currency["code"]}"...', end=" ")
 
             self.webapi_client.post(
@@ -82,10 +78,10 @@ class DatasetSeeder:
             print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
     def create_measures(self) -> None:
-        if not self.test_data["measures"]:
-            raise ValueError("No measures found in test data")
+        if not self.dataset["measures"]:
+            raise ValueError("No measures found in dataset")
 
-        for measure in self.test_data["measures"]:
+        for measure in self.dataset["measures"]:
             print(f'Creating measure "{measure["name"]}"...', end=" ")
             self.webapi_client.put(
                 "/api/catalog/measures",
@@ -94,10 +90,10 @@ class DatasetSeeder:
             print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
     def create_fulfillment_centers(self) -> None:
-        if not self.test_data["fulfillmentCenters"]:
-            raise ValueError("No fulfillment centers found in test data")
+        if not self.dataset["fulfillmentCenters"]:
+            raise ValueError("No fulfillment centers found in dataset")
 
-        for ffc in self.test_data["fulfillmentCenters"]:
+        for ffc in self.dataset["fulfillmentCenters"]:
             print(f'Creating fulfillment center "{ffc["name"]}"...', end=" ")
 
             self.webapi_client.put(
@@ -108,10 +104,10 @@ class DatasetSeeder:
             print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
     def create_pricelists(self) -> None:
-        if not self.test_data["pricelists"]:
-            raise ValueError("No pricelists found in test data")
+        if not self.dataset["pricelists"]:
+            raise ValueError("No pricelists found in dataset")
 
-        for pricelist in self.test_data["pricelists"]:
+        for pricelist in self.dataset["pricelists"]:
             print(f'Creating pricelist "{pricelist["name"]}"...', end=" ")
 
             self.webapi_client.post(
@@ -122,10 +118,10 @@ class DatasetSeeder:
             print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
     def create_pricelist_assignments(self) -> None:
-        if not self.test_data["pricelistAssignments"]:
-            raise ValueError("No pricelist assignments found in test data")
+        if not self.dataset["pricelistAssignments"]:
+            raise ValueError("No pricelist assignments found in dataset")
 
-        for pricelist_assignment in self.test_data["pricelistAssignments"]:
+        for pricelist_assignment in self.dataset["pricelistAssignments"]:
             print(
                 f'Creating pricelist assignment "{pricelist_assignment["name"]}"...',
                 end=" ",
@@ -139,10 +135,10 @@ class DatasetSeeder:
             print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
     def create_catalogs(self) -> None:
-        if not self.test_data["catalogs"]:
-            raise ValueError("No catalogs found in test data")
+        if not self.dataset["catalogs"]:
+            raise ValueError("No catalogs found in dataset")
 
-        for catalog in self.test_data["catalogs"]:
+        for catalog in self.dataset["catalogs"]:
             print(f'Creating catalog "{catalog["name"]}"...', end=" ")
 
             self.webapi_client.post(
@@ -153,10 +149,10 @@ class DatasetSeeder:
             print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
     def create_property_groups(self) -> None:
-        if not self.test_data["propertyGroups"]:
-            raise ValueError("No property groups found in test data")
+        if not self.dataset["propertyGroups"]:
+            raise ValueError("No property groups found in dataset")
 
-        for property_group in self.test_data["propertyGroups"]:
+        for property_group in self.dataset["propertyGroups"]:
             print(f'Creating property group "{property_group["name"]}"...', end=" ")
 
             self.webapi_client.post(
@@ -167,10 +163,10 @@ class DatasetSeeder:
             print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
     def create_properties(self) -> None:
-        if not self.test_data["properties"]:
-            raise ValueError("No properties found in test data")
+        if not self.dataset["properties"]:
+            raise ValueError("No properties found in dataset")
 
-        for property in self.test_data["properties"]:
+        for property in self.dataset["properties"]:
             print(
                 f'Creating property "{property["name"]}"...',
                 end=" ",
@@ -184,10 +180,10 @@ class DatasetSeeder:
             print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
     def create_stores(self) -> None:
-        if not self.test_data["stores"]:
-            raise ValueError("No stores found in test data")
+        if not self.dataset["stores"]:
+            raise ValueError("No stores found in dataset")
 
-        for store in self.test_data["stores"]:
+        for store in self.dataset["stores"]:
             print(f'Creating store "{store["name"]}"...', end=" ")
 
             store["url"] = f"{self.config['frontend_base_url']}"
@@ -217,8 +213,8 @@ class DatasetSeeder:
             print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
     def create_aggregation_properties(self) -> None:
-        if not self.test_data["aggregationProperties"]:
-            raise ValueError("No aggregation properties found in test data")
+        if not self.dataset["aggregationProperties"]:
+            raise ValueError("No aggregation properties found in dataset")
 
         if not self.store_id:
             raise ValueError("Store ID not found")
@@ -227,16 +223,16 @@ class DatasetSeeder:
 
         self.webapi_client.put(
             f"/api/catalog/aggregationproperties/{self.store_id}/properties",
-            data=self.test_data["aggregationProperties"],
+            data=self.dataset["aggregationProperties"],
         )
 
         print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
     def create_categories(self) -> None:
-        if not self.test_data["categories"]:
-            raise ValueError("No categories found in test data")
+        if not self.dataset["categories"]:
+            raise ValueError("No categories found in dataset")
 
-        for category in self.test_data["categories"]:
+        for category in self.dataset["categories"]:
             print(f'Creating category "{category["name"]}"...', end=" ")
 
             self.webapi_client.post(
@@ -247,10 +243,10 @@ class DatasetSeeder:
             print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
     def create_products(self) -> None:
-        if not self.test_data["products"]:
-            raise ValueError("No products found in test data")
+        if not self.dataset["products"]:
+            raise ValueError("No products found in dataset")
 
-        for product in self.test_data["products"]:
+        for product in self.dataset["products"]:
             print(f'Creating product "{product["name"]}"...', end=" ")
 
             self.webapi_client.post(
@@ -261,10 +257,10 @@ class DatasetSeeder:
             print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
     def create_products_inventories(self) -> None:
-        if not self.test_data["productsInventories"]:
-            raise ValueError("No products inventories found in test data")
+        if not self.dataset["productsInventories"]:
+            raise ValueError("No products inventories found in dataset")
 
-        for product_inventory in self.test_data["productsInventories"]:
+        for product_inventory in self.dataset["productsInventories"]:
             print(
                 f'Creating product inventory "{product_inventory["fulfillmentCenterName"]} -> {product_inventory["productName"]}"...',
                 end=" ",
@@ -278,10 +274,10 @@ class DatasetSeeder:
             print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
     def create_prices(self) -> None:
-        if not self.test_data["prices"]:
-            raise ValueError("No prices found in test data")
+        if not self.dataset["prices"]:
+            raise ValueError("No prices found in dataset")
 
-        for price in self.test_data["prices"]:
+        for price in self.dataset["prices"]:
             print(
                 f'Creating price for product "{price["product"]["name"]}"...', end=" "
             )
@@ -293,11 +289,38 @@ class DatasetSeeder:
 
             print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
-    def create_roles(self) -> None:
-        if not self.test_data["roles"]:
-            raise ValueError("No roles found in test data")
+    def create_promotions(self) -> None:
+        if not self.dataset["promotions"]:
+            raise ValueError("No promotions found in dataset")
 
-        for role in self.test_data["roles"]:
+        for promotion in self.dataset["promotions"]:
+            print(f'Creating promotion "{promotion["name"]}"...', end=" ")
+
+            self.webapi_client.post(
+                "/api/marketing/promotions",
+                data=promotion,
+            )
+
+            print(Fore.GREEN + "OK" + Style.RESET_ALL)
+
+    def create_coupons(self) -> None:
+        if not self.dataset["coupons"]:
+            return
+
+        print(f'Creating coupons"...', end=" ")
+
+        self.webapi_client.post(
+            "/api/marketing/promotions/coupons/add",
+            data=self.dataset["coupons"],
+        )
+
+        print(Fore.GREEN + "OK" + Style.RESET_ALL)
+
+    def create_roles(self) -> None:
+        if not self.dataset["roles"]:
+            raise ValueError("No roles found in dataset")
+
+        for role in self.dataset["roles"]:
             print(f'Creating role "{role["name"]}"...', end=" ")
 
             self.webapi_client.put(
@@ -308,10 +331,10 @@ class DatasetSeeder:
             print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
     def create_organizations(self) -> None:
-        if not self.test_data["organizations"]:
-            raise ValueError("No organizations found in test data")
+        if not self.dataset["organizations"]:
+            raise ValueError("No organizations found in dataset")
 
-        for organization in self.test_data["organizations"]:
+        for organization in self.dataset["organizations"]:
             print(f'Creating organization "{organization["name"]}"...', end=" ")
 
             self.webapi_client.post(
@@ -322,10 +345,10 @@ class DatasetSeeder:
             print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
     def create_contacts(self) -> None:
-        if not self.test_data["contacts"]:
-            raise ValueError("No contacts found in test data")
+        if not self.dataset["contacts"]:
+            raise ValueError("No contacts found in dataset")
 
-        for contact in self.test_data["contacts"]:
+        for contact in self.dataset["contacts"]:
             print(
                 f'Creating contact "{contact["firstName"]} {contact["lastName"]}"...',
                 end=" ",
@@ -339,10 +362,10 @@ class DatasetSeeder:
             print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
     def create_users(self) -> None:
-        if not self.test_data["users"]:
-            raise ValueError("No users found in test data")
+        if not self.dataset["users"]:
+            raise ValueError("No users found in dataset")
 
-        for user in self.test_data["users"]:
+        for user in self.dataset["users"]:
             print(f'Creating user "{user["userName"]}"...', end=" ")
 
             user["password"] = self.config["users_password"]
@@ -375,7 +398,7 @@ if __name__ == "__main__":
     seeder = DatasetSeeder(config)
     seeder.authenticate(config["admin_username"], config["admin_password"])
 
-    seeder.load_test_data("dataset.json")
+    seeder.fetch_dataset("dataset.json")
 
     seeder.create_languages()
     seeder.create_currencies()
@@ -392,6 +415,8 @@ if __name__ == "__main__":
     seeder.create_products()
     seeder.create_products_inventories()
     seeder.create_prices()
+    seeder.create_promotions()
+    seeder.create_coupons()
     seeder.create_roles()
     seeder.create_organizations()
     seeder.create_contacts()
