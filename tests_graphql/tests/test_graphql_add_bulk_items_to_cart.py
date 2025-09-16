@@ -1,10 +1,11 @@
 import os
+import random
 from typing import Any, Dict
 
 import allure
 import pytest
 
-from fixtures import GraphQLClient
+from fixtures.graphql_client import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
 
@@ -21,8 +22,20 @@ def test_add_bulk_items_to_anonymous_cart(
 
     currency = dataset["currencies"][0]["code"]
     culture = dataset["languages"][0]
-    product_1 = dataset["products"][0]
-    product_2 = dataset["products"][1]
+    product_sku_in_stock_1 = random.choice(
+        [
+            product_inventory
+            for product_inventory in dataset["productsInventories"]
+            if product_inventory["inStockQuantity"] > "0"
+        ]
+    )["productId"]
+    product_sku_in_stock_2 = random.choice(
+        [
+            product_inventory
+            for product_inventory in dataset["productsInventories"]
+            if product_inventory["inStockQuantity"] > "0"
+        ]
+    )["productId"]
 
     user = user_operations.get_me()
 
@@ -34,11 +47,11 @@ def test_add_bulk_items_to_anonymous_cart(
             "cultureName": culture,
             "cartItems": [
                 {
-                    "productSku": product_1["code"],
+                    "productSku": product_sku_in_stock_1,
                     "quantity": 5,
                 },
                 {
-                    "productSku": product_2["code"],
+                    "productSku": product_sku_in_stock_2,
                     "quantity": 10,
                 },
             ],

@@ -1,10 +1,12 @@
 import os
+import random
 from typing import Any, Dict
 
 import allure
 import pytest
 
-from fixtures import Auth, GraphQLClient
+from fixtures.auth import Auth
+from fixtures.graphql_client import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.order.order_operations import OrderOperations
 from graphql_operations.user.user_operations import UserOperations
@@ -27,10 +29,12 @@ def test_get_order(
     currency = dataset["currencies"][0]["code"]
     culture = dataset["languages"][0]
     dataset_user = dataset["users"][0]
-    product_id_in_stock = next(
-        product_inventory
-        for product_inventory in dataset["productsInventories"]
-        if product_inventory["inStockQuantity"] > "0"
+    product_id_in_stock = random.choice(
+        [
+            product_inventory
+            for product_inventory in dataset["productsInventories"]
+            if product_inventory["inStockQuantity"] > "0"
+        ]
     )["productId"]
 
     auth.authenticate(dataset_user["userName"], config["users_password"])

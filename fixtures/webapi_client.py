@@ -7,7 +7,6 @@ import pytest
 import requests
 from colorama import Fore, Style
 
-from fixtures import Auth
 from fixtures.auth import Auth
 
 

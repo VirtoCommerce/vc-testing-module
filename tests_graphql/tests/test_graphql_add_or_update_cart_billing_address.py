@@ -4,7 +4,7 @@ from typing import Any, Dict
 import allure
 import pytest
 
-from fixtures import GraphQLClient
+from fixtures.graphql_client import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
 

@@ -3,7 +3,8 @@ from typing import Any, Dict
 import allure
 import pytest
 
-from fixtures import Auth, WebAPISession
+from .auth import Auth
+from .webapi_client import WebAPISession
 
 
 class AnonymousCatalogRequests:

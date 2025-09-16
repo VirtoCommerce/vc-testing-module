@@ -4,7 +4,8 @@ from typing import Any, Dict
 import allure
 import pytest
 
-from fixtures import Auth, GraphQLClient
+from fixtures.auth import Auth
+from fixtures.graphql_client import GraphQLClient
 from graphql_operations.contact.contact_operations import ContactOperations
 from graphql_operations.user.user_operations import UserOperations
 
@@ -21,9 +22,6 @@ def test_add_organization_address(
 
     user_operations = UserOperations(graphql_client)
     contact_operations = ContactOperations(graphql_client)
-
-    currency = dataset["currencies"][0]["code"]
-    culture = dataset["languages"][0]
 
     auth.authenticate(
         dataset["users"][0]["userName"],

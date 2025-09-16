@@ -3,28 +3,21 @@ import os
 
 import allure
 import pytest
-import requests
 from dotenv import load_dotenv
-from gql import Client, gql
-from gql.transport.requests import RequestsHTTPTransport
-
-# from fixtures.clear_cart_if_not_empty import clear_cart_if_not_empty
-# from graphql_requests.queries.me.me_query import MeQuery
 from playwright.sync_api import expect, sync_playwright
+from pytest import Parser
 
-from fixtures import (
-    anonymous_catalog_requests,
-    auth,
-    auth_token,
-    authenticated_page,
-    checkout_mode,
-    config,
-    graphql_client,
-    product_quantity_control,
-    requests_tracker,
-    webapi_client,
-)
 from fixtures.anonymous_catalog_requests import anonymous_catalog_requests
+from fixtures.auth import auth
+from fixtures.auth_token import auth_token
+from fixtures.authenticated_page import authenticated_page
+from fixtures.checkout_mode import checkout_mode
+from fixtures.config import config
+from fixtures.dataset import dataset
+from fixtures.graphql_client import graphql_client
+from fixtures.product_quantity_control import product_quantity_control
+from fixtures.requests_tracker import requests_tracker
+from fixtures.webapi_client import webapi_client
 
 load_dotenv(override=True)
 
@@ -43,23 +36,6 @@ def config():
         "store_id": os.getenv("STORE_ID"),
         "users_password": os.getenv("USERS_PASSWORD"),
     }
-
-
-import allure
-import pytest
-from playwright.sync_api import expect
-from pytest import Parser
-
-from fixtures.anonymous_catalog_requests import anonymous_catalog_requests
-from fixtures.auth import auth
-from fixtures.auth_token import auth_token
-from fixtures.authenticated_page import authenticated_page
-from fixtures.checkout_mode import checkout_mode
-from fixtures.config import config
-from fixtures.graphql_client import graphql_client
-from fixtures.product_quantity_control import product_quantity_control
-from fixtures.requests_tracker import requests_tracker
-from fixtures.webapi_client import webapi_client
 
 
 def pytest_addoption(parser: Parser):

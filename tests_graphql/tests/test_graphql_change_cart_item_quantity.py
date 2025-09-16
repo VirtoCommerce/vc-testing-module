@@ -1,10 +1,11 @@
 import os
+import random
 from typing import Any, Dict
 
 import allure
 import pytest
 
-from fixtures import GraphQLClient
+from fixtures.graphql_client import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
 
@@ -21,10 +22,12 @@ def test_cart_item_quantity(
 
     currency = dataset["currencies"][0]["code"]
     culture = dataset["languages"][0]
-    product_id_in_stock = next(
-        product_inventory
-        for product_inventory in dataset["productsInventories"]
-        if product_inventory["inStockQuantity"] > "0"
+    product_id_in_stock = random.choice(
+        [
+            product_inventory
+            for product_inventory in dataset["productsInventories"]
+            if product_inventory["inStockQuantity"] > "0"
+        ]
     )["productId"]
 
     user = user_operations.get_me()
