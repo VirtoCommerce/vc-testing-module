@@ -18,15 +18,15 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Create .env file
-      shell: bash
-      env:
-        SECRET_ENV_FILE: ${{ secrets.VC_TESTING_MODULE_ENV_FILE }}
-      run: |
-        echo "Creating .env file..."
-        echo "$SECRET_ENV_FILE" > .env
-        chmod 600 .env
-        echo "..Done."
+    # - name: Create .env file
+    #   shell: bash
+    #   env:
+    #     SECRET_ENV_FILE: ${{ secrets.VC_TESTING_MODULE_ENV_FILE }}
+    #   run: |
+    #     echo "Creating .env file..."
+    #     echo "$SECRET_ENV_FILE" > .env
+    #     chmod 600 .env
+    #     echo "..Done."
     
     - name: Set up Python
       uses: actions/setup-python@v5
@@ -43,6 +43,13 @@ jobs:
       run: playwright install --with-deps ${{ matrix.browser }}
       
     - name: Run GraphQL Tests
+      env:
+        ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+        ADMIN_USERNAME: 'admin'
+        STORE_ID: 'store-acme'
+        USERS_PASSWORD: ${{ secrets.USERS_PASSWORD }}
+        BACKEND_BASE_URL: 'https://vcptcore-demo.govirto.com'
+        FRONTEND_BASE_URL: 'https://vcptcore-demo-storefront'
       run: |
         echo "Running GraphQL tests against ${{ env.FRONTEND_BASE_URL }}"
         pytest tests_graphql/tests/ -m "not ignore" --browser ${{ matrix.browser }} --html=graphql-report.html --self-contained-html --tracing=retain-on-failure -v -s
