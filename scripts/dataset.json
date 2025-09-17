@@ -1030,6 +1030,17 @@
             "additionalFulfillmentCenterIds": [
                 "ffc-acme-usa-morrisville-nc",
                 "ffc-acme-usa-riverton-oh"
+            ],
+            "settings": [
+                {
+                    "objectId": "store-acme",
+                    "objectType": "Store",
+                    "moduleId": "VirtoCommerce.Store",
+                    "name": "Stores.SeoLinksType",
+                    "groupName": "SEO",
+                    "value": "Long",
+                    "valueType": "ShortText"
+                }
             ]
         }
     ],
