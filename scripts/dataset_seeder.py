@@ -1,13 +1,19 @@
 import json
 import os
+import random
+import uuid
 from typing import Any, Dict
 
 from colorama import Fore, Style
 from colorama import init as init_colorama
 from dotenv import load_dotenv
+from gql.transport.requests import RequestsHTTPTransport
 
 from fixtures.auth import Auth
+from fixtures.graphql_client import GraphQLClient
 from fixtures.webapi_client import WebAPISession
+from graphql_operations.cart.cart_operations import CartOperations
+from graphql_operations.order.order_operations import OrderOperations
 
 
 class DatasetSeeder:
@@ -15,8 +21,15 @@ class DatasetSeeder:
         self.config = config
         self.auth = Auth(config)
         self.webapi_client = WebAPISession(config, self.auth)
+        self.transport = RequestsHTTPTransport(
+            url=f"{config['backend_base_url']}/graphql",
+            headers={"Content-Type": "application/json"},
+            use_json=True,
+            verify=True,
+        )
+        self.graphql_client = GraphQLClient(self.transport, self.auth)
         self.dataset = None
-        self.store_id = None
+        self.store_id = config["store_id"]
 
     def get_file_path(self, file_name: str) -> str:
         script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -187,7 +200,6 @@ class DatasetSeeder:
             print(f'Creating store "{store["name"]}"...', end=" ")
 
             store["url"] = f"{self.config['frontend_base_url']}"
-            self.store_id = store["id"]
 
             self.webapi_client.post(
                 "/api/stores",
@@ -208,6 +220,27 @@ class DatasetSeeder:
 
             for shipping_method in shipping_methods:
                 shipping_method["isActive"] = True
+                if shipping_method["code"] == "FixedRate":
+                    shipping_method["settings"] = [
+                        {
+                            "groupName": "General",
+                            "objectId": shipping_method["id"],
+                            "objectType": "FixedRateShippingMethod",
+                            "moduleId": "VirtoCommerce.Shipping",
+                            "name": "VirtoCommerce.Shipping.FixedRateShippingMethod.Ground.Rate",
+                            "value": 15.00,
+                            "valueType": "Decimal",
+                        },
+                        {
+                            "groupName": "General",
+                            "objectId": shipping_method["id"],
+                            "objectType": "FixedRateShippingMethodOption",
+                            "moduleId": "VirtoCommerce.Shipping",
+                            "name": "VirtoCommerce.Shipping.FixedRateShippingMethod.Air.Rate",
+                            "value": 35.00,
+                            "valueType": "Decimal",
+                        },
+                    ]
                 self.webapi_client.put("/api/shipping", data=shipping_method)
 
             print(Fore.GREEN + "OK" + Style.RESET_ALL)
@@ -375,6 +408,97 @@ class DatasetSeeder:
             )
 
             print(Fore.GREEN + "OK" + Style.RESET_ALL)
+
+    """
+    def create_orders(self, count: int = 50) -> None:
+        print(f"Creating {count} order(s)...", end=" ")
+
+        cart_operations = CartOperations(self.graphql_client)
+        order_operations = OrderOperations(self.graphql_client)
+
+        for _ in range(count):
+            contact = random.choice(self.dataset["contacts"])
+            user = next(
+                user
+                for user in self.dataset["users"]
+                if user["memberId"] == contact["id"]
+            )
+            product = random.choice(
+                [
+                    product
+                    for product in self.dataset["products"]
+                    if product["id"]
+                    == random.choice(
+                        [
+                            product_inventory["productId"]
+                            for product_inventory in self.dataset["productsInventories"]
+                            if product_inventory["inStockQuantity"] > "0"
+                        ]
+                    )
+                ]
+            )
+
+            cart = cart_operations.add_item_to_cart(
+                payload={
+                    "storeId": self.store_id,
+                    "userId": user["id"],
+                    "productId": product["id"],
+                    "quantity": random.randint(1, 20),
+                    "currencyCode": self.dataset["currencies"][0]["code"],
+                    "cultureName": self.dataset["languages"][0],
+                }
+            )
+
+            cart_operations.add_or_update_cart_shipment(
+                payload={
+                    "storeId": self.store_id,
+                    "userId": user["id"],
+                    "currencyCode": self.dataset["currencies"][0]["code"],
+                    "cultureName": self.dataset["languages"][0],
+                    "shipment": {
+                        "shipmentMethodCode": "FixedRate",
+                        "shipmentMethodOption": "Ground",
+                        "price": random.randint(10, 100),
+                    },
+                }
+            )
+            cart_operations.add_or_update_cart_payment(
+                payload={
+                    "storeId": self.store_id,
+                    "userId": user["id"],
+                    "currencyCode": self.dataset["currencies"][0]["code"],
+                    "cultureName": self.dataset["languages"][0],
+                    "payment": {
+                        "paymentGatewayCode": "DefaultManualPaymentMethod",
+                        "price": 0,
+                    },
+                }
+            )
+
+            order = cart_operations.create_order_from_cart(
+                payload={
+                    "cartId": cart["id"],
+                }
+            )
+
+            order_operations.change_order_status(
+                payload={
+                    "orderId": order["id"],
+                    "status": random.choice(
+                        [
+                            "Cancelled",
+                            "Completed",
+                            "New",
+                            "Not payed",
+                            "Pending",
+                            "Processing",
+                        ]
+                    ),
+                }
+            )
+
+        print(Fore.GREEN + "OK" + Style.RESET_ALL)
+    """
 
 
 def get_config():

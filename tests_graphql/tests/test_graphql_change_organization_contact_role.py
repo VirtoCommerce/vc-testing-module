@@ -46,7 +46,7 @@ def test_change_organization_contact_role(
 
     result = contact_operations.change_organization_contact_role(
         payload={
-            "roleIds": ["role-organization-employee"],
+            "roleIds": ["org-employee"],
             "userId": organization_contact_to_change_role["securityAccounts"][0]["id"],
         }
     )
@@ -60,7 +60,7 @@ def test_change_organization_contact_role(
     # Test teardown
     contact_operations.change_organization_contact_role(
         payload={
-            "roleIds": ["role-purchasing-agent"],
+            "roleIds": ["purchasing-agent"],
             "userId": organization_contact_to_change_role["securityAccounts"][0]["id"],
         }
     )
@@ -69,6 +69,5 @@ def test_change_organization_contact_role(
 
     assert result["succeeded"] == True, "Contact role was not changed"
     assert (
-        changed_contact["securityAccounts"][0]["roles"][0]["id"]
-        == "role-organization-employee"
+        changed_contact["securityAccounts"][0]["roles"][0]["id"] == "org-employee"
     ), "Contact role was not changed"

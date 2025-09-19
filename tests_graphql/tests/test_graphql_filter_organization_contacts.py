@@ -37,31 +37,31 @@ def test_filter_organization_contacts_by_role(
     organization_maintainers = contact_operations.fetch_organization_contacts(
         organization_id=user["contact"]["organizationId"],
         user_id=user["id"],
-        search_phrase="'roleId':'role-organization-maintainer'",
+        search_phrase="'roleId':'org-maintainer'",
     )
 
     organization_employees = contact_operations.fetch_organization_contacts(
         organization_id=user["contact"]["organizationId"],
         user_id=user["id"],
-        search_phrase="'roleId':'role-organization-employee'",
+        search_phrase="'roleId':'org-employee'",
     )
 
     purchasing_agents = contact_operations.fetch_organization_contacts(
         organization_id=user["contact"]["organizationId"],
         user_id=user["id"],
-        search_phrase="'roleId':'role-purchasing-agent'",
+        search_phrase="'roleId':'purchasing-agent'",
     )
 
     store_administrators = contact_operations.fetch_organization_contacts(
         organization_id=user["contact"]["organizationId"],
         user_id=user["id"],
-        search_phrase="'roleId':'role-store-administrator'",
+        search_phrase="'roleId':'store-admin'",
     )
 
     store_managers = contact_operations.fetch_organization_contacts(
         organization_id=user["contact"]["organizationId"],
         user_id=user["id"],
-        search_phrase="'roleId':'role-store-manager'",
+        search_phrase="'roleId':'store-manager'",
     )
 
     auth.clear_token()

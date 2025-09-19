@@ -1,8 +1,13 @@
 from gql import Client
+
+from graphql_client.mutations.change_order_status import ChangeOrderStatusMutation
 from graphql_client.queries.order import OrderQuery
 from graphql_client.queries.orders import OrdersQuery
 from graphql_client.types.customer_order_connection import CustomerOrderConnection
 from graphql_client.types.customer_order_type import CustomerOrderType
+from graphql_client.types.input_change_order_status_type import (
+    InputChangeOrderStatusType,
+)
 from graphql_operations.order.fragments.order_fragment import ORDER_FRAGMENT
 
 
@@ -49,5 +54,14 @@ class OrderOperations:
         variables = {"id": order_id}
 
         result = order_query.execute(variables=variables, return_fields=ORDER_FRAGMENT)
+
+        return result
+
+    def change_order_status(self, payload: InputChangeOrderStatusType) -> bool:
+        change_order_status_mutation = ChangeOrderStatusMutation(self.graphql_client)
+
+        variables = {"command": payload}
+
+        result = change_order_status_mutation.execute(variables=variables)
 
         return result

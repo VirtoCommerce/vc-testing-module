@@ -23,8 +23,6 @@ def test_delete_organization_address(
     user_operations = UserOperations(graphql_client)
     contact_operations = ContactOperations(graphql_client)
 
-    currency = dataset["currencies"][0]["code"]
-    culture = dataset["languages"][0]
     dataset_user = dataset["users"][0]
 
     auth.authenticate(
@@ -39,6 +37,7 @@ def test_delete_organization_address(
     )
 
     organization_original_address = organization["addresses"]["items"][0]
+    del organization_original_address["isFavorite"]
 
     address_to_add = {
         **organization_original_address,
@@ -46,7 +45,6 @@ def test_delete_organization_address(
         "line1": "1234 Some Street",
         "line2": "Some Flat",
     }
-    del address_to_add["isFavorite"]
 
     added_address = contact_operations.update_contact_addresses(
         payload={
@@ -55,15 +53,20 @@ def test_delete_organization_address(
         }
     )["addresses"]["items"][0]
 
+    contact_operations.update_contact_addresses(
+        payload={
+            "memberId": user["contact"]["organizationId"],
+            "addresses": [organization_original_address],
+        }
+    )
+
+    # Test teardown
+
     updated_contact = contact_operations.delete_contact_address(
         payload={
             "memberId": user["contact"]["organizationId"],
             "addresses": [added_address],
         }
-    )
-
-    organization = contact_operations.fetch_organization_addresses(
-        user["contact"]["organizationId"], user["id"]
     )
 
     auth.clear_token()
