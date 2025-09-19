@@ -54,8 +54,6 @@ def test_get_shopping_lists(
         culture_name=culture,
     )
 
-    print(shopping_list)
-
     # Test teardown
 
     shopping_lists_operations.remove_shopping_list(
