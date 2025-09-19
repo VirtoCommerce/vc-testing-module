@@ -12198,8 +12198,8 @@
         },
         {
             "id": "org-maintainer",
-            "name": "Organization Maintainer",
-            "description": "Organization Maintainer",
+            "name": "Organization maintainer",
+            "description": "Organization maintainer",
             "permissions": [
                 {
                     "name": "storefront:organization:edit"
