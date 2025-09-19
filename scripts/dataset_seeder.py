@@ -230,7 +230,6 @@ class DatasetSeeder:
                             "name": "VirtoCommerce.Shipping.FixedRateShippingMethod.Ground.Rate",
                             "value": 15.00,
                             "valueType": "Decimal",
-                            # "values": [{shipping_method["value"]: 15.00}],
                         },
                         {
                             "groupName": "General",
@@ -240,7 +239,6 @@ class DatasetSeeder:
                             "name": "VirtoCommerce.Shipping.FixedRateShippingMethod.Air.Rate",
                             "value": 35.00,
                             "valueType": "Decimal",
-                            # "values": [{shipping_method["value"]: 35.00}],
                         },
                     ]
                 self.webapi_client.put("/api/shipping", data=shipping_method)
@@ -526,7 +524,6 @@ if __name__ == "__main__":
 
     seeder.fetch_dataset("dataset.json")
 
-    """
     seeder.create_languages()
     seeder.create_currencies()
     seeder.create_fulfillment_centers()
@@ -548,8 +545,5 @@ if __name__ == "__main__":
     seeder.create_organizations()
     seeder.create_contacts()
     seeder.create_users()
-    """
-
-    seeder.create_stores()
 
     seeder.sign_out()
