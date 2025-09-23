@@ -16,11 +16,11 @@ jobs:
         browser: [chromium] #chromium, firefox, webkit
 
     env:
-      FRONTEND_BASE_URL: ${{ secrets.FRONTEND_BASE_URL }}
-      BACKEND_BASE_URL: ${{ secrets.BACKEND_BASE_URL }}
+      FRONTEND_BASE_URL: https://vcptcore-demo-storefront.govirto.com
+      BACKEND_BASE_URL: https://vcptcore-demo.govirto.com
       ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
       ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
-      STORE_ID: ${{ secrets.STORE_ID }}
+      STORE_ID: store-acme
       USERS_PASSWORD: ${{ secrets.USERS_PASSWORD }}
       PLAYWRIGHT_HEADLESS: "true"
       #ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
@@ -74,12 +74,11 @@ jobs:
         browser: [webkit] #chromium, firefox
 
     env:
-      env:
-      FRONTEND_BASE_URL: ${{ secrets.FRONTEND_BASE_URL }}
-      BACKEND_BASE_URL: ${{ secrets.BACKEND_BASE_URL }}
+      FRONTEND_BASE_URL: https://vcptcore-demo-storefront.govirto.com
+      BACKEND_BASE_URL: https://vcptcore-demo.govirto.com
       ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
       ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
-      STORE_ID: ${{ secrets.STORE_ID }}
+      STORE_ID: store-acme
       USERS_PASSWORD: ${{ secrets.USERS_PASSWORD }}
       PLAYWRIGHT_HEADLESS: "true"
       #ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}

@@ -46,10 +46,10 @@ jobs:
       env:
         ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
         ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
-        STORE_ID: ${{ secrets.STORE_ID }}
+        STORE_ID: store-acme
         USERS_PASSWORD: ${{ secrets.USERS_PASSWORD }}
-        BACKEND_BASE_URL: '${{ secrets.BACKEND_BASE_URL }}'
-        FRONTEND_BASE_URL: '${{ secrets.FRONTEND_BASE_URL }}'
+        BACKEND_BASE_URL: https://vcptcore-demo.govirto.com
+        FRONTEND_BASE_URL: https://vcptcore-demo-storefront.govirto.com
       run: |
         echo "Running GraphQL tests against ${{ env.FRONTEND_BASE_URL }}"
         pytest tests_graphql/tests/ -m "not ignore" --browser ${{ matrix.browser }} --html=graphql-report.html --self-contained-html --tracing=retain-on-failure -v -s
