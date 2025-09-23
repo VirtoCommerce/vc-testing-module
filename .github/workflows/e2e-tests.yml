@@ -15,19 +15,19 @@ jobs:
       matrix:
         browser: [chromium] #chromium, firefox, webkit
 
-    env:
-      FRONTEND_BASE_URL: https://vcst-qa-storefront.govirto.com
-      BACKEND_BASE_URL: https://vcst-qa.govirto.com
-      ADMIN_USERNAME: admin
-      ADMIN_PASSWORD: Password3
-      ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
-      USER_EMAIL: b2badmin@test.com
-      PASSWORD: Password1!
-      FRONT_ADMIN: e2e-admin@test.com      
-      PASSWORD_FRONT_ADMIN: Password1
-      API_KEY: ${{ secrets.API_KEY }}
-      STORE_ID: B2B-store
-      PLAYWRIGHT_HEADLESS: "true"
+    #env:
+    #  FRONTEND_BASE_URL: https://vcst-qa-storefront.govirto.com
+    #  BACKEND_BASE_URL: https://vcst-qa.govirto.com
+    #  ADMIN_USERNAME: admin
+    #  ADMIN_PASSWORD: Password3
+    #  ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
+    #  USER_EMAIL: b2badmin@test.com
+    #  PASSWORD: Password1!
+    #  FRONT_ADMIN: e2e-admin@test.com      
+    #  PASSWORD_FRONT_ADMIN: Password1
+    #  API_KEY: ${{ secrets.API_KEY }}
+    #  STORE_ID: B2B-store
+    #  PLAYWRIGHT_HEADLESS: "true"
 
     steps:
       - uses: actions/checkout@v4
@@ -48,7 +48,7 @@ jobs:
 
       - name: Run legacy E2E Tests
         run: |
-          echo "Running legacy E2E tests against ${{ env.FRONTEND_BASE_URL }}"
+          echo "Running legacy E2E tests against ${{ secrets.FRONTEND_BASE_URL }}"
           pytest e2e/ --browser ${{ matrix.browser }} --html=e2e-legacy-report.html --self-contained-html --tracing=retain-on-failure -v -s
 
       - name: Upload legacy test results
@@ -71,17 +71,17 @@ jobs:
         browser: [webkit] #chromium, firefox
 
     env:
-      FRONTEND_BASE_URL: https://vcst-qa-storefront.govirto.com
-      BACKEND_BASE_URL: https://vcst-qa.govirto.com
-      ADMIN_USERNAME: admin
-      ADMIN_PASSWORD: Password3
-      ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
-      USER_EMAIL: b2badmin@test.com
-      PASSWORD: Password1!
-      FRONT_ADMIN: e2e-admin@test.com      
-      PASSWORD_FRONT_ADMIN: Password1
-      API_KEY: ${{ secrets.API_KEY }}
-      STORE_ID: B2B-store
+      FRONTEND_BASE_URL: ${{ secrets.FRONTEND_BASE_URL }}
+      BACKEND_BASE_URL: ${{ secrets.BACKEND_BASE_URL }}
+      ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
+      ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+      #ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
+      #USER_EMAIL: b2badmin@test.com
+      #PASSWORD: Password1!
+      #FRONT_ADMIN: e2e-admin@test.com
+      #PASSWORD_FRONT_ADMIN: Password1
+      #API_KEY: ${{ secrets.API_KEY }}
+      #STORE_ID: B2B-store
       PLAYWRIGHT_HEADLESS: "true"
 
     steps:
@@ -103,7 +103,7 @@ jobs:
 
       - name: Run new E2E Tests
         run: |
-          echo "Running new E2E tests against ${{ env.FRONTEND_BASE_URL }}"
+          echo "Running new E2E tests against ${{ secrets.FRONTEND_BASE_URL }}"
           pytest tests_e2e/tests/ -m "not ignore" --browser ${{ matrix.browser }} --html=e2e-new-report.html --self-contained-html --tracing=retain-on-failure -v -s
 
       - name: Upload new test results
