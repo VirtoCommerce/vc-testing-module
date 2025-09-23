@@ -48,7 +48,7 @@ jobs:
 
       - name: Run legacy E2E Tests
         run: |
-          echo "Running legacy E2E tests against ${{ secrets.FRONTEND_BASE_URL }}"
+          echo "Running legacy E2E tests against ${{ env.FRONTEND_BASE_URL }}"
           pytest e2e/ --browser ${{ matrix.browser }} --html=e2e-legacy-report.html --self-contained-html --tracing=retain-on-failure -v -s
 
       - name: Upload legacy test results
@@ -71,10 +71,10 @@ jobs:
         browser: [webkit] #chromium, firefox
 
     env:
-      FRONTEND_BASE_URL: ${{ secrets.FRONTEND_BASE_URL }}
-      BACKEND_BASE_URL: ${{ secrets.BACKEND_BASE_URL }}
-      ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
-      ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+      FRONTEND_BASE_URL: ${{ env.FRONTEND_BASE_URL }}
+      BACKEND_BASE_URL: ${{ env.BACKEND_BASE_URL }}
+      ADMIN_USERNAME: ${{ env.ADMIN_USERNAME }}
+      ADMIN_PASSWORD: ${{ env.ADMIN_PASSWORD }}
       #ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
       #USER_EMAIL: b2badmin@test.com
       #PASSWORD: Password1!
@@ -103,7 +103,7 @@ jobs:
 
       - name: Run new E2E Tests
         run: |
-          echo "Running new E2E tests against ${{ secrets.FRONTEND_BASE_URL }}"
+          echo "Running new E2E tests against ${{ env.FRONTEND_BASE_URL }}"
           pytest tests_e2e/tests/ -m "not ignore" --browser ${{ matrix.browser }} --html=e2e-new-report.html --self-contained-html --tracing=retain-on-failure -v -s
 
       - name: Upload new test results
