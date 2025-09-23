@@ -3,10 +3,10 @@ from pydantic import BaseModel
 
 class Organization(BaseModel):
     def __init__(self):
-        from graphql_client.types.seo_info import SeoInfo
-        from graphql_client.types.contact_connection import ContactConnection
         from graphql_client.types.member_address_type import MemberAddressType
+        from graphql_client.types.seo_info import SeoInfo
         from graphql_client.types.dynamic_property_value_type import DynamicPropertyValueType
+        from graphql_client.types.contact_connection import ContactConnection
         from graphql_client.types.member_address_connection import MemberAddressConnection
 
         self.id: str

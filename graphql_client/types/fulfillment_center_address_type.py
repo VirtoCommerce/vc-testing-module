@@ -18,7 +18,7 @@ class FulfillmentCenterAddressType(BaseModel):
         self.name: str | None
         self.organization: str | None
         self.phone: str | None
-        self.postalCode: str
+        self.postalCode: str | None
         self.regionId: str | None
         self.regionName: str | None
         self.zip: str | None

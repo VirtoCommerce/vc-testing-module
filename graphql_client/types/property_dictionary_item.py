@@ -6,4 +6,5 @@ class PropertyDictionaryItem(BaseModel):
 
         self.id: str
         self.value: str | None
+        self.colorCode: str
         self.sortOrder: int

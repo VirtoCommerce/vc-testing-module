@@ -11,3 +11,4 @@ class PropertyValueTypes(BaseModel):
     GEO_POINT = "GEO_POINT"
     HTML = "HTML"
     MEASURE = "MEASURE"
+    COLOR = "COLOR"
