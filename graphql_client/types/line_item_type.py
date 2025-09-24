@@ -5,13 +5,13 @@ class LineItemType(BaseModel):
     def __init__(self):
         from graphql_client.types.cart_configuration_item_type import CartConfigurationItemType
         from graphql_client.types.discount_type import DiscountType
-        from datetime import datetime
-        from graphql_client.types.validation_error_type import ValidationErrorType
-        from graphql_client.types.product import Product
-        from decimal import Decimal
-        from graphql_client.types.dynamic_property_value_type import DynamicPropertyValueType
-        from graphql_client.types.tax_detail_type import TaxDetailType
         from graphql_client.types.money_type import MoneyType
+        from graphql_client.types.product import Product
+        from datetime import datetime
+        from graphql_client.types.tax_detail_type import TaxDetailType
+        from graphql_client.types.dynamic_property_value_type import DynamicPropertyValueType
+        from graphql_client.types.validation_error_type import ValidationErrorType
+        from decimal import Decimal
         from graphql_client.types.common_vendor import CommonVendor
 
         self.product: Product | None

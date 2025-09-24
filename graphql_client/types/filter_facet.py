@@ -7,5 +7,6 @@ class FilterFacet(BaseModel):
 
         self.name: str
         self.label: str
+        self.order: int | None
         self.facetType: FacetTypes
         self.count: int
