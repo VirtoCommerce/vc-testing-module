@@ -123,14 +123,14 @@ def test_example(pytestconfig):
 
 ## Utility Commands
 
-### GraphQL Code Generation
-Generate GraphQL client code:
+### GraphQL Types Generation
+Generate GraphQL types:
 ```sh
 python graphql_client/python_graphql_codegen.py -s -v
 ```
 
 ### Dataset Seeding
-Seed the database with test data:
+Add test data:
 ```sh
 python -m scripts.dataset_seeder
 ```
