@@ -22,15 +22,7 @@ jobs:
       ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
       USERS_PASSWORD: ${{ secrets.USERS_PASSWORD }}
       STORE_ID: store-acme
-      PLAYWRIGHT_HEADLESS: "true"
-      #ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
-      #USER_EMAIL: b2badmin@test.com
-      #PASSWORD: Password1!
-      #FRONT_ADMIN: e2e-admin@test.com
-      #PASSWORD_FRONT_ADMIN: Password1
-      #API_KEY: ${{ secrets.API_KEY }}
-      #STORE_ID: B2B-store
-      #PLAYWRIGHT_HEADLESS: "true"
+      PLAYWRIGHT_HEADLESS: "true"  
 
     steps:
       - uses: actions/checkout@v4
@@ -81,14 +73,6 @@ jobs:
       USERS_PASSWORD: ${{ secrets.USERS_PASSWORD }}
       STORE_ID: store-acme      
       PLAYWRIGHT_HEADLESS: "true"
-      #ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
-      #USER_EMAIL: b2badmin@test.com
-      #PASSWORD: Password1!
-      #FRONT_ADMIN: e2e-admin@test.com
-      #PASSWORD_FRONT_ADMIN: Password1
-      #API_KEY: ${{ secrets.API_KEY }}
-      #STORE_ID: B2B-store
-      #PLAYWRIGHT_HEADLESS: "true"
 
     steps:
       - uses: actions/checkout@v4
