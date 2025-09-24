@@ -3,20 +3,27 @@ from pydantic import BaseModel
 
 class OrderShipmentType(BaseModel):
     def __init__(self):
-        from decimal import Decimal
         from datetime import datetime
-        from graphql_client.types.pickup_location_type import PickupLocationType
-        from graphql_client.types.order_address_type import OrderAddressType
-        from graphql_client.types.money_type import MoneyType
-        from graphql_client.types.order_discount_type import OrderDiscountType
+        from decimal import Decimal
+
         from graphql_client.types.common_vendor import CommonVendor
         from graphql_client.types.currency_type import CurrencyType
-        from graphql_client.types.payment_in_type import PaymentInType
-        from graphql_client.types.order_tax_detail_type import OrderTaxDetailType
-        from graphql_client.types.dynamic_property_value_type import DynamicPropertyValueType
+        from graphql_client.types.dynamic_property_value_type import (
+            DynamicPropertyValueType,
+        )
+        from graphql_client.types.money_type import MoneyType
+        from graphql_client.types.order_address_type import OrderAddressType
+        from graphql_client.types.order_discount_type import OrderDiscountType
         from graphql_client.types.order_shipment_item_type import OrderShipmentItemType
-        from graphql_client.types.order_shipment_package_type import OrderShipmentPackageType
-        from graphql_client.types.order_shipping_method_type import OrderShippingMethodType
+        from graphql_client.types.order_shipment_package_type import (
+            OrderShipmentPackageType,
+        )
+        from graphql_client.types.order_shipping_method_type import (
+            OrderShippingMethodType,
+        )
+        from graphql_client.types.order_tax_detail_type import OrderTaxDetailType
+        from graphql_client.types.payment_in_type import PaymentInType
+        from graphql_client.types.pickup_location_type import PickupLocationType
 
         self.id: str
         self.operationType: str

@@ -3,69 +3,108 @@ from pydantic import BaseModel
 
 class Query(BaseModel):
     def __init__(self):
-        from graphql_client.types.category import Category
-        from graphql_client.types.customer_review_connection import CustomerReviewConnection
-        from graphql_client.types.store_response_type import StoreResponseType
-        from graphql_client.types.user_type import UserType
+        from graphql_client.types.back_in_stock_subscription_connection import (
+            BackInStockSubscriptionConnection,
+        )
         from graphql_client.types.brand_connection import BrandConnection
-        from graphql_client.types.localized_setting_response_type import LocalizedSettingResponseType
+        from graphql_client.types.brand_type import BrandType
+        from graphql_client.types.cart_connection import CartConnection
         from graphql_client.types.cart_type import CartType
-        from graphql_client.types.menu_link_list_type import MenuLinkListType
-        from graphql_client.types.news_article_content_connection import NewsArticleContentConnection
-        from graphql_client.types.fcm_settings_type import FcmSettingsType
-        from graphql_client.types.page_document_connection import PageDocumentConnection
-        from graphql_client.types.child_categories_query_response_type import ChildCategoriesQueryResponseType
-        from graphql_client.types.payment_in_connection import PaymentInConnection
-        from graphql_client.types.quote_connection import QuoteConnection
+        from graphql_client.types.category import Category
+        from graphql_client.types.category_connection import CategoryConnection
+        from graphql_client.types.child_categories_query_response_type import (
+            ChildCategoriesQueryResponseType,
+        )
+        from graphql_client.types.configuration_items_response_type import (
+            ConfigurationItemsResponseType,
+        )
+        from graphql_client.types.configuration_query_response_type import (
+            ConfigurationQueryResponseType,
+        )
+        from graphql_client.types.contact_connection import ContactConnection
+        from graphql_client.types.contact_type import ContactType
+        from graphql_client.types.contract_connection import ContractConnection
+        from graphql_client.types.contract_type import ContractType
         from graphql_client.types.country_region_type import CountryRegionType
         from graphql_client.types.country_type import CountryType
-        from graphql_client.types.work_task_connection import WorkTaskConnection
-        from graphql_client.types.news_article_content import NewsArticleContent
-        from graphql_client.types.search_history_result_type import SearchHistoryResultType
+        from graphql_client.types.custom_identity_result_type import (
+            CustomIdentityResultType,
+        )
+        from graphql_client.types.customer_order_connection import (
+            CustomerOrderConnection,
+        )
         from graphql_client.types.customer_order_type import CustomerOrderType
-        from graphql_client.types.page_type import PageType
-        from graphql_client.types.fulfillment_center_connection import FulfillmentCenterConnection
-        from graphql_client.types.fulfillment_center_type import FulfillmentCenterType
-        from graphql_client.types.property_connection import PropertyConnection
-        from graphql_client.types.contract_connection import ContractConnection
-        from graphql_client.types.product_connection import ProductConnection
+        from graphql_client.types.customer_review_connection import (
+            CustomerReviewConnection,
+        )
+        from graphql_client.types.dynamic_property_connection import (
+            DynamicPropertyConnection,
+        )
         from graphql_client.types.dynamic_property_type import DynamicPropertyType
-        from graphql_client.types.brand_type import BrandType
-        from graphql_client.types.wishlist_connection import WishlistConnection
-        from graphql_client.types.product import Product
-        from graphql_client.types.cart_connection import CartConnection
-        from graphql_client.types.page_connection import PageConnection
-        from graphql_client.types.category_connection import CategoryConnection
-        from graphql_client.types.product_suggestions_query_response_type import ProductSuggestionsQueryResponseType
-        from graphql_client.types.dynamic_property_connection import DynamicPropertyConnection
-        from graphql_client.types.prices_sum_type import PricesSumType
-        from graphql_client.types.contract_type import ContractType
-        from graphql_client.types.property import Property
-        from graphql_client.types.contact_type import ContactType
+        from graphql_client.types.evaluate_dynamic_content_result_type import (
+            EvaluateDynamicContentResultType,
+        )
+        from graphql_client.types.fcm_settings_type import FcmSettingsType
+        from graphql_client.types.file_upload_scope_options_type import (
+            FileUploadScopeOptionsType,
+        )
+        from graphql_client.types.fulfillment_center_connection import (
+            FulfillmentCenterConnection,
+        )
+        from graphql_client.types.fulfillment_center_type import FulfillmentCenterType
+        from graphql_client.types.get_recently_browsed_response_type import (
+            GetRecentlyBrowsedResponseType,
+        )
+        from graphql_client.types.get_recommendations_response_type import (
+            GetRecommendationsResponseType,
+        )
+        from graphql_client.types.localized_setting_response_type import (
+            LocalizedSettingResponseType,
+        )
         from graphql_client.types.menu_link_list_type import MenuLinkListType
         from graphql_client.types.news_article_author import NewsArticleAuthor
-        from graphql_client.types.quote_type import QuoteType
-        from graphql_client.types.organization_connection import OrganizationConnection
-        from graphql_client.types.contact_connection import ContactConnection
-        from graphql_client.types.get_recently_browsed_response_type import GetRecentlyBrowsedResponseType
-        from graphql_client.types.back_in_stock_subscription_connection import BackInStockSubscriptionConnection
-        from graphql_client.types.evaluate_dynamic_content_result_type import EvaluateDynamicContentResultType
-        from graphql_client.types.configuration_items_response_type import ConfigurationItemsResponseType
-        from graphql_client.types.push_message_connection import PushMessageConnection
-        from graphql_client.types.wishlist_type import WishlistType
-        from graphql_client.types.custom_identity_result_type import CustomIdentityResultType
-        from graphql_client.types.vendor import Vendor
-        from graphql_client.types.white_labeling_settings_type import WhiteLabelingSettingsType
-        from graphql_client.types.page_document_type import PageDocumentType
-        from graphql_client.types.customer_order_connection import CustomerOrderConnection
-        from graphql_client.types.role_type import RoleType
+        from graphql_client.types.news_article_content import NewsArticleContent
+        from graphql_client.types.news_article_content_connection import (
+            NewsArticleContentConnection,
+        )
         from graphql_client.types.organization import Organization
-        from graphql_client.types.configuration_query_response_type import ConfigurationQueryResponseType
-        from graphql_client.types.get_recommendations_response_type import GetRecommendationsResponseType
-        from graphql_client.types.skyflow_card_response_type import SkyflowCardResponseType
+        from graphql_client.types.organization_connection import OrganizationConnection
+        from graphql_client.types.page_connection import PageConnection
+        from graphql_client.types.page_document_connection import PageDocumentConnection
+        from graphql_client.types.page_document_type import PageDocumentType
+        from graphql_client.types.page_type import PageType
+        from graphql_client.types.payment_in_connection import PaymentInConnection
+        from graphql_client.types.pickup_location_connection import (
+            PickupLocationConnection,
+        )
+        from graphql_client.types.prices_sum_type import PricesSumType
+        from graphql_client.types.product import Product
+        from graphql_client.types.product_connection import ProductConnection
+        from graphql_client.types.product_suggestions_query_response_type import (
+            ProductSuggestionsQueryResponseType,
+        )
+        from graphql_client.types.property import Property
+        from graphql_client.types.property_connection import PropertyConnection
+        from graphql_client.types.push_message_connection import PushMessageConnection
+        from graphql_client.types.quote_connection import QuoteConnection
+        from graphql_client.types.quote_type import QuoteType
+        from graphql_client.types.role_type import RoleType
+        from graphql_client.types.search_history_result_type import (
+            SearchHistoryResultType,
+        )
+        from graphql_client.types.skyflow_card_response_type import (
+            SkyflowCardResponseType,
+        )
         from graphql_client.types.slug_info_response_type import SlugInfoResponseType
-        from graphql_client.types.file_upload_scope_options_type import FileUploadScopeOptionsType
-        from graphql_client.types.pickup_location_connection import PickupLocationConnection
+        from graphql_client.types.store_response_type import StoreResponseType
+        from graphql_client.types.user_type import UserType
+        from graphql_client.types.vendor import Vendor
+        from graphql_client.types.white_labeling_settings_type import (
+            WhiteLabelingSettingsType,
+        )
+        from graphql_client.types.wishlist_connection import WishlistConnection
+        from graphql_client.types.wishlist_type import WishlistType
+        from graphql_client.types.work_task_connection import WorkTaskConnection
 
         self.countries: list[CountryType]
         self.regions: list[CountryRegionType]
