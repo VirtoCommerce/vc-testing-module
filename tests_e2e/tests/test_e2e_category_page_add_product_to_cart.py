@@ -1,14 +1,13 @@
 import os
 import time
-from typing import Any
+from typing import Any, Dict
 
 import allure
 import pytest
 from playwright.sync_api import Page, expect
 
-from fixtures import AnonymousCatalogRequests, RequestsTracker
-from test_data.test_category import TEST_CATEGORY_1
-from test_data.test_product import TEST_PRODUCT_1
+from fixtures.anonymous_catalog_requests import AnonymousCatalogRequests
+from fixtures.requests_tracker import RequestsTracker
 from tests_e2e.pages.cart_page import CartPage
 from tests_e2e.pages.category_page import CategoryPage
 
@@ -16,7 +15,8 @@ from tests_e2e.pages.category_page import CategoryPage
 @pytest.mark.e2e
 @allure.title("Add product to cart from category page with add to cart button (E2E)")
 def test_e2e_category_add_product_to_cart_with_add_to_cartbutton(
-    config: dict,
+    config: Dict[str, Any],
+    dataset: Dict[str, Any],
     page: Page,
     anonymous_catalog_requests: AnonymousCatalogRequests,
     requests_tracker: RequestsTracker,
@@ -36,25 +36,38 @@ def test_e2e_category_add_product_to_cart_with_add_to_cartbutton(
 
     page.set_viewport_size({"width": 1920, "height": 1080})
 
-    category_page = CategoryPage(config, page, TEST_CATEGORY_1["seoPath"])
+    category_to_browse = next(
+        category
+        for category in dataset["categories"]
+        if category["id"] == "category-acme-laptops"
+    )
+    product_to_add_to_cart = next(
+        product
+        for product in dataset["products"]
+        if product["id"] == "product-acme-laptop-asus-zenbook-a14-ux3407"
+    )
+
+    category_page = CategoryPage(
+        config, page, category_to_browse["seoInfos"][0]["semanticUrl"]
+    )
     category_page.navigate()
 
     expect(page).to_have_url(
-        f"{config['frontend_base_url']}/{TEST_CATEGORY_1['seoPath']}"
+        f"{config['frontend_base_url']}/{category_to_browse['seoInfos'][0]['semanticUrl']}"
     )
 
-    product_card = category_page.get_product_card_by_sku(TEST_PRODUCT_1["sku"])
+    product_card = category_page.get_product_card_by_sku(product_to_add_to_cart["code"])
     product_card.add_to_cart_component.quantity_input.fill(product_quantity_to_add)
     product_card.add_to_cart_component.add_to_cart_text_button.click()
 
     cart_page = CartPage(config, page)
     cart_page.navigate()
 
-    line_item = cart_page.get_line_item_by_sku(TEST_PRODUCT_1["sku"])
+    line_item = cart_page.get_line_item_by_sku(product_to_add_to_cart["code"])
 
     assert (
-        line_item.sku == TEST_PRODUCT_1["sku"]
-    ), f"Line item sku is not equal to product sku: {TEST_PRODUCT_1['sku']}"
+        line_item.sku == product_to_add_to_cart["code"]
+    ), f"Line item sku is not equal to product sku: {product_to_add_to_cart['code']}"
     assert (
         str(line_item.add_to_cart_component.quantity_input.input_value())
         == product_quantity_to_add
@@ -70,7 +83,8 @@ def test_e2e_category_add_product_to_cart_with_add_to_cartbutton(
 @pytest.mark.e2e
 @allure.title("Add product to cart from category page with quantity stepper (E2E)")
 def test_e2e_category_add_product_to_cart_with_quantity_stepper(
-    config: dict,
+    config: Dict[str, Any],
+    dataset: Dict[str, Any],
     page: Page,
     anonymous_catalog_requests: AnonymousCatalogRequests,
     requests_tracker: RequestsTracker,
@@ -88,14 +102,27 @@ def test_e2e_category_add_product_to_cart_with_quantity_stepper(
 
     page.set_viewport_size({"width": 1920, "height": 1080})
 
-    category_page = CategoryPage(config, page, TEST_CATEGORY_1["seoPath"])
+    category_to_browse = next(
+        category
+        for category in dataset["categories"]
+        if category["id"] == "category-acme-laptops"
+    )
+    product_to_add_to_cart = next(
+        product
+        for product in dataset["products"]
+        if product["id"] == "product-acme-laptop-asus-zenbook-a14-ux3407"
+    )
+
+    category_page = CategoryPage(
+        config, page, category_to_browse["seoInfos"][0]["semanticUrl"]
+    )
     category_page.navigate()
 
     expect(page).to_have_url(
-        f"{config['frontend_base_url']}/{TEST_CATEGORY_1['seoPath']}"
+        f"{config['frontend_base_url']}/{category_to_browse['seoInfos'][0]['semanticUrl']}"
     )
 
-    product_card = category_page.get_product_card_by_sku(TEST_PRODUCT_1["sku"])
+    product_card = category_page.get_product_card_by_sku(product_to_add_to_cart["code"])
 
     product_card.quantity_stepper_component.increment_button.click()
 
@@ -108,11 +135,11 @@ def test_e2e_category_add_product_to_cart_with_quantity_stepper(
     cart_page = CartPage(config, page)
     cart_page.navigate()
 
-    line_item = cart_page.get_line_item_by_sku(TEST_PRODUCT_1["sku"])
+    line_item = cart_page.get_line_item_by_sku(product_to_add_to_cart["code"])
 
     assert (
-        line_item.sku == TEST_PRODUCT_1["sku"]
-    ), f"Line item sku is not equal to product sku: {TEST_PRODUCT_1['sku']}"
+        line_item.sku == product_to_add_to_cart["code"]
+    ), f"Line item sku is not equal to product sku: {product_to_add_to_cart['code']}"
     assert (
         str(line_item.quantity_stepper_component.quantity_input.input_value()) == "1"
     ), "Line item quantity is not equal to product quantity to add"

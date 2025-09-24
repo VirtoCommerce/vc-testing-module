@@ -1,14 +1,21 @@
-import allure, os, pytest
+import os
+from typing import Any, Dict
+
+import allure
+import pytest
+from playwright.sync_api import Page, expect
+
+from fixtures.auth import Auth
+from fixtures.graphql_client import GraphQLClient
 from graphql_operations.contact.contact_operations import ContactOperations
 from graphql_operations.user.user_operations import UserOperations
-from playwright.sync_api import expect
 from tests_e2e.pages.sign_up_page import SignUpPage
 from tests_e2e.pages.successful_registration_page import SuccessfulRegistrationPage
 
 
 @pytest.mark.e2e
 @allure.feature("Select personal registration (E2E)")
-def test_e2e_select_personal_registration(config, page):
+def test_e2e_select_personal_registration(config: Dict[str, Any], page: Page):
     print(f"{os.linesep}Running E2E test to select personal registration...", end=" ")
 
     sign_up_page = SignUpPage(config, page)
@@ -17,13 +24,17 @@ def test_e2e_select_personal_registration(config, page):
 
     sign_up_page.select_personal_registration()
 
-    expect(sign_up_page.organization_name_input).not_to_be_visible(), "Organization name input is visible"
+    expect(
+        sign_up_page.organization_name_input
+    ).not_to_be_visible(), "Organization name input is visible"
 
 
 @pytest.mark.e2e
 @allure.feature("Select organization registration (E2E)")
-def test_e2e_select_organization_registration(config, page):
-    print(f"{os.linesep}Running E2E test to select organization registration...", end=" ")
+def test_e2e_select_organization_registration(config: Dict[str, Any], page: Page):
+    print(
+        f"{os.linesep}Running E2E test to select organization registration...", end=" "
+    )
 
     sign_up_page = SignUpPage(config, page)
 
@@ -31,12 +42,19 @@ def test_e2e_select_organization_registration(config, page):
 
     sign_up_page.select_organization_registration()
 
-    expect(sign_up_page.organization_name_input).to_be_visible(), "Organization name input is not visible"
+    expect(
+        sign_up_page.organization_name_input
+    ).to_be_visible(), "Organization name input is not visible"
 
 
 @pytest.mark.e2e
 @allure.feature("Sign up personal account (E2E)")
-def test_e2e_sign_up_personal_account(config, page, auth, graphql_client):
+def test_e2e_sign_up_personal_account(
+    config: Dict[str, Any],
+    page: Page,
+    auth: Auth,
+    graphql_client: GraphQLClient,
+):
     print(f"{os.linesep}Running E2E test to sign up personal account...", end=" ")
 
     sign_up_page = SignUpPage(config, page)
@@ -51,14 +69,14 @@ def test_e2e_sign_up_personal_account(config, page, auth, graphql_client):
         first_name="John",
         last_name="Doe",
         email="john.doe@example.com",
-        password="Password1!",
+        password=config["users_password"],
     )
 
     expect(page).to_have_url(successful_registration_page.url)
 
     # Test teardown
 
-    auth.authenticate(config["username"], config["password"])
+    auth.authenticate(config["admin_username"], config["admin_password"])
 
     user = user_operations.get_user_by_username("john.doe@example.com")
 
@@ -79,7 +97,9 @@ def test_e2e_sign_up_personal_account(config, page, auth, graphql_client):
 
 @pytest.mark.e2e
 @allure.feature("Sign up organization account (E2E)")
-def test_e2e_sign_up_organization_account(config, page, auth, graphql_client):
+def test_e2e_sign_up_organization_account(
+    config: Dict[str, Any], page: Page, auth: Auth, graphql_client: GraphQLClient
+):
     print(f"{os.linesep}Running E2E test to sign up organization account...", end=" ")
 
     sign_up_page = SignUpPage(config, page)
@@ -94,7 +114,7 @@ def test_e2e_sign_up_organization_account(config, page, auth, graphql_client):
         first_name="John",
         last_name="Doe",
         email="john.doe@example.com",
-        password="Password1!",
+        password=config["users_password"],
         organization_name="Some fake organization",
     )
 
@@ -102,7 +122,7 @@ def test_e2e_sign_up_organization_account(config, page, auth, graphql_client):
 
     # Test teardown
 
-    auth.authenticate(config["username"], config["password"])
+    auth.authenticate(config["admin_username"], config["admin_password"])
 
     user = user_operations.get_user_by_username("john.doe@example.com")
 

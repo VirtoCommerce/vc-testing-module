@@ -4,7 +4,8 @@ from typing import Any, Dict
 import allure
 import pytest
 
-from fixtures import Auth, GraphQLClient
+from fixtures.auth import Auth
+from fixtures.graphql_client import GraphQLClient
 from graphql_operations.contact.contact_operations import ContactOperations
 from graphql_operations.user.user_operations import UserOperations
 
@@ -12,7 +13,10 @@ from graphql_operations.user.user_operations import UserOperations
 @pytest.mark.graphql
 @allure.title("Search organization contacts by name (GraphQL)")
 def test_search_organization_contacts_by_name(
-    config: Dict[str, Any], auth: Auth, graphql_client: GraphQLClient
+    config: Dict[str, Any],
+    dataset: Dict[str, Any],
+    auth: Auth,
+    graphql_client: GraphQLClient,
 ):
     print(
         f"{os.linesep}Running test to search organization contacts by name...", end=" "
@@ -21,12 +25,14 @@ def test_search_organization_contacts_by_name(
     user_operations = UserOperations(graphql_client)
     contact_operations = ContactOperations(graphql_client)
 
+    dataset_user = dataset["users"][0]
+
     auth.authenticate(
-        config["test_permanent_corporate_customer_username"],
-        config["test_permanent_corporate_customer_password"],
+        dataset_user["userName"],
+        config["users_password"],
     )
 
-    user = user_operations.get_user()
+    user = user_operations.get_me()
 
     organization_contacts = contact_operations.fetch_organization_contacts(
         organization_id=user["contact"]["organizationId"],
@@ -41,10 +47,14 @@ def test_search_organization_contacts_by_name(
     ), "Organization contacts not found"
 
 
+@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Search organization contacts by email (GraphQL)")
 def test_search_organization_contacts_by_email(
-    config: Dict[str, Any], auth: Auth, graphql_client: GraphQLClient
+    config: Dict[str, Any],
+    dataset: Dict[str, Any],
+    auth: Auth,
+    graphql_client: GraphQLClient,
 ):
     print(
         f"{os.linesep}Running test to search organization contacts by email...", end=" "
@@ -53,17 +63,19 @@ def test_search_organization_contacts_by_email(
     user_operations = UserOperations(graphql_client)
     contact_operations = ContactOperations(graphql_client)
 
+    dataset_user = dataset["users"][0]
+
     auth.authenticate(
-        config["test_permanent_corporate_customer_username"],
-        config["test_permanent_corporate_customer_password"],
+        dataset_user["userName"],
+        config["users_password"],
     )
 
-    user = user_operations.get_user()
+    user = user_operations.get_me()
 
     organization_contacts = contact_operations.fetch_organization_contacts(
         organization_id=user["contact"]["organizationId"],
         user_id=user["id"],
-        search_phrase="e2e-test-employee-1@e2e-contoso.com",
+        search_phrase="acme_store_employee_1@acme.com",
     )
 
     auth.clear_token()

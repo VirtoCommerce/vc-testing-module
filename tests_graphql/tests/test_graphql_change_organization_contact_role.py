@@ -4,7 +4,8 @@ from typing import Any, Dict
 import allure
 import pytest
 
-from fixtures import Auth, GraphQLClient
+from fixtures.auth import Auth
+from fixtures.graphql_client import GraphQLClient
 from graphql_operations.contact.contact_operations import ContactOperations
 from graphql_operations.user.user_operations import UserOperations
 
@@ -12,25 +13,34 @@ from graphql_operations.user.user_operations import UserOperations
 @pytest.mark.graphql
 @allure.feature("Change organization contact role (GraphQL)")
 def test_change_organization_contact_role(
-    config: Dict[str, Any], auth: Auth, graphql_client: GraphQLClient
+    config: Dict[str, Any],
+    dataset: Dict[str, Any],
+    auth: Auth,
+    graphql_client: GraphQLClient,
 ):
     print(f"{os.linesep}Running test to change organization contact role...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     contact_operations = ContactOperations(graphql_client)
 
-    auth.authenticate(
-        config["test_permanent_corporate_customer_username"],
-        config["test_permanent_corporate_customer_password"],
+    store_administrator = next(
+        contact
+        for contact in dataset["users"]
+        if contact["id"] == "user-acme-store-administrator"
     )
 
-    user = user_operations.get_user()
+    auth.authenticate(
+        store_administrator["userName"],
+        config["users_password"],
+    )
+
+    user = user_operations.get_me()
 
     organization_contact_to_change_role = (
         contact_operations.fetch_organization_contacts(
             organization_id=user["contact"]["organizationId"],
             user_id=user["id"],
-            search_phrase="e2e-test-purchasing-agent@e2e-contoso.com",
+            search_phrase="ACME Purchasing Agent 3",
         )["contacts"]["items"][0]
     )
 
@@ -44,7 +54,7 @@ def test_change_organization_contact_role(
     changed_contact = contact_operations.fetch_organization_contacts(
         organization_id=user["contact"]["organizationId"],
         user_id=user["id"],
-        search_phrase="e2e-test-purchasing-agent@e2e-contoso.com",
+        search_phrase="ACME Purchasing Agent 3",
     )["contacts"]["items"][0]
 
     # Test teardown

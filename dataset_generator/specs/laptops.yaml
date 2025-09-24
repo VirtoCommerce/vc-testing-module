@@ -1,0 +1,149 @@
+- id: laptops
+  name: Laptops
+  components_specs:
+    - mobile_cpus.yaml
+    - mobile_gpus.yaml
+  properties:
+    - name: CpuModel
+      display_name: CPU Model
+      type: ShortText
+      object_type: Product
+    - name: CpuFrequency
+      display_name: CPU Frequency
+      type: Integer
+      object_type: Product
+    - name: CpuCores
+      display_name: CPU Cores
+      type: Integer
+      object_type: Product
+    - name: CpuThreads
+      display_name: CPU Threads
+      type: Integer
+      object_type: Product
+    - name: CpuGraphicsModel
+      display_name: Integrated Graphics Model
+      type: ShortText
+      object_type: Product
+    - name: CpuGraphicsFrequency
+      display_name: Integrated Graphics Frequency
+      type: Integer
+      object_type: Product
+    - name: GpuModel
+      display_name: GPU Model
+      type: ShortText
+      object_type: Product
+    - name: GpuMemorySize
+      display_name: GPU Memory Size
+      type: Integer
+      object_type: Product
+    - name: GpuMemoryType
+      display_name: GPU Memory Type
+      type: ShortText
+      object_type: Product
+    - name: RamSize
+      display_name: RAM Size
+      type: Integer
+      object_type: Product
+    - name: SsdSize
+      display_name: SSD Size
+      type: Integer
+      object_type: Product
+    - name: DisplaySize
+      display_name: Display Size
+      type: Decimal
+      object_type: Product
+    - name: DisplayRefreshRate
+      display_name: Display Refresh Rate
+      type: Integer
+      object_type: Product
+    - name: DisplayTechnology
+      display_name: Display Technology
+      type: ShortText
+      object_type: Product
+    - name: BatteryCapacity
+      display_name: Battery Capacity
+      type: Integer
+      object_type: Product
+  models:
+    - id: acer_nitro_v
+      name: Acer Nitro V
+      vendor: Acer
+      price_usd:
+        - 1099
+        - 1699
+      properties:
+        cpu:
+          - intel_core_i5_12500h
+          - intel_core_i7_12700h
+          - intel_core_i5_13500h
+          - intel_core_i7_13700hx
+          - intel_core_i9_13900hx
+          - intel_core_i7_14700hx
+          - intel_core_i9_14900hx
+          - intel_core_ultra_7_155h
+          - intel_core_ultra_9_185h
+          - amd_ryzen_5_6600h
+          - amd_ryzen_7_6800h
+          - amd_ryzen_5_7645hx
+          - amd_ryzen_9_7845hx
+          - amd_ryzen_ai_9_365
+          - amd_ryzen_ai_7_350
+        gpu:
+          - nvidia_geforce_rtx_3050_laptop_gpu
+          - nvidia_geforce_rtx_3060_laptop_gpu
+          - nvidia_geforce_rtx_3070_laptop_gpu
+          - nvidia_geforce_rtx_4050_laptop_gpu
+          - nvidia_geforce_rtx_4060_laptop_gpu
+          - nvidia_geforce_rtx_4070_laptop_gpu
+          - nvidia_geforce_rtx_5070_laptop_gpu
+          - nvidia_geforce_rtx_5070_ti_laptop_gpu
+          - amd_radeon_rx_6450m
+          - amd_radeon_rx_7600s
+        ram_gb:
+          - 16
+          - 32
+        ssd_gb:
+          - 512
+          - 1000
+          - 2000
+        display_inch:
+          - 15.6
+          - 16
+        battery_wh:
+          - 80
+          - 90
+    - id: hp_omen_16
+      name: HP Omen 16
+      vendor: HP
+      price_usd:
+        - 1359
+        - 2500
+      properties:
+        cpu:
+          - amd_ryzen_7_6800h
+          - amd_ryzen_9_8940hx
+          - intel_core_i7_14650hx
+          - intel_core_i9_14900hx
+        gpu:
+          - nvidia_geforce_rtx_3050_ti_laptop_gpu
+          - nvidia_geforce_rtx_4080_laptop_gpu
+          - amd_radeon_rx_6650m
+          - nvidia_geforce_rtx_5060_laptop_gpu
+          - nvidia_geforce_rtx_4060_laptop_gpu
+          - nvidia_geforce_rtx_3060_laptop_gpu
+        ram_gb:
+          - 16
+          - 32
+          - 64
+        ssd_gb:
+          - 512
+          - 1000
+          - 2000
+        display_inch:
+          - 16
+          - 16.1
+        battery_wh:
+          - 80
+          - 82
+          - 90
+          - 94

@@ -1,24 +1,35 @@
 import os
+from typing import Any, Dict
 
 import allure
 import pytest
 from playwright.sync_api import Page, expect
 
 from fixtures.anonymous_catalog_requests import AnonymousCatalogRequests
-from test_data.test_category import TEST_CATEGORY_1
 from tests_e2e.pages.category_page import CategoryPage
 
 
 @pytest.mark.e2e
 @allure.title("Switch category grid view (E2E)")
 def test_e2e_switch_category_grid_view(
-    config: dict, page: Page, anonymous_catalog_requests: AnonymousCatalogRequests
+    config: Dict[str, Any],
+    dataset: Dict[str, Any],
+    page: Page,
+    anonymous_catalog_requests: AnonymousCatalogRequests,
 ):
     print(f"{os.linesep}Running E2E test to switch category grid view...", end=" ")
 
     anonymous_catalog_requests.toggle(True)
 
-    category_page = CategoryPage(config, page, TEST_CATEGORY_1["seoPath"])
+    category_to_browse = next(
+        category
+        for category in dataset["categories"]
+        if category["id"] == "category-acme-laptops"
+    )
+
+    category_page = CategoryPage(
+        config, page, category_to_browse["seoInfos"][0]["semanticUrl"]
+    )
     category_page.navigate()
     category_page.view_switcher.switch_category_view("grid")
 
@@ -33,13 +44,24 @@ def test_e2e_switch_category_grid_view(
 @pytest.mark.e2e
 @allure.title("Switch category list view (E2E)")
 def test_e2e_switch_category_list_view(
-    config: dict, page: Page, anonymous_catalog_requests: AnonymousCatalogRequests
+    config: Dict[str, Any],
+    dataset: Dict[str, Any],
+    page: Page,
+    anonymous_catalog_requests: AnonymousCatalogRequests,
 ):
     print(f"{os.linesep}Running E2E test to switch category list view...", end=" ")
 
     anonymous_catalog_requests.toggle(True)
 
-    category_page = CategoryPage(config, page, TEST_CATEGORY_1["seoPath"])
+    category_to_browse = next(
+        category
+        for category in dataset["categories"]
+        if category["id"] == "category-acme-laptops"
+    )
+
+    category_page = CategoryPage(
+        config, page, category_to_browse["seoInfos"][0]["semanticUrl"]
+    )
     category_page.navigate()
     category_page.view_switcher.switch_category_view("list")
 

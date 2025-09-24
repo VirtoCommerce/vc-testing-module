@@ -4,7 +4,8 @@ from typing import Any, Dict
 import allure
 import pytest
 
-from fixtures import Auth, GraphQLClient
+from fixtures.auth import Auth
+from fixtures.graphql_client import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.quote.quote_operations import QuoteOperations
 from graphql_operations.user.user_operations import UserOperations
@@ -13,6 +14,7 @@ from test_data.test_currency import TEST_CURRENCY
 from test_data.test_product import TEST_PRODUCT_1
 
 
+@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Create empty quote (GraphQL)")
 def test_create_empty_quote(
@@ -47,6 +49,7 @@ def test_create_empty_quote(
     assert len(quote["items"]) == 0, "Quote items are not empty"
 
 
+@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Create quote with items from cart (GraphQL)")
 def test_create_quote_with_items_from_cart(

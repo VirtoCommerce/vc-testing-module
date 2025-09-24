@@ -9,6 +9,7 @@ class RangeFacet(BaseModel):
 
         self.name: str
         self.label: str
+        self.order: int | None
         self.facetType: FacetTypes
         self.ranges: list[FacetRangeType]
         self.statistics: RangeFacetStatistics | None

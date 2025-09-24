@@ -3,17 +3,20 @@ from pydantic import BaseModel
 
 class ShipmentType(BaseModel):
     def __init__(self):
-        from graphql_client.types.cart_shipment_item_type import CartShipmentItemType
-        from graphql_client.types.discount_type import DiscountType
         from decimal import Decimal
+
+        from graphql_client.types.cart_address_type import CartAddressType
+        from graphql_client.types.cart_shipment_item_type import CartShipmentItemType
+        from graphql_client.types.common_vendor import CommonVendor
+        from graphql_client.types.currency_type import CurrencyType
+        from graphql_client.types.discount_type import DiscountType
+        from graphql_client.types.dynamic_property_value_type import (
+            DynamicPropertyValueType,
+        )
+        from graphql_client.types.money_type import MoneyType
         from graphql_client.types.pickup_location_type import PickupLocationType
-        from graphql_client.types.dynamic_property_value_type import DynamicPropertyValueType
         from graphql_client.types.shipping_method_type import ShippingMethodType
         from graphql_client.types.tax_detail_type import TaxDetailType
-        from graphql_client.types.money_type import MoneyType
-        from graphql_client.types.common_vendor import CommonVendor
-        from graphql_client.types.cart_address_type import CartAddressType
-        from graphql_client.types.currency_type import CurrencyType
 
         self.id: str
         self.shipmentMethodCode: str | None

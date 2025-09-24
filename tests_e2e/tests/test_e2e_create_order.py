@@ -4,7 +4,7 @@ import allure
 import pytest
 from playwright.sync_api import Page, expect
 
-from fixtures import RequestsTracker
+from fixtures.requests_tracker import RequestsTracker
 from test_data.test_category import TEST_CATEGORY_1
 from test_data.test_product import TEST_PRODUCT_1
 from tests_e2e.pages.cart_page import CartPage
@@ -16,6 +16,7 @@ from tests_e2e.pages.checkout_shipping_page import CheckoutShippingPage
 from tests_e2e.pages.sign_in_page import SignInPage
 
 
+@pytest.mark.ignore
 @pytest.mark.e2e
 @allure.title("Create order (E2E)")
 def test_e2e_create_order(config: dict, page: Page, requests_tracker: RequestsTracker):

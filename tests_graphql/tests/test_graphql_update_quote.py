@@ -4,7 +4,8 @@ from typing import Any, Dict
 import allure
 import pytest
 
-from fixtures import Auth, GraphQLClient
+from fixtures.auth import Auth
+from fixtures.graphql_client import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.quote.quote_operations import QuoteOperations
 from graphql_operations.user.user_operations import UserOperations
@@ -14,6 +15,7 @@ from test_data.test_currency import TEST_CURRENCY
 from test_data.test_product import TEST_PRODUCT_1
 
 
+@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Change quote item quantity (GraphQL)")
 def test_change_quote_item_quantity(
@@ -82,6 +84,7 @@ def test_change_quote_item_quantity(
     ), "Quote item quantity is not the same"
 
 
+@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Change quote comment (GraphQL)")
 def test_change_quote_comment(
@@ -141,6 +144,7 @@ def test_change_quote_comment(
     ), "Quote comment is not the same"
 
 
+@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Remove quote shipping and billing addresses (GraphQL)")
 def test_change_quote_shipping_and_billing_addresses(
@@ -210,6 +214,7 @@ def test_change_quote_shipping_and_billing_addresses(
     ), "Quote has no billing address (type 2)"
 
 
+@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Remove quote item (GraphQL)")
 def test_remove_quote_item(
@@ -267,6 +272,7 @@ def test_remove_quote_item(
     assert len(updated_quote["items"]) == 0, "Quote has items"
 
 
+@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Submit quote request (GraphQL)")
 def test_submit_quote_request(

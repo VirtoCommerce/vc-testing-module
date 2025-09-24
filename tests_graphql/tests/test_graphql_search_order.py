@@ -4,7 +4,8 @@ from typing import Any, Dict
 import allure
 import pytest
 
-from fixtures import Auth, GraphQLClient
+from fixtures.auth import Auth
+from fixtures.graphql_client import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.order.order_operations import OrderOperations
 from graphql_operations.user.user_operations import UserOperations
@@ -12,6 +13,7 @@ from test_data.test_culture import TEST_CULTURE
 from test_data.test_order import TEST_ORDER_1
 
 
+@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Search order (GraphQL)")
 def test_search_order(

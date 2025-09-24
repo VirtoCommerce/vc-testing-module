@@ -1,41 +1,57 @@
 import os
+import random
 from typing import Any, Dict
 
 import allure
 import pytest
 
-from fixtures import GraphQLClient
+from fixtures.graphql_client import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
-from test_data.test_culture import TEST_CULTURE
-from test_data.test_currency import TEST_CURRENCY
-from test_data.test_product import TEST_PRODUCT_1, TEST_PRODUCT_2
 
 
 @pytest.mark.graphql
 @allure.title("Add items to anonymous cart (GraphQL)")
 def test_add_items_to_anonymous_cart(
-    config: Dict[str, Any], graphql_client: GraphQLClient
+    config: Dict[str, Any], dataset: Dict[str, Any], graphql_client: GraphQLClient
 ):
     print(f"{os.linesep}Running test to add items to anonymous cart...", end=" ")
 
     user_operations = UserOperations(graphql_client)
-    user = user_operations.get_user()
-
     cart_operations = CartOperations(graphql_client)
+
+    currency = dataset["currencies"][0]["code"]
+    culture = dataset["languages"][0]
+    product_id_in_stock_1 = random.choice(
+        [
+            product_inventory
+            for product_inventory in dataset["productsInventories"]
+            if product_inventory["inStockQuantity"] > "0"
+        ]
+    )["productId"]
+    product_id_in_stock_2 = random.choice(
+        [
+            product_inventory
+            for product_inventory in dataset["productsInventories"]
+            if product_inventory["inStockQuantity"] > "0"
+        ]
+    )["productId"]
+
+    user = user_operations.get_me()
+
     cart = cart_operations.add_items_to_cart(
         payload={
             "storeId": config["store_id"],
             "userId": user["id"],
-            "currencyCode": TEST_CURRENCY["USD"],
-            "cultureName": TEST_CULTURE["en-US"],
+            "currencyCode": currency,
+            "cultureName": culture,
             "cartItems": [
                 {
-                    "productId": TEST_PRODUCT_1["id"],
+                    "productId": product_id_in_stock_1,
                     "quantity": 5,
                 },
                 {
-                    "productId": TEST_PRODUCT_2["id"],
+                    "productId": product_id_in_stock_2,
                     "quantity": 10,
                 },
             ],

@@ -7,6 +7,7 @@ class SeoInfo(BaseModel):
         self.id: str
         self.name: str | None
         self.semanticUrl: str
+        self.outline: str | None
         self.pageTitle: str | None
         self.metaDescription: str | None
         self.imageAltDescription: str | None
