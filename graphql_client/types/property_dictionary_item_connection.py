@@ -3,9 +3,11 @@ from pydantic import BaseModel
 
 class PropertyDictionaryItemConnection(BaseModel):
     def __init__(self):
-        from graphql_client.types.property_dictionary_item import PropertyDictionaryItem
         from graphql_client.types.page_info import PageInfo
-        from graphql_client.types.property_dictionary_item_edge import PropertyDictionaryItemEdge
+        from graphql_client.types.property_dictionary_item import PropertyDictionaryItem
+        from graphql_client.types.property_dictionary_item_edge import (
+            PropertyDictionaryItemEdge,
+        )
 
         self.totalCount: int | None
         self.pageInfo: PageInfo

@@ -19,10 +19,18 @@ jobs:
       FRONTEND_BASE_URL: 'https://vcptcore-demo-storefront.govirto.com'
       BACKEND_BASE_URL: 'https://vcptcore-demo.govirto.com'
       ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
-      ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}                
-      USERS_PASSWORD: ${{ secrets.USERS_PASSWORD }}           
+      ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+      USERS_PASSWORD: ${{ secrets.USERS_PASSWORD }}
       STORE_ID: store-acme
       PLAYWRIGHT_HEADLESS: "true"
+      #ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
+      #USER_EMAIL: b2badmin@test.com
+      #PASSWORD: Password1!
+      #FRONT_ADMIN: e2e-admin@test.com
+      #PASSWORD_FRONT_ADMIN: Password1
+      #API_KEY: ${{ secrets.API_KEY }}
+      #STORE_ID: B2B-store
+      #PLAYWRIGHT_HEADLESS: "true"
 
     steps:
       - uses: actions/checkout@v4
@@ -69,10 +77,18 @@ jobs:
       FRONTEND_BASE_URL: https://vcptcore-demo-storefront.govirto.com
       BACKEND_BASE_URL: https://vcptcore-demo.govirto.com
       ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
-      ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}      
+      ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
       USERS_PASSWORD: ${{ secrets.USERS_PASSWORD }}
       STORE_ID: store-acme      
       PLAYWRIGHT_HEADLESS: "true"
+      #ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
+      #USER_EMAIL: b2badmin@test.com
+      #PASSWORD: Password1!
+      #FRONT_ADMIN: e2e-admin@test.com
+      #PASSWORD_FRONT_ADMIN: Password1
+      #API_KEY: ${{ secrets.API_KEY }}
+      #STORE_ID: B2B-store
+      #PLAYWRIGHT_HEADLESS: "true"
 
     steps:
       - uses: actions/checkout@v4
