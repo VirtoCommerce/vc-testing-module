@@ -1,11 +1,28 @@
 {
     "languages": [
-        "en-US"
+        "en-US",
+        "de-DE",
+        "fr-FR",
+        "it-IT",
+        "es-ES",
+        "ja-JP",
+        "pl-PL",
+        "pt-PT",
+        "ru-RU",
+        "zh-CN"
     ],
     "currencies": [
         {
             "code": "USD",
-            "name": "US Dollar"
+            "name": "US Dollar",
+            "englishName": "US Dollar",
+            "symbol": "$"
+        },
+        {
+            "code": "EUR",
+            "name": "Euro",
+            "englishName": "Euro",
+            "symbol": "€"
         }
     ],
     "measures": [
@@ -1021,11 +1038,19 @@
             "defaultCurrency": "USD",
             "defaultLanguage": "en-US",
             "mainFulfillmentCenterId": "ffc-acme-usa-springfield-il",
-            "currencies": [
-                "USD"
+            "additionalCurrencies": [
+                "EUR"
             ],
-            "languages": [
-                "en-US"
+            "additionalLanguages": [
+                "de-DE",
+                "fr-FR",
+                "it-IT",
+                "es-ES",
+                "ja-JP",
+                "pl-PL",
+                "pt-PT",
+                "ru-RU",
+                "zh-CN"
             ],
             "additionalFulfillmentCenterIds": [
                 "ffc-acme-usa-morrisville-nc",
@@ -1130,13 +1155,25 @@
             "id": "pricelist-acme-usd",
             "name": "ACME Pricelist USD",
             "currency": "USD"
+        },
+        {
+            "id": "pricelist-acme-eur",
+            "name": "ACME Pricelist EUR",
+            "currency": "EUR"
         }
     ],
     "pricelistAssignments": [
         {
+            "id": "pricelist-assignment-acme-usd",
             "catalogId": "catalog-acme",
             "pricelistId": "pricelist-acme-usd",
             "name": "ACME Pricelist Assignment USD"
+        },
+        {
+            "id": "pricelist-assignment-acme-eur",
+            "catalogId": "catalog-acme",
+            "pricelistId": "pricelist-acme-eur",
+            "name": "ACME Pricelist Assignment EUR"
         }
     ],
     "categories": [
@@ -11619,6 +11656,14 @@
                     "minQuantity": 1,
                     "pricelistId": "pricelist-acme-usd",
                     "productId": "product-acme-laptop-acer-aspire-16-ai"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 735.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-laptop-acer-aspire-16-ai"
                 }
             ]
         },
@@ -11635,6 +11680,14 @@
                     "list": 1199.99,
                     "minQuantity": 1,
                     "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-laptop-asus-zenbook-a14-ux3407"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 1103.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
                     "productId": "product-acme-laptop-asus-zenbook-a14-ux3407"
                 }
             ]
@@ -11654,6 +11707,15 @@
                     "minQuantity": 1,
                     "pricelistId": "pricelist-acme-usd",
                     "productId": "product-acme-laptop-asus-vivobook-16-x1607qa"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 735.99,
+                    "sale": 689.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-laptop-asus-vivobook-16-x1607qa"
                 }
             ]
         },
@@ -11670,6 +11732,14 @@
                     "list": 1049.99,
                     "minQuantity": 1,
                     "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-laptop-asus-v16-v3607vu"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 965.08,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
                     "productId": "product-acme-laptop-asus-v16-v3607vu"
                 }
             ]
@@ -11689,6 +11759,15 @@
                     "minQuantity": 1,
                     "pricelistId": "pricelist-acme-usd",
                     "productId": "product-acme-laptop-hp-pavilion-16-ag0087nr"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 874.99,
+                    "sale": 569.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-laptop-hp-pavilion-16-ag0087nr"
                 }
             ]
         },
@@ -11705,6 +11784,14 @@
                     "list": 1199.99,
                     "minQuantity": 1,
                     "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-laptop-hp-omnibook-5-ai-16-af1037nr"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 1099.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
                     "productId": "product-acme-laptop-hp-omnibook-5-ai-16-af1037nr"
                 }
             ]
@@ -11723,6 +11810,14 @@
                     "minQuantity": 1,
                     "pricelistId": "pricelist-acme-usd",
                     "productId": "product-acme-laptop-lenovo-thinkpad-t14-gen-6"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 989.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-laptop-lenovo-thinkpad-t14-gen-6"
                 }
             ]
         },
@@ -11739,6 +11834,14 @@
                     "list": 649.99,
                     "minQuantity": 1,
                     "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-laptop-lenovo-ideapad-5i"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 599.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
                     "productId": "product-acme-laptop-lenovo-ideapad-5i"
                 }
             ]
@@ -11757,6 +11860,14 @@
                     "minQuantity": 1,
                     "pricelistId": "pricelist-acme-usd",
                     "productId": "product-acme-laptop-lenovo-loq-15-ahp9"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 1072.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-laptop-lenovo-loq-15-ahp9"
                 }
             ]
         },
@@ -11773,6 +11884,14 @@
                     "list": 1384.99,
                     "minQuantity": 1,
                     "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-laptop-lenovo-legion-5-gen-10"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 1266.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
                     "productId": "product-acme-laptop-lenovo-legion-5-gen-10"
                 }
             ]
@@ -11791,6 +11910,14 @@
                     "minQuantity": 1,
                     "pricelistId": "pricelist-acme-usd",
                     "productId": "product-acme-laptop-lenovo-legion-9i-gen-10"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 4449.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-laptop-lenovo-legion-9i-gen-10"
                 }
             ]
         },
@@ -11807,6 +11934,14 @@
                     "list": 2999.99,
                     "minQuantity": 1,
                     "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-laptop-acer-predator-helios-18-ai"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 2749.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
                     "productId": "product-acme-laptop-acer-predator-helios-18-ai"
                 }
             ]
@@ -11825,6 +11960,14 @@
                     "minQuantity": 1,
                     "pricelistId": "pricelist-acme-usd",
                     "productId": "product-acme-laptop-acer-nitro-v16"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 1189.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-laptop-acer-nitro-v16"
                 }
             ]
         },
@@ -11841,6 +11984,14 @@
                     "list": 1699.99,
                     "minQuantity": 1,
                     "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-laptop-asus-tuf-gaming-a14"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 1550.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
                     "productId": "product-acme-laptop-asus-tuf-gaming-a14"
                 }
             ]
@@ -11859,6 +12010,14 @@
                     "minQuantity": 1,
                     "pricelistId": "pricelist-acme-usd",
                     "productId": "product-acme-laptop-asus-rog-strix-g16"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 1279.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-laptop-asus-rog-strix-g16"
                 }
             ]
         },
@@ -11875,6 +12034,14 @@
                     "list": 4499.99,
                     "minQuantity": 1,
                     "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-laptop-asus-rog-strix-scar-18"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 4119.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
                     "productId": "product-acme-laptop-asus-rog-strix-scar-18"
                 }
             ]
@@ -11894,6 +12061,15 @@
                     "minQuantity": 1,
                     "pricelistId": "pricelist-acme-usd",
                     "productId": "product-acme-laptop-hp-omen-17"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 1649.99,
+                    "sale": 1399.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-laptop-hp-omen-17"
                 }
             ]
         },
@@ -11910,6 +12086,14 @@
                     "list": 2249.99,
                     "minQuantity": 1,
                     "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-laptop-hp-omen-transcend-14"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 2069.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
                     "productId": "product-acme-laptop-hp-omen-transcend-14"
                 }
             ]
@@ -11928,6 +12112,14 @@
                     "minQuantity": 1,
                     "pricelistId": "pricelist-acme-usd",
                     "productId": "product-acme-laptop-lenovo-thinkpad-x1-carbon-gen-13-aura"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 1713.00,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-laptop-lenovo-thinkpad-x1-carbon-gen-13-aura"
                 }
             ]
         },
@@ -11944,6 +12136,14 @@
                     "list": 3369.00,
                     "minQuantity": 1,
                     "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-laptop-lenovo-thinkpad-p1-gen-7-mobile-workstation"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 3089.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
                     "productId": "product-acme-laptop-lenovo-thinkpad-p1-gen-7-mobile-workstation"
                 }
             ]
@@ -11962,6 +12162,14 @@
                     "minQuantity": 1,
                     "pricelistId": "pricelist-acme-usd",
                     "productId": "product-acme-laptop-acer-travelmate-p16-14-ai"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 1874.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-laptop-acer-travelmate-p16-14-ai"
                 }
             ]
         },
@@ -11979,6 +12187,14 @@
                     "minQuantity": 1,
                     "pricelistId": "pricelist-acme-usd",
                     "productId": "product-acme-laptop-asus-expertbook-b5-b5605"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 1441.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-laptop-asus-expertbook-b5-b5605"
                 }
             ]
         },
@@ -11995,6 +12211,14 @@
                     "list": 1399.99,
                     "minQuantity": 1,
                     "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-laptop-hp-omnibook-x-flip-16"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 1279.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
                     "productId": "product-acme-laptop-hp-omnibook-x-flip-16"
                 }
             ]

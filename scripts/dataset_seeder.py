@@ -312,7 +312,8 @@ class DatasetSeeder:
 
         for price in self.dataset["prices"]:
             print(
-                f'Creating price for product "{price["product"]["name"]}"...', end=" "
+                f'Creating price for product "{price["product"]["name"]}"...',
+                end=" ",
             )
 
             self.webapi_client.put(
