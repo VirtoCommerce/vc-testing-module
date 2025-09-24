@@ -63,16 +63,76 @@ pytest tests/test_auth.py -v -s
 
 ```
 
-If you want to run Playwright tests in headed mode (with browser UI), use:
-
-```sh
-pytest --show-browser
-```
-
 For running tests in a specific browser, specify it as follows:
 
 ```sh
 pytest --browser=chromium  # or firefox, webkit
+```
+
+## Custom Pytest Options
+
+This project includes custom pytest options that can be used to configure test behavior:
+
+### Available Options
+
+- `--checkout-mode`: Select checkout flow to test
+  - Values: `single-page` (default), `multi-step`
+  - Example: `pytest tests_e2e/tests/ --checkout-mode single-page`
+
+- `--product-quantity-control`: Choose quantity selector type
+  - Values: `stepper` (default), `button`
+  - Example: `pytest tests_e2e/tests/ --product-quantity-control stepper`
+
+- `--show-browser`: Run browser in headed mode (shows browser UI)
+  - Boolean flag (no value needed)
+  - Example: `pytest tests_e2e/tests/ --show-browser`
+
+### Usage Examples
+
+```sh
+# Run with default values
+pytest tests_e2e/tests/
+
+# Run with custom checkout mode
+pytest tests_e2e/tests/ --checkout-mode multi-step
+
+# Run with custom product quantity control
+pytest tests_e2e/tests/ --product-quantity-control button
+
+# Run with headed browser
+pytest tests_e2e/tests/ --show-browser
+
+# Combine multiple options
+pytest tests_e2e/tests/ --checkout-mode single-page --product-quantity-control stepper --show-browser
+```
+
+### Accessing Options in Tests
+
+You can access these options in your test files using the `pytestconfig` fixture:
+
+```python
+def test_example(pytestconfig):
+    checkout_mode = pytestconfig.getoption("--checkout-mode")
+    product_quantity_control = pytestconfig.getoption("--product-quantity-control")
+    show_browser = pytestconfig.getoption("--show-browser")
+    
+    print(f"Checkout mode: {checkout_mode}")
+    print(f"Product quantity control: {product_quantity_control}")
+    print(f"Show browser: {show_browser}")
+```
+
+## Utility Commands
+
+### GraphQL Code Generation
+Generate GraphQL client code:
+```sh
+python graphql_client/python_graphql_codegen.py -s -v
+```
+
+### Dataset Seeding
+Seed the database with test data:
+```sh
+python -m scripts.dataset_seeder
 ```
 
 ## Environment Variables
