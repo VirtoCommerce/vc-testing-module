@@ -121,6 +121,20 @@ def test_example(pytestconfig):
     print(f"Show browser: {show_browser}")
 ```
 
+## Utility Commands
+
+### GraphQL Code Generation
+Generate GraphQL client code:
+```sh
+python graphql_client/python_graphql_codegen.py -s -v
+```
+
+### Dataset Seeding
+Seed the database with test data:
+```sh
+python -m scripts.dataset_seeder
+```
+
 ## Environment Variables
 
 To store authentication tokens and other secrets securely, create a `.env` file:
