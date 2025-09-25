@@ -52,27 +52,87 @@ To execute your Playwright tests with pytest, run:
 # To run functional tests:
 pytest -v -s test_graphql/tests
 # To run visual tests:
-pytest e2e/ -v --headed
+pytest e2e/ -v -s --show-browser
 
 # Run a specific test
 pytest tests/test_auth.py -k test_user_registration
 pytest tests/test_auth.py -k test_user_login
 
 # Run with more detailed output
-pytest tests/test_auth.py -v
+pytest tests/test_auth.py -v -s
 
-```
-
-If you want to run Playwright tests in headed mode (with browser UI), use:
-
-```sh
-pytest --headed
 ```
 
 For running tests in a specific browser, specify it as follows:
 
 ```sh
 pytest --browser=chromium  # or firefox, webkit
+```
+
+## Custom Pytest Options
+
+This project includes custom pytest options that can be used to configure test behavior:
+
+### Available Options
+
+- `--checkout-mode`: Select checkout flow to test
+  - Values: `single-page` (default), `multi-step`
+  - Example: `pytest tests_e2e/tests/ --checkout-mode single-page`
+
+- `--product-quantity-control`: Choose quantity selector type
+  - Values: `stepper` (default), `button`
+  - Example: `pytest tests_e2e/tests/ --product-quantity-control stepper`
+
+- `--show-browser`: Run browser in headed mode (shows browser UI)
+  - Boolean flag (no value needed)
+  - Example: `pytest tests_e2e/tests/ --show-browser`
+
+### Usage Examples
+
+```sh
+# Run with default values
+pytest tests_e2e/tests/
+
+# Run with custom checkout mode
+pytest tests_e2e/tests/ --checkout-mode multi-step
+
+# Run with custom product quantity control
+pytest tests_e2e/tests/ --product-quantity-control button
+
+# Run with headed browser
+pytest tests_e2e/tests/ --show-browser
+
+# Combine multiple options
+pytest tests_e2e/tests/ --checkout-mode single-page --product-quantity-control stepper --show-browser
+```
+
+### Accessing Options in Tests
+
+You can access these options in your test files using the `pytestconfig` fixture:
+
+```python
+def test_example(pytestconfig):
+    checkout_mode = pytestconfig.getoption("--checkout-mode")
+    product_quantity_control = pytestconfig.getoption("--product-quantity-control")
+    show_browser = pytestconfig.getoption("--show-browser")
+    
+    print(f"Checkout mode: {checkout_mode}")
+    print(f"Product quantity control: {product_quantity_control}")
+    print(f"Show browser: {show_browser}")
+```
+
+## Utility Commands
+
+### GraphQL Types Generation
+Generate GraphQL types:
+```sh
+python graphql_client/python_graphql_codegen.py -s -v
+```
+
+### Dataset Seeding
+Add test data:
+```sh
+python -m scripts.dataset_seeder
 ```
 
 ## Environment Variables

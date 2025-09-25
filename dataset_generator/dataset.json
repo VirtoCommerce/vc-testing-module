@@ -1,0 +1,424 @@
+{
+    "languages": [
+        "en-US"
+    ],
+    "currencies": [
+        {
+            "code": "USD"
+        },
+        {
+            "code": "EUR"
+        }
+    ],
+    "measures": [
+        {
+            "id": "eeda7edd-8251-463b-9e6e-7bc57e284ac9",
+            "name": "Display Size",
+            "code": "DisplaySize",
+            "units": [
+                {
+                    "name": "Inch",
+                    "code": "Inch",
+                    "symbol": "",
+                    "conversionFactor": 1,
+                    "localizedName": {
+                        "values": {
+                            "en-US": "Inch"
+                        }
+                    },
+                    "localizedSymbol": {
+                        "values": {
+                            "en-US": "Inch"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "id": "acddecf7-4253-476d-be30-9afbf90fbc56",
+            "name": "Display Refresh Rate",
+            "code": "DisplayRefreshRate",
+            "units": [
+                {
+                    "name": "Hertz",
+                    "code": "Hertz",
+                    "symbol": "Hz",
+                    "conversionFactor": 1,
+                    "localizedName": {
+                        "values": {
+                            "en-US": "Hertz"
+                        }
+                    },
+                    "localizedSymbol": {
+                        "values": {
+                            "en-US": "Hertz"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "id": "6a6c60ab-070a-4f9f-a2cd-27ca2313adf9",
+            "name": "CPU Base Performance Cores Frequency",
+            "code": "CpuBasePerformanceCoresFrequency",
+            "units": [
+                {
+                    "name": "Hertz",
+                    "code": "Hertz",
+                    "symbol": "Hz",
+                    "conversionFactor": 1,
+                    "localizedName": {
+                        "values": {
+                            "en-US": "Hertz"
+                        }
+                    },
+                    "localizedSymbol": {
+                        "values": {
+                            "en-US": "Hertz"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "id": "2a39a33b-be6c-42b1-bfe1-a3a236d01813",
+            "name": "CPU Base Performance Cores Frequency",
+            "code": "CpuBasePerformanceCoresFrequency",
+            "units": [
+                {
+                    "name": "Gigahertz",
+                    "code": "Gigahertz",
+                    "symbol": "GHz",
+                    "conversionFactor": 1,
+                    "localizedName": {
+                        "values": {
+                            "en-US": "Gigahertz"
+                        }
+                    },
+                    "localizedSymbol": {
+                        "values": {
+                            "en-US": "Gigahertz"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "id": "146f4fbf-b850-41a9-a4a1-6342badc5b06",
+            "name": "CPU Max Performance Cores Frequency",
+            "code": "CpuMaxPerformanceCoresFrequency",
+            "units": [
+                {
+                    "name": "Gigahertz",
+                    "code": "Gigahertz",
+                    "symbol": "GHz",
+                    "conversionFactor": 1,
+                    "localizedName": {
+                        "values": {
+                            "en-US": "Gigahertz"
+                        }
+                    },
+                    "localizedSymbol": {
+                        "values": {
+                            "en-US": "Gigahertz"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "id": "0b3b96eb-b506-45e0-9491-ef57831baee5",
+            "name": "CPU Base Efficient Cores Frequency",
+            "code": "CpuBaseEfficientCoresFrequency",
+            "units": [
+                {
+                    "name": "Gigahertz",
+                    "code": "Gigahertz",
+                    "symbol": "GHz",
+                    "conversionFactor": 1,
+                    "localizedName": {
+                        "values": {
+                            "en-US": "Gigahertz"
+                        }
+                    },
+                    "localizedSymbol": {
+                        "values": {
+                            "en-US": "Gigahertz"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "id": "fc914f79-178b-45b1-a0a5-971e1c0ad3f6",
+            "name": "CPU Max Efficient Cores Frequency",
+            "code": "CpuMaxEfficientCoresFrequency",
+            "units": [
+                {
+                    "name": "Gigahertz",
+                    "code": "Gigahertz",
+                    "symbol": "GHz",
+                    "conversionFactor": 1,
+                    "localizedName": {
+                        "values": {
+                            "en-US": "Gigahertz"
+                        }
+                    },
+                    "localizedSymbol": {
+                        "values": {
+                            "en-US": "Gigahertz"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "id": "11f26993-7c36-4ca6-b33a-d02d8602cc25",
+            "name": "RAM Size",
+            "code": "RamSize",
+            "units": [
+                {
+                    "name": "Gigabyte",
+                    "code": "Gigabyte",
+                    "symbol": "GB",
+                    "conversionFactor": 1,
+                    "localizedName": {
+                        "values": {
+                            "en-US": "Gigabyte"
+                        }
+                    },
+                    "localizedSymbol": {
+                        "values": {
+                            "en-US": "Gigabyte"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "id": "46636e60-403f-400c-bef4-adb04c66e7bb",
+            "name": "RAM Max Size",
+            "code": "RamMaxSize",
+            "units": [
+                {
+                    "name": "Gigabyte",
+                    "code": "Gigabyte",
+                    "symbol": "GB",
+                    "conversionFactor": 1,
+                    "localizedName": {
+                        "values": {
+                            "en-US": "Gigabyte"
+                        }
+                    },
+                    "localizedSymbol": {
+                        "values": {
+                            "en-US": "Gigabyte"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "id": "b69eb301-3856-4e5c-b6d0-438cf83e0111",
+            "name": "RAM Frequency",
+            "code": "RamFrequency",
+            "units": [
+                {
+                    "name": "Megahertz",
+                    "code": "Megahertz",
+                    "symbol": "Hz",
+                    "conversionFactor": 1,
+                    "localizedName": {
+                        "values": {
+                            "en-US": "Megahertz"
+                        }
+                    },
+                    "localizedSymbol": {
+                        "values": {
+                            "en-US": "Megahertz"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "id": "7f2e0e4b-eb1d-4d40-9dd7-b961e5aa31a9",
+            "name": "GPU Memory Size",
+            "code": "GpuMemorySize",
+            "units": [
+                {
+                    "name": "Gigabyte",
+                    "code": "Gigabyte",
+                    "symbol": "GB",
+                    "conversionFactor": 1,
+                    "localizedName": {
+                        "values": {
+                            "en-US": "Gigabyte"
+                        }
+                    },
+                    "localizedSymbol": {
+                        "values": {
+                            "en-US": "Gigabyte"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "id": "9c00a557-1812-4751-bcf9-b8caa3f99369",
+            "name": "SSD Size",
+            "code": "SsdSize",
+            "units": [
+                {
+                    "name": "Gigabyte",
+                    "code": "Gigabyte",
+                    "symbol": "GB",
+                    "conversionFactor": 1,
+                    "localizedName": {
+                        "values": {
+                            "en-US": "Gigabyte"
+                        }
+                    },
+                    "localizedSymbol": {
+                        "values": {
+                            "en-US": "Gigabyte"
+                        }
+                    }
+                }
+            ]
+        }
+    ],
+    "fulfillmentCenters": [
+        {
+            "id": "551ead2c-7270-4505-ad11-4a7cb79370d1",
+            "name": "USA Springfield IL FFC",
+            "address": {
+                "addressType": "Shipping",
+                "city": "Springfield",
+                "countryCode": "USA",
+                "countryName": "United States of America",
+                "line1": "742 Evergreen Terrace",
+                "postalCode": 62704,
+                "regionCode": "IL",
+                "regionName": "Illinois",
+                "email": "ffc_usa_springfield_il@aacme.com",
+                "phone": "+1-217-555-0198"
+            }
+        },
+        {
+            "id": "80078049-2451-4cd4-ae29-83e1e6553eec",
+            "name": "USA Riverton OH FFC",
+            "address": {
+                "addressType": "Shipping",
+                "city": "Riverton",
+                "countryCode": "USA",
+                "countryName": "United States of America",
+                "line1": "1284 Maple Hollow Drive",
+                "postalCode": 43055,
+                "regionCode": "OH",
+                "regionName": "Ohio",
+                "email": "ffc_usa_riverton_oh@aacme.com",
+                "phone": "+1-740-559-6704"
+            }
+        },
+        {
+            "id": "4faf578a-f3f8-4cb7-8c2d-22e51be128e0",
+            "name": "USA Morrisville NC FFC",
+            "address": {
+                "addressType": "Shipping",
+                "city": "Morrisville",
+                "countryCode": "USA",
+                "countryName": "United States of America",
+                "line1": "1593 Patton Lane",
+                "postalCode": 27560,
+                "regionCode": "NC",
+                "regionName": "North Carolina",
+                "email": "ffc_usa_morrisville_nc@aacme.com",
+                "phone": "+1-919-264-8323"
+            }
+        }
+    ],
+    "catalog": {
+        "id": "fe7bcfbc-af05-4719-80ec-decc5446d017",
+        "name": "ACME Catalog",
+        "isVirtual": false,
+        "languages": [
+            {
+                "languageCode": "en-US",
+                "isActive": true,
+                "isDefault": true
+            }
+        ]
+    },
+    "store": {
+        "id": "feb3ebf6-1172-4442-b5c5-ee575bf463ea",
+        "name": "ACME Pricelist Assignment",
+        "catalog": "fe7bcfbc-af05-4719-80ec-decc5446d017",
+        "status": "Open",
+        "defaultCurrency": "USD",
+        "defaultLanguage": "en-US",
+        "currencies": [
+            {
+                "code": "EUR"
+            }
+        ],
+        "languages": [],
+        "mainFulfillmentCenterId": "551ead2c-7270-4505-ad11-4a7cb79370d1",
+        "additionalFulfillmentCenters": [
+            "80078049-2451-4cd4-ae29-83e1e6553eec",
+            "4faf578a-f3f8-4cb7-8c2d-22e51be128e0"
+        ]
+    },
+    "pricelists": [
+        {
+            "id": "d36e7017-1e34-4b3e-8ec4-71a15a52a08a",
+            "name": "ACME pricelist USD",
+            "currency": "USD"
+        },
+        {
+            "id": "0646bd7a-379d-43f5-ba49-c6a7d505e6d0",
+            "name": "ACME pricelist EUR",
+            "currency": "EUR"
+        }
+    ],
+    "pricelistAssignments": [
+        {
+            "id": "026c90d1-1bcd-4bb5-b31d-774e1d09438f",
+            "catalogId": "fe7bcfbc-af05-4719-80ec-decc5446d017",
+            "pricelistId": "d36e7017-1e34-4b3e-8ec4-71a15a52a08a",
+            "name": "ACME pricelist assignment USD"
+        },
+        {
+            "id": "131ec28b-7225-4fb6-90f2-8942e2b76edd",
+            "catalogId": "fe7bcfbc-af05-4719-80ec-decc5446d017",
+            "pricelistId": "0646bd7a-379d-43f5-ba49-c6a7d505e6d0",
+            "name": "ACME pricelist assignment EUR"
+        }
+    ],
+    "categories": [
+        {
+            "id": "6a7aa537-1738-40f5-a966-d256d3db7bc1",
+            "code": "laptops",
+            "name": "Laptops",
+            "seoObjectType": "Category",
+            "catalogId": "fe7bcfbc-af05-4719-80ec-decc5446d017",
+            "parentId": "d4391bdc-02c7-456e-a4e9-b40d5db996ea"
+        },
+        {
+            "id": "34509b5c-da64-4b06-9588-948ddf288f81",
+            "code": "ssd",
+            "name": "SSD",
+            "seoObjectType": "Category",
+            "catalogId": "fe7bcfbc-af05-4719-80ec-decc5446d017",
+            "parentId": "d4391bdc-02c7-456e-a4e9-b40d5db996ea"
+        },
+        {
+            "id": "01879806-af69-48d2-8d7e-bb4d3709444e",
+            "code": "ram",
+            "name": "RAM",
+            "seoObjectType": "Category",
+            "catalogId": "fe7bcfbc-af05-4719-80ec-decc5446d017",
+            "parentId": "d4391bdc-02c7-456e-a4e9-b40d5db996ea"
+        }
+    ]
+}

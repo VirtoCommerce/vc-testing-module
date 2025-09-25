@@ -1,4 +1,4 @@
-from playwright.sync_api import Page, Locator
+from playwright.sync_api import Locator, Page
 
 
 class CheckoutLayoutPage:
@@ -7,4 +7,6 @@ class CheckoutLayoutPage:
 
     @property
     def secure_checkout_label(self) -> Locator:
-        return self.page.locator("[data-test-id='checkout-layout.secure-checkout-label']")
+        return self.page.locator(
+            "[data-test-id='checkout-layout.secure-checkout-label']"
+        )

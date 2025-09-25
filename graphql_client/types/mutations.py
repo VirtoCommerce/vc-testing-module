@@ -3,27 +3,44 @@ from pydantic import BaseModel
 
 class Mutations(BaseModel):
     def __init__(self):
-        from graphql_client.types.back_in_stock_subscription_type import BackInStockSubscriptionType
-        from graphql_client.types.quote_type import QuoteType
-        from graphql_client.types.initialize_payment_result_type import InitializePaymentResultType
-        from graphql_client.types.wishlist_type import WishlistType
-        from graphql_client.types.member_type import MemberType
-        from graphql_client.types.custom_identity_result_type import CustomIdentityResultType
-        from graphql_client.types.contact_type import ContactType
-        from graphql_client.types.approve_quote_result_type import ApproveQuoteResultType
-        from graphql_client.types.authorize_payment_result_type import AuthorizePaymentResultType
-        from graphql_client.types.customer_order_type import CustomerOrderType
-        from graphql_client.types.organization import Organization
-        from graphql_client.types.customer_review import CustomerReview
-        from graphql_client.types.cart_type import CartType
-        from graphql_client.types.bulk_wishlist_type import BulkWishlistType
-        from graphql_client.types.identity_result_type import IdentityResultType
-        from graphql_client.types.work_task_type import WorkTaskType
-        from graphql_client.types.request_registration_type import RequestRegistrationType
-        from graphql_client.types.change_organization_logo_result_type import ChangeOrganizationLogoResultType
-        from graphql_client.types.configuration_line_item_type import ConfigurationLineItemType
-        from graphql_client.types.create_review_result import CreateReviewResult
+        from graphql_client.types.approve_quote_result_type import (
+            ApproveQuoteResultType,
+        )
+        from graphql_client.types.authorize_payment_result_type import (
+            AuthorizePaymentResultType,
+        )
+        from graphql_client.types.back_in_stock_subscription_type import (
+            BackInStockSubscriptionType,
+        )
         from graphql_client.types.bulk_cart_type import BulkCartType
+        from graphql_client.types.bulk_wishlist_type import BulkWishlistType
+        from graphql_client.types.cart_type import CartType
+        from graphql_client.types.cart_with_list_type import CartWithListType
+        from graphql_client.types.change_organization_logo_result_type import (
+            ChangeOrganizationLogoResultType,
+        )
+        from graphql_client.types.configuration_line_item_type import (
+            ConfigurationLineItemType,
+        )
+        from graphql_client.types.contact_type import ContactType
+        from graphql_client.types.create_review_result import CreateReviewResult
+        from graphql_client.types.custom_identity_result_type import (
+            CustomIdentityResultType,
+        )
+        from graphql_client.types.customer_order_type import CustomerOrderType
+        from graphql_client.types.customer_review import CustomerReview
+        from graphql_client.types.identity_result_type import IdentityResultType
+        from graphql_client.types.initialize_payment_result_type import (
+            InitializePaymentResultType,
+        )
+        from graphql_client.types.member_type import MemberType
+        from graphql_client.types.organization import Organization
+        from graphql_client.types.quote_type import QuoteType
+        from graphql_client.types.request_registration_type import (
+            RequestRegistrationType,
+        )
+        from graphql_client.types.wishlist_type import WishlistType
+        from graphql_client.types.work_task_type import WorkTaskType
 
         self.deleteFile: bool | None
         self.addItem: CartType | None
@@ -75,7 +92,10 @@ class Mutations(BaseModel):
         self.removeWishlistItem: WishlistType | None
         self.removeWishlistItems: WishlistType | None
         self.moveWishlistItem: WishlistType | None
+        self.createCartFromWishlist: CartType | None
         self.createConfiguredLineItem: ConfigurationLineItemType | None
+        self.moveFromSavedForLater: CartWithListType | None
+        self.moveToSavedForLater: CartWithListType | None
         self.createOrderFromCart: CustomerOrderType | None
         self.changeOrderStatus: bool | None
         self.initializePayment: InitializePaymentResultType | None
@@ -113,10 +133,8 @@ class Mutations(BaseModel):
         self.removeAddressFromFavorites: bool | None
         self.pushHistoricalEvent: bool | None
         self.saveSearchQuery: bool | None
-        self.confirmTask: WorkTaskType | None
-        self.rejectTask: WorkTaskType | None
-        self.deleteSkyflowCard: bool | None
         self.changeOrganizationLogo: ChangeOrganizationLogoResultType | None
+        self.deleteSkyflowCard: bool | None
         self.addQuoteAttachments: QuoteType | None
         self.addQuoteItems: QuoteType | None
         self.approveQuoteRequest: ApproveQuoteResultType | None
@@ -139,7 +157,9 @@ class Mutations(BaseModel):
         self.markAllPushMessagesUnread: bool | None
         self.markPushMessageRead: bool | None
         self.markPushMessageUnread: bool | None
-        self.activateBackInStockSubscription: BackInStockSubscriptionType | None
-        self.deactivateBackInStockSubscription: BackInStockSubscriptionType | None
         self.createCustomerReview: CustomerReview | None
         self.createReview: CreateReviewResult | None
+        self.activateBackInStockSubscription: BackInStockSubscriptionType | None
+        self.deactivateBackInStockSubscription: BackInStockSubscriptionType | None
+        self.confirmTask: WorkTaskType | None
+        self.rejectTask: WorkTaskType | None

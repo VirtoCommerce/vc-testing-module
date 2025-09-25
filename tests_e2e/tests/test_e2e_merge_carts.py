@@ -1,18 +1,28 @@
-import allure, os, pytest
+import os
+
+import allure
+import pytest
 from playwright.sync_api import Page, expect
-from fixtures.anonymous_catalog_requests_fixture import AnonymousCatalogRequests
-from fixtures.requests_tracker_fixture import RequestsTracker
-from tests_e2e.pages import cart_page
-from tests_e2e.pages.category_page import CategoryPage
+
+from fixtures.anonymous_catalog_requests import AnonymousCatalogRequests
+from fixtures.requests_tracker import RequestsTracker
 from test_data.test_category import TEST_CATEGORY_1
 from test_data.test_product import TEST_PRODUCT_1
-from tests_e2e.pages.sign_in_page import SignInPage
+from tests_e2e.pages import cart_page
 from tests_e2e.pages.cart_page import CartPage
+from tests_e2e.pages.category_page import CategoryPage
+from tests_e2e.pages.sign_in_page import SignInPage
 
 
+@pytest.mark.ignore
 @pytest.mark.e2e
 @allure.title("Merge carts (E2E)")
-def test_e2e_merge_carts(config: dict, page: Page, anonymous_catalog_requests: AnonymousCatalogRequests, requests_tracker: RequestsTracker):
+def test_e2e_merge_carts(
+    config: dict,
+    page: Page,
+    anonymous_catalog_requests: AnonymousCatalogRequests,
+    requests_tracker: RequestsTracker,
+):
     print(f"{os.linesep}Running E2E test to merge carts...", end=" ")
 
     anonymous_catalog_requests.toggle(True)

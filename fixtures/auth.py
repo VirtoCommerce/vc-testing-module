@@ -1,7 +1,10 @@
 from dataclasses import dataclass
 from threading import Lock
-from typing import Optional, Dict, Any
-import allure, pytest, requests
+from typing import Any, Dict, Optional
+
+import allure
+import pytest
+import requests
 
 
 @dataclass
@@ -34,7 +37,11 @@ class Auth:
             "Content-Type": "application/x-www-form-urlencoded",
         }
 
-        response = requests.post(url, data=payload.__dict__ | {"storeId": self.config["store_id"]}, headers=headers)
+        response = requests.post(
+            url,
+            data=payload.__dict__ | {"storeId": self.config["store_id"]},
+            headers=headers,
+        )
 
         response.raise_for_status()
 

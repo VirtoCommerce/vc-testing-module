@@ -1,8 +1,11 @@
-import os, requests
-from colorama import Fore, Style, init as init_colorama
+import os
+from typing import Callable
+
+import requests
+from colorama import Fore, Style
+from colorama import init as init_colorama
+from dotenv import load_dotenv
 from graphql import (
-    build_client_schema,
-    get_introspection_query,
     GraphQLEnumType,
     GraphQLInputObjectType,
     GraphQLList,
@@ -10,14 +13,10 @@ from graphql import (
     GraphQLObjectType,
     GraphQLSchema,
     GraphQLType,
+    build_client_schema,
+    get_introspection_query,
 )
-from dotenv import load_dotenv
 from inflection import camelize, underscore
-from typing import Callable
-
-load_dotenv(override=True)
-
-endpoint_url = f"{os.getenv('BACKEND_BASE_URL')}/graphql"
 
 python_types_import_map = {
     "int": None,
@@ -45,10 +44,14 @@ def fetch_graphql_schema(endpoint_url: str) -> GraphQLSchema:
     introspection_query = get_introspection_query()
 
     headers = {"Content-Type": "application/json"}
-    response = requests.post(endpoint_url, json={"query": introspection_query}, headers=headers)
+    response = requests.post(
+        endpoint_url, json={"query": introspection_query}, headers=headers
+    )
 
     if response.status_code != 200:
-        raise Exception(f"Failed to fetch GraphQL schema: {response.status_code} {response.text}")
+        raise Exception(
+            f"Failed to fetch GraphQL schema: {response.status_code} {response.text}"
+        )
 
     try:
         return build_client_schema(response.json()["data"])
@@ -87,7 +90,14 @@ def graphql_type_to_python_type(graphql_type: GraphQLType) -> str:
             return "float"
         case "Boolean":
             return "bool"
-        case "String" | "OptionalString" | "ID" | "DynamicPropertyValue" | "ModuleSettingValue" | "PropertyValue":
+        case (
+            "String"
+            | "OptionalString"
+            | "ID"
+            | "DynamicPropertyValue"
+            | "ModuleSettingValue"
+            | "PropertyValue"
+        ):
             return "str"
         case "Date" | "DateTime" | "Time":
             return "datetime"
@@ -110,7 +120,9 @@ def get_import_lines(directory_path: str, imports: set, indent: int = 0) -> list
             inner_type = item[5:-1]  # Remove 'list[' and ']'
 
             if inner_type not in python_types_import_map:
-                module_path = f"{directory_path.replace('/', '.')}.{underscore(inner_type)}"
+                module_path = (
+                    f"{directory_path.replace('/', '.')}.{underscore(inner_type)}"
+                )
                 result.append(f"{tabs}from {module_path} import {inner_type}")
             continue
 
@@ -133,7 +145,8 @@ def write_content_to_file(file_path: str, content: str) -> None:
 
 
 def get_type_class_content(
-    graphql_type: GraphQLObjectType | GraphQLInputObjectType | GraphQLEnumType, import_type_dir: str
+    graphql_type: GraphQLObjectType | GraphQLInputObjectType | GraphQLEnumType,
+    import_type_dir: str,
 ) -> str:
     imports = set()
 
@@ -156,7 +169,10 @@ def get_type_class_content(
             is_required = isinstance(field.type, GraphQLNonNull)
             field_type = graphql_type_to_python_type(field.type)
 
-            if field_type in python_types_import_map and python_types_import_map[field_type] is not None:
+            if (
+                field_type in python_types_import_map
+                and python_types_import_map[field_type] is not None
+            ):
                 imports.add(python_types_import_map[field_type])
 
             if field_type not in python_types_import_map:
@@ -167,7 +183,9 @@ def get_type_class_content(
             if field_name == "from":
                 field_name = "from_"
 
-            content_lines.append(f"        self.{field_name}: {field_type}{optional_suffix}")
+            content_lines.append(
+                f"        self.{field_name}: {field_type}{optional_suffix}"
+            )
     elif isinstance(graphql_type, GraphQLEnumType):
         for value_name in graphql_type.values:
             content_lines.append(f'    {value_name} = "{value_name}"')
@@ -181,7 +199,9 @@ def get_type_class_content(
     return "\n".join(content_lines)
 
 
-def get_request_class_content(request_name: str, request_field, request_type="query") -> str:
+def get_request_class_content(
+    request_name: str, request_field, request_type="query"
+) -> str:
     args = []
 
     content_lines = ["from gql import gql"]
@@ -192,11 +212,18 @@ def get_request_class_content(request_name: str, request_field, request_type="qu
     if return_type.startswith("list["):
         import_type = return_type[5:-1]
 
-    if return_type in python_types_import_map and python_types_import_map[return_type] is not None:
-        content_lines.append(f"from graphql_client.types.{python_types_import_map[return_type]} import {return_type}")
+    if (
+        return_type in python_types_import_map
+        and python_types_import_map[return_type] is not None
+    ):
+        content_lines.append(
+            f"from graphql_client.types.{python_types_import_map[return_type]} import {return_type}"
+        )
 
     if return_type not in python_types_import_map:
-        content_lines.append(f"from graphql_client.types.{underscore(import_type)} import {import_type}")
+        content_lines.append(
+            f"from graphql_client.types.{underscore(import_type)} import {import_type}"
+        )
 
     content_lines.append("")
 
@@ -211,15 +238,23 @@ def get_request_class_content(request_name: str, request_field, request_type="qu
 
     args_string = ", ".join(args)
 
-    has_return_fields = hasattr(request_field.type, "fields") and request_field.type.fields
+    has_return_fields = (
+        hasattr(request_field.type, "fields") and request_field.type.fields
+    )
 
-    content_lines.append(f"    def execute(self, variables: dict, return_fields: str = None) -> {return_type}:")
+    content_lines.append(
+        f"    def execute(self, variables: dict, return_fields: str = None) -> {return_type}:"
+    )
     content_lines.append(f'        query_string = f"""')
-    content_lines.append(f"            {request_type} {request_name}({args_string}) {{{{")
+    content_lines.append(
+        f"            {request_type} {request_name}({args_string}) {{{{"
+    )
     content_lines.append(f"                {request_name}(")
     content_lines.append(
         f"                    "
-        + ",\n                    ".join(f"{arg_name}: ${arg_name}" for arg_name in request_field.args)
+        + ",\n                    ".join(
+            f"{arg_name}: ${arg_name}" for arg_name in request_field.args
+        )
     )
     content_lines.append("                )" + (" {{" if has_return_fields else ""))
     if has_return_fields:
@@ -227,7 +262,9 @@ def get_request_class_content(request_name: str, request_field, request_type="qu
         content_lines.append("                }}")
     content_lines.append("            }}")
     content_lines.append('        """\n')
-    content_lines.append(f'        return self.graphql_client.execute(gql(query_string), variables)["{request_name}"]')
+    content_lines.append(
+        f'        return self.graphql_client.execute(gql(query_string), variables)["{request_name}"]'
+    )
     content_lines.append("")
 
     content = "\n".join(content_lines)
@@ -235,20 +272,27 @@ def get_request_class_content(request_name: str, request_field, request_type="qu
     return content
 
 
-def generate_python_classes(schema: GraphQLSchema, output_directory: str = "graphql_client") -> None:
+def generate_python_classes(
+    schema: GraphQLSchema, output_directory: str = "graphql_client"
+) -> None:
     # Generate types (objects, input types, enums)
     for type_name, graphql_type in schema.type_map.items():
         if type_name.startswith("__"):
             continue
 
-        if isinstance(graphql_type, (GraphQLObjectType, GraphQLInputObjectType, GraphQLEnumType)):
+        if isinstance(
+            graphql_type, (GraphQLObjectType, GraphQLInputObjectType, GraphQLEnumType)
+        ):
             types_directory = f"{output_directory}/types"
 
             if not os.path.exists(types_directory):
                 os.makedirs(types_directory)
 
             type_class_content = get_type_class_content(graphql_type, types_directory)
-            write_content_to_file(f"{types_directory}/{underscore(graphql_type.name)}.py", type_class_content)
+            write_content_to_file(
+                f"{types_directory}/{underscore(graphql_type.name)}.py",
+                type_class_content,
+            )
 
     # Generate queries
     query_type = schema.get_type("Query")
@@ -260,7 +304,9 @@ def generate_python_classes(schema: GraphQLSchema, output_directory: str = "grap
 
         for query_name, query_field in query_type.fields.items():
             query_class_content = get_request_class_content(query_name, query_field)
-            write_content_to_file(f"{queries_directory}/{underscore(query_name)}.py", query_class_content)
+            write_content_to_file(
+                f"{queries_directory}/{underscore(query_name)}.py", query_class_content
+            )
 
     # Generate mutations
     mutation_type = schema.get_type("Mutations")
@@ -271,8 +317,13 @@ def generate_python_classes(schema: GraphQLSchema, output_directory: str = "grap
             os.makedirs(mutations_directory)
 
         for mutation_name, mutation_field in mutation_type.fields.items():
-            mutation_class_content = get_request_class_content(mutation_name, mutation_field, "mutation")
-            write_content_to_file(f"{mutations_directory}/{underscore(mutation_name)}.py", mutation_class_content)
+            mutation_class_content = get_request_class_content(
+                mutation_name, mutation_field, "mutation"
+            )
+            write_content_to_file(
+                f"{mutations_directory}/{underscore(mutation_name)}.py",
+                mutation_class_content,
+            )
 
 
 def try_call(description: str, callable_func: Callable, *args, **kwargs):
@@ -293,5 +344,13 @@ def try_call(description: str, callable_func: Callable, *args, **kwargs):
 if __name__ == "__main__":
     init_colorama()
 
-    schema = try_call(f"Fetching GraphQL schema from {endpoint_url}", fetch_graphql_schema, endpoint_url)
+    load_dotenv(override=True)
+
+    endpoint_url = f"{os.getenv('BACKEND_BASE_URL')}/graphql"
+
+    schema = try_call(
+        f"Fetching GraphQL schema from {endpoint_url}",
+        fetch_graphql_schema,
+        endpoint_url,
+    )
     try_call("Generating Python classes", generate_python_classes, schema)

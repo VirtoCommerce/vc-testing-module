@@ -12,5 +12,7 @@ class PickupLocationType(BaseModel):
         self.contactEmail: str | None
         self.contactPhone: str | None
         self.workingHours: str | None
+        self.deliveryDays: int | None
+        self.storageDays: int | None
         self.geoLocation: str | None
         self.address: PickupAddressType | None

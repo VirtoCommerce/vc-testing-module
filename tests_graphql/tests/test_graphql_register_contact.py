@@ -1,36 +1,48 @@
 import os
+from typing import Any, Dict
 
 import allure
 import pytest
 
-from fixtures.auth_fixture import Auth
-from fixtures.graphql_client_fixture import GraphQLClient
+from fixtures.auth import Auth
+from fixtures.graphql_client import GraphQLClient
 from graphql_operations.contact.contact_operations import ContactOperations
 from graphql_operations.user.user_operations import UserOperations
-from test_data.test_customer import TEST_CUSTOMER
-from test_data.test_organization import TEST_ORGANIZATION
-from test_data.test_user import TEST_ADMIN_USER, TEST_USER
 
 
 @pytest.mark.graphql
 @allure.title("Register customer (GraphQL)")
-def test_register_customer(config: dict, auth: Auth, graphql_client: GraphQLClient):
+def test_register_customer(
+    config: Dict[str, Any],
+    dataset: Dict[str, Any],
+    auth: Auth,
+    graphql_client: GraphQLClient,
+):
     print(f"{os.linesep}Running test to register customer...", end=" ")
 
-    auth.authenticate(TEST_ADMIN_USER["username"], TEST_ADMIN_USER["password"])
-
     contact_operations = ContactOperations(graphql_client)
+
+    dataset_user = next(
+        user
+        for user in dataset["users"]
+        if user["id"] == "user-acme-store-administrator"
+    )
+
+    auth.authenticate(dataset_user["userName"], config["users_password"])
+
+    temp_email = "some-email@acme.com"
+
     create_contact_result = contact_operations.create_contact(
         payload={
             "storeId": config["store_id"],
             "account": {
-                "username": TEST_USER["email"],
-                "email": TEST_USER["email"],
-                "password": TEST_USER["password"],
+                "username": temp_email,
+                "email": temp_email,
+                "password": config["users_password"],
             },
             "contact": {
-                "firstName": TEST_CUSTOMER["firstName"],
-                "lastName": TEST_CUSTOMER["lastName"],
+                "firstName": "ACME",
+                "lastName": "Customer",
             },
         }
     )
@@ -45,7 +57,7 @@ def test_register_customer(config: dict, auth: Auth, graphql_client: GraphQLClie
     user_operations = UserOperations(graphql_client)
     user_operations.delete_users(
         payload={
-            "userNames": [TEST_USER["email"]],
+            "userNames": [temp_email],
         }
     )
 
@@ -61,26 +73,40 @@ def test_register_customer(config: dict, auth: Auth, graphql_client: GraphQLClie
 
 @pytest.mark.graphql
 @allure.title("Register organization (GraphQL)")
-def test_register_organization(config: dict, auth: Auth, graphql_client: GraphQLClient):
+def test_register_organization(
+    config: Dict[str, Any],
+    dataset: Dict[str, Any],
+    auth: Auth,
+    graphql_client: GraphQLClient,
+):
     print(f"{os.linesep}Running test to register organization...", end=" ")
 
-    auth.authenticate(TEST_ADMIN_USER["username"], TEST_ADMIN_USER["password"])
-
     contact_operations = ContactOperations(graphql_client)
+
+    dataset_user = next(
+        user
+        for user in dataset["users"]
+        if user["id"] == "user-acme-store-administrator"
+    )
+
+    auth.authenticate(dataset_user["userName"], config["users_password"])
+
+    temp_email = "some-email@acme.com"
+
     create_contact_result = contact_operations.create_contact(
         payload={
             "storeId": config["store_id"],
             "account": {
-                "username": TEST_USER["email"],
-                "email": TEST_USER["email"],
-                "password": TEST_USER["password"],
+                "username": temp_email,
+                "email": temp_email,
+                "password": config["users_password"],
             },
             "contact": {
-                "firstName": TEST_CUSTOMER["firstName"],
-                "lastName": TEST_CUSTOMER["lastName"],
+                "firstName": "ACME",
+                "lastName": "Customer",
             },
             "organization": {
-                "name": TEST_ORGANIZATION["name"],
+                "name": "Temp Organization",
             },
         }
     )
@@ -100,7 +126,7 @@ def test_register_organization(config: dict, auth: Auth, graphql_client: GraphQL
     user_operations = UserOperations(graphql_client)
     user_operations.delete_users(
         payload={
-            "userNames": [TEST_USER["email"]],
+            "userNames": [temp_email],
         }
     )
 

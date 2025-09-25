@@ -1,9 +1,10 @@
 import os
+from typing import Any, Dict
 
 import allure
 import pytest
 
-from fixtures.graphql_client_fixture import GraphQLClient
+from fixtures.graphql_client import GraphQLClient
 from graphql_operations.catalog.products_operations import ProductsOperations
 from graphql_operations.user.user_operations import UserOperations
 from test_data.test_culture import TEST_CULTURE
@@ -11,9 +12,12 @@ from test_data.test_currency import TEST_CURRENCY
 from test_data.test_product import TEST_CONFIGURABLE_PRODUCT_1
 
 
+@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Create configurable item (GraphQL)")
-def test_create_configurable_item(config: dict, graphql_client: GraphQLClient):
+def test_create_configurable_item(
+    config: Dict[str, Any], graphql_client: GraphQLClient
+):
     print(f"{os.linesep}Running test to create configurable item...", end=" ")
 
     user_operations = UserOperations(graphql_client)

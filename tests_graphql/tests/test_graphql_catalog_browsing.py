@@ -5,24 +5,19 @@ import allure
 import pytest
 from gql.transport.exceptions import TransportQueryError
 
-from fixtures.anonymous_catalog_requests_fixture import AnonymousCatalogRequests
-from fixtures.auth_fixture import Auth
-from fixtures.graphql_client_fixture import GraphQLClient
+from fixtures.anonymous_catalog_requests import AnonymousCatalogRequests
+from fixtures.auth import Auth
+from fixtures.graphql_client import GraphQLClient
 from graphql_operations.catalog.categories_operations import CategoriesOperations
 from graphql_operations.catalog.products_operations import ProductsOperations
 from graphql_operations.user.user_operations import UserOperations
-from test_data.test_catalog import TEST_CATALOG
-from test_data.test_category import TEST_CATEGORY_1
-from test_data.test_culture import TEST_CULTURE
-from test_data.test_currency import TEST_CURRENCY
-from test_data.test_product import TEST_PRODUCT_1
-from test_data.test_user import TEST_PERMANENT_USER
 
 
 @pytest.mark.graphql
 @allure.title("Success catalog browsing as anonymous user (GraphQL)")
 def test_success_catalog_browsing_as_anonymous_user(
     config: Dict[str, Any],
+    dataset: Dict[str, Any],
     anonymous_catalog_requests: AnonymousCatalogRequests,
     graphql_client: GraphQLClient,
 ):
@@ -37,32 +32,40 @@ def test_success_catalog_browsing_as_anonymous_user(
     categories_operations = CategoriesOperations(graphql_client)
     products_operations = ProductsOperations(graphql_client)
 
-    user = user_operations.get_user()
+    currency = dataset["currencies"][0]["code"]
+    culture = dataset["languages"][0]
+    catalog = dataset["catalogs"][0]
+
+    user = user_operations.get_me()
 
     categories_response = categories_operations.get_categories(
         store_id=config["store_id"],
         user_id=user["id"],
-        currency_code=TEST_CURRENCY["USD"],
-        culture_name=TEST_CULTURE["en-US"],
-        filter=f"category.subtree:{TEST_CATALOG['id']}",
+        currency_code=currency,
+        culture_name=culture,
+        filter=f"category.subtree:{catalog['id']}",
     )
 
-    category_to_compare = categories_response["items"][0]
+    category_to_compare = next(
+        category
+        for category in categories_response["items"]
+        if category["id"] == "category-acme-laptops"
+    )
 
     category = categories_operations.get_category(
         store_id=config["store_id"],
         user_id=user["id"],
-        currency_code=TEST_CURRENCY["USD"],
-        culture_name=TEST_CULTURE["en-US"],
+        currency_code=currency,
+        culture_name=culture,
         id=category_to_compare["id"],
     )
 
     products_response = products_operations.get_products(
         store_id=config["store_id"],
         user_id=user["id"],
-        currency_code=TEST_CURRENCY["USD"],
-        culture_name=TEST_CULTURE["en-US"],
-        filter=f"category.subtree:{TEST_CATALOG['id']}/{category['id']}",
+        currency_code=currency,
+        culture_name=culture,
+        filter=f"category.subtree:{catalog['id']}/{category['id']}",
     )
 
     product_to_compare = products_response["items"][0]
@@ -70,8 +73,8 @@ def test_success_catalog_browsing_as_anonymous_user(
     product = products_operations.get_product(
         store_id=config["store_id"],
         user_id=user["id"],
-        culture_name=TEST_CULTURE["en-US"],
-        currency_code=TEST_CURRENCY["USD"],
+        culture_name=culture,
+        currency_code=currency,
         id=product_to_compare["id"],
     )
 
@@ -83,6 +86,7 @@ def test_success_catalog_browsing_as_anonymous_user(
 @allure.title("Unsuccess catalog browsing as anonymous user (GraphQL)")
 def test_unsuccess_catalog_browsing_as_anonymous_user(
     config: Dict[str, Any],
+    dataset: Dict[str, Any],
     anonymous_catalog_requests: AnonymousCatalogRequests,
     graphql_client: GraphQLClient,
 ):
@@ -97,42 +101,48 @@ def test_unsuccess_catalog_browsing_as_anonymous_user(
     categories_operations = CategoriesOperations(graphql_client)
     products_operations = ProductsOperations(graphql_client)
 
-    user = user_operations.get_user()
+    currency = dataset["currencies"][0]["code"]
+    culture = dataset["languages"][0]
+    catalog = dataset["catalogs"][0]
+    category = dataset["categories"][0]
+    product = dataset["products"][0]
+
+    user = user_operations.get_me()
 
     with pytest.raises(TransportQueryError) as categories_exc_info:
         categories_operations.get_categories(
             store_id=config["store_id"],
             user_id=user["id"],
-            currency_code=TEST_CURRENCY["USD"],
-            culture_name=TEST_CULTURE["en-US"],
-            filter=f"category.subtree:{TEST_CATALOG['id']}",
+            currency_code=currency,
+            culture_name=culture,
+            filter=f"category.subtree:{catalog['id']}",
         )
 
     with pytest.raises(TransportQueryError) as category_exc_info:
         categories_operations.get_category(
             store_id=config["store_id"],
             user_id=user["id"],
-            currency_code=TEST_CURRENCY["USD"],
-            culture_name=TEST_CULTURE["en-US"],
-            id=TEST_CATEGORY_1["id"],
+            currency_code=currency,
+            culture_name=culture,
+            id=category["id"],
         )
 
     with pytest.raises(TransportQueryError) as products_exc_info:
         products_operations.get_products(
             store_id=config["store_id"],
             user_id=user["id"],
-            currency_code=TEST_CURRENCY["USD"],
-            culture_name=TEST_CULTURE["en-US"],
-            filter=f"category.subtree:{TEST_CATALOG['id']}/{TEST_CATEGORY_1['id']}",
+            currency_code=currency,
+            culture_name=culture,
+            filter=f"category.subtree:{catalog['id']}/{category['id']}",
         )
 
     with pytest.raises(TransportQueryError) as product_exc_info:
         products_operations.get_product(
             store_id=config["store_id"],
             user_id=user["id"],
-            culture_name=TEST_CULTURE["en-US"],
-            currency_code=TEST_CURRENCY["USD"],
-            id=TEST_PRODUCT_1["id"],
+            culture_name=culture,
+            currency_code=currency,
+            id=product["id"],
         )
 
     # Test teardown
@@ -157,6 +167,7 @@ def test_unsuccess_catalog_browsing_as_anonymous_user(
 @allure.title("Catalog browsing as registered user (GraphQL)")
 def test_catalog_browsing_as_registered_user(
     config: Dict[str, Any],
+    dataset: Dict[str, Any],
     auth: Auth,
     anonymous_catalog_requests: AnonymousCatalogRequests,
     graphql_client: GraphQLClient,
@@ -169,37 +180,45 @@ def test_catalog_browsing_as_registered_user(
     products_operations = ProductsOperations(graphql_client)
     user_operations = UserOperations(graphql_client)
 
+    currency = dataset["currencies"][0]["code"]
+    culture = dataset["languages"][0]
+    catalog = dataset["catalogs"][0]
+
     auth.authenticate(
-        username=TEST_PERMANENT_USER["username"],
-        password=TEST_PERMANENT_USER["password"],
+        username=dataset["users"][0]["userName"],
+        password=config["users_password"],
     )
 
-    user = user_operations.get_user()
+    user = user_operations.get_me()
 
     categories_response = categories_operations.get_categories(
         store_id=config["store_id"],
         user_id=user["id"],
-        currency_code=TEST_CURRENCY["USD"],
-        culture_name=TEST_CULTURE["en-US"],
-        filter=f"category.subtree:{TEST_CATALOG['id']}",
+        currency_code=currency,
+        culture_name=culture,
+        filter=f"category.subtree:{catalog['id']}",
     )
 
-    category_to_compare = categories_response["items"][0]
+    category_to_compare = next(
+        category
+        for category in categories_response["items"]
+        if category["id"] == "category-acme-laptops"
+    )
 
     category = categories_operations.get_category(
         store_id=config["store_id"],
         user_id=user["id"],
-        currency_code=TEST_CURRENCY["USD"],
-        culture_name=TEST_CULTURE["en-US"],
+        currency_code=currency,
+        culture_name=culture,
         id=category_to_compare["id"],
     )
 
     products_response = products_operations.get_products(
         store_id=config["store_id"],
         user_id=user["id"],
-        currency_code=TEST_CURRENCY["USD"],
-        culture_name=TEST_CULTURE["en-US"],
-        filter=f"category.subtree:{TEST_CATALOG['id']}/{category['id']}",
+        currency_code=currency,
+        culture_name=culture,
+        filter=f"category.subtree:{catalog['id']}/{category['id']}",
     )
 
     product_to_compare = products_response["items"][0]
@@ -207,8 +226,8 @@ def test_catalog_browsing_as_registered_user(
     product = products_operations.get_product(
         store_id=config["store_id"],
         user_id=user["id"],
-        culture_name=TEST_CULTURE["en-US"],
-        currency_code=TEST_CURRENCY["USD"],
+        culture_name=culture,
+        currency_code=currency,
         id=product_to_compare["id"],
     )
 

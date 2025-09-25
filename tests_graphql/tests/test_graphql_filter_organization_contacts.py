@@ -1,19 +1,22 @@
 import os
+from typing import Any, Dict
 
 import allure
 import pytest
 
-from fixtures.auth_fixture import Auth
-from fixtures.graphql_client_fixture import GraphQLClient
+from fixtures.auth import Auth
+from fixtures.graphql_client import GraphQLClient
 from graphql_operations.contact.contact_operations import ContactOperations
 from graphql_operations.user.user_operations import UserOperations
-from test_data.test_user import TEST_PERMANENT_CORPORATE_USER
 
 
 @pytest.mark.graphql
 @allure.title("Filter organization contacts by role (GraphQL)")
 def test_filter_organization_contacts_by_role(
-    auth: Auth, graphql_client: GraphQLClient
+    config: Dict[str, Any],
+    dataset: Dict[str, Any],
+    auth: Auth,
+    graphql_client: GraphQLClient,
 ):
     print(
         f"{os.linesep}Running test to filter organization contacts by role...", end=" "
@@ -22,12 +25,14 @@ def test_filter_organization_contacts_by_role(
     user_operations = UserOperations(graphql_client)
     contact_operations = ContactOperations(graphql_client)
 
+    dataset_user = dataset["users"][0]
+
     auth.authenticate(
-        TEST_PERMANENT_CORPORATE_USER["username"],
-        TEST_PERMANENT_CORPORATE_USER["password"],
+        dataset_user["userName"],
+        config["users_password"],
     )
 
-    user = user_operations.get_user()
+    user = user_operations.get_me()
 
     organization_maintainers = contact_operations.fetch_organization_contacts(
         organization_id=user["contact"]["organizationId"],
@@ -41,7 +46,7 @@ def test_filter_organization_contacts_by_role(
         search_phrase="'roleId':'org-employee'",
     )
 
-    purchase_agents = contact_operations.fetch_organization_contacts(
+    purchasing_agents = contact_operations.fetch_organization_contacts(
         organization_id=user["contact"]["organizationId"],
         user_id=user["id"],
         search_phrase="'roleId':'purchasing-agent'",
@@ -67,7 +72,9 @@ def test_filter_organization_contacts_by_role(
     assert (
         organization_employees["contacts"]["totalCount"] > 0
     ), "Organization employees not found"
-    assert purchase_agents["contacts"]["totalCount"] > 0, "Purchase agents not found"
+    assert (
+        purchasing_agents["contacts"]["totalCount"] > 0
+    ), "Purchasing agents not found"
     assert (
         store_administrators["contacts"]["totalCount"] > 0
     ), "Store administrators not found"
@@ -77,7 +84,10 @@ def test_filter_organization_contacts_by_role(
 @pytest.mark.graphql
 @allure.title("Filter organization contacts by status (GraphQL)")
 def test_filter_organization_contacts_by_status(
-    auth: Auth, graphql_client: GraphQLClient
+    config: Dict[str, Any],
+    dataset: Dict[str, Any],
+    auth: Auth,
+    graphql_client: GraphQLClient,
 ):
     print(
         f"{os.linesep}Running test to filter organization contacts by status...",
@@ -87,12 +97,14 @@ def test_filter_organization_contacts_by_status(
     user_operations = UserOperations(graphql_client)
     contact_operations = ContactOperations(graphql_client)
 
+    dataset_user = dataset["users"][0]
+
     auth.authenticate(
-        TEST_PERMANENT_CORPORATE_USER["username"],
-        TEST_PERMANENT_CORPORATE_USER["password"],
+        dataset_user["userName"],
+        config["users_password"],
     )
 
-    user = user_operations.get_user()
+    user = user_operations.get_me()
 
     active_contacts = contact_operations.fetch_organization_contacts(
         organization_id=user["contact"]["organizationId"],

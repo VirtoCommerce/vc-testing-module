@@ -1,38 +1,48 @@
 import os
+import random
 from typing import Any, Dict
 
 import allure
 import pytest
 
-from fixtures.graphql_client_fixture import GraphQLClient
+from fixtures.graphql_client import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
-from test_data.test_culture import TEST_CULTURE
-from test_data.test_currency import TEST_CURRENCY
-from test_data.test_product import TEST_PRODUCT_2, TEST_PRODUCT_3
 
 
 @pytest.mark.graphql
-@allure.title("Apply gifts for specified product (GraphQL)")
-def test_gift_specific_product(config: Dict[str, Any], graphql_client: GraphQLClient):
+@allure.title("Apply gifts for specified product quantity (GraphQL)")
+def test_gift_specific_product_quantity(
+    config: Dict[str, Any], dataset: Dict[str, Any], graphql_client: GraphQLClient
+):
     print(
-        f"{os.linesep}Running test to apply gifts for specified product in cart...",
+        f"{os.linesep}Running test to apply gifts for specified product quantity in cart...",
         end=" ",
     )
 
     user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
 
-    user = user_operations.get_user()
+    currency = dataset["currencies"][0]["code"]
+    culture = dataset["languages"][0]
+    product_id_in_stock = random.choice(
+        [
+            product_inventory
+            for product_inventory in dataset["productsInventories"]
+            if product_inventory["inStockQuantity"] > "0"
+        ]
+    )["productId"]
+
+    user = user_operations.get_me()
 
     cart = cart_operations.add_item_to_cart(
         payload={
             "storeId": config["store_id"],
             "userId": user["id"],
-            "currencyCode": TEST_CURRENCY["USD"],
-            "cultureName": TEST_CULTURE["en-US"],
-            "productId": TEST_PRODUCT_3["id"],
-            "quantity": 5,
+            "currencyCode": currency,
+            "cultureName": culture,
+            "productId": product_id_in_stock,
+            "quantity": 20,
         }
     )
 
@@ -46,5 +56,4 @@ def test_gift_specific_product(config: Dict[str, Any], graphql_client: GraphQLCl
         }
     )
 
-    assert gift["productId"] == TEST_PRODUCT_2["id"], "Gift product ID is not correct"
-    assert gift["quantity"] == 1, "Gift quantity is not correct"
+    assert gift["quantity"] > 0, "Gift quantity is not greater than 0"

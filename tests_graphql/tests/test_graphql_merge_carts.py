@@ -1,51 +1,65 @@
 import os
+import random
+from typing import Any, Dict
 
 import allure
 import pytest
 
-from fixtures.auth_fixture import Auth
-from fixtures.graphql_client_fixture import GraphQLClient
+from fixtures.auth import Auth
+from fixtures.graphql_client import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
-from test_data.test_culture import TEST_CULTURE
-from test_data.test_currency import TEST_CURRENCY
-from test_data.test_product import TEST_PRODUCT_1, TEST_PRODUCT_2
-from test_data.test_user import TEST_ADMIN_USER
 
 
 @pytest.mark.graphql
 @allure.title("Merge carts (GraphQL)")
-def test_merge_carts(config: dict, auth: Auth, graphql_client: GraphQLClient):
+def test_merge_carts(
+    config: Dict[str, Any],
+    dataset: Dict[str, Any],
+    auth: Auth,
+    graphql_client: GraphQLClient,
+):
     print(f"{os.linesep}Running test to merge carts...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
 
-    anonymous_user = user_operations.get_user()
+    currency = dataset["currencies"][0]["code"]
+    culture = dataset["languages"][0]
+    dataset_user = dataset["users"][0]
+    product_id_in_stock = random.choice(
+        [
+            product_inventory
+            for product_inventory in dataset["productsInventories"]
+            if product_inventory["inStockQuantity"] > "0"
+        ]
+    )["productId"]
+
+    anonymous_user = user_operations.get_me()
 
     anonymous_cart = cart_operations.add_item_to_cart(
         payload={
             "storeId": config["store_id"],
             "userId": anonymous_user["id"],
-            "productId": TEST_PRODUCT_1["id"],
+            "productId": product_id_in_stock,
             "quantity": 1,
-            "currencyCode": TEST_CURRENCY["USD"],
-            "cultureName": TEST_CULTURE["en-US"],
+            "currencyCode": currency,
+            "cultureName": culture,
         }
     )
 
-    auth.authenticate(TEST_ADMIN_USER["username"], TEST_ADMIN_USER["password"])
+    auth.authenticate(dataset_user["userName"], config["users_password"])
 
-    registered_user = user_operations.get_user()
+    registered_user = user_operations.get_me()
 
     registered_user_cart = cart_operations.add_item_to_cart(
         payload={
             "storeId": config["store_id"],
             "userId": registered_user["id"],
-            "productId": TEST_PRODUCT_2["id"],
+            "productId": product_id_in_stock,
             "quantity": 2,
-            "currencyCode": TEST_CURRENCY["USD"],
-            "cultureName": TEST_CULTURE["en-US"],
+            "currencyCode": currency,
+            "cultureName": culture,
         }
     )
 
@@ -54,8 +68,8 @@ def test_merge_carts(config: dict, auth: Auth, graphql_client: GraphQLClient):
             "storeId": config["store_id"],
             "userId": registered_user["id"],
             "secondCartId": anonymous_cart["id"],
-            "cultureName": TEST_CULTURE["en-US"],
-            "currencyCode": TEST_CURRENCY["USD"],
+            "cultureName": culture,
+            "currencyCode": currency,
             "deleteAfterMerge": True,
         }
     )

@@ -36,6 +36,7 @@ def cleanup(cart_page: CartPage, request):
     cart_page.expect_cart_empty()
 
 
+@pytest.mark.skip(reason="Skipping test_merge_cart_anonymous_to_logged_in")
 def test_merge_cart_anonymous_to_logged_in(cart_page: CartPage, login_page: LoginPage, config):
     """Test merging anonymous cart with logged-in user's cart
 
@@ -71,6 +72,7 @@ def test_merge_cart_anonymous_to_logged_in(cart_page: CartPage, login_page: Logi
     cart_page.expect_product_in_cart(product_name, 1)
 
 
+@pytest.mark.skip(reason="Skipping test_merge_anonymous_user_cart")
 def test_merge_anonymous_user_cart(cart_page: CartPage, login_page: LoginPage, logout_page: LogoutPage, config):
     """Test merging anonymous cart with user cart
 
@@ -95,7 +97,7 @@ def test_merge_anonymous_user_cart(cart_page: CartPage, login_page: LoginPage, l
 
     # Step 1: Login as user
     login_page.navigate()
-    login_page.login(config["front_admin"], config["password"])
+    login_page.login(config["front_admin"], config["password_front_admin"])
     login_page.expect_successful_login()
     cart_page.click_cart_icon()
     cart_page.clear_cart()

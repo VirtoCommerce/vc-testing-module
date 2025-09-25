@@ -4,34 +4,37 @@ from typing import Any, Dict
 import allure
 import pytest
 
-from fixtures.graphql_client_fixture import GraphQLClient
+from fixtures.graphql_client import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
-from test_data.test_address import TEST_CUSTOMER_ADDRESS_1, TEST_CUSTOMER_ADDRESS_2
-from test_data.test_culture import TEST_CULTURE
-from test_data.test_currency import TEST_CURRENCY
 
 
 @pytest.mark.graphql
 @allure.title("Add cart billing address (GraphQL)")
 def test_add_cart_billing_address(
-    config: Dict[str, Any], graphql_client: GraphQLClient
+    config: Dict[str, Any], dataset: Dict[str, Any], graphql_client: GraphQLClient
 ):
     print(f"{os.linesep}Running test to add a cart billing address...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
 
-    user = user_operations.get_user()
+    currency = dataset["currencies"][0]["code"]
+    culture = dataset["languages"][0]
+
+    user = user_operations.get_me()
+
+    billing_address = dataset["organizations"][0]["addresses"][0]
+    billing_address["addressType"] = 1
 
     cart = cart_operations.add_or_update_cart_payment(
         payload={
             "storeId": config["store_id"],
             "userId": user["id"],
-            "currencyCode": TEST_CURRENCY["USD"],
-            "cultureName": TEST_CULTURE["en-US"],
+            "currencyCode": currency,
+            "cultureName": culture,
             "payment": {
-                "billingAddress": TEST_CUSTOMER_ADDRESS_1,
+                "billingAddress": billing_address,
             },
         }
     )
@@ -44,8 +47,8 @@ def test_add_cart_billing_address(
             "storeId": config["store_id"],
             "userId": user["id"],
             "addressId": billing_address["id"],
-            "currencyCode": TEST_CURRENCY["USD"],
-            "cultureName": TEST_CULTURE["en-US"],
+            "currencyCode": currency,
+            "cultureName": culture,
         }
     )
     cart_operations.remove_cart(
@@ -61,60 +64,66 @@ def test_add_cart_billing_address(
     assert billing_address is not None, "Billing address is None"
     assert billing_address["id"] is not None, "Billing address ID is None"
     assert (
-        billing_address["city"] == TEST_CUSTOMER_ADDRESS_1["city"]
+        billing_address["city"] == billing_address["city"]
     ), "Billing address city is not the same"
     assert (
-        billing_address["countryCode"] == TEST_CUSTOMER_ADDRESS_1["countryCode"]
+        billing_address["countryCode"] == billing_address["countryCode"]
     ), "Billing address country code is not the same"
     assert (
-        billing_address["countryName"] == TEST_CUSTOMER_ADDRESS_1["countryName"]
+        billing_address["countryName"] == billing_address["countryName"]
     ), "Billing address country name is not the same"
     assert (
-        billing_address["email"] == TEST_CUSTOMER_ADDRESS_1["email"]
+        billing_address["email"] == billing_address["email"]
     ), "Billing address email is not the same"
     assert (
-        billing_address["firstName"] == TEST_CUSTOMER_ADDRESS_1["firstName"]
+        billing_address["firstName"] == billing_address["firstName"]
     ), "Billing address first name is not the same"
     assert (
-        billing_address["lastName"] == TEST_CUSTOMER_ADDRESS_1["lastName"]
+        billing_address["lastName"] == billing_address["lastName"]
     ), "Billing address last name is not the same"
     assert (
-        billing_address["line1"] == TEST_CUSTOMER_ADDRESS_1["line1"]
+        billing_address["line1"] == billing_address["line1"]
     ), "Billing address line 1 is not the same"
     assert (
-        billing_address["phone"] == TEST_CUSTOMER_ADDRESS_1["phone"]
+        billing_address["phone"] == billing_address["phone"]
     ), "Billing address phone is not the same"
     assert (
-        billing_address["postalCode"] == TEST_CUSTOMER_ADDRESS_1["postalCode"]
+        billing_address["postalCode"] == billing_address["postalCode"]
     ), "Billing address postal code is not the same"
     assert (
-        billing_address["regionId"] == TEST_CUSTOMER_ADDRESS_1["regionId"]
+        billing_address["regionId"] == billing_address["regionId"]
     ), "Billing address region ID is not the same"
     assert (
-        billing_address["regionName"] == TEST_CUSTOMER_ADDRESS_1["regionName"]
+        billing_address["regionName"] == billing_address["regionName"]
     ), "Billing address region name is not the same"
 
 
 @pytest.mark.graphql
 @allure.title("Update cart billing address (GraphQL)")
 def test_update_cart_billing_address(
-    config: Dict[str, Any], graphql_client: GraphQLClient
+    config: Dict[str, Any], dataset: Dict[str, Any], graphql_client: GraphQLClient
 ):
     print(f"{os.linesep}Running test to update a cart billing address...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
 
-    user = user_operations.get_user()
+    currency = dataset["currencies"][0]["code"]
+    culture = dataset["languages"][0]
+
+    user = user_operations.get_me()
+
+    billing_address = dataset["organizations"][0]["addresses"][0]
+    billing_address["addressType"] = 1
 
     cart = cart_operations.add_or_update_cart_payment(
         payload={
             "storeId": config["store_id"],
             "userId": user["id"],
-            "currencyCode": TEST_CURRENCY["USD"],
-            "cultureName": TEST_CULTURE["en-US"],
+            "currencyCode": currency,
+            "cultureName": culture,
             "payment": {
-                "billingAddress": TEST_CUSTOMER_ADDRESS_1,
+                "billingAddress": billing_address,
             },
         }
     )
@@ -122,7 +131,8 @@ def test_update_cart_billing_address(
     billing_address = cart["payments"][0]["billingAddress"]
 
     new_address = {
-        **TEST_CUSTOMER_ADDRESS_2,
+        **billing_address,
+        "line1": "Some street 123",
         "id": billing_address["id"],
     }
 
@@ -130,8 +140,8 @@ def test_update_cart_billing_address(
         payload={
             "storeId": config["store_id"],
             "userId": user["id"],
-            "currencyCode": TEST_CURRENCY["USD"],
-            "cultureName": TEST_CULTURE["en-US"],
+            "currencyCode": currency,
+            "cultureName": culture,
             "payment": {
                 "id": cart["payments"][0]["id"],
                 "billingAddress": new_address,
@@ -147,8 +157,8 @@ def test_update_cart_billing_address(
             "storeId": config["store_id"],
             "userId": user["id"],
             "addressId": billing_address["id"],
-            "currencyCode": TEST_CURRENCY["USD"],
-            "cultureName": TEST_CULTURE["en-US"],
+            "currencyCode": currency,
+            "cultureName": culture,
         }
     )
     cart_operations.remove_cart(

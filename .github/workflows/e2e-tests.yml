@@ -13,20 +13,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        browser: [webkit] #chromium, firefox
+        browser: [chromium] #chromium, firefox, webkit
 
     env:
-      FRONTEND_BASE_URL: https://vcst-qa-storefront.govirto.com
-      BACKEND_BASE_URL: https://vcst-qa.govirto.com
-      ADMIN_USERNAME: admin
-      ADMIN_PASSWORD: Password3
-      ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
-      USER_EMAIL: b2badmin@test.com
-      FRONT_ADMIN: e2e-admin@test.com
-      PASSWORD: Password1
-      API_KEY: ${{ secrets.API_KEY }}
-      STORE_ID: B2B-store
-      PLAYWRIGHT_HEADLESS: "true"
+      FRONTEND_BASE_URL: 'https://vcptcore-demo-storefront.govirto.com'
+      BACKEND_BASE_URL: 'https://vcptcore-demo.govirto.com'
+      ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
+      ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+      USERS_PASSWORD: ${{ secrets.USERS_PASSWORD }}
+      STORE_ID: store-acme
+      PLAYWRIGHT_HEADLESS: "true"  
 
     steps:
       - uses: actions/checkout@v4
@@ -70,16 +66,12 @@ jobs:
         browser: [webkit] #chromium, firefox
 
     env:
-      FRONTEND_BASE_URL: https://vcst-qa-storefront.govirto.com
-      BACKEND_BASE_URL: https://vcst-qa.govirto.com
-      ADMIN_USERNAME: admin
-      ADMIN_PASSWORD: Password3
-      ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
-      USER_EMAIL: b2badmin@test.com
-      FRONT_ADMIN: e2e-admin@test.com
-      PASSWORD: Password1
-      API_KEY: ${{ secrets.API_KEY }}
-      STORE_ID: B2B-store
+      FRONTEND_BASE_URL: https://vcptcore-demo-storefront.govirto.com
+      BACKEND_BASE_URL: https://vcptcore-demo.govirto.com
+      ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
+      ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+      USERS_PASSWORD: ${{ secrets.USERS_PASSWORD }}
+      STORE_ID: store-acme      
       PLAYWRIGHT_HEADLESS: "true"
 
     steps:
@@ -102,7 +94,7 @@ jobs:
       - name: Run new E2E Tests
         run: |
           echo "Running new E2E tests against ${{ env.FRONTEND_BASE_URL }}"
-          pytest tests_e2e/tests/ --browser ${{ matrix.browser }} --html=e2e-new-report.html --self-contained-html --tracing=retain-on-failure -v -s
+          pytest tests_e2e/tests/ -m "not ignore" --browser ${{ matrix.browser }} --html=e2e-new-report.html --self-contained-html --tracing=retain-on-failure -v -s
 
       - name: Upload new test results
         if: always()

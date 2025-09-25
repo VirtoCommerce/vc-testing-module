@@ -1,20 +1,27 @@
-import allure, os, pytest
+import os
+from typing import Any, Dict
+
+import allure
+import pytest
 from playwright.sync_api import Page, expect
+
 from tests_e2e.pages.home_page import HomePage
 from tests_e2e.pages.sign_in_page import SignInPage
 
 
 @pytest.mark.e2e
 @allure.feature("Sign in with valid credentials (E2E)")
-def test_e2e_valid_sign_in(config: dict, page: Page):
+def test_e2e_valid_sign_in(config: Dict[str, Any], dataset: Dict[str, Any], page: Page):
     print(f"{os.linesep}Running E2E test to sign in with valid credentials...", end=" ")
 
     home_page = HomePage(page, config)
     sign_in_page = SignInPage(page, config)
 
+    dataset_user = dataset["users"][0]
+
     sign_in_page.navigate()
 
-    sign_in_page.sign_in(config["username"], config["password"])
+    sign_in_page.sign_in(dataset_user["userName"], config["users_password"])
 
     expect(page).to_have_url(home_page.url)
     expect(home_page.top_header_component.sign_in_link).not_to_be_visible()
@@ -24,8 +31,12 @@ def test_e2e_valid_sign_in(config: dict, page: Page):
 
 @pytest.mark.e2e
 @allure.feature("Sign in with invalid credentials (E2E)")
-def test_e2e_invalid_sign_in(config: dict, page: Page):
-    print(f"{os.linesep}Running E2E test to sign in with invalid credentials...", end=" ")
+def test_e2e_invalid_sign_in(
+    config: Dict[str, Any], dataset: Dict[str, Any], page: Page
+):
+    print(
+        f"{os.linesep}Running E2E test to sign in with invalid credentials...", end=" "
+    )
 
     home_page = HomePage(page, config)
     sign_in_page = SignInPage(page, config)

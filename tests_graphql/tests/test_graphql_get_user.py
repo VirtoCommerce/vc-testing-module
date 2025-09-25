@@ -1,12 +1,12 @@
 import os
+from typing import Any, Dict
 
 import allure
 import pytest
 
-from fixtures.auth_fixture import Auth
-from fixtures.graphql_client_fixture import GraphQLClient
+from fixtures.auth import Auth
+from fixtures.graphql_client import GraphQLClient
 from graphql_operations.user.user_operations import UserOperations
-from test_data.test_user import TEST_ADMIN_USER
 
 
 @pytest.mark.graphql
@@ -16,7 +16,7 @@ def test_get_current_anonymous_user(graphql_client: GraphQLClient):
 
     user_operations = UserOperations(graphql_client)
 
-    user = user_operations.get_user()
+    user = user_operations.get_me()
 
     assert user["id"] is not None, "User ID is None"
     assert user["userName"] == "Anonymous", "User name is not Anonymous"
@@ -24,33 +24,47 @@ def test_get_current_anonymous_user(graphql_client: GraphQLClient):
 
 @pytest.mark.graphql
 @allure.title("Get current registered user (GraphQL)")
-def test_get_current_registered_user(auth: Auth, graphql_client: GraphQLClient):
+def test_get_current_registered_user(
+    config: Dict[str, Any],
+    dataset: Dict[str, Any],
+    auth: Auth,
+    graphql_client: GraphQLClient,
+):
     print(f"{os.linesep}Running test to get current registered user...", end=" ")
 
     user_operations = UserOperations(graphql_client)
 
-    auth.authenticate(TEST_ADMIN_USER["username"], TEST_ADMIN_USER["password"])
+    dataset_user = dataset["users"][0]
 
-    user = user_operations.get_user()
+    auth.authenticate(dataset_user["userName"], config["users_password"])
+
+    user = user_operations.get_me()
 
     auth.clear_token()
 
     assert user["id"] is not None, "User ID is None"
-    assert user["userName"] == TEST_ADMIN_USER["username"], "User name is not correct"
+    assert user["userName"] == dataset_user["userName"], "User name is not correct"
 
 
 @pytest.mark.graphql
-@allure.title("Get registered user by id (GraphQL)")
-def test_get_registered_user_by_id(auth: Auth, graphql_client: GraphQLClient):
-    print(f"{os.linesep}Running test to get registered user by id...", end=" ")
+@allure.title("Get registered user by user name (GraphQL)")
+def test_get_registered_user_by_user_name(
+    config: Dict[str, Any],
+    dataset: Dict[str, Any],
+    auth: Auth,
+    graphql_client: GraphQLClient,
+):
+    print(f"{os.linesep}Running test to get registered user by user name...", end=" ")
 
     user_operations = UserOperations(graphql_client)
 
-    auth.authenticate(TEST_ADMIN_USER["username"], TEST_ADMIN_USER["password"])
+    dataset_user = dataset["users"][0]
 
-    user = user_operations.get_user(TEST_ADMIN_USER["id"])
+    auth.authenticate(dataset_user["userName"], config["users_password"])
+
+    user = user_operations.get_user_by_username(dataset_user["userName"])
 
     auth.clear_token()
 
     assert user["id"] is not None, "User ID is None"
-    assert user["userName"] == TEST_ADMIN_USER["username"], "User name is not correct"
+    assert user["userName"] == dataset_user["userName"], "User name is not correct"

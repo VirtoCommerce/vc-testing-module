@@ -3,9 +3,12 @@ from pydantic import BaseModel
 
 class InputShipmentType(BaseModel):
     def __init__(self):
-        from graphql_client.types.input_dynamic_property_value_type import InputDynamicPropertyValueType
         from decimal import Decimal
+
         from graphql_client.types.input_address_type import InputAddressType
+        from graphql_client.types.input_dynamic_property_value_type import (
+            InputDynamicPropertyValueType,
+        )
 
         self.id: str | None
         self.fulfillmentCenterId: str | None
@@ -23,4 +26,5 @@ class InputShipmentType(BaseModel):
         self.price: Decimal | None
         self.vendorId: str | None
         self.comment: str | None
+        self.pickupLocationId: str | None
         self.dynamicProperties: list[InputDynamicPropertyValueType] | None
