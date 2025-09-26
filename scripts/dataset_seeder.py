@@ -204,8 +204,9 @@ class DatasetSeeder:
             self.webapi_client.post(
                 "/api/stores",
                 data=store,
-            )
+            )   
 
+          
             payment_methods = self.webapi_client.post(
                 "/api/payment/search", data={"storeId": self.store_id}
             )["results"]
@@ -542,7 +543,7 @@ if __name__ == "__main__":
     seeder.create_measures()
     seeder.create_catalogs()
     seeder.create_property_groups()
-    seeder.create_stores()
+    seeder.create_stores()   
     seeder.create_pricelists()
     seeder.create_pricelist_assignments()
     seeder.create_categories()

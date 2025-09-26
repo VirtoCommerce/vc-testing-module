@@ -1037,7 +1037,23 @@
             "storeState": "Open",
             "defaultCurrency": "USD",
             "defaultLanguage": "en-US",
-            "mainFulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "mainFulfillmentCenterId": "ffc-acme-usa-springfield-il",       
+            "languages": [
+                "en-US",
+                "pl-PL",
+                "zh-CN",
+                "es-ES",
+                "pt-PT",
+                "ja-JP",
+                "it-IT",
+                "fr-FR",
+                "ru-RU",
+                "de-DE"
+            ],
+            "currencies": [
+                "USD",
+                "EUR"
+            ],
             "additionalCurrencies": [
                 "EUR"
             ],
@@ -1070,6 +1086,11 @@
         }
     ],
     "aggregationProperties": [
+        {
+            "name": "Brand",
+            "type": "Attribute",
+            "isSelected": true
+        },
         {
             "name": "Color",
             "type": "Attribute",
@@ -12409,7 +12430,7 @@
     "roles": [
         {
             "id": "org-employee",
-            "name": "Organization Employee",
+            "name": "Organization employee",
             "description": "Organization Employee",
             "permissions": [
                 {
@@ -12445,12 +12466,16 @@
                 },
                 {
                     "name": "storefront:user:view"
+                },
+                {
+                    "name": "xapi:my_organization:edit"
                 }
+
             ]
         },
         {
             "id": "purchasing-agent",
-            "name": "Purchasing Agent",
+            "name": "Purchasing agent",
             "description": "Purchasing Agent",
             "permissions": [
                 {
@@ -12497,8 +12522,8 @@
         },
         {
             "id": "store-manager",
-            "name": "Store Manager",
-            "description": "Store Manager",
+            "name": "Store manager",
+            "description": "Store manager",
             "permissions": [
                 {
                     "name": "storefront:order:changestatus"
@@ -12809,7 +12834,7 @@
             "roles": [
                 {
                     "id": "org-employee",
-                    "name": "Organization Employee",
+                    "name": "Organization employee",
                     "normalizedName": "ORGANIZATION EMPLOYEE"
                 }
             ]
@@ -12826,7 +12851,7 @@
             "roles": [
                 {
                     "id": "org-employee",
-                    "name": "Organization Employee",
+                    "name": "Organization employee",
                     "normalizedName": "ORGANIZATION EMPLOYEE"
                 }
             ]
@@ -12843,7 +12868,7 @@
             "roles": [
                 {
                     "id": "org-employee",
-                    "name": "Organization Employee",
+                    "name": "Organization employee",
                     "normalizedName": "ORGANIZATION EMPLOYEE"
                 }
             ]
@@ -12860,7 +12885,7 @@
             "roles": [
                 {
                     "id": "org-employee",
-                    "name": "Organization Employee",
+                    "name": "Organization employee",
                     "normalizedName": "ORGANIZATION EMPLOYEE"
                 }
             ]
@@ -12877,7 +12902,7 @@
             "roles": [
                 {
                     "id": "org-employee",
-                    "name": "Organization Employee",
+                    "name": "Organization employee",
                     "normalizedName": "ORGANIZATION EMPLOYEE"
                 }
             ]
@@ -12894,7 +12919,7 @@
             "roles": [
                 {
                     "id": "org-employee",
-                    "name": "Organization Employee",
+                    "name": "Organization employee",
                     "normalizedName": "ORGANIZATION EMPLOYEE"
                 }
             ]
@@ -12911,7 +12936,7 @@
             "roles": [
                 {
                     "id": "org-employee",
-                    "name": "Organization Employee",
+                    "name": "Organization employee",
                     "normalizedName": "ORGANIZATION EMPLOYEE"
                 }
             ]
@@ -12928,7 +12953,7 @@
             "roles": [
                 {
                     "id": "org-employee",
-                    "name": "Organization Employee",
+                    "name": "Organization employee",
                     "normalizedName": "ORGANIZATION EMPLOYEE"
                 }
             ]
@@ -12945,7 +12970,7 @@
             "roles": [
                 {
                     "id": "org-employee",
-                    "name": "Organization Employee",
+                    "name": "Organization employee",
                     "normalizedName": "ORGANIZATION EMPLOYEE"
                 }
             ]
@@ -12962,7 +12987,7 @@
             "roles": [
                 {
                     "id": "org-maintainer",
-                    "name": "Organization Maintainer",
+                    "name": "Organization maintainer",
                     "normalizedName": "ORGANIZATION MAINTAINER"
                 }
             ]
@@ -12979,7 +13004,7 @@
             "roles": [
                 {
                     "id": "purchasing-agent",
-                    "name": "Purchasing Agent",
+                    "name": "Purchasing agent",
                     "normalizedName": "PURCHASING AGENT"
                 }
             ]
@@ -12996,7 +13021,7 @@
             "roles": [
                 {
                     "id": "purchasing-agent",
-                    "name": "Purchasing Agent",
+                    "name": "Purchasing agent",
                     "normalizedName": "PURCHASING AGENT"
                 }
             ]
@@ -13013,7 +13038,7 @@
             "roles": [
                 {
                     "id": "purchasing-agent",
-                    "name": "Purchasing Agent",
+                    "name": "Purchasing agent",
                     "normalizedName": "PURCHASING AGENT"
                 }
             ]
@@ -13031,7 +13056,7 @@
             "roles": [
                 {
                     "id": "store-admin",
-                    "name": "Store Administrator",
+                    "name": "Store administrator",
                     "normalizedName": "STORE ADMINISTRATOR"
                 }
             ]
@@ -13048,7 +13073,7 @@
             "roles": [
                 {
                     "id": "store-manager",
-                    "name": "Store Manager",
+                    "name": "Store manager",
                     "normalizedName": "STORE MANAGER"
                 }
             ]
@@ -13065,7 +13090,7 @@
             "roles": [
                 {
                     "id": "store-manager",
-                    "name": "Store Manager",
+                    "name": "Store manager",
                     "normalizedName": "STORE MANAGER"
                 }
             ]
@@ -13082,7 +13107,7 @@
             "roles": [
                 {
                     "id": "store-manager",
-                    "name": "Store Manager",
+                    "name": "Store manager",
                     "normalizedName": "STORE MANAGER"
                 }
             ]
@@ -13099,7 +13124,7 @@
             "roles": [
                 {
                     "id": "store-manager",
-                    "name": "Store Manager",
+                    "name": "Store manager",
                     "normalizedName": "STORE MANAGER"
                 }
             ]
