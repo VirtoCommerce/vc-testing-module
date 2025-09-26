@@ -1,4 +1,5 @@
 import os
+import random
 from typing import Any, Dict
 
 import allure
@@ -9,32 +10,37 @@ from fixtures.graphql_client import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.quote.quote_operations import QuoteOperations
 from graphql_operations.user.user_operations import UserOperations
-from test_data.test_culture import TEST_CULTURE
-from test_data.test_currency import TEST_CURRENCY
-from test_data.test_product import TEST_PRODUCT_1
 
 
-@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Create empty quote (GraphQL)")
 def test_create_empty_quote(
-    config: Dict[str, Any], auth: Auth, graphql_client: GraphQLClient
+    config: Dict[str, Any],
+    auth: Auth,
+    dataset: Dict[str, Any],
+    graphql_client: GraphQLClient,
 ):
     print(f"{os.linesep}Running test to create empty quote...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     quote_operations = QuoteOperations(graphql_client)
 
-    auth.authenticate(config["test_admin_username"], config["test_admin_password"])
+    auth.authenticate(
+        dataset["users"][0]["userName"],
+        config["users_password"],
+    )
 
-    user = user_operations.get_user()
+    currency = dataset["currencies"][0]["code"]
+    culture = dataset["languages"][0]
+
+    user = user_operations.get_me()
 
     quote = quote_operations.create_quote(
         payload={
             "storeId": config["store_id"],
             "userId": user["id"],
-            "currencyCode": TEST_CURRENCY["USD"],
-            "cultureName": TEST_CULTURE["en-US"],
+            "currencyCode": currency,
+            "cultureName": culture,
         }
     )
 
@@ -49,11 +55,13 @@ def test_create_empty_quote(
     assert len(quote["items"]) == 0, "Quote items are not empty"
 
 
-@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Create quote with items from cart (GraphQL)")
 def test_create_quote_with_items_from_cart(
-    config: Dict[str, Any], auth: Auth, graphql_client: GraphQLClient
+    config: Dict[str, Any],
+    auth: Auth,
+    dataset: Dict[str, Any],
+    graphql_client: GraphQLClient,
 ):
     print(f"{os.linesep}Running test to create quote with items from cart...", end=" ")
 
@@ -61,18 +69,31 @@ def test_create_quote_with_items_from_cart(
     cart_operations = CartOperations(graphql_client)
     quote_operations = QuoteOperations(graphql_client)
 
-    auth.authenticate(config["test_admin_username"], config["test_admin_password"])
+    auth.authenticate(
+        dataset["users"][0]["userName"],
+        config["users_password"],
+    )
 
-    user = user_operations.get_user()
+    currency = dataset["currencies"][0]["code"]
+    culture = dataset["languages"][0]
+    product_id_in_stock = random.choice(
+        [
+            product_inventory
+            for product_inventory in dataset["productsInventories"]
+            if product_inventory["inStockQuantity"] > 0
+        ]
+    )["productId"]
+
+    user = user_operations.get_me()
 
     cart = cart_operations.add_item_to_cart(
         payload={
             "storeId": config["store_id"],
             "userId": user["id"],
-            "productId": TEST_PRODUCT_1["id"],
+            "productId": product_id_in_stock,
             "quantity": 1,
-            "currencyCode": TEST_CURRENCY["USD"],
-            "cultureName": TEST_CULTURE["en-US"],
+            "currencyCode": currency,
+            "cultureName": culture,
         }
     )
 
@@ -101,5 +122,5 @@ def test_create_quote_with_items_from_cart(
     assert quote["comment"] == "Test comment", "Quote comment is not correct"
     assert len(quote["items"]) > 0, "Quote items are empty"
     assert (
-        quote["items"][0]["productId"] == TEST_PRODUCT_1["id"]
+        quote["items"][0]["productId"] == product_id_in_stock
     ), "Quote item product ID is not correct"
