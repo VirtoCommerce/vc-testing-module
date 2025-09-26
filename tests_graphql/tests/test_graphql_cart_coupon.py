@@ -77,4 +77,6 @@ def test_add_cart_coupon(
     assert cart_with_coupon["id"] == cart["id"], "Cart ID is not the same"
     assert applied_coupon["isAppliedSuccessfully"], "Coupon is not applied successfully"
     assert applied_coupon["code"] == coupon_code, "Coupon code is not the same"
-    assert cart["discountTotal"]["amount"] > 0, "Discount total is not greater than 0"
+    assert (
+        cart_with_coupon["discountTotal"]["amount"] > 0
+    ), "Discount total is not greater than 0"

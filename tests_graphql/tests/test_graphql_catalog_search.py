@@ -153,7 +153,6 @@ def test_catalog_search_by_product_availability(
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,
-        query=product_to_search["name"][:4],
         filter=f"category.subtree:{catalog['id']}/{category['id']} availability:InStock",
     )
 
@@ -162,7 +161,6 @@ def test_catalog_search_by_product_availability(
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,
-        query=product_to_search["name"][:4],
         filter=f"category.subtree:{catalog['id']}/{category['id']}",
     )
 

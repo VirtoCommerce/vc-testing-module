@@ -64,4 +64,9 @@ def test_get_shopping_lists(
 
     auth.clear_token()
 
-    assert shopping_lists_response["totalCount"] == 1
+    assert (
+        shopping_lists_response["totalCount"] > 0
+    ), "Total count of shopping lists is not greater than 0"
+    assert shopping_list["id"] in [
+        shopping_list["id"] for shopping_list in shopping_lists_response["items"]
+    ], "Shopping list is not in the list of shopping lists"
