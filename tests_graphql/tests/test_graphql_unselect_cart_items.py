@@ -26,14 +26,14 @@ def test_unselect_cart_items(
         [
             product
             for product in dataset["productsInventories"]
-            if product["inStockQuantity"] > "0"
+            if product["inStockQuantity"] > 0
         ]
     )["productId"]
     product_id_in_stock_2 = random.choice(
         [
             product
             for product in dataset["productsInventories"]
-            if product["inStockQuantity"] > "0"
+            if product["inStockQuantity"] > 0
         ]
     )["productId"]
 
@@ -113,14 +113,14 @@ def test_unselect_all_cart_items(
         [
             product
             for product in dataset["productsInventories"]
-            if product["inStockQuantity"] > "0"
+            if product["inStockQuantity"] > 0
         ]
     )["productId"]
     product_id_in_stock_2 = random.choice(
         [
             product
             for product in dataset["productsInventories"]
-            if product["inStockQuantity"] > "0"
+            if product["inStockQuantity"] > 0
         ]
     )["productId"]
 

@@ -29,7 +29,7 @@ def test_gift_specific_product_quantity(
         [
             product_inventory
             for product_inventory in dataset["productsInventories"]
-            if product_inventory["inStockQuantity"] > "0"
+            if product_inventory["inStockQuantity"] > 0
         ]
     )["productId"]
 

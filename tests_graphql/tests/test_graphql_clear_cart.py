@@ -24,7 +24,7 @@ def test_clear_anonymous_cart(
     product_id_in_stock = next(
         product_inventory
         for product_inventory in dataset["productsInventories"]
-        if product_inventory["inStockQuantity"] > "0"
+        if product_inventory["inStockQuantity"] > 0
     )["productId"]
 
     user = user_operations.get_me()

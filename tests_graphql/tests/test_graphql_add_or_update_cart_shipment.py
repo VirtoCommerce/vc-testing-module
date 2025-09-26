@@ -26,7 +26,7 @@ def test_add_cart_shipment(
         [
             product_inventory
             for product_inventory in dataset["productsInventories"]
-            if product_inventory["inStockQuantity"] > "0"
+            if product_inventory["inStockQuantity"] > 0
         ]
     )["productId"]
 
@@ -119,7 +119,7 @@ def test_update_cart_shipment(
         [
             product_inventory
             for product_inventory in dataset["productsInventories"]
-            if product_inventory["inStockQuantity"] > "0"
+            if product_inventory["inStockQuantity"] > 0
         ]
     )["productId"]
 
