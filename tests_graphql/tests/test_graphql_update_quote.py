@@ -1,4 +1,5 @@
 import os
+import random
 from typing import Any, Dict
 
 import allure
@@ -9,17 +10,15 @@ from fixtures.graphql_client import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.quote.quote_operations import QuoteOperations
 from graphql_operations.user.user_operations import UserOperations
-from test_data.test_address import TEST_CUSTOMER_ADDRESS_1
-from test_data.test_culture import TEST_CULTURE
-from test_data.test_currency import TEST_CURRENCY
-from test_data.test_product import TEST_PRODUCT_1
 
 
-@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Change quote item quantity (GraphQL)")
 def test_change_quote_item_quantity(
-    config: Dict[str, Any], auth: Auth, graphql_client: GraphQLClient
+    config: Dict[str, Any],
+    auth: Auth,
+    dataset: Dict[str, Any],
+    graphql_client: GraphQLClient,
 ):
     print(f"{os.linesep}Running test to change quote item quantity...", end=" ")
 
@@ -28,20 +27,30 @@ def test_change_quote_item_quantity(
     quote_operations = QuoteOperations(graphql_client)
 
     auth.authenticate(
-        config["test_permanent_customer_username"],
-        config["test_permanent_customer_password"],
+        dataset["users"][0]["userName"],
+        config["users_password"],
     )
 
-    user = user_operations.get_user()
+    currency = dataset["currencies"][0]["code"]
+    culture = dataset["languages"][0]
+    product_id_in_stock = random.choice(
+        [
+            product_inventory
+            for product_inventory in dataset["productsInventories"]
+            if product_inventory["inStockQuantity"] > 0
+        ]
+    )["productId"]
+
+    user = user_operations.get_me()
 
     cart = cart_operations.add_item_to_cart(
         payload={
             "storeId": config["store_id"],
             "userId": user["id"],
-            "productId": TEST_PRODUCT_1["id"],
+            "productId": product_id_in_stock,
             "quantity": 1,
-            "currencyCode": TEST_CURRENCY["USD"],
-            "cultureName": TEST_CULTURE["en-US"],
+            "currencyCode": currency,
+            "cultureName": culture,
         }
     )
 
@@ -64,8 +73,8 @@ def test_change_quote_item_quantity(
         store_id=config["store_id"],
         user_id=user["id"],
         id=quote["id"],
-        currency_code=TEST_CURRENCY["USD"],
-        culture_name=TEST_CULTURE["en-US"],
+        currency_code=currency,
+        culture_name=culture,
     )
 
     # Test teardown
@@ -84,11 +93,13 @@ def test_change_quote_item_quantity(
     ), "Quote item quantity is not the same"
 
 
-@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Change quote comment (GraphQL)")
 def test_change_quote_comment(
-    config: Dict[str, Any], auth: Auth, graphql_client: GraphQLClient
+    config: Dict[str, Any],
+    auth: Auth,
+    dataset: Dict[str, Any],
+    graphql_client: GraphQLClient,
 ):
     print(f"{os.linesep}Running test to change quote comment...", end=" ")
 
@@ -97,20 +108,30 @@ def test_change_quote_comment(
     quote_operations = QuoteOperations(graphql_client)
 
     auth.authenticate(
-        config["test_permanent_customer_username"],
-        config["test_permanent_customer_password"],
+        dataset["users"][0]["userName"],
+        config["users_password"],
     )
 
-    user = user_operations.get_user()
+    currency = dataset["currencies"][0]["code"]
+    culture = dataset["languages"][0]
+    product_id_in_stock = random.choice(
+        [
+            product_inventory
+            for product_inventory in dataset["productsInventories"]
+            if product_inventory["inStockQuantity"] > 0
+        ]
+    )["productId"]
+
+    user = user_operations.get_me()
 
     cart = cart_operations.add_item_to_cart(
         payload={
             "storeId": config["store_id"],
             "userId": user["id"],
-            "productId": TEST_PRODUCT_1["id"],
+            "productId": product_id_in_stock,
             "quantity": 1,
-            "currencyCode": TEST_CURRENCY["USD"],
-            "cultureName": TEST_CULTURE["en-US"],
+            "currencyCode": currency,
+            "cultureName": culture,
         }
     )
 
@@ -144,11 +165,13 @@ def test_change_quote_comment(
     ), "Quote comment is not the same"
 
 
-@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Remove quote shipping and billing addresses (GraphQL)")
 def test_change_quote_shipping_and_billing_addresses(
-    config: Dict[str, Any], auth: Auth, graphql_client: GraphQLClient
+    config: Dict[str, Any],
+    auth: Auth,
+    dataset: Dict[str, Any],
+    graphql_client: GraphQLClient,
 ):
     print(
         f"{os.linesep}Running test to change quote shipping and billing addresses...",
@@ -160,20 +183,30 @@ def test_change_quote_shipping_and_billing_addresses(
     quote_operations = QuoteOperations(graphql_client)
 
     auth.authenticate(
-        config["test_permanent_customer_username"],
-        config["test_permanent_customer_password"],
+        dataset["users"][0]["userName"],
+        config["users_password"],
     )
 
-    user = user_operations.get_user()
+    currency = dataset["currencies"][0]["code"]
+    culture = dataset["languages"][0]
+    product_id_in_stock = random.choice(
+        [
+            product_inventory
+            for product_inventory in dataset["productsInventories"]
+            if product_inventory["inStockQuantity"] > 0
+        ]
+    )["productId"]
+
+    user = user_operations.get_me()
 
     cart = cart_operations.add_item_to_cart(
         payload={
             "storeId": config["store_id"],
             "userId": user["id"],
-            "productId": TEST_PRODUCT_1["id"],
+            "productId": product_id_in_stock,
             "quantity": 1,
-            "currencyCode": TEST_CURRENCY["USD"],
-            "cultureName": TEST_CULTURE["en-US"],
+            "currencyCode": currency,
+            "cultureName": culture,
         }
     )
 
@@ -184,12 +217,22 @@ def test_change_quote_shipping_and_billing_addresses(
         }
     )
 
+    test_address = {
+        "city": "Springfield",
+        "countryCode": "USA",
+        "countryName": "United States of America",
+        "line1": "742 Evergreen Terrace",
+        "postalCode": "62704",
+        "regionId": "IL",
+        "regionName": "Illinois",
+    }
+
     updated_quote = quote_operations.change_quote_addresses(
         payload={
             "quoteId": quote["id"],
             "addresses": [
-                {**TEST_CUSTOMER_ADDRESS_1, "addressType": 1},
-                {**TEST_CUSTOMER_ADDRESS_1, "addressType": 2},
+                {**test_address, "addressType": 1},
+                {**test_address, "addressType": 2},
             ],
         }
     )
@@ -214,11 +257,13 @@ def test_change_quote_shipping_and_billing_addresses(
     ), "Quote has no billing address (type 2)"
 
 
-@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Remove quote item (GraphQL)")
 def test_remove_quote_item(
-    config: Dict[str, Any], auth: Auth, graphql_client: GraphQLClient
+    config: Dict[str, Any],
+    auth: Auth,
+    dataset: Dict[str, Any],
+    graphql_client: GraphQLClient,
 ):
     print(f"{os.linesep}Running test to remove quote item...", end=" ")
 
@@ -227,20 +272,30 @@ def test_remove_quote_item(
     quote_operations = QuoteOperations(graphql_client)
 
     auth.authenticate(
-        config["test_permanent_customer_username"],
-        config["test_permanent_customer_password"],
+        dataset["users"][0]["userName"],
+        config["users_password"],
     )
 
-    user = user_operations.get_user()
+    currency = dataset["currencies"][0]["code"]
+    culture = dataset["languages"][0]
+    product_id_in_stock = random.choice(
+        [
+            product_inventory
+            for product_inventory in dataset["productsInventories"]
+            if product_inventory["inStockQuantity"] > 0
+        ]
+    )["productId"]
+
+    user = user_operations.get_me()
 
     cart = cart_operations.add_item_to_cart(
         payload={
             "storeId": config["store_id"],
             "userId": user["id"],
-            "productId": TEST_PRODUCT_1["id"],
+            "productId": product_id_in_stock,
             "quantity": 1,
-            "currencyCode": TEST_CURRENCY["USD"],
-            "cultureName": TEST_CULTURE["en-US"],
+            "currencyCode": currency,
+            "cultureName": culture,
         }
     )
 
@@ -272,11 +327,13 @@ def test_remove_quote_item(
     assert len(updated_quote["items"]) == 0, "Quote has items"
 
 
-@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Submit quote request (GraphQL)")
 def test_submit_quote_request(
-    config: Dict[str, Any], auth: Auth, graphql_client: GraphQLClient
+    config: Dict[str, Any],
+    auth: Auth,
+    dataset: Dict[str, Any],
+    graphql_client: GraphQLClient,
 ):
     print(f"{os.linesep}Running test to submit quote request...", end=" ")
 
@@ -285,20 +342,30 @@ def test_submit_quote_request(
     quote_operations = QuoteOperations(graphql_client)
 
     auth.authenticate(
-        config["test_permanent_customer_username"],
-        config["test_permanent_customer_password"],
+        dataset["users"][0]["userName"],
+        config["users_password"],
     )
 
-    user = user_operations.get_user()
+    currency = dataset["currencies"][0]["code"]
+    culture = dataset["languages"][0]
+    product_id_in_stock = random.choice(
+        [
+            product_inventory
+            for product_inventory in dataset["productsInventories"]
+            if product_inventory["inStockQuantity"] > 0
+        ]
+    )["productId"]
+
+    user = user_operations.get_me()
 
     cart = cart_operations.add_item_to_cart(
         payload={
             "storeId": config["store_id"],
             "userId": user["id"],
-            "productId": TEST_PRODUCT_1["id"],
+            "productId": product_id_in_stock,
             "quantity": 1,
-            "currencyCode": TEST_CURRENCY["USD"],
-            "cultureName": TEST_CULTURE["en-US"],
+            "currencyCode": currency,
+            "cultureName": culture,
         }
     )
 
