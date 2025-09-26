@@ -341,12 +341,15 @@ class DatasetSeeder:
         if not self.dataset["coupons"]:
             return
 
-        print(f'Creating coupons"...', end=" ")
+        print(f"Creating coupons...", end=" ")
 
-        self.webapi_client.post(
-            "/api/marketing/promotions/coupons/add",
-            data=self.dataset["coupons"],
-        )
+        try:
+            self.webapi_client.post(
+                "/api/marketing/promotions/coupons/add",
+                data=self.dataset["coupons"],
+            )
+        except Exception as e:
+            return
 
         print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
@@ -403,10 +406,14 @@ class DatasetSeeder:
             print(f'Creating user "{user["userName"]}"...', end=" ")
 
             user["password"] = self.config["users_password"]
-            self.webapi_client.post(
-                "/api/platform/security/users/create",
-                data=user,
-            )
+
+            try:
+                self.webapi_client.post(
+                    "/api/platform/security/users/create",
+                    data=user,
+                )
+            except Exception as e:
+                return
 
             print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
