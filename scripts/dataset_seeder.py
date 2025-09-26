@@ -533,7 +533,7 @@ if __name__ == "__main__":
 
     seeder = DatasetSeeder(config)
     seeder.authenticate(config["admin_username"], config["admin_password"])
-    """
+
     seeder.fetch_dataset("dataset.json")
 
     seeder.create_languages()
@@ -557,7 +557,7 @@ if __name__ == "__main__":
     seeder.create_organizations()
     seeder.create_contacts()
     seeder.create_users()
-    """
+
     seeder.rebuild_index("Member")
     seeder.rebuild_index("Product")
     seeder.rebuild_index("Category")
