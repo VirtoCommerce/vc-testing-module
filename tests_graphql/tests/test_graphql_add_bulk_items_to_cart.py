@@ -26,14 +26,14 @@ def test_add_bulk_items_to_anonymous_cart(
         [
             product_inventory
             for product_inventory in dataset["productsInventories"]
-            if product_inventory["inStockQuantity"] > "0"
+            if product_inventory["inStockQuantity"] > 0
         ]
     )["productId"]
     product_sku_in_stock_2 = random.choice(
         [
             product_inventory
             for product_inventory in dataset["productsInventories"]
-            if product_inventory["inStockQuantity"] > "0"
+            if product_inventory["inStockQuantity"] > 0
         ]
     )["productId"]
 

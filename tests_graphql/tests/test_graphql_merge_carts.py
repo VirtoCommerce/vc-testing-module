@@ -31,7 +31,7 @@ def test_merge_carts(
         [
             product_inventory
             for product_inventory in dataset["productsInventories"]
-            if product_inventory["inStockQuantity"] > "0"
+            if product_inventory["inStockQuantity"] > 0
         ]
     )["productId"]
 

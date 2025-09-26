@@ -33,7 +33,7 @@ def test_get_order(
         [
             product_inventory
             for product_inventory in dataset["productsInventories"]
-            if product_inventory["inStockQuantity"] > "0"
+            if product_inventory["inStockQuantity"] > 0
         ]
     )["productId"]
 
