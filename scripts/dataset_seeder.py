@@ -410,6 +410,17 @@ class DatasetSeeder:
 
             print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
+    def rebuild_index(self, document_type: str, delete_existing: bool = True) -> None:
+        print(f"Rebuilding index {document_type}...", end=" ")
+        payload = [
+            {
+                "deleteExisting": delete_existing,
+                "documentType": document_type,
+            }
+        ]
+        self.webapi_client.post("/api/search/indexes/index", data=payload)
+        print(Fore.GREEN + "OK" + Style.RESET_ALL)
+
     """
     def create_orders(self, count: int = 50) -> None:
         print(f"Creating {count} order(s)...", end=" ")
@@ -522,7 +533,7 @@ if __name__ == "__main__":
 
     seeder = DatasetSeeder(config)
     seeder.authenticate(config["admin_username"], config["admin_password"])
-
+    """
     seeder.fetch_dataset("dataset.json")
 
     seeder.create_languages()
@@ -546,5 +557,11 @@ if __name__ == "__main__":
     seeder.create_organizations()
     seeder.create_contacts()
     seeder.create_users()
+    """
+    seeder.rebuild_index("Member")
+    seeder.rebuild_index("Product")
+    seeder.rebuild_index("Category")
+    seeder.rebuild_index("ContentFile")
+    seeder.rebuild_index("CustomerOrder")
 
     seeder.sign_out()
