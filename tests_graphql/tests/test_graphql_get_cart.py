@@ -1,6 +1,6 @@
 import os
 import random
-from typing import Any, Dict
+from typing import Any
 
 import allure
 import pytest
@@ -14,7 +14,7 @@ from graphql_operations.user.user_operations import UserOperations
 @pytest.mark.graphql
 @allure.title("Get null cart (GraphQL)")
 def test_get_null_cart(
-    config: Dict[str, Any], dataset: Dict[str, Any], graphql_client: GraphQLClient
+    config: dict[str, Any], dataset: dict[str, Any], graphql_client: GraphQLClient
 ):
     print(f"{os.linesep}Running test to get null cart...", end=" ")
 
@@ -39,7 +39,7 @@ def test_get_null_cart(
 @pytest.mark.graphql
 @allure.title("Get anonymous cart (GraphQL)")
 def test_get_anonymous_cart(
-    config: Dict[str, Any], dataset: Dict[str, Any], graphql_client: GraphQLClient
+    config: dict[str, Any], dataset: dict[str, Any], graphql_client: GraphQLClient
 ):
     print(f"{os.linesep}Running test to get anonymous cart...", end=" ")
 
@@ -85,8 +85,8 @@ def test_get_anonymous_cart(
 @pytest.mark.graphql
 @allure.title("Get registered user cart (GraphQL)")
 def test_get_registered_user_cart(
-    config: Dict[str, Any],
-    dataset: Dict[str, Any],
+    config: dict[str, Any],
+    dataset: dict[str, Any],
     auth: Auth,
     graphql_client: GraphQLClient,
 ):

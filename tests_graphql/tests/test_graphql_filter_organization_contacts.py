@@ -1,5 +1,5 @@
 import os
-from typing import Any, Dict
+from typing import Any
 
 import allure
 import pytest
@@ -13,8 +13,8 @@ from graphql_operations.user.user_operations import UserOperations
 @pytest.mark.graphql
 @allure.title("Filter organization contacts by role (GraphQL)")
 def test_filter_organization_contacts_by_role(
-    config: Dict[str, Any],
-    dataset: Dict[str, Any],
+    config: dict[str, Any],
+    dataset: dict[str, Any],
     auth: Auth,
     graphql_client: GraphQLClient,
 ):
@@ -84,8 +84,8 @@ def test_filter_organization_contacts_by_role(
 @pytest.mark.graphql
 @allure.title("Filter organization contacts by status (GraphQL)")
 def test_filter_organization_contacts_by_status(
-    config: Dict[str, Any],
-    dataset: Dict[str, Any],
+    config: dict[str, Any],
+    dataset: dict[str, Any],
     auth: Auth,
     graphql_client: GraphQLClient,
 ):

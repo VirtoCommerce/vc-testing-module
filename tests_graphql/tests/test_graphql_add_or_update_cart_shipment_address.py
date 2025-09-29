@@ -1,5 +1,5 @@
 import os
-from typing import Any, Dict
+from typing import Any
 
 import allure
 import pytest
@@ -12,7 +12,7 @@ from graphql_operations.user.user_operations import UserOperations
 @pytest.mark.graphql
 @allure.title("Add cart shipment address (GraphQL)")
 def test_add_cart_shipment_address(
-    config: Dict[str, Any], dataset: Dict[str, Any], graphql_client: GraphQLClient
+    config: dict[str, Any], dataset: dict[str, Any], graphql_client: GraphQLClient
 ):
     print(f"{os.linesep}Running test to add a cart shipment address...", end=" ")
 
@@ -24,12 +24,20 @@ def test_add_cart_shipment_address(
 
     user = user_operations.get_me()
 
-    organization_address = dataset["organizations"][0]["addresses"][0]
-    organization_address["addressType"] = 2
-    organization_address["firstName"] = "John"
-    organization_address["lastName"] = "Doe"
-    organization_address["email"] = "john.doe@example.com"
-    organization_address["phone"] = "+1234567890"
+    test_address = {
+        "addressType": 2,
+        "firstName": "Jane",
+        "lastName": "Smith",
+        "email": "jane.smith@example.com",
+        "phone": "+1-650-555-0142",
+        "city": "San Mateo",
+        "postalCode": "94401",
+        "regionId": "CA",
+        "regionName": "California",
+        "countryCode": "USA",
+        "countryName": "United States of America",
+        "line1": "1600 Holloway Drive",
+    }
 
     cart = cart_operations.add_or_update_cart_shipment(
         payload={
@@ -38,12 +46,14 @@ def test_add_cart_shipment_address(
             "currencyCode": currency,
             "cultureName": culture,
             "shipment": {
-                "deliveryAddress": organization_address,
+                "deliveryAddress": test_address,
             },
         }
     )
 
     delivery_address = cart["shipments"][0]["deliveryAddress"]
+
+    print(delivery_address)
 
     # Test teardown
     cart_operations.remove_cart_address(
@@ -68,44 +78,44 @@ def test_add_cart_shipment_address(
     assert delivery_address is not None, "Delivery address is None"
     assert delivery_address["id"] is not None, "Delivery address ID is None"
     assert (
-        delivery_address["city"] == organization_address["city"]
+        delivery_address["city"] == test_address["city"]
     ), "Delivery address city is not the same"
     assert (
-        delivery_address["countryCode"] == organization_address["countryCode"]
+        delivery_address["countryCode"] == test_address["countryCode"]
     ), "Delivery address country code is not the same"
     assert (
-        delivery_address["countryName"] == organization_address["countryName"]
+        delivery_address["countryName"] == test_address["countryName"]
     ), "Delivery address country name is not the same"
     assert (
-        delivery_address["email"] == organization_address["email"]
+        delivery_address["email"] == test_address["email"]
     ), "Delivery address email is not the same"
     assert (
-        delivery_address["firstName"] == organization_address["firstName"]
+        delivery_address["firstName"] == test_address["firstName"]
     ), "Delivery address first name is not the same"
     assert (
-        delivery_address["lastName"] == organization_address["lastName"]
+        delivery_address["lastName"] == test_address["lastName"]
     ), "Delivery address last name is not the same"
     assert (
-        delivery_address["line1"] == organization_address["line1"]
+        delivery_address["line1"] == test_address["line1"]
     ), "Delivery address line 1 is not the same"
     assert (
-        delivery_address["phone"] == organization_address["phone"]
+        delivery_address["phone"] == test_address["phone"]
     ), "Delivery address phone is not the same"
     assert (
-        delivery_address["postalCode"] == organization_address["postalCode"]
+        delivery_address["postalCode"] == test_address["postalCode"]
     ), "Delivery address postal code is not the same"
     assert (
-        delivery_address["regionId"] == organization_address["regionId"]
+        delivery_address["regionId"] == test_address["regionId"]
     ), "Delivery address region ID is not the same"
     assert (
-        delivery_address["regionName"] == organization_address["regionName"]
+        delivery_address["regionName"] == test_address["regionName"]
     ), "Delivery address region name is not the same"
 
 
 @pytest.mark.graphql
 @allure.title("Update cart shipment address (GraphQL)")
 def test_update_cart_shipment_address(
-    config: Dict[str, Any], dataset: Dict[str, Any], graphql_client: GraphQLClient
+    config: dict[str, Any], dataset: dict[str, Any], graphql_client: GraphQLClient
 ):
     print(f"{os.linesep}Running test to update a cart shipment address...", end=" ")
 
@@ -117,12 +127,20 @@ def test_update_cart_shipment_address(
 
     user = user_operations.get_me()
 
-    organization_address = dataset["organizations"][0]["addresses"][0]
-    organization_address["addressType"] = 2
-    organization_address["firstName"] = "John"
-    organization_address["lastName"] = "Doe"
-    organization_address["email"] = "john.doe@example.com"
-    organization_address["phone"] = "+1234567890"
+    test_address = {
+        "addressType": 2,
+        "firstName": "Jane",
+        "lastName": "Smith",
+        "email": "jane.smith@example.com",
+        "phone": "+1-650-555-0142",
+        "city": "San Mateo",
+        "postalCode": "94401",
+        "regionId": "CA",
+        "regionName": "California",
+        "countryCode": "USA",
+        "countryName": "United States of America",
+        "line1": "1600 Holloway Drive",
+    }
 
     cart = cart_operations.add_or_update_cart_shipment(
         payload={
@@ -131,7 +149,7 @@ def test_update_cart_shipment_address(
             "currencyCode": currency,
             "cultureName": culture,
             "shipment": {
-                "deliveryAddress": organization_address,
+                "deliveryAddress": test_address,
             },
         }
     )
@@ -139,7 +157,7 @@ def test_update_cart_shipment_address(
     delivery_address = cart["shipments"][0]["deliveryAddress"]
 
     new_address = {
-        **organization_address,
+        **test_address,
         "line1": "Some street 123",
         "id": delivery_address["id"],
     }

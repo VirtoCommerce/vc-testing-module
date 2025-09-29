@@ -1,5 +1,5 @@
 import os
-from typing import Any, Dict
+from typing import Any
 
 import allure
 import pytest
@@ -13,8 +13,8 @@ from graphql_operations.user.user_operations import UserOperations
 @pytest.mark.graphql
 @allure.title("Register customer (GraphQL)")
 def test_register_customer(
-    config: Dict[str, Any],
-    dataset: Dict[str, Any],
+    config: dict[str, Any],
+    dataset: dict[str, Any],
     auth: Auth,
     graphql_client: GraphQLClient,
 ):
@@ -74,8 +74,8 @@ def test_register_customer(
 @pytest.mark.graphql
 @allure.title("Register organization (GraphQL)")
 def test_register_organization(
-    config: Dict[str, Any],
-    dataset: Dict[str, Any],
+    config: dict[str, Any],
+    dataset: dict[str, Any],
     auth: Auth,
     graphql_client: GraphQLClient,
 ):

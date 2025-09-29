@@ -1,5 +1,5 @@
 import os
-from typing import Any, Dict
+from typing import Any
 
 import allure
 import pytest
@@ -25,8 +25,8 @@ def test_get_current_anonymous_user(graphql_client: GraphQLClient):
 @pytest.mark.graphql
 @allure.title("Get current registered user (GraphQL)")
 def test_get_current_registered_user(
-    config: Dict[str, Any],
-    dataset: Dict[str, Any],
+    config: dict[str, Any],
+    dataset: dict[str, Any],
     auth: Auth,
     graphql_client: GraphQLClient,
 ):
@@ -49,8 +49,8 @@ def test_get_current_registered_user(
 @pytest.mark.graphql
 @allure.title("Get registered user by user name (GraphQL)")
 def test_get_registered_user_by_user_name(
-    config: Dict[str, Any],
-    dataset: Dict[str, Any],
+    config: dict[str, Any],
+    dataset: dict[str, Any],
     auth: Auth,
     graphql_client: GraphQLClient,
 ):

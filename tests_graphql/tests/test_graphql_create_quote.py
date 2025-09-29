@@ -1,6 +1,6 @@
 import os
 import random
-from typing import Any, Dict
+from typing import Any
 
 import allure
 import pytest
@@ -15,9 +15,9 @@ from graphql_operations.user.user_operations import UserOperations
 @pytest.mark.graphql
 @allure.title("Create empty quote (GraphQL)")
 def test_create_empty_quote(
-    config: Dict[str, Any],
+    config: dict[str, Any],
     auth: Auth,
-    dataset: Dict[str, Any],
+    dataset: dict[str, Any],
     graphql_client: GraphQLClient,
 ):
     print(f"{os.linesep}Running test to create empty quote...", end=" ")
@@ -58,9 +58,9 @@ def test_create_empty_quote(
 @pytest.mark.graphql
 @allure.title("Create quote with items from cart (GraphQL)")
 def test_create_quote_with_items_from_cart(
-    config: Dict[str, Any],
+    config: dict[str, Any],
     auth: Auth,
-    dataset: Dict[str, Any],
+    dataset: dict[str, Any],
     graphql_client: GraphQLClient,
 ):
     print(f"{os.linesep}Running test to create quote with items from cart...", end=" ")

@@ -1,5 +1,5 @@
 import os
-from typing import Any, Dict
+from typing import Any
 
 import allure
 import pytest
@@ -12,7 +12,7 @@ from graphql_operations.user.user_operations import UserOperations
 @pytest.mark.graphql
 @allure.title("Add cart billing address (GraphQL)")
 def test_add_cart_billing_address(
-    config: Dict[str, Any], dataset: Dict[str, Any], graphql_client: GraphQLClient
+    config: dict[str, Any], dataset: dict[str, Any], graphql_client: GraphQLClient
 ):
     print(f"{os.linesep}Running test to add a cart billing address...", end=" ")
 
@@ -24,8 +24,20 @@ def test_add_cart_billing_address(
 
     user = user_operations.get_me()
 
-    billing_address = dataset["organizations"][0]["addresses"][0]
-    billing_address["addressType"] = 1
+    test_address = {
+        "addressType": 1,
+        "firstName": "Jane",
+        "lastName": "Smith",
+        "email": "jane.smith@example.com",
+        "phone": "+1-650-555-0142",
+        "city": "San Mateo",
+        "postalCode": "94401",
+        "regionId": "CA",
+        "regionName": "California",
+        "countryCode": "USA",
+        "countryName": "United States of America",
+        "line1": "1600 Holloway Drive",
+    }
 
     cart = cart_operations.add_or_update_cart_payment(
         payload={
@@ -34,7 +46,7 @@ def test_add_cart_billing_address(
             "currencyCode": currency,
             "cultureName": culture,
             "payment": {
-                "billingAddress": billing_address,
+                "billingAddress": test_address,
             },
         }
     )
@@ -64,44 +76,44 @@ def test_add_cart_billing_address(
     assert billing_address is not None, "Billing address is None"
     assert billing_address["id"] is not None, "Billing address ID is None"
     assert (
-        billing_address["city"] == billing_address["city"]
+        billing_address["city"] == test_address["city"]
     ), "Billing address city is not the same"
     assert (
-        billing_address["countryCode"] == billing_address["countryCode"]
+        billing_address["countryCode"] == test_address["countryCode"]
     ), "Billing address country code is not the same"
     assert (
-        billing_address["countryName"] == billing_address["countryName"]
+        billing_address["countryName"] == test_address["countryName"]
     ), "Billing address country name is not the same"
     assert (
-        billing_address["email"] == billing_address["email"]
+        billing_address["email"] == test_address["email"]
     ), "Billing address email is not the same"
     assert (
-        billing_address["firstName"] == billing_address["firstName"]
+        billing_address["firstName"] == test_address["firstName"]
     ), "Billing address first name is not the same"
     assert (
-        billing_address["lastName"] == billing_address["lastName"]
+        billing_address["lastName"] == test_address["lastName"]
     ), "Billing address last name is not the same"
     assert (
-        billing_address["line1"] == billing_address["line1"]
+        billing_address["line1"] == test_address["line1"]
     ), "Billing address line 1 is not the same"
     assert (
-        billing_address["phone"] == billing_address["phone"]
+        billing_address["phone"] == test_address["phone"]
     ), "Billing address phone is not the same"
     assert (
-        billing_address["postalCode"] == billing_address["postalCode"]
+        billing_address["postalCode"] == test_address["postalCode"]
     ), "Billing address postal code is not the same"
     assert (
-        billing_address["regionId"] == billing_address["regionId"]
+        billing_address["regionId"] == test_address["regionId"]
     ), "Billing address region ID is not the same"
     assert (
-        billing_address["regionName"] == billing_address["regionName"]
+        billing_address["regionName"] == test_address["regionName"]
     ), "Billing address region name is not the same"
 
 
 @pytest.mark.graphql
 @allure.title("Update cart billing address (GraphQL)")
 def test_update_cart_billing_address(
-    config: Dict[str, Any], dataset: Dict[str, Any], graphql_client: GraphQLClient
+    config: dict[str, Any], dataset: dict[str, Any], graphql_client: GraphQLClient
 ):
     print(f"{os.linesep}Running test to update a cart billing address...", end=" ")
 
@@ -113,8 +125,20 @@ def test_update_cart_billing_address(
 
     user = user_operations.get_me()
 
-    billing_address = dataset["organizations"][0]["addresses"][0]
-    billing_address["addressType"] = 1
+    test_address = {
+        "addressType": 1,
+        "firstName": "Jane",
+        "lastName": "Smith",
+        "email": "jane.smith@example.com",
+        "phone": "+1-650-555-0142",
+        "city": "San Mateo",
+        "postalCode": "94401",
+        "regionId": "CA",
+        "regionName": "California",
+        "countryCode": "USA",
+        "countryName": "United States of America",
+        "line1": "1600 Holloway Drive",
+    }
 
     cart = cart_operations.add_or_update_cart_payment(
         payload={
@@ -123,7 +147,7 @@ def test_update_cart_billing_address(
             "currencyCode": currency,
             "cultureName": culture,
             "payment": {
-                "billingAddress": billing_address,
+                "billingAddress": test_address,
             },
         }
     )

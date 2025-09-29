@@ -1,5 +1,5 @@
 import os
-from typing import Any, Dict
+from typing import Any
 
 import allure
 import pytest
@@ -16,8 +16,8 @@ from graphql_operations.user.user_operations import UserOperations
 @pytest.mark.graphql
 @allure.title("Success catalog browsing as anonymous user (GraphQL)")
 def test_success_catalog_browsing_as_anonymous_user(
-    config: Dict[str, Any],
-    dataset: Dict[str, Any],
+    config: dict[str, Any],
+    dataset: dict[str, Any],
     anonymous_catalog_requests: AnonymousCatalogRequests,
     graphql_client: GraphQLClient,
 ):
@@ -85,8 +85,8 @@ def test_success_catalog_browsing_as_anonymous_user(
 @pytest.mark.graphql
 @allure.title("Unsuccess catalog browsing as anonymous user (GraphQL)")
 def test_unsuccess_catalog_browsing_as_anonymous_user(
-    config: Dict[str, Any],
-    dataset: Dict[str, Any],
+    config: dict[str, Any],
+    dataset: dict[str, Any],
     anonymous_catalog_requests: AnonymousCatalogRequests,
     graphql_client: GraphQLClient,
 ):
@@ -166,8 +166,8 @@ def test_unsuccess_catalog_browsing_as_anonymous_user(
 @pytest.mark.graphql
 @allure.title("Catalog browsing as registered user (GraphQL)")
 def test_catalog_browsing_as_registered_user(
-    config: Dict[str, Any],
-    dataset: Dict[str, Any],
+    config: dict[str, Any],
+    dataset: dict[str, Any],
     auth: Auth,
     anonymous_catalog_requests: AnonymousCatalogRequests,
     graphql_client: GraphQLClient,
