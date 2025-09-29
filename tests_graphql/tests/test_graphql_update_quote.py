@@ -1,6 +1,6 @@
 import os
 import random
-from typing import Any, Dict
+from typing import Any
 
 import allure
 import pytest
@@ -15,9 +15,9 @@ from graphql_operations.user.user_operations import UserOperations
 @pytest.mark.graphql
 @allure.title("Change quote item quantity (GraphQL)")
 def test_change_quote_item_quantity(
-    config: Dict[str, Any],
+    config: dict[str, Any],
     auth: Auth,
-    dataset: Dict[str, Any],
+    dataset: dict[str, Any],
     graphql_client: GraphQLClient,
 ):
     print(f"{os.linesep}Running test to change quote item quantity...", end=" ")
@@ -96,9 +96,9 @@ def test_change_quote_item_quantity(
 @pytest.mark.graphql
 @allure.title("Change quote comment (GraphQL)")
 def test_change_quote_comment(
-    config: Dict[str, Any],
+    config: dict[str, Any],
     auth: Auth,
-    dataset: Dict[str, Any],
+    dataset: dict[str, Any],
     graphql_client: GraphQLClient,
 ):
     print(f"{os.linesep}Running test to change quote comment...", end=" ")
@@ -168,9 +168,9 @@ def test_change_quote_comment(
 @pytest.mark.graphql
 @allure.title("Remove quote shipping and billing addresses (GraphQL)")
 def test_change_quote_shipping_and_billing_addresses(
-    config: Dict[str, Any],
+    config: dict[str, Any],
     auth: Auth,
-    dataset: Dict[str, Any],
+    dataset: dict[str, Any],
     graphql_client: GraphQLClient,
 ):
     print(
@@ -260,9 +260,9 @@ def test_change_quote_shipping_and_billing_addresses(
 @pytest.mark.graphql
 @allure.title("Remove quote item (GraphQL)")
 def test_remove_quote_item(
-    config: Dict[str, Any],
+    config: dict[str, Any],
     auth: Auth,
-    dataset: Dict[str, Any],
+    dataset: dict[str, Any],
     graphql_client: GraphQLClient,
 ):
     print(f"{os.linesep}Running test to remove quote item...", end=" ")
@@ -330,9 +330,9 @@ def test_remove_quote_item(
 @pytest.mark.graphql
 @allure.title("Submit quote request (GraphQL)")
 def test_submit_quote_request(
-    config: Dict[str, Any],
+    config: dict[str, Any],
     auth: Auth,
-    dataset: Dict[str, Any],
+    dataset: dict[str, Any],
     graphql_client: GraphQLClient,
 ):
     print(f"{os.linesep}Running test to submit quote request...", end=" ")

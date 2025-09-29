@@ -1,6 +1,6 @@
 import os
 import random
-from typing import Any, Dict
+from typing import Any
 
 import allure
 import pytest
@@ -13,7 +13,7 @@ from graphql_operations.user.user_operations import UserOperations
 @pytest.mark.graphql
 @allure.title("Add cart payment (GraphQL)")
 def test_add_cart_payment(
-    config: Dict[str, Any], dataset: Dict[str, Any], graphql_client: GraphQLClient
+    config: dict[str, Any], dataset: dict[str, Any], graphql_client: GraphQLClient
 ):
     print(f"{os.linesep}Running test to add a cart payment...", end=" ")
 
@@ -100,7 +100,7 @@ def test_add_cart_payment(
 @pytest.mark.graphql
 @allure.title("Update cart payment (GraphQL)")
 def test_update_cart_payment(
-    config: Dict[str, Any], dataset: Dict[str, Any], graphql_client: GraphQLClient
+    config: dict[str, Any], dataset: dict[str, Any], graphql_client: GraphQLClient
 ):
     print(f"{os.linesep}Running test to update a cart payment...", end=" ")
 
