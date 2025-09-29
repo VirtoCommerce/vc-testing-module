@@ -25,6 +25,7 @@ def test_add_cart_shipment_address(
     user = user_operations.get_me()
 
     test_address = {
+        "id": "test-address-id",
         "addressType": 2,
         "firstName": "Jane",
         "lastName": "Smith",
@@ -52,8 +53,6 @@ def test_add_cart_shipment_address(
     )
 
     delivery_address = cart["shipments"][0]["deliveryAddress"]
-
-    print(delivery_address)
 
     # Test teardown
     cart_operations.remove_cart_address(
@@ -128,6 +127,7 @@ def test_update_cart_shipment_address(
     user = user_operations.get_me()
 
     test_address = {
+        "id": "test-address-id",
         "addressType": 2,
         "firstName": "Jane",
         "lastName": "Smith",

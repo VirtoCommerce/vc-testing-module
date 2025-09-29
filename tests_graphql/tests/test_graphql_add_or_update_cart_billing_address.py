@@ -25,6 +25,7 @@ def test_add_cart_billing_address(
     user = user_operations.get_me()
 
     test_address = {
+        "id": "test-address-id",
         "addressType": 1,
         "firstName": "Jane",
         "lastName": "Smith",
@@ -126,6 +127,7 @@ def test_update_cart_billing_address(
     user = user_operations.get_me()
 
     test_address = {
+        "id": "test-address-id",
         "addressType": 1,
         "firstName": "Jane",
         "lastName": "Smith",
