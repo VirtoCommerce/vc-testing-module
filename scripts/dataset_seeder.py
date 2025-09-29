@@ -323,6 +323,21 @@ class DatasetSeeder:
             )
 
             print(Fore.GREEN + "OK" + Style.RESET_ALL)
+    
+    def create_product_variations(self) -> None:
+           
+        if not self.dataset["productVariations"]:
+            raise ValueError("No product variations found in dataset")
+
+        for product_variation in self.dataset["productVariations"]:
+            print(f'Creating product variation "{product_variation["name"]}"...', end=" ")
+
+            self.webapi_client.post(
+                "/api/catalog/products",
+                data=product_variation,
+            )
+
+            print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
     def create_promotions(self) -> None:
         if not self.dataset["promotions"]:
@@ -557,6 +572,7 @@ if __name__ == "__main__":
     seeder.create_properties()
     seeder.create_aggregation_properties()
     seeder.create_products()
+    seeder.create_product_variations()
     seeder.create_products_inventories()
     seeder.create_prices()
     seeder.create_promotions()

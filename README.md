@@ -50,16 +50,15 @@ To execute your Playwright tests with pytest, run:
 
 ```sh
 # To run functional tests:
-pytest -v -s test_graphql/tests
+pytest -v -s  tests_graphql/tests/
 # To run visual tests:
-pytest e2e/ -v -s --show-browser
+pytest tests_e2e/tests/ -v -s --show-browser
 
 # Run a specific test
-pytest tests/test_auth.py -k test_user_registration
-pytest tests/test_auth.py -k test_user_login
+pytest tests_graphql/tests/test_graphql_add_variation_to_cart.py -k test_add_variation_to_cart
 
 # Run with more detailed output
-pytest tests/test_auth.py -v -s
+pytest tests_graphql/tests/test_graphql_add_variation_to_cart.py::test_add_variation_to_cart -v -s
 
 ```
 
