@@ -1,0 +1,184 @@
+[
+    {
+        "productId": "product-acme-laptop-acer-aspire-16-ai",
+        "productName": "Acer Aspire 16 AI",
+        "fulfillmentCenterId": "ffc-acme-usa-morrisville-nc",
+        "fulfillmentCenterName": "USA Morrisville NC FFC",
+        "inStockQuantity": 0
+    },
+    {
+        "productId": "product-acme-laptop-acer-aspire-16-ai",
+        "productName": "Acer Aspire 16 AI",
+        "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+        "fulfillmentCenterName": "USA Riverton OH FFC",
+        "inStockQuantity": 0
+    },
+    {
+        "productId": "product-acme-laptop-asus-zenbook-a14-ux3407",
+        "productName": "Asus Zenbook A14 (UX3407)",
+        "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+        "fulfillmentCenterName": "USA Riverton OH FFC",
+        "inStockQuantity": 100000
+    },
+    {
+        "productId": "product-acme-laptop-asus-zenbook-a14-ux3407",
+        "productName": "Asus Zenbook A14 (UX3407)",
+        "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+        "fulfillmentCenterName": "USA Springfield IL FFC",
+        "inStockQuantity": 100000
+    },
+    {
+        "productId": "product-acme-laptop-asus-vivobook-16-x1607qa",
+        "productName": "Asus Vivobook 16 (X1607QA)",
+        "fulfillmentCenterId": "ffc-acme-usa-morrisville-nc",
+        "fulfillmentCenterName": "USA Morrisville NC FFC",
+        "inStockQuantity": 100000
+    },
+    {
+        "productId": "product-acme-laptop-asus-v16-v3607vu",
+        "productName": "Asus V16 (V3607VU)",
+        "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+        "fulfillmentCenterName": "USA Riverton OH FFC",
+        "inStockQuantity": 100000
+    },
+    {
+        "productId": "product-acme-laptop-hp-pavilion-16-ag0087nr",
+        "productName": "HP Pavilion 16 (AG0087NR)",
+        "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+        "fulfillmentCenterName": "USA Springfield IL FFC",
+        "inStockQuantity": 100000
+    },
+    {
+        "productId": "product-acme-laptop-hp-pavilion-16-ag0087nr",
+        "productName": "HP Pavilion 16 (AG0087NR)",
+        "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+        "fulfillmentCenterName": "USA Riverton OH FFC",
+        "inStockQuantity": 100000
+    },
+    {
+        "productId": "product-acme-laptop-hp-omnibook-5-ai-16-af1037nr",
+        "productName": "HP OmniBook 5 AI 16 (AF1037NR)",
+        "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+        "fulfillmentCenterName": "USA Riverton OH FFC",
+        "inStockQuantity": 100000
+    },
+    {
+        "productId": "product-acme-laptop-lenovo-thinkpad-t14-gen-6",
+        "productName": "Lenovo ThinkPad T14 Gen 6",
+        "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+        "fulfillmentCenterName": "USA Riverton OH FFC",
+        "inStockQuantity": 100000
+    },
+    {
+        "productId": "product-acme-laptop-lenovo-ideapad-5i",
+        "productName": "Lenovo Ideapad 5i",
+        "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+        "fulfillmentCenterName": "USA Springfield IL FFC",
+        "inStockQuantity": 100000
+    },
+    {
+        "productId": "product-acme-laptop-lenovo-loq-15-ahp9",
+        "productName": "Lenovo Loq 15 (AHP9)",
+        "fulfillmentCenterId": "ffc-acme-usa-morrisville-nc",
+        "fulfillmentCenterName": "USA Morrisville NC FFC",
+        "inStockQuantity": 100000
+    },
+    {
+        "productId": "product-acme-laptop-lenovo-legion-5-gen-10",
+        "productName": "Lenovo Legion 5 Gen 10",
+        "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+        "fulfillmentCenterName": "USA Riverton OH FFC",
+        "inStockQuantity": 100000
+    },
+    {
+        "productId": "product-acme-laptop-lenovo-legion-9i-gen-10",
+        "productName": "Lenovo Legion 9i Gen 10",
+        "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+        "fulfillmentCenterName": "USA Springfield IL FFC",
+        "inStockQuantity": 100000
+    },
+    {
+        "productId": "product-acme-laptop-acer-predator-helios-18-ai",
+        "productName": "Acer Predator Helios 18 AI",
+        "fulfillmentCenterId": "ffc-acme-usa-morrisville-nc",
+        "fulfillmentCenterName": "USA Morrisville NC FFC",
+        "inStockQuantity": 100000
+    },
+    {
+        "productId": "product-acme-laptop-acer-nitro-v16",
+        "productName": "Acer Nitro V16",
+        "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+        "fulfillmentCenterName": "USA Riverton OH FFC",
+        "inStockQuantity": 100000
+    },
+    {
+        "productId": "product-acme-laptop-asus-tuf-gaming-a14",
+        "productName": "Asus Tuf Gaming A14",
+        "fulfillmentCenterId": "ffc-acme-usa-morrisville-nc",
+        "fulfillmentCenterName": "USA Morrisville NC FFC",
+        "inStockQuantity": 100000
+    },
+    {
+        "productId": "product-acme-laptop-asus-rog-strix-g16",
+        "productName": "Asus Rog Strix G16",
+        "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+        "fulfillmentCenterName": "USA Springfield IL FFC",
+        "inStockQuantity": 100000
+    },
+    {
+        "productId": "product-acme-laptop-asus-rog-strix-scar-18",
+        "productName": "Asus Rog Strix Scar 18",
+        "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+        "fulfillmentCenterName": "USA Riverton OH FFC",
+        "inStockQuantity": 100000
+    },
+    {
+        "productId": "product-acme-laptop-hp-omen-17",
+        "productName": "HP Omen 17",
+        "fulfillmentCenterId": "ffc-acme-usa-morrisville-nc",
+        "fulfillmentCenterName": "USA Morrisville NC FFC",
+        "inStockQuantity": 100000
+    },
+    {
+        "productId": "product-acme-laptop-hp-omen-transcend-14",
+        "productName": "HP Omen Transcend 14",
+        "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+        "fulfillmentCenterName": "USA Springfield IL FFC",
+        "inStockQuantity": 100000
+    },
+    {
+        "productId": "product-acme-laptop-lenovo-thinkpad-x1-carbon-gen-13-aura",
+        "productName": "Lenovo ThinkPad X1 Carbon Gen 13 Aura Edition",
+        "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+        "fulfillmentCenterName": "USA Riverton OH FFC",
+        "inStockQuantity": 100000
+    },
+    {
+        "productId": "product-acme-laptop-lenovo-thinkpad-p1-gen-7-mobile-workstation",
+        "productName": "Lenovo ThinkPad P1 Gen 7 Mobile Workstation",
+        "fulfillmentCenterId": "ffc-acme-usa-morrisville-nc",
+        "fulfillmentCenterName": "USA Morrisville NC FFC",
+        "inStockQuantity": 100000
+    },
+    {
+        "productId": "product-acme-laptop-acer-travelmate-p16-14-ai",
+        "productName": "Acer Travelmate P16 14 AI",
+        "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+        "fulfillmentCenterName": "USA Springfield IL FFC",
+        "inStockQuantity": 100000
+    },
+    {
+        "productId": "product-acme-laptop-asus-expertbook-b5-b5605",
+        "productName": "Asus ExpertBook B5 (B5605)",
+        "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+        "fulfillmentCenterName": "USA Riverton OH FFC",
+        "inStockQuantity": 100000
+    },
+    {
+        "productId": "product-acme-laptop-hp-omnibook-x-flip-16",
+        "productName": "HP OmniBook X Flip 16",
+        "fulfillmentCenterId": "ffc-acme-usa-morrisville-nc",
+        "fulfillmentCenterName": "USA Morrisville NC FFC",
+        "inStockQuantity": 100000
+    }
+]

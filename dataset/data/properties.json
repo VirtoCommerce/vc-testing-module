@@ -1,0 +1,606 @@
+[
+    {
+        "id": "property-acme-brand",
+        "name": "Brand",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-laptops",
+        "valueType": "ShortText",
+        "type": "Product",
+        "displayNames": [
+            {
+                "name": "Brand",
+                "languageCode": "en-US"
+            }
+        ]
+    },
+    {
+        "id": "property-acme-operating-system",
+        "name": "OperatingSystem",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-laptops",
+        "valueType": "ShortText",
+        "type": "Product",
+        "displayNames": [
+            {
+                "name": "Operating System",
+                "languageCode": "en-US"
+            }
+        ]
+    },
+    {
+        "id": "property-acme-color",
+        "name": "Color",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-laptops",
+        "valueType": "ShortText",
+        "type": "Product",
+        "displayNames": [
+            {
+                "name": "Color",
+                "languageCode": "en-US"
+            }
+        ]
+    },
+    {
+        "id": "property-acme-keyboard-backlight",
+        "name": "KeyboardBacklight",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-laptops",
+        "valueType": "ShortText",
+        "type": "Product",
+        "displayNames": [
+            {
+                "name": "Keyboard Backlight",
+                "languageCode": "en-US"
+            }
+        ]
+    },
+    {
+        "id": "property-acme-display-size",
+        "name": "DisplaySize",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-laptops",
+        "propertyGroupId": "property-group-display",
+        "valueType": "Measure",
+        "measureId": "measure-display-size",
+        "type": "Product",
+        "displayNames": [
+            {
+                "name": "Display Size",
+                "languageCode": "en-US"
+            }
+        ]
+    },
+    {
+        "id": "property-acme-display-resolution",
+        "name": "DisplayResolution",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-laptops",
+        "propertyGroupId": "property-group-display",
+        "valueType": "ShortText",
+        "type": "Product",
+        "displayNames": [
+            {
+                "name": "Display Resolution",
+                "languageCode": "en-US"
+            }
+        ]
+    },
+    {
+        "id": "property-acme-display-technology",
+        "name": "DisplayTechnology",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-laptops",
+        "propertyGroupId": "property-group-display",
+        "valueType": "ShortText",
+        "type": "Product",
+        "displayNames": [
+            {
+                "name": "Display Technology",
+                "languageCode": "en-US"
+            }
+        ]
+    },
+    {
+        "id": "property-acme-display-refresh-rate",
+        "name": "DisplayRefreshRate",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-laptops",
+        "propertyGroupId": "property-group-display",
+        "valueType": "Measure",
+        "measureId": "measure-display-refresh-rate",
+        "type": "Product",
+        "displayNames": [
+            {
+                "name": "Display Refresh Rate",
+                "languageCode": "en-US"
+            }
+        ]
+    },
+    {
+        "id": "property-acme-cpu-model",
+        "name": "CpuModel",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-laptops",
+        "propertyGroupId": "property-group-cpu",
+        "valueType": "ShortText",
+        "type": "Product",
+        "displayNames": [
+            {
+                "name": "CPU Model",
+                "languageCode": "en-US"
+            }
+        ]
+    },
+    {
+        "id": "property-acme-cpu-max-frequency",
+        "name": "CpuMaxFrequency",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-laptops",
+        "propertyGroupId": "property-group-cpu",
+        "valueType": "Measure",
+        "measureId": "measure-cpu-max-frequency",
+        "type": "Product",
+        "displayNames": [
+            {
+                "name": "CPU Max Frequency",
+                "languageCode": "en-US"
+            }
+        ]
+    },
+    {
+        "id": "property-acme-cpu-cores",
+        "name": "CpuCores",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-laptops",
+        "propertyGroupId": "property-group-cpu",
+        "valueType": "Integer",
+        "type": "Product",
+        "displayNames": [
+            {
+                "name": "CPU Cores",
+                "languageCode": "en-US"
+            }
+        ]
+    },
+    {
+        "id": "property-acme-cpu-threads",
+        "name": "CpuThreads",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-laptops",
+        "propertyGroupId": "property-group-cpu",
+        "valueType": "Integer",
+        "type": "Product",
+        "displayNames": [
+            {
+                "name": "CPU Threads",
+                "languageCode": "en-US"
+            }
+        ]
+    },
+    {
+        "id": "property-acme-cpu-neural-cores",
+        "name": "CpuNeuralCores",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-laptops",
+        "propertyGroupId": "property-group-cpu",
+        "valueType": "Boolean",
+        "type": "Product",
+        "displayNames": [
+            {
+                "name": "CPU Neural Cores",
+                "languageCode": "en-US"
+            }
+        ]
+    },
+    {
+        "id": "property-acme-ram-size",
+        "name": "RamSize",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-laptops",
+        "propertyGroupId": "property-group-ram",
+        "valueType": "Measure",
+        "measureId": "measure-ram-size",
+        "type": "Product",
+        "displayNames": [
+            {
+                "name": "RAM Size",
+                "languageCode": "en-US"
+            }
+        ]
+    },
+    {
+        "id": "property-acme-ram-type",
+        "name": "RamType",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-laptops",
+        "propertyGroupId": "property-group-ram",
+        "valueType": "ShortText",
+        "type": "Product",
+        "displayNames": [
+            {
+                "name": "RAM Type",
+                "languageCode": "en-US"
+            }
+        ]
+    },
+    {
+        "id": "property-acme-ram-slots-total",
+        "name": "RamSlotsTotal",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-laptops",
+        "propertyGroupId": "property-group-ram",
+        "valueType": "Integer",
+        "type": "Product",
+        "displayNames": [
+            {
+                "name": "RAM Slots Total",
+                "languageCode": "en-US"
+            }
+        ]
+    },
+    {
+        "id": "property-acme-ram-frequency",
+        "name": "RamFrequency",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-laptops",
+        "propertyGroupId": "property-group-ram",
+        "valueType": "Measure",
+        "measureId": "measure-ram-frequency",
+        "type": "Product",
+        "displayNames": [
+            {
+                "name": "RAM Frequency",
+                "languageCode": "en-US"
+            }
+        ]
+    },
+    {
+        "id": "property-acme-ram-max-size",
+        "name": "RamMaxSize",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-laptops",
+        "propertyGroupId": "property-group-ram",
+        "valueType": "Measure",
+        "measureId": "measure-ram-size",
+        "type": "Product",
+        "displayNames": [
+            {
+                "name": "RAM Max Size",
+                "languageCode": "en-US"
+            }
+        ]
+    },
+    {
+        "id": "property-acme-gpu-model",
+        "name": "GpuModel",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-laptops",
+        "propertyGroupId": "property-group-gpu",
+        "valueType": "ShortText",
+        "type": "Product",
+        "displayNames": [
+            {
+                "name": "GPU Model",
+                "languageCode": "en-US"
+            }
+        ]
+    },
+    {
+        "id": "property-acme-gpu-memory-size",
+        "name": "GpuMemorySize",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-laptops",
+        "propertyGroupId": "property-group-gpu",
+        "valueType": "Measure",
+        "measureId": "measure-gpu-memory-size",
+        "type": "Product",
+        "displayNames": [
+            {
+                "name": "GPU Memory Size",
+                "languageCode": "en-US"
+            }
+        ]
+    },
+    {
+        "id": "property-acme-gpu-memory-type",
+        "name": "GpuMemoryType",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-laptops",
+        "propertyGroupId": "property-group-gpu",
+        "valueType": "ShortText",
+        "type": "Product",
+        "displayNames": [
+            {
+                "name": "GPU Memory Type",
+                "languageCode": "en-US"
+            }
+        ]
+    },
+    {
+        "id": "property-acme-gpu-frequency",
+        "name": "GpuFrequency",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-laptops",
+        "propertyGroupId": "property-group-gpu",
+        "valueType": "Measure",
+        "measureId": "measure-gpu-frequency",
+        "type": "Product",
+        "displayNames": [
+            {
+                "name": "GPU Frequency",
+                "languageCode": "en-US"
+            }
+        ]
+    },
+    {
+        "id": "property-acme-gpu-integrated-model",
+        "name": "GpuIntegratedModel",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-laptops",
+        "propertyGroupId": "property-group-gpu",
+        "valueType": "ShortText",
+        "type": "Product",
+        "displayNames": [
+            {
+                "name": "Integrated GPU Model",
+                "languageCode": "en-US"
+            }
+        ]
+    },
+    {
+        "id": "property-acme-storage-size",
+        "name": "StorageSize",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-laptops",
+        "propertyGroupId": "property-group-storage",
+        "valueType": "Measure",
+        "measureId": "measure-storage-size",
+        "type": "Product",
+        "displayNames": [
+            {
+                "name": "Storage Size",
+                "languageCode": "en-US"
+            }
+        ]
+    },
+    {
+        "id": "property-acme-storage-type",
+        "name": "StorageType",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-laptops",
+        "propertyGroupId": "property-group-storage",
+        "valueType": "ShortText",
+        "type": "Product",
+        "displayNames": [
+            {
+                "name": "Storage Type",
+                "languageCode": "en-US"
+            }
+        ]
+    },
+    {
+        "id": "property-acme-camera-resolution",
+        "name": "CameraResolution",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-laptops",
+        "valueType": "Measure",
+        "measureId": "measure-camera-resolution",
+        "type": "Product",
+        "displayNames": [
+            {
+                "name": "Camera Resolution",
+                "languageCode": "en-US"
+            }
+        ]
+    },
+    {
+        "id": "property-acme-bluetooth",
+        "name": "Bluetooth",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-laptops",
+        "propertyGroupId": "property-group-communication",
+        "valueType": "ShortText",
+        "type": "Product",
+        "displayNames": [
+            {
+                "name": "Bluetooth",
+                "languageCode": "en-US"
+            }
+        ]
+    },
+    {
+        "id": "property-acme-wi-fi",
+        "name": "WiFi",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-laptops",
+        "propertyGroupId": "property-group-communication",
+        "valueType": "ShortText",
+        "type": "Product",
+        "displayNames": [
+            {
+                "name": "WiFi",
+                "languageCode": "en-US"
+            }
+        ]
+    },
+    {
+        "id": "property-acme-ethernet",
+        "name": "Ethernet",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-laptops",
+        "propertyGroupId": "property-group-communication",
+        "valueType": "ShortText",
+        "type": "Product",
+        "displayNames": [
+            {
+                "name": "Ethernet",
+                "languageCode": "en-US"
+            }
+        ]
+    },
+    {
+        "id": "property-acme-usb-type-a",
+        "name": "UsbTypeA",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-laptops",
+        "propertyGroupId": "property-group-peryfery",
+        "valueType": "ShortText",
+        "type": "Product",
+        "displayNames": [
+            {
+                "name": "USB Type A",
+                "languageCode": "en-US"
+            }
+        ]
+    },
+    {
+        "id": "property-acme-usb-type-c",
+        "name": "UsbTypeC",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-laptops",
+        "propertyGroupId": "property-group-peryfery",
+        "valueType": "ShortText",
+        "type": "Product",
+        "displayNames": [
+            {
+                "name": "USB Type C",
+                "languageCode": "en-US"
+            }
+        ]
+    },
+    {
+        "id": "property-acme-thunderbolt",
+        "name": "Thunderbolt",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-laptops",
+        "propertyGroupId": "property-group-peryfery",
+        "valueType": "Boolean",
+        "type": "Product",
+        "displayNames": [
+            {
+                "name": "Thunderbolt",
+                "languageCode": "en-US"
+            }
+        ]
+    },
+    {
+        "id": "property-acme-video-connectors",
+        "name": "VideoConnectors",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-laptops",
+        "propertyGroupId": "property-group-peryfery",
+        "valueType": "ShortText",
+        "type": "Product",
+        "displayNames": [
+            {
+                "name": "Video Connectors",
+                "languageCode": "en-US"
+            }
+        ]
+    },
+    {
+        "id": "property-acme-usb-power-delivery",
+        "name": "UsbPowerDelivery",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-laptops",
+        "propertyGroupId": "property-group-power",
+        "valueType": "Boolean",
+        "type": "Product",
+        "displayNames": [
+            {
+                "name": "USB Power Delivery",
+                "languageCode": "en-US"
+            }
+        ]
+    },
+    {
+        "id": "property-acme-battery-capacity",
+        "name": "BatteryCapacity",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-laptops",
+        "propertyGroupId": "property-group-power",
+        "valueType": "Measure",
+        "measureId": "measure-battery-capacity",
+        "type": "Product",
+        "displayNames": [
+            {
+                "name": "Battery Capacity",
+                "languageCode": "en-US"
+            }
+        ]
+    },
+    {
+        "id": "property-acme-ram-module-size",
+        "name": "RamSize",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-ram",
+        "valueType": "Measure",
+        "measureId": "measure-ram-size",
+        "type": "Product",
+        "displayNames": [
+            {
+                "name": "RAM Size",
+                "languageCode": "en-US"
+            }
+        ]
+    },
+    {
+        "id": "property-acme-ram-type",
+        "name": "RamType",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-ram",
+        "valueType": "ShortText",
+        "type": "Product",
+        "displayNames": [
+            {
+                "name": "RAM Type",
+                "languageCode": "en-US"
+            }
+        ]
+    },
+    {
+        "id": "property-acme-ram-module-frequency",
+        "name": "RamFrequency",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-ram",
+        "valueType": "Measure",
+        "measureId": "measure-ram-frequency",
+        "type": "Product",
+        "displayNames": [
+            {
+                "name": "RAM Frequency",
+                "languageCode": "en-US"
+            }
+        ]
+    },
+    {
+        "id": "property-acme-ssd-unit-size",
+        "name": "SsdSize",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-ssd",
+        "valueType": "Measure",
+        "measureId": "measure-storage-size",
+        "type": "Product",
+        "displayNames": [
+            {
+                "name": "SSD Size",
+                "languageCode": "en-US"
+            }
+        ]
+    },
+    {
+        "id": "property-acme-ssd-interface",
+        "name": "SsdInterface",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-ssd",
+        "valueType": "ShortText",
+        "type": "Product",
+        "displayNames": [
+            {
+                "name": "SSD Interface",
+                "languageCode": "en-US"
+            }
+        ]
+    }
+]

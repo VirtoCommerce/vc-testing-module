@@ -1,0 +1,134 @@
+{
+    "languages": {
+        "method": "POST",
+        "endpoint": "/api/platform/settings",
+        "itemsPerRequest": "array",
+        "payload": "languages.json"
+    },
+    "currencies": {
+        "method": "POST",
+        "endpoint": "/api/currencies",
+        "itemsPerRequest": "single",
+        "payload": "currencies.json"
+    },
+    "measures": {
+        "method": "PUT",
+        "endpoint": "/api/catalog/measures",
+        "itemsPerRequest": "single",
+        "payload": "measures.json"
+    },
+    "fulfillmentCenters": {
+        "method": "PUT",
+        "endpoint": "/api/inventory/fulfillmentcenters",
+        "itemsPerRequest": "single",
+        "payload": "fulfillment_centers.json"
+    },
+    "pricelists": {
+        "method": "POST",
+        "endpoint": "/api/pricing/pricelists",
+        "itemsPerRequest": "single",
+        "payload": "pricelists.json"
+    },
+    "pricelistAssignments": {
+        "method": "POST",
+        "endpoint": "/api/pricing/assignments",
+        "itemsPerRequest": "single",
+        "payload": "pricelist_assignments.json"
+    },
+    "catalogs": {
+        "method": "POST",
+        "endpoint": "/api/catalog/catalogs",
+        "itemsPerRequest": "single",
+        "payload": "catalogs.json"
+    },
+    "propertyGroups": {
+        "method": "POST",
+        "endpoint": "/api/catalog/propertygroups",
+        "itemsPerRequest": "single",
+        "payload": "property_groups.json"
+    },
+    "properties": {
+        "method": "POST",
+        "endpoint": "/api/catalog/properties?id={id}",
+        "itemsPerRequest": "single",
+        "payload": "properties.json"
+    },
+    "stores": {
+        "method": "POST",
+        "endpoint": "/api/stores",
+        "itemsPerRequest": "single",
+        "payload": "stores.json"
+    },
+    "aggregationProperties": {
+        "method": "PUT",
+        "endpoint": "/api/catalog/aggregationproperties/{storeId}/properties",
+        "itemsPerRequest": "array",
+        "payload": "aggregation_properties.json"
+    },
+    "categories": {
+        "method": "POST",
+        "endpoint": "/api/catalog/categories",
+        "itemsPerRequest": "single",
+        "payload": "categories.json"
+    },
+    "products": {
+        "method": "POST",
+        "endpoint": "/api/catalog/products",
+        "itemsPerRequest": "single",
+        "payload": "products.json"
+    },
+    "productInventories": {
+        "method": "PUT",
+        "endpoint": "/api/inventory/products/{productId}",
+        "itemsPerRequest": "single",
+        "payload": "product_inventories.json"
+    },
+    "prices": {
+        "method": "PUT",
+        "endpoint": "/api/products/{productId}/prices",
+        "itemsPerRequest": "single",
+        "payload": "prices.json"
+    },
+    "promotions": {
+        "method": "POST",
+        "endpoint": "/api/marketing/promotions",
+        "itemsPerRequest": "single",
+        "payload": "promotions.json"
+    },
+    "coupons": {
+        "method": "POST",
+        "endpoint": "/api/marketing/promotions/coupons/add",
+        "itemsPerRequest": "array",
+        "payload": "coupons.json"
+    },
+    "roles": {
+        "method": "PUT",
+        "endpoint": "/api/platform/security/roles",
+        "itemsPerRequest": "single",
+        "payload": "roles.json"
+    },
+    "organizations": {
+        "method": "POST",
+        "endpoint": "/api/members",
+        "itemsPerRequest": "single",
+        "payload": "organizations.json"
+    },
+    "contacts": {
+        "method": "POST",
+        "endpoint": "/api/members",
+        "itemsPerRequest": "single",
+        "payload": "contacts.json"
+    },
+    "users": {
+        "method": "POST",
+        "endpoint": "/api/platform/security/users/create",
+        "itemsPerRequest": "single",
+        "payload": "users.json"
+    },
+    "notifications": {
+        "method": "POST",
+        "endpoint": "/api/notifications/RegistrationInvitationEmailNotification",
+        "itemsPerRequest": "single",
+        "payload": "notifications.json"
+    }
+}

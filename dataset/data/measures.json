@@ -1,0 +1,252 @@
+[
+    {
+        "id": "measure-display-size",
+        "name": "Display Size",
+        "code": "DisplaySize",
+        "units": [
+            {
+                "id": "measure-unit-display-size-inch",
+                "code": "Inch",
+                "name": "Inch",
+                "conversionFactor": 1,
+                "symbol": "\"",
+                "isDefault": true,
+                "localizedName": {
+                    "values": {
+                        "en-US": "Inch"
+                    }
+                },
+                "localizedSymbol": {
+                    "values": {
+                        "en-US": "\""
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "id": "measure-display-refresh-rate",
+        "name": "Display Refresh Rate",
+        "code": "DisplayRefreshRate",
+        "units": [
+            {
+                "id": "measure-unit-refresh-rate-hertz",
+                "code": "Hertz",
+                "name": "Hertz",
+                "conversionFactor": 1,
+                "symbol": "Hz",
+                "isDefault": true,
+                "localizedName": {
+                    "values": {
+                        "en-US": "Hertz"
+                    }
+                },
+                "localizedSymbol": {
+                    "values": {
+                        "en-US": "Hz"
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "id": "measure-cpu-max-frequency",
+        "name": "CPU Max Frequency",
+        "code": "CpuMaxFrequency",
+        "units": [
+            {
+                "id": "measure-unit-cpu-gigahertz",
+                "code": "Gigahertz",
+                "name": "Gigahertz",
+                "conversionFactor": 1,
+                "symbol": "GHz",
+                "isDefault": true,
+                "localizedName": {
+                    "values": {
+                        "en-US": "Gigahertz"
+                    }
+                },
+                "localizedSymbol": {
+                    "values": {
+                        "en-US": "GHz"
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "id": "measure-ram-size",
+        "name": "RAM Size",
+        "code": "RamSize",
+        "units": [
+            {
+                "id": "measure-unit-ram-gigabyte",
+                "code": "Gigabyte",
+                "name": "Gigabyte",
+                "conversionFactor": 1,
+                "symbol": "GB",
+                "isDefault": true,
+                "localizedName": {
+                    "values": {
+                        "en-US": "Gigabyte"
+                    }
+                },
+                "localizedSymbol": {
+                    "values": {
+                        "en-US": "GB"
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "id": "measure-ram-frequency",
+        "name": "RAM Frequency",
+        "code": "RamFrequency",
+        "units": [
+            {
+                "id": "measure-unit-ram-megahertz",
+                "code": "Megahertz",
+                "name": "Megahertz",
+                "conversionFactor": 1,
+                "symbol": "MHz",
+                "isDefault": true,
+                "localizedName": {
+                    "values": {
+                        "en-US": "Megahertz"
+                    }
+                },
+                "localizedSymbol": {
+                    "values": {
+                        "en-US": "MHz"
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "id": "measure-gpu-frequency",
+        "name": "GPU Frequency",
+        "code": "GpuFrequency",
+        "units": [
+            {
+                "id": "measure-unit-gpu-gigahertz",
+                "code": "Gigahertz",
+                "name": "Gigahertz",
+                "conversionFactor": 1,
+                "symbol": "GHz",
+                "isDefault": true,
+                "localizedName": {
+                    "values": {
+                        "en-US": "Gigahertz"
+                    }
+                },
+                "localizedSymbol": {
+                    "values": {
+                        "en-US": "GHz"
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "id": "measure-gpu-memory-size",
+        "name": "GPU Memory Size",
+        "code": "GpuMemorySize",
+        "units": [
+            {
+                "id": "measure-unit-gpu-memory-size-gigabyte",
+                "code": "Gigabyte",
+                "name": "Gigabyte",
+                "conversionFactor": 1,
+                "symbol": "GB",
+                "isDefault": true,
+                "localizedName": {
+                    "values": {
+                        "en-US": "Gigabyte"
+                    }
+                },
+                "localizedSymbol": {
+                    "values": {
+                        "en-US": "GB"
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "id": "measure-storage-size",
+        "name": "Storage Size",
+        "code": "StorageSize",
+        "units": [
+            {
+                "id": "measure-unit-storage-size-gigabyte",
+                "code": "Gigabyte",
+                "name": "Gigabyte",
+                "conversionFactor": 1,
+                "symbol": "GB",
+                "isDefault": true,
+                "localizedName": {
+                    "values": {
+                        "en-US": "Gigabyte"
+                    }
+                },
+                "localizedSymbol": {
+                    "values": {
+                        "en-US": "GB"
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "id": "measure-camera-resolution",
+        "name": "Camera Resolution",
+        "code": "CameraResolution",
+        "units": [
+            {
+                "id": "measure-unit-camera-resolution-megapixel",
+                "code": "Megapixel",
+                "name": "Megapixel",
+                "conversionFactor": 1,
+                "symbol": "MP",
+                "isDefault": true,
+                "localizedName": {
+                    "values": {
+                        "en-US": "Megapixel"
+                    }
+                },
+                "localizedSymbol": {
+                    "values": {
+                        "en-US": "MP"
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "id": "measure-battery-capacity",
+        "name": "Battery Capacity",
+        "code": "BatteryCapacity",
+        "units": [
+            {
+                "id": "measure-unit-battery-capacity-watt-hour",
+                "code": "WattHour",
+                "name": "Watt Hour",
+                "conversionFactor": 1,
+                "symbol": "Wh",
+                "isDefault": true,
+                "localizedName": {
+                    "values": {
+                        "en-US": "Watt Hour"
+                    }
+                },
+                "localizedSymbol": {
+                    "values": {
+                        "en-US": "Wh"
+                    }
+                }
+            }
+        ]
+    }
+]

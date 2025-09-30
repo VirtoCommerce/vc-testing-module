@@ -1,0 +1,14 @@
+[
+    {
+        "id": "pricelist-assignment-acme-usd",
+        "catalogId": "catalog-acme",
+        "pricelistId": "pricelist-acme-usd",
+        "name": "ACME Pricelist Assignment USD"
+    },
+    {
+        "id": "pricelist-assignment-acme-eur",
+        "catalogId": "catalog-acme",
+        "pricelistId": "pricelist-acme-eur",
+        "name": "ACME Pricelist Assignment EUR"
+    }
+]
