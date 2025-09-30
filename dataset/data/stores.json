@@ -11,6 +11,7 @@
         "adminEmailName": "ACME Store Administrator",
         "email": "store@acme.com",
         "emailName": "ACME Store",
+        "url": "{storeUrl}",
         "languages": [
             "en-US",
             "pl-PL",

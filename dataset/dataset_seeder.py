@@ -139,6 +139,8 @@ class DatasetSeeder:
                     endpoint = endpoint_template.format(storeId=self.store_id)
                 if "{productId}" in endpoint:
                     endpoint = endpoint_template.format(productId=item["productId"])
+                if "url" in item and "{storeUrl}" in item["url"]:
+                    item["url"] = self.config["frontend_base_url"]
 
                 label = f"-- Seeding {key}"
                 if "name" in item:
