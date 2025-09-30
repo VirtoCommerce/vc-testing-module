@@ -71,39 +71,39 @@ def test_filter_product_variations_by_price(
 
     user = user_operations.get_me()
 
-    search_variations_result_to_1319 = product_operations.get_products(
+    search_variations_result_to_1000 = product_operations.get_products(
         store_id=config["store_id"],
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,
-        filter=f"category.subtree:{catalog['id']} price.{currency}:(0 TO) productfamilyid:{product_family_id} is:product,variation \"price\":[TO 1319]",
+        filter=f"category.subtree:{catalog['id']} price.{currency}:(0 TO) productfamilyid:{product_family_id} is:product,variation \"price\":[TO 1000]",
     )
 
-    search_variations_result_to_1450 = product_operations.get_products(
+    search_variations_result_from_1000_to_1200 = product_operations.get_products(
         store_id=config["store_id"],
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,
-        filter=f"category.subtree:{catalog['id']} price.{currency}:(0 TO) productfamilyid:{product_family_id} is:product,variation \"price\":[1450 TO]",
+        filter=f"category.subtree:{catalog['id']} price.{currency}:(0 TO) productfamilyid:{product_family_id} is:product,variation \"price\":[1000 TO 1200]",
     )
 
-    search_variations_result_to_1003 = product_operations.get_products(
+    search_variations_result_1400_to = product_operations.get_products(
         store_id=config["store_id"],
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,
-        filter=f"category.subtree:{catalog['id']} price.{currency}:(0 TO) productfamilyid:{product_family_id} is:product,variation \"price\":[TO 1003]",
+        filter=f"category.subtree:{catalog['id']} price.{currency}:(0 TO) productfamilyid:{product_family_id} is:product,variation \"price\":[1400 TO]",
     )
 
     assert (
-        search_variations_result_to_1319["totalCount"] == 2
-    ), "Total count of variations with price between 800 and 900 is not correct"
+        search_variations_result_to_1000["totalCount"] == 1
+    ), "Total count of variations with price between 0 and 1000 is not correct"
     assert (
-        search_variations_result_to_1450["totalCount"] == 2
-    ), "Total count of variations with price between 900 and 1000 is not correct"
+        search_variations_result_from_1000_to_1200["totalCount"] == 1
+    ), "Total count of variations with price between 1000 and 1200 is not correct"
     assert (
-        search_variations_result_to_1003["totalCount"] == 1
-    ), "Total count of variations with price between 1000 and 1500 is not correct"
+        search_variations_result_1400_to["totalCount"] == 2
+    ), "Total count of variations with price between 1400 and is not correct"
 
 
 
