@@ -9,7 +9,6 @@ from graphql_operations.catalog.products_operations import ProductsOperations
 from graphql_operations.user.user_operations import UserOperations
 
 
-@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.feature("Filter product variations by stock (GraphQL)")
 def test_filter_product_variations_by_stock(
@@ -53,7 +52,6 @@ def test_filter_product_variations_by_stock(
     ), "Total count of variations in stock is not correct"
 
 
-@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.feature("Filter product variations by price (GraphQL)")
 def test_filter_product_variations_by_price(
@@ -108,7 +106,6 @@ def test_filter_product_variations_by_price(
     ), "Total count of variations with price between 1000 and 1500 is not correct"
 
 
-@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.feature("Filter product variations by property (GraphQL)")
 def test_filter_product_variations_by_property(
