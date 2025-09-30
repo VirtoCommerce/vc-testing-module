@@ -1,11 +1,11 @@
 import json
 import os
+from textwrap import dedent
 from typing import Any, Dict, Optional, Union
 
 import allure
 import pytest
 import requests
-from colorama import Fore, Style
 
 from fixtures.auth import Auth
 
@@ -36,13 +36,16 @@ class WebAPISession(requests.Session):
             response = super().request(method, url, **kwargs)
             response.raise_for_status()
         except requests.exceptions.HTTPError as e:
-            print(Fore.RED + "Error" + Style.RESET_ALL)
-            print(os.linesep)
-            print(f"HTTP Error: {e}")
-            print(f"URL: {method} {url}")
-            print(f"PAYLOAD: {kwargs.get('data')}")
-            print(f"RESPONSE: {e.response.text}")
-            print(os.linesep)
+            message = dedent(
+                f"""
+                    HTTP Error: {e}
+                    URL: {method} {url}
+                    PAYLOAD: {kwargs.get('data')}
+                    RESPONSE: {e.response.text}
+                    {os.linesep}
+                """
+            )
+            e.message = message
             raise e
 
         content_type = response.headers.get("Content-Type", "")

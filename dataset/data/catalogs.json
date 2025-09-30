@@ -1,0 +1,14 @@
+[
+    {
+        "id": "catalog-acme",
+        "name": "ACME Catalog",
+        "isVirtual": false,
+        "languages": [
+            {
+                "languageCode": "en-US",
+                "isActive": true,
+                "isDefault": true
+            }
+        ]
+    }
+]
