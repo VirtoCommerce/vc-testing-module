@@ -531,13 +531,27 @@
         ]
     },
     {
+        "id": "property-acme-ram-brand",
+        "name": "RamBrand",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-ram",
+        "valueType": "ShortText",
+        "type": "Product",
+        "displayNames": [
+            {
+                "name": "Brand",
+                "languageCode": "en-US"
+            }
+        ]
+    },
+    {
         "id": "property-acme-ram-module-size",
         "name": "RamSize",
         "catalogId": "catalog-acme",
         "categoryId": "category-acme-ram",
         "valueType": "Measure",
         "measureId": "measure-ram-size",
-        "type": "Product",
+        "type": "Variation",
         "displayNames": [
             {
                 "name": "RAM Size",
@@ -575,13 +589,27 @@
         ]
     },
     {
+        "id": "property-acme-ssd-brand",
+        "name": "SsdBrand",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-ssd",
+        "valueType": "ShortText",
+        "type": "Product",
+        "displayNames": [
+            {
+                "name": "Brand",
+                "languageCode": "en-US"
+            }
+        ]
+    },
+    {
         "id": "property-acme-ssd-unit-size",
         "name": "SsdSize",
         "catalogId": "catalog-acme",
         "categoryId": "category-acme-ssd",
         "valueType": "Measure",
         "measureId": "measure-storage-size",
-        "type": "Product",
+        "type": "Variation",
         "displayNames": [
             {
                 "name": "SSD Size",

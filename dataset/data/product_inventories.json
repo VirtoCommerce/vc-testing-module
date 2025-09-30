@@ -180,5 +180,96 @@
         "fulfillmentCenterId": "ffc-acme-usa-morrisville-nc",
         "fulfillmentCenterName": "USA Morrisville NC FFC",
         "inStockQuantity": 100000
+    },
+    {
+        "productId": "product-acme-ram-kingston-valueram-kvr64v52bs6-8",
+        "productName": "Kingston ValueRAM KVR64V52BS6-8",
+        "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+        "fulfillmentCenterName": "USA Riverton OH FFC",
+        "inStockQuantity": 100000
+    },
+    {
+        "productId": "product-acme-ram-kingston-valueram-kvr64v52bs6-16",
+        "productName": "Kingston ValueRAM KVR64V52BS6-16",
+        "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+        "fulfillmentCenterName": "USA Springfield IL FFC",
+        "inStockQuantity": 100000
+    },
+    {
+        "productId": "product-acme-ram-kingston-valueram-kvr64v52bs6-32",
+        "productName": "Kingston ValueRAM KVR64V52BS6-32",
+        "fulfillmentCenterId": "ffc-acme-usa-morrisville-nc",
+        "fulfillmentCenterName": "USA Morrisville NC FFC",
+        "inStockQuantity": 100000
+    },
+    {
+        "productId": "product-acme-ram-kingston-fury-impact-8",
+        "productName": "Kingston FURY Impact (8 GB)",
+        "fulfillmentCenterId": "ffc-acme-usa-morrisville-nc",
+        "fulfillmentCenterName": "USA Morrisville NC FFC",
+        "inStockQuantity": 100000
+    },
+    {
+        "productId": "product-acme-ram-kingston-fury-impact-16",
+        "productName": "Kingston FURY Impact (16 GB)",
+        "fulfillmentCenterId": "ffc-acme-usa-morrisville-nc",
+        "fulfillmentCenterName": "USA Morrisville NC FFC",
+        "inStockQuantity": 100000
+    },
+    {
+        "productId": "product-acme-ram-kingston-fury-impact-32",
+        "productName": "Kingston FURY Impact (32 GB)",
+        "fulfillmentCenterId": "ffc-acme-usa-morrisville-nc",
+        "fulfillmentCenterName": "USA Morrisville NC FFC",
+        "inStockQuantity": 100000
+    },
+    {
+        "productId": "product-acme-ssd-kingston-nv3-500",
+        "productName": "Kingston NV3 (500 GB)",
+        "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+        "fulfillmentCenterName": "USA Springfield IL FFC",
+        "inStockQuantity": 100000
+    },
+    {
+        "productId": "product-acme-ssd-kingston-nv3-1000",
+        "productName": "Kingston NV3 (1000 GB)",
+        "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+        "fulfillmentCenterName": "USA Springfield IL FFC",
+        "inStockQuantity": 100000
+    },
+    {
+        "productId": "product-acme-ssd-kingston-nv3-2000",
+        "productName": "Kingston NV3 (2000 GB)",
+        "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+        "fulfillmentCenterName": "USA Springfield IL FFC",
+        "inStockQuantity": 100000
+    },
+    {
+        "productId": "product-acme-ssd-kingston-nv3-4000",
+        "productName": "Kingston NV3 (4000 GB)",
+        "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+        "fulfillmentCenterName": "USA Springfield IL FFC",
+        "inStockQuantity": 100000
+    },
+    {
+        "productId": "product-acme-ssd-kingston-fury-renegade-g5-1000",
+        "productName": "Kingston FURY Renegade G5 (1000 GB)",
+        "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+        "fulfillmentCenterName": "USA Springfield IL FFC",
+        "inStockQuantity": 100000
+    },
+    {
+        "productId": "product-acme-ssd-kingston-fury-renegade-g5-2000",
+        "productName": "Kingston FURY Renegade G5 (2000 GB)",
+        "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+        "fulfillmentCenterName": "USA Springfield IL FFC",
+        "inStockQuantity": 100000
+    },
+    {
+        "productId": "product-acme-ssd-kingston-fury-renegade-g5-4000",
+        "productName": "Kingston FURY Renegade G5 (4000 GB)",
+        "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+        "fulfillmentCenterName": "USA Springfield IL FFC",
+        "inStockQuantity": 100000
     }
 ]

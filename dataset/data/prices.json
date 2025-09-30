@@ -579,5 +579,332 @@
                 "productId": "product-acme-laptop-hp-omnibook-x-flip-16"
             }
         ]
+    },
+    {
+        "productId": "product-acme-ram-kingston-valueram-kvr64v52bs6-8",
+        "product": {
+            "id": "product-acme-ram-kingston-valueram-kvr64v52bs6-8",
+            "name": "Kingston ValueRAM KVR64V52BS6-8"
+        },
+        "prices": [
+            {
+                "catalog": "catalog-acme",
+                "currency": "USD",
+                "list": 34.99,
+                "sale": 32.99,
+                "minQuantity": 1,
+                "pricelistId": "pricelist-acme-usd",
+                "productId": "product-acme-ram-kingston-valueram-kvr64v52bs6-8"
+            },
+            {
+                "catalog": "catalog-acme",
+                "currency": "EUR",
+                "list": 29.84,
+                "sale": 28.13,
+                "minQuantity": 1,
+                "pricelistId": "pricelist-acme-eur",
+                "productId": "product-acme-ram-kingston-valueram-kvr64v52bs6-8"
+            }
+        ]
+    },
+    {
+        "productId": "product-acme-ram-kingston-valueram-kvr64v52bs6-16",
+        "product": {
+            "id": "product-acme-ram-kingston-valueram-kvr64v52bs6-16",
+            "name": "Kingston ValueRAM KVR64V52BS6-16"
+        },
+        "prices": [
+            {
+                "catalog": "catalog-acme",
+                "currency": "USD",
+                "list": 61.99,
+                "minQuantity": 1,
+                "pricelistId": "pricelist-acme-usd",
+                "productId": "product-acme-ram-kingston-valueram-kvr64v52bs6-16"
+            },
+            {
+                "catalog": "catalog-acme",
+                "currency": "EUR",
+                "list": 52.87,
+                "minQuantity": 1,
+                "pricelistId": "pricelist-acme-eur",
+                "productId": "product-acme-ram-kingston-valueram-kvr64v52bs6-16"
+            }
+        ]
+    },
+    {
+        "productId": "product-acme-ram-kingston-valueram-kvr64v52bs6-32",
+        "product": {
+            "id": "product-acme-ram-kingston-valueram-kvr64v52bs6-32",
+            "name": "Kingston ValueRAM KVR64V52BS6-32"
+        },
+        "prices": [
+            {
+                "catalog": "catalog-acme",
+                "currency": "USD",
+                "list": 119.99,
+                "minQuantity": 1,
+                "pricelistId": "pricelist-acme-usd",
+                "productId": "product-acme-ram-kingston-valueram-kvr64v52bs6-32"
+            },
+            {
+                "catalog": "catalog-acme",
+                "currency": "EUR",
+                "list": 102.33,
+                "minQuantity": 1,
+                "pricelistId": "pricelist-acme-eur",
+                "productId": "product-acme-ram-kingston-valueram-kvr64v52bs6-32"
+            }
+        ]
+    },
+    {
+        "productId": "product-acme-ram-kingston-fury-impact-8",
+        "product": {
+            "id": "product-acme-ram-kingston-fury-impact-8",
+            "name": "Kingston FURY Impact (8 GB)"
+        },
+        "prices": [
+            {
+                "catalog": "catalog-acme",
+                "currency": "USD",
+                "list": 55.99,
+                "minQuantity": 1,
+                "pricelistId": "pricelist-acme-usd",
+                "productId": "product-acme-ram-kingston-fury-impact-8"
+            },
+            {
+                "catalog": "catalog-acme",
+                "currency": "EUR",
+                "list": 47.75,
+                "minQuantity": 1,
+                "pricelistId": "pricelist-acme-eur",
+                "productId": "product-acme-ram-kingston-fury-impact-8"
+            }
+        ]
+    },
+    {
+        "productId": "product-acme-ram-kingston-fury-impact-16",
+        "product": {
+            "id": "product-acme-ram-kingston-fury-impact-16",
+            "name": "Kingston FURY Impact (16 GB)"
+        },
+        "prices": [
+            {
+                "catalog": "catalog-acme",
+                "currency": "USD",
+                "list": 60.21,
+                "minQuantity": 1,
+                "pricelistId": "pricelist-acme-usd",
+                "productId": "product-acme-ram-kingston-fury-impact-16"
+            },
+            {
+                "catalog": "catalog-acme",
+                "currency": "EUR",
+                "list": 51.35,
+                "minQuantity": 1,
+                "pricelistId": "pricelist-acme-eur",
+                "productId": "product-acme-ram-kingston-fury-impact-16"
+            }
+        ]
+    },
+    {
+        "productId": "product-acme-ram-kingston-fury-impact-32",
+        "product": {
+            "id": "product-acme-ram-kingston-fury-impact-32",
+            "name": "Kingston FURY Impact (32 GB)"
+        },
+        "prices": [
+            {
+                "catalog": "catalog-acme",
+                "currency": "USD",
+                "list": 77.99,
+                "minQuantity": 1,
+                "pricelistId": "pricelist-acme-usd",
+                "productId": "product-acme-ram-kingston-fury-impact-32"
+            },
+            {
+                "catalog": "catalog-acme",
+                "currency": "EUR",
+                "list": 66.51,
+                "minQuantity": 1,
+                "pricelistId": "pricelist-acme-eur",
+                "productId": "product-acme-ram-kingston-fury-impact-32"
+            }
+        ]
+    },
+    {
+        "productId": "product-acme-ssd-kingston-nv3-500",
+        "product": {
+            "id": "product-acme-ssd-kingston-nv3-500",
+            "name": "Kingston NV3 (500 GB)"
+        },
+        "prices": [
+            {
+                "catalog": "catalog-acme",
+                "currency": "USD",
+                "list": 53.99,
+                "minQuantity": 1,
+                "pricelistId": "pricelist-acme-usd",
+                "productId": "product-acme-ssd-kingston-nv3-500"
+            },
+            {
+                "catalog": "catalog-acme",
+                "currency": "EUR",
+                "list": 46.04,
+                "minQuantity": 1,
+                "pricelistId": "pricelist-acme-eur",
+                "productId": "product-acme-ssd-kingston-nv3-500"
+            }
+        ]
+    },
+    {
+        "productId": "product-acme-ssd-kingston-nv3-1000",
+        "product": {
+            "id": "product-acme-ssd-kingston-nv3-1000",
+            "name": "Kingston NV3 (1000 GB)"
+        },
+        "prices": [
+            {
+                "catalog": "catalog-acme",
+                "currency": "USD",
+                "list": 79.99,
+                "minQuantity": 1,
+                "pricelistId": "pricelist-acme-usd",
+                "productId": "product-acme-ssd-kingston-nv3-1000"
+            },
+            {
+                "catalog": "catalog-acme",
+                "currency": "EUR",
+                "list": 68.22,
+                "minQuantity": 1,
+                "pricelistId": "pricelist-acme-eur",
+                "productId": "product-acme-ssd-kingston-nv3-1000"
+            }
+        ]
+    },
+    {
+        "productId": "product-acme-ssd-kingston-nv3-2000",
+        "product": {
+            "id": "product-acme-ssd-kingston-nv3-2000",
+            "name": "Kingston NV3 (2000 GB)"
+        },
+        "prices": [
+            {
+                "catalog": "catalog-acme",
+                "currency": "USD",
+                "list": 157.99,
+                "minQuantity": 1,
+                "pricelistId": "pricelist-acme-usd",
+                "productId": "product-acme-ssd-kingston-nv3-2000"
+            },
+            {
+                "catalog": "catalog-acme",
+                "currency": "EUR",
+                "list": 134.73,
+                "minQuantity": 1,
+                "pricelistId": "pricelist-acme-eur",
+                "productId": "product-acme-ssd-kingston-nv3-2000"
+            }
+        ]
+    },
+    {
+        "productId": "product-acme-ssd-kingston-nv3-4000",
+        "product": {
+            "id": "product-acme-ssd-kingston-nv3-4000",
+            "name": "Kingston NV3 (4000 GB)"
+        },
+        "prices": [
+            {
+                "catalog": "catalog-acme",
+                "currency": "USD",
+                "list": 319.99,
+                "minQuantity": 1,
+                "pricelistId": "pricelist-acme-usd",
+                "productId": "product-acme-ssd-kingston-nv3-4000"
+            },
+            {
+                "catalog": "catalog-acme",
+                "currency": "EUR",
+                "list": 272.89,
+                "minQuantity": 1,
+                "pricelistId": "pricelist-acme-eur",
+                "productId": "product-acme-ssd-kingston-nv3-4000"
+            }
+        ]
+    },
+    {
+        "productId": "product-acme-ssd-kingston-fury-renegade-g5-1000",
+        "product": {
+            "id": "product-acme-ssd-kingston-fury-renegade-g5-1000",
+            "name": "Kingston FURY Renegade G5 (1000 GB)"
+        },
+        "prices": [
+            {
+                "catalog": "catalog-acme",
+                "currency": "USD",
+                "list": 196.99,
+                "minQuantity": 1,
+                "pricelistId": "pricelist-acme-usd",
+                "productId": "product-acme-ssd-kingston-fury-renegade-g5-1000"
+            },
+            {
+                "catalog": "catalog-acme",
+                "currency": "EUR",
+                "list": 167.99,
+                "minQuantity": 1,
+                "pricelistId": "pricelist-acme-eur",
+                "productId": "product-acme-ssd-kingston-fury-renegade-g5-1000"
+            }
+        ]
+    },
+    {
+        "productId": "product-acme-ssd-kingston-fury-renegade-g5-2000",
+        "product": {
+            "id": "product-acme-ssd-kingston-fury-renegade-g5-2000",
+            "name": "Kingston FURY Renegade G5 (2000 GB)"
+        },
+        "prices": [
+            {
+                "catalog": "catalog-acme",
+                "currency": "USD",
+                "list": 320.99,
+                "minQuantity": 1,
+                "pricelistId": "pricelist-acme-usd",
+                "productId": "product-acme-ssd-kingston-fury-renegade-g5-2000"
+            },
+            {
+                "catalog": "catalog-acme",
+                "currency": "EUR",
+                "list": 273.74,
+                "minQuantity": 1,
+                "pricelistId": "pricelist-acme-eur",
+                "productId": "product-acme-ssd-kingston-fury-renegade-g5-2000"
+            }
+        ]
+    },
+    {
+        "productId": "product-acme-ssd-kingston-fury-renegade-g5-4000",
+        "product": {
+            "id": "product-acme-ssd-kingston-fury-renegade-g5-4000",
+            "name": "Kingston FURY Renegade G5 (4000 GB)"
+        },
+        "prices": [
+            {
+                "catalog": "catalog-acme",
+                "currency": "USD",
+                "list": 608.99,
+                "minQuantity": 1,
+                "pricelistId": "pricelist-acme-usd",
+                "productId": "product-acme-ssd-kingston-fury-renegade-g5-4000"
+            },
+            {
+                "catalog": "catalog-acme",
+                "currency": "EUR",
+                "list": 519.35,
+                "minQuantity": 1,
+                "pricelistId": "pricelist-acme-eur",
+                "productId": "product-acme-ssd-kingston-fury-renegade-g5-4000"
+            }
+        ]
     }
 ]

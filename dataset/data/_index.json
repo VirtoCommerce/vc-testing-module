@@ -77,6 +77,12 @@
         "itemsPerRequest": "single",
         "payload": "products.json"
     },
+    "productVariations": {
+        "method": "POST",
+        "endpoint": "/api/catalog/products",
+        "itemsPerRequest": "single",
+        "payload": "product_variations.json"
+    },
     "productInventories": {
         "method": "PUT",
         "endpoint": "/api/inventory/products/{productId}",

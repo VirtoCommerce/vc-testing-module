@@ -1,6 +1,353 @@
 [
     {
-        "id": "",
-        "code": ""
+        "id": "product-acme-ram-kingston-valueram-kvr64v52bs6-16",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-ram",
+        "mainProductId": "product-acme-ram-kingston-valueram-kvr64v52bs6-8",
+        "titularProductId": "product-acme-ram-kingston-valueram-kvr64v52bs6-8",
+        "name": "Kingston ValueRAM KVR64V52BS6-16",
+        "code": "product-acme-ram-kingston-valueram-kvr64v52bs6-16",
+        "vendor": "Kingston",
+        "productType": "Physical",
+        "seoObjectType": "Product",
+        "seoInfos": [
+            {
+                "id": "seo-info-acme-product-kingston-valueram-kvr64v52bs6-16",
+                "isActive": true,
+                "languageCode": "en-US",
+                "pageTitle": "Kingston ValueRAM KVR64V52BS6-16",
+                "semanticUrl": "kingston-valueram-kvr64v52bs6-16",
+                "storeId": "store-acme"
+            }
+        ],
+        "properties": [
+            {
+                "id": "property-acme-ram-module-size",
+                "catalogId": "catalog-acme",
+                "categoryId": "category-acme-ram",
+                "name": "RamSize",
+                "type": "Variation",
+                "valueType": "Measure",
+                "measureId": "measure-ram-size",
+                "values": [
+                    {
+                        "value": 16,
+                        "unitOfMeasureId": "measure-unit-ram-gigabyte"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "product-acme-ram-kingston-valueram-kvr64v52bs6-32",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-ram",
+        "mainProductId": "product-acme-ram-kingston-valueram-kvr64v52bs6-8",
+        "titularProductId": "product-acme-ram-kingston-valueram-kvr64v52bs6-8",
+        "name": "Kingston ValueRAM KVR64V52BS6-32",
+        "code": "product-acme-ram-kingston-valueram-kvr64v52bs6-32",
+        "vendor": "Kingston",
+        "productType": "Physical",
+        "seoObjectType": "Product",
+        "seoInfos": [
+            {
+                "id": "seo-info-acme-product-kingston-valueram-kvr64v52bs6-32",
+                "isActive": true,
+                "languageCode": "en-US",
+                "pageTitle": "Kingston ValueRAM KVR64V52BS6-32",
+                "semanticUrl": "kingston-valueram-kvr64v52bs6-32",
+                "storeId": "store-acme"
+            }
+        ],
+        "properties": [
+            {
+                "id": "property-acme-ram-module-size",
+                "catalogId": "catalog-acme",
+                "categoryId": "category-acme-ram",
+                "name": "RamSize",
+                "type": "Variation",
+                "valueType": "Measure",
+                "measureId": "measure-ram-size",
+                "values": [
+                    {
+                        "value": 32,
+                        "unitOfMeasureId": "measure-unit-ram-gigabyte"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "product-acme-ram-kingston-fury-impact-16",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-ram",
+        "mainProductId": "product-acme-ram-kingston-fury-impact-8",
+        "titularProductId": "product-acme-ram-kingston-fury-impact-8",
+        "name": "Kingston FURY Impact (16 GB)",
+        "code": "product-acme-ram-kingston-fury-impact-16",
+        "vendor": "Kingston",
+        "productType": "Physical",
+        "seoObjectType": "Product",
+        "seoInfos": [
+            {
+                "id": "seo-info-acme-product-kingston-fury-impact-16",
+                "isActive": true,
+                "languageCode": "en-US",
+                "pageTitle": "Kingston FURY Impact (16 GB)",
+                "semanticUrl": "kingston-fury-impact-16",
+                "storeId": "store-acme"
+            }
+        ],
+        "properties": [
+            {
+                "id": "property-acme-ram-module-size",
+                "catalogId": "catalog-acme",
+                "categoryId": "category-acme-ram",
+                "name": "RamSize",
+                "type": "Variation",
+                "valueType": "Measure",
+                "measureId": "measure-ram-size",
+                "values": [
+                    {
+                        "value": 16,
+                        "unitOfMeasureId": "measure-unit-ram-gigabyte"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "product-acme-ram-kingston-fury-impact-32",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-ram",
+        "mainProductId": "product-acme-ram-kingston-fury-impact-8",
+        "titularProductId": "product-acme-ram-kingston-fury-impact-8",
+        "name": "Kingston FURY Impact (32 GB)",
+        "code": "product-acme-ram-kingston-fury-impact-32",
+        "vendor": "Kingston",
+        "productType": "Physical",
+        "seoObjectType": "Product",
+        "seoInfos": [
+            {
+                "id": "seo-info-acme-product-kingston-fury-impact-32",
+                "isActive": true,
+                "languageCode": "en-US",
+                "pageTitle": "Kingston FURY Impact (32 GB)",
+                "semanticUrl": "kingston-fury-impact-32",
+                "storeId": "store-acme"
+            }
+        ],
+        "properties": [
+            {
+                "id": "property-acme-ram-module-size",
+                "catalogId": "catalog-acme",
+                "categoryId": "category-acme-ram",
+                "name": "RamSize",
+                "type": "Variation",
+                "valueType": "Measure",
+                "measureId": "measure-ram-size",
+                "values": [
+                    {
+                        "value": 32,
+                        "unitOfMeasureId": "measure-unit-ram-gigabyte"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "product-acme-ssd-kingston-nv3-1000",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-ram",
+        "mainProductId": "product-acme-ssd-kingston-nv3-500",
+        "titularProductId": "product-acme-ssd-kingston-nv3-500",
+        "name": "Kingston NV3 (1000 GB)",
+        "code": "product-acme-ssd-kingston-nv3-1000",
+        "vendor": "Kingston",
+        "productType": "Physical",
+        "seoObjectType": "Product",
+        "seoInfos": [
+            {
+                "id": "seo-info-acme-product-kingston-nv3-1000",
+                "isActive": true,
+                "languageCode": "en-US",
+                "pageTitle": "Kingston NV3 (1000 GB)",
+                "semanticUrl": "kingston-nv3-1000",
+                "storeId": "store-acme"
+            }
+        ],
+        "properties": [
+            {
+                "id": "property-acme-ssd-unit-size",
+                "catalogId": "catalog-acme",
+                "categoryId": "category-acme-ram",
+                "name": "SsdSize",
+                "type": "Variation",
+                "valueType": "Measure",
+                "measureId": "measure-storage-size",
+                "values": [
+                    {
+                        "value": 1000,
+                        "unitOfMeasureId": "measure-unit-storage-gigabyte"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "product-acme-ssd-kingston-nv3-2000",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-ram",
+        "mainProductId": "product-acme-ssd-kingston-nv3-500",
+        "titularProductId": "product-acme-ssd-kingston-nv3-500",
+        "name": "Kingston NV3 (2000 GB)",
+        "code": "product-acme-ssd-kingston-nv3-2000",
+        "vendor": "Kingston",
+        "productType": "Physical",
+        "seoObjectType": "Product",
+        "seoInfos": [
+            {
+                "id": "seo-info-acme-product-kingston-nv3-2000",
+                "isActive": true,
+                "languageCode": "en-US",
+                "pageTitle": "Kingston NV3 (2000 GB)",
+                "semanticUrl": "kingston-nv3-2000",
+                "storeId": "store-acme"
+            }
+        ],
+        "properties": [
+            {
+                "id": "property-acme-ssd-unit-size",
+                "catalogId": "catalog-acme",
+                "categoryId": "category-acme-ram",
+                "name": "SsdSize",
+                "type": "Variation",
+                "valueType": "Measure",
+                "measureId": "measure-storage-size",
+                "values": [
+                    {
+                        "value": 2000,
+                        "unitOfMeasureId": "measure-unit-storage-gigabyte"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "product-acme-ssd-kingston-nv3-4000",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-ram",
+        "mainProductId": "product-acme-ssd-kingston-nv3-500",
+        "titularProductId": "product-acme-ssd-kingston-nv3-500",
+        "name": "Kingston NV3 (4000 GB)",
+        "code": "product-acme-ssd-kingston-nv3-4000",
+        "vendor": "Kingston",
+        "productType": "Physical",
+        "seoObjectType": "Product",
+        "seoInfos": [
+            {
+                "id": "seo-info-acme-product-kingston-nv3-4000",
+                "isActive": true,
+                "languageCode": "en-US",
+                "pageTitle": "Kingston NV3 (4000 GB)",
+                "semanticUrl": "kingston-nv3-4000",
+                "storeId": "store-acme"
+            }
+        ],
+        "properties": [
+            {
+                "id": "property-acme-ssd-unit-size",
+                "catalogId": "catalog-acme",
+                "categoryId": "category-acme-ram",
+                "name": "SsdSize",
+                "type": "Variation",
+                "valueType": "Measure",
+                "measureId": "measure-storage-size",
+                "values": [
+                    {
+                        "value": 4000,
+                        "unitOfMeasureId": "measure-unit-storage-gigabyte"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "product-acme-ssd-kingston-fury-renegade-g5-2000",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-ram",
+        "mainProductId": "product-acme-ssd-kingston-fury-renegade-g5-1000",
+        "titularProductId": "product-acme-ssd-kingston-fury-renegade-g5-1000",
+        "name": "Kingston FURY Renegade G5 (2000 GB)",
+        "code": "product-acme-ssd-kingston-fury-renegade-g5-2000",
+        "vendor": "Kingston",
+        "productType": "Physical",
+        "seoObjectType": "Product",
+        "seoInfos": [
+            {
+                "id": "seo-info-acme-product-kingston-fury-renegade-g5-2000",
+                "isActive": true,
+                "languageCode": "en-US",
+                "pageTitle": "Kingston FURY Renegade G5 (2000 GB)",
+                "semanticUrl": "kingston-fury-renegade-g5-2000",
+                "storeId": "store-acme"
+            }
+        ],
+        "properties": [
+            {
+                "id": "property-acme-ssd-unit-size",
+                "catalogId": "catalog-acme",
+                "categoryId": "category-acme-ram",
+                "name": "SsdSize",
+                "type": "Variation",
+                "valueType": "Measure",
+                "measureId": "measure-storage-size",
+                "values": [
+                    {
+                        "value": 2000,
+                        "unitOfMeasureId": "measure-unit-storage-gigabyte"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "product-acme-ssd-kingston-fury-renegade-g5-4000",
+        "catalogId": "catalog-acme",
+        "categoryId": "category-acme-ram",
+        "mainProductId": "product-acme-ssd-kingston-fury-renegade-g5-1000",
+        "titularProductId": "product-acme-ssd-kingston-fury-renegade-g5-1000",
+        "name": "Kingston FURY Renegade G5 (4000 GB)",
+        "code": "product-acme-ssd-kingston-fury-renegade-g5-4000",
+        "vendor": "Kingston",
+        "productType": "Physical",
+        "seoObjectType": "Product",
+        "seoInfos": [
+            {
+                "id": "seo-info-acme-product-kingston-fury-renegade-g5-4000",
+                "isActive": true,
+                "languageCode": "en-US",
+                "pageTitle": "Kingston FURY Renegade G5 (4000 GB)",
+                "semanticUrl": "kingston-fury-renegade-g5-4000",
+                "storeId": "store-acme"
+            }
+        ],
+        "properties": [
+            {
+                "id": "property-acme-ssd-unit-size",
+                "catalogId": "catalog-acme",
+                "categoryId": "category-acme-ram",
+                "name": "SsdSize",
+                "type": "Variation",
+                "valueType": "Measure",
+                "measureId": "measure-storage-size",
+                "values": [
+                    {
+                        "value": 4000,
+                        "unitOfMeasureId": "measure-unit-storage-gigabyte"
+                    }
+                ]
+            }
+        ]
     }
 ]
