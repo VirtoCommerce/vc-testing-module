@@ -41,7 +41,7 @@ def test_filter_product_variations_by_stock(
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,
-        filter=f"category.subtree:{catalog['id']} price.{currency}:(0 TO) productfamilyid:{product_family_id} is:product,variation availability:InStock",
+        filter=f"category.subtree:{catalog['id']} price.{currency}:(0 TO) productfamilyid:{product_family_id} is:product,variation inStock:true",
     )
 
     assert (
