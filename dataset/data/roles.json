@@ -1,0 +1,109 @@
+[
+    {
+        "id": "org-employee",
+        "name": "Organization employee",
+        "description": "Organization Employee",
+        "permissions": [
+            {
+                "name": "storefront:organization:view"
+            },
+            {
+                "name": "storefront:user:view"
+            }
+        ]
+    },
+    {
+        "id": "org-maintainer",
+        "name": "Organization maintainer",
+        "description": "Organization maintainer",
+        "permissions": [
+            {
+                "name": "storefront:organization:edit"
+            },
+            {
+                "name": "storefront:user:organization:view"
+            },
+            {
+                "name": "storefront:user:create"
+            },
+            {
+                "name": "storefront:user:delete"
+            },
+            {
+                "name": "storefront:user:edit"
+            },
+            {
+                "name": "storefront:user:invite"
+            },
+            {
+                "name": "storefront:user:view"
+            },
+            {
+                "name": "xapi:my_organization:edit"
+            }
+        ]
+    },
+    {
+        "id": "purchasing-agent",
+        "name": "Purchasing agent",
+        "description": "Purchasing Agent",
+        "permissions": [
+            {
+                "name": "storefront:organization:view"
+            },
+            {
+                "name": "storefront:user:view"
+            }
+        ]
+    },
+    {
+        "id": "store-admin",
+        "name": "Store Administrator",
+        "description": "Store Administrator",
+        "permissions": [
+            {
+                "name": "storefront:order:changestatus"
+            },
+            {
+                "name": "storefront:order:view"
+            },
+            {
+                "name": "storefront:organization:edit"
+            },
+            {
+                "name": "storefront:organization:view"
+            },
+            {
+                "name": "storefront:user:create"
+            },
+            {
+                "name": "storefront:user:delete"
+            },
+            {
+                "name": "storefront:user:edit"
+            },
+            {
+                "name": "storefront:user:invite"
+            },
+            {
+                "name": "storefront:user:view"
+            }
+        ]
+    },
+    {
+        "id": "store-manager",
+        "name": "Store manager",
+        "description": "Store manager",
+        "permissions": [
+            {
+                "name": "storefront:order:changestatus"
+            },
+            {
+                "name": "storefront:order:view"
+            },
+            {
+                "name": "storefront:organaization:view"
+            }
+        ]
+    }
+]

@@ -1,5 +1,5 @@
 import os
-from typing import Any, Dict
+from typing import Any
 
 import allure
 import pytest
@@ -10,27 +10,37 @@ from graphql_operations.contact.contact_operations import ContactOperations
 from graphql_operations.user.user_operations import UserOperations
 
 
-@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.feature("Invite user (GraphQL)")
-def test_invite_user(config: Dict[str, Any], auth: Auth, graphql_client: GraphQLClient):
+def test_invite_user(
+    config: dict[str, Any],
+    auth: Auth,
+    dataset: dict[str, Any],
+    graphql_client: GraphQLClient,
+):
     print(f"{os.linesep}Running test to invite user...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     contact_operations = ContactOperations(graphql_client)
 
-    auth.authenticate(
-        config["test_permanent_corporate_customer_username"],
-        config["test_permanent_corporate_customer_password"],
+    dataset_user = next(
+        user
+        for user in dataset["users"]
+        if user["id"] == "user-acme-store-administrator"
     )
 
-    user = user_operations.get_user()
+    auth.authenticate(
+        dataset_user["userName"],
+        config["users_password"],
+    )
+
+    user = user_operations.get_me()
 
     invitation_result = contact_operations.invite_user(
         payload={
             "storeId": config["store_id"],
             "organizationId": user["contact"]["organizationId"],
-            "emails": ["e2e-test-corporate-temp@test.com"],
+            "emails": ["invite-employee@acme.com"],
             "message": "You are invited to join the organization",
             "roleIds": ["org-employee"],
         }
@@ -44,7 +54,7 @@ def test_invite_user(config: Dict[str, Any], auth: Auth, graphql_client: GraphQL
     invited_contact = contact_operations.fetch_organization_contacts(
         organization_id=user["contact"]["organizationId"],
         user_id=user["id"],
-        search_phrase="e2e-test-corporate-temp@test.com",
+        search_phrase="invite-employee@acme.com",
     )["contacts"]["items"][0]
 
     # Test teardown
@@ -64,7 +74,7 @@ def test_invite_user(config: Dict[str, Any], auth: Auth, graphql_client: GraphQL
 
     user_operations.delete_users(
         payload={
-            "userNames": ["e2e-test-corporate-temp@test.com"],
+            "userNames": ["invite-employee@acme.com"],
         }
     )
 
