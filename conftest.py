@@ -14,6 +14,7 @@ from fixtures.authenticated_page import authenticated_page
 from fixtures.checkout_mode import checkout_mode
 from fixtures.config import config
 from fixtures.dataset import dataset
+from fixtures.dataset import product_variations
 from fixtures.graphql_client import graphql_client
 from fixtures.product_quantity_control import product_quantity_control
 from fixtures.requests_tracker import requests_tracker

@@ -106,11 +106,13 @@ def test_filter_product_variations_by_price(
     ), "Total count of variations with price between 1000 and 1500 is not correct"
 
 
+
 @pytest.mark.graphql
 @allure.feature("Filter product variations by property (GraphQL)")
 def test_filter_product_variations_by_property(
     config: dict[str, Any],
     dataset: dict[str, Any],
+    product_variations: list[dict[str, Any]],
     graphql_client: GraphQLClient
 ):
     print(
@@ -120,7 +122,7 @@ def test_filter_product_variations_by_property(
     currency = dataset["currencies"][0]["code"]
     culture = dataset["languages"][0]
     catalog = dataset["catalogs"][0]
-    #product_family_id = dataset["productVariations"][0]["mainProductId"]
+    product_family_id = product_variations[1]["mainProductId"]
 
     user_operations = UserOperations(graphql_client)
     product_operations = ProductsOperations(graphql_client)
@@ -132,7 +134,7 @@ def test_filter_product_variations_by_property(
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,
-        filter=f"category.subtree:{catalog['id']} price.{currency}:(0 TO) productfamilyid:product-acme-ram-kingston-fury-impact-8 is:product,variation \"RamSize\":\"8\"",
+        filter=f"category.subtree:{catalog['id']} price.{currency}:(0 TO) productfamilyid:{product_family_id} is:product,variation \"RamSize\":\"8\"",
     )
 
     search_variations_result_16gb = product_operations.get_products(
@@ -140,7 +142,7 @@ def test_filter_product_variations_by_property(
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,
-        filter=f"category.subtree:{catalog['id']} price.{currency}:(0 TO) productfamilyid:product-acme-ram-kingston-fury-impact-8 is:product,variation \"RamSize\":\"16\"",
+        filter=f"category.subtree:{catalog['id']} price.{currency}:(0 TO) productfamilyid:{product_family_id} is:product,variation \"RamSize\":\"16\"",
     )
 
     search_variations_result_32gb = product_operations.get_products(
@@ -148,7 +150,7 @@ def test_filter_product_variations_by_property(
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,
-        filter=f"category.subtree:{catalog['id']} price.{currency}:(0 TO) productfamilyid:product-acme-ram-kingston-fury-impact-8 is:product,variation \"RamSize\":\"32\"",
+        filter=f"category.subtree:{catalog['id']} price.{currency}:(0 TO) productfamilyid:{product_family_id} is:product,variation \"RamSize\":\"32\"",
     )
 
     assert (
