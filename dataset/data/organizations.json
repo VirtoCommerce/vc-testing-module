@@ -1,0 +1,30 @@
+[
+    {
+        "id": "organization-acme-store",
+        "name": "ACME Store",
+        "description": "ACME Store",
+        "memberType": "Organization",
+        "status": "Approved",
+        "emails": [
+            "store@acme.com"
+        ],
+        "phones": [
+            "+1-217-555-0198"
+        ],
+        "addresses": [
+            {
+                "id": "address-acme-organization",
+                "addressType": "BillingAndShipping",
+                "city": "Morrisville",
+                "countryCode": "USA",
+                "countryName": "United States of America",
+                "email": "store@acme.com",
+                "line1": "742 Evergreen Terrace",
+                "phone": "+1-217-555-0198",
+                "postalCode": "27560",
+                "regionId": "NC",
+                "regionName": "North Carolina"
+            }
+        ]
+    }
+]
