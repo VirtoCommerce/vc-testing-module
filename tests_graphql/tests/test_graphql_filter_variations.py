@@ -12,9 +12,7 @@ from graphql_operations.user.user_operations import UserOperations
 @pytest.mark.graphql
 @allure.feature("Filter product variations by stock (GraphQL)")
 def test_filter_product_variations_by_stock(
-    config: dict[str, Any],
-    dataset: dict[str, Any],
-    graphql_client: GraphQLClient
+    config: dict[str, Any], dataset: dict[str, Any], graphql_client: GraphQLClient
 ):
     print(f"{os.linesep}Running test to filter product variations by stock...", end=" ")
 
@@ -22,7 +20,7 @@ def test_filter_product_variations_by_stock(
     product_operations = ProductsOperations(graphql_client)
 
     currency = dataset["currencies"][0]["code"]
-    culture = dataset["languages"][0]
+    culture = dataset["languages"][0]["allowedValues"][0]
     catalog = dataset["catalogs"][0]
     product_family_id = dataset["productVariations"][0]["mainProductId"]
 
@@ -55,14 +53,12 @@ def test_filter_product_variations_by_stock(
 @pytest.mark.graphql
 @allure.feature("Filter product variations by price (GraphQL)")
 def test_filter_product_variations_by_price(
-    config: dict[str, Any],
-    dataset: dict[str, Any],
-    graphql_client: GraphQLClient
+    config: dict[str, Any], dataset: dict[str, Any], graphql_client: GraphQLClient
 ):
     print(f"{os.linesep}Running test to filter product variations by price...", end=" ")
 
     currency = dataset["currencies"][0]["code"]
-    culture = dataset["languages"][0]
+    culture = dataset["languages"][0]["allowedValues"][0]
     catalog = dataset["catalogs"][0]
     product_family_id = dataset["productVariations"][0]["mainProductId"]
 
@@ -109,18 +105,16 @@ def test_filter_product_variations_by_price(
 @pytest.mark.graphql
 @allure.feature("Filter product variations by property (GraphQL)")
 def test_filter_product_variations_by_property(
-    config: dict[str, Any],
-    dataset: dict[str, Any],
-    graphql_client: GraphQLClient
+    config: dict[str, Any], dataset: dict[str, Any], graphql_client: GraphQLClient
 ):
     print(
         f"{os.linesep}Running test to filter product variations by property...", end=" "
     )
 
     currency = dataset["currencies"][0]["code"]
-    culture = dataset["languages"][0]
+    culture = dataset["languages"][0]["allowedValues"][0]
     catalog = dataset["catalogs"][0]
-    #product_family_id = dataset["productVariations"][0]["mainProductId"]
+    # product_family_id = dataset["productVariations"][0]["mainProductId"]
 
     user_operations = UserOperations(graphql_client)
     product_operations = ProductsOperations(graphql_client)

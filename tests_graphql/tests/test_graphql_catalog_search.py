@@ -23,7 +23,7 @@ def test_catalog_search_by_product_full_name(
     products_operations = ProductsOperations(graphql_client)
 
     currency = dataset["currencies"][0]["code"]
-    culture = dataset["languages"][0]
+    culture = dataset["languages"][0]["allowedValues"][0]
     product_to_search = dataset["products"][0]
 
     user = user_operations.get_me()
@@ -57,7 +57,7 @@ def test_catalog_search_by_product_name_fragment(
     )
 
     currency = dataset["currencies"][0]["code"]
-    culture = dataset["languages"][0]
+    culture = dataset["languages"][0]["allowedValues"][0]
     product_to_search = dataset["products"][0]
 
     user_operations = UserOperations(graphql_client)
@@ -87,7 +87,7 @@ def test_catalog_search_by_product_sku(
     products_operations = ProductsOperations(graphql_client)
 
     currency = dataset["currencies"][0]["code"]
-    culture = dataset["languages"][0]
+    culture = dataset["languages"][0]["allowedValues"][0]
     product_to_search = dataset["products"][0]
 
     user = user_operations.get_me()
@@ -125,7 +125,7 @@ def test_catalog_search_by_product_availability(
     products_operations = ProductsOperations(graphql_client)
 
     currency = dataset["currencies"][0]["code"]
-    culture = dataset["languages"][0]
+    culture = dataset["languages"][0]["allowedValues"][0]
     catalog = dataset["catalogs"][0]
     product_to_search = next(
         product
@@ -182,7 +182,7 @@ def test_catalog_search_by_product_brand(
     products_operations = ProductsOperations(graphql_client)
 
     currency = dataset["currencies"][0]["code"]
-    culture = dataset["languages"][0]
+    culture = dataset["languages"][0]["allowedValues"][0]
     catalog = dataset["catalogs"][0]
     product_to_search = dataset["products"][0]
     category_to_browse = next(
@@ -227,7 +227,7 @@ def test_catalog_search_by_product_price(
     products_operations = ProductsOperations(graphql_client)
 
     currency = dataset["currencies"][0]["code"]
-    culture = dataset["languages"][0]
+    culture = dataset["languages"][0]["allowedValues"][0]
     catalog = dataset["catalogs"][0]
     product_to_search = dataset["products"][0]
     category_to_browse = next(

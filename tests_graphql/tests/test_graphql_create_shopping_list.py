@@ -26,7 +26,7 @@ def test_create_shopping_list(
     shopping_lists_operations = ShoppingListsOperations(graphql_client)
 
     currency = dataset["currencies"][0]["code"]
-    culture = dataset["languages"][0]
+    culture = dataset["languages"][0]["allowedValues"][0]
     dataset_user = dataset["users"][0]
 
     auth.authenticate(dataset_user["userName"], config["users_password"])

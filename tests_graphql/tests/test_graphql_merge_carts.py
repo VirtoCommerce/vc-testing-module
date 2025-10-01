@@ -25,12 +25,12 @@ def test_merge_carts(
     cart_operations = CartOperations(graphql_client)
 
     currency = dataset["currencies"][0]["code"]
-    culture = dataset["languages"][0]
+    culture = dataset["languages"][0]["allowedValues"][0]
     dataset_user = dataset["users"][0]
     product_id_in_stock = random.choice(
         [
             product_inventory
-            for product_inventory in dataset["productsInventories"]
+            for product_inventory in dataset["productInventories"]
             if product_inventory["inStockQuantity"] > 0
         ]
     )["productId"]

@@ -32,11 +32,11 @@ def test_change_quote_item_quantity(
     )
 
     currency = dataset["currencies"][0]["code"]
-    culture = dataset["languages"][0]
+    culture = dataset["languages"][0]["allowedValues"][0]
     product_id_in_stock = random.choice(
         [
             product_inventory
-            for product_inventory in dataset["productsInventories"]
+            for product_inventory in dataset["productInventories"]
             if product_inventory["inStockQuantity"] > 0
         ]
     )["productId"]
@@ -113,11 +113,11 @@ def test_change_quote_comment(
     )
 
     currency = dataset["currencies"][0]["code"]
-    culture = dataset["languages"][0]
+    culture = dataset["languages"][0]["allowedValues"][0]
     product_id_in_stock = random.choice(
         [
             product_inventory
-            for product_inventory in dataset["productsInventories"]
+            for product_inventory in dataset["productInventories"]
             if product_inventory["inStockQuantity"] > 0
         ]
     )["productId"]
@@ -188,11 +188,11 @@ def test_change_quote_shipping_and_billing_addresses(
     )
 
     currency = dataset["currencies"][0]["code"]
-    culture = dataset["languages"][0]
+    culture = dataset["languages"][0]["allowedValues"][0]
     product_id_in_stock = random.choice(
         [
             product_inventory
-            for product_inventory in dataset["productsInventories"]
+            for product_inventory in dataset["productInventories"]
             if product_inventory["inStockQuantity"] > 0
         ]
     )["productId"]
@@ -277,11 +277,11 @@ def test_remove_quote_item(
     )
 
     currency = dataset["currencies"][0]["code"]
-    culture = dataset["languages"][0]
+    culture = dataset["languages"][0]["allowedValues"][0]
     product_id_in_stock = random.choice(
         [
             product_inventory
-            for product_inventory in dataset["productsInventories"]
+            for product_inventory in dataset["productInventories"]
             if product_inventory["inStockQuantity"] > 0
         ]
     )["productId"]
@@ -347,11 +347,11 @@ def test_submit_quote_request(
     )
 
     currency = dataset["currencies"][0]["code"]
-    culture = dataset["languages"][0]
+    culture = dataset["languages"][0]["allowedValues"][0]
     product_id_in_stock = random.choice(
         [
             product_inventory
-            for product_inventory in dataset["productsInventories"]
+            for product_inventory in dataset["productInventories"]
             if product_inventory["inStockQuantity"] > 0
         ]
     )["productId"]
