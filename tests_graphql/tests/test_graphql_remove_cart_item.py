@@ -20,10 +20,10 @@ def test_remove_item_from_cart(
     cart_operations = CartOperations(graphql_client)
 
     currency = dataset["currencies"][0]["code"]
-    culture = dataset["languages"][0]
+    culture = dataset["languages"][0]["allowedValues"][0]
     product_id_in_stock = next(
         product_inventory
-        for product_inventory in dataset["productsInventories"]
+        for product_inventory in dataset["productInventories"]
         if product_inventory["inStockQuantity"] > 0
     )["productId"]
 

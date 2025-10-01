@@ -33,7 +33,7 @@ def test_success_catalog_browsing_as_anonymous_user(
     products_operations = ProductsOperations(graphql_client)
 
     currency = dataset["currencies"][0]["code"]
-    culture = dataset["languages"][0]
+    culture = dataset["languages"][0]["allowedValues"][0]
     catalog = dataset["catalogs"][0]
 
     user = user_operations.get_me()
@@ -102,7 +102,7 @@ def test_unsuccess_catalog_browsing_as_anonymous_user(
     products_operations = ProductsOperations(graphql_client)
 
     currency = dataset["currencies"][0]["code"]
-    culture = dataset["languages"][0]
+    culture = dataset["languages"][0]["allowedValues"][0]
     catalog = dataset["catalogs"][0]
     category = dataset["categories"][0]
     product = dataset["products"][0]
@@ -181,7 +181,7 @@ def test_catalog_browsing_as_registered_user(
     user_operations = UserOperations(graphql_client)
 
     currency = dataset["currencies"][0]["code"]
-    culture = dataset["languages"][0]
+    culture = dataset["languages"][0]["allowedValues"][0]
     catalog = dataset["catalogs"][0]
 
     auth.authenticate(

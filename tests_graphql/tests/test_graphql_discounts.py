@@ -27,7 +27,7 @@ def test_product_specific_discount(
     cart_operations = CartOperations(graphql_client)
 
     currency = dataset["currencies"][0]["code"]
-    culture = dataset["languages"][0]
+    culture = dataset["languages"][0]["allowedValues"][0]
     discount_product = next(
         product
         for product in dataset["products"]
@@ -107,7 +107,7 @@ def test_cart_subtotal_discount(
     cart_operations = CartOperations(graphql_client)
 
     currency = dataset["currencies"][0]["code"]
-    culture = dataset["languages"][0]
+    culture = dataset["languages"][0]["allowedValues"][0]
     discount_product = next(
         product
         for product in dataset["products"]

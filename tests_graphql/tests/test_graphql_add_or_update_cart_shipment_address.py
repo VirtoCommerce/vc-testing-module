@@ -20,7 +20,7 @@ def test_add_cart_shipment_address(
     cart_operations = CartOperations(graphql_client)
 
     currency = dataset["currencies"][0]["code"]
-    culture = dataset["languages"][0]
+    culture = dataset["languages"][0]["allowedValues"][0]
 
     user = user_operations.get_me()
 
@@ -122,7 +122,7 @@ def test_update_cart_shipment_address(
     cart_operations = CartOperations(graphql_client)
 
     currency = dataset["currencies"][0]["code"]
-    culture = dataset["languages"][0]
+    culture = dataset["languages"][0]["allowedValues"][0]
 
     user = user_operations.get_me()
 
