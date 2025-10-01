@@ -116,7 +116,7 @@ def test_filter_product_variations_by_property(
     currency = dataset["currencies"][0]["code"]
     culture = dataset["languages"][0]["allowedValues"][0]
     catalog = dataset["catalogs"][0]
-    product_family_id = dataset["productVariations"][1]["mainProductId"]
+    product_family_id = dataset["productVariations"][3]["mainProductId"]
 
 
     user_operations = UserOperations(graphql_client)
@@ -149,7 +149,7 @@ def test_filter_product_variations_by_property(
     )
 
     assert (
-        search_variations_result_8gb["totalCount"] == 0
+        search_variations_result_8gb["totalCount"] == 1
     ), "Total count of variations with 8Gb RAM is not correct"
     assert (
         search_variations_result_16gb["totalCount"] == 1
