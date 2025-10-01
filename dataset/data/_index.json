@@ -53,6 +53,12 @@
         "itemsPerRequest": "single",
         "payload": "properties.json"
     },
+    "propertiesDictionaryItems": {
+        "method": "POST",
+        "endpoint": "/api/catalog/dictionaryitems",
+        "itemsPerRequest": "array",
+        "payload": "properties_dictionaryItems.json"
+    },
     "stores": {
         "method": "POST",
         "endpoint": "/api/stores",

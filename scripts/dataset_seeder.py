@@ -191,6 +191,24 @@ class DatasetSeeder:
             )
 
             print(Fore.GREEN + "OK" + Style.RESET_ALL)
+    
+    def create_dictionary_items(self) -> None:
+        if not self.dataset["dictionaryItems"]:
+            raise ValueError("No dictionary items found in dataset")
+
+        for property_dictionary_item in self.dataset["dictionaryItems"]:
+            
+            print(
+                f'Creating property dictionary item...',
+                end=" ",
+            )
+
+            self.webapi_client.post(
+                f"/api/catalog/dictionaryitems",
+                data=property_dictionary_item,
+            )
+
+            print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
     def create_stores(self) -> None:
         if not self.dataset["stores"]:
@@ -570,6 +588,7 @@ if __name__ == "__main__":
     seeder.create_pricelist_assignments()
     seeder.create_categories()
     seeder.create_properties()
+    seeder.create_dictionary_items()
     seeder.create_aggregation_properties()
     seeder.create_products()
     seeder.create_product_variations()
