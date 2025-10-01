@@ -182,6 +182,27 @@
         "inStockQuantity": 100000
     },
     {
+        "productId": "var-1-lenovo-thinkPad-x1-carbon-gen-13-aura-edition-variations",
+        "productName": "Var 1 Lenovo ThinkPad X1 Carbon Gen 13 Aura Edition Variations",
+        "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+        "fulfillmentCenterName": "USA Riverton OH FFC",
+        "inStockQuantity": 100000
+    },
+    {
+        "productId": "var-2-lenovo-thinkPad-x1-carbon-gen-13-aura-edition-variations",
+        "productName": "Var 2 Lenovo ThinkPad X1 Carbon Gen 13 Aura Edition Variations",
+        "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+        "fulfillmentCenterName": "USA Riverton OH FFC",
+        "inStockQuantity": 100000
+    },
+    {
+        "productId": "var-3-lenovo-thinkPad-x1-carbon-gen-13-aura-edition-variations",
+        "productName": "Var 3 Lenovo ThinkPad X1 Carbon Gen 13 Aura Edition Variations",
+        "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+        "fulfillmentCenterName": "USA Riverton OH FFC",
+        "inStockQuantity": 0
+    },
+    {
         "productId": "product-acme-ram-kingston-valueram-kvr64v52bs6-8",
         "productName": "Kingston ValueRAM KVR64V52BS6-8",
         "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
