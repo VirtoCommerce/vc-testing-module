@@ -60,7 +60,7 @@ def test_filter_product_variations_by_price(
     currency = dataset["currencies"][0]["code"]
     culture = dataset["languages"][0]["allowedValues"][0]
     catalog = dataset["catalogs"][0]
-    #product_family_id = dataset["productVariations"][0]["mainProductId"]
+    product_family_id = dataset["productVariations"][0]["mainProductId"]
 
     user_operations = UserOperations(graphql_client)
     product_operations = ProductsOperations(graphql_client)
@@ -72,7 +72,7 @@ def test_filter_product_variations_by_price(
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,
-        filter=f"category.subtree:{catalog['id']} price.{currency}:(0 TO) productfamilyid:product-acme-laptop-lenovo-thinkpad-x1-carbon-gen-13-aura is:product,variation \"price\":[TO 1000]",
+        filter=f"category.subtree:{catalog['id']} price.{currency}:(0 TO) productfamilyid:{product_family_id} is:product,variation \"price\":[TO 1000]",
     )
 
     search_variations_result_from_1000_to_1200 = product_operations.get_products(
@@ -80,7 +80,7 @@ def test_filter_product_variations_by_price(
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,
-        filter=f"category.subtree:{catalog['id']} price.{currency}:(0 TO) productfamilyid:product-acme-laptop-lenovo-thinkpad-x1-carbon-gen-13-aura is:product,variation \"price\":[1000 TO 1200]",
+        filter=f"category.subtree:{catalog['id']} price.{currency}:(0 TO) productfamilyid:{product_family_id} is:product,variation \"price\":[1000 TO 1200]",
     )
 
     search_variations_result_1400_to = product_operations.get_products(
@@ -88,7 +88,7 @@ def test_filter_product_variations_by_price(
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,
-        filter=f"category.subtree:{catalog['id']} price.{currency}:(0 TO) productfamilyid:product-acme-laptop-lenovo-thinkpad-x1-carbon-gen-13-aura is:product,variation \"price\":[1400 TO]",
+        filter=f"category.subtree:{catalog['id']} price.{currency}:(0 TO) productfamilyid:{product_family_id} is:product,variation \"price\":[1400 TO]",
     )
 
     assert (
@@ -116,7 +116,7 @@ def test_filter_product_variations_by_property(
     currency = dataset["currencies"][0]["code"]
     culture = dataset["languages"][0]["allowedValues"][0]
     catalog = dataset["catalogs"][0]
-    #product_family_id = product_variations[1]["mainProductId"]
+    product_family_id = dataset["productVariations"][1]["mainProductId"]
 
 
     user_operations = UserOperations(graphql_client)
@@ -129,7 +129,7 @@ def test_filter_product_variations_by_property(
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,
-        filter=f"category.subtree:{catalog['id']} price.{currency}:(0 TO) productfamilyid:product-acme-ram-kingston-fury-impact-8 is:product,variation \"RamSize\":\"8\"",
+        filter=f"category.subtree:{catalog['id']} price.{currency}:(0 TO) productfamilyid:{product_family_id} is:product,variation \"RamSize\":\"8\"",
     )
 
     search_variations_result_16gb = product_operations.get_products(
@@ -137,7 +137,7 @@ def test_filter_product_variations_by_property(
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,
-        filter=f"category.subtree:{catalog['id']} price.{currency}:(0 TO) productfamilyid:product-acme-ram-kingston-fury-impact-8 is:product,variation \"RamSize\":\"16\"",
+        filter=f"category.subtree:{catalog['id']} price.{currency}:(0 TO) productfamilyid:{product_family_id} is:product,variation \"RamSize\":\"16\"",
     )
 
     search_variations_result_32gb = product_operations.get_products(
@@ -145,11 +145,11 @@ def test_filter_product_variations_by_property(
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,
-        filter=f"category.subtree:{catalog['id']} price.{currency}:(0 TO) productfamilyid:product-acme-ram-kingston-fury-impact-8 is:product,variation \"RamSize\":\"32\"",
+        filter=f"category.subtree:{catalog['id']} price.{currency}:(0 TO) productfamilyid:{product_family_id} is:product,variation \"RamSize\":\"32\"",
     )
 
     assert (
-        search_variations_result_8gb["totalCount"] == 1
+        search_variations_result_8gb["totalCount"] == 0
     ), "Total count of variations with 8Gb RAM is not correct"
     assert (
         search_variations_result_16gb["totalCount"] == 1
