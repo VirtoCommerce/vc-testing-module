@@ -21,18 +21,18 @@ def test_unselect_cart_items(
     cart_operations = CartOperations(graphql_client)
 
     currency = dataset["currencies"][0]["code"]
-    culture = dataset["languages"][0]
+    culture = dataset["languages"][0]["allowedValues"][0]
     product_id_in_stock_1 = random.choice(
         [
             product
-            for product in dataset["productsInventories"]
+            for product in dataset["productInventories"]
             if product["inStockQuantity"] > 0
         ]
     )["productId"]
     product_id_in_stock_2 = random.choice(
         [
             product
-            for product in dataset["productsInventories"]
+            for product in dataset["productInventories"]
             if product["inStockQuantity"] > 0
         ]
     )["productId"]
@@ -108,18 +108,18 @@ def test_unselect_all_cart_items(
     cart_operations = CartOperations(graphql_client)
 
     currency = dataset["currencies"][0]["code"]
-    culture = dataset["languages"][0]
+    culture = dataset["languages"][0]["allowedValues"][0]
     product_id_in_stock_1 = random.choice(
         [
             product
-            for product in dataset["productsInventories"]
+            for product in dataset["productInventories"]
             if product["inStockQuantity"] > 0
         ]
     )["productId"]
     product_id_in_stock_2 = random.choice(
         [
             product
-            for product in dataset["productsInventories"]
+            for product in dataset["productInventories"]
             if product["inStockQuantity"] > 0
         ]
     )["productId"]

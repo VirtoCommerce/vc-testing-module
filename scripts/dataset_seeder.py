@@ -54,7 +54,7 @@ class DatasetSeeder:
         for language in self.dataset["languages"]:
             print(f'Creating language "{language}"...', end=" ")
 
-            default_culture = self.dataset["languages"][0]
+            default_culture = self.dataset["languages"][0]["allowedValues"][0]
 
             self.webapi_client.post(
                 "/api/platform/settings",
@@ -204,9 +204,8 @@ class DatasetSeeder:
             self.webapi_client.post(
                 "/api/stores",
                 data=store,
-            )   
+            )
 
-          
             payment_methods = self.webapi_client.post(
                 "/api/payment/search", data={"storeId": self.store_id}
             )["results"]
@@ -291,10 +290,10 @@ class DatasetSeeder:
             print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
     def create_products_inventories(self) -> None:
-        if not self.dataset["productsInventories"]:
+        if not self.dataset["productInventories"]:
             raise ValueError("No products inventories found in dataset")
 
-        for product_inventory in self.dataset["productsInventories"]:
+        for product_inventory in self.dataset["productInventories"]:
             print(
                 f'Creating product inventory "{product_inventory["fulfillmentCenterName"]} -> {product_inventory["productName"]}"...',
                 end=" ",
@@ -323,14 +322,16 @@ class DatasetSeeder:
             )
 
             print(Fore.GREEN + "OK" + Style.RESET_ALL)
-    
+
     def create_product_variations(self) -> None:
-           
+
         if not self.dataset["productVariations"]:
             raise ValueError("No product variations found in dataset")
 
         for product_variation in self.dataset["productVariations"]:
-            print(f'Creating product variation "{product_variation["name"]}"...', end=" ")
+            print(
+                f'Creating product variation "{product_variation["name"]}"...', end=" "
+            )
 
             self.webapi_client.post(
                 "/api/catalog/products",
@@ -466,7 +467,7 @@ class DatasetSeeder:
                     == random.choice(
                         [
                             product_inventory["productId"]
-                            for product_inventory in self.dataset["productsInventories"]
+                            for product_inventory in self.dataset["productInventories"]
                             if product_inventory["inStockQuantity"] > "0"
                         ]
                     )
@@ -480,7 +481,7 @@ class DatasetSeeder:
                     "productId": product["id"],
                     "quantity": random.randint(1, 20),
                     "currencyCode": self.dataset["currencies"][0]["code"],
-                    "cultureName": self.dataset["languages"][0],
+                    "cultureName": self.dataset["languages"][0]["allowedValues"][0],
                 }
             )
 
@@ -489,7 +490,7 @@ class DatasetSeeder:
                     "storeId": self.store_id,
                     "userId": user["id"],
                     "currencyCode": self.dataset["currencies"][0]["code"],
-                    "cultureName": self.dataset["languages"][0],
+                    "cultureName": self.dataset["languages"][0]["allowedValues"][0],
                     "shipment": {
                         "shipmentMethodCode": "FixedRate",
                         "shipmentMethodOption": "Ground",
@@ -502,7 +503,7 @@ class DatasetSeeder:
                     "storeId": self.store_id,
                     "userId": user["id"],
                     "currencyCode": self.dataset["currencies"][0]["code"],
-                    "cultureName": self.dataset["languages"][0],
+                    "cultureName": self.dataset["languages"][0]["allowedValues"][0],
                     "payment": {
                         "paymentGatewayCode": "DefaultManualPaymentMethod",
                         "price": 0,
@@ -565,7 +566,7 @@ if __name__ == "__main__":
     seeder.create_measures()
     seeder.create_catalogs()
     seeder.create_property_groups()
-    seeder.create_stores()   
+    seeder.create_stores()
     seeder.create_pricelists()
     seeder.create_pricelist_assignments()
     seeder.create_categories()

@@ -22,7 +22,7 @@ def test_category_seo(
     seo_operations = SeoOperations(graphql_client)
 
     currency = dataset["currencies"][0]["code"]
-    culture = dataset["languages"][0]
+    culture = dataset["languages"][0]["allowedValues"][0]
     catalog = dataset["catalogs"][0]
 
     user = user_operations.get_me()

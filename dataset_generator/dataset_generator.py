@@ -66,10 +66,18 @@ class DatasetGenerator:
                         "symbol": unit["symbol"],
                         "conversionFactor": unit["conversion_factor"],
                         "localizedName": {
-                            "values": {self.dataset["languages"][0]: unit["name"]}
+                            "values": {
+                                self.dataset["languages"][0]["allowedValues"][0]: unit[
+                                    "name"
+                                ]
+                            }
                         },
                         "localizedSymbol": {
-                            "values": {self.dataset["languages"][0]: unit["name"]}
+                            "values": {
+                                self.dataset["languages"][0]["allowedValues"][0]: unit[
+                                    "name"
+                                ]
+                            }
                         },
                     }
                 )
@@ -116,7 +124,7 @@ class DatasetGenerator:
             "isVirtual": False,
             "languages": [
                 {
-                    "languageCode": self.dataset["languages"][0],
+                    "languageCode": self.dataset["languages"][0]["allowedValues"][0],
                     "isActive": True,
                     "isDefault": True,
                 }

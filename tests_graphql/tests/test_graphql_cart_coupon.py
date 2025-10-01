@@ -18,12 +18,12 @@ def test_add_cart_coupon(
     print(f"{os.linesep}Running test to apply coupon to cart...", end=" ")
 
     currency = dataset["currencies"][0]["code"]
-    culture = dataset["languages"][0]
+    culture = dataset["languages"][0]["allowedValues"][0]
     coupon_code = dataset["coupons"][0]["code"]
     product_id_in_stock = random.choice(
         [
             product_inventory
-            for product_inventory in dataset["productsInventories"]
+            for product_inventory in dataset["productInventories"]
             if product_inventory["inStockQuantity"] > 0
         ]
     )["productId"]

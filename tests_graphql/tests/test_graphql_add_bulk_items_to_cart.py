@@ -21,18 +21,18 @@ def test_add_bulk_items_to_anonymous_cart(
     cart_operations = CartOperations(graphql_client)
 
     currency = dataset["currencies"][0]["code"]
-    culture = dataset["languages"][0]
+    culture = dataset["languages"][0]["allowedValues"][0]
     product_sku_in_stock_1 = random.choice(
         [
             product_inventory
-            for product_inventory in dataset["productsInventories"]
+            for product_inventory in dataset["productInventories"]
             if product_inventory["inStockQuantity"] > 0
         ]
     )["productId"]
     product_sku_in_stock_2 = random.choice(
         [
             product_inventory
-            for product_inventory in dataset["productsInventories"]
+            for product_inventory in dataset["productInventories"]
             if product_inventory["inStockQuantity"] > 0
         ]
     )["productId"]

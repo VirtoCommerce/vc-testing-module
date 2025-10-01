@@ -8,6 +8,7 @@ from colorama import Fore, Style
 from colorama import init as init_colorama
 from dotenv import load_dotenv
 from gql.transport.requests import RequestsHTTPTransport
+from inflection import camelize
 
 from fixtures.auth import Auth
 from fixtures.graphql_client import GraphQLClient
@@ -108,6 +109,15 @@ class DatasetSeeder:
 
             with open(self.base_dir / "data" / payload, "r", encoding="utf-8") as file:
                 self.dataset[key]["payload"] = json.load(file)
+
+            with open(self.base_dir / "dataset.json", "w", encoding="utf-8") as file:
+                payloads = {
+                    key: section["payload"]
+                    for key, section in self.dataset.items()
+                    if "payload" in section
+                }
+
+                json.dump(payloads, file, indent=4)
 
             print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
@@ -215,9 +225,12 @@ if __name__ == "__main__":
     seeder = DatasetSeeder(config)
     seeder.authenticate(config["admin_username"], config["admin_password"])
     seeder.fetch_dataset()
-    seeder.seed()
-    seeder.update_payment_methods()
-    seeder.update_shipping_methods()
+
+    # seeder.seed()
+    # seeder.update_payment_methods()
+    # seeder.update_shipping_methods()
+
+    print(json.dumps(seeder.dataset["users"], indent=4))
 
     if seeder.errors:
         print(os.linesep)

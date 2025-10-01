@@ -27,12 +27,12 @@ def test_update_shopping_list_items(
     shopping_lists_operations = ShoppingListsOperations(graphql_client)
 
     currency = dataset["currencies"][0]["code"]
-    culture = dataset["languages"][0]
+    culture = dataset["languages"][0]["allowedValues"][0]
     dataset_user = dataset["users"][0]
     product_id_in_stock = random.choice(
         [
             product_inventory
-            for product_inventory in dataset["productsInventories"]
+            for product_inventory in dataset["productInventories"]
             if product_inventory["inStockQuantity"] > 0
         ]
     )["productId"]
