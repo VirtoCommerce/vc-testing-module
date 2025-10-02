@@ -29,17 +29,17 @@
         "itemsPerRequest": "single",
         "payload": "pricelists.json"
     },
-    "pricelistAssignments": {
-        "method": "POST",
-        "endpoint": "/api/pricing/assignments",
-        "itemsPerRequest": "single",
-        "payload": "pricelist_assignments.json"
-    },
     "catalogs": {
         "method": "POST",
         "endpoint": "/api/catalog/catalogs",
         "itemsPerRequest": "single",
         "payload": "catalogs.json"
+    },
+    "pricelistAssignments": {
+        "method": "POST",
+        "endpoint": "/api/pricing/assignments",
+        "itemsPerRequest": "single",
+        "payload": "pricelist_assignments.json"
     },
     "propertyGroups": {
         "method": "POST",
@@ -47,23 +47,11 @@
         "itemsPerRequest": "single",
         "payload": "property_groups.json"
     },
-    "properties": {
-        "method": "POST",
-        "endpoint": "/api/catalog/properties?id={id}",
-        "itemsPerRequest": "single",
-        "payload": "properties.json"
-    },
     "stores": {
         "method": "POST",
         "endpoint": "/api/stores",
         "itemsPerRequest": "single",
         "payload": "stores.json"
-    },
-    "aggregationProperties": {
-        "method": "PUT",
-        "endpoint": "/api/catalog/aggregationproperties/{storeId}/properties",
-        "itemsPerRequest": "array",
-        "payload": "aggregation_properties.json"
     },
     "categories": {
         "method": "POST",
@@ -82,6 +70,18 @@
         "endpoint": "/api/catalog/products",
         "itemsPerRequest": "single",
         "payload": "product_variations.json"
+    },
+    "properties": {
+        "method": "POST",
+        "endpoint": "/api/catalog/properties?id={id}",
+        "itemsPerRequest": "single",
+        "payload": "properties.json"
+    },
+    "aggregationProperties": {
+        "method": "PUT",
+        "endpoint": "/api/catalog/aggregationproperties/{storeId}/properties",
+        "itemsPerRequest": "array",
+        "payload": "aggregation_properties.json"
     },
     "productInventories": {
         "method": "PUT",
@@ -134,7 +134,6 @@
     "notifications": {
         "method": "POST",
         "endpoint": "/api/notifications/RegistrationInvitationEmailNotification",
-        "itemsPerRequest": "single",
-        "payload": "notifications.json"
+        "itemsPerRequest": "single"
     }
 }
