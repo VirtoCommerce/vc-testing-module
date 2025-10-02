@@ -1,37 +1,21 @@
 import json
 import os
-import random
-from datetime import datetime
-from pathlib import Path
 from typing import Any, Literal
 from urllib.parse import urlencode
 
 from colorama import Fore, Style
 from colorama import init as init_colorama
 from dotenv import load_dotenv
-from gql.transport.requests import RequestsHTTPTransport
+from rich.progress import track
 
-from fixtures.auth import Auth
-from fixtures.graphql_client import GraphQLClient
-from fixtures.webapi_client import WebAPISession
+from dataset.dataset_config import DatasetConfig
 
 
-class DatasetSeeder:
-    def __init__(self, config: dict[str, Any]):
-        self.config = config
-        self.base_dir = Path(__file__).parent
-        self.auth = Auth(config)
-        self.webapi_client = WebAPISession(config, self.auth)
-        self.transport = RequestsHTTPTransport(
-            url=f"{config['backend_base_url']}/graphql",
-            headers={"Content-Type": "application/json"},
-            use_json=True,
-            verify=True,
-        )
-        self.graphql_client = GraphQLClient(self.transport, self.auth)
+class DatasetSeeder(DatasetConfig):
+    def __init__(self):
+        super().__init__()
         self.dataset = None
         self.errors = []
-        self.store_id = config["store_id"]
 
     def _send_request(
         self,
@@ -63,11 +47,8 @@ class DatasetSeeder:
     def update_payment_methods(self) -> None:
         print("\nUpdating payment methods")
 
-        payment_methods = self.webapi_client.post(
-            "/api/payment/search", data={"storeId": self.store_id}
-        )["results"]
-
-        for payment_method in payment_methods:
+        for payment_method in self.available_payment_methods:
+            payment_method["storeId"] = self.store_id
             payment_method["isActive"] = True
             self._send_request(
                 label=f"-- Updating {payment_method['name']}",
@@ -79,12 +60,30 @@ class DatasetSeeder:
     def update_shipping_methods(self) -> None:
         print("\nUpdating shipping methods")
 
-        shipping_methods = self.webapi_client.post(
-            "/api/shipping/search", data={"storeId": self.store_id}
-        )["results"]
-
-        for shipping_method in shipping_methods:
+        for shipping_method in self.available_shipping_methods:
+            shipping_method["storeId"] = self.store_id
             shipping_method["isActive"] = True
+
+            if shipping_method["code"] == "FixedRate":
+                shipping_method["settings"] = [
+                    {
+                        "groupName": "General",
+                        "objectId": shipping_method["id"],
+                        "objectType": "FixedRateShippingMethod",
+                        "name": "VirtoCommerce.Shipping.FixedRateShippingMethod.Ground.Rate",
+                        "value": 20.00,
+                        "valueType": "Decimal",
+                    },
+                    {
+                        "groupName": "General",
+                        "objectId": shipping_method["id"],
+                        "objectType": "FixedRateShippingMethod",
+                        "name": "VirtoCommerce.Shipping.FixedRateShippingMethod.Air.Rate",
+                        "value": 35.00,
+                        "valueType": "Decimal",
+                    },
+                ]
+
             self._send_request(
                 label=f"-- Updating {shipping_method['name']}",
                 method="PUT",
@@ -105,6 +104,12 @@ class DatasetSeeder:
             if not payload:
                 print(Fore.YELLOW + "WARNING: No payload found" + Style.RESET_ALL)
                 continue
+            elif not value.get("method"):
+                print(Fore.YELLOW + "WARNING: No method found" + Style.RESET_ALL)
+                continue
+            elif not value.get("endpoint"):
+                print(Fore.YELLOW + "WARNING: No endpoint found" + Style.RESET_ALL)
+                continue
 
             self.dataset[key] = value
 
@@ -122,12 +127,6 @@ class DatasetSeeder:
 
             print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
-    def authenticate(self, username: str, password: str) -> None:
-        self.auth.authenticate(username, password)
-
-    def sign_out(self) -> None:
-        self.auth.clear_token()
-
     def seed(self) -> None:
         print(f"\nSeeding dataset to {self.config['backend_base_url']}")
 
@@ -141,9 +140,6 @@ class DatasetSeeder:
                 if items_per_request == "single"
                 else [value["payload"]]
             )
-
-            if key == "users":
-                users_password = self.config["users_password"]
 
             for item in items:
                 endpoint = endpoint_template
@@ -175,83 +171,19 @@ class DatasetSeeder:
                     payload=item,
                 )
 
-    def create_users(self) -> None:
-        if not self.dataset["users"]:
-            raise ValueError("No users found in dataset")
-
-        for user in self.dataset["users"]:
-            print(f'Creating user "{user["userName"]}"...', end=" ")
-
-            user["password"] = self.config["users_password"]
-
-            try:
-                self.webapi_client.post(
-                    "/api/platform/security/users/create",
-                    data=user,
-                )
-            except Exception as e:
-                return
-
-            print(Fore.GREEN + "OK" + Style.RESET_ALL)
-
-    def create_notifications(self) -> None:
-        if not self.dataset["notifications"]:
-            raise ValueError("No notifications found in dataset")
-
-        for notification in self.dataset["notifications"]:
-            print(f'Creating notification "{notification["alias"]}"...', end=" ")
-            try:
-                self.webapi_client.post(
-                    "api/notifications/RegistrationInvitationEmailNotification",
-                    data=notification,
-                )
-            except Exception as e:
-                return
-
-            print(Fore.GREEN + "OK" + Style.RESET_ALL)
-
-    def generate_orders(self, count: int = 1) -> None:
-        orders = []
-        for i in range(count):
-            order_id_part = f"{datetime.today().strftime("%d%m%Y")}-{i + 1}"
-            orders.append(
-                {
-                    "id": f"order-acme-{order_id_part}",
-                    "number": f"CO-{order_id_part}",
-                    "status": random.choice(
-                        ["New", "Completed", "Cancelled", "Pending", "Processing"]
-                    ),
-                }
-            )
-
-        with open(
-            self.base_dir / "data" / "orders.json", "w", encoding="utf-8"
-        ) as file:
-            json.dump(orders, file, indent=4)
-
-
-def get_config():
-    load_dotenv(override=True)
-
-    return {
-        "backend_base_url": os.getenv("BACKEND_BASE_URL"),
-        "frontend_base_url": os.getenv("FRONTEND_BASE_URL"),
-        "store_id": os.getenv("STORE_ID"),
-        "admin_username": os.getenv("ADMIN_USERNAME"),
-        "admin_password": os.getenv("ADMIN_PASSWORD"),
-        "users_password": os.getenv("USERS_PASSWORD"),
-    }
-
 
 if __name__ == "__main__":
     init_colorama()
 
-    config = get_config()
+    seeder = DatasetSeeder()
+    seeder.authenticate(
+        seeder.config["admin_username"], seeder.config["admin_password"]
+    )
 
-    seeder = DatasetSeeder(config)
-    seeder.authenticate(config["admin_username"], config["admin_password"])
-    # seeder.generate_orders(1)
+    seeder.get_available_shipping_methods()
+    seeder.get_available_payment_methods()
     seeder.fetch_dataset()
+
     seeder.seed()
     seeder.update_payment_methods()
     seeder.update_shipping_methods()

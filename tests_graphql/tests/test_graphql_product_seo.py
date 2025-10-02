@@ -23,7 +23,7 @@ def test_product_seo(
 
     currency = dataset["currencies"][0]["code"]
     culture = dataset["languages"][0]["allowedValues"][0]
-    product = dataset["products"][0]
+    product = dataset["products"][1]
 
     user = user_operations.get_me()
 

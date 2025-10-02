@@ -48,6 +48,39 @@ class OrderOperations:
 
         return result
 
+    def get_organization_orders(
+        self,
+        culture_name: str,
+        filter: str = None,
+        sort: str = "createdDate:desc",
+        facet: str = None,
+        first: int = 10,
+        after: str = "0",
+        organization_id: str = None,
+    ) -> CustomerOrderConnection:
+        orders_query = OrdersQuery(self.graphql_client)
+
+        variables = {
+            "organizationId": organization_id,
+            "filter": filter,
+            "sort": sort,
+            "facet": facet,
+            "first": first,
+            "after": after,
+            "cultureName": culture_name,
+        }
+
+        return_fields = f"""
+            items {{
+                {ORDER_FRAGMENT}
+            }}
+            totalCount
+        """
+
+        result = orders_query.execute(variables=variables, return_fields=return_fields)
+
+        return result
+
     def get_order(self, order_id: str) -> CustomerOrderType:
         order_query = OrderQuery(self.graphql_client)
 

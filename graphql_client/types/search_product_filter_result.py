@@ -3,8 +3,8 @@ from pydantic import BaseModel
 
 class SearchProductFilterResult(BaseModel):
     def __init__(self):
-        from graphql_client.types.search_product_filter_range_value import SearchProductFilterRangeValue
         from graphql_client.types.search_product_filter_value import SearchProductFilterValue
+        from graphql_client.types.search_product_filter_range_value import SearchProductFilterRangeValue
 
         self.name: str
         self.filterType: str

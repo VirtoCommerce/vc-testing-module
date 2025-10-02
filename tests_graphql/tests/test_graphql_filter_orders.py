@@ -1,5 +1,5 @@
 import os
-from typing import Any, Dict
+from typing import Any
 
 import allure
 import pytest
@@ -7,42 +7,74 @@ import pytest
 from fixtures.auth import Auth
 from fixtures.graphql_client import GraphQLClient
 from graphql_operations.order.order_operations import OrderOperations
-from graphql_operations.user.user_operations import UserOperations
-from test_data.test_culture import TEST_CULTURE
 
 
-@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Filter orders by status (GraphQL)")
 def test_filter_orders_by_status(
-    config: Dict[str, Any], auth: Auth, graphql_client: GraphQLClient
+    config: dict[str, Any],
+    dataset: dict[str, Any],
+    auth: Auth,
+    graphql_client: GraphQLClient,
 ):
     print(f"{os.linesep}Running test to filter orders by status...", end=" ")
 
-    user_operations = UserOperations(graphql_client)
     order_operations = OrderOperations(graphql_client)
 
+    user_maintainer = next(
+        user
+        for user in dataset["users"]
+        if user["id"] == "user-acme-store-maintainer-1"
+    )
+    organization = dataset["organizations"][0]
+
     auth.authenticate(
-        config["test_permanent_customer_username"],
-        config["test_permanent_customer_password"],
+        user_maintainer["userName"],
+        config["users_password"],
     )
 
-    user = user_operations.get_user()
+    culture = dataset["languages"][0]["defaultValue"]
 
-    search_orders_result_new = order_operations.get_orders(
-        user_id=user["id"], culture_name=TEST_CULTURE["en-US"], filter='status:"New"'
+    search_orders_result_new = order_operations.get_organization_orders(
+        culture_name=culture,
+        facet="status customername",
+        filter=r"status:\"New\"",
+        organization_id=organization["id"],
     )
 
-    search_orders_result_processing = order_operations.get_orders(
-        user_id=user["id"],
-        culture_name=TEST_CULTURE["en-US"],
-        filter='status:"Processing"',
+    search_orders_result_processing = order_operations.get_organization_orders(
+        culture_name=culture,
+        facet="status customername",
+        filter=r"status:\"Processing\"",
+        organization_id=organization["id"],
     )
 
-    search_orders_result_completed = order_operations.get_orders(
-        user_id=user["id"],
-        culture_name=TEST_CULTURE["en-US"],
-        filter='status:"Completed"',
+    search_orders_result_completed = order_operations.get_organization_orders(
+        culture_name=culture,
+        facet="status customername",
+        filter=r"status:\"Completed\"",
+        organization_id=organization["id"],
+    )
+
+    search_orders_result_pending = order_operations.get_organization_orders(
+        culture_name=culture,
+        facet="status customername",
+        filter=r"status:\"Pending\"",
+        organization_id=organization["id"],
+    )
+
+    search_orders_result_payment_required = order_operations.get_organization_orders(
+        culture_name=culture,
+        facet="status customername",
+        filter=r"status:\"PaymentRequired\"",
+        organization_id=organization["id"],
+    )
+
+    search_orders_result_ready_for_pickup = order_operations.get_organization_orders(
+        culture_name=culture,
+        facet="status customername",
+        filter=r"status:\"ReadyForPickup\"",
+        organization_id=organization["id"],
     )
 
     auth.clear_token()
@@ -56,30 +88,46 @@ def test_filter_orders_by_status(
     assert (
         search_orders_result_completed["totalCount"] > 0
     ), "No orders found with status 'Completed'"
+    assert (
+        search_orders_result_pending["totalCount"] > 0
+    ), "No orders found with status 'Pending'"
+    assert (
+        search_orders_result_payment_required["totalCount"] > 0
+    ), "No orders found with status 'Payment required'"
+    assert (
+        search_orders_result_ready_for_pickup["totalCount"] > 0
+    ), "No orders found with status 'ReadyForPickup'"
 
 
-@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Filter orders by date (GraphQL)")
 def test_filter_orders_by_date(
-    config: Dict[str, Any], auth: Auth, graphql_client: GraphQLClient
+    config: dict[str, Any],
+    dataset: dict[str, Any],
+    auth: Auth,
+    graphql_client: GraphQLClient,
 ):
     print(f"{os.linesep}Running test to filter orders by date...", end=" ")
 
-    user_operations = UserOperations(graphql_client)
     order_operations = OrderOperations(graphql_client)
 
+    user_maintainer = next(
+        user
+        for user in dataset["users"]
+        if user["id"] == "user-acme-store-maintainer-1"
+    )
+    organization = dataset["organizations"][0]
+    culture = dataset["languages"][0]["defaultValue"]
+
     auth.authenticate(
-        config["test_permanent_customer_username"],
-        config["test_permanent_customer_password"],
+        user_maintainer["userName"],
+        config["users_password"],
     )
 
-    user = user_operations.get_user()
-
-    search_orders_result = order_operations.get_orders(
-        user_id=user["id"],
-        culture_name=TEST_CULTURE["en-US"],
-        filter='createddate:["2025-05-13T22:00:00.000Z" TO "2025-05-14T21:59:59.999Z"]',
+    search_orders_result = order_operations.get_organization_orders(
+        culture_name=culture,
+        filter='createddate:["2025-09-30T22:00:00.000Z" TO "2025-10-13T21:59:59.999Z"]',
+        organization_id=organization["id"],
     )
 
     auth.clear_token()

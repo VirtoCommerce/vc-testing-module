@@ -137,6 +137,18 @@
         "itemsPerRequest": "single",
         "payload": "users.json"
     },
+    "pickupLocations": {
+        "method": "POST",
+        "endpoint": "/api/shipping/pickup-locations",
+        "itemsPerRequest": "single",
+        "payload": "pickup_locations.json"
+    },
+    "orders": {
+        "method": "POST",
+        "endpoint": "/api/order/customerOrders",
+        "itemsPerRequest": "single",
+        "payload": "orders.json"
+    },
     "notifications": {
         "method": "POST",
         "endpoint": "/api/notifications/RegistrationInvitationEmailNotification",
