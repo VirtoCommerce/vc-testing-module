@@ -1,0 +1,104 @@
+[        
+     
+    {
+        "values": [],
+        "isNew": true,
+        "propertyId": "property-acme-color",
+        "alias": "Black",
+        "colorCode": "black",
+        "sortOrder": "0",
+        "localizedValues": [],
+        "id": "property-acme-color-black"
+    },           
+    {
+
+        "propertyId": "property-acme-color",
+        "colorCode": "white",
+        "alias": "White",
+        "sortOrder": "1",
+        "en-US": "White",
+        "values": [],
+        "id": "property-acme-color-white"
+    },
+    {
+
+        "propertyId": "property-acme-color",
+        "colorCode": "silver",
+        "alias": "Silver",
+        "sortOrder": "2",
+        "en-US": "Silver",
+        "values": [],
+        "id": "property-acme-color-silver"
+    },
+    {
+
+        "propertyId": "property-acme-color",
+        "colorCode": "pink",
+        "alias": "Pink",
+        "sortOrder": "3",
+        "en-US": "Pink",
+        "values": [],
+        "id": "property-acme-color-pink"
+    },
+    {
+
+        "propertyId": "property-acme-color",
+        "colorCode": "red",
+        "alias": "Red",
+        "sortOrder": "4",
+        "en-US": "Red",
+        "values": [],
+        "id": "property-acme-color-red"
+    },
+    {
+
+        "propertyId": "property-acme-color",
+        "colorCode": "blue",
+        "alias": "Blue",
+        "sortOrder": "5",
+        "en-US": "Blue",
+        "values": [],
+        "id": "property-acme-color-blue"
+    },
+    {
+
+        "propertyId": "property-acme-color",
+        "colorCode": "green",
+        "alias": "Green",
+        "sortOrder": "6",
+        "en-US": "Green",
+        "values": [],
+        "id": "property-acme-color-green"
+    },
+    {
+
+        "propertyId": "property-acme-color",
+        "colorCode": "yellow",
+        "alias": "Yellow",
+        "sortOrder": "7",
+        "en-US": "Yellow",
+        "values": [],
+        "id": "property-acme-color-yellow"
+    },
+    {
+
+        "propertyId": "property-acme-color",
+        "colorCode": "purple",
+        "alias": "Purple",
+        "sortOrder": "8",
+        "en-US": "Purple",
+        "values": [],
+        "id": "property-acme-color-purple"
+    },
+    {
+
+        "propertyId": "property-acme-color",
+        "colorCode": "orange",
+        "alias": "Orange",
+        "sortOrder": "9",
+        "en-US": "Orange",
+        "values": [],
+        "id": "property-acme-color-orange"
+    } 
+    ]       
+ 

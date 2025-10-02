@@ -26,7 +26,7 @@
                 "measureId": "measure-battery-capacity",
                 "name": "BatteryCapacity",
                 "propertyGroupId": "property-group-power",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "Measure",
                 "values": [
                     {
@@ -52,7 +52,7 @@
             {
                 "id": "property-acme-brand",
                 "catalogId": "catalog-acme",
-                "categoryId": "category-acme-laptops",
+                "categoryId": null,
                 "name": "Brand",
                 "type": "Product",
                 "valueType": "ShortText",
@@ -82,11 +82,17 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "Color",
-                "type": "Product",
-                "valueType": "ShortText",
+                "type": "Variation",
+                "valueType": "Color",
                 "values": [
                     {
-                        "value": "Graphite"
+                        "value": "grey",
+                        "valueId": "property-acme-color-grey",
+                        "colorCode": "grey",
+                        "alias": "Grey",                                                      
+                        "id": "property-acme-color-grey",
+                        "propertyId": "property-acme-color"
+                        
                     }
                 ]
             },
@@ -438,7 +444,7 @@
                 "measureId": "measure-battery-capacity",
                 "name": "BatteryCapacity",
                 "propertyGroupId": "property-group-power",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "Measure",
                 "values": [
                     {
@@ -464,7 +470,7 @@
             {
                 "id": "property-acme-brand",
                 "catalogId": "catalog-acme",
-                "categoryId": "category-acme-laptops",
+                "categoryId": null,
                 "name": "Brand",
                 "type": "Product",
                 "valueType": "ShortText",
@@ -494,11 +500,18 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "Color",
-                "type": "Product",
-                "valueType": "ShortText",
+                "type": "Variation",
+                "valueType": "Color",
                 "values": [
                     {
-                        "value": "Gray"
+                        "value": "Gray",
+                        "valueId": "property-acme-color-gray",
+                        "colorCode": "gray",
+                        "alias": "Gray",
+                        "displayOrder": null,
+                        "isInherited": true,
+                        "id": "property-acme-color-gray",
+                        "propertyId": "property-acme-color"
                     }
                 ]
             },
@@ -507,7 +520,7 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "CpuCores",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "Integer",
                 "values": [
                     {
@@ -520,7 +533,7 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "CpuMaxFrequency",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "Measure",
                 "measureId": "measure-cpu-max-frequency",
                 "propertyGroupId": "property-group-cpu",
@@ -550,7 +563,7 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "CpuNeuralCores",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "Boolean",
                 "propertyGroupId": "property-group-cpu",
                 "values": [
@@ -594,7 +607,7 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "DisplayResolution",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "ShortText",
                 "propertyGroupId": "property-group-display",
                 "values": [
@@ -608,7 +621,7 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "DisplaySize",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "Measure",
                 "measureId": "measure-display-size",
                 "propertyGroupId": "property-group-display",
@@ -694,7 +707,7 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "RamSize",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "Measure",
                 "measureId": "measure-ram-size",
                 "propertyGroupId": "property-group-ram",
@@ -710,7 +723,7 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "RamMaxSize",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "Measure",
                 "measureId": "measure-ram-max-size",
                 "propertyGroupId": "property-group-ram",
@@ -726,7 +739,7 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "StorageSize",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "Measure",
                 "measureId": "measure-storage-size",
                 "propertyGroupId": "property-group-storage",
@@ -850,7 +863,7 @@
                 "measureId": "measure-battery-capacity",
                 "name": "BatteryCapacity",
                 "propertyGroupId": "property-group-power",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "Measure",
                 "values": [
                     {
@@ -876,7 +889,7 @@
             {
                 "id": "property-acme-brand",
                 "catalogId": "catalog-acme",
-                "categoryId": "category-acme-laptops",
+                "categoryId": null,
                 "name": "Brand",
                 "type": "Product",
                 "valueType": "ShortText",
@@ -906,11 +919,18 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "Color",
-                "type": "Product",
-                "valueType": "ShortText",
+                "type": "Variation",
+                "valueType": "Color",
                 "values": [
                     {
-                        "value": "Blue"
+                        "value": "Blue",
+                        "valueId": "property-acme-color-blue",
+                        "colorCode": "blue",
+                        "alias": "Blue",
+                        "displayOrder": null,
+                        "isInherited": true,
+                        "id": "property-acme-color-blue",
+                        "propertyId": "property-acme-color"
                     }
                 ]
             },
@@ -1262,7 +1282,7 @@
                 "measureId": "measure-battery-capacity",
                 "name": "BatteryCapacity",
                 "propertyGroupId": "property-group-power",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "Measure",
                 "values": [
                     {
@@ -1288,7 +1308,7 @@
             {
                 "id": "property-acme-brand",
                 "catalogId": "catalog-acme",
-                "categoryId": "category-acme-laptops",
+                "categoryId": null,
                 "name": "Brand",
                 "type": "Product",
                 "valueType": "ShortText",
@@ -1318,11 +1338,18 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "Color",
-                "type": "Product",
-                "valueType": "ShortText",
+                "type": "Variation",
+                "valueType": "Color",
                 "values": [
                     {
-                        "value": "Black"
+                        "value": "Black",
+                        "valueId": "property-acme-color-black",
+                        "colorCode": "black",
+                        "alias": "Black",
+                        "displayOrder": null,
+                        "isInherited": true,
+                        "id": "property-acme-color-black",
+                        "propertyId": "property-acme-color"
                     }
                 ]
             },
@@ -1732,7 +1759,7 @@
                 "measureId": "measure-battery-capacity",
                 "name": "BatteryCapacity",
                 "propertyGroupId": "property-group-power",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "Measure",
                 "values": [
                     {
@@ -1758,7 +1785,7 @@
             {
                 "id": "property-acme-brand",
                 "catalogId": "catalog-acme",
-                "categoryId": "category-acme-laptops",
+                "categoryId": null,
                 "name": "Brand",
                 "type": "Product",
                 "valueType": "ShortText",
@@ -1788,11 +1815,18 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "Color",
-                "type": "Product",
-                "valueType": "ShortText",
+                "type": "Variation",
+                "valueType": "Color",
                 "values": [
                     {
-                        "value": "Silver"
+                        "value": "Silver",
+                        "valueId": "property-acme-color-silver",
+                        "colorCode": "silver",
+                        "alias": "Silver",
+                        "displayOrder": null,
+                        "isInherited": true,
+                        "id": "property-acme-color-silver",
+                        "propertyId": "property-acme-color"
                     }
                 ]
             },
@@ -2145,7 +2179,7 @@
                 "measureId": "measure-battery-capacity",
                 "name": "BatteryCapacity",
                 "propertyGroupId": "property-group-power",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "Measure",
                 "values": [
                     {
@@ -2171,7 +2205,7 @@
             {
                 "id": "property-acme-brand",
                 "catalogId": "catalog-acme",
-                "categoryId": "category-acme-laptops",
+                "categoryId": null,
                 "name": "Brand",
                 "type": "Product",
                 "valueType": "ShortText",
@@ -2201,11 +2235,18 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "Color",
-                "type": "Product",
-                "valueType": "ShortText",
+                "type": "Variation",
+                "valueType": "Color",
                 "values": [
                     {
-                        "value": "Silver"
+                        "value": "Silver",
+                        "valueId": "property-acme-color-silver",
+                        "colorCode": "silver",
+                        "alias": "Silver",
+                        "displayOrder": null,
+                        "isInherited": true,
+                        "id": "property-acme-color-silver",
+                        "propertyId": "property-acme-color"
                     }
                 ]
             },
@@ -2558,7 +2599,7 @@
                 "measureId": "measure-battery-capacity",
                 "name": "BatteryCapacity",
                 "propertyGroupId": "property-group-power",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "Measure",
                 "values": [
                     {
@@ -2584,7 +2625,7 @@
             {
                 "id": "property-acme-brand",
                 "catalogId": "catalog-acme",
-                "categoryId": "category-acme-laptops",
+                "categoryId": null,
                 "name": "Brand",
                 "type": "Product",
                 "valueType": "ShortText",
@@ -2614,11 +2655,18 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "Color",
-                "type": "Product",
-                "valueType": "ShortText",
+                "type": "Variation",
+                "valueType": "Color",
                 "values": [
                     {
-                        "value": "Black"
+                        "value": "Black",
+                        "valueId": "property-acme-color-black",
+                        "colorCode": "black",
+                        "alias": "Black",
+                        "displayOrder": null,
+                        "isInherited": true,
+                        "id": "property-acme-color-black",
+                        "propertyId": "property-acme-color"
                     }
                 ]
             },
@@ -2971,7 +3019,7 @@
                 "measureId": "measure-battery-capacity",
                 "name": "BatteryCapacity",
                 "propertyGroupId": "property-group-power",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "Measure",
                 "values": [
                     {
@@ -2997,7 +3045,7 @@
             {
                 "id": "property-acme-brand",
                 "catalogId": "catalog-acme",
-                "categoryId": "category-acme-laptops",
+                "categoryId": null,
                 "name": "Brand",
                 "type": "Product",
                 "valueType": "ShortText",
@@ -3027,11 +3075,18 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "Color",
-                "type": "Product",
-                "valueType": "ShortText",
+                "type": "Variation",
+                "valueType": "Color",
                 "values": [
                     {
-                        "value": "Gray"
+                        "value": "Orange",
+                        "valueId": "property-acme-color-orange",
+                        "colorCode": "orange",
+                        "alias": "Orange",
+                        "displayOrder": null,
+                        "isInherited": true,
+                        "id": "property-acme-color-orange",
+                        "propertyId": "property-acme-color"
                     }
                 ]
             },
@@ -3384,7 +3439,7 @@
                 "measureId": "measure-battery-capacity",
                 "name": "BatteryCapacity",
                 "propertyGroupId": "property-group-power",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "Measure",
                 "values": [
                     {
@@ -3410,7 +3465,7 @@
             {
                 "id": "property-acme-brand",
                 "catalogId": "catalog-acme",
-                "categoryId": "category-acme-laptops",
+                "categoryId": null,
                 "name": "Brand",
                 "type": "Product",
                 "valueType": "ShortText",
@@ -3440,11 +3495,18 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "Color",
-                "type": "Product",
-                "valueType": "ShortText",
+                "type": "Variation",
+                "valueType": "Color",
                 "values": [
                     {
-                        "value": "Gray"
+                        "value": "Gray",
+                        "valueId": "property-acme-color-gray",
+                        "colorCode": "gray",
+                        "alias": "Gray",
+                        "displayOrder": null,
+                        "isInherited": true,
+                        "id": "property-acme-color-gray",
+                        "propertyId": "property-acme-color"
                     }
                 ]
             },
@@ -3857,7 +3919,7 @@
                 "measureId": "measure-battery-capacity",
                 "name": "BatteryCapacity",
                 "propertyGroupId": "property-group-power",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "Measure",
                 "values": [
                     {
@@ -3883,7 +3945,7 @@
             {
                 "id": "property-acme-brand",
                 "catalogId": "catalog-acme",
-                "categoryId": "category-acme-laptops",
+                "categoryId": null,
                 "name": "Brand",
                 "type": "Product",
                 "valueType": "ShortText",
@@ -3913,11 +3975,18 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "Color",
-                "type": "Product",
-                "valueType": "ShortText",
+                "type": "Variation",
+                "valueType": "Color",
                 "values": [
                     {
-                        "value": "Black"
+                        "value": "White",
+                        "valueId": "property-acme-color-white",
+                        "colorCode": "white",
+                        "alias": "White",
+                        "displayOrder": null,
+                        "isInherited": true,
+                        "id": "property-acme-color-white",
+                        "propertyId": "property-acme-color"
                     }
                 ]
             },
@@ -4330,7 +4399,7 @@
                 "measureId": "measure-battery-capacity",
                 "name": "BatteryCapacity",
                 "propertyGroupId": "property-group-power",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "Measure",
                 "values": [
                     {
@@ -4356,7 +4425,7 @@
             {
                 "id": "property-acme-brand",
                 "catalogId": "catalog-acme",
-                "categoryId": "category-acme-laptops",
+                "categoryId": null,
                 "name": "Brand",
                 "type": "Product",
                 "valueType": "ShortText",
@@ -4386,11 +4455,18 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "Color",
-                "type": "Product",
-                "valueType": "ShortText",
+                "type": "Variation",
+                "valueType": "Color",
                 "values": [
                     {
-                        "value": "Black"
+                        "value": "Black",
+                        "valueId": "property-acme-color-black",
+                        "colorCode": "black",
+                        "alias": "Black",
+                        "displayOrder": null,
+                        "isInherited": true,
+                        "id": "property-acme-color-black",
+                        "propertyId": "property-acme-color"
                     }
                 ]
             },
@@ -4815,7 +4891,7 @@
                 "measureId": "measure-battery-capacity",
                 "name": "BatteryCapacity",
                 "propertyGroupId": "property-group-power",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "Measure",
                 "values": [
                     {
@@ -4841,7 +4917,7 @@
             {
                 "id": "property-acme-brand",
                 "catalogId": "catalog-acme",
-                "categoryId": "category-acme-laptops",
+                "categoryId": null,
                 "name": "Brand",
                 "type": "Product",
                 "valueType": "ShortText",
@@ -4856,11 +4932,18 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "Color",
-                "type": "Product",
-                "valueType": "ShortText",
+                "type": "Variation",
+                "valueType": "Color",
                 "values": [
                     {
-                        "value": "Black"
+                        "value": "Black",
+                        "valueId": "property-acme-color-black",
+                        "colorCode": "black",
+                        "alias": "Black",
+                        "displayOrder": null,
+                        "isInherited": true,
+                        "id": "property-acme-color-black",
+                        "propertyId": "property-acme-color"
                     }
                 ]
             },
@@ -5285,7 +5368,7 @@
                 "measureId": "measure-battery-capacity",
                 "name": "BatteryCapacity",
                 "propertyGroupId": "property-group-power",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "Measure",
                 "values": [
                     {
@@ -5311,7 +5394,7 @@
             {
                 "id": "property-acme-brand",
                 "catalogId": "catalog-acme",
-                "categoryId": "category-acme-laptops",
+                "categoryId": null,
                 "name": "Brand",
                 "type": "Product",
                 "valueType": "ShortText",
@@ -5326,11 +5409,18 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "Color",
-                "type": "Product",
-                "valueType": "ShortText",
+                "type": "Variation",
+                "valueType": "Color",
                 "values": [
                     {
-                        "value": "Black"
+                        "value": "Red",
+                        "valueId": "property-acme-color-red",
+                        "colorCode": "red",
+                        "alias": "Red",
+                        "displayOrder": null,
+                        "isInherited": true,
+                        "id": "property-acme-color-red",
+                        "propertyId": "property-acme-color"
                     }
                 ]
             },
@@ -5755,7 +5845,7 @@
                 "measureId": "measure-battery-capacity",
                 "name": "BatteryCapacity",
                 "propertyGroupId": "property-group-power",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "Measure",
                 "values": [
                     {
@@ -5781,7 +5871,7 @@
             {
                 "id": "property-acme-brand",
                 "catalogId": "catalog-acme",
-                "categoryId": "category-acme-laptops",
+                "categoryId": null,
                 "name": "Brand",
                 "type": "Product",
                 "valueType": "ShortText",
@@ -5796,11 +5886,18 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "Color",
-                "type": "Product",
-                "valueType": "ShortText",
+                "type": "Variation",
+                "valueType": "Color",
                 "values": [
                     {
-                        "value": "Black"
+                        "value": "Black",
+                        "valueId": "property-acme-color-black",
+                        "colorCode": "black",
+                        "alias": "Black",
+                        "displayOrder": null,
+                        "isInherited": true,
+                        "id": "property-acme-color-black",
+                        "propertyId": "property-acme-color"
                     }
                 ]
             },
@@ -6225,7 +6322,7 @@
                 "measureId": "measure-battery-capacity",
                 "name": "BatteryCapacity",
                 "propertyGroupId": "property-group-power",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "Measure",
                 "values": [
                     {
@@ -6251,7 +6348,7 @@
             {
                 "id": "property-acme-brand",
                 "catalogId": "catalog-acme",
-                "categoryId": "category-acme-laptops",
+                "categoryId": null,
                 "name": "Brand",
                 "type": "Product",
                 "valueType": "ShortText",
@@ -6266,11 +6363,18 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "Color",
-                "type": "Product",
-                "valueType": "ShortText",
+                "type": "Variation",
+                "valueType": "Color",
                 "values": [
                     {
-                        "value": "Black"
+                        "value": "Black",
+                        "valueId": "property-acme-color-black",
+                        "colorCode": "black",
+                        "alias": "Black",
+                        "displayOrder": null,
+                        "isInherited": true,
+                        "id": "property-acme-color-black",
+                        "propertyId": "property-acme-color"
                     }
                 ]
             },
@@ -6695,7 +6799,7 @@
                 "measureId": "measure-battery-capacity",
                 "name": "BatteryCapacity",
                 "propertyGroupId": "property-group-power",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "Measure",
                 "values": [
                     {
@@ -6721,7 +6825,7 @@
             {
                 "id": "property-acme-brand",
                 "catalogId": "catalog-acme",
-                "categoryId": "category-acme-laptops",
+                "categoryId": null,
                 "name": "Brand",
                 "type": "Product",
                 "valueType": "ShortText",
@@ -6736,11 +6840,18 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "Color",
-                "type": "Product",
-                "valueType": "ShortText",
+                "type": "Variation",
+                "valueType": "Color",
                 "values": [
                     {
-                        "value": "Black"
+                        "value": "Black",
+                        "valueId": "property-acme-color-black",
+                        "colorCode": "black",
+                        "alias": "Black",
+                        "displayOrder": null,
+                        "isInherited": true,
+                        "id": "property-acme-color-black",
+                        "propertyId": "property-acme-color"
                     }
                 ]
             },
@@ -7165,7 +7276,7 @@
                 "measureId": "measure-battery-capacity",
                 "name": "BatteryCapacity",
                 "propertyGroupId": "property-group-power",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "Measure",
                 "values": [
                     {
@@ -7191,7 +7302,7 @@
             {
                 "id": "property-acme-brand",
                 "catalogId": "catalog-acme",
-                "categoryId": "category-acme-laptops",
+                "categoryId": null,
                 "name": "Brand",
                 "type": "Product",
                 "valueType": "ShortText",
@@ -7206,11 +7317,18 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "Color",
-                "type": "Product",
-                "valueType": "ShortText",
+                "type": "Variation",
+                "valueType": "Color",
                 "values": [
                     {
-                        "value": "Black"
+                        "value": "Yellow",
+                        "valueId": "property-acme-color-yellow",
+                        "colorCode": "yellow",
+                        "alias": "Yellow",
+                        "displayOrder": null,
+                        "isInherited": true,
+                        "id": "property-acme-color-yellow",
+                        "propertyId": "property-acme-color"
                     }
                 ]
             },
@@ -7635,7 +7753,7 @@
                 "measureId": "measure-battery-capacity",
                 "name": "BatteryCapacity",
                 "propertyGroupId": "property-group-power",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "Measure",
                 "values": [
                     {
@@ -7661,7 +7779,7 @@
             {
                 "id": "property-acme-brand",
                 "catalogId": "catalog-acme",
-                "categoryId": "category-acme-laptops",
+                "categoryId": null,
                 "name": "Brand",
                 "type": "Product",
                 "valueType": "ShortText",
@@ -7676,11 +7794,18 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "Color",
-                "type": "Product",
-                "valueType": "ShortText",
+                "type": "Variation",
+                "valueType": "Color",
                 "values": [
                     {
-                        "value": "White"
+                        "value": "White",
+                        "valueId": "property-acme-color-white",
+                        "colorCode": "white",
+                        "alias": "White",
+                        "displayOrder": null,
+                        "isInherited": true,
+                        "id": "property-acme-color-white",
+                        "propertyId": "property-acme-color"
                     }
                 ]
             },
@@ -8105,7 +8230,7 @@
                 "measureId": "measure-battery-capacity",
                 "name": "BatteryCapacity",
                 "propertyGroupId": "property-group-power",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "Measure",
                 "values": [
                     {
@@ -8131,7 +8256,7 @@
             {
                 "id": "property-acme-brand",
                 "catalogId": "catalog-acme",
-                "categoryId": "category-acme-laptops",
+                "categoryId": null,
                 "name": "Brand",
                 "type": "Product",
                 "valueType": "ShortText",
@@ -8146,11 +8271,18 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "Color",
-                "type": "Product",
-                "valueType": "ShortText",
+                "type": "Variation",
+                "valueType": "Color",
                 "values": [
                     {
-                        "value": "Black"
+                        "value": "Blue",
+                        "valueId": "property-acme-color-blue",
+                        "colorCode": "blue",
+                        "alias": "Blue",
+                        "displayOrder": null,
+                        "isInherited": true,
+                        "id": "property-acme-color-blue",
+                        "propertyId": "property-acme-color"
                     }
                 ]
             },
@@ -8531,7 +8663,7 @@
                 "measureId": "measure-battery-capacity",
                 "name": "BatteryCapacity",
                 "propertyGroupId": "property-group-power",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "Measure",
                 "values": [
                     {
@@ -8557,7 +8689,7 @@
             {
                 "id": "property-acme-brand",
                 "catalogId": "catalog-acme",
-                "categoryId": "category-acme-laptops",
+                "categoryId": null,
                 "name": "Brand",
                 "type": "Product",
                 "valueType": "ShortText",
@@ -8572,11 +8704,18 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "Color",
-                "type": "Product",
-                "valueType": "ShortText",
+                "type": "Variation",
+                "valueType": "Color",
                 "values": [
                     {
-                        "value": "Black"
+                        "value": "Black",
+                        "valueId": "property-acme-color-black",
+                        "colorCode": "black",
+                        "alias": "Black",
+                        "displayOrder": null,
+                        "isInherited": true,
+                        "id": "property-acme-color-black",
+                        "propertyId": "property-acme-color"
                     }
                 ]
             },
@@ -8957,7 +9096,7 @@
                 "measureId": "measure-battery-capacity",
                 "name": "BatteryCapacity",
                 "propertyGroupId": "property-group-power",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "Measure",
                 "values": [
                     {
@@ -8983,7 +9122,7 @@
             {
                 "id": "property-acme-brand",
                 "catalogId": "catalog-acme",
-                "categoryId": "category-acme-laptops",
+                "categoryId": null,
                 "name": "Brand",
                 "type": "Product",
                 "valueType": "ShortText",
@@ -8998,11 +9137,18 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "Color",
-                "type": "Product",
-                "valueType": "ShortText",
+                "type": "Variation",
+                "valueType": "Color",
                 "values": [
                     {
-                        "value": "Black"
+                        "value": "Gray",
+                        "valueId": "property-acme-color-gray",
+                        "colorCode": "gray",
+                        "alias": "Gray",
+                        "displayOrder": null,
+                        "isInherited": true,
+                        "id": "property-acme-color-gray",
+                        "propertyId": "property-acme-color"
                     }
                 ]
             },
@@ -9383,7 +9529,7 @@
                 "measureId": "measure-battery-capacity",
                 "name": "BatteryCapacity",
                 "propertyGroupId": "property-group-power",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "Measure",
                 "values": [
                     {
@@ -9409,7 +9555,7 @@
             {
                 "id": "property-acme-brand",
                 "catalogId": "catalog-acme",
-                "categoryId": "category-acme-laptops",
+                "categoryId": null,
                 "name": "Brand",
                 "type": "Product",
                 "valueType": "ShortText",
@@ -9424,11 +9570,18 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "Color",
-                "type": "Product",
-                "valueType": "ShortText",
+                "type": "Variation",
+                "valueType": "Color",
                 "values": [
                     {
-                        "value": "Black"
+                        "value": "Black",
+                        "valueId": "property-acme-color-black",
+                        "colorCode": "black",
+                        "alias": "Black",
+                        "displayOrder": null,
+                        "isInherited": true,
+                        "id": "property-acme-color-black",
+                        "propertyId": "property-acme-color"
                     }
                 ]
             },
@@ -9809,7 +9962,7 @@
                 "measureId": "measure-battery-capacity",
                 "name": "BatteryCapacity",
                 "propertyGroupId": "property-group-power",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "Measure",
                 "values": [
                     {
@@ -9835,7 +9988,7 @@
             {
                 "id": "property-acme-brand",
                 "catalogId": "catalog-acme",
-                "categoryId": "category-acme-laptops",
+                "categoryId": null,
                 "name": "Brand",
                 "type": "Product",
                 "valueType": "ShortText",
@@ -9848,13 +10001,20 @@
             {
                 "id": "property-acme-color",
                 "catalogId": "catalog-acme",
-                "categoryId": "category-acme-laptops",
+                "categoryId": null,
                 "name": "Color",
-                "type": "Product",
-                "valueType": "ShortText",
+                "type": "Variation",
+                "valueType": "Color",
                 "values": [
                     {
-                        "value": "Gray"
+                        "value": "Gray",
+                        "valueId": "property-acme-color-gray",
+                        "colorCode": "gray",
+                        "alias": "Gray",    
+                        "displayOrder": null,
+                        "isInherited": true,
+                        "id": "property-acme-color-gray",
+                        "propertyId": "property-acme-color"
                     }
                 ]
             },
@@ -9863,7 +10023,7 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "CpuCores",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "Integer",
                 "values": [
                     {
@@ -9876,7 +10036,7 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "CpuMaxFrequency",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "Measure",
                 "measureId": "measure-cpu-max-frequency",
                 "propertyGroupId": "property-group-cpu",
@@ -9906,7 +10066,7 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "CpuNeuralCores",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "Boolean",
                 "propertyGroupId": "property-group-cpu",
                 "values": [
@@ -9950,7 +10110,7 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "DisplayResolution",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "ShortText",
                 "propertyGroupId": "property-group-display",
                 "values": [
@@ -9964,7 +10124,7 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "DisplaySize",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "Measure",
                 "measureId": "measure-display-size",
                 "propertyGroupId": "property-group-display",
@@ -10037,7 +10197,7 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "RamSize",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "Measure",
                 "measureId": "measure-ram-size",
                 "propertyGroupId": "property-group-ram",
@@ -10069,7 +10229,7 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "StorageSize",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "Measure",
                 "measureId": "measure-storage-size",
                 "propertyGroupId": "property-group-storage",

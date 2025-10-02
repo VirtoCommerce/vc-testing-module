@@ -531,6 +531,83 @@
         ]
     },
     {
+        "productId": "var-1-lenovo-thinkPad-x1-carbon-gen-13-aura-edition-variations",
+        "product": {
+            "id": "var-1-lenovo-thinkPad-x1-carbon-gen-13-aura-edition-variations",
+            "name": "Var 1 Lenovo ThinkPad X1 Carbon Gen 13 Aura Edition Variations"
+        },
+        "prices": [
+            {
+                "catalog": "catalog-acme",
+                "currency": "USD",
+                "list": 1200.00,
+                "minQuantity": 1,
+                "pricelistId": "pricelist-acme-usd",
+                "productId": "var-1-lenovo-thinkPad-x1-carbon-gen-13-aura-edition-variations"
+            },
+            {
+                "catalog": "catalog-acme",
+                "currency": "EUR",
+                "list": 1355.00,
+                "minQuantity": 1,
+                "pricelistId": "pricelist-acme-eur",
+                "productId": "var-1-lenovo-thinkPad-x1-carbon-gen-13-aura-edition-variations"
+            }
+        ]
+    },
+    {
+        "productId": "var-2-lenovo-thinkPad-x1-carbon-gen-13-aura-edition-variations",
+        "product": {
+            "id": "var-2-lenovo-thinkPad-x1-carbon-gen-13-aura-edition-variations",
+            "name": "Var 2 Lenovo ThinkPad X1 Carbon Gen 13 Aura Edition Variations"
+        },
+        "prices": [
+            {
+                "catalog": "catalog-acme",
+                "currency": "USD",
+                "list": 1999.00,
+                "sale": 899.00,
+                "minQuantity": 1,
+                "pricelistId": "pricelist-acme-usd",
+                "productId": "var-2-lenovo-thinkPad-x1-carbon-gen-13-aura-edition-variations"
+            },
+            {
+                "catalog": "catalog-acme",
+                "currency": "EUR",
+                "list": 1454.00,
+                "sale": 1354.00,
+                "minQuantity": 1,
+                "pricelistId": "pricelist-acme-eur",
+                "productId": "var-2-lenovo-thinkPad-x1-carbon-gen-13-aura-edition-variations"
+            }
+        ]
+    },
+    {
+        "productId": "var-3-lenovo-thinkPad-x1-carbon-gen-13-aura-edition-variations",
+        "product": {
+            "id": "var-3-lenovo-thinkPad-x1-carbon-gen-13-aura-edition-variations",
+            "name": "Var 3 Lenovo ThinkPad X1 Carbon Gen 13 Aura Edition Variations"
+        },
+        "prices": [
+            {
+                "catalog": "catalog-acme",
+                "currency": "USD",
+                "list": 1566.00,                  
+                "minQuantity": 1,
+                "pricelistId": "pricelist-acme-usd",
+                "productId": "var-3-lenovo-thinkPad-x1-carbon-gen-13-aura-edition-variations"
+            },
+            {
+                "catalog": "catalog-acme",
+                "currency": "EUR",
+                "list": 1422.00,
+                "minQuantity": 1,
+                "pricelistId": "pricelist-acme-eur",
+                "productId": "var-3-lenovo-thinkPad-x1-carbon-gen-13-aura-edition-variations"
+            }
+        ]
+    },
+    {
         "productId": "product-acme-laptop-asus-expertbook-b5-b5605",
         "product": {
             "id": "product-acme-laptop-asus-expertbook-b5-b5605",

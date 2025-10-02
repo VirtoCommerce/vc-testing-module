@@ -1,9 +1,10 @@
 [
+
     {
         "id": "property-acme-brand",
         "name": "Brand",
         "catalogId": "catalog-acme",
-        "categoryId": "category-acme-laptops",
+        "categoryId": null,
         "valueType": "ShortText",
         "type": "Product",
         "displayNames": [
@@ -31,16 +32,20 @@
         "id": "property-acme-color",
         "name": "Color",
         "catalogId": "catalog-acme",
-        "categoryId": "category-acme-laptops",
-        "valueType": "ShortText",
-        "type": "Product",
+        "categoryId": null,
+        "valueType": "Color",
+        "dictionary": true,
+        "multivalue": false,
+        "multilanguage": false,
+        "type": "Variation",
+        "values": [],
         "displayNames": [
             {
                 "name": "Color",
                 "languageCode": "en-US"
             }
-        ]
-    },
+        ]       
+    },        
     {
         "id": "property-acme-keyboard-backlight",
         "name": "KeyboardBacklight",
@@ -63,10 +68,16 @@
         "propertyGroupId": "property-group-display",
         "valueType": "Measure",
         "measureId": "measure-display-size",
-        "type": "Product",
+        "type": "Variation",
         "displayNames": [
             {
                 "name": "Display Size",
+                "languageCode": "en-US"
+            }
+        ],
+        "values": [
+            {
+                "value": 17.0000,
                 "languageCode": "en-US"
             }
         ]
@@ -78,10 +89,16 @@
         "categoryId": "category-acme-laptops",
         "propertyGroupId": "property-group-display",
         "valueType": "ShortText",
-        "type": "Product",
+        "type": "Variation",
         "displayNames": [
             {
                 "name": "Display Resolution",
+                "languageCode": "en-US"
+            }
+        ],
+        "values": [
+            {
+                "value": "2880x1800",
                 "languageCode": "en-US"
             }
         ]
@@ -140,10 +157,16 @@
         "propertyGroupId": "property-group-cpu",
         "valueType": "Measure",
         "measureId": "measure-cpu-max-frequency",
-        "type": "Product",
+        "type": "Variation",
         "displayNames": [
             {
                 "name": "CPU Max Frequency",
+                "languageCode": "en-US"
+            }
+        ],
+        "values": [
+            {
+                "value": 12,
                 "languageCode": "en-US"
             }
         ]
@@ -155,10 +178,16 @@
         "categoryId": "category-acme-laptops",
         "propertyGroupId": "property-group-cpu",
         "valueType": "Integer",
-        "type": "Product",
+        "type": "Variation",
         "displayNames": [
             {
                 "name": "CPU Cores",
+                "languageCode": "en-US"
+            }
+        ],
+        "values": [
+            {
+                "value": 16,
                 "languageCode": "en-US"
             }
         ]
@@ -185,10 +214,16 @@
         "categoryId": "category-acme-laptops",
         "propertyGroupId": "property-group-cpu",
         "valueType": "Boolean",
-        "type": "Product",
+        "type": "Variation",
         "displayNames": [
             {
                 "name": "CPU Neural Cores",
+                "languageCode": "en-US"
+            }
+        ],  
+        "values": [
+            {
+                "value": true,
                 "languageCode": "en-US"
             }
         ]
@@ -201,10 +236,16 @@
         "propertyGroupId": "property-group-ram",
         "valueType": "Measure",
         "measureId": "measure-ram-size",
-        "type": "Product",
+        "type": "Variation",
         "displayNames": [
             {
                 "name": "RAM Size",
+                "languageCode": "en-US"
+            }
+        ],
+        "values": [
+            {
+                "value": 32.0000,
                 "languageCode": "en-US"
             }
         ]
@@ -294,10 +335,16 @@
         "propertyGroupId": "property-group-gpu",
         "valueType": "Measure",
         "measureId": "measure-gpu-memory-size",
-        "type": "Product",
+        "type": "Variation",
         "displayNames": [
             {
                 "name": "GPU Memory Size",
+                "languageCode": "en-US"
+            }
+        ],
+        "values": [
+            {
+                "value": 1024.0000,
                 "languageCode": "en-US"
             }
         ]
@@ -356,10 +403,16 @@
         "propertyGroupId": "property-group-storage",
         "valueType": "Measure",
         "measureId": "measure-storage-size",
-        "type": "Product",
+        "type": "Variation",
         "displayNames": [
             {
                 "name": "Storage Size",
+                "languageCode": "en-US"
+            }
+        ],
+        "values": [
+            {
+                "value": 1200.0000,
                 "languageCode": "en-US"
             }
         ]
@@ -386,10 +439,16 @@
         "categoryId": "category-acme-laptops",
         "valueType": "Measure",
         "measureId": "measure-camera-resolution",
-        "type": "Product",
+        "type": "Variation",
         "displayNames": [
             {
                 "name": "Camera Resolution",
+                "languageCode": "en-US"
+            }
+        ],
+        "values": [
+            {
+                "value": 20.0000,
                 "languageCode": "en-US"
             }
         ]
@@ -522,24 +581,16 @@
         "propertyGroupId": "property-group-power",
         "valueType": "Measure",
         "measureId": "measure-battery-capacity",
-        "type": "Product",
+        "type": "Variation",
         "displayNames": [
             {
                 "name": "Battery Capacity",
                 "languageCode": "en-US"
             }
-        ]
-    },
-    {
-        "id": "property-acme-ram-brand",
-        "name": "RamBrand",
-        "catalogId": "catalog-acme",
-        "categoryId": "category-acme-ram",
-        "valueType": "ShortText",
-        "type": "Product",
-        "displayNames": [
+        ],
+        "values": [
             {
-                "name": "Brand",
+                "value": 1000.0000,
                 "languageCode": "en-US"
             }
         ]
@@ -589,20 +640,6 @@
         ]
     },
     {
-        "id": "property-acme-ssd-brand",
-        "name": "SsdBrand",
-        "catalogId": "catalog-acme",
-        "categoryId": "category-acme-ssd",
-        "valueType": "ShortText",
-        "type": "Product",
-        "displayNames": [
-            {
-                "name": "Brand",
-                "languageCode": "en-US"
-            }
-        ]
-    },
-    {
         "id": "property-acme-ssd-unit-size",
         "name": "SsdSize",
         "catalogId": "catalog-acme",
@@ -613,6 +650,12 @@
         "displayNames": [
             {
                 "name": "SSD Size",
+                "languageCode": "en-US"
+            }
+        ],
+        "values": [
+            {
+                "value": 256.0000,
                 "languageCode": "en-US"
             }
         ]
@@ -632,3 +675,4 @@
         ]
     }
 ]
+
