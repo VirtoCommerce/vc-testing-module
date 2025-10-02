@@ -1,5 +1,7 @@
 import json
 import os
+import random
+from datetime import datetime
 from pathlib import Path
 from typing import Any, Literal
 from urllib.parse import urlencode
@@ -8,7 +10,6 @@ from colorama import Fore, Style
 from colorama import init as init_colorama
 from dotenv import load_dotenv
 from gql.transport.requests import RequestsHTTPTransport
-from inflection import camelize
 
 from fixtures.auth import Auth
 from fixtures.graphql_client import GraphQLClient
@@ -141,6 +142,9 @@ class DatasetSeeder:
                 else [value["payload"]]
             )
 
+            if key == "users":
+                users_password = self.config["users_password"]
+
             for item in items:
                 endpoint = endpoint_template
                 if "id" in item:
@@ -160,6 +164,9 @@ class DatasetSeeder:
                 elif "id" in item:
                     label += f": {item['id']}"
                 label += f" {Fore.LIGHTBLACK_EX}[{method}: {endpoint}]{Style.RESET_ALL}"
+
+                if key == "users":
+                    item["password"] = self.config["users_password"]
 
                 self._send_request(
                     label=label,
@@ -203,6 +210,25 @@ class DatasetSeeder:
 
             print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
+    def generate_orders(self, count: int = 1) -> None:
+        orders = []
+        for i in range(count):
+            order_id_part = f"{datetime.today().strftime("%d%m%Y")}-{i + 1}"
+            orders.append(
+                {
+                    "id": f"order-acme-{order_id_part}",
+                    "number": f"CO-{order_id_part}",
+                    "status": random.choice(
+                        ["New", "Completed", "Cancelled", "Pending", "Processing"]
+                    ),
+                }
+            )
+
+        with open(
+            self.base_dir / "data" / "orders.json", "w", encoding="utf-8"
+        ) as file:
+            json.dump(orders, file, indent=4)
+
 
 def get_config():
     load_dotenv(override=True)
@@ -224,13 +250,11 @@ if __name__ == "__main__":
 
     seeder = DatasetSeeder(config)
     seeder.authenticate(config["admin_username"], config["admin_password"])
+    # seeder.generate_orders(1)
     seeder.fetch_dataset()
-
-    # seeder.seed()
-    # seeder.update_payment_methods()
-    # seeder.update_shipping_methods()
-
-    print(json.dumps(seeder.dataset["users"], indent=4))
+    seeder.seed()
+    seeder.update_payment_methods()
+    seeder.update_shipping_methods()
 
     if seeder.errors:
         print(os.linesep)
