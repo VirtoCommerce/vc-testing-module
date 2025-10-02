@@ -24,7 +24,7 @@ def test_catalog_search_by_product_full_name(
 
     currency = dataset["currencies"][0]["code"]
     culture = dataset["languages"][0]["allowedValues"][0]
-    product_to_search = dataset["products"][0]
+    product_to_search = dataset["products"][1]
 
     user = user_operations.get_me()
 
@@ -88,7 +88,7 @@ def test_catalog_search_by_product_sku(
 
     currency = dataset["currencies"][0]["code"]
     culture = dataset["languages"][0]["allowedValues"][0]
-    product_to_search = dataset["products"][0]
+    product_to_search = dataset["products"][1]
 
     user = user_operations.get_me()
 
@@ -127,11 +127,7 @@ def test_catalog_search_by_product_availability(
     currency = dataset["currencies"][0]["code"]
     culture = dataset["languages"][0]["allowedValues"][0]
     catalog = dataset["catalogs"][0]
-    product_to_search = next(
-        product
-        for product in dataset["products"]
-        if product["id"] == "product-acme-laptop-acer-aspire-16-ai"
-    )
+    product_to_search = dataset["products"][1]
     category_to_browse = next(
         category
         for category in dataset["categories"]
@@ -184,7 +180,7 @@ def test_catalog_search_by_product_brand(
     currency = dataset["currencies"][0]["code"]
     culture = dataset["languages"][0]["allowedValues"][0]
     catalog = dataset["catalogs"][0]
-    product_to_search = dataset["products"][0]
+    product_to_search = dataset["products"][1]
     category_to_browse = next(
         category
         for category in dataset["categories"]
@@ -211,7 +207,7 @@ def test_catalog_search_by_product_brand(
     )
 
     assert (
-        products_response["totalCount"] == 4
+        products_response["totalCount"] == 7
     ), "Total count of products does not match"
 
 
