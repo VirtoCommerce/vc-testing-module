@@ -131,7 +131,8 @@ python graphql_client/python_graphql_codegen.py -s -v
 ### Dataset Seeding
 Add test data:
 ```sh
-python -m scripts.dataset_seeder
+python -m dataset.dataset_seeder
+
 ```
 
 ## Environment Variables
