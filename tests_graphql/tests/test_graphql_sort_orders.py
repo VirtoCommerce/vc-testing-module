@@ -1,5 +1,5 @@
 import os
-from typing import Any, Dict
+from typing import Any
 
 import allure
 import pytest
@@ -7,31 +7,36 @@ import pytest
 from fixtures.auth import Auth
 from fixtures.graphql_client import GraphQLClient
 from graphql_operations.order.order_operations import OrderOperations
-from graphql_operations.user.user_operations import UserOperations
-from test_data.test_culture import TEST_CULTURE
 
 
-@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Sort orders by date (GraphQL)")
 def test_sort_orders_by_date(
-    config: Dict[str, Any], auth: Auth, graphql_client: GraphQLClient
+    config: dict[str, Any],
+    dataset: dict[str, Any],
+    auth: Auth,
+    graphql_client: GraphQLClient,
 ):
     print(f"{os.linesep}Running test to sort orders by date...", end=" ")
 
-    user_operations = UserOperations(graphql_client)
     order_operations = OrderOperations(graphql_client)
 
+    user_maintainer = next(
+        user
+        for user in dataset["users"]
+        if user["id"] == "user-acme-store-maintainer-1"
+    )
+    organization = dataset["organizations"][0]
+    culture = dataset["languages"][0]["defaultValue"]
+
     auth.authenticate(
-        config["test_permanent_customer_username"],
-        config["test_permanent_customer_password"],
+        user_maintainer["userName"],
+        config["users_password"],
     )
 
-    user = user_operations.get_user()
-
-    search_orders_result_created_date_desc = order_operations.get_orders(
-        user_id=user["id"],
-        culture_name=TEST_CULTURE["en-US"],
+    search_orders_result_created_date_desc = order_operations.get_organization_orders(
+        culture_name=culture,
+        organization_id=organization["id"],
     )
 
     order_dates_desc = [
@@ -43,9 +48,9 @@ def test_sort_orders_by_date(
         for i in range(len(order_dates_desc) - 1)
     )
 
-    search_orders_result_created_date_asc = order_operations.get_orders(
-        user_id=user["id"],
-        culture_name=TEST_CULTURE["en-US"],
+    search_orders_result_created_date_asc = order_operations.get_organization_orders(
+        culture_name=culture,
+        organization_id=organization["id"],
         sort="createdDate:asc",
     )
 
@@ -67,22 +72,32 @@ def test_sort_orders_by_date(
 @pytest.mark.graphql
 @allure.title("Sort orders by total amount (GraphQL)")
 def test_sort_orders_by_total_amount(
-    config: Dict[str, Any], auth: Auth, graphql_client: GraphQLClient
+    config: dict[str, Any],
+    dataset: dict[str, Any],
+    auth: Auth,
+    graphql_client: GraphQLClient,
 ):
     print(f"{os.linesep}Running test to sort orders by total amount...", end=" ")
 
-    user_operations = UserOperations(graphql_client)
     order_operations = OrderOperations(graphql_client)
 
+    user_maintainer = next(
+        user
+        for user in dataset["users"]
+        if user["id"] == "user-acme-store-maintainer-1"
+    )
+    organization = dataset["organizations"][0]
+    culture = dataset["languages"][0]["defaultValue"]
+
     auth.authenticate(
-        config["test_permanent_customer_username"],
-        config["test_permanent_customer_password"],
+        user_maintainer["userName"],
+        config["users_password"],
     )
 
-    user = user_operations.get_user()
-
-    search_orders_result_total_amount_desc = order_operations.get_orders(
-        user_id=user["id"], culture_name=TEST_CULTURE["en-US"], sort="total:desc"
+    search_orders_result_total_amount_desc = order_operations.get_organization_orders(
+        culture_name=culture,
+        organization_id=organization["id"],
+        sort="total:desc",
     )
 
     order_totals_desc = [
@@ -94,10 +109,12 @@ def test_sort_orders_by_total_amount(
         for i in range(len(order_totals_desc) - 1)
     )
 
-    search_orders_result_order_total_amount_asc = order_operations.get_orders(
-        user_id=user["id"],
-        culture_name=TEST_CULTURE["en-US"],
-        sort="total:asc",
+    search_orders_result_order_total_amount_asc = (
+        order_operations.get_organization_orders(
+            culture_name=culture,
+            organization_id=organization["id"],
+            sort="total:asc",
+        )
     )
 
     order_totals_asc = [

@@ -3,8 +3,8 @@ from pydantic import BaseModel
 
 class DiscountType(BaseModel):
     def __init__(self):
-        from decimal import Decimal
         from graphql_client.types.money_type import MoneyType
+        from decimal import Decimal
 
         self.coupon: str | None
         self.description: str | None

@@ -27,7 +27,7 @@ def test_add_item_to_shopping_list(
 
     currency = dataset["currencies"][0]["code"]
     culture = dataset["languages"][0]["allowedValues"][0]
-    product = dataset["products"][0]
+    product = dataset["products"][1]
 
     auth.authenticate(dataset["users"][0]["userName"], config["users_password"])
 

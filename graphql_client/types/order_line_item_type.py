@@ -3,21 +3,16 @@ from pydantic import BaseModel
 
 class OrderLineItemType(BaseModel):
     def __init__(self):
-        from datetime import datetime
-        from decimal import Decimal
-
-        from graphql_client.types.common_vendor import CommonVendor
-        from graphql_client.types.currency_type import CurrencyType
-        from graphql_client.types.dynamic_property_value_type import (
-            DynamicPropertyValueType,
-        )
         from graphql_client.types.money_type import MoneyType
-        from graphql_client.types.order_configuration_item_type import (
-            OrderConfigurationItemType,
-        )
         from graphql_client.types.order_discount_type import OrderDiscountType
-        from graphql_client.types.order_tax_detail_type import OrderTaxDetailType
+        from graphql_client.types.common_vendor import CommonVendor
+        from decimal import Decimal
+        from graphql_client.types.order_configuration_item_type import OrderConfigurationItemType
         from graphql_client.types.product import Product
+        from graphql_client.types.currency_type import CurrencyType
+        from datetime import datetime
+        from graphql_client.types.order_tax_detail_type import OrderTaxDetailType
+        from graphql_client.types.dynamic_property_value_type import DynamicPropertyValueType
 
         self.id: str
         self.productType: str | None

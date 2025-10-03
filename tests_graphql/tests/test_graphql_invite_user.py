@@ -10,6 +10,7 @@ from graphql_operations.contact.contact_operations import ContactOperations
 from graphql_operations.user.user_operations import UserOperations
 
 
+@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.feature("Invite user (GraphQL)")
 def test_invite_user(

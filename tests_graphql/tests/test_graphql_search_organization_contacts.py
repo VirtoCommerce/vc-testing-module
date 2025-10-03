@@ -74,7 +74,7 @@ def test_search_organization_contacts_by_email(
     organization_contacts = contact_operations.fetch_organization_contacts(
         organization_id=user["contact"]["organizationId"],
         user_id=user["id"],
-        search_phrase="acme_store_employee_1@acme.com",
+        search_phrase="administrator@acme.com",
     )
 
     auth.clear_token()
