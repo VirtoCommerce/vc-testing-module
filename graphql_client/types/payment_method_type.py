@@ -3,10 +3,10 @@ from pydantic import BaseModel
 
 class PaymentMethodType(BaseModel):
     def __init__(self):
-        from graphql_client.types.currency_type import CurrencyType
         from graphql_client.types.tax_detail_type import TaxDetailType
-        from graphql_client.types.money_type import MoneyType
         from decimal import Decimal
+        from graphql_client.types.currency_type import CurrencyType
+        from graphql_client.types.money_type import MoneyType
 
         self.code: str
         self.description: str | None

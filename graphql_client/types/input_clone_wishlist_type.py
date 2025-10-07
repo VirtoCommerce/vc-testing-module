@@ -11,4 +11,5 @@ class InputCloneWishlistType(BaseModel):
         self.cultureName: str | None
         self.currencyCode: str | None
         self.scope: str | None
+        self.sharingKey: str | None
         self.description: str | None
