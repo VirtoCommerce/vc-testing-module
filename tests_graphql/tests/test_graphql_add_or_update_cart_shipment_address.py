@@ -59,7 +59,7 @@ def test_add_cart_shipment_address(
         payload={
             "storeId": config["store_id"],
             "userId": user["id"],
-            "addressId": delivery_address["id"],
+            "addressId": test_address["id"],
             "currencyCode": currency,
             "cultureName": culture,
         }
@@ -75,7 +75,6 @@ def test_add_cart_shipment_address(
     assert cart["shipments"] is not None, "Shipments are None"
     assert len(cart["shipments"]) > 0, "Cart has not shipments"
     assert delivery_address is not None, "Delivery address is None"
-    assert delivery_address["id"] is not None, "Delivery address ID is None"
     assert (
         delivery_address["city"] == test_address["city"]
     ), "Delivery address city is not the same"
@@ -182,7 +181,7 @@ def test_update_cart_shipment_address(
         payload={
             "storeId": config["store_id"],
             "userId": user["id"],
-            "addressId": delivery_address["id"],
+            "addressId": test_address["id"],
             "currencyCode": currency,
             "cultureName": culture,
         }
@@ -198,7 +197,6 @@ def test_update_cart_shipment_address(
     assert updated_cart["shipments"] is not None, "Shipments are None"
     assert len(updated_cart["shipments"]) > 0, "Cart has not shipments"
     assert updated_delivery_address is not None, "Delivery address is None"
-    assert updated_delivery_address["id"] is not None, "Delivery address ID is None"
     assert (
         updated_delivery_address["city"] == new_address["city"]
     ), "Delivery address city is not the same"

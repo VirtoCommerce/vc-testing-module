@@ -86,13 +86,14 @@
                 "valueType": "Color",
                 "values": [
                     {
-                        "value": "grey",
-                        "valueId": "property-acme-color-grey",
-                        "colorCode": "grey",
-                        "alias": "Grey",                                                      
-                        "id": "property-acme-color-grey",
+                        "value": "Gray",
+                        "valueId": "property-acme-color-gray",
+                        "colorCode": "gray",
+                        "alias": "Gray",
+                        "displayOrder": null,
+                        "isInherited": true,
+                        "id": "property-acme-color-gray",
                         "propertyId": "property-acme-color"
-                        
                     }
                 ]
             },
@@ -101,7 +102,7 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "CpuCores",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "Integer",
                 "values": [
                     {
@@ -114,7 +115,7 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "CpuMaxFrequency",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "Measure",
                 "measureId": "measure-cpu-max-frequency",
                 "propertyGroupId": "property-group-cpu",
@@ -144,7 +145,7 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "CpuNeuralCores",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "Boolean",
                 "propertyGroupId": "property-group-cpu",
                 "values": [
@@ -188,7 +189,7 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "DisplayResolution",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "ShortText",
                 "propertyGroupId": "property-group-display",
                 "values": [
@@ -202,7 +203,7 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "DisplaySize",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "Measure",
                 "measureId": "measure-display-size",
                 "propertyGroupId": "property-group-display",
@@ -288,7 +289,7 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "RamSize",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "Measure",
                 "measureId": "measure-ram-size",
                 "propertyGroupId": "property-group-ram",
@@ -304,7 +305,7 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "RamMaxSize",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "Measure",
                 "measureId": "measure-ram-max-size",
                 "propertyGroupId": "property-group-ram",
@@ -320,7 +321,7 @@
                 "catalogId": "catalog-acme",
                 "categoryId": "category-acme-laptops",
                 "name": "StorageSize",
-                "type": "Product",
+                "type": "Variation",
                 "valueType": "Measure",
                 "measureId": "measure-storage-size",
                 "propertyGroupId": "property-group-storage",
@@ -10010,7 +10011,7 @@
                         "value": "Gray",
                         "valueId": "property-acme-color-gray",
                         "colorCode": "gray",
-                        "alias": "Gray",    
+                        "alias": "Gray",
                         "displayOrder": null,
                         "isInherited": true,
                         "id": "property-acme-color-gray",
