@@ -182,7 +182,7 @@ def test_update_cart_billing_address(
         payload={
             "storeId": config["store_id"],
             "userId": user["id"],
-            "addressId": billing_address["id"],
+            "addressId": updated_billing_address["id"],
             "currencyCode": currency,
             "cultureName": culture,
         }
