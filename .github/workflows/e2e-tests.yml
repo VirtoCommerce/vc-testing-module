@@ -44,7 +44,7 @@ jobs:
       - name: Run E2E Tests
         run: |
           echo "Running E2E tests against ${{ env.FRONTEND_BASE_URL }}"
-          pytest tests_e2e/tests/ -v -s --checkout-mode single-page --product-quantity-control stepper -m "not ignore" --browser ${{ matrix.browser }} --html=e2e-new-report.html --self-contained-html --tracing=retain-on-failure
+          pytest tests_e2e/tests/ -v -s --checkout-mode single-page --product-quantity-control stepper -m "not ignore" --browser ${{ matrix.browser }} --html=e2e-report.html --self-contained-html --tracing=retain-on-failure
 
       - name: Upload test results
         if: always()
