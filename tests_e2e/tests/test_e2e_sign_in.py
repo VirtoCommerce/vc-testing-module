@@ -32,7 +32,7 @@ def test_e2e_valid_sign_in(config: dict[str, Any], dataset: dict[str, Any], page
 @pytest.mark.e2e
 @allure.feature("Sign in with invalid credentials (E2E)")
 def test_e2e_invalid_sign_in(
-    config: Dict[str, Any], dataset: Dict[str, Any], page: Page
+    config: dict[str, Any], dataset: dict[str, Any], page: Page
 ):
     print(
         f"{os.linesep}Running E2E test to sign in with invalid credentials...", end=" "
