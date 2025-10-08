@@ -1,4 +1,5 @@
 import os
+from typing import Any
 
 import allure
 import pytest
@@ -9,11 +10,12 @@ from tests_e2e.pages.home_page import HomePage
 from tests_e2e.pages.sign_in_page import SignInPage
 
 
-@pytest.mark.ignore
 @pytest.mark.e2e
 @allure.title("Main layout top header anonymous user elements presence (E2E)")
 def test_e2e_main_layout_top_header_anonymous_user_elements_presence(
-    config, page: Page, anonymous_catalog_requests: AnonymousCatalogRequests
+    config: dict[str, Any],
+    page: Page,
+    anonymous_catalog_requests: AnonymousCatalogRequests,
 ):
     print(
         f"{os.linesep}Running E2E test to check main layout top header anonymous user elements presence...",
@@ -42,7 +44,10 @@ def test_e2e_main_layout_top_header_anonymous_user_elements_presence(
 @pytest.mark.e2e
 @allure.title("Main layout top header registered user elements presence (E2E)")
 def test_e2e_main_layout_top_header_registered_user_elements_presence(
-    config, page: Page, anonymous_catalog_requests: AnonymousCatalogRequests
+    config: dict[str, Any],
+    dataset: dict[str, Any],
+    page: Page,
+    anonymous_catalog_requests: AnonymousCatalogRequests,
 ):
     print(
         f"{os.linesep}Running E2E test to check main layout top header registered user elements presence...",
@@ -51,11 +56,13 @@ def test_e2e_main_layout_top_header_registered_user_elements_presence(
 
     anonymous_catalog_requests.toggle(True)
 
+    dataset_user = dataset["users"][0]
+
     home_page = HomePage(page, config)
 
     sign_in_page = SignInPage(page, config)
     sign_in_page.navigate()
-    sign_in_page.sign_in(config["username"], config["password"])
+    sign_in_page.sign_in(dataset_user["userName"], config["users_password"])
 
     expect(page).to_have_url(
         home_page.url

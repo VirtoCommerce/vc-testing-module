@@ -1,6 +1,6 @@
 import os
 import time
-from typing import Any, Dict
+from typing import Any
 
 import allure
 import pytest
@@ -14,9 +14,9 @@ from tests_e2e.pages.category_page import CategoryPage
 
 @pytest.mark.e2e
 @allure.title("Add product to cart from category page with add to cart button (E2E)")
-def test_e2e_category_add_product_to_cart_with_add_to_cartbutton(
-    config: Dict[str, Any],
-    dataset: Dict[str, Any],
+def test_e2e_category_add_product_to_cart_with_add_to_cart_button(
+    config: dict[str, Any],
+    dataset: dict[str, Any],
     page: Page,
     anonymous_catalog_requests: AnonymousCatalogRequests,
     requests_tracker: RequestsTracker,
@@ -60,6 +60,8 @@ def test_e2e_category_add_product_to_cart_with_add_to_cartbutton(
     product_card.add_to_cart_component.quantity_input.fill(product_quantity_to_add)
     product_card.add_to_cart_component.add_to_cart_text_button.click()
 
+    time.sleep(2)
+
     cart_page = CartPage(config, page)
     cart_page.navigate()
 
@@ -83,8 +85,8 @@ def test_e2e_category_add_product_to_cart_with_add_to_cartbutton(
 @pytest.mark.e2e
 @allure.title("Add product to cart from category page with quantity stepper (E2E)")
 def test_e2e_category_add_product_to_cart_with_quantity_stepper(
-    config: Dict[str, Any],
-    dataset: Dict[str, Any],
+    config: dict[str, Any],
+    dataset: dict[str, Any],
     page: Page,
     anonymous_catalog_requests: AnonymousCatalogRequests,
     requests_tracker: RequestsTracker,

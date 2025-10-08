@@ -1,5 +1,5 @@
 import os
-from typing import Any, Dict
+from typing import Any
 
 import allure
 import pytest
@@ -12,8 +12,8 @@ from tests_e2e.pages.category_page import CategoryPage
 @pytest.mark.e2e
 @allure.title("Category elements (E2E)")
 def test_e2e_category_elements(
-    config: Dict[str, Any],
-    dataset: Dict[str, Any],
+    config: dict[str, Any],
+    dataset: dict[str, Any],
     page: Page,
     anonymous_catalog_requests: AnonymousCatalogRequests,
 ):

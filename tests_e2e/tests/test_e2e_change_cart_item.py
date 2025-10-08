@@ -1,5 +1,6 @@
 import os
-from typing import Any, Dict
+import time
+from typing import Any
 
 import allure
 import pytest
@@ -11,12 +12,11 @@ from tests_e2e.pages.cart_page import CartPage
 from tests_e2e.pages.category_page import CategoryPage
 
 
-@pytest.mark.ignore
 @pytest.mark.e2e
 @allure.title("Change cart item (E2E)")
 def test_e2e_change_cart_item(
-    config: Dict[str, Any],
-    dataset: Dict[str, Any],
+    config: dict[str, Any],
+    dataset: dict[str, Any],
     page: Page,
     anonymous_catalog_requests: AnonymousCatalogRequests,
     requests_tracker: RequestsTracker,
@@ -52,6 +52,8 @@ def test_e2e_change_cart_item(
     elif product_quantity_control == "button":
         product_card.add_to_cart_component.quantity_input.fill("2")
         product_card.add_to_cart_component.add_to_cart_text_button.click()
+
+    time.sleep(2)
 
     cart_page = CartPage(config, page)
     cart_page.navigate()

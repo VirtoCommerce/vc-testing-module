@@ -1,5 +1,5 @@
 import os
-from typing import Any, Dict
+from typing import Any
 
 import allure
 import pytest
@@ -12,8 +12,8 @@ from tests_e2e.pages.category_page import CategoryPage
 @pytest.mark.e2e
 @allure.title("Switch category grid view (E2E)")
 def test_e2e_switch_category_grid_view(
-    config: Dict[str, Any],
-    dataset: Dict[str, Any],
+    config: dict[str, Any],
+    dataset: dict[str, Any],
     page: Page,
     anonymous_catalog_requests: AnonymousCatalogRequests,
 ):
@@ -44,8 +44,8 @@ def test_e2e_switch_category_grid_view(
 @pytest.mark.e2e
 @allure.title("Switch category list view (E2E)")
 def test_e2e_switch_category_list_view(
-    config: Dict[str, Any],
-    dataset: Dict[str, Any],
+    config: dict[str, Any],
+    dataset: dict[str, Any],
     page: Page,
     anonymous_catalog_requests: AnonymousCatalogRequests,
 ):
