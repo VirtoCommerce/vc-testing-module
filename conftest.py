@@ -26,15 +26,17 @@ load_dotenv(override=True)
 def config():
     return {
         "backend_base_url": os.getenv(
-            "BACKEND_BASE_URL", "https://vcptcore-demo.govirto.com"
+            "BACKEND_BASE_URL", "https://qa-admin.omniapartnersopus.com"
         ),
         "frontend_base_url": os.getenv(
-            "FRONTEND_BASE_URL", "https://vcptcore-demo-storefront.govirto.com"
+            "FRONTEND_BASE_URL", "https://qa.omniapartnersopus.com"
         ),
         "admin_username": os.getenv("ADMIN_USERNAME"),
         "admin_password": os.getenv("ADMIN_PASSWORD"),
         "store_id": os.getenv("STORE_ID"),
+        "username": os.getenv("USERNAME"),
         "users_password": os.getenv("USERS_PASSWORD"),
+        "password": os.getenv("USERS_PASSWORD")
     }
 
 
