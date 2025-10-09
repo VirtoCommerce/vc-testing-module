@@ -1,0 +1,13 @@
+from pydantic import BaseModel
+
+
+class ResultStatus(BaseModel):
+    OK = "OK"
+    ERROR = "ERROR"
+    FORBIDDEN = "FORBIDDEN"
+    UNAUTHORIZED = "UNAUTHORIZED"
+    INVALID = "INVALID"
+    NOT_FOUND = "NOT_FOUND"
+    CONFLICT = "CONFLICT"
+    CRITICAL_ERROR = "CRITICAL_ERROR"
+    UNAVAILABLE = "UNAVAILABLE"
