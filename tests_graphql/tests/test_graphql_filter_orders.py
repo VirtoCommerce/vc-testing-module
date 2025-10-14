@@ -1,4 +1,5 @@
 import os
+from datetime import timedelta
 from typing import Any
 
 import allure
@@ -124,9 +125,12 @@ def test_filter_orders_by_date(
         config["users_password"],
     )
 
+    from_date = dataset["createdDate"] - timedelta(weeks=1)
+    to_date = dataset["createdDate"] + timedelta(weeks=1)
+
     search_orders_result = order_operations.get_organization_orders(
         culture_name=culture,
-        filter='createddate:["2025-09-30T22:00:00.000Z" TO "2025-10-13T21:59:59.999Z"]',
+        filter=f'createddate:["{from_date.isoformat()}" TO "{to_date.isoformat()}"]',
         organization_id=organization["id"],
     )
 
