@@ -2,7 +2,11 @@ from typing import List, Optional
 
 from playwright.sync_api import Locator, Page
 
-from tests_e2e.components import ClearCartModalComponent, LineItemComponent
+from tests_e2e.components import (
+    CheckoutShippingDetailsComponent,
+    ClearCartModalComponent,
+    LineItemComponent,
+)
 
 from .main_layout_page import MainLayoutPage
 
@@ -34,6 +38,18 @@ class CartPage(MainLayoutPage):
     @property
     def is_empty(self) -> bool:
         return len(self.line_items) == 0
+
+    @property
+    def shipping_details_section_component(
+        self,
+    ) -> Optional[CheckoutShippingDetailsComponent]:
+        return CheckoutShippingDetailsComponent(
+            self.page.locator("[data-test-id='checkout.shipping-details-section']")
+        )
+
+    @property
+    def place_order_button(self) -> Locator:
+        return self.page.locator("[data-test-id='checkout.place-order-button']")
 
     def navigate(self) -> None:
         self.page.goto(self.url)
