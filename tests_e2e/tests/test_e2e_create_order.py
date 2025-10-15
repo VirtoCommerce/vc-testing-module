@@ -7,6 +7,9 @@ import pytest
 from playwright.sync_api import Page, expect
 
 from fixtures.requests_tracker import RequestsTracker
+from tests_e2e.components.select_address_modal_component import (
+    SelectAddressModalComponent,
+)
 from tests_e2e.pages.cart_page import CartPage
 from tests_e2e.pages.category_page import CategoryPage
 from tests_e2e.pages.checkout_billing_page import CheckoutBillingPage
@@ -83,6 +86,18 @@ def test_e2e_create_order_multi_step_checkout(
     expect(
         checkout_shipping_page.shipping_details_section_component.shipping_method_selector
     ).to_be_visible(), "Shipping method selector is not visible"
+
+    if (
+        not cart_page.shipping_details_section_component.address_selector_component.selected_address_label.is_visible()
+    ):
+        cart_page.shipping_details_section_component.address_selector_component.select_address_button.click()
+        select_address_modal = SelectAddressModalComponent(
+            page.locator("[data-test-id='select-address-modal']")
+        )
+        select_address_modal.items[0].click()
+        select_address_modal.confirm_button.click()
+        time.sleep(2)
+
     expect(
         checkout_shipping_page.shipping_details_section_component.address_selector_component.selected_address_label
     ).to_be_visible(), "Selected address label is not visible"
@@ -216,6 +231,18 @@ def test_e2e_create_order_single_page_checkout(
     expect(
         cart_page.shipping_details_section_component.shipping_method_selector
     ).to_be_visible(), "Shipping method selector is not visible"
+
+    if (
+        not cart_page.shipping_details_section_component.address_selector_component.selected_address_label.is_visible()
+    ):
+        cart_page.shipping_details_section_component.address_selector_component.select_address_button.click()
+        select_address_modal = SelectAddressModalComponent(
+            page.locator("[data-test-id='select-address-modal']")
+        )
+        select_address_modal.items[0].click()
+        select_address_modal.confirm_button.click()
+        time.sleep(2)
+
     expect(
         cart_page.shipping_details_section_component.address_selector_component.selected_address_label
     ).to_be_visible(), "Selected address label is not visible"

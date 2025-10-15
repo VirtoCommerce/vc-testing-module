@@ -10,6 +10,7 @@ from .language_selector_component import LanguageSelectorComponent
 from .line_item_component import LineItemComponent
 from .product_card_component import ProductCardComponent
 from .quantity_stepper_component import QuantityStepperComponent
+from .select_address_modal_component import SelectAddressModalComponent
 from .top_header_account_menu_component import TopHeaderAccountMenuComponent
 from .top_header_component import TopHeaderComponent
 
@@ -28,4 +29,5 @@ __all__ = [
     "TopHeaderAccountMenuComponent",
     "TopHeaderComponent",
     "CheckoutPaymentDetailsComponent",
+    "SelectAddressModalComponent",
 ]
