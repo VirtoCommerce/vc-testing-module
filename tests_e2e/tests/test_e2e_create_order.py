@@ -217,6 +217,9 @@ def test_e2e_create_order_single_page_checkout(
     expect(
         cart_page.shipping_details_section_component.element
     ).to_be_visible(), "Shipping details section is not visible"
+
+    cart_page.shipping_details_section_component.shipping_delivery_option_switcher.click()
+
     expect(
         cart_page.shipping_details_section_component.address_selector_component.element
     ).to_be_visible(), "Shipping address section is not visible"

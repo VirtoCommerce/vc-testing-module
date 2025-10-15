@@ -35,7 +35,7 @@ def test_e2e_merge_carts(
     product_to_add_to_cart = next(
         product
         for product in dataset["products"]
-        if product["id"] == "product-acme-laptop-asus-zenbook-a14-ux3407"
+        if product["id"] == "product-acme-laptop-acer-predator-helios-18-ai"
     )
 
     category_page = CategoryPage(
