@@ -10,7 +10,11 @@ from .main_layout_page import MainLayoutPage
 
 class CategoryPage(MainLayoutPage):
     def __init__(
-        self, config: dict, page: Page, seo_path: str, product_quantity_control: str
+        self,
+        config: dict,
+        page: Page,
+        seo_path: str,
+        product_quantity_control: str = "stepper",
     ):
         self.config = config
         self.page = page
