@@ -241,7 +241,6 @@ def test_e2e_create_order_single_page_checkout(
         )
         select_address_modal.items[0].click()
         select_address_modal.confirm_button.click()
-        time.sleep(2)
 
     expect(
         cart_page.shipping_details_section_component.address_selector_component.selected_address_label
