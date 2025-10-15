@@ -48,16 +48,16 @@ def test_e2e_category_add_product_to_cart_with_add_to_cart_button(
     )
 
     category_page = CategoryPage(
-        config, page, category_to_browse["seoInfos"][0]["semanticUrl"]
+        config,
+        page,
+        category_to_browse["seoInfos"][0]["semanticUrl"],
+        product_quantity_control,
     )
     category_page.navigate()
 
-    product_card = category_page.get_product_card_by_sku(product_to_add_to_cart["code"])
-
-    product_card.add_to_cart_component.quantity_input.fill(product_quantity_to_add)
-    product_card.add_to_cart_component.add_to_cart_text_button.click()
-
-    time.sleep(2)
+    category_page.add_product_to_cart(
+        product_to_add_to_cart["code"], product_quantity_to_add
+    )
 
     cart_page = CartPage(config, page)
     cart_page.navigate()
@@ -112,20 +112,22 @@ def test_e2e_category_add_product_to_cart_with_quantity_stepper(
         if product["id"] == "product-acme-laptop-hp-pavilion-16-ag0087nr"
     )
 
+    quantity_to_add = 2
+
     category_page = CategoryPage(
-        config, page, category_to_browse["seoInfos"][0]["semanticUrl"]
+        config,
+        page,
+        category_to_browse["seoInfos"][0]["semanticUrl"],
+        product_quantity_control,
     )
     category_page.navigate()
+    category_page.add_product_to_cart(product_to_add_to_cart["code"], quantity_to_add)
 
     product_card = category_page.get_product_card_by_sku(product_to_add_to_cart["code"])
 
-    product_card.quantity_stepper_component.increment_button.click()
-
     expect(product_card.quantity_stepper_component.quantity_input).to_have_value(
-        "1"
-    ), "Quantity input is not equal to 1"
-
-    time.sleep(2)
+        str(quantity_to_add)
+    ), f"Quantity input is not equal to {quantity_to_add}"
 
     cart_page = CartPage(config, page)
     cart_page.navigate()
@@ -135,9 +137,11 @@ def test_e2e_category_add_product_to_cart_with_quantity_stepper(
     assert (
         line_item.sku == product_to_add_to_cart["code"]
     ), f"Line item sku is not equal to product sku: {product_to_add_to_cart['code']}"
-    assert (
-        str(line_item.quantity_stepper_component.quantity_input.input_value()) == "1"
-    ), "Line item quantity is not equal to product quantity to add"
+    assert str(
+        line_item.quantity_stepper_component.quantity_input.input_value()
+    ) == str(
+        quantity_to_add
+    ), f"Line item quantity is not equal to product quantity to add: {quantity_to_add}"
 
     cart_page.clear_cart()
 

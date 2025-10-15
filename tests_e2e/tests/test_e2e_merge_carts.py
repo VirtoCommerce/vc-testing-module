@@ -39,19 +39,16 @@ def test_e2e_merge_carts(
     )
 
     category_page = CategoryPage(
-        config, page, category_to_browse["seoInfos"][0]["semanticUrl"]
+        config,
+        page,
+        category_to_browse["seoInfos"][0]["semanticUrl"],
+        product_quantity_control,
     )
     category_page.navigate()
 
-    product_card = category_page.get_product_card_by_sku(product_to_add_to_cart["code"])
-    if product_quantity_control == "stepper":
-        product_card.quantity_stepper_component.increment_button.click()
-        product_card.quantity_stepper_component.increment_button.click()
-    elif product_quantity_control == "button":
-        product_card.add_to_cart_component.quantity_input.fill("2")
-        product_card.add_to_cart_component.add_to_cart_text_button.click()
+    quantity_to_add = 2
 
-    time.sleep(2)
+    category_page.add_product_to_cart(product_to_add_to_cart["code"], quantity_to_add)
 
     user = dataset["users"][0]
 
@@ -62,6 +59,16 @@ def test_e2e_merge_carts(
     cart_page = CartPage(config, page)
     cart_page.navigate()
 
+    line_item = cart_page.get_line_item_by_sku(product_to_add_to_cart["code"])
+
     assert not cart_page.is_empty, "Cart is empty after sign in"
+    assert (
+        line_item.sku == product_to_add_to_cart["code"]
+    ), f"Line item sku is not equal to product sku: {product_to_add_to_cart['code']}"
+    assert str(
+        line_item.quantity_stepper_component.quantity_input.input_value()
+    ) == str(
+        quantity_to_add
+    ), f"Line item quantity is not equal to product quantity to add: {quantity_to_add}"
 
     cart_page.clear_cart()

@@ -41,19 +41,14 @@ def test_e2e_clear_cart(
     )
 
     category_page = CategoryPage(
-        config, page, category_to_browse["seoInfos"][0]["semanticUrl"]
+        config,
+        page,
+        category_to_browse["seoInfos"][0]["semanticUrl"],
+        product_quantity_control,
     )
     category_page.navigate()
 
-    product_card = category_page.get_product_card_by_sku(product_to_add_to_cart["code"])
-    if product_quantity_control == "stepper":
-        product_card.quantity_stepper_component.increment_button.click()
-        product_card.quantity_stepper_component.increment_button.click()
-    elif product_quantity_control == "button":
-        product_card.add_to_cart_component.quantity_input.fill("2")
-        product_card.add_to_cart_component.add_to_cart_text_button.click()
-
-    time.sleep(2)
+    category_page.add_product_to_cart(product_to_add_to_cart["code"], 2)
 
     cart_page = CartPage(config, page)
     cart_page.navigate()
