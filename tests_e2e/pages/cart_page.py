@@ -3,6 +3,7 @@ from typing import List, Optional
 from playwright.sync_api import Locator, Page
 
 from tests_e2e.components import (
+    CheckoutPaymentDetailsComponent,
     CheckoutShippingDetailsComponent,
     ClearCartModalComponent,
     LineItemComponent,
@@ -45,6 +46,14 @@ class CartPage(MainLayoutPage):
     ) -> Optional[CheckoutShippingDetailsComponent]:
         return CheckoutShippingDetailsComponent(
             self.page.locator("[data-test-id='checkout.shipping-details-section']")
+        )
+
+    @property
+    def payment_details_section_component(
+        self,
+    ) -> Optional[CheckoutPaymentDetailsComponent]:
+        return CheckoutPaymentDetailsComponent(
+            self.page.locator("[data-test-id='checkout.payment-details-section']")
         )
 
     @property

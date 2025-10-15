@@ -1,5 +1,7 @@
 from playwright.sync_api import Locator, Page
 
+from tests_e2e.components import CheckoutPaymentDetailsComponent
+
 from .checkout_layout_page import CheckoutLayoutPage
 
 
@@ -13,13 +15,11 @@ class CheckoutBillingPage(CheckoutLayoutPage):
         return f"{self.config['frontend_base_url']}/checkout/billing"
 
     @property
-    def payment_method_selector(self) -> Locator:
-        return self.page.locator("[data-test-id='checkout.payment-method-selector']")
+    def billing_details_section_component(self) -> CheckoutPaymentDetailsComponent:
+        return CheckoutPaymentDetailsComponent(
+            self.page.locator("[data-test-id='checkout.billing-details-section']")
+        )
 
     @property
     def review_order_button(self) -> Locator:
         return self.page.locator("[data-test-id='checkout.review-order-button']")
-
-    def select_payment_method(self, payment_method: str) -> None:
-        self.payment_method_selector.click()
-        self.page.locator(f"[data-payment-method-id='{payment_method}']").click()

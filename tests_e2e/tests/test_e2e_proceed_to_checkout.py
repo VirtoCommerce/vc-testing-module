@@ -73,6 +73,9 @@ def test_e2e_proceed_to_multi_step_checkout(
     expect(checkout_page.page).to_have_url(
         checkout_page.url
     ), "Checkout page is not loaded"
+    expect(
+        checkout_page.shipping_details_section_component.element
+    ).to_be_visible(), "Shipping details section is not visible"
 
     cart_page.navigate()
     cart_page.clear_cart()
@@ -135,6 +138,9 @@ def test_e2e_proceed_to_single_page_checkout(
     expect(
         cart_page.shipping_details_section_component.shipping_method_selector
     ).to_be_visible(), "Shipping details section is not visible"
+    expect(
+        cart_page.payment_details_section_component.element
+    ).to_be_visible(), "Payment details section is not visible"
     # expect(
     #    cart_page.place_order_button
     # ).to_be_visible(), "Place order button is not visible"
