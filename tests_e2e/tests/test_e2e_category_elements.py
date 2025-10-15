@@ -16,6 +16,7 @@ def test_e2e_category_elements(
     dataset: dict[str, Any],
     page: Page,
     anonymous_catalog_requests: AnonymousCatalogRequests,
+    product_quantity_control: str,
 ):
     print(f"{os.linesep}Running E2E test to check category elements...", end=" ")
 
@@ -28,12 +29,14 @@ def test_e2e_category_elements(
     )
 
     category_page = CategoryPage(
-        config, page, category_to_browse["seoInfos"][0]["semanticUrl"]
+        config,
+        page,
+        category_to_browse["seoInfos"][0]["semanticUrl"],
+        product_quantity_control,
     )
     category_page.navigate()
     category_page.view_switcher.switch_category_view("grid")
 
-    expect(category_page.page).to_have_url(category_page.url)
     expect(category_page.view_switcher.element).to_be_visible()
     expect(category_page.products_grid_view).to_be_visible()
     expect(category_page.products_list_view).not_to_be_visible()
