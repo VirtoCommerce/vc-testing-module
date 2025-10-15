@@ -1,4 +1,5 @@
 import os
+from typing import Any
 
 import allure
 import pytest
@@ -13,7 +14,9 @@ from tests_e2e.pages.sign_in_page import SignInPage
 @pytest.mark.e2e
 @pytest.mark.parametrize("language", ["de-DE", "fr-FR", "it-IT"])
 @allure.feature("Select language in store (E2E)")
-def test_e2e_select_language_in_store(config, page: Page, graphql_client, language):
+def test_e2e_select_language_in_store(
+    config, page: Page, dataset: dict[str, Any], graphql_client, language
+):
     print(f"{os.linesep}Running E2E test to select language in store...", end=" ")
 
     sign_in_page = SignInPage(page, config)
@@ -22,7 +25,7 @@ def test_e2e_select_language_in_store(config, page: Page, graphql_client, langua
 
     sign_in_page.navigate()
 
-    sign_in_page.sign_in(config["username"], config["password"])
+    sign_in_page.sign_in(dataset["users"][0]["userName"], config["users_password"])
 
     expect(page).to_have_url(home_page.url)
     expect(home_page.top_header_component.sign_in_link).not_to_be_visible()

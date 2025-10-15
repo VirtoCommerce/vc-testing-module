@@ -57,8 +57,16 @@ class CartPage(MainLayoutPage):
         )
 
     @property
+    def single_page_place_order_button(self) -> Locator:
+        return self.page.locator(
+            "[data-test-id='checkout-single-page.place-order-button']"
+        )
+
+    @property
     def place_order_button(self) -> Locator:
-        return self.page.locator("[data-test-id='checkout.place-order-button']")
+        return self.page.locator(
+            "[data-test-id='checkout-single-page.place-order-button']"
+        )
 
     def navigate(self) -> None:
         self.page.goto(self.url)

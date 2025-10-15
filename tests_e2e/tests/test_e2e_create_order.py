@@ -1,12 +1,12 @@
 import os
+import time
+from typing import Any
 
 import allure
 import pytest
 from playwright.sync_api import Page, expect
 
 from fixtures.requests_tracker import RequestsTracker
-from test_data.test_category import TEST_CATEGORY_1
-from test_data.test_product import TEST_PRODUCT_1
 from tests_e2e.pages.cart_page import CartPage
 from tests_e2e.pages.category_page import CategoryPage
 from tests_e2e.pages.checkout_billing_page import CheckoutBillingPage
@@ -16,26 +16,57 @@ from tests_e2e.pages.checkout_shipping_page import CheckoutShippingPage
 from tests_e2e.pages.sign_in_page import SignInPage
 
 
-@pytest.mark.ignore
 @pytest.mark.e2e
-@allure.title("Create order (E2E)")
-def test_e2e_create_order(config: dict, page: Page, requests_tracker: RequestsTracker):
-    print(f"{os.linesep}Running E2E test to create order...", end=" ")
+@allure.title("Create order - multi-step checkout (E2E)")
+def test_e2e_create_order_multi_step_checkout(
+    config: dict[str, Any],
+    dataset: dict[str, Any],
+    page: Page,
+    requests_tracker: RequestsTracker,
+    product_quantity_control: str,
+    checkout_mode: str,
+):
+    if checkout_mode == "single-page":
+        pytest.skip("Checkout mode is a multi-step")
+
+    print(
+        f"{os.linesep}Running E2E test to create order in multi-step checkout...",
+        end=" ",
+    )
 
     page.set_viewport_size({"width": 1920, "height": 1080})
 
     sign_in_page = SignInPage(page, config)
     sign_in_page.navigate()
-    sign_in_page.sign_in(config["username"], config["password"])
+    sign_in_page.sign_in(dataset["users"][0]["userName"], config["users_password"])
 
     expect(page).not_to_have_url(sign_in_page.url), "Sign in page is still visible"
 
-    category_page = CategoryPage(config, page, TEST_CATEGORY_1["seoPath"])
+    category_to_browse = next(
+        category
+        for category in dataset["categories"]
+        if category["id"] == "category-acme-laptops"
+    )
+    product_to_add_to_cart = next(
+        product
+        for product in dataset["products"]
+        if product["id"] == "product-acme-laptop-asus-vivobook-16-x1607qa"
+    )
+
+    category_page = CategoryPage(
+        config, page, category_to_browse["seoInfos"][0]["semanticUrl"]
+    )
     category_page.navigate()
 
-    product_card = category_page.get_product_card_by_sku(TEST_PRODUCT_1["sku"])
-    product_card.quantity_input.fill("2")
-    product_card.add_to_cart_text_button.click()
+    product_card = category_page.get_product_card_by_sku(product_to_add_to_cart["code"])
+    if product_quantity_control == "stepper":
+        product_card.quantity_stepper_component.increment_button.click()
+        product_card.quantity_stepper_component.increment_button.click()
+    elif product_quantity_control == "button":
+        product_card.add_to_cart_component.quantity_input.fill("2")
+        product_card.add_to_cart_component.add_to_cart_text_button.click()
+
+    time.sleep(2)
 
     cart_page = CartPage(config, page)
     cart_page.navigate()
@@ -84,8 +115,13 @@ def test_e2e_create_order(config: dict, page: Page, requests_tracker: RequestsTr
     expect(page).to_have_url(
         checkout_billing_page.url
     ), "Checkout billing page is not loaded"
+    expect(
+        checkout_billing_page.payment_details_section_component.element
+    ).to_be_visible(), "Payment details section is not visible"
 
-    checkout_billing_page.select_payment_method("DefaultManualPaymentMethod")
+    checkout_billing_page.payment_details_section_component.select_payment_method(
+        "DefaultManualPaymentMethod"
+    )
 
     requests_tracker.wait_for_all_requests()
 
@@ -111,6 +147,113 @@ def test_e2e_create_order(config: dict, page: Page, requests_tracker: RequestsTr
     ).to_be_enabled(), "Place order button is disabled"
 
     checkout_review_order_page.place_order_button.click()
+
+    checkout_completed_page = CheckoutCompletedPage(config, page)
+
+    expect(page).to_have_url(
+        checkout_completed_page.url
+    ), "Checkout completed page is not loaded"
+
+    print(f"Order number: {checkout_completed_page.order_number}")
+    assert checkout_completed_page.order_number is not None, "Order number is not found"
+
+
+@pytest.mark.e2e
+@allure.title("Create order - single-page checkout (E2E)")
+def test_e2e_create_order_single_page_checkout(
+    config: dict[str, Any],
+    dataset: dict[str, Any],
+    page: Page,
+    requests_tracker: RequestsTracker,
+    product_quantity_control: str,
+    checkout_mode: str,
+):
+    if checkout_mode == "multi-step":
+        pytest.skip("Checkout mode is a single-page")
+
+    print(
+        f"{os.linesep}Running E2E test to create order in multi-step checkout...",
+        end=" ",
+    )
+
+    page.set_viewport_size({"width": 1920, "height": 1080})
+
+    sign_in_page = SignInPage(page, config)
+    sign_in_page.navigate()
+    sign_in_page.sign_in(dataset["users"][0]["userName"], config["users_password"])
+
+    expect(page).not_to_have_url(sign_in_page.url), "Sign in page is still visible"
+
+    category_to_browse = next(
+        category
+        for category in dataset["categories"]
+        if category["id"] == "category-acme-laptops"
+    )
+    product_to_add_to_cart = next(
+        product
+        for product in dataset["products"]
+        if product["id"] == "product-acme-laptop-asus-vivobook-16-x1607qa"
+    )
+
+    category_page = CategoryPage(
+        config, page, category_to_browse["seoInfos"][0]["semanticUrl"]
+    )
+    category_page.navigate()
+
+    product_card = category_page.get_product_card_by_sku(product_to_add_to_cart["code"])
+    if product_quantity_control == "stepper":
+        product_card.quantity_stepper_component.increment_button.click()
+        product_card.quantity_stepper_component.increment_button.click()
+    elif product_quantity_control == "button":
+        product_card.add_to_cart_component.quantity_input.fill("2")
+        product_card.add_to_cart_component.add_to_cart_text_button.click()
+
+    time.sleep(2)
+
+    cart_page = CartPage(config, page)
+    cart_page.navigate()
+
+    expect(page).to_have_url(cart_page.url), "Cart page is not loaded"
+    expect(
+        cart_page.shipping_details_section_component.element
+    ).to_be_visible(), "Shipping details section is not visible"
+    expect(
+        cart_page.shipping_details_section_component.address_selector_component.element
+    ).to_be_visible(), "Shipping address section is not visible"
+    expect(
+        cart_page.shipping_details_section_component.shipping_method_selector
+    ).to_be_visible(), "Shipping method selector is not visible"
+    expect(
+        cart_page.shipping_details_section_component.address_selector_component.selected_address_label
+    ).to_be_visible(), "Selected address label is not visible"
+    expect(
+        cart_page.shipping_details_section_component.address_selector_component.selected_address_label
+    ).not_to_be_empty(), "Selected address label is empty"
+
+    cart_page.shipping_details_section_component.select_shipping_method(
+        "FixedRate_Ground"
+    )
+
+    requests_tracker.wait_for_all_requests()
+
+    expect(
+        cart_page.payment_details_section_component.element
+    ).to_be_visible(), "Payment details section is not visible"
+
+    cart_page.payment_details_section_component.select_payment_method(
+        "DefaultManualPaymentMethod"
+    )
+
+    requests_tracker.wait_for_all_requests()
+
+    # expect(
+    #    cart_page.place_order_button
+    # ).to_be_visible(), "Place order button is not visible"
+    expect(
+        cart_page.place_order_button
+    ).to_be_enabled(), "Place order button is disabled"
+
+    cart_page.place_order_button.click()
 
     checkout_completed_page = CheckoutCompletedPage(config, page)
 

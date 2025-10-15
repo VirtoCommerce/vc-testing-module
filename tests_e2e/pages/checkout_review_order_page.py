@@ -14,4 +14,6 @@ class CheckoutReviewOrderPage(CheckoutLayoutPage):
 
     @property
     def place_order_button(self) -> Locator:
-        return self.page.locator("[data-test-id='checkout.place-order-button']")
+        return self.page.locator(
+            "[data-test-id='checkout-multi-step.place-order-button']"
+        )

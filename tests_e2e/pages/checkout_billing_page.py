@@ -15,9 +15,9 @@ class CheckoutBillingPage(CheckoutLayoutPage):
         return f"{self.config['frontend_base_url']}/checkout/billing"
 
     @property
-    def billing_details_section_component(self) -> CheckoutPaymentDetailsComponent:
+    def payment_details_section_component(self) -> CheckoutPaymentDetailsComponent:
         return CheckoutPaymentDetailsComponent(
-            self.page.locator("[data-test-id='checkout.billing-details-section']")
+            self.page.locator("[data-test-id='checkout.payment-details-section']")
         )
 
     @property
