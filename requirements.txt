@@ -30,11 +30,11 @@ pi==0.1.2
 pillow==11.0.0
 pixelmatch==0.3.0
 platformdirs==4.3.6
-playwright==1.49.0
+playwright==1.55.0
 pluggy==1.5.0
 pre_commit==4.1.0
 propcache==0.2.1
-pyee==12.0.0
+pyee==13.0.0
 pytest==8.3.4
 pytest-base-url==2.1.0
 pytest-image-snapshot==0.4.0
