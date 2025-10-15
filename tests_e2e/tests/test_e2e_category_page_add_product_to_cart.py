@@ -44,7 +44,7 @@ def test_e2e_category_add_product_to_cart_with_add_to_cart_button(
     product_to_add_to_cart = next(
         product
         for product in dataset["products"]
-        if product["id"] == "product-acme-laptop-asus-zenbook-a14-ux3407"
+        if product["id"] == "product-acme-laptop-hp-pavilion-16-ag0087nr"
     )
 
     category_page = CategoryPage(
@@ -52,11 +52,8 @@ def test_e2e_category_add_product_to_cart_with_add_to_cart_button(
     )
     category_page.navigate()
 
-    expect(page).to_have_url(
-        f"{config['frontend_base_url']}/{category_to_browse['seoInfos'][0]['semanticUrl']}"
-    )
-
     product_card = category_page.get_product_card_by_sku(product_to_add_to_cart["code"])
+
     product_card.add_to_cart_component.quantity_input.fill(product_quantity_to_add)
     product_card.add_to_cart_component.add_to_cart_text_button.click()
 
@@ -112,17 +109,13 @@ def test_e2e_category_add_product_to_cart_with_quantity_stepper(
     product_to_add_to_cart = next(
         product
         for product in dataset["products"]
-        if product["id"] == "product-acme-laptop-asus-zenbook-a14-ux3407"
+        if product["id"] == "product-acme-laptop-hp-pavilion-16-ag0087nr"
     )
 
     category_page = CategoryPage(
         config, page, category_to_browse["seoInfos"][0]["semanticUrl"]
     )
     category_page.navigate()
-
-    expect(page).to_have_url(
-        f"{config['frontend_base_url']}/{category_to_browse['seoInfos'][0]['semanticUrl']}"
-    )
 
     product_card = category_page.get_product_card_by_sku(product_to_add_to_cart["code"])
 

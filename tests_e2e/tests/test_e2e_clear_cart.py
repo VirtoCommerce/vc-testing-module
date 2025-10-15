@@ -37,7 +37,7 @@ def test_e2e_clear_cart(
     product_to_add_to_cart = next(
         product
         for product in dataset["products"]
-        if product["id"] == "product-acme-laptop-asus-zenbook-a14-ux3407"
+        if product["id"] == "product-acme-laptop-hp-pavilion-16-ag0087nr"
     )
 
     category_page = CategoryPage(

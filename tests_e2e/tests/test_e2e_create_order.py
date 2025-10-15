@@ -50,7 +50,7 @@ def test_e2e_create_order_multi_step_checkout(
     product_to_add_to_cart = next(
         product
         for product in dataset["products"]
-        if product["id"] == "product-acme-laptop-asus-vivobook-16-x1607qa"
+        if product["id"] == "product-acme-laptop-hp-pavilion-16-ag0087nr"
     )
 
     category_page = CategoryPage(
@@ -192,7 +192,7 @@ def test_e2e_create_order_single_page_checkout(
     product_to_add_to_cart = next(
         product
         for product in dataset["products"]
-        if product["id"] == "product-acme-laptop-asus-vivobook-16-x1607qa"
+        if product["id"] == "product-acme-laptop-hp-pavilion-16-ag0087nr"
     )
 
     category_page = CategoryPage(

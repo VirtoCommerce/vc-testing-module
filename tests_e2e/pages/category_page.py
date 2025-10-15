@@ -1,4 +1,4 @@
-from typing import List, Literal, Optional
+from typing import Optional
 
 from playwright.sync_api import Locator, Page
 
@@ -32,7 +32,7 @@ class CategoryPage(MainLayoutPage):
         return self.page.locator("[data-test-id='category-page.products-list-view']")
 
     @property
-    def product_cards(self) -> List[ProductCardComponent]:
+    def product_cards(self) -> list[ProductCardComponent]:
         return [
             ProductCardComponent(card)
             for card in self.products_grid_view.locator(
@@ -41,7 +41,7 @@ class CategoryPage(MainLayoutPage):
         ]
 
     def navigate(self) -> None:
-        self.page.goto(self.url)
+        self.page.goto(f"{self.url}?sort=price-ascending")
         self.page.wait_for_load_state("networkidle")
 
     def get_product_card_by_sku(self, sku: str) -> Optional[ProductCardComponent]:
