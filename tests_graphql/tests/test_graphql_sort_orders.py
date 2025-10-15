@@ -68,7 +68,6 @@ def test_sort_orders_by_date(
     assert is_sorted_asc, "Orders are not sorted by date in ascending order"
 
 
-@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Sort orders by total amount (GraphQL)")
 def test_sort_orders_by_total_amount(

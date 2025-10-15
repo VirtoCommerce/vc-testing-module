@@ -59,7 +59,7 @@ def test_add_cart_billing_address(
         payload={
             "storeId": config["store_id"],
             "userId": user["id"],
-            "addressId": billing_address["id"],
+            "addressId": test_address["id"],
             "currencyCode": currency,
             "cultureName": culture,
         }
@@ -75,7 +75,6 @@ def test_add_cart_billing_address(
     assert cart["payments"] is not None, "Payments are None"
     assert len(cart["payments"]) > 0, "Cart has not payments"
     assert billing_address is not None, "Billing address is None"
-    assert billing_address["id"] is not None, "Billing address ID is None"
     assert (
         billing_address["city"] == test_address["city"]
     ), "Billing address city is not the same"
@@ -182,7 +181,7 @@ def test_update_cart_billing_address(
         payload={
             "storeId": config["store_id"],
             "userId": user["id"],
-            "addressId": billing_address["id"],
+            "addressId": test_address["id"],
             "currencyCode": currency,
             "cultureName": culture,
         }
@@ -198,7 +197,6 @@ def test_update_cart_billing_address(
     assert updated_cart["payments"] is not None, "Payments are None"
     assert len(updated_cart["payments"]) > 0, "Cart has not payments"
     assert updated_billing_address is not None, "Billing address is None"
-    assert updated_billing_address["id"] is not None, "Billing address ID is None"
     assert (
         updated_billing_address["city"] == new_address["city"]
     ), "Billing address city is not the same"

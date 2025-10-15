@@ -7,5 +7,6 @@ class InputChangeWishlistType(BaseModel):
         self.listId: str
         self.listName: str | None
         self.scope: str | None
+        self.sharingKey: str | None
         self.description: str | None
         self.cultureName: str | None

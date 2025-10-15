@@ -1,12 +1,11 @@
 import json
 import os
+from datetime import datetime
 from typing import Any, Literal
 from urllib.parse import urlencode
 
 from colorama import Fore, Style
 from colorama import init as init_colorama
-from dotenv import load_dotenv
-from rich.progress import track
 
 from dataset.dataset_config import DatasetConfig
 
@@ -122,6 +121,8 @@ class DatasetSeeder(DatasetConfig):
                     for key, section in self.dataset.items()
                     if "payload" in section
                 }
+
+                payloads["createdDate"] = datetime.now().isoformat()
 
                 json.dump(payloads, file, indent=4)
 
