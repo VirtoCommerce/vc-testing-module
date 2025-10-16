@@ -1,61 +1,65 @@
 [
-    {
-        "id": "store-acme",
-        "name": "ACME Store",
-        "catalog": "catalog-acme",
-        "storeState": "Open",
-        "defaultCurrency": "USD",
-        "defaultLanguage": "en-US",
-        "mainFulfillmentCenterId": "ffc-acme-usa-springfield-il",
-        "adminEmail": "acme_store_administrator@acme.com",
-        "adminEmailName": "ACME Store Administrator",
-        "email": "store@acme.com",
-        "emailName": "ACME Store",
-        "url": "{storeUrl}",
-        "languages": [
-            "en-US",
-            "pl-PL",
-            "zh-CN",
-            "es-ES",
-            "pt-PT",
-            "ja-JP",
-            "it-IT",
-            "fr-FR",
-            "ru-RU",
-            "de-DE"
-        ],
-        "currencies": [
-            "USD",
-            "EUR"
-        ],
-        "additionalCurrencies": [
-            "EUR"
-        ],
-        "additionalLanguages": [
-            "de-DE",
-            "fr-FR",
-            "it-IT",
-            "es-ES",
-            "ja-JP",
-            "pl-PL",
-            "pt-PT",
-            "ru-RU",
-            "zh-CN"
-        ],
-        "additionalFulfillmentCenterIds": [
-            "ffc-acme-usa-morrisville-nc",
-            "ffc-acme-usa-riverton-oh"
-        ],
-        "settings": [
-            {
-                "objectId": "store-acme",
-                "objectType": "Store",
-                "moduleId": "VirtoCommerce.Store",
-                "name": "Stores.SeoLinksType",
-                "groupName": "SEO",
-                "value": "Long",
-                "valueType": "ShortText"
-            }
-        ]
-    }
+  {
+    "id": "store-acme",
+    "name": "ACME Store",
+    "catalog": "catalog-acme",
+    "storeState": "Open",
+    "defaultCurrency": "USD",
+    "defaultLanguage": "en-US",
+    "mainFulfillmentCenterId": "ffc-acme-usa-springfield-il",
+    "adminEmail": "acme_store_administrator@acme.com",
+    "adminEmailName": "ACME Store Administrator",
+    "email": "store@acme.com",
+    "emailName": "ACME Store",
+    "url": "{storeUrl}",
+    "languages": [
+      "en-US",
+      "pl-PL",
+      "zh-CN",
+      "es-ES",
+      "pt-PT",
+      "ja-JP",
+      "it-IT",
+      "fr-FR",
+      "ru-RU",
+      "de-DE"
+    ],
+    "currencies": ["USD", "EUR"],
+    "additionalCurrencies": ["EUR"],
+    "additionalLanguages": [
+      "de-DE",
+      "fr-FR",
+      "it-IT",
+      "es-ES",
+      "ja-JP",
+      "pl-PL",
+      "pt-PT",
+      "ru-RU",
+      "zh-CN"
+    ],
+    "additionalFulfillmentCenterIds": [
+      "ffc-acme-usa-morrisville-nc",
+      "ffc-acme-usa-riverton-oh"
+    ],
+    "settings": [
+      {
+        "objectId": "store-acme",
+        "objectType": "Store",
+        "moduleId": "VirtoCommerce.Store",
+        "name": "Stores.SeoLinksType",
+        "groupName": "SEO",
+        "value": "Long",
+        "valueType": "ShortText"
+      },
+      {
+        "objectId": "store-acme",
+        "objectType": "Store",
+        "moduleId": "VirtoCommerce.XPickup",
+        "name": "XPickup.Enabled",
+        "groupName": "BOPIS",
+        "value": true,
+        "valueType": "Boolean"
+      }
+    ]
+  }
 ]
