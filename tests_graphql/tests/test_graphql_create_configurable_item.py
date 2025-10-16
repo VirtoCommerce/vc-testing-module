@@ -1,5 +1,5 @@
 import os
-from typing import Any, Dict
+from typing import Any
 
 import allure
 import pytest
@@ -7,16 +7,13 @@ import pytest
 from fixtures.graphql_client import GraphQLClient
 from graphql_operations.catalog.products_operations import ProductsOperations
 from graphql_operations.user.user_operations import UserOperations
-from test_data.test_culture import TEST_CULTURE
-from test_data.test_currency import TEST_CURRENCY
-from test_data.test_product import TEST_CONFIGURABLE_PRODUCT_1
 
 
 @pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Create configurable item (GraphQL)")
 def test_create_configurable_item(
-    config: Dict[str, Any], graphql_client: GraphQLClient
+    config: dict[str, Any], dataset: dict[str, Any], graphql_client: GraphQLClient
 ):
     print(f"{os.linesep}Running test to create configurable item...", end=" ")
 
@@ -28,17 +25,17 @@ def test_create_configurable_item(
     base_product = products_operations.get_product(
         store_id=config["store_id"],
         user_id=user["id"],
-        id=TEST_CONFIGURABLE_PRODUCT_1["id"],
-        culture_name=TEST_CULTURE["en-US"],
-        currency_code=TEST_CURRENCY["USD"],
+        id=dataset["products"][0]["id"],
+        culture_name=dataset["languages"][0]["allowedValues"][0],
+        currency_code=dataset["currencies"][0]["code"],
     )
 
     product_configuration = products_operations.get_product_configuration(
         store_id=config["store_id"],
         user_id=user["id"],
-        configurable_product_id=TEST_CONFIGURABLE_PRODUCT_1["id"],
-        culture_name=TEST_CULTURE["en-US"],
-        currency_code=TEST_CURRENCY["USD"],
+        configurable_product_id=dataset["products"][0]["id"],
+        culture_name=dataset["languages"][0]["allowedValues"][0],
+        currency_code=dataset["currencies"][0]["code"],
     )
 
     configuration_sections = []
@@ -66,9 +63,9 @@ def test_create_configurable_item(
     configured_line_item = products_operations.create_configured_line_item(
         payload={
             "storeId": config["store_id"],
-            "configurableProductId": TEST_CONFIGURABLE_PRODUCT_1["id"],
-            "cultureName": TEST_CULTURE["en-US"],
-            "currencyCode": TEST_CURRENCY["USD"],
+            "configurableProductId": dataset["products"][0]["id"],
+            "cultureName": dataset["languages"][0]["allowedValues"][0],
+            "currencyCode": dataset["currencies"][0]["code"],
             "configurationSections": configuration_sections,
         }
     )
