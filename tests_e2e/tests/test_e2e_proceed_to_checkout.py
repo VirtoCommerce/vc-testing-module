@@ -1,36 +1,59 @@
 import os
+import time
+from typing import Any
 
 import allure
 import pytest
 from playwright.sync_api import Page, expect
 
-from fixtures.requests_tracker import RequestsTracker
-from test_data.test_category import TEST_CATEGORY_1
-from test_data.test_product import TEST_PRODUCT_1
 from tests_e2e.pages.cart_page import CartPage
 from tests_e2e.pages.category_page import CategoryPage
 from tests_e2e.pages.checkout_shipping_page import CheckoutShippingPage
 from tests_e2e.pages.sign_in_page import SignInPage
 
 
-@pytest.mark.ignore
 @pytest.mark.e2e
-@allure.title("Proceed to checkout (E2E)")
-def test_e2e_proceed_to_checkout(config: dict, page: Page):
-    print(f"{os.linesep}Running E2E test to proceed to checkout...", end=" ")
+@allure.title("Proceed to multi-step checkout (E2E)")
+def test_e2e_proceed_to_multi_step_checkout(
+    config: dict[str, Any],
+    dataset: dict[str, Any],
+    page: Page,
+    product_quantity_control: str,
+    checkout_mode: str,
+):
+    if checkout_mode == "single-page":
+        pytest.skip("Checkout mode is a multi-step")
+
+    print(f"{os.linesep}Running E2E test to proceed to multi-step checkout...", end=" ")
 
     page.set_viewport_size({"width": 1920, "height": 1080})
 
+    user = dataset["users"][0]
+
     sign_in_page = SignInPage(page, config)
     sign_in_page.navigate()
-    sign_in_page.sign_in(config["username"], config["password"])
+    sign_in_page.sign_in(user["userName"], config["users_password"])
 
-    category_page = CategoryPage(config, page, TEST_CATEGORY_1["seoPath"])
+    category_to_browse = next(
+        category
+        for category in dataset["categories"]
+        if category["id"] == "category-acme-laptops"
+    )
+    product_to_add_to_cart = next(
+        product
+        for product in dataset["products"]
+        if product["id"] == "product-acme-laptop-hp-pavilion-16-ag0087nr"
+    )
+
+    category_page = CategoryPage(
+        config,
+        page,
+        category_to_browse["seoInfos"][0]["semanticUrl"],
+        product_quantity_control,
+    )
     category_page.navigate()
 
-    product_card = category_page.get_product_card_by_sku(TEST_PRODUCT_1["sku"])
-    product_card.quantity_input.fill("2")
-    product_card.add_to_cart_text_button.click()
+    category_page.add_product_to_cart(product_to_add_to_cart["code"], 2)
 
     cart_page = CartPage(config, page)
     cart_page.navigate()
@@ -45,6 +68,71 @@ def test_e2e_proceed_to_checkout(config: dict, page: Page):
     expect(checkout_page.page).to_have_url(
         checkout_page.url
     ), "Checkout page is not loaded"
+    expect(
+        checkout_page.shipping_details_section_component.element
+    ).to_be_visible(), "Shipping details section is not visible"
 
     cart_page.navigate()
+    cart_page.clear_cart()
+
+
+@pytest.mark.e2e
+@allure.title("Proceed to single-page checkout (E2E)")
+def test_e2e_proceed_to_single_page_checkout(
+    config: dict[str, Any],
+    dataset: dict[str, Any],
+    page: Page,
+    product_quantity_control: str,
+    checkout_mode: str,
+):
+    if checkout_mode == "multi-step":
+        pytest.skip("Checkout mode is a single-page")
+
+    print(
+        f"{os.linesep}Running E2E test to proceed to single-page checkout...", end=" "
+    )
+
+    page.set_viewport_size({"width": 1920, "height": 1080})
+
+    user = dataset["users"][0]
+
+    sign_in_page = SignInPage(page, config)
+    sign_in_page.navigate()
+    sign_in_page.sign_in(user["userName"], config["users_password"])
+
+    category_to_browse = next(
+        category
+        for category in dataset["categories"]
+        if category["id"] == "category-acme-laptops"
+    )
+    product_to_add_to_cart = next(
+        product
+        for product in dataset["products"]
+        if product["id"] == "product-acme-laptop-hp-pavilion-16-ag0087nr"
+    )
+
+    category_page = CategoryPage(
+        config,
+        page,
+        category_to_browse["seoInfos"][0]["semanticUrl"],
+        product_quantity_control,
+    )
+    category_page.navigate()
+
+    category_page.add_product_to_cart(product_to_add_to_cart["code"], 2)
+
+    cart_page = CartPage(config, page)
+    cart_page.navigate()
+
+    expect(cart_page.page).to_have_url(cart_page.url), "Cart page is not loaded"
+    expect(
+        cart_page.shipping_details_section_component.shipping_method_selector
+    ).to_be_visible(), "Shipping details section is not visible"
+    expect(
+        cart_page.payment_details_section_component.element
+    ).to_be_visible(), "Payment details section is not visible"
+    expect(
+        cart_page.place_order_button
+    ).to_be_visible(), "Place order button is not visible"
+
     cart_page.clear_cart()

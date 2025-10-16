@@ -1,5 +1,6 @@
 import os
-from typing import Any, Dict
+import time
+from typing import Any
 
 import allure
 import pytest
@@ -11,12 +12,11 @@ from tests_e2e.pages.cart_page import CartPage
 from tests_e2e.pages.category_page import CategoryPage
 
 
-@pytest.mark.ignore
 @pytest.mark.e2e
 @allure.title("Change cart item (E2E)")
 def test_e2e_change_cart_item(
-    config: Dict[str, Any],
-    dataset: Dict[str, Any],
+    config: dict[str, Any],
+    dataset: dict[str, Any],
     page: Page,
     anonymous_catalog_requests: AnonymousCatalogRequests,
     requests_tracker: RequestsTracker,
@@ -36,22 +36,18 @@ def test_e2e_change_cart_item(
     product_to_add_to_cart = next(
         product
         for product in dataset["products"]
-        if product["id"] == "product-acme-laptop-asus-zenbook-a14-ux3407"
+        if product["id"] == "product-acme-laptop-hp-pavilion-16-ag0087nr"
     )
 
     category_page = CategoryPage(
-        config, page, category_to_browse["seoInfos"][0]["semanticUrl"]
+        config,
+        page,
+        category_to_browse["seoInfos"][0]["semanticUrl"],
+        product_quantity_control,
     )
     category_page.navigate()
 
-    product_card = category_page.get_product_card_by_sku(product_to_add_to_cart["code"])
-
-    if product_quantity_control == "stepper":
-        product_card.quantity_stepper_component.increment_button.click()
-        product_card.quantity_stepper_component.increment_button.click()
-    elif product_quantity_control == "button":
-        product_card.add_to_cart_component.quantity_input.fill("2")
-        product_card.add_to_cart_component.add_to_cart_text_button.click()
+    category_page.add_product_to_cart(product_to_add_to_cart["code"], 2)
 
     cart_page = CartPage(config, page)
     cart_page.navigate()
@@ -68,3 +64,5 @@ def test_e2e_change_cart_item(
         expect(line_item.quantity_stepper_component.quantity_input).to_have_value("3")
     elif product_quantity_control == "button":
         expect(line_item.add_to_cart_component.quantity_input).to_have_value("3")
+
+    cart_page.clear_cart()

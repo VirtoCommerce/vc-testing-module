@@ -1,5 +1,5 @@
 import os
-from typing import Any, Dict
+from typing import Any
 
 import allure
 import pytest
@@ -15,7 +15,7 @@ from tests_e2e.pages.successful_registration_page import SuccessfulRegistrationP
 
 @pytest.mark.e2e
 @allure.feature("Select personal registration (E2E)")
-def test_e2e_select_personal_registration(config: Dict[str, Any], page: Page):
+def test_e2e_select_personal_registration(config: dict[str, Any], page: Page):
     print(f"{os.linesep}Running E2E test to select personal registration...", end=" ")
 
     sign_up_page = SignUpPage(config, page)
@@ -31,7 +31,7 @@ def test_e2e_select_personal_registration(config: Dict[str, Any], page: Page):
 
 @pytest.mark.e2e
 @allure.feature("Select organization registration (E2E)")
-def test_e2e_select_organization_registration(config: Dict[str, Any], page: Page):
+def test_e2e_select_organization_registration(config: dict[str, Any], page: Page):
     print(
         f"{os.linesep}Running E2E test to select organization registration...", end=" "
     )
@@ -50,7 +50,7 @@ def test_e2e_select_organization_registration(config: Dict[str, Any], page: Page
 @pytest.mark.e2e
 @allure.feature("Sign up personal account (E2E)")
 def test_e2e_sign_up_personal_account(
-    config: Dict[str, Any],
+    config: dict[str, Any],
     page: Page,
     auth: Auth,
     graphql_client: GraphQLClient,
@@ -98,7 +98,7 @@ def test_e2e_sign_up_personal_account(
 @pytest.mark.e2e
 @allure.feature("Sign up organization account (E2E)")
 def test_e2e_sign_up_organization_account(
-    config: Dict[str, Any], page: Page, auth: Auth, graphql_client: GraphQLClient
+    config: dict[str, Any], page: Page, auth: Auth, graphql_client: GraphQLClient
 ):
     print(f"{os.linesep}Running E2E test to sign up organization account...", end=" ")
 

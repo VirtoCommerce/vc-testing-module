@@ -7,7 +7,6 @@ from playwright.sync_api import Page, expect
 from tests_e2e.pages.sign_in_page import SignInPage
 
 
-@pytest.mark.ignore
 @pytest.mark.e2e
 @allure.title("Change currency (E2E)")
 def test_e2e_change_currency(config: dict, page: Page):
