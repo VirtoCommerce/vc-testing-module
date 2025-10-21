@@ -16535,6 +16535,11 @@
             "contactPhone": "+10000000001",
             "contactEmail": "pickup1@example.com",
             "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-riverton-oh",
+                "ffc-acme-usa-morrisville-nc"
+            ],
             "address": {
                 "addressType": "Shipping",
                 "city": "New York",
@@ -16556,6 +16561,11 @@
             "contactPhone": "+10000000002",
             "contactEmail": "pickup2@example.com",
             "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-springfield-il",
+                "ffc-acme-usa-morrisville-nc"
+            ],
             "address": {
                 "addressType": "Shipping",
                 "city": "New York",
@@ -16577,6 +16587,11 @@
             "contactPhone": "+10000000003",
             "contactEmail": "pickup3@example.com",
             "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-morrisville-nc",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-springfield-il",
+                "ffc-acme-usa-riverton-oh"
+            ],
             "address": {
                 "addressType": "Shipping",
                 "city": "New York",
@@ -16598,6 +16613,11 @@
             "contactPhone": "+10000000004",
             "contactEmail": "pickup4@example.com",
             "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-springfield-il",
+                "ffc-acme-usa-morrisville-nc"
+            ],
             "address": {
                 "addressType": "Shipping",
                 "city": "New York",
@@ -16619,6 +16639,11 @@
             "contactPhone": "+10000000005",
             "contactEmail": "pickup5@example.com",
             "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-riverton-oh",
+                "ffc-acme-usa-morrisville-nc"
+            ],
             "address": {
                 "addressType": "Shipping",
                 "city": "New York",
@@ -16640,6 +16665,11 @@
             "contactPhone": "+10000000006",
             "contactEmail": "pickup6@example.com",
             "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-morrisville-nc",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-springfield-il",
+                "ffc-acme-usa-riverton-oh"
+            ],
             "address": {
                 "addressType": "Shipping",
                 "city": "New York",
@@ -16661,6 +16691,11 @@
             "contactPhone": "+10000000007",
             "contactEmail": "pickup7@example.com",
             "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-springfield-il",
+                "ffc-acme-usa-morrisville-nc"
+            ],
             "address": {
                 "addressType": "Shipping",
                 "city": "New York",
@@ -16682,6 +16717,11 @@
             "contactPhone": "+10000000008",
             "contactEmail": "pickup8@example.com",
             "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-riverton-oh",
+                "ffc-acme-usa-morrisville-nc"
+            ],
             "address": {
                 "addressType": "Shipping",
                 "city": "New York",
@@ -16703,6 +16743,11 @@
             "contactPhone": "+10000000009",
             "contactEmail": "pickup9@example.com",
             "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-springfield-il",
+                "ffc-acme-usa-morrisville-nc"
+            ],
             "address": {
                 "addressType": "Shipping",
                 "city": "New York",
@@ -16724,6 +16769,11 @@
             "contactPhone": "+10000000010",
             "contactEmail": "pickup10@example.com",
             "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-riverton-oh",
+                "ffc-acme-usa-morrisville-nc"
+            ],
             "address": {
                 "addressType": "Shipping",
                 "city": "New York",
@@ -16745,6 +16795,11 @@
             "contactPhone": "+10000000011",
             "contactEmail": "pickup11@example.com",
             "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-springfield-il",
+                "ffc-acme-usa-morrisville-nc"
+            ],
             "address": {
                 "addressType": "Shipping",
                 "city": "New York",
@@ -16766,6 +16821,11 @@
             "contactPhone": "+10000000012",
             "contactEmail": "pickup12@example.com",
             "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-riverton-oh",
+                "ffc-acme-usa-morrisville-nc"
+            ],
             "address": {
                 "addressType": "Shipping",
                 "city": "New York",
@@ -16787,6 +16847,11 @@
             "contactPhone": "+10000000013",
             "contactEmail": "pickup13@example.com",
             "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-springfield-il",
+                "ffc-acme-usa-morrisville-nc"
+            ],
             "address": {
                 "addressType": "Shipping",
                 "city": "New York",
@@ -16808,6 +16873,11 @@
             "contactPhone": "+10000000014",
             "contactEmail": "pickup14@example.com",
             "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-riverton-oh",
+                "ffc-acme-usa-morrisville-nc"
+            ],
             "address": {
                 "addressType": "Shipping",
                 "city": "New York",
@@ -16829,6 +16899,11 @@
             "contactPhone": "+10000000015",
             "contactEmail": "pickup15@example.com",
             "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-springfield-il",
+                "ffc-acme-usa-morrisville-nc"
+            ],
             "address": {
                 "addressType": "Shipping",
                 "city": "New York",
@@ -35682,5 +35757,5 @@
             "id": "724607d3-aea4-4d20-9063-c2538e019694"
         }
     ],
-    "createdDate": "2025-10-20T12:55:27.741037"
+    "createdDate": "2025-10-21T10:43:35.188989"
 }
