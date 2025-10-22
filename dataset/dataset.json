@@ -15882,7 +15882,7 @@
         },
         {
             "id": "store-admin",
-            "name": "Store Administrator",
+            "name": "Store administrator",
             "description": "Store Administrator",
             "permissions": [
                 {
@@ -35682,5 +35682,5 @@
             "id": "724607d3-aea4-4d20-9063-c2538e019694"
         }
     ],
-    "createdDate": "2025-10-22T14:35:57.412150"
+    "createdDate": "2025-10-22T18:35:04.349392"
 }
