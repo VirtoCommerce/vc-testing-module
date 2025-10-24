@@ -73,4 +73,7 @@ CART_FRAGMENT = f"""
         productId
         quantity
     }}
+    shippingTotal {{
+        amount
+    }}
 """
