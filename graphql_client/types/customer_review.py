@@ -3,9 +3,9 @@ from pydantic import BaseModel
 
 class CustomerReview(BaseModel):
     def __init__(self):
-        from datetime import datetime
-        from graphql_client.types.customer_review_image import CustomerReviewImage
         from graphql_client.types.customer_review_status import CustomerReviewStatus
+        from graphql_client.types.customer_review_image import CustomerReviewImage
+        from datetime import datetime
 
         self.id: str
         self.createdDate: datetime

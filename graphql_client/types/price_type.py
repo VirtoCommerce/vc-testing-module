@@ -3,11 +3,11 @@ from pydantic import BaseModel
 
 class PriceType(BaseModel):
     def __init__(self):
-        from decimal import Decimal
         from datetime import datetime
-        from graphql_client.types.catalog_discount_type import CatalogDiscountType
-        from graphql_client.types.money_type import MoneyType
         from graphql_client.types.tier_price_type import TierPriceType
+        from graphql_client.types.catalog_discount_type import CatalogDiscountType
+        from decimal import Decimal
+        from graphql_client.types.money_type import MoneyType
 
         self.list: MoneyType
         self.listWithTax: MoneyType

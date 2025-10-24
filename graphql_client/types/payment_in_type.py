@@ -3,15 +3,15 @@ from pydantic import BaseModel
 
 class PaymentInType(BaseModel):
     def __init__(self):
-        from graphql_client.types.currency_type import CurrencyType
-        from graphql_client.types.common_vendor import CommonVendor
-        from datetime import datetime
-        from graphql_client.types.customer_order_type import CustomerOrderType
-        from graphql_client.types.order_address_type import OrderAddressType
-        from graphql_client.types.money_type import MoneyType
-        from graphql_client.types.order_payment_method_type import OrderPaymentMethodType
         from graphql_client.types.dynamic_property_value_type import DynamicPropertyValueType
+        from graphql_client.types.order_address_type import OrderAddressType
+        from graphql_client.types.order_payment_method_type import OrderPaymentMethodType
+        from datetime import datetime
+        from graphql_client.types.common_vendor import CommonVendor
         from graphql_client.types.payment_transaction_type import PaymentTransactionType
+        from graphql_client.types.customer_order_type import CustomerOrderType
+        from graphql_client.types.money_type import MoneyType
+        from graphql_client.types.currency_type import CurrencyType
 
         self.id: str
         self.organizationId: str | None

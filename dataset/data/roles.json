@@ -58,7 +58,7 @@
     },
     {
         "id": "store-admin",
-        "name": "Store Administrator",
+        "name": "Store administrator",
         "description": "Store Administrator",
         "permissions": [
             {
