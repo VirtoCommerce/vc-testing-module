@@ -7,8 +7,8 @@ class ClearCartModalComponent:
 
     @property
     def yes_button(self) -> Locator:
-        return self.element.locator("[data-test-id='clear-cart-modal.yes-button']")
+        return self.element.locator("button:has-text('Delete')")
 
     @property
     def no_button(self) -> Locator:
-        return self.element.locator("[data-test-id='clear-cart-modal.no-button']")
+        return self.element.locator("button:has-text('Cancel')")

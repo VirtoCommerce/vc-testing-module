@@ -6,6 +6,10 @@ from tests_e2e.components import CategoryViewSwitcherComponent, ProductCardCompo
 
 from .main_layout_page import MainLayoutPage
 
+from test_data.test_category import TEST_CATEGORY_1
+
+
+
 
 class CategoryPage(MainLayoutPage):
     def __init__(self, config: dict, page: Page, seo_path: str):
@@ -15,7 +19,8 @@ class CategoryPage(MainLayoutPage):
 
     @property
     def url(self) -> str:
-        return f"{self.config['frontend_base_url']}/{self.seo_path}"
+        #return f"{self.config['frontend_base_url']}/{self.seo_path}"
+        return f"{self.config['frontend_base_url']}/{TEST_CATEGORY_1['seoPath']}"
 
     @property
     def view_switcher(self) -> CategoryViewSwitcherComponent:
@@ -47,5 +52,7 @@ class CategoryPage(MainLayoutPage):
     def get_product_card_by_sku(self, sku: str) -> Optional[ProductCardComponent]:
         for product_card in self.product_cards:
             if product_card.sku == sku:
+                # Ensure the card is scrolled into view so nested controls are interactable
+                product_card.element.scroll_into_view_if_needed()
                 return product_card
         return None

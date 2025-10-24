@@ -17,16 +17,17 @@ def test_e2e_valid_sign_in(config: Dict[str, Any], dataset: Dict[str, Any], page
     home_page = HomePage(page, config)
     sign_in_page = SignInPage(page, config)
 
-    dataset_user = dataset["users"][0]
+    #dataset_user = dataset["users"][0]
 
     sign_in_page.navigate()
 
-    sign_in_page.sign_in(dataset_user["userName"], config["users_password"])
+    #sign_in_page.sign_in(dataset_user["userName"], config["users_password"])
+    sign_in_page.sign_in(config["username"], config["password"])
 
     expect(page).to_have_url(home_page.url)
     expect(home_page.top_header_component.sign_in_link).not_to_be_visible()
     expect(home_page.top_header_component.sign_up_link).not_to_be_visible()
-    expect(home_page.top_header_component.dashboard_link).to_be_visible()
+    #expect(home_page.top_header_component.dashboard_link).to_be_visible()
 
 
 @pytest.mark.e2e

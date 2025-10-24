@@ -10,7 +10,7 @@ class HomePage(MainLayoutPage):
 
     @property
     def url(self) -> str:
-        return f"{self.config['frontend_base_url']}/"
+        return f"{self.config['frontend_base_url']}/home"
 
     def navigate(self):
         self.page.goto(self.url)

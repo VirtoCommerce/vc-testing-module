@@ -29,7 +29,7 @@ def config():
             "BACKEND_BASE_URL", "https://qa-admin.omniapartnersopus.com"
         ),
         "frontend_base_url": os.getenv(
-            "FRONTEND_BASE_URL", "https://qa.omniapartnersopus.com"
+            "FRONTEND_BASE_URL", "https://127.0.0.1:3000"
         ),
         "admin_username": os.getenv("ADMIN_USERNAME"),
         "admin_password": os.getenv("ADMIN_PASSWORD"),

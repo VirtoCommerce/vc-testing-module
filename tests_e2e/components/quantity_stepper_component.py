@@ -11,7 +11,7 @@ class QuantityStepperComponent:
 
     @property
     def increment_button(self) -> Locator:
-        return self.element.locator(".vc-quantity-stepper__increment")
+        return self.element.locator("button.vc-quantity-stepper__increment")
 
     @property
     def quantity_input(self) -> Locator:

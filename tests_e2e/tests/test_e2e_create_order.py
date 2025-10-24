@@ -6,7 +6,7 @@ from playwright.sync_api import Page, expect
 
 from fixtures.requests_tracker import RequestsTracker
 from test_data.test_category import TEST_CATEGORY_1
-from test_data.test_product import TEST_PRODUCT_1
+from test_data.test_product import TEST_PRODUCT_2
 from tests_e2e.pages.cart_page import CartPage
 from tests_e2e.pages.category_page import CategoryPage
 from tests_e2e.pages.checkout_billing_page import CheckoutBillingPage
@@ -14,6 +14,8 @@ from tests_e2e.pages.checkout_completed_page import CheckoutCompletedPage
 from tests_e2e.pages.checkout_review_order_page import CheckoutReviewOrderPage
 from tests_e2e.pages.checkout_shipping_page import CheckoutShippingPage
 from tests_e2e.pages.sign_in_page import SignInPage
+from tests_e2e.components.suppliers_filter_component import SuppliersFilterComponent
+from fixtures.requests_tracker import RequestsTracker
 
 
 @pytest.mark.ignore
@@ -32,8 +34,24 @@ def test_e2e_create_order(config: dict, page: Page, requests_tracker: RequestsTr
 
     category_page = CategoryPage(config, page, TEST_CATEGORY_1["seoPath"])
     category_page.navigate()
+    requests_tracker.wait_for_all_requests()
+    suppliers_filter_component = SuppliersFilterComponent(page)
+    suppliers_filter_checkbox = suppliers_filter_component.get_supplier_checkbox("_AUTOTESTS MOCK SUPPLIER")
+    suppliers_filter_checkbox.click()
+    requests_tracker.wait_for_all_requests()
+    product_quantity_to_add = "2"
+    product_to_add_to_cart = TEST_PRODUCT_2
+    product_card = category_page.get_product_card_by_sku(product_to_add_to_cart["sku"])
+    assert product_card is not None, (
+        f"Product with SKU '{product_to_add_to_cart['sku']}' not found on category page. "
+        f"Available products: {[card.sku for card in category_page.product_cards]}"
+    )
+    product_card.add_to_cart_component.quantity_input.fill(product_quantity_to_add)
+    product_card.add_to_cart_component.add_to_cart_text_button.click()
+    page.pause()
 
-    product_card = category_page.get_product_card_by_sku(TEST_PRODUCT_1["sku"])
+    
+
     product_card.quantity_input.fill("2")
     product_card.add_to_cart_text_button.click()
 

@@ -47,8 +47,9 @@ class CartPage(MainLayoutPage):
 
     def clear_cart(self) -> None:
         self.clear_cart_button.click()
+        # Wait for modal to appear and get it by role
         modal = ClearCartModalComponent(
-            self.page.locator("[data-test-id='clear-cart-modal']")
+            self.page.locator("[role='dialog']:has-text('Clear cart')")
         )
         modal.yes_button.click()
-        self.page.wait_for_load_state("networkidle")
+        self.page.wait_for_load_state("load")
