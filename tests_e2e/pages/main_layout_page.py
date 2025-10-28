@@ -42,4 +42,4 @@ class MainLayoutPage:
     def sign_out(self) -> None:
         self.top_header_component.account_menu_button.click()
         self.top_header_component.account_menu_component.sign_out_button.click()
-        self.page.wait_for_load_state("networkidle")
+        self.page.wait_for_load_state("networkidle")  

@@ -7,7 +7,9 @@
         "status": "Approved",
         "defaultOrganizationId": "organization-acme-store",
         "organizations": [
-            "organization-acme-store"
+            "organization-acme-store",
+            "organization-acme-store-2",
+            "organization-acme-store-3"
         ],
         "emails": [
             "acme_store_employee_1@acme.com"
@@ -133,7 +135,9 @@
         "status": "Approved",
         "defaultOrganizationId": "organization-acme-store",
         "organizations": [
-            "organization-acme-store"
+            "organization-acme-store",
+            "organization-acme-store-2",
+            "organization-acme-store-3"
         ],
         "emails": [
             "acme_store_maintainer_1@acme.com"

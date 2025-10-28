@@ -9,6 +9,7 @@ class TopHeaderComponent:
     def __init__(self, element: Locator):
         self.element = element
 
+
     @property
     def language_selector_component(self) -> LanguageSelectorComponent:
         return LanguageSelectorComponent(
@@ -56,3 +57,9 @@ class TopHeaderComponent:
         return self.element.locator(
             "[data-test-id='main-layout.top-header.account-menu']"
         )
+    
+    @property
+    def organization_name_label(self) -> Locator:
+        return self.element.locator(
+            f"[data-test-id='main-layout.top-header.organization-name-label']"
+        ) 
