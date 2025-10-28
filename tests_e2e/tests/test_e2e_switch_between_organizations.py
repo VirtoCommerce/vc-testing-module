@@ -15,6 +15,8 @@ from tests_e2e.pages.sign_in_page import SignInPage
 def test_e2e_switch_between_organizations(config: dict[str, Any], dataset: dict[str, Any], page: Page):
     print(f"{os.linesep}Running E2E test to switch between organizations...", end=" ")
 
+    page.set_viewport_size({"width": 1920, "height": 1080})
+
     sign_in_page = SignInPage(page, config) 
     home_page = HomePage(page, config)   
     
@@ -43,6 +45,7 @@ def test_e2e_switch_between_organizations(config: dict[str, Any], dataset: dict[
         expect(home_page.top_header_component.organization_name_label).to_have_text(organization_name), f"Current organization is not '{organization_name}'"
         home_page.top_header_component.account_menu_button.click()
         expect(organization_selector.get_radio_button_of_organization(organization_name)).to_have_attribute("aria-checked", "true"), f"Organization '{organization_name}' is not selected"
+        
     elif current_organization != organization_name2:
         organization_selector.get_radio_button_of_organization(organization_name2).click()
         page.wait_for_load_state("networkidle")
