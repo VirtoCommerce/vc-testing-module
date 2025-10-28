@@ -183,8 +183,6 @@ def test_get_shipment_costs(
         }
     )
 
-    print(cart["shipments"])
-
     assert cart["shipments"] is not None, "Shipments are None"
     assert len(cart["shipments"]) == 1, "Cart has not 1 shipment"
     assert (

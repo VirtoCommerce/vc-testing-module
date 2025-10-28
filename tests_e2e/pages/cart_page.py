@@ -7,6 +7,7 @@ from tests_e2e.components import (
     CheckoutShippingDetailsComponent,
     ClearCartModalComponent,
     LineItemComponent,
+    OrderSummaryComponent,
 )
 
 from .main_layout_page import MainLayoutPage
@@ -66,6 +67,12 @@ class CartPage(MainLayoutPage):
     def place_order_button(self) -> Locator:
         return self.page.locator(
             "[data-test-id='checkout-single-page.place-order-button']"
+        )
+
+    @property
+    def order_summary_component(self) -> OrderSummaryComponent:
+        return OrderSummaryComponent(
+            self.page.locator("[data-test-id='order-summary-widget']")
         )
 
     def navigate(self) -> None:
