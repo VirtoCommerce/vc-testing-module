@@ -2,6 +2,7 @@ from graphql_operations.cart.fragments.cart_address_fragment import (
     CART_ADDRESS_FRAGMENT,
 )
 from graphql_operations.cart.fragments.coupon_fragment import COUPON_FRAGMENT
+from graphql_operations.common.money_fragment import MONEY_FRAGMENT
 
 CART_FRAGMENT = f"""
     id
@@ -14,16 +15,16 @@ CART_FRAGMENT = f"""
         productId
         selectedForCheckout
         discountTotal {{
-            amount
+            {MONEY_FRAGMENT}
         }}
         listPrice {{
-            amount
+            {MONEY_FRAGMENT}
         }}
         salePrice {{
-            amount
+            {MONEY_FRAGMENT}
         }}
         placedPrice {{
-            amount
+            {MONEY_FRAGMENT}
         }}
     }}
     coupons {{
@@ -33,7 +34,7 @@ CART_FRAGMENT = f"""
         id
         paymentGatewayCode
         price {{
-            amount
+            {MONEY_FRAGMENT}
         }}
         billingAddress
             {CART_ADDRESS_FRAGMENT}
@@ -43,7 +44,7 @@ CART_FRAGMENT = f"""
         shipmentMethodCode
         shipmentMethodOption
         price {{
-            amount
+            {MONEY_FRAGMENT}
         }}
         deliveryAddress
             {CART_ADDRESS_FRAGMENT}
@@ -52,7 +53,7 @@ CART_FRAGMENT = f"""
         code
         name
         price {{
-            amount
+            {MONEY_FRAGMENT}
         }}
     }}
     availableShippingMethods {{
@@ -60,12 +61,12 @@ CART_FRAGMENT = f"""
         name
         optionName
         price {{
-            amount
+            {MONEY_FRAGMENT}
         }}
     }}
     itemsQuantity
     discountTotal {{
-        amount
+        {MONEY_FRAGMENT}
     }}
     gifts {{
         id
@@ -74,6 +75,6 @@ CART_FRAGMENT = f"""
         quantity
     }}
     shippingTotal {{
-        amount
+        {MONEY_FRAGMENT}
     }}
 """

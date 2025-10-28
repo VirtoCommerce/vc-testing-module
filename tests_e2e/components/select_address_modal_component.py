@@ -7,7 +7,7 @@ class SelectAddressModalComponent:
 
     @property
     def items(self) -> list[Locator]:
-        return self.element.locator("table tr.cursor-pointer").all()
+        return self.element.locator("[data-test-id^='customer-address-']").all()
 
     @property
     def confirm_button(self) -> Locator:
