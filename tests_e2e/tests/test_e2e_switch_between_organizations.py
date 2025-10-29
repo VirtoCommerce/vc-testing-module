@@ -19,7 +19,7 @@ def test_e2e_switch_between_organizations(config: dict[str, Any], dataset: dict[
     sign_in_page = SignInPage(page, config) 
     home_page = HomePage(page, config)   
     
-    dataset_user = dataset["users"][0] 
+    dataset_user = dataset["users"][9] 
        
     sign_in_page.navigate()
 
