@@ -56,3 +56,11 @@ class TopHeaderComponent:
         return self.element.locator(
             "[data-test-id='main-layout.top-header.account-menu']"
         )
+
+    @property
+    def ship_to_selector(self) -> Locator:
+        return self.element.locator("[data-test-id='ship-to-selector']")
+
+    @property
+    def add_shipping_address_button(self) -> Locator:
+        return self.element.locator("[data-test-id='add-shipping-address-button']")
