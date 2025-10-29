@@ -1,5 +1,6 @@
+from re import L
 from playwright.sync_api import Locator
-
+from typing import List, Optional
 
 class AccountMenuComponent:
     def __init__(self, element: Locator):
@@ -16,3 +17,10 @@ class AccountMenuComponent:
         return self.element.locator(
             "[data-test-id='main-layout.top-header.account-menu.sign-out-button']"
         )
+ 
+    
+    @property
+    def organization_selector_items(self) -> List[Locator]:
+        return self.element.locator(
+            "[data-test-id^='main-layout.top-header.account-menu.organization-selector-item-']"
+        ).all()
