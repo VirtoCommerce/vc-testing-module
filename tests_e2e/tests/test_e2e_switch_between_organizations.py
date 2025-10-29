@@ -6,7 +6,6 @@ import pytest
 from playwright.sync_api import Page, expect
 
 from tests_e2e.pages.home_page import HomePage
-from tests_e2e.pages.main_layout_page import MainLayoutPage
 from tests_e2e.pages.sign_in_page import SignInPage
 
 
@@ -21,8 +20,6 @@ def test_e2e_switch_between_organizations(config: dict[str, Any], dataset: dict[
     home_page = HomePage(page, config)   
     
     dataset_user = dataset["users"][0] 
-    organization_name = dataset["organizations"][0]["name"]
-    organization_name2 = dataset["organizations"][1]["name"]
        
     sign_in_page.navigate()
 
@@ -38,20 +35,47 @@ def test_e2e_switch_between_organizations(config: dict[str, Any], dataset: dict[
 
     current_organization = home_page.top_header_component.organization_name_label.text_content()
     print(f"Current organization is {current_organization}")
+    for organization in organization_selector.organization_selector_items:
+        if organization.text_content() == current_organization:           
+           expect(organization.locator("input")).to_have_attribute("aria-checked", "true"), f"Organization '{organization.text_content()}' is not selected"
+    
+    
+    # Get all organization locators
+    organization_items = organization_selector.organization_selector_items
+    current_name = current_organization
 
-    if current_organization != organization_name:
-        organization_selector.get_radio_button_of_organization(organization_name).click()
-        page.wait_for_load_state("networkidle")
-        expect(home_page.top_header_component.organization_name_label).to_have_text(organization_name), f"Current organization is not '{organization_name}'"
-        home_page.top_header_component.account_menu_button.click()
-        expect(organization_selector.get_radio_button_of_organization(organization_name)).to_have_attribute("aria-checked", "true"), f"Organization '{organization_name}' is not selected"
-        
-    elif current_organization != organization_name2:
-        organization_selector.get_radio_button_of_organization(organization_name2).click()
-        page.wait_for_load_state("networkidle")
-        expect(home_page.top_header_component.organization_name_label).to_have_text(organization_name2), f"Current organization is not '{organization_name2}'"
-        home_page.top_header_component.account_menu_button.click()
-        expect(organization_selector.get_radio_button_of_organization(organization_name2)).to_have_attribute("aria-checked", "true"), f"Organization '{organization_name2}' is not selected"
+    for organization in organization_items:
+        org_name = organization.text_content().strip()
 
+        if org_name != current_name:
+            selected_organization = organization
 
-  
+            # Check it's not already selected
+            expect(
+                selected_organization.locator("input"),
+                f"Organization '{org_name}' is already selected"
+            ).to_have_attribute("aria-checked", "false")
+
+            # Click to select
+            selected_organization.locator("input").click()
+            page.wait_for_load_state("networkidle")
+
+            # Reopen the account menu to verify selection
+            home_page.top_header_component.account_menu_button.click()
+
+            # Verify current organization name
+            expect(
+                home_page.top_header_component.organization_name_label,
+                f"Current organization should be '{org_name}'"
+            ).to_have_text(org_name)
+
+            assert selected_organization.text_content().strip() == org_name, f"Current organization should be '{org_name}'"            
+
+            # Verify aria-checked updated
+            expect(
+                selected_organization.locator("input"),
+                f"Organization '{org_name}' did not become selected"
+            ).to_have_attribute("aria-checked", "true")
+
+            break       
+
