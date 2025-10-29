@@ -171,7 +171,7 @@ class OrdersGenerator(DatasetConfig):
         with open(
             self.base_dir / "data" / "orders.json", "w", encoding="utf-8"
         ) as file:
-            json.dump(orders, file, indent=4)
+            json.dump(orders["results"], file, indent=4)
 
         print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
