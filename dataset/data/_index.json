@@ -144,7 +144,7 @@
     "payload": "pickup_locations.json"
   },
   "orders": {
-    "method": "PUT",
+    "method": "POST",
     "endpoint": "/api/order/customerOrders",
     "itemsPerRequest": "single",
     "payload": "orders.json"
