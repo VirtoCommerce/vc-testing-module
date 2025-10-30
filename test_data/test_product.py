@@ -1,3 +1,16 @@
+# TEST_PRODUCT_1 = {
+#     "id": "282_884744",
+#     "sku": "884744",
+#     "name": "Paper Mate Flair Porous-Point Pens, Medium Point, 0.7 mm, Assorted Ink Colors, Pack Of 12 Pens",
+#     "brand": "no brand",
+# }
+# TEST_PRODUCT_2 = {
+#     "id": "282_253050",
+#     "sku": "253050",
+#     "name": "Office Depot Brand Ruled Filler Paper, 8 1/2in x 11in, College Ruled, White, Ream Of 500 Sheets",
+#     "brand": "no brand",
+# }
+
 TEST_PRODUCT_1 = {
     "id": "282_2835962",
     "sku": "2835962",

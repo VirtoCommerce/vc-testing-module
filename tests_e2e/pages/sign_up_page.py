@@ -28,31 +28,47 @@ class SignUpPage(MainLayoutPage):
 
     @property
     def first_name_input(self) -> Locator:
-        return self.page.locator("[data-test-id='sign-up-first-name-input']")
+        return self.page.locator("[op-test-id='sign-up-first-name-input']")
 
     @property
     def last_name_input(self) -> Locator:
-        return self.page.locator("[data-test-id='sign-up-last-name-input']")
+        return self.page.locator("[op-test-id='sign-up-last-name-input']")
 
     @property
     def email_input(self) -> Locator:
-        return self.page.locator("[data-test-id='sign-up-email-input']")
+        return self.page.locator("[op-test-id='sign-up-email-input']")
+
+    @property
+    def phone_input(self) -> Locator:
+        return self.page.locator("[op-test-id='sign-up-phone-input']")
+
+    @property
+    def job_title_input(self) -> Locator:
+        return self.page.locator("[op-test-id='sign-up-job-title-input']")
+
+    @property
+    def discovery_way_input(self) -> Locator:
+        return self.page.locator("[op-test-id='sign-up-discovery-way-input']")
 
     @property
     def organization_name_input(self) -> Locator:
-        return self.page.locator("[data-test-id='sign-up-organization-name-input']")
+        return self.page.locator("[op-test-id='sign-up-organization-name-input']")
+
+    @property
+    def zip_input(self) -> Locator:
+        return self.page.locator("[op-test-id='sign-up-zip-input']")
 
     @property
     def password_input(self) -> Locator:
-        return self.page.locator("[data-test-id='sign-up-password-input']")
+        return self.page.locator("[op-test-id='sign-up-password-input']")
 
     @property
     def confirm_password_input(self) -> Locator:
-        return self.page.locator("[data-test-id='sign-up-confirm-password-input']")
+        return self.page.locator("[op-test-id='sign-up-confirm-password-input']")
 
     @property
     def submit_button(self) -> Locator:
-        return self.page.locator("[data-test-id='sign-up-submit-button']")
+        return self.page.locator("[op-test-id='sign-up-get-started-button']")
 
     def navigate(self) -> None:
         self.page.goto(f"{self.config['frontend_base_url']}/sign-up")
@@ -70,17 +86,26 @@ class SignUpPage(MainLayoutPage):
         last_name: str,
         email: str,
         password: str,
+        phone: str,
+        job_title: str,
+        discovery_way: str,
+        zip: str,
         organization_name: Optional[str] = None,
     ) -> None:
         self.first_name_input.fill(first_name)
         self.last_name_input.fill(last_name)
         self.email_input.fill(email)
+        self.phone_input.fill(phone)
+        self.job_title_input.fill(job_title)
+        self.discovery_way_input.fill(discovery_way)
         self.password_input.fill(password)
         self.confirm_password_input.fill(password)
+        self.zip_input.fill(zip)
 
         if organization_name:
             self.organization_name_input.fill(organization_name)
 
         self.submit_button.click()
+        
 
         self.page.wait_for_load_state("networkidle")

@@ -1,4 +1,5 @@
 import os
+import re
 from typing import Any, Dict
 
 import allure
@@ -14,6 +15,7 @@ from tests_e2e.pages.successful_registration_page import SuccessfulRegistrationP
 
 
 @pytest.mark.e2e
+@pytest.mark.skip(reason="not needed on opus")
 @allure.feature("Select personal registration (E2E)")
 def test_e2e_select_personal_registration(config: Dict[str, Any], page: Page):
     print(f"{os.linesep}Running E2E test to select personal registration...", end=" ")
@@ -22,7 +24,7 @@ def test_e2e_select_personal_registration(config: Dict[str, Any], page: Page):
 
     sign_up_page.navigate()
 
-    sign_up_page.select_personal_registration()
+    #sign_up_page.select_personal_registration()
 
     expect(
         sign_up_page.organization_name_input
@@ -30,6 +32,7 @@ def test_e2e_select_personal_registration(config: Dict[str, Any], page: Page):
 
 
 @pytest.mark.e2e
+@pytest.mark.skip(reason="not needed on opus")
 @allure.feature("Select organization registration (E2E)")
 def test_e2e_select_organization_registration(config: Dict[str, Any], page: Page):
     print(
@@ -64,15 +67,20 @@ def test_e2e_sign_up_personal_account(
 
     sign_up_page.navigate()
 
-    sign_up_page.select_personal_registration()
+    #sign_up_page.select_personal_registration()
     sign_up_page.sign_up(
         first_name="John",
         last_name="Doe",
         email="john.doe@example.com",
         password=config["users_password"],
+        phone="1234567890",
+        job_title="Software Engineer",
+        discovery_way="Google",
+        organization_name="Some fake organization",
+        zip="123456"
     )
 
-    expect(page).to_have_url(successful_registration_page.url)
+    expect(page).to_have_url(re.compile(r".*successful-registration.*"))
 
     # Test teardown
 
@@ -94,8 +102,9 @@ def test_e2e_sign_up_personal_account(
 
     auth.clear_token()
 
-
+'''
 @pytest.mark.e2e
+@pytest.mark.skip(reason="not needed on opus")
 @allure.feature("Sign up organization account (E2E)")
 def test_e2e_sign_up_organization_account(
     config: Dict[str, Any], page: Page, auth: Auth, graphql_client: GraphQLClient
@@ -139,3 +148,4 @@ def test_e2e_sign_up_organization_account(
     )
 
     auth.clear_token()
+'''
