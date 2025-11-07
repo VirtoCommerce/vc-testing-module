@@ -125,12 +125,19 @@
 
 - [ ] Open `.env` file in your editor
 
-- [ ] Add authentication token:
+- [ ] Replace values:
   ```
-  TOKEN=your_auth_token_here
+  FRONTEND_BASE_URL=your_frontend_base_url
+  BACKEND_BASE_URL=your_backend_base_url
+   
+  STORE_ID=dataset_store_id
+ 
+  ADMIN_USERNAME=your_admin_name
+  ADMIN_PASSWORD=your_admin_password
+  USERS_PASSWORD=dataset_user_password
   ```
 
-- [ ] Replace `your_auth_token_here` with actual token (get from team)
+- [ ] Replace values with actual data (get from team)
 
 - [ ] Save the file
 
