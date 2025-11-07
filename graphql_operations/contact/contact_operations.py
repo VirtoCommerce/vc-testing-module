@@ -24,6 +24,7 @@ from graphql_client.mutations.request_registration import RequestRegistrationMut
 from graphql_client.mutations.unlock_organization_contact import (
     UnlockOrganizationContactMutation,
 )
+from graphql_client.mutations.update_contact import UpdateContactMutation
 from graphql_client.mutations.update_member_addresses import (
     UpdateMemberAddressesMutation,
 )
@@ -50,6 +51,7 @@ from graphql_client.types.input_remove_member_from_organization_type import (
 from graphql_client.types.input_request_registration_type import (
     InputRequestRegistrationType,
 )
+from graphql_client.types.input_update_contact_type import InputUpdateContactType
 from graphql_client.types.input_update_member_address_type import (
     InputUpdateMemberAddressType,
 )
@@ -350,5 +352,14 @@ class ContactOperations:
         variables = {"command": payload}
 
         result = remove_address_from_favorites_mutation.execute(variables=variables)
+
+        return result
+
+    def update_contact(self, payload: InputUpdateContactType) -> ContactType:
+        update_contact_mutation = UpdateContactMutation(self.graphql_client)
+
+        variables = {"command": payload}
+
+        result = update_contact_mutation.execute(variables=variables)
 
         return result

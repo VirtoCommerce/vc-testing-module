@@ -1,15 +1,19 @@
-STORE_FRAGMENT = """
-    defaultLanguage {
+STORE_FRAGMENT = f"""
+    storeId
+    defaultCurrency {{
+        code
+    }}
+    defaultLanguage {{
        cultureName
-       nativeName        
+       nativeName
        twoLetterLanguageName
-    }
-    availableLanguages {
+    }}
+    availableLanguages {{
         cultureName
         nativeName
         twoLetterLanguageName
-    }
-    settings {
+    }}
+    settings {{
         anonymousUsersAllowed
-    }
+    }}
 """
