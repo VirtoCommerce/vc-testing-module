@@ -1,10 +1,12 @@
+import json
 from dataclasses import dataclass
 from threading import Lock
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 import allure
 import pytest
 import requests
+from playwright.sync_api import Page
 
 
 @dataclass
@@ -25,7 +27,7 @@ class TokenData:
 
 
 class Auth:
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: dict[str, Any]):
         self.config = config
         self.token_data: Optional[TokenData] = None
         self.lock = Lock()
@@ -48,6 +50,15 @@ class Auth:
         response_data = response.json()
 
         return TokenData(**response_data)
+
+    def get_token_from_local_storage(self, page: Page, key: str) -> None:
+        data = json.loads(page.evaluate(f"localStorage.getItem('{key}')"))
+        self.token_data = {
+            "access_token": data["access_token"],
+            "refresh_token": data["refresh_token"],
+            "expires_in": data["expires_at"],
+            "token_type": data["token_type"],
+        }
 
     def revoke_token(self) -> None:
         url = f"{self.config['backend_base_url']}/revoke/token"
@@ -76,7 +87,7 @@ class Auth:
             self.revoke_token()
             self.token_data = TokenData()
 
-    def get_auth_headers(self) -> Optional[Dict[str, str]]:
+    def get_auth_headers(self) -> Optional[dict[str, str]]:
         with self.lock:
             if self.token_data is None:
                 return None
@@ -88,5 +99,5 @@ class Auth:
 
 @pytest.fixture(scope="session")
 @allure.title("Fixture to handle authorization token")
-def auth(config: Dict[str, Any]) -> Auth:
+def auth(config: dict[str, Any]) -> Auth:
     return Auth(config)
