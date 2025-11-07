@@ -302,8 +302,5 @@ If all checkboxes are complete, your environment is ready!
 - Contact team lead
 - Ask in team chat channel 
 - Review Playwright docs: https://playwright.dev/python/
+- Python https://www.python.org/downloads/
 
----
-
-**Setup completed on:** _______________  
-**Verified by:** _______________
