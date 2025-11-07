@@ -4,8 +4,8 @@ from pydantic import BaseModel
 class NewsArticleContent(BaseModel):
     def __init__(self):
         from graphql_client.types.news_article_author import NewsArticleAuthor
-        from graphql_client.types.seo_info import SeoInfo
         from datetime import datetime
+        from graphql_client.types.seo_info import SeoInfo
 
         self.id: str
         self.publishDate: datetime | None

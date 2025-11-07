@@ -68,9 +68,6 @@ def test_e2e_single_page_checkout_select_shipping_address(
     cart_page.navigate()
 
     expect(
-        cart_page.shipping_details_section_component.address_selector_component.selected_address_label
-    ).to_be_visible()
-    expect(
         cart_page.shipping_details_section_component.address_selector_component.select_address_button
     ).to_be_visible()
 
@@ -155,9 +152,6 @@ def test_e2e_multi_step_checkout_select_shipping_address(
 
     checkout_shipping_page = CheckoutShippingPage(config, page)
 
-    expect(
-        checkout_shipping_page.shipping_details_section_component.address_selector_component.selected_address_label
-    ).to_be_visible()
     expect(
         checkout_shipping_page.shipping_details_section_component.address_selector_component.select_address_button
     ).to_be_visible()

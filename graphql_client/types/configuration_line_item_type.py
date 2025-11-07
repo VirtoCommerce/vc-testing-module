@@ -3,8 +3,8 @@ from pydantic import BaseModel
 
 class ConfigurationLineItemType(BaseModel):
     def __init__(self):
-        from graphql_client.types.product import Product
         from graphql_client.types.currency_type import CurrencyType
+        from graphql_client.types.product import Product
         from graphql_client.types.money_type import MoneyType
 
         self.id: str | None

@@ -67,3 +67,9 @@ class TopHeaderComponent:
         return ShipToSelectorComponent(
             self.element.locator("[data-test-id='ship-to-selector']")
         )
+
+    @property
+    def organization_name_label(self) -> Locator:
+        return self.element.locator(
+            f"[data-test-id='main-layout.top-header.organization-name-label']"
+        )
