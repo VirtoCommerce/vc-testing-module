@@ -24,10 +24,7 @@ class CartPage(MainLayoutPage):
 
     @property
     def line_items(self) -> List[LineItemComponent]:
-        return [
-            LineItemComponent(item)
-            for item in self.page.locator("[data-test-id='line-item']").all()
-        ]
+        return [LineItemComponent(item) for item in self.page.locator("[data-test-id='line-item']").all()]
 
     @property
     def clear_cart_button(self) -> Locator:
@@ -45,35 +42,25 @@ class CartPage(MainLayoutPage):
     def shipping_details_section_component(
         self,
     ) -> Optional[CheckoutShippingDetailsComponent]:
-        return CheckoutShippingDetailsComponent(
-            self.page.locator("[data-test-id='checkout.shipping-details-section']")
-        )
+        return CheckoutShippingDetailsComponent(self.page.locator("[data-test-id='checkout.shipping-details-section']"))
 
     @property
     def payment_details_section_component(
         self,
     ) -> Optional[CheckoutPaymentDetailsComponent]:
-        return CheckoutPaymentDetailsComponent(
-            self.page.locator("[data-test-id='checkout.payment-details-section']")
-        )
+        return CheckoutPaymentDetailsComponent(self.page.locator("[data-test-id='checkout.payment-details-section']"))
 
     @property
     def single_page_place_order_button(self) -> Locator:
-        return self.page.locator(
-            "[data-test-id='checkout-single-page.place-order-button']"
-        )
+        return self.page.locator("[data-test-id='checkout-single-page.place-order-button']")
 
     @property
     def place_order_button(self) -> Locator:
-        return self.page.locator(
-            "[data-test-id='checkout-single-page.place-order-button']"
-        )
+        return self.page.locator("[data-test-id='checkout-single-page.place-order-button']")
 
     @property
     def order_summary_component(self) -> OrderSummaryComponent:
-        return OrderSummaryComponent(
-            self.page.locator("[data-test-id='order-summary-widget']")
-        )
+        return OrderSummaryComponent(self.page.locator("[data-test-id='order-summary-widget']"))
 
     def navigate(self) -> None:
         self.page.goto(self.url)
@@ -87,8 +74,12 @@ class CartPage(MainLayoutPage):
 
     def clear_cart(self) -> None:
         self.clear_cart_button.click()
-        modal = ClearCartModalComponent(
-            self.page.locator("[data-test-id='clear-cart-modal']")
-        )
+        modal = ClearCartModalComponent(self.page.locator("[data-test-id='clear-cart-modal']"))
         modal.yes_button.click()
+        self.page.wait_for_load_state("networkidle")
+
+    def save_for_later(self, sku: str) -> None:
+        line_item = self.get_line_item_by_sku(sku)
+        if line_item:
+            line_item.safe_for_later_button.click()
         self.page.wait_for_load_state("networkidle")
