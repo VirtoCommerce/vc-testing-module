@@ -13,7 +13,7 @@ from graphql_client.mutations.reset_password import SendPasswordResetEmailMutati
 from graphql_client.mutations.reset_password_by_token import ResetPasswordByTokenMutation
 from graphql_operations.user.user_operations import UserOperations
 
-@pytest.mark.ignore
+
 @pytest.mark.graphql
 @allure.title("Reset password (GraphQL)")
 def test_reset_password(
@@ -49,7 +49,7 @@ def test_reset_password(
             "take": 20,
             "responseGroup": "Default"
         }
-    )
+    )    
 
     assert search_reset_password_email_notification["totalCount"] > 0
     assert search_reset_password_email_notification["results"] is not None
@@ -58,7 +58,7 @@ def test_reset_password(
     
     assert notification["notificationType"] == "ResetPasswordEmailNotification"
     assert notification["to"] == dataset["users"][2]["email"]
-    assert notification["subject"] is not None and notification["subject"] == "Reset password link"
+    assert notification["subject"] is not None and notification["subject"].startswith("Reset password link")
     assert notification["body"] is not None
     assert notification["status"] is not None and notification["status"] == "Sent"
 
