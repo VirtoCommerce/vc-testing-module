@@ -3,11 +3,11 @@ from pydantic import BaseModel
 
 class ContactType(BaseModel):
     def __init__(self):
-        from datetime import datetime
-        from graphql_client.types.seo_info import SeoInfo
-        from graphql_client.types.organization_connection import OrganizationConnection
         from graphql_client.types.dynamic_property_value_type import DynamicPropertyValueType
+        from graphql_client.types.organization_connection import OrganizationConnection
+        from graphql_client.types.seo_info import SeoInfo
         from graphql_client.types.user_type import UserType
+        from datetime import datetime
         from graphql_client.types.member_address_connection import MemberAddressConnection
         from graphql_client.types.member_address_type import MemberAddressType
 
