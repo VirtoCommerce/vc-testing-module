@@ -25,10 +25,10 @@ load_dotenv(override=True)
 def config():
     return {
         "backend_base_url": os.getenv(
-            "BACKEND_BASE_URL", "https://vcptcore-demo.govirto.com"
+            "BACKEND_BASE_URL"#, "https://vcptcore-demo.govirto.com"
         ),
         "frontend_base_url": os.getenv(
-            "FRONTEND_BASE_URL", "https://vcptcore-demo-storefront.govirto.com"
+            "FRONTEND_BASE_URL"#, "https://vcptcore-demo-storefront.govirto.com"
         ),
         "admin_username": os.getenv("ADMIN_USERNAME"),
         "admin_password": os.getenv("ADMIN_PASSWORD"),
