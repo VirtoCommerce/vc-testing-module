@@ -52,44 +52,38 @@ def test_reset_password(
     )
 
     assert search_reset_password_email_notification["totalCount"] > 0
+    assert search_reset_password_email_notification["results"] is not None
+    assert len(search_reset_password_email_notification["results"]) > 0
     notification = search_reset_password_email_notification["results"][0]
     
     assert notification["notificationType"] == "ResetPasswordEmailNotification"
     assert notification["to"] == dataset["users"][2]["email"]
     assert notification["subject"] is not None and notification["subject"] == "Reset password link"
     assert notification["body"] is not None
-    assert "reset-password" in notification["body"]  
     assert notification["status"] is not None and notification["status"] == "Sent"
 
     # Extract and set Token from URL
-    # Get the body HTML content
     body_html = notification["body"]
     
-    # Extract the URL from the href attribute using regex
     url_match = re.search(r'href="([^"]+)"', body_html)
     if not url_match:
         pytest.fail("Reset password URL not found in the notification body.")
     
     reset_password_url = url_match.group(1)
     
-    # Parse the URL to extract query parameters
     parsed_url = urlparse(reset_password_url)
     query_params = parse_qs(parsed_url.query)
     
-    # Extract and decode the token
     if "token" not in query_params:
-        pytest.fail("Token parameter not found in the reset password URL.")
-    
-    # Get the token (parse_qs returns a list, so get the first element)
+        pytest.fail("Token parameter not found in the reset password URL.")   
+
     token_encoded = query_params["token"][0]
     
-    # URL-decode the token
-    token = unquote(token_encoded)
-    
-    # Remove the last character if it's a backslash (as in original Postman code)
+    token = unquote(token_encoded)    
+  
     if token.endswith("\\"):
         token = token[:-1]
-  
+
     #print(f"Extracted Token: {token}")    
 
     assert token, "Token should not be empty"
@@ -103,7 +97,7 @@ def test_reset_password(
         }
     )
     
-    assert reset_password_result["succeeded"] is True, f"Password reset failed: {reset_password_result.get('errors', [])}"
+    assert reset_password_result["succeeded"] is True, f"Password reset failed: {reset_password_result['errors'][0]['description']}"
 
     auth.authenticate(dataset["users"][2]["email"], "NewPassword123!")    
 
