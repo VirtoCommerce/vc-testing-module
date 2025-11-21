@@ -87,7 +87,7 @@ def test_e2e_add_product_to_cart_and_save_for_later(
     saved_item = save_for_later_page.get_line_item_by_sku(product_to_add_to_cart_1["code"])
     expect(
         saved_item.element
-    ).to_be_visible(), f"Product {product_to_add_to_cart_1["code"]} should be in saved for later"
+    ).to_be_visible(), f"Product {product_to_add_to_cart_1['code']} should be in saved for later"
 
     save_for_later_page.remove_line_item(product_to_add_to_cart_1["code"])
     requests_tracker.wait_for_all_requests()
@@ -142,7 +142,7 @@ def test_e2e_move_product_from_saved_for_later_to_cart(
     save_for_later_page.navigate()
 
     saved_item = save_for_later_page.get_line_item_by_sku(product_to_add_to_cart["code"])
-    expect(saved_item.element).to_be_visible(), f"Product {product_to_add_to_cart["code"]} should be in saved for later"
+    expect(saved_item.element).to_be_visible(), f"Product {product_to_add_to_cart['code']} should be in saved for later"
 
     expect(saved_item.add_to_cart_component.quantity_input).to_have_value(
         str(product_quantity)
@@ -154,7 +154,7 @@ def test_e2e_move_product_from_saved_for_later_to_cart(
     cart_page.navigate()
     expect(
         cart_page.get_line_item_by_sku(product_to_add_to_cart["code"]).element
-    ).to_be_visible(), f"Product {product_to_add_to_cart["code"]} should be in cart"
+    ).to_be_visible(), f"Product {product_to_add_to_cart['code']} should be in cart"
     expect(
         cart_page.get_line_item_by_sku(product_to_add_to_cart["code"]).quantity_stepper_component.quantity_input
     ).to_have_value(str(product_quantity)), f"Product quantity is not equal to {product_quantity}"
