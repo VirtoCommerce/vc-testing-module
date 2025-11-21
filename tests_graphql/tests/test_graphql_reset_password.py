@@ -2,6 +2,7 @@ import os
 import re
 from typing import Any
 from urllib.parse import urlparse, parse_qs, unquote
+from time import sleep
 
 import allure
 import pytest
@@ -37,6 +38,8 @@ def test_reset_password(
 
     assert send_password_reset_email_result is True
 
+    sleep(5)
+
     auth.authenticate(config["admin_username"], config["admin_password"])
 
     search_reset_password_email_notification = webapi_client.post(
@@ -50,6 +53,7 @@ def test_reset_password(
             "responseGroup": "Default"
         }
     )    
+
 
     assert search_reset_password_email_notification["totalCount"] > 0
     assert search_reset_password_email_notification["results"] is not None
