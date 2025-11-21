@@ -3,10 +3,10 @@ from pydantic import BaseModel
 
 class UserType(BaseModel):
     def __init__(self):
-        from graphql_client.types.user_type import UserType
+        from graphql_client.types.contact_type import ContactType
         from graphql_client.types.role_type import RoleType
         from datetime import datetime
-        from graphql_client.types.contact_type import ContactType
+        from graphql_client.types.user_type import UserType
 
         self.accessFailedCount: int
         self.createdBy: str | None
