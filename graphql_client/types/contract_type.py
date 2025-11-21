@@ -3,8 +3,8 @@ from pydantic import BaseModel
 
 class ContractType(BaseModel):
     def __init__(self):
-        from datetime import datetime
         from graphql_client.types.dynamic_property_value_type import DynamicPropertyValueType
+        from datetime import datetime
 
         self.id: str
         self.name: str

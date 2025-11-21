@@ -1,5 +1,6 @@
 import os
 from typing import Any
+import random
 
 import allure
 import pytest
@@ -27,7 +28,13 @@ def test_invite_user(
     dataset_user = next(
         user
         for user in dataset["users"]
-        if user["id"] == "user-acme-store-administrator"
+        if user["id"] == "user-acme-store-maintainer-1"
+    )
+
+    dataset_organization = next(
+        organization
+        for organization in dataset["organizations"]
+        if organization["id"] == dataset["contacts"][9]["defaultOrganizationId"]
     )
 
     auth.authenticate(
@@ -35,15 +42,17 @@ def test_invite_user(
         config["users_password"],
     )
 
-    user = user_operations.get_me()
+    maintainer_user = user_operations.get_me()
+    invite_employee_email = f"invite-employee-{random.randint(1000, 9999)}@acme.com"
 
     invitation_result = contact_operations.invite_user(
         payload={
             "storeId": config["store_id"],
-            "organizationId": user["contact"]["organizationId"],
-            "emails": ["invite-employee@acme.com"],
+            "organizationId": dataset_organization["id"],
+            "emails": [invite_employee_email],
             "message": "You are invited to join the organization",
             "roleIds": ["org-employee"],
+            "urlSuffix": "/confirm-invitation"            
         }
     )
 
@@ -53,9 +62,9 @@ def test_invite_user(
         )
 
     invited_contact = contact_operations.fetch_organization_contacts(
-        organization_id=user["contact"]["organizationId"],
-        user_id=user["id"],
-        search_phrase="invite-employee@acme.com",
+        organization_id=dataset_organization["id"],
+        user_id=maintainer_user["id"],
+        search_phrase=invite_employee_email,
     )["contacts"]["items"][0]
 
     # Test teardown
@@ -63,8 +72,13 @@ def test_invite_user(
     contact_operations.remove_contact_from_organization(
         payload={
             "contactId": invited_contact["id"],
-            "organizationId": user["contact"]["organizationId"],
+            "organizationId": dataset_organization["id"],
         }
+    )
+
+    auth.authenticate(
+        config["admin_username"],
+        config["admin_password"],
     )
 
     contact_operations.delete_contact(
@@ -75,7 +89,7 @@ def test_invite_user(
 
     user_operations.delete_users(
         payload={
-            "userNames": ["invite-employee@acme.com"],
+            "userNames": [invite_employee_email],
         }
     )
 

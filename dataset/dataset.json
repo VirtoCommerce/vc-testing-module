@@ -518,6 +518,46 @@
                     "valueType": "ShortText"
                 },
                 {
+                    "itHasValues": true,
+                    "objectId": "store-acme",
+                    "objectType": "Store",
+                    "isReadOnly": false,
+                    "value": "Approved",      
+                    "restartRequired": false,
+                    "moduleId": "VirtoCommerce.Customer",
+                    "groupName": "Customer|Statuses",
+                    "name": "Customer.OrganizationDefaultStatus",
+                    "displayName": null,
+                    "isRequired": false,
+                    "isHidden": false,
+                    "isPublic": false,
+                    "valueType": "ShortText",
+                    "allowedValues": null,
+                    "defaultValue": null,
+                    "isDictionary": false,
+                    "isLocalizable": false
+                 },
+                 {
+                    "itHasValues": true,
+                    "objectId": "store-acme",
+                    "objectType": "Store",
+                    "isReadOnly": false,
+                    "value": "Approved",       
+                    "restartRequired": false,
+                    "moduleId": "VirtoCommerce.Customer",
+                    "groupName": "Customer|Statuses",
+                    "name": "Customer.ContactDefaultStatus",
+                    "displayName": null,
+                    "isRequired": false,
+                    "isHidden": false,
+                    "isPublic": false,
+                    "valueType": "ShortText",
+                    "allowedValues": null,
+                    "defaultValue": null,
+                    "isDictionary": false,
+                    "isLocalizable": false
+                },
+                {
                     "objectId": "store-acme",
                     "objectType": "Store",
                     "moduleId": "VirtoCommerce.XPickup",
@@ -35791,5 +35831,5 @@
             "id": "10605003-8a51-44b0-a91c-90b14cdb4a9c"
         }
     ],
-    "createdDate": "2025-11-19T10:08:14.050894"
+    "createdDate": "2025-11-20T14:22:46.215001"
 }

@@ -7,6 +7,19 @@ class ResetPasswordByTokenMutation:
         self.graphql_client = graphql_client
 
     def execute(self, variables: dict, return_fields: str = None) -> CustomIdentityResultType:
+       
+        if return_fields is None:
+            return_fields = """
+                succeeded
+                errors {
+                    code
+                    description
+                }
+            """
+        
+        # Wrap variables in command structure to match GraphQL mutation
+        variable_values = {"command": variables}
+        
         query_string = f"""
             mutation resetPasswordByToken($command: InputResetPasswordByTokenType) {{
                 resetPasswordByToken(
@@ -17,4 +30,4 @@ class ResetPasswordByTokenMutation:
             }}
         """
 
-        return self.graphql_client.execute(gql(query_string), variables)["resetPasswordByToken"]
+        return self.graphql_client.execute(gql(query_string), variable_values=variable_values)["resetPasswordByToken"]
