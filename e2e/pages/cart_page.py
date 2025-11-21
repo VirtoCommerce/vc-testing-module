@@ -1,6 +1,7 @@
 from playwright.sync_api import Page, expect, BrowserContext
+
 from e2e.pages.locators.cart_locators import CartLocators
-from e2e.pages.locators.catalog_locators import CatalogPageLocators 
+from e2e.pages.locators.catalog_locators import CatalogPageLocators
 from utils.commonLocators.common_components_locators import CommonComponentsLocators
 
 
@@ -20,7 +21,7 @@ class CartPage:
         self.page.goto(f"{self.config['frontend_base_url']}/{product_name}")
         self.page.fill(CartLocators.QUANTITY_INPUT, str(quantity))
         self.page.locator(CatalogPageLocators.ADD_TO_CART_PDP).click()
-        self.page.locator(CatalogPageLocators.UPDATE_CART_PDP).wait_for(state="visible")        
+        self.page.locator(CatalogPageLocators.UPDATE_CART_PDP).wait_for(state="visible")
 
     def get_cart_count(self) -> int:
         """Get the current cart count from the menu"""
@@ -145,7 +146,7 @@ class CartPage:
         self.page.wait_for_load_state("networkidle")
         actual_count = self.page.locator(CartLocators.LINE_ITEM).count()
 
-        print("=== Product Count Verification ===")       
+        print("=== Product Count Verification ===")
         print(f"Expected count: {expected_count}")
         print(f"Actual count: {actual_count}")
 
@@ -193,7 +194,7 @@ class CartPage:
 
                     # Click the headcheckbox
                     head_checkbox.click()
-                    print(f"Clicked headcheckbox {i+1}/{count}")
+                    print(f"Clicked headcheckbox {i + 1}/{count}")
 
                     # Wait for any network requests to complete
                     self.page.wait_for_load_state("networkidle")
@@ -204,7 +205,7 @@ class CartPage:
                     # Wait a moment before proceeding to the next checkbox
                     self.page.wait_for_timeout(500)
                 except Exception as e:
-                    print(f"Error clicking checkbox {i+1}: {str(e)}")
+                    print(f"Error clicking checkbox {i + 1}: {str(e)}")
         else:
             # Get the single head checkbox
             head_checkbox = head_checkboxes.first
@@ -329,7 +330,7 @@ class CartPage:
 
                 # Click the checkbox
                 checkbox.click()
-                print(f"Clicked checkbox {i+1}/{total_checkboxes}")
+                print(f"Clicked checkbox {i + 1}/{total_checkboxes}")
 
                 # Wait for any network requests to complete
                 self.page.wait_for_load_state("networkidle")
@@ -339,13 +340,13 @@ class CartPage:
 
                 # Verify the total number of checked items
                 selected_count = self.page.locator(CartLocators.CHECKED_ITEM_CHECKBOX).count()
-                print(f"Item {i+1}/{total_checkboxes}: Checked. Total selected: {selected_count}")
+                print(f"Item {i + 1}/{total_checkboxes}: Checked. Total selected: {selected_count}")
 
                 # Wait a moment before proceeding to the next checkbox
                 self.page.wait_for_timeout(500)
 
             except Exception as e:
-                print(f"Error clicking checkbox {i+1}: {str(e)}")
+                print(f"Error clicking checkbox {i + 1}: {str(e)}")
                 # Continue with the next checkbox
 
         print(f"Completed clicking {total_checkboxes} checkboxes")

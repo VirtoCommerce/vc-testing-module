@@ -34,6 +34,11 @@ def test_e2e_add_product_to_cart_and_save_for_later(
     sign_in_page.sign_in(dataset["users"][0]["userName"], config["users_password"])
     time.sleep(2)
 
+    cart_page = CartPage(config, page)
+    cart_page.navigate()
+    cart_page.clear_cart()
+    requests_tracker.wait_for_all_requests()
+
     category_to_browse = next(
         category for category in dataset["categories"] if category["id"] == "category-acme-laptops"
     )
@@ -54,7 +59,6 @@ def test_e2e_add_product_to_cart_and_save_for_later(
     category_page.add_product_to_cart(product_to_add_to_cart_2["code"], 1)
     requests_tracker.wait_for_all_requests()
 
-    cart_page = CartPage(config, page)
     cart_page.navigate()
 
     expect(

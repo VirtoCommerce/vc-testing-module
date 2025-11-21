@@ -2,13 +2,11 @@ from typing import List, Optional
 
 from playwright.sync_api import Page
 
-from tests_e2e.components.delete_wishlist_product_modal import DeleteWishlistProductModalComponent
-
-from .main_layout_page import MainLayoutPage
-
 from tests_e2e.components import (
     LineItemComponent,
 )
+from tests_e2e.components.delete_wishlist_product_modal import DeleteWishlistProductModalComponent
+from .main_layout_page import MainLayoutPage
 
 
 class SaveForLaterPage(MainLayoutPage):
