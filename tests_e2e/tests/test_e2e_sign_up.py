@@ -4,9 +4,11 @@ from typing import Any
 import allure
 import pytest
 from playwright.sync_api import Page, expect
+import random
 
 from fixtures.auth import Auth
 from fixtures.graphql_client import GraphQLClient
+from fixtures.webapi_client import WebAPISession
 from graphql_operations.contact.contact_operations import ContactOperations
 from graphql_operations.user.user_operations import UserOperations
 from tests_e2e.pages.sign_up_page import SignUpPage
@@ -90,7 +92,7 @@ def test_e2e_sign_up_personal_account(
         payload={
             "userNames": ["john.doe@example.com"],
         }
-    )
+    )    
 
     auth.clear_token()
 
@@ -98,7 +100,7 @@ def test_e2e_sign_up_personal_account(
 @pytest.mark.e2e
 @allure.feature("Sign up organization account (E2E)")
 def test_e2e_sign_up_organization_account(
-    config: dict[str, Any], page: Page, auth: Auth, graphql_client: GraphQLClient
+    config: dict[str, Any], page: Page, auth: Auth, graphql_client: GraphQLClient, webapi_client: WebAPISession
 ):
     print(f"{os.linesep}Running E2E test to sign up organization account...", end=" ")
 
@@ -109,11 +111,13 @@ def test_e2e_sign_up_organization_account(
 
     sign_up_page.navigate()
 
+    user_email = f"john.doe-{random.randint(1000, 9999)}@example.com"
+
     sign_up_page.select_organization_registration()
     sign_up_page.sign_up(
         first_name="John",
         last_name="Doe",
-        email="john.doe@example.com",
+        email=user_email,
         password=config["users_password"],
         organization_name="Some fake organization",
     )
@@ -124,7 +128,7 @@ def test_e2e_sign_up_organization_account(
 
     auth.authenticate(config["admin_username"], config["admin_password"])
 
-    user = user_operations.get_user_by_username("john.doe@example.com")
+    user = user_operations.get_user_by_username(user_email)
 
     contact_operations.delete_contact(
         payload={
@@ -134,8 +138,30 @@ def test_e2e_sign_up_organization_account(
 
     user_operations.delete_users(
         payload={
-            "userNames": ["john.doe@example.com"],
+            "userNames": [user_email],
         }
+    )
+
+    organization_search_result = webapi_client.post(
+        f"/api/members/search",
+        data={          
+            "keyword": "Some fake organization",
+            "deepSearch": True,
+            "sort": "",
+            "skip": 0,
+            "take": 20,
+            "objectType": "Member"
+        }
+        
+    )
+
+    assert organization_search_result["results"][0]["id"] is not None
+    assert organization_search_result["results"][0]["name"] is not None and organization_search_result["results"][0]["name"] == "Some fake organization"  
+
+    organization_id = organization_search_result["results"][0]["id"]
+
+    webapi_client.delete(
+       f"/api/organizations?ids={organization_id}"
     )
 
     auth.clear_token()
