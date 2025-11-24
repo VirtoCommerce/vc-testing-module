@@ -35,9 +35,6 @@ def test_e2e_add_product_to_cart_and_save_for_later(
     time.sleep(2)
 
     cart_page = CartPage(config, page)
-    cart_page.navigate()
-    cart_page.clear_cart()
-    requests_tracker.wait_for_all_requests()
 
     category_to_browse = next(
         category for category in dataset["categories"] if category["id"] == "category-acme-laptops"
@@ -67,6 +64,7 @@ def test_e2e_add_product_to_cart_and_save_for_later(
 
     cart_page.save_for_later(product_to_add_to_cart_1["code"])
     requests_tracker.wait_for_all_requests()
+    time.sleep(3)
 
     # Verify that the first product is no longer in the cart
     removed_item = cart_page.get_line_item_by_sku(product_to_add_to_cart_1["code"])
@@ -141,6 +139,7 @@ def test_e2e_move_product_from_saved_for_later_to_cart(
 
     cart_page.save_for_later(product_to_add_to_cart["code"])
     requests_tracker.wait_for_all_requests()
+    time.sleep(3)
 
     save_for_later_page = SaveForLaterPage(page, config)
     save_for_later_page.navigate()
