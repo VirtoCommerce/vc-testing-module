@@ -14,16 +14,18 @@ class LineItemComponent:
 
     @property
     def add_to_cart_component(self) -> AddToCartComponent:
-        return AddToCartComponent(
-            self.element.locator("[data-test-id='add-to-cart-component']")
-        )
+        return AddToCartComponent(self.element.locator("[data-test-id='add-to-cart-component']"))
 
     @property
     def quantity_stepper_component(self) -> QuantityStepperComponent:
-        return QuantityStepperComponent(
-            self.element.locator(".vc-quantity-stepper__input")
-        )
+        return QuantityStepperComponent(self.element.locator(".vc-quantity-stepper__input"))
 
     @property
     def remove_button(self) -> Locator:
         return self.element.locator("[data-test-id='remove-item-button']")
+
+    @property
+    def safe_for_later_button(self) -> Locator:
+        return self.element.locator(
+            "[data-test-id='cart-item-actions-after-title'] [data-test-id='save-for-later-button']"
+        )
