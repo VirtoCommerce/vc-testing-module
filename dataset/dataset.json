@@ -522,7 +522,7 @@
                     "objectId": "store-acme",
                     "objectType": "Store",
                     "isReadOnly": false,
-                    "value": "Approved",      
+                    "value": "Approved",
                     "restartRequired": false,
                     "moduleId": "VirtoCommerce.Customer",
                     "groupName": "Customer|Statuses",
@@ -536,13 +536,13 @@
                     "defaultValue": null,
                     "isDictionary": false,
                     "isLocalizable": false
-                 },
-                 {
+                },
+                {
                     "itHasValues": true,
                     "objectId": "store-acme",
                     "objectType": "Store",
                     "isReadOnly": false,
-                    "value": "Approved",       
+                    "value": "Approved",
                     "restartRequired": false,
                     "moduleId": "VirtoCommerce.Customer",
                     "groupName": "Customer|Statuses",
@@ -35831,5 +35831,209 @@
             "id": "10605003-8a51-44b0-a91c-90b14cdb4a9c"
         }
     ],
-    "createdDate": "2025-11-20T14:22:46.215001"
+    "notifications": [
+        {
+            "url": null,
+            "alias": "RegistrationInvitationNotification",
+            "kind": "EmailNotification",
+            "isActive": true,
+            "type": "RegistrationInvitationEmailNotification",
+            "templates": [
+                {
+                    "id": "acme-notification-email-registration-invitation-template",
+                    "kind": "EmailNotification",
+                    "languageCode": "en-US",
+                    "subject": "Registration by invitation",
+                    "body": "Please to register by invite clicking <a href=\"{invite_url}\">here</a>"
+                }
+            ],
+            "tenantIdentity": {
+                "id": "store-acme",
+                "type": "Store"
+            }
+        },
+        {
+            "url": null,
+            "kind": "EmailNotification",
+            "from": null,
+            "to": null,
+            "replyTo": null,
+            "cc": [],
+            "bcc": [],
+            "attachments": [],
+            "tenantIdentity": {
+                "id": null,
+                "type": null,
+                "isEmpty": true,
+                "isValid": false
+            },
+            "isActive": true,
+            "languageCode": null,
+            "alias": null,
+            "type": "ResetPasswordEmailNotification",
+            "templates": [
+                {
+                    "kind": "EmailNotification",
+                    "subject": "Reset password link\n",
+                    "body": "Please reset your password by clicking <strong><a href=\"{{ url }}\">here</a></strong>",
+                    "notificationLayoutId": null,
+                    "languageCode": null,
+                    "type": "EmailNotificationTemplate",
+                    "isReadonly": false,
+                    "outerId": null,
+                    "isPredefined": true,
+                    "modifiedDate": null,
+                    "createdBy": null,
+                    "modifiedBy": null,
+                    "id": null
+                },
+                {
+                    "kind": "EmailNotification",
+                    "languageCode": "en-US",
+                    "body": "Please reset your password by clicking <strong><a href=\"{{ url }}\">here</a></strong>",
+                    "subject": "Reset password link",
+                    "isReadonly": false,
+                    "id": null,
+                    "isPredefined": false
+                }
+            ]
+        },
+        {
+            "firstName": null,
+            "lastName": null,
+            "login": null,
+            "kind": "EmailNotification",
+            "from": null,
+            "to": null,
+            "replyTo": null,
+            "cc": [],
+            "bcc": [],
+            "attachments": [],
+            "tenantIdentity": {
+                "id": null,
+                "type": null,
+                "isEmpty": true,
+                "isValid": false
+            },
+            "isActive": true,
+            "languageCode": null,
+            "alias": null,
+            "type": "RegistrationEmailNotification",
+            "outerId": null,
+            "templates": [
+                {
+                    "kind": "EmailNotification",
+                    "languageCode": "en-US",
+                    "body": "Thank you for registration {{ firstname }} {{ lastname }}!!!",
+                    "subject": "Your login - {{ login }}.",
+                    "isReadonly": false,
+                    "id": null,
+                    "isPredefined": false
+                }
+            ]
+        },
+        {
+            "companyName": null,
+            "kind": "EmailNotification",
+            "from": null,
+            "to": null,
+            "replyTo": null,
+            "cc": [],
+            "bcc": [],
+            "attachments": [],
+            "tenantIdentity": {
+                "id": null,
+                "type": null,
+                "isEmpty": true,
+                "isValid": false
+            },
+            "isActive": true,
+            "languageCode": null,
+            "alias": null,
+            "type": "RegisterCompanyEmailNotification",
+            "outerId": null,
+            "templates": [
+                {
+                    "kind": "EmailNotification",
+                    "languageCode": "en-US",
+                    "body": "Thank you for registration of your company {{ company_name }}!!!",
+                    "subject": "Your company - {{ company_name }}.",
+                    "isReadonly": false,
+                    "id": null,
+                    "isPredefined": false
+                }
+            ]
+        },
+        {
+            "customerOrderId": null,
+            "customerOrder": null,
+            "customer": null,
+            "kind": "EmailNotification",
+            "from": null,
+            "to": null,
+            "replyTo": null,
+            "cc": [],
+            "bcc": [],
+            "attachments": [],
+            "tenantIdentity": {
+                "id": null,
+                "type": null,
+                "isEmpty": false,
+                "isValid": true
+            },
+            "isActive": true,
+            "languageCode": null,
+            "alias": null,
+            "type": "OrderCreateEmailNotification",
+            "outerId": null,
+            "templates": [
+                {
+                    "kind": "EmailNotification",
+                    "subject": "You placed an order.",
+                    "body": "Thank you for placing an order.\n<br>\nOrder number: <strong>{{ customer_order.number }}</strong>\n<br>",
+                    "notificationLayoutId": null,
+                    "languageCode": "en-US",
+                    "type": "EmailNotificationTemplate",
+                    "isReadonly": false,
+                    "outerId": null,
+                    "isPredefined": false
+                }
+            ]
+        },
+        {
+            "url": null,
+            "kind": "EmailNotification",
+            "from": null,
+            "to": null,
+            "replyTo": null,
+            "cc": [],
+            "bcc": [],
+            "attachments": [],
+            "tenantIdentity": {
+                "id": null,
+                "type": null,
+                "isEmpty": false,
+                "isValid": true
+            },
+            "isActive": true,
+            "languageCode": null,
+            "alias": "EmailConfirmationNotification",
+            "type": "ConfirmationEmailNotification",
+            "outerId": null,
+            "templates": [
+                {
+                    "kind": "EmailNotification",
+                    "subject": "Email Confirmation",
+                    "body": "To complete your create account process please click this link: <a href=\"{{ url }}\">{{ url }}</a>",
+                    "notificationLayoutId": null,
+                    "languageCode": "en-US",
+                    "type": "EmailNotificationTemplate",
+                    "isReadonly": false,
+                    "outerId": null,
+                    "isPredefined": false
+                }
+            ]
+        }
+    ],
+    "createdDate": "2025-11-24T13:43:54.124600"
 }
