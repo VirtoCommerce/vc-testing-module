@@ -14,7 +14,7 @@ from graphql_client.mutations.reset_password import SendPasswordResetEmailMutati
 from graphql_client.mutations.reset_password_by_token import ResetPasswordByTokenMutation
 from graphql_operations.user.user_operations import UserOperations
 
-@pytest.mark.ignore
+
 @pytest.mark.graphql
 @allure.title("Reset password (GraphQL)")
 def test_reset_password(

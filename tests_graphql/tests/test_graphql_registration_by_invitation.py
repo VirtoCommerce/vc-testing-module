@@ -9,7 +9,7 @@ from fixtures.graphql_client import GraphQLClient
 from graphql_operations.contact.contact_operations import ContactOperations
 from graphql_operations.user.user_operations import UserOperations
 
-@pytest.mark.ignore
+
 @pytest.mark.graphql
 @allure.feature("Registration by invitation (GraphQL)")
 def test_graphql_registration_by_invitation(
