@@ -95,9 +95,11 @@ def test_reset_password(
     reset_password_mutation = ResetPasswordByTokenMutation(graphql_client)
     reset_password_result = reset_password_mutation.execute(
         variables={
-            "token": token,
-            "userId": dataset["users"][2]["id"],
-            "newPassword": "NewPassword123!"
+            "command": {
+                "token": token,
+                "userId": dataset["users"][2]["id"],
+                "newPassword": "NewPassword123!"
+            }
         }
     )
     
