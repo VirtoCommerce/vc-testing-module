@@ -69,7 +69,7 @@
         "templates": [
             {
                 "kind": "EmailNotification",
-                "subject": "Reset password link\n",
+                "subject": "Reset password link",
                 "body": "Please reset your password by clicking <strong><a href=\"{{ url }}\">here</a></strong>",             
                 "notificationLayoutId": null,
                 "languageCode": null,
