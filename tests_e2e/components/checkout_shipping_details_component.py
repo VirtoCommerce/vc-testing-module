@@ -21,7 +21,9 @@ class CheckoutShippingDetailsComponent:
 
     @property
     def address_selector_component(self) -> AddressSelectorComponent:
-        return AddressSelectorComponent(self.element.locator("[data-test-id='checkout.shipping-details-section.shipping-address-section']"))
+        return AddressSelectorComponent(
+            self.element.locator("[data-test-id='checkout.shipping-details-section.shipping-address-section']")
+        )
 
     @property
     def shipping_method_selector(self) -> Locator:
@@ -36,3 +38,6 @@ class CheckoutShippingDetailsComponent:
     def select_shipping_method(self, shipping_method: str) -> None:
         self.shipping_method_selector.click()
         self.element.locator(f"[data-shipping-method-id='{shipping_method}']").click()
+
+    def select_pickup_point(self) -> None:
+        self.pickup_point_section.locator("[data-test-id='select-address-button']").click()

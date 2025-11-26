@@ -8,6 +8,7 @@ from playwright.sync_api import Page, expect
 
 from fixtures.anonymous_catalog_requests import AnonymousCatalogRequests
 from tests_e2e.components.address_filter_component import AddressFilterComponent
+from tests_e2e.components.address_items_component import AddressItemsComponent
 from tests_e2e.components.edit_address_modal_component import EditAddressModalComponent
 from fixtures.requests_tracker import RequestsTracker
 from tests_e2e.pages.cart_page import CartPage
@@ -50,8 +51,19 @@ def test_e2e_remove_cart_item(
     cart_page = CartPage(config, page)
     cart_page.navigate()
 
-    cart_page.shipping_details_section_component.address_selector_component.select_address_button.click()
+    cart_page.shipping_details_section_component.switch_delivery_option("pickup")
+    cart_page.shipping_details_section_component.select_pickup_point()
 
-    address_filter = AddressFilterComponent(page.locator("[data-test-id='edit-address-modal']"))
+    addresses_filter = AddressFilterComponent(page.locator("[data-test-id='select-address-filter']"))
+    expect(addresses_filter.element).to_be_visible()
 
-    expect(address_filter.element).to_be_visible()
+    addresses_list = AddressItemsComponent(page.locator("[data-test-id='select-address-map-modal-list']"))
+    expect(addresses_list.element).to_be_visible()
+
+    number_of_radio_buttons = len(addresses_list.radio_buttons.all())
+
+    number_of_radio_buttons_expected = len(dataset["pickupLocations"])
+
+    assert (
+        number_of_radio_buttons == number_of_radio_buttons_expected
+    ), f"Number of pickup locations is not {number_of_radio_buttons_expected}, but {number_of_radio_buttons}"
