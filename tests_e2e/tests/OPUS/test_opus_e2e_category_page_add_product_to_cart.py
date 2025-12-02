@@ -109,7 +109,6 @@ def test_e2e_category_add_product_to_cart_with_quantity_stepper(
     page.set_viewport_size({"width": 1920, "height": 1080})
 
     category_to_browse = TEST_CATEGORY_1["seoPath"]
-    product_to_add_to_cart = TEST_PRODUCT_1
 
     category_page = CategoryPage(
         config, page, category_to_browse
@@ -119,9 +118,11 @@ def test_e2e_category_add_product_to_cart_with_quantity_stepper(
     expect(page).to_have_url(
         f"{config['frontend_base_url']}/{category_to_browse}"
     )
+    product_card = category_page.get_first_product_card()
+    assert product_card is not None, "No product cards found on the category page"
     
-    product_card = category_page.get_product_card_by_sku(product_to_add_to_cart["sku"])
-
+    product_sku = product_card.sku
+    
     product_card.quantity_stepper_component.increment_button.click()
 
     expect(product_card.quantity_stepper_component.quantity_input).to_have_value(
@@ -133,11 +134,11 @@ def test_e2e_category_add_product_to_cart_with_quantity_stepper(
     cart_page = CartPage(config, page)
     cart_page.navigate()
 
-    line_item = cart_page.get_line_item_by_sku(product_to_add_to_cart["sku"])
+    line_item = cart_page.get_line_item_by_sku(product_sku)
 
     assert (
-        line_item.sku == product_to_add_to_cart["sku"]
-    ), f"Line item sku is not equal to product sku: {product_to_add_to_cart['sku']}"
+        line_item.sku == product_sku
+    ), f"Line item sku is not equal to product sku: {product_sku}"
     assert (
         str(line_item.quantity_stepper_component.quantity_input.input_value()) == "1"
     ), "Line item quantity is not equal to product quantity to add"

@@ -124,7 +124,6 @@ def test_e2e_category_add_product_to_cart_with_quantity_stepper(
     expect(page).to_have_url(
         f"{config['frontend_base_url']}/{category_to_browse}"
     )
-
     suppliers_filter_checkbox.click()
     requests_tracker.wait_for_all_requests()
 

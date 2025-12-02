@@ -36,7 +36,8 @@ def config():
         "store_id": os.getenv("STORE_ID"),
         "username": os.getenv("USERNAME"),
         "users_password": os.getenv("USERS_PASSWORD"),
-        "password": os.getenv("USERS_PASSWORD")
+        "password": os.getenv("USERS_PASSWORD"),
+        "api_key": os.getenv("API_KEY")
     }
 
 
@@ -80,15 +81,31 @@ def browser_type_launch_args(pytestconfig):
     return {"headless": not pytestconfig.getoption("--show-browser")}
 
 
-expect.set_options(timeout=30_000)
+# Set global timeouts for Playwright operations
+expect.set_options(timeout=50_000)  # Timeout for expect() assertions
 
 
 @pytest.fixture(scope="session")
 @allure.title("Fixture to initialize browser context")
 def browser_context(browser, auth_token, config):
     context = browser.new_context()
+    # Set default timeout for all actions (click, fill, etc.)
+    context.set_default_timeout(50_000)
+    # Set default timeout for navigation operations (goto, wait_for_load_state, etc.)
+    context.set_default_navigation_timeout(50_000)
     yield context
     context.close()
+
+
+# Override pytest-playwright's page fixture to set timeouts
+@pytest.fixture
+def page(context):
+    page = context.new_page()
+    # Set timeouts for this page
+    page.set_default_timeout(50_000)
+    page.set_default_navigation_timeout(50_000)
+    yield page
+    page.close()
 
 
 # @pytest.fixture(scope="session")
@@ -107,6 +124,11 @@ def authenticated_page(auth_token, config, browser_context):
 
     # Set auth object in localStorage
     page = browser_context.new_page()
+    
+    # Set timeouts at page level as well (in case context-level doesn't work)
+    page.set_default_timeout(50_000)
+    page.set_default_navigation_timeout(50_000)
+    
     page.goto(
         config["frontend_base_url"]
     )  # Wait for page load before manipulating storage

@@ -47,7 +47,9 @@ class CategoryPage(MainLayoutPage):
 
     def navigate(self) -> None:
         self.page.goto(self.url)
-        self.page.wait_for_load_state("networkidle")
+        self.page.wait_for_load_state("domcontentloaded")
+        # Wait for product cards to be visible
+        self.page.wait_for_selector("[data-test-id='product-card']", state="visible", timeout=30000)
 
     def get_product_card_by_sku(self, sku: str) -> Optional[ProductCardComponent]:
         for product_card in self.product_cards:
@@ -55,4 +57,14 @@ class CategoryPage(MainLayoutPage):
                 # Ensure the card is scrolled into view so nested controls are interactable
                 product_card.element.scroll_into_view_if_needed()
                 return product_card
+        return None
+
+    def get_first_product_card(self) -> Optional[ProductCardComponent]:
+        """Returns the first product card found on the page."""
+        product_cards = self.product_cards
+        if product_cards:
+            first_card = product_cards[0]
+            # Ensure the card is scrolled into view so nested controls are interactable
+            first_card.element.scroll_into_view_if_needed()
+            return first_card
         return None

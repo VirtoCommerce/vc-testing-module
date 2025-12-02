@@ -40,7 +40,7 @@ class SignInPage(MainLayoutPage):
 
     def navigate(self) -> None:
         self.page.goto(self.url)
-        self.page.wait_for_load_state("networkidle")
+        self.page.wait_for_load_state("domcontentloaded")
 
     def sign_in(self, email: str, password: str) -> None:
         self.email_input.fill(email)
