@@ -10,7 +10,7 @@
         "bcc": [],
         "attachments": [],
         "tenantIdentity": {
-            "id": "B2B-store",
+            "id": "store-acme",
             "type": "Store",
             "isEmpty": false,
             "isValid": true
@@ -23,8 +23,8 @@
         "templates": [
             {
                 "kind": "EmailNotification",
-                "subject": "Registration by invite.",
-                "body": "<p>{{ message }}</p>\nPlease  to register by invite clicking <a href=\"{{ invite_url }}\">here</a>",
+                "subject": "Registration by invite",
+                "body": "<p>{{ message }}</p>\nPlease to register by invite clicking <a href=\"{{ invite_url }}\">here</a>",
                 "sample": null,
                 "notificationLayoutId": null,
                 "languageCode": null,
@@ -35,8 +35,8 @@
             },
             {
                 "kind": "EmailNotification",
-                "subject": "Registration by invite.",
-                "body": "<p>{{ message }}</p>\nPlease  to register by invite clicking <a href=\"{{ invite_url }}\">here</a>",
+                "subject": "Registration by invite",
+                "body": "<p>{{ message }}</p>\nPlease to register by invite clicking <a href=\"{{ invite_url }}\">here</a>",
                 "sample": null,
                 "notificationLayoutId": null,
                 "languageCode": "en-US",
@@ -57,8 +57,8 @@
         "bcc": [],
         "attachments": [],
         "tenantIdentity": {
-            "id": null,
-            "type": null,
+            "id": "store-acme",
+            "type": "Store",
             "isEmpty": true,
             "isValid": false
         },
@@ -76,19 +76,15 @@
                 "type": "EmailNotificationTemplate",
                 "isReadonly": false,
                 "outerId": null,
-                "isPredefined": true,            
-                "modifiedDate": null,
-                "createdBy": null,
-                "modifiedBy": null,
-                "id": null         
+                "isPredefined": false       
+                     
             },
             {
                 "kind": "EmailNotification",
                 "languageCode": "en-US",
                 "body": "Please reset your password by clicking <strong><a href=\"{{ url }}\">here</a></strong>",
                 "subject": "Reset password link",            
-                "isReadonly": false,
-                "id": null,
+                "isReadonly": false,                
                 "isPredefined": false
             }
         ]
@@ -118,11 +114,18 @@
         "templates": [
             {
                 "kind": "EmailNotification",
+                "languageCode": null,
+                "body": "Thank you for registration {{ firstname }} {{ lastname }}!!!",
+                "subject": "Your login - {{ login }}",             
+                "isReadonly": false,            
+                "isPredefined": true
+            },
+            {
+                "kind": "EmailNotification",
                 "languageCode": "en-US",
                 "body": "Thank you for registration {{ firstname }} {{ lastname }}!!!",
-                "subject": "Your login - {{ login }}.",             
-                "isReadonly": false,
-                "id": null,
+                "subject": "Your login - {{ login }}",             
+                "isReadonly": false,            
                 "isPredefined": false
             }
         ]
@@ -150,11 +153,18 @@
         "templates": [
             {
                 "kind": "EmailNotification",
+                "languageCode": null,
+                "body": "Thank you for registration of your company {{ company_name }}!!!",
+                "subject": "Your company - {{ company_name }}",          
+                "isReadonly": false,            
+                "isPredefined": true
+            },
+            {
+                "kind": "EmailNotification",
                 "languageCode": "en-US",
                 "body": "Thank you for registration of your company {{ company_name }}!!!",
-                "subject": "Your company - {{ company_name }}.",          
-                "isReadonly": false,
-                "id": null,
+                "subject": "Your company - {{ company_name }}",          
+                "isReadonly": false,            
                 "isPredefined": false
             }
         ]
@@ -187,14 +197,24 @@
                 "subject": "You placed an order.",
                 "body": "Thank you for placing an order.\n<br>\nOrder number: <strong>{{ customer_order.number }}</strong>\n<br>",          
                 "notificationLayoutId": null,
+                "languageCode": null,
+                "type": "EmailNotificationTemplate",
+                "isReadonly": false,
+                "outerId": null,
+                "isPredefined": true
+            },
+            {
+                "kind": "EmailNotification",
                 "languageCode": "en-US",
+                "subject": "You placed an order.",
+                "body": "Thank you for placing an order.\n<br>\nOrder number: <strong>{{ customer_order.number }}</strong>\n<br>",          
+                "notificationLayoutId": null,
                 "type": "EmailNotificationTemplate",
                 "isReadonly": false,
                 "outerId": null,
                 "isPredefined": false
-            }
-        ]
-    },
+            }]
+        },
     {
         "url": null,
         "kind": "EmailNotification",
@@ -221,11 +241,22 @@
                 "subject": "Email Confirmation",
                 "body": "To complete your create account process please click this link: <a href=\"{{ url }}\">{{ url }}</a>",             
                 "notificationLayoutId": null,
-                "languageCode": "en-US",
+                "languageCode": null,
                 "type": "EmailNotificationTemplate",
                 "isReadonly": false,
                 "outerId": null,
-                "isPredefined": false     
+                "isPredefined": true    
+            },
+            {
+                "kind": "EmailNotification",
+                "languageCode": "en-US",
+                "subject": "Email Confirmation",
+                "body": "To complete your create account process please click this link: <a href=\"{{ url }}\">{{ url }}</a>",             
+                "notificationLayoutId": null,
+                "type": "EmailNotificationTemplate",
+                "isReadonly": false,
+                "outerId": null,
+                "isPredefined": false
             }
 
         ]

@@ -46,7 +46,7 @@ def test_invite_user(
 
     invitation_result = contact_operations.invite_user(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["store_id"],         
             "organizationId": dataset_organization["id"],
             "emails": [invite_employee_email],
             "message": "You are invited to join the organization",
@@ -54,6 +54,8 @@ def test_invite_user(
             "urlSuffix": "/confirm-invitation"            
         }
     )
+
+    print(f"{os.linesep}Invitation result: {invitation_result}")
 
     if invitation_result["succeeded"] == False:
         raise Exception(
