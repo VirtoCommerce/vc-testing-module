@@ -40,7 +40,7 @@ def test_e2e_clear_cart(
     cart_page.clear_cart_button.click()
 
     clear_cart_modal = ClearCartModalComponent(
-        page.locator("[data-test-id='clear-cart-modal']")
+        page.locator("[op-test-id='clear-cart-modal']")
     )
 
     expect(clear_cart_modal.element).to_be_visible(), "Clear cart modal is not visible"
