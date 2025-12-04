@@ -55,8 +55,6 @@ def test_invite_user(
         }
     )
 
-    print(f"{os.linesep}Invitation result: {invitation_result}")
-
     if invitation_result["succeeded"] == False:
         raise Exception(
             f"{os.linesep}Invitation failed: {invitation_result['errors'][0]}"

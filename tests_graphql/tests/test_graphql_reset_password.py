@@ -34,8 +34,7 @@ def test_reset_password(
             "loginOrEmail": dataset["users"][2]["email"],
             "urlSuffix": "/reset-password",
         }
-    )
-    print(f"{os.linesep}Send password reset email result: {send_password_reset_email_result}")
+    )  
 
     assert send_password_reset_email_result is True
 
