@@ -59,8 +59,8 @@
         "tenantIdentity": {
             "id": "store-acme",
             "type": "Store",
-            "isEmpty": true,
-            "isValid": false
+            "isEmpty": false,
+            "isValid": true
         },
         "isActive": true,
         "languageCode": null,
@@ -103,8 +103,8 @@
         "tenantIdentity": {
             "id": null,
             "type": null,
-            "isEmpty": true,
-            "isValid": false
+            "isEmpty": false,
+            "isValid": true
         },
         "isActive": true,
         "languageCode": null,
@@ -142,8 +142,8 @@
         "tenantIdentity": {
             "id": null,
             "type": null,
-            "isEmpty": true,
-            "isValid": false
+            "isEmpty": false,
+            "isValid": true
         },
         "isActive": true,
         "languageCode": null,
