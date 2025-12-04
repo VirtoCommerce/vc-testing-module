@@ -100,7 +100,7 @@ def test_e2e_create_order(config: dict, page: Page, requests_tracker: RequestsTr
         checkout_billing_page.url
     ), "Checkout billing page is not loaded"
     requests_tracker.wait_for_all_requests()
-    
+
     checkout_billing_page.select_purchase_order_payment_method()
     expect(
         checkout_billing_page.review_order_button
@@ -110,7 +110,7 @@ def test_e2e_create_order(config: dict, page: Page, requests_tracker: RequestsTr
     ).to_be_enabled(), "Review order button is disabled"
 
     checkout_billing_page.review_order_button.click()
-    
+
     checkout_review_order_page = CheckoutReviewOrderPage(config, page)
 
     expect(page).to_have_url(
