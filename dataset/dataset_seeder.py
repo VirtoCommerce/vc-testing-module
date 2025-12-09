@@ -144,14 +144,18 @@ class DatasetSeeder(DatasetConfig):
 
             for item in items:
                 endpoint = endpoint_template
-                if "id" in item:
-                    endpoint = endpoint_template.format(id=item["id"])
-                if "{storeId}" in endpoint:
-                    endpoint = endpoint_template.format(storeId=self.store_id)
-                if "{productId}" in endpoint:
-                    endpoint = endpoint_template.format(productId=item["productId"])
-                if "url" in item and "{storeUrl}" in item["url"]:
+             
+                if "{id}" in endpoint_template and "id" in item:
+                    endpoint = endpoint.replace("{id}", item["id"])
+                if "{storeId}" in endpoint_template:
+                    endpoint = endpoint.replace("{storeId}", self.store_id)
+                if "{productId}" in endpoint_template and "productId" in item:
+                    endpoint = endpoint.replace("{productId}", item["productId"])
+                if "{type}" in endpoint_template and "type" in item:
+                    endpoint = endpoint.replace("{type}", item["type"])
+                if "url" in item and item["url"] is not None and "{storeUrl}" in item["url"]:
                     item["url"] = self.config["frontend_base_url"]
+                
 
                 label = f"-- Seeding {key}"
                 if "name" in item:
@@ -160,7 +164,10 @@ class DatasetSeeder(DatasetConfig):
                     label += f": {item['code']}"
                 elif "id" in item:
                     label += f": {item['id']}"
+                elif "type" in item:
+                    label += f": {item['type']}"
                 label += f" {Fore.LIGHTBLACK_EX}[{method}: {endpoint}]{Style.RESET_ALL}"
+            
 
                 if key == "users":
                     item["password"] = self.config["users_password"]

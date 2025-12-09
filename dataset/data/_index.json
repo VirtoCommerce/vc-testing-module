@@ -150,8 +150,10 @@
     "payload": "orders.json"
   },
   "notifications": {
-    "method": "POST",
-    "endpoint": "/api/notifications/RegistrationInvitationEmailNotification",
-    "itemsPerRequest": "single"
+    "method": "PUT",
+    "endpoint": "/api/notifications/{type}",
+    "itemsPerRequest": "single",
+    "payload": "notifications.json"
   }
+
 }

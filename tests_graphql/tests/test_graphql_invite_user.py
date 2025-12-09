@@ -11,7 +11,6 @@ from graphql_operations.contact.contact_operations import ContactOperations
 from graphql_operations.user.user_operations import UserOperations
 
 
-@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.feature("Invite user (GraphQL)")
 def test_invite_user(
@@ -47,7 +46,7 @@ def test_invite_user(
 
     invitation_result = contact_operations.invite_user(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["store_id"],         
             "organizationId": dataset_organization["id"],
             "emails": [invite_employee_email],
             "message": "You are invited to join the organization",
