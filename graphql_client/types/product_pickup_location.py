@@ -3,8 +3,8 @@ from pydantic import BaseModel
 
 class ProductPickupLocation(BaseModel):
     def __init__(self):
-        from graphql_client.types.pickup_location_address_type import PickupLocationAddressType
         from graphql_client.types.product_pickup_availability_type import ProductPickupAvailabilityType
+        from graphql_client.types.pickup_location_address_type import PickupLocationAddressType
 
         self.id: str
         self.isActive: bool
