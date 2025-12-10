@@ -46,4 +46,4 @@ class SignInPage(MainLayoutPage):
         self.email_input.fill(email)
         self.password_input.fill(password)
         self.login_button.click()
-        self.page.wait_for_load_state("networkidle")
+        self.page.wait_for_load_state("domcontentloaded")

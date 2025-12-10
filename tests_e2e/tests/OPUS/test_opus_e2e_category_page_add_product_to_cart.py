@@ -41,8 +41,6 @@ def test_e2e_category_add_product_to_cart_with_add_to_cartbutton(
 
     anonymous_catalog_requests.toggle(False)
 
-    page.set_viewport_size({"width": 1920, "height": 1080})
-
     category_to_browse = TEST_CATEGORY_1["seoPath"]
     product_to_add_to_cart = TEST_PRODUCT_1
 
@@ -105,8 +103,6 @@ def test_e2e_category_add_product_to_cart_with_quantity_stepper(
     )
 
     anonymous_catalog_requests.toggle(False)
-
-    page.set_viewport_size({"width": 1920, "height": 1080})
 
     category_to_browse = TEST_CATEGORY_1["seoPath"]
 

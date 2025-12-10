@@ -26,8 +26,6 @@ from tests_e2e.components.product_card_component import ProductCardComponent
 def test_e2e_create_order(config: dict, page: Page, requests_tracker: RequestsTracker):
     print(f"{os.linesep}Running E2E test to create order...", end=" ")
 
-    page.set_viewport_size({"width": 1920, "height": 1080})
-
     sign_in_page = SignInPage(page, config)
     sign_in_page.navigate()
     sign_in_page.sign_in(config["username"], config["password"])
@@ -38,6 +36,7 @@ def test_e2e_create_order(config: dict, page: Page, requests_tracker: RequestsTr
     category_page.navigate()
     requests_tracker.wait_for_all_requests()
     suppliers_filter_component = SuppliersFilterComponent(page)
+    page.pause()
     suppliers_filter_checkbox = suppliers_filter_component.get_supplier_checkbox(TEST_SUPPLIER["name"])
     suppliers_filter_checkbox.click()
     requests_tracker.wait_for_all_requests()

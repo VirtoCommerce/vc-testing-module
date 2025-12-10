@@ -12,6 +12,7 @@ from fixtures.auth import auth
 from fixtures.auth_token import auth_token
 from fixtures.authenticated_page import authenticated_page
 from fixtures.checkout_mode import checkout_mode
+from fixtures.clear_cart import clear_cart
 from fixtures.config import config
 from fixtures.dataset import dataset
 from fixtures.graphql_client import graphql_client
