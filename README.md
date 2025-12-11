@@ -76,7 +76,7 @@ This testing module serves as the quality assurance backbone for VirtoCommerce, 
 
 ## Quick Start Summary
 
-This repository contains **80+ automated tests** covering GraphQL APIs, end-to-end user workflows, and platform integration scenarios. The framework is production-ready and actively maintained, with CI/CD integration for continuous quality assurance.
+This repository contains **80 automated tests** covering GraphQL APIs, end-to-end user workflows, and platform integration scenarios. The framework is production-ready and actively maintained, with CI/CD integration for continuous quality assurance.
 
 **Test Distribution:**
 - 54 GraphQL functional tests

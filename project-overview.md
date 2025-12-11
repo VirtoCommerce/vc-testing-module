@@ -4,7 +4,7 @@
 
 The VirtoCommerce Testing Module is an enterprise-grade test automation framework that ensures the quality, reliability, and performance of the VirtoCommerce e-commerce platform. This comprehensive testing solution provides:
 
-- **80+ Automated Tests** across GraphQL APIs, end-to-end UI workflows, and platform integration scenarios
+- **80 Automated Tests** across GraphQL APIs, end-to-end UI workflows, and platform integration scenarios
 - **Multi-Browser Support** for Chromium, Firefox, and WebKit ensuring cross-browser compatibility
 - **Type-Safe Development** with auto-generated GraphQL client types for robust API testing
 - **CI/CD Integration** with GitHub Actions for continuous quality assurance
