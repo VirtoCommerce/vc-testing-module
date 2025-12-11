@@ -1,5 +1,19 @@
 # VirtoCommerce E2E Test Automation - Developer Onboarding
 
+## Executive Summary
+
+The VirtoCommerce Testing Module is an enterprise-grade test automation framework that ensures the quality, reliability, and performance of the VirtoCommerce e-commerce platform. This comprehensive testing solution provides:
+
+- **80 Automated Tests** across GraphQL APIs, end-to-end UI workflows, and platform integration scenarios
+- **Multi-Browser Support** for Chromium, Firefox, and WebKit ensuring cross-browser compatibility
+- **Type-Safe Development** with auto-generated GraphQL client types for robust API testing
+- **CI/CD Integration** with GitHub Actions for continuous quality assurance
+- **Flexible Configuration** supporting multiple checkout flows and UI control variations
+
+The framework leverages modern technologies (Playwright + Python + Pytest) to deliver fast, reliable, and maintainable test automation that scales with the VirtoCommerce platform.
+
+---
+
 **Duration:** 90-120 minutes  
 **Framework:** Playwright + Python + Pytest  
 **Project:** vc-testing-module
@@ -8,14 +22,58 @@
 
 This onboarding session will equip developers with everything needed to work with the VirtoCommerce E2E test automation project. We'll cover the complete workflow from initial setup through writing and running tests, with hands-on exercises throughout. By the end, each developer will have a working environment and understand how to work with both GraphQL functional tests and E2E visual tests.
 
+### What You'll Learn
+- Setting up the complete test automation environment
+- Understanding the multi-layer testing architecture (GraphQL, E2E, WebAPI)
+- Writing and executing tests with custom configuration options
+- Debugging test failures and using Playwright's powerful tools
+- Following best practices for test development and maintenance
+- Integrating tests into the CI/CD pipeline
+
 ---
 
 ## 1. Introduction (10 minutes)
-- VirtoCommerce testing project overview and goals
-- Two test suites: GraphQL functional tests vs E2E visual tests
-- Test coverage overview
-- Custom pytest options in our project
-- Q&A expectations
+
+### Project Overview and Goals
+The VirtoCommerce Testing Module ensures platform quality through comprehensive automated testing:
+
+**Primary Objectives:**
+- Validate critical business workflows (cart, checkout, order management)
+- Ensure API contract compliance and data integrity
+- Verify UI functionality across multiple browsers and configurations
+- Enable rapid feedback during development and deployment
+- Prevent regressions and maintain platform stability
+
+**Business Value:**
+- **Reduced Time-to-Market** - Automated tests provide fast feedback for faster releases
+- **Increased Confidence** - Comprehensive coverage ensures platform reliability
+- **Cost Efficiency** - Early bug detection reduces expensive production fixes
+- **Scalability** - Framework grows with platform features and complexity
+
+### Testing Strategy
+
+**Two Primary Test Suites:**
+1. **GraphQL Functional Tests (54 tests)** - Fast API-level validation of business logic
+2. **E2E Visual Tests (25 tests)** - Complete user journey validation with real browsers
+
+**Coverage Areas:**
+- Cart operations, checkout flows, payment processing
+- Catalog search, product discovery, category navigation
+- Order management, tracking, and history
+- User authentication, authorization, and organization management
+- Multi-language support and localization
+- Address management and shipping calculations
+
+### Custom Pytest Options
+Our framework includes flexible configuration options:
+- `--checkout-mode` - Test single-page or multi-step checkout flows
+- `--product-quantity-control` - Test stepper or button quantity controls
+- `--show-browser` - Visual debugging with browser UI
+
+### Q&A Expectations
+- Ask questions anytime during the session
+- Hands-on exercises throughout
+- Follow-up support available after onboarding
 
 ---
 
