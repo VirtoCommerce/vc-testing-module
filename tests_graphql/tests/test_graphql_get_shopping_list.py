@@ -29,14 +29,14 @@ def test_get_shopping_list(
     culture = dataset["languages"][0]["allowedValues"][0]
     dataset_user = dataset["users"][0]
 
-    auth.authenticate(dataset_user["userName"], config["users_password"])
+    auth.authenticate(dataset_user["userName"], config["USERS_PASSWORD"])
 
     user = user_operations.get_me()
 
     new_shopping_list = shopping_lists_operations.create_shopping_list(
         payload={
             "userId": user["id"],
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "listName": "Test shopping list",
             "cultureName": culture,
             "currencyCode": currency,
@@ -67,7 +67,7 @@ def test_get_shopping_list(
         shopping_list["name"] == new_shopping_list["name"]
     ), "Shopping list name does not match"
     assert (
-        shopping_list["storeId"] == config["store_id"]
+        shopping_list["storeId"] == config["STORE_ID"]
     ), "Shopping list store ID does not match"
     assert (
         shopping_list["customerId"] == user["id"]

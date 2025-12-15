@@ -29,14 +29,14 @@ def test_add_item_to_shopping_list(
     culture = dataset["languages"][0]["allowedValues"][0]
     product = dataset["products"][1]
 
-    auth.authenticate(dataset["users"][0]["userName"], config["users_password"])
+    auth.authenticate(dataset["users"][0]["userName"], config["USERS_PASSWORD"])
 
     user = user_operations.get_me()
 
     shopping_list = shopping_lists_operations.create_shopping_list(
         payload={
             "userId": user["id"],
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "listName": "Test shopping list",
             "cultureName": culture,
             "currencyCode": currency,

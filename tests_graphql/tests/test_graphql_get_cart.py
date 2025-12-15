@@ -27,7 +27,7 @@ def test_get_null_cart(
     user = user_operations.get_me()
 
     cart = cart_operations.get_cart(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,
@@ -60,7 +60,7 @@ def test_get_anonymous_cart(
 
     cart = cart_operations.add_item_to_cart(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "productId": product_id_in_stock,
             "quantity": 1,
@@ -106,13 +106,13 @@ def test_get_registered_user_cart(
         ]
     )["productId"]
 
-    auth.authenticate(dataset_user["userName"], config["users_password"])
+    auth.authenticate(dataset_user["userName"], config["USERS_PASSWORD"])
 
     user = user_operations.get_me()
 
     cart = cart_operations.add_item_to_cart(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "productId": product_id_in_stock,
             "quantity": 1,

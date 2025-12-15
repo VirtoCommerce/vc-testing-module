@@ -31,7 +31,7 @@ def test_get_shopping_lists(
 
     auth.authenticate(
         dataset_user["userName"],
-        config["users_password"],
+        config["USERS_PASSWORD"],
     )
 
     user = user_operations.get_me()
@@ -39,7 +39,7 @@ def test_get_shopping_lists(
     shopping_list = shopping_lists_operations.create_shopping_list(
         payload={
             "userId": user["id"],
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "listName": "Test shopping list",
             "cultureName": culture,
             "currencyCode": currency,
@@ -48,7 +48,7 @@ def test_get_shopping_lists(
     )
 
     shopping_lists_response = shopping_lists_operations.get_shopping_lists(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,

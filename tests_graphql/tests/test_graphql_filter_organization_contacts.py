@@ -29,7 +29,7 @@ def test_filter_organization_contacts_by_role(
 
     auth.authenticate(
         dataset_user["userName"],
-        config["users_password"],
+        config["USERS_PASSWORD"],
     )
 
     user = user_operations.get_me()
@@ -101,7 +101,7 @@ def test_filter_organization_contacts_by_status(
 
     auth.authenticate(
         dataset_user["userName"],
-        config["users_password"],
+        config["USERS_PASSWORD"],
     )
 
     user = user_operations.get_me()

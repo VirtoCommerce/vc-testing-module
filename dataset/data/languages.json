@@ -1,22 +1,28 @@
-[
-    {
-        "allowedValues": [
-            "en-US",
-            "de-DE",
-            "fr-FR",
-            "it-IT",
-            "es-ES",
-            "ja-JP",
-            "pl-PL",
-            "pt-PT",
-            "ru-RU",
-            "zh-CN"
-        ],
-        "defaultValue": "en-US",
-        "groupName": "General",
-        "isDictionary": true,
-        "isHasValues": true,
-        "moduleId": "Platform",
-        "name": "VirtoCommerce.Core.General.Languages"
-    }
-]
+{
+    "method": "POST",
+    "endpoint": "/api/platform/settings",
+    "payload_type": "array",
+    "priority": 1,
+    "data": [
+        {
+            "allowedValues": [
+                "en-US",
+                "de-DE",
+                "fr-FR",
+                "it-IT",
+                "es-ES",
+                "ja-JP",
+                "pl-PL",
+                "pt-PT",
+                "ru-RU",
+                "zh-CN"
+            ],
+            "defaultValue": "en-US",
+            "groupName": "General",
+            "isDictionary": true,
+            "isHasValues": true,
+            "moduleId": "Platform",
+            "name": "VirtoCommerce.Core.General.Languages"
+        }
+    ]
+}

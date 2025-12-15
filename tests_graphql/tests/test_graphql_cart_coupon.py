@@ -35,7 +35,7 @@ def test_add_cart_coupon(
 
     cart = cart_operations.add_item_to_cart(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,
@@ -46,7 +46,7 @@ def test_add_cart_coupon(
 
     cart_with_coupon = cart_operations.apply_coupon(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "couponCode": coupon_code,
             "currencyCode": currency,
@@ -59,7 +59,7 @@ def test_add_cart_coupon(
     # Test teardown
     cart_operations.remove_coupon(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "couponCode": coupon_code,
             "currencyCode": currency,

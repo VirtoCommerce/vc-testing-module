@@ -34,7 +34,7 @@ def test_cart_item_quantity(
 
     cart = cart_operations.add_item_to_cart(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "productId": product_id_in_stock,
             "quantity": 1,
@@ -47,7 +47,7 @@ def test_cart_item_quantity(
 
     updated_cart = cart_operations.change_cart_item_quantity(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,

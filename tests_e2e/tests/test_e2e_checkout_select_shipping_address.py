@@ -41,7 +41,7 @@ def test_e2e_single_page_checkout_select_shipping_address(
 
     sign_in_page = SignInPage(page, config)
     sign_in_page.navigate()
-    sign_in_page.sign_in(dataset["users"][0]["userName"], config["users_password"])
+    sign_in_page.sign_in(dataset["users"][0]["userName"], config["USERS_PASSWORD"])
     time.sleep(2)
 
     category_to_browse = next(
@@ -123,7 +123,7 @@ def test_e2e_multi_step_checkout_select_shipping_address(
 
     sign_in_page = SignInPage(page, config)
     sign_in_page.navigate()
-    sign_in_page.sign_in(dataset["users"][0]["userName"], config["users_password"])
+    sign_in_page.sign_in(dataset["users"][0]["userName"], config["USERS_PASSWORD"])
     time.sleep(2)
 
     category_to_browse = next(

@@ -42,7 +42,7 @@ def test_add_cart_shipment_address(
 
     cart = cart_operations.add_or_update_cart_shipment(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,
@@ -57,7 +57,7 @@ def test_add_cart_shipment_address(
     # Test teardown
     cart_operations.remove_cart_address(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "addressId": test_address["id"],
             "currencyCode": currency,
@@ -143,7 +143,7 @@ def test_update_cart_shipment_address(
 
     cart = cart_operations.add_or_update_cart_shipment(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,
@@ -163,7 +163,7 @@ def test_update_cart_shipment_address(
 
     updated_cart = cart_operations.add_or_update_cart_shipment(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,
@@ -179,7 +179,7 @@ def test_update_cart_shipment_address(
     # Test teardown
     cart_operations.remove_cart_address(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "addressId": test_address["id"],
             "currencyCode": currency,

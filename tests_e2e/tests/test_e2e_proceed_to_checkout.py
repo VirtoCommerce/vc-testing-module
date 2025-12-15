@@ -32,7 +32,7 @@ def test_e2e_proceed_to_multi_step_checkout(
 
     sign_in_page = SignInPage(page, config)
     sign_in_page.navigate()
-    sign_in_page.sign_in(user["userName"], config["users_password"])
+    sign_in_page.sign_in(user["userName"], config["USERS_PASSWORD"])
 
     category_to_browse = next(
         category
@@ -98,7 +98,7 @@ def test_e2e_proceed_to_single_page_checkout(
 
     sign_in_page = SignInPage(page, config)
     sign_in_page.navigate()
-    sign_in_page.sign_in(user["userName"], config["users_password"])
+    sign_in_page.sign_in(user["userName"], config["USERS_PASSWORD"])
 
     category_to_browse = next(
         category

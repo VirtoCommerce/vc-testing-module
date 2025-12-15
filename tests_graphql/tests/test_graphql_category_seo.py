@@ -28,7 +28,7 @@ def test_category_seo(
     user = user_operations.get_me()
 
     categories_response = categories_operations.get_categories(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,
@@ -42,7 +42,7 @@ def test_category_seo(
     )
 
     category = categories_operations.get_category(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,
@@ -50,7 +50,7 @@ def test_category_seo(
     )
 
     seo_info = seo_operations.get_slug_info(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         culture_name=culture,
         slug=category["slug"],

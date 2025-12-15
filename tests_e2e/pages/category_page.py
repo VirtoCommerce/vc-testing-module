@@ -3,7 +3,12 @@ from typing import Optional
 
 from playwright.sync_api import Locator, Page
 
-from tests_e2e.components import CategoryViewSwitcherComponent, ProductCardComponent
+from fixtures.config import Config
+from tests_e2e.components import (
+    CategoryViewSwitcherComponent,
+    FilterSliderComponent,
+    ProductCardComponent,
+)
 
 from .main_layout_page import MainLayoutPage
 
@@ -11,7 +16,7 @@ from .main_layout_page import MainLayoutPage
 class CategoryPage(MainLayoutPage):
     def __init__(
         self,
-        config: dict,
+        config: Config,
         page: Page,
         seo_path: str,
         product_quantity_control: str = "stepper",
@@ -23,7 +28,7 @@ class CategoryPage(MainLayoutPage):
 
     @property
     def url(self) -> str:
-        return f"{self.config['frontend_base_url']}/{self.seo_path}"
+        return f"{self.config['FRONTEND_BASE_URL']}/{self.seo_path}"
 
     @property
     def view_switcher(self) -> CategoryViewSwitcherComponent:
@@ -47,6 +52,14 @@ class CategoryPage(MainLayoutPage):
                 "[data-test-id='product-card']"
             ).all()
         ]
+
+    @property
+    def price_filter(self) -> FilterSliderComponent:
+        return FilterSliderComponent(self.page.locator("[data-test-id='filter-price']"))
+
+    @property
+    def products_count(self) -> int:
+        return int(self.page.locator(".category__products-count .me-1").text_content())
 
     def navigate(self) -> None:
         self.page.goto(f"{self.url}?sort=price-ascending")

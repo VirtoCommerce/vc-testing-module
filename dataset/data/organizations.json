@@ -1,78 +1,92 @@
-[
 {
-    "id": "organization-acme-store",
-    "name": "ACME Store",
-    "description": "ACME Store",
-    "memberType": "Organization",
-    "status": "Approved",
-    "emails": [
-        "store@acme.com"
-    ],
-    "phones": [
-        "+1-217-555-0198"
-    ],
-    "addresses": [
+    "method": "POST",
+    "endpoint": "/api/members",
+    "payload_type": "single",
+    "priority": 21,
+    "data": [
         {
-            "id": "address-acme-organization",
-            "addressType": "BillingAndShipping",
-            "city": "Morrisville",
-            "countryCode": "USA",
-            "countryName": "United States of America",
-            "email": "store@acme.com",
-            "line1": "742 Evergreen Terrace",
-            "phone": "+1-217-555-0198",
-            "postalCode": "27560",
-            "regionId": "NC",
-            "regionName": "North Carolina"
+            "id": "organization-acme-store",
+            "name": "ACME Store",
+            "description": "ACME Store",
+            "memberType": "Organization",
+            "status": "Approved",
+            "emails": [
+                "store@acme.com"
+            ],
+            "phones": [
+                "+1-217-555-0198"
+            ],
+            "addresses": [
+                {
+                    "id": "address-acme-organization",
+                    "addressType": "BillingAndShipping",
+                    "city": "Morrisville",
+                    "countryCode": "USA",
+                    "countryName": "United States of America",
+                    "email": "store@acme.com",
+                    "line1": "742 Evergreen Terrace",
+                    "phone": "+1-217-555-0198",
+                    "postalCode": "27560",
+                    "regionId": "NC",
+                    "regionName": "North Carolina"
+                }
+            ]
+        },
+        {
+            "id": "organization-acme-store-2",
+            "name": "ACME Store 2",
+            "description": "ACME Store 2",
+            "memberType": "Organization",
+            "status": "Approved",
+            "emails": [
+                "store2@acme.com"
+            ],
+            "phones": [
+                "+1-217-555-0199"
+            ],
+            "addresses": [
+                {
+                    "id": "address-acme-organization-2",
+                    "addressType": "BillingAndShipping",
+                    "city": "Dallas",
+                    "countryCode": "USA",
+                    "countryName": "United States of America",
+                    "email": "store2@acme.com",
+                    "line1": "123 Main St",
+                    "phone": "+1-217-555-0199",
+                    "postalCode": "75201",
+                    "regionId": "TX",
+                    "regionName": "Texas"
+                }
+            ]
+        },
+        {
+            "id": "organization-acme-store-3",
+            "name": "ACME Store 3",
+            "description": "ACME Store 3",
+            "memberType": "Organization",
+            "status": "Approved",
+            "emails": [
+                "store3@acme.com"
+            ],
+            "phones": [
+                "+1-217-555-0200"
+            ],
+            "addresses": [
+                {
+                    "id": "address-acme-organization-3",
+                    "addressType": "BillingAndShipping",
+                    "city": "Detroit",
+                    "countryCode": "USA",
+                    "countryName": "United States of America",
+                    "email": "store3@acme.com",
+                    "line1": "220 W Congress St, Floors 2-4",
+                    "phone": "+1-217-555-0200",
+                    "postalCode": "48226",
+                    "regionId": "MI",
+                    "regionName": "Michigan"
+                }
+            ]
         }
     ]
-},   
-    {
-    "id": "organization-acme-store-2",
-    "name": "ACME Store 2",
-    "description": "ACME Store 2",
-    "memberType": "Organization",
-    "status": "Approved",
-    "emails": ["store2@acme.com"],
-    "phones": ["+1-217-555-0199"],
-    "addresses": [
-        {
-        "id": "address-acme-organization-2",
-        "addressType": "BillingAndShipping",
-        "city": "Dallas",
-        "countryCode": "USA",
-        "countryName": "United States of America",
-        "email": "store2@acme.com",
-        "line1": "123 Main St",
-        "phone": "+1-217-555-0199",
-        "postalCode": "75201",
-        "regionId": "TX",
-        "regionName": "Texas"
-        }
-    ]
-    },
-    {
-    "id": "organization-acme-store-3",
-    "name": "ACME Store 3",
-    "description": "ACME Store 3",
-    "memberType": "Organization",
-    "status": "Approved",
-    "emails": ["store3@acme.com"],
-    "phones": ["+1-217-555-0200"],
-    "addresses": [
-        {
-        "id": "address-acme-organization-3",
-        "addressType": "BillingAndShipping",
-        "city": "Detroit",
-        "countryCode": "USA",
-        "countryName": "United States of America",
-        "email": "store3@acme.com",
-        "line1": "220 W Congress St, Floors 2-4",
-        "phone": "+1-217-555-0200",
-        "postalCode": "48226",
-        "regionId": "MI",
-        "regionName": "Michigan"
-        }
-    ]
-    }
-]
+}

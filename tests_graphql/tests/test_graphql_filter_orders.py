@@ -1,5 +1,5 @@
 import os
-from datetime import timedelta
+from datetime import datetime, timedelta
 from typing import Any
 
 import allure
@@ -31,7 +31,7 @@ def test_filter_orders_by_status(
 
     auth.authenticate(
         user_maintainer["userName"],
-        config["users_password"],
+        config["USERS_PASSWORD"],
     )
 
     culture = dataset["languages"][0]["defaultValue"]
@@ -122,11 +122,15 @@ def test_filter_orders_by_date(
 
     auth.authenticate(
         user_maintainer["userName"],
-        config["users_password"],
+        config["USERS_PASSWORD"],
     )
 
-    from_date = dataset["createdDate"] - timedelta(weeks=1)
-    to_date = dataset["createdDate"] + timedelta(weeks=1)
+    order = order_operations.get_order(dataset["orders"][0]["id"])
+
+    order_date = datetime.strptime(order["createdDate"], "%Y-%m-%dT%H:%M:%S.%fZ")
+
+    from_date = order_date - timedelta(weeks=1)
+    to_date = order_date + timedelta(weeks=1)
 
     search_orders_result = order_operations.get_organization_orders(
         culture_name=culture,

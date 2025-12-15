@@ -21,7 +21,7 @@ def test_e2e_valid_sign_in(config: dict[str, Any], dataset: dict[str, Any], page
 
     sign_in_page.navigate()
 
-    sign_in_page.sign_in(dataset_user["userName"], config["users_password"])
+    sign_in_page.sign_in(dataset_user["userName"], config["USERS_PASSWORD"])
 
     expect(page).to_have_url(home_page.url)
     expect(home_page.top_header_component.sign_in_link).not_to_be_visible()

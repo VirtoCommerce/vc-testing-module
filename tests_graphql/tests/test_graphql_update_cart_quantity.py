@@ -35,7 +35,7 @@ def test_update_cart_quantity(
 
     cart = cart_operations.update_cart_quantity(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,

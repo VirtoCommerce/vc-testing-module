@@ -24,29 +24,26 @@ def test_add_variation_to_cart(
 
     currency = dataset["currencies"][0]["code"]
     culture = dataset["languages"][0]["allowedValues"][0]
-    catalog = dataset["catalogs"][0]
-    product_family_id = dataset["productVariations"][0]["mainProductId"]
+    variation_id = dataset["productVariations"][0]["id"]
 
     user = user_operations.get_me()
 
-    search_variations_result_in_stock = product_operations.get_products(
-        store_id=config["store_id"],
-        user_id=user["id"],
-        currency_code=currency,
-        culture_name=culture,
-        filter=f"category.subtree:{catalog['id']} price.{currency}:(0 TO) productfamilyid:{product_family_id} is:product,variation availability:InStock",
-    )
-
-    variation = search_variations_result_in_stock["items"][1]["id"]
-
     cart = cart_operations.add_item_to_cart(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
-            "productId": variation,
+            "productId": variation_id,
             "quantity": 1,
             "currencyCode": currency,
             "cultureName": culture,
+        }
+    )
+
+    # Test teardown
+    cart_operations.remove_cart(
+        payload={
+            "cartId": cart["id"],
+            "userId": user["id"],
         }
     )
 

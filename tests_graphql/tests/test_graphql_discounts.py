@@ -37,7 +37,7 @@ def test_product_specific_discount(
     user = user_operations.get_me()
 
     product = products_operations.get_product(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         culture_name=culture,
         currency_code=currency,
@@ -46,7 +46,7 @@ def test_product_specific_discount(
 
     cart = cart_operations.add_item_to_cart(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,
@@ -117,7 +117,7 @@ def test_cart_subtotal_discount(
     user = user_operations.get_me()
 
     product = products_operations.get_product(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         culture_name=culture,
         currency_code=currency,
@@ -126,7 +126,7 @@ def test_cart_subtotal_discount(
 
     cart = cart_operations.add_item_to_cart(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,

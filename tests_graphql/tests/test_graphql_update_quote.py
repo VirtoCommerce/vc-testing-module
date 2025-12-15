@@ -28,7 +28,7 @@ def test_change_quote_item_quantity(
 
     auth.authenticate(
         dataset["users"][0]["userName"],
-        config["users_password"],
+        config["USERS_PASSWORD"],
     )
 
     currency = dataset["currencies"][0]["code"]
@@ -45,7 +45,7 @@ def test_change_quote_item_quantity(
 
     cart = cart_operations.add_item_to_cart(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "productId": product_id_in_stock,
             "quantity": 1,
@@ -70,7 +70,7 @@ def test_change_quote_item_quantity(
     )
 
     updated_quote = quote_operations.get_quote(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         id=quote["id"],
         currency_code=currency,
@@ -109,7 +109,7 @@ def test_change_quote_comment(
 
     auth.authenticate(
         dataset["users"][0]["userName"],
-        config["users_password"],
+        config["USERS_PASSWORD"],
     )
 
     currency = dataset["currencies"][0]["code"]
@@ -126,7 +126,7 @@ def test_change_quote_comment(
 
     cart = cart_operations.add_item_to_cart(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "productId": product_id_in_stock,
             "quantity": 1,
@@ -184,7 +184,7 @@ def test_change_quote_shipping_and_billing_addresses(
 
     auth.authenticate(
         dataset["users"][0]["userName"],
-        config["users_password"],
+        config["USERS_PASSWORD"],
     )
 
     currency = dataset["currencies"][0]["code"]
@@ -201,7 +201,7 @@ def test_change_quote_shipping_and_billing_addresses(
 
     cart = cart_operations.add_item_to_cart(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "productId": product_id_in_stock,
             "quantity": 1,
@@ -273,7 +273,7 @@ def test_remove_quote_item(
 
     auth.authenticate(
         dataset["users"][0]["userName"],
-        config["users_password"],
+        config["USERS_PASSWORD"],
     )
 
     currency = dataset["currencies"][0]["code"]
@@ -290,7 +290,7 @@ def test_remove_quote_item(
 
     cart = cart_operations.add_item_to_cart(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "productId": product_id_in_stock,
             "quantity": 1,
@@ -343,7 +343,7 @@ def test_submit_quote_request(
 
     auth.authenticate(
         dataset["users"][0]["userName"],
-        config["users_password"],
+        config["USERS_PASSWORD"],
     )
 
     currency = dataset["currencies"][0]["code"]
@@ -360,7 +360,7 @@ def test_submit_quote_request(
 
     cart = cart_operations.add_item_to_cart(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "productId": product_id_in_stock,
             "quantity": 1,

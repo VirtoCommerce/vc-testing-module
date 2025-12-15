@@ -41,7 +41,7 @@ def test_unselect_cart_items(
 
     cart = cart_operations.add_items_to_cart(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,
@@ -64,7 +64,7 @@ def test_unselect_cart_items(
 
     updated_cart = cart_operations.unselect_cart_items(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,
@@ -128,7 +128,7 @@ def test_unselect_all_cart_items(
 
     cart_operations.add_items_to_cart(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,
@@ -147,7 +147,7 @@ def test_unselect_all_cart_items(
 
     cart = cart_operations.unselect_all_cart_items(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,

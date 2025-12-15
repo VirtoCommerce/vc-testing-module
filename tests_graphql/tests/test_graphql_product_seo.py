@@ -28,7 +28,7 @@ def test_product_seo(
     user = user_operations.get_me()
 
     product = products_operations.get_product(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         culture_name=culture,
         currency_code=currency,
@@ -36,7 +36,7 @@ def test_product_seo(
     )
 
     seo_info = seo_operations.get_slug_info(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         culture_name=culture,
         slug=product["slug"],

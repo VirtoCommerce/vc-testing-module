@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any
 
 import allure
 import pytest
@@ -9,7 +9,7 @@ from .webapi_client import WebAPISession
 
 class AnonymousCatalogRequests:
     def __init__(
-        self, config: Dict[str, Any], auth: Auth, webapi_client: WebAPISession
+        self, config: dict[str, Any], auth: Auth, webapi_client: WebAPISession
     ):
         self.config = config
         self.auth = auth
@@ -17,12 +17,12 @@ class AnonymousCatalogRequests:
 
     def toggle(self, value: bool) -> None:
         self.auth.authenticate(
-            username=self.config["admin_username"],
-            password=self.config["admin_password"],
+            username=self.config["ADMIN_USERNAME"],
+            password=self.config["ADMIN_PASSWORD"],
         )
 
         self.webapi_client.patch(
-            f"/api/stores/{self.config['store_id']}",
+            f"/api/stores/{self.config['STORE_ID']}",
             data=[{"op": "replace", "path": "/settings/1/value", "value": value}],
         )
 
@@ -32,6 +32,6 @@ class AnonymousCatalogRequests:
 @pytest.fixture(scope="session")
 @allure.title("Fixture to handle anonymous catalog requests")
 def anonymous_catalog_requests(
-    config: Dict[str, Any], auth: Auth, webapi_client: WebAPISession
+    config: dict[str, Any], auth: Auth, webapi_client: WebAPISession
 ) -> AnonymousCatalogRequests:
     return AnonymousCatalogRequests(config, auth, webapi_client)

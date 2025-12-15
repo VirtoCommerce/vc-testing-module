@@ -1,21 +1,27 @@
-[
-    {
-        "id": "acme-notification-email-registration-invitation",
-        "alias": "RegistrationInvitationNotification",
-        "kind": "EmailNotification",
-        "isActive": true,
-        "templates": [
-            {
-                "id": "acme-notification-email-registration-invitation-template",
-                "kind": "EmailNotification",
-                "languageCode": "en-US",
-                "subject": "Registration by invitation",
-                "body": "Please to register by invite clicking <a href=\"{invite_url}\">here</a>"
+{
+    "method": "POST",
+    "endpoint": "/api/notifications/RegistrationInvitationEmailNotification",
+    "payload_type": "single",
+    "priority": 26,
+    "data": [
+        {
+            "id": "acme-notification-email-registration-invitation",
+            "alias": "RegistrationInvitationNotification",
+            "kind": "EmailNotification",
+            "isActive": true,
+            "templates": [
+                {
+                    "id": "acme-notification-email-registration-invitation-template",
+                    "kind": "EmailNotification",
+                    "languageCode": "en-US",
+                    "subject": "Registration by invitation",
+                    "body": "Please to register by invite clicking <a href=\"{invite_url}\">here</a>"
+                }
+            ],
+            "tenantIdentity": {
+                "id": "store-acme",
+                "type": "Store"
             }
-        ],
-        "tenantIdentity": {
-            "id": "store-acme",
-            "type": "Store"
         }
-    }
-]
+    ]
+}

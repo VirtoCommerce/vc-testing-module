@@ -28,20 +28,20 @@ def test_add_bulk_items_to_anonymous_cart(
             for product_inventory in dataset["productInventories"]
             if product_inventory["inStockQuantity"] > 0
         ]
-    )["productId"]
+    )["sku"]
     product_sku_in_stock_2 = random.choice(
         [
             product_inventory
             for product_inventory in dataset["productInventories"]
             if product_inventory["inStockQuantity"] > 0
         ]
-    )["productId"]
+    )["sku"]
 
     user = user_operations.get_me()
 
     add_bulk_items_response = cart_operations.add_bulk_items_to_cart(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,

@@ -28,17 +28,17 @@ def test_register_customer(
         if user["id"] == "user-acme-store-administrator"
     )
 
-    auth.authenticate(dataset_user["userName"], config["users_password"])
+    auth.authenticate(dataset_user["userName"], config["USERS_PASSWORD"])
 
     temp_email = "some-email@acme.com"
 
     create_contact_result = contact_operations.create_contact(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "account": {
                 "username": temp_email,
                 "email": temp_email,
-                "password": config["users_password"],
+                "password": config["USERS_PASSWORD"],
             },
             "contact": {
                 "firstName": "ACME",
@@ -89,17 +89,17 @@ def test_register_organization(
         if user["id"] == "user-acme-store-administrator"
     )
 
-    auth.authenticate(dataset_user["userName"], config["users_password"])
+    auth.authenticate(dataset_user["userName"], config["USERS_PASSWORD"])
 
     temp_email = "some-email@acme.com"
 
     create_contact_result = contact_operations.create_contact(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "account": {
                 "username": temp_email,
                 "email": temp_email,
-                "password": config["users_password"],
+                "password": config["USERS_PASSWORD"],
             },
             "contact": {
                 "firstName": "ACME",

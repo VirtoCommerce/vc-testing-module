@@ -28,7 +28,7 @@ class GraphQLClient(Client):
 @allure.title("Fixture to initialize GraphQL Client")
 def graphql_client(config: Dict[str, Any], auth: Auth) -> GraphQLClient:
     transport = RequestsHTTPTransport(
-        url=f"{config['backend_base_url']}/graphql",
+        url=f"{config['BACKEND_BASE_URL']}/graphql",
         headers={"Content-Type": "application/json"},
         use_json=True,
         verify=True,

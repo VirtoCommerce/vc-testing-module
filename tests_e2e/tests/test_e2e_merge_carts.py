@@ -54,7 +54,7 @@ def test_e2e_merge_carts(
 
     sign_in_page = SignInPage(page, config)
     sign_in_page.navigate()
-    sign_in_page.sign_in(user["userName"], config["users_password"])
+    sign_in_page.sign_in(user["userName"], config["USERS_PASSWORD"])
 
     cart_page = CartPage(config, page)
     cart_page.navigate()

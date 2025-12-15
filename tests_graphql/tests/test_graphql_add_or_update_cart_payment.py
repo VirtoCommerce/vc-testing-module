@@ -34,7 +34,7 @@ def test_add_cart_payment(
 
     cart = cart_operations.add_item_to_cart(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "productId": product_id_in_stock,
             "quantity": 1,
@@ -57,7 +57,7 @@ def test_add_cart_payment(
 
     cart_with_payment = cart_operations.add_or_update_cart_payment(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,
@@ -70,7 +70,7 @@ def test_add_cart_payment(
     # Test teardown
     cart_operations.clear_payments(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,
@@ -121,7 +121,7 @@ def test_update_cart_payment(
 
     cart = cart_operations.add_item_to_cart(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "productId": product_id_in_stock,
             "quantity": 1,
@@ -145,7 +145,7 @@ def test_update_cart_payment(
 
     cart_with_payment = cart_operations.add_or_update_cart_payment(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,
@@ -169,7 +169,7 @@ def test_update_cart_payment(
 
     updated_cart = cart_operations.add_or_update_cart_payment(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,
@@ -182,7 +182,7 @@ def test_update_cart_payment(
     # Test teardown
     cart_operations.clear_payments(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,

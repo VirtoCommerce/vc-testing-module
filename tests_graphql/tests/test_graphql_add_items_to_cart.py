@@ -41,7 +41,7 @@ def test_add_items_to_anonymous_cart(
 
     cart = cart_operations.add_items_to_cart(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,

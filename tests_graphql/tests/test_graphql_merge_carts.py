@@ -39,7 +39,7 @@ def test_merge_carts(
 
     anonymous_cart = cart_operations.add_item_to_cart(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": anonymous_user["id"],
             "productId": product_id_in_stock,
             "quantity": 1,
@@ -48,13 +48,13 @@ def test_merge_carts(
         }
     )
 
-    auth.authenticate(dataset_user["userName"], config["users_password"])
+    auth.authenticate(dataset_user["userName"], config["USERS_PASSWORD"])
 
     registered_user = user_operations.get_me()
 
     registered_user_cart = cart_operations.add_item_to_cart(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": registered_user["id"],
             "productId": product_id_in_stock,
             "quantity": 2,
@@ -65,7 +65,7 @@ def test_merge_carts(
 
     merged_cart = cart_operations.merge_cart(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": registered_user["id"],
             "secondCartId": anonymous_cart["id"],
             "cultureName": culture,

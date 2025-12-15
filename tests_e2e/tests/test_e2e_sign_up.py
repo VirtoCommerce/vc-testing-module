@@ -1,10 +1,10 @@
 import os
+import random
 from typing import Any
 
 import allure
 import pytest
 from playwright.sync_api import Page, expect
-import random
 
 from fixtures.auth import Auth
 from fixtures.graphql_client import GraphQLClient
@@ -71,14 +71,14 @@ def test_e2e_sign_up_personal_account(
         first_name="John",
         last_name="Doe",
         email="john.doe@example.com",
-        password=config["users_password"],
+        password=config["USERS_PASSWORD"],
     )
 
     expect(page).to_have_url(successful_registration_page.url)
 
     # Test teardown
 
-    auth.authenticate(config["admin_username"], config["admin_password"])
+    auth.authenticate(config["ADMIN_USERNAME"], config["ADMIN_PASSWORD"])
 
     user = user_operations.get_user_by_username("john.doe@example.com")
 
@@ -92,7 +92,7 @@ def test_e2e_sign_up_personal_account(
         payload={
             "userNames": ["john.doe@example.com"],
         }
-    )    
+    )
 
     auth.clear_token()
 
@@ -100,7 +100,11 @@ def test_e2e_sign_up_personal_account(
 @pytest.mark.e2e
 @allure.feature("Sign up organization account (E2E)")
 def test_e2e_sign_up_organization_account(
-    config: dict[str, Any], page: Page, auth: Auth, graphql_client: GraphQLClient, webapi_client: WebAPISession
+    config: dict[str, Any],
+    page: Page,
+    auth: Auth,
+    graphql_client: GraphQLClient,
+    webapi_client: WebAPISession,
 ):
     print(f"{os.linesep}Running E2E test to sign up organization account...", end=" ")
 
@@ -118,7 +122,7 @@ def test_e2e_sign_up_organization_account(
         first_name="John",
         last_name="Doe",
         email=user_email,
-        password=config["users_password"],
+        password=config["USERS_PASSWORD"],
         organization_name="Some fake organization",
     )
 
@@ -126,7 +130,7 @@ def test_e2e_sign_up_organization_account(
 
     # Test teardown
 
-    auth.authenticate(config["admin_username"], config["admin_password"])
+    auth.authenticate(config["ADMIN_USERNAME"], config["ADMIN_PASSWORD"])
 
     user = user_operations.get_user_by_username(user_email)
 
@@ -144,24 +148,24 @@ def test_e2e_sign_up_organization_account(
 
     organization_search_result = webapi_client.post(
         f"/api/members/search",
-        data={          
+        data={
             "keyword": "Some fake organization",
             "deepSearch": True,
             "sort": "",
             "skip": 0,
             "take": 20,
-            "objectType": "Member"
-        }
-        
+            "objectType": "Member",
+        },
     )
 
     assert organization_search_result["results"][0]["id"] is not None
-    assert organization_search_result["results"][0]["name"] is not None and organization_search_result["results"][0]["name"] == "Some fake organization"  
+    assert (
+        organization_search_result["results"][0]["name"] is not None
+        and organization_search_result["results"][0]["name"] == "Some fake organization"
+    )
 
     organization_id = organization_search_result["results"][0]["id"]
 
-    webapi_client.delete(
-       f"/api/organizations?ids={organization_id}"
-    )
+    webapi_client.delete(f"/api/organizations?ids={organization_id}")
 
     auth.clear_token()

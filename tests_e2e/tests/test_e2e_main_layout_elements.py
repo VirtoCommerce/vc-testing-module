@@ -62,7 +62,7 @@ def test_e2e_main_layout_top_header_registered_user_elements_presence(
 
     sign_in_page = SignInPage(page, config)
     sign_in_page.navigate()
-    sign_in_page.sign_in(dataset_user["userName"], config["users_password"])
+    sign_in_page.sign_in(dataset_user["userName"], config["USERS_PASSWORD"])
 
     expect(page).to_have_url(
         home_page.url

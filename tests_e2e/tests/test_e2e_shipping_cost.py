@@ -37,7 +37,7 @@ def test_e2e_shipping_cost_single_page_checkout(
 
     page.set_viewport_size({"width": 1920, "height": 1080})
 
-    auth.authenticate(dataset["users"][0]["userName"], config["users_password"])
+    auth.authenticate(dataset["users"][0]["userName"], config["USERS_PASSWORD"])
 
     category_to_browse = next(
         category
@@ -69,7 +69,7 @@ def test_e2e_shipping_cost_single_page_checkout(
     culture = dataset["languages"][0]["defaultValue"]
     user = user_operations.get_me()
     cart = cart_operations.get_cart(
-        config["store_id"],
+        config["STORE_ID"],
         user["id"],
         currency,
         culture,
@@ -143,7 +143,7 @@ def test_e2e_shipping_cost_multi_step_checkout(
 
     page.set_viewport_size({"width": 1920, "height": 1080})
 
-    auth.authenticate(dataset["users"][0]["userName"], config["users_password"])
+    auth.authenticate(dataset["users"][0]["userName"], config["USERS_PASSWORD"])
 
     category_to_browse = next(
         category
@@ -176,7 +176,7 @@ def test_e2e_shipping_cost_multi_step_checkout(
     culture = dataset["languages"][0]["defaultValue"]
     user = user_operations.get_me()
     cart = cart_operations.get_cart(
-        config["store_id"],
+        config["STORE_ID"],
         user["id"],
         currency,
         culture,

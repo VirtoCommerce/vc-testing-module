@@ -33,7 +33,7 @@ def test_add_item_to_anonymous_cart(
     cart_operations = CartOperations(graphql_client)
     cart = cart_operations.add_item_to_cart(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "productId": product_id_in_stock,
             "quantity": 1,

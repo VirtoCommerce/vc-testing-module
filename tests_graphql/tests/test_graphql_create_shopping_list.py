@@ -29,14 +29,14 @@ def test_create_shopping_list(
     culture = dataset["languages"][0]["allowedValues"][0]
     dataset_user = dataset["users"][0]
 
-    auth.authenticate(dataset_user["userName"], config["users_password"])
+    auth.authenticate(dataset_user["userName"], config["USERS_PASSWORD"])
 
     user = user_operations.get_me()
 
     shopping_list = shopping_lists_operations.create_shopping_list(
         payload={
             "userId": user["id"],
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "listName": "Test shopping list",
             "cultureName": culture,
             "currencyCode": currency,
@@ -55,7 +55,7 @@ def test_create_shopping_list(
     auth.clear_token()
 
     assert shopping_list["id"] is not None
-    assert shopping_list["storeId"] == config["store_id"]
+    assert shopping_list["storeId"] == config["STORE_ID"]
     assert shopping_list["customerId"] == user["id"]
     assert shopping_list["itemsCount"] == 0
     assert shopping_list["scope"] == "Private"

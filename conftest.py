@@ -21,22 +21,6 @@ from fixtures.webapi_client import webapi_client
 load_dotenv(override=True)
 
 
-@pytest.fixture(scope="session")
-def config():
-    return {
-        "backend_base_url": os.getenv(
-            "BACKEND_BASE_URL"#, "https://vcptcore-demo.govirto.com"
-        ),
-        "frontend_base_url": os.getenv(
-            "FRONTEND_BASE_URL"#, "https://vcptcore-demo-storefront.govirto.com"
-        ),
-        "admin_username": os.getenv("ADMIN_USERNAME"),
-        "admin_password": os.getenv("ADMIN_PASSWORD"),
-        "store_id": os.getenv("STORE_ID"),
-        "users_password": os.getenv("USERS_PASSWORD"),
-    }
-
-
 def pytest_addoption(parser: Parser):
     parser.addoption(
         "--checkout-mode",

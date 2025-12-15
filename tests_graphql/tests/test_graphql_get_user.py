@@ -36,7 +36,7 @@ def test_get_current_registered_user(
 
     dataset_user = dataset["users"][0]
 
-    auth.authenticate(dataset_user["userName"], config["users_password"])
+    auth.authenticate(dataset_user["userName"], config["USERS_PASSWORD"])
 
     user = user_operations.get_me()
 
@@ -60,7 +60,7 @@ def test_get_registered_user_by_user_name(
 
     dataset_user = dataset["users"][0]
 
-    auth.authenticate(dataset_user["userName"], config["users_password"])
+    auth.authenticate(dataset_user["userName"], config["USERS_PASSWORD"])
 
     user = user_operations.get_user_by_username(dataset_user["userName"])
 

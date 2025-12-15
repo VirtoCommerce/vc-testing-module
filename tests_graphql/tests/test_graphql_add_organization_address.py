@@ -25,7 +25,7 @@ def test_add_organization_address(
 
     auth.authenticate(
         dataset["users"][0]["userName"],
-        config["users_password"],
+        config["USERS_PASSWORD"],
     )
 
     user = user_operations.get_me()

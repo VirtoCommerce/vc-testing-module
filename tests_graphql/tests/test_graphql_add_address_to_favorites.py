@@ -23,7 +23,7 @@ def test_add_address_to_favorites(
     user_operations = UserOperations(graphql_client)
     contact_operations = ContactOperations(graphql_client)
 
-    auth.authenticate(dataset["users"][0]["userName"], config["users_password"])
+    auth.authenticate(dataset["users"][0]["userName"], config["USERS_PASSWORD"])
 
     user = user_operations.get_me()
 

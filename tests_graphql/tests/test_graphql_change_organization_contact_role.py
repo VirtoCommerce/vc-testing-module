@@ -31,7 +31,7 @@ def test_change_organization_contact_role(
 
     auth.authenticate(
         store_administrator["userName"],
-        config["users_password"],
+        config["USERS_PASSWORD"],
     )
 
     user = user_operations.get_me()

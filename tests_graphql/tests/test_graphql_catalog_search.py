@@ -29,7 +29,7 @@ def test_catalog_search_by_product_full_name(
     user = user_operations.get_me()
 
     products_response = products_operations.get_products(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,
@@ -66,7 +66,7 @@ def test_catalog_search_by_product_name_fragment(
     user = user_operations.get_me()
 
     products_response = products_operations.get_products(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,
@@ -93,7 +93,7 @@ def test_catalog_search_by_product_sku(
     user = user_operations.get_me()
 
     products_response = products_operations.get_products(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,
@@ -137,7 +137,7 @@ def test_catalog_search_by_product_availability(
     user = user_operations.get_me()
 
     category = categories_operations.get_category(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,
@@ -145,7 +145,7 @@ def test_catalog_search_by_product_availability(
     )
 
     products_in_stock_only_response = products_operations.get_products(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,
@@ -153,7 +153,7 @@ def test_catalog_search_by_product_availability(
     )
 
     products_all_response = products_operations.get_products(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,
@@ -190,7 +190,7 @@ def test_catalog_search_by_product_brand(
     user = user_operations.get_me()
 
     category = categories_operations.get_category(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,
@@ -198,7 +198,7 @@ def test_catalog_search_by_product_brand(
     )
 
     products_response = products_operations.get_products(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,
@@ -235,7 +235,7 @@ def test_catalog_search_by_product_price(
     user = user_operations.get_me()
 
     category = categories_operations.get_category(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,
@@ -243,7 +243,7 @@ def test_catalog_search_by_product_price(
     )
 
     products_response = products_operations.get_products(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,

@@ -128,11 +128,31 @@ Generate GraphQL types:
 python graphql_client/python_graphql_codegen.py -s -v
 ```
 
-### Dataset Seeding
-Add test data:
-```sh
-python -m dataset.dataset_seeder
+### Dataset Loading and Seeding
+Dataset manager allows to fetch payloads from `data` directory to use them as `dataset` fixture in tests and to seed a test data to a backend endpoint.
 
+Payload requests are located in `data` directory in JSON files. Each file should include:
+- `method` (required) - HTTP method to send a request to an endpoiint; possible values: `"GET"`, `"POST"`, `"PUT"`, `"DELETE"`, `"PATCH"`)
+- `endpoint` (required) - URL of an endpoint
+- `payload_type` (required) - How payload should by sent to an endpoint: one payload item per request or an array of payload items per request; possible values: `single`, `array`
+- `priority` (optional) - used to sort payloads from lower value to higher to prevent dependencies issues - some entities should be seeded before others; default value is `99999`
+- `data` (required) - an array of items to seed
+
+To prevent security issues and to simplify variables management in payload files you can use placeholders like `{ENV:STORE_ID}` or `{PAYLOAD_ITEM:productId}`. If a placeholder starts with `ENV` it means that a value of e.g. `STORE_ID` will be taken from a corresponding `.env` variable. It is a good approach to pass a sensitive values such as API keys as some of backend settings values. If placeholder starts with `PAYLOAD_ITEM` it means that a value will be taken from `data` array item of a current payload file with corresponding property name - e.g. `productId`. So if endpoint URL is vary by some payload item params use this approach.
+
+To fetch payloads to a single dataset without seeding:
+```sh
+python -m dataset.dataset_manager
+```
+
+To fetch payloads and to seed all of them to an endpoint:
+```sh
+python -m dataset.dataset_manager --seed
+```
+
+To fetch payloads and seed only necessary entities to an endpoint (an entity name should be equal to JSON filename without extension):
+```sh
+python -m dataset.dataset_manager --seed currencies languages fulfillment_centers
 ```
 
 ## Environment Variables

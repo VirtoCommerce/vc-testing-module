@@ -32,7 +32,7 @@ def test_search_order(
 
     auth.authenticate(
         user_maintainer["userName"],
-        config["users_password"],
+        config["USERS_PASSWORD"],
     )
 
     search_orders_result = order_operations.get_organization_orders(
