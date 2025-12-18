@@ -34,6 +34,8 @@ class Auth:
         self.lock = Lock()
 
     def get_token(self, payload: TokenPayload) -> TokenData:
+        print(f"\n\nConfig contents: {self.config.to_dict()}")
+
         url = f"{self.config['BACKEND_BASE_URL']}/connect/token"
 
         headers = {

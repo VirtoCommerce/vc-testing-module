@@ -20,7 +20,6 @@ def test_add_address_to_favorites(
     graphql_client: GraphQLClient,
 ):
     print(f"{os.linesep}Running test to add address to favorites...", end=" ")
-    print(f"{os.linesep}Config contents: {config.to_dict()}")
 
     user_operations = UserOperations(graphql_client)
     contact_operations = ContactOperations(graphql_client)
