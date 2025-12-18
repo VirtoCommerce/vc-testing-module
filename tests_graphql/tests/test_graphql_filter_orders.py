@@ -1,5 +1,5 @@
 import os
-from datetime import timedelta
+from datetime import datetime, timedelta
 from typing import Any
 
 import allure
@@ -128,7 +128,8 @@ def test_filter_orders_by_date(
 
     order = order_operations.get_order(dataset["orders"][0]["id"])
 
-    order_date = parser.isoparse(order["createdDate"])
+    normalized_order_date = order["createdDate"][:-2] + "Z"
+    order_date = datetime.strptime(normalized_order_date, "%Y-%m-%dT%H:%M:%S.%fZ")
 
     from_date = order_date - timedelta(weeks=1)
     to_date = order_date + timedelta(weeks=1)
