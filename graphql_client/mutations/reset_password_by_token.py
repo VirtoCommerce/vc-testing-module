@@ -6,7 +6,16 @@ class ResetPasswordByTokenMutation:
     def __init__(self, graphql_client):
         self.graphql_client = graphql_client
 
-    def execute(self, variables: dict, return_fields: str = None) -> CustomIdentityResultType:
+    def execute(self, variables: dict, return_fields: str = None) -> CustomIdentityResultType: 
+        if return_fields is None:
+            return_fields = """
+                    succeeded
+                    errors {
+                        code
+                        parameter
+                        description
+                    }
+            """
         query_string = f"""
             mutation resetPasswordByToken($command: InputResetPasswordByTokenType) {{
                 resetPasswordByToken(

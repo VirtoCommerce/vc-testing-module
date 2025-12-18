@@ -14,7 +14,7 @@ from graphql_client.mutations.reset_password import SendPasswordResetEmailMutati
 from graphql_client.mutations.reset_password_by_token import ResetPasswordByTokenMutation
 from graphql_operations.user.user_operations import UserOperations
 
-@pytest.mark.ignore
+
 @pytest.mark.graphql
 @allure.title("Reset password (GraphQL)")
 def test_reset_password(
@@ -34,11 +34,11 @@ def test_reset_password(
             "loginOrEmail": dataset["users"][2]["email"],
             "urlSuffix": "/reset-password",
         }
-    )
+    )  
 
     assert send_password_reset_email_result is True
 
-    sleep(5)
+    sleep(10)
 
     auth.authenticate(config["admin_username"], config["admin_password"])
 
@@ -52,19 +52,25 @@ def test_reset_password(
             "take": 20,
             "responseGroup": "Default"
         }
-    )    
-
+    )
 
     assert search_reset_password_email_notification["totalCount"] > 0
     assert search_reset_password_email_notification["results"] is not None
     assert len(search_reset_password_email_notification["results"]) > 0
-    notification = search_reset_password_email_notification["results"][0]
+    notification_id = search_reset_password_email_notification["results"][0]["id"]
+    print(f"{os.linesep}Notification ID: {notification_id}")
+
+    notification = webapi_client.get(
+        f"/api/notifications/journal/{notification_id}",
+    )   
     
+    assert notification is not None
     assert notification["notificationType"] == "ResetPasswordEmailNotification"
     assert notification["to"] == dataset["users"][2]["email"]
     assert notification["subject"] is not None and notification["subject"].startswith("Reset password link")
-    assert notification["body"] is not None
-    assert notification["status"] is not None and notification["status"] == "Sent"
+    assert notification["body"] is not None  
+    if notification["status"] != "Sent":
+        pytest.fail(f"Notification status is not Sent: {notification['lastSendError']}")
 
     # Extract and set Token from URL
     body_html = notification["body"]
@@ -95,9 +101,11 @@ def test_reset_password(
     reset_password_mutation = ResetPasswordByTokenMutation(graphql_client)
     reset_password_result = reset_password_mutation.execute(
         variables={
-            "token": token,
-            "userId": dataset["users"][2]["id"],
-            "newPassword": "NewPassword123!"
+            "command": {
+                "token": token,
+                "userId": dataset["users"][2]["id"],
+                "newPassword": "NewPassword123!"
+            }
         }
     )
     
