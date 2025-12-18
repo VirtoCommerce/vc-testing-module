@@ -42,6 +42,13 @@ def pytest_addoption(parser: Parser):
         default=False,
         help="Run browser in headed mode",
     )
+    parser.addoption(
+        "--range-filter-type",
+        action="store",
+        choices=["slider", "default"],
+        default="slider",
+        help="Choose range filter type (e.g., slider, default)",
+    )
 
 
 @pytest.fixture(scope="session")

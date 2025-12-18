@@ -9,6 +9,9 @@ class Config:
     def __getitem__(self, key: str):
         return self._config[key]
 
+    def to_dict(self) -> dict:
+        return dict(self._config)
+
 
 @pytest.fixture(scope="session")
 def config() -> Config:
