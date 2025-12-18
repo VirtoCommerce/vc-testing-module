@@ -7,6 +7,7 @@ from gql.transport.exceptions import TransportQueryError
 
 from fixtures.anonymous_catalog_requests import AnonymousCatalogRequests
 from fixtures.auth import Auth
+from fixtures.config import Config
 from fixtures.graphql_client import GraphQLClient
 from graphql_operations.catalog.categories_operations import CategoriesOperations
 from graphql_operations.catalog.products_operations import ProductsOperations
@@ -16,7 +17,7 @@ from graphql_operations.user.user_operations import UserOperations
 @pytest.mark.graphql
 @allure.title("Success catalog browsing as anonymous user (GraphQL)")
 def test_success_catalog_browsing_as_anonymous_user(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     anonymous_catalog_requests: AnonymousCatalogRequests,
     graphql_client: GraphQLClient,
@@ -85,7 +86,7 @@ def test_success_catalog_browsing_as_anonymous_user(
 @pytest.mark.graphql
 @allure.title("Unsuccess catalog browsing as anonymous user (GraphQL)")
 def test_unsuccess_catalog_browsing_as_anonymous_user(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     anonymous_catalog_requests: AnonymousCatalogRequests,
     graphql_client: GraphQLClient,
@@ -166,7 +167,7 @@ def test_unsuccess_catalog_browsing_as_anonymous_user(
 @pytest.mark.graphql
 @allure.title("Catalog browsing as registered user (GraphQL)")
 def test_catalog_browsing_as_registered_user(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     auth: Auth,
     anonymous_catalog_requests: AnonymousCatalogRequests,

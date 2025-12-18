@@ -5,6 +5,7 @@ import allure
 import pytest
 
 from fixtures.auth import Auth
+from fixtures.config import Config
 from fixtures.graphql_client import GraphQLClient
 from graphql_operations.contact.contact_operations import ContactOperations
 from graphql_operations.user.user_operations import UserOperations
@@ -13,7 +14,7 @@ from graphql_operations.user.user_operations import UserOperations
 @pytest.mark.graphql
 @allure.title("Register customer (GraphQL)")
 def test_register_customer(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     auth: Auth,
     graphql_client: GraphQLClient,
@@ -74,7 +75,7 @@ def test_register_customer(
 @pytest.mark.graphql
 @allure.title("Register organization (GraphQL)")
 def test_register_organization(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     auth: Auth,
     graphql_client: GraphQLClient,

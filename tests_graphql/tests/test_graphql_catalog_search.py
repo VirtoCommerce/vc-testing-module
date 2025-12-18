@@ -4,6 +4,7 @@ from typing import Any
 import allure
 import pytest
 
+from fixtures.config import Config
 from fixtures.graphql_client import GraphQLClient
 from graphql_operations.catalog.categories_operations import CategoriesOperations
 from graphql_operations.catalog.products_operations import ProductsOperations
@@ -13,7 +14,7 @@ from graphql_operations.user.user_operations import UserOperations
 @pytest.mark.graphql
 @allure.title("Catalog search by product full name (GraphQL)")
 def test_catalog_search_by_product_full_name(
-    config: dict[str, Any], dataset: dict[str, Any], graphql_client: GraphQLClient
+    config: Config, dataset: dict[str, Any], graphql_client: GraphQLClient
 ):
     print(
         f"{os.linesep}Running test to search catalog by product full name...", end=" "
@@ -49,7 +50,7 @@ def test_catalog_search_by_product_full_name(
 @pytest.mark.graphql
 @allure.title("Catalog search by product name fragment (GraphQL)")
 def test_catalog_search_by_product_name_fragment(
-    config: dict[str, Any], dataset: dict[str, Any], graphql_client: GraphQLClient
+    config: Config, dataset: dict[str, Any], graphql_client: GraphQLClient
 ):
     print(
         f"{os.linesep}Running test to search catalog by product name fragment...",
@@ -79,7 +80,7 @@ def test_catalog_search_by_product_name_fragment(
 @pytest.mark.graphql
 @allure.title("Catalog search by product SKU (GraphQL)")
 def test_catalog_search_by_product_sku(
-    config: dict[str, Any], dataset: dict[str, Any], graphql_client: GraphQLClient
+    config: Config, dataset: dict[str, Any], graphql_client: GraphQLClient
 ):
     print(f"{os.linesep}Running test to search catalog by product SKU...", end=" ")
 
@@ -113,7 +114,7 @@ def test_catalog_search_by_product_sku(
 @pytest.mark.graphql
 @allure.title("Catalog search by product availability (GraphQL)")
 def test_catalog_search_by_product_availability(
-    config: dict[str, Any], dataset: dict[str, Any], graphql_client: GraphQLClient
+    config: Config, dataset: dict[str, Any], graphql_client: GraphQLClient
 ):
     print(
         f"{os.linesep}Running test to search catalog by product availability...",
@@ -169,7 +170,7 @@ def test_catalog_search_by_product_availability(
 @pytest.mark.graphql
 @allure.title("Catalog search by product brand (GraphQL)")
 def test_catalog_search_by_product_brand(
-    config: dict[str, Any], dataset: dict[str, Any], graphql_client: GraphQLClient
+    config: Config, dataset: dict[str, Any], graphql_client: GraphQLClient
 ):
     print(f"{os.linesep}Running test to search catalog by product brand...", end=" ")
 
@@ -214,7 +215,7 @@ def test_catalog_search_by_product_brand(
 @pytest.mark.graphql
 @allure.title("Catalog search by product price (GraphQL)")
 def test_catalog_search_by_product_price(
-    config: dict[str, Any], dataset: dict[str, Any], graphql_client: GraphQLClient
+    config: Config, dataset: dict[str, Any], graphql_client: GraphQLClient
 ):
     print(f"{os.linesep}Running test to search catalog by product price...", end=" ")
 

@@ -6,6 +6,7 @@ import allure
 import pytest
 
 from fixtures.auth import Auth
+from fixtures.config import Config
 from fixtures.graphql_client import GraphQLClient
 from graphql_operations.order.order_operations import OrderOperations
 
@@ -13,7 +14,7 @@ from graphql_operations.order.order_operations import OrderOperations
 @pytest.mark.graphql
 @allure.title("Filter orders by status (GraphQL)")
 def test_filter_orders_by_status(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     auth: Auth,
     graphql_client: GraphQLClient,
@@ -103,7 +104,7 @@ def test_filter_orders_by_status(
 @pytest.mark.graphql
 @allure.title("Filter orders by date (GraphQL)")
 def test_filter_orders_by_date(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     auth: Auth,
     graphql_client: GraphQLClient,

@@ -5,6 +5,7 @@ import allure
 import pytest
 
 from fixtures.auth import Auth
+from fixtures.config import Config
 from fixtures.graphql_client import GraphQLClient
 from graphql_operations.user.user_operations import UserOperations
 
@@ -25,7 +26,7 @@ def test_get_current_anonymous_user(graphql_client: GraphQLClient):
 @pytest.mark.graphql
 @allure.title("Get current registered user (GraphQL)")
 def test_get_current_registered_user(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     auth: Auth,
     graphql_client: GraphQLClient,
@@ -49,7 +50,7 @@ def test_get_current_registered_user(
 @pytest.mark.graphql
 @allure.title("Get registered user by user name (GraphQL)")
 def test_get_registered_user_by_user_name(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     auth: Auth,
     graphql_client: GraphQLClient,

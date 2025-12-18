@@ -7,6 +7,7 @@ import pytest
 from playwright.sync_api import Page, expect
 
 from fixtures.anonymous_catalog_requests import AnonymousCatalogRequests
+from fixtures.config import Config
 from fixtures.requests_tracker import RequestsTracker
 from tests_e2e.pages.cart_page import CartPage
 from tests_e2e.pages.category_page import CategoryPage
@@ -15,7 +16,7 @@ from tests_e2e.pages.category_page import CategoryPage
 @pytest.mark.e2e
 @allure.title("Add product to cart from category page with add to cart button (E2E)")
 def test_e2e_category_add_product_to_cart_with_add_to_cart_button(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     page: Page,
     anonymous_catalog_requests: AnonymousCatalogRequests,
@@ -82,7 +83,7 @@ def test_e2e_category_add_product_to_cart_with_add_to_cart_button(
 @pytest.mark.e2e
 @allure.title("Add product to cart from category page with quantity stepper (E2E)")
 def test_e2e_category_add_product_to_cart_with_quantity_stepper(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     page: Page,
     anonymous_catalog_requests: AnonymousCatalogRequests,

@@ -6,6 +6,7 @@ import allure
 import pytest
 from playwright.sync_api import Page, expect
 
+from fixtures.config import Config
 from fixtures.requests_tracker import RequestsTracker
 from tests_e2e.pages.cart_page import CartPage
 from tests_e2e.pages.category_page import CategoryPage
@@ -16,7 +17,7 @@ from tests_e2e.pages.sign_in_page import SignInPage
 @pytest.mark.e2e
 @allure.title("Add product to cart and save for later (E2E)")
 def test_e2e_add_product_to_cart_and_save_for_later(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     page: Page,
     requests_tracker: RequestsTracker,
@@ -117,7 +118,7 @@ def test_e2e_add_product_to_cart_and_save_for_later(
 @pytest.mark.e2e
 @allure.title("Move product from saved for later to cart (E2E)")
 def test_e2e_move_product_from_saved_for_later_to_cart(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     page: Page,
     requests_tracker: RequestsTracker,

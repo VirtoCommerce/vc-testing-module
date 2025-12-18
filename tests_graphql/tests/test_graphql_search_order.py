@@ -5,6 +5,7 @@ import allure
 import pytest
 
 from fixtures.auth import Auth
+from fixtures.config import Config
 from fixtures.graphql_client import GraphQLClient
 from graphql_operations.order.order_operations import OrderOperations
 
@@ -12,7 +13,7 @@ from graphql_operations.order.order_operations import OrderOperations
 @pytest.mark.graphql
 @allure.title("Search order (GraphQL)")
 def test_search_order(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     auth: Auth,
     graphql_client: GraphQLClient,

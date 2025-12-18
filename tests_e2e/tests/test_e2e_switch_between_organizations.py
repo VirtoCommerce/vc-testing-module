@@ -5,6 +5,7 @@ import allure
 import pytest
 from playwright.sync_api import Page, expect
 
+from fixtures.config import Config
 from tests_e2e.pages.home_page import HomePage
 from tests_e2e.pages.sign_in_page import SignInPage
 
@@ -12,7 +13,7 @@ from tests_e2e.pages.sign_in_page import SignInPage
 @pytest.mark.e2e
 @allure.title("Switch between organizations (E2E)")
 def test_e2e_switch_between_organizations(
-    config: dict[str, Any], dataset: dict[str, Any], page: Page
+    config: Config, dataset: dict[str, Any], page: Page
 ):
     print(f"{os.linesep}Running E2E test to switch between organizations...", end=" ")
 

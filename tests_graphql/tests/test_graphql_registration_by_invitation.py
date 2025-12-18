@@ -5,6 +5,7 @@ import allure
 import pytest
 
 from fixtures.auth import Auth
+from fixtures.config import Config
 from fixtures.graphql_client import GraphQLClient
 from graphql_operations.contact.contact_operations import ContactOperations
 from graphql_operations.user.user_operations import UserOperations
@@ -13,7 +14,7 @@ from graphql_operations.user.user_operations import UserOperations
 @pytest.mark.graphql
 @allure.feature("Registration by invitation (GraphQL)")
 def test_graphql_registration_by_invitation(
-    config: Dict[str, Any],
+    config: Config,
     auth: Auth,
     graphql_client: GraphQLClient,
     webapi_client,

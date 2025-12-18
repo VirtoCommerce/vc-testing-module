@@ -3,14 +3,14 @@ from typing import Any
 import allure
 import pytest
 
+from fixtures.config import Config
+
 from .auth import Auth
 from .webapi_client import WebAPISession
 
 
 class AnonymousCatalogRequests:
-    def __init__(
-        self, config: dict[str, Any], auth: Auth, webapi_client: WebAPISession
-    ):
+    def __init__(self, config: Config, auth: Auth, webapi_client: WebAPISession):
         self.config = config
         self.auth = auth
         self.webapi_client = webapi_client
@@ -32,6 +32,6 @@ class AnonymousCatalogRequests:
 @pytest.fixture(scope="session")
 @allure.title("Fixture to handle anonymous catalog requests")
 def anonymous_catalog_requests(
-    config: dict[str, Any], auth: Auth, webapi_client: WebAPISession
+    config: Config, auth: Auth, webapi_client: WebAPISession
 ) -> AnonymousCatalogRequests:
     return AnonymousCatalogRequests(config, auth, webapi_client)

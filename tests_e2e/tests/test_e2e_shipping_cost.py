@@ -6,8 +6,8 @@ import pytest
 from gql import Client
 from playwright.sync_api import Page, expect
 
-from fixtures.anonymous_catalog_requests import AnonymousCatalogRequests
 from fixtures.auth import Auth
+from fixtures.config import Config
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
 from tests_e2e.pages.cart_page import CartPage
@@ -17,7 +17,7 @@ from tests_e2e.pages.category_page import CategoryPage
 @pytest.mark.e2e
 @allure.title("Calculate shipping cost in single-page checkout (E2E)")
 def test_e2e_shipping_cost_single_page_checkout(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     page: Page,
     auth: Auth,
@@ -123,7 +123,7 @@ def test_e2e_shipping_cost_single_page_checkout(
 @pytest.mark.e2e
 @allure.title("Calculate shipping cost in multi-step checkout (E2E)")
 def test_e2e_shipping_cost_multi_step_checkout(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     page: Page,
     auth: Auth,

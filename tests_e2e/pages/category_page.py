@@ -6,6 +6,7 @@ from playwright.sync_api import Locator, Page
 from fixtures.config import Config
 from tests_e2e.components import (
     CategoryViewSwitcherComponent,
+    FilterFacetComponent,
     FilterSliderComponent,
     ProductCardComponent,
 )
@@ -54,8 +55,12 @@ class CategoryPage(MainLayoutPage):
         ]
 
     @property
-    def price_filter(self) -> FilterSliderComponent:
+    def price_filter_slider(self) -> FilterSliderComponent | None:
         return FilterSliderComponent(self.page.locator("[data-test-id='filter-price']"))
+
+    @property
+    def price_filter_facets(self) -> FilterFacetComponent | None:
+        return FilterFacetComponent(self.page.locator("[data-test-id='filter-price']"))
 
     @property
     def products_count(self) -> int:

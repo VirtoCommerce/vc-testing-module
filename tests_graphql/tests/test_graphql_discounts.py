@@ -4,6 +4,7 @@ from typing import Any
 import allure
 import pytest
 
+from fixtures.config import Config
 from fixtures.graphql_client import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.catalog.products_operations import ProductsOperations
@@ -13,7 +14,7 @@ from graphql_operations.user.user_operations import UserOperations
 @pytest.mark.graphql
 @allure.title("Apply discount for specific product (GraphQL)")
 def test_product_specific_discount(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     graphql_client: GraphQLClient,
 ):
@@ -93,7 +94,7 @@ def test_product_specific_discount(
 @pytest.mark.graphql
 @allure.title("Apply discount for cart subtotal (GraphQL)")
 def test_cart_subtotal_discount(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     graphql_client: GraphQLClient,
 ):

@@ -1,11 +1,11 @@
 import os
-import time
 from typing import Any
 
 import allure
 import pytest
 from playwright.sync_api import Page, expect
 
+from fixtures.config import Config
 from tests_e2e.pages.cart_page import CartPage
 from tests_e2e.pages.category_page import CategoryPage
 from tests_e2e.pages.checkout_shipping_page import CheckoutShippingPage
@@ -15,7 +15,7 @@ from tests_e2e.pages.sign_in_page import SignInPage
 @pytest.mark.e2e
 @allure.title("Proceed to multi-step checkout (E2E)")
 def test_e2e_proceed_to_multi_step_checkout(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     page: Page,
     product_quantity_control: str,
@@ -79,7 +79,7 @@ def test_e2e_proceed_to_multi_step_checkout(
 @pytest.mark.e2e
 @allure.title("Proceed to single-page checkout (E2E)")
 def test_e2e_proceed_to_single_page_checkout(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     page: Page,
     product_quantity_control: str,

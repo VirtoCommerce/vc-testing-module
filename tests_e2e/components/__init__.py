@@ -7,6 +7,7 @@ from .checkout_payment_details_component import CheckoutPaymentDetailsComponent
 from .checkout_shipping_details_component import CheckoutShippingDetailsComponent
 from .clear_cart_modal_component import ClearCartModalComponent
 from .currency_selector_component import CurrencySelectorComponent
+from .filter_facet_component import FilterFacetComponent
 from .filter_slider_component import FilterSliderComponent
 from .language_selector_component import LanguageSelectorComponent
 from .line_item_component import LineItemComponent
@@ -38,6 +39,7 @@ __all__ = [
     "OrderSummaryComponent",
     "AddressFormComponent",
     "FilterSliderComponent",
+    "FilterFacetComponent",
     "PickupLocationListItemComponent",
     "SelectBopisMapModalComponent",
 ]

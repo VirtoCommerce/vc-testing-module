@@ -6,6 +6,7 @@ import allure
 import pytest
 
 from fixtures.auth import Auth
+from fixtures.config import Config
 from fixtures.graphql_client import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.quote.quote_operations import QuoteOperations
@@ -15,7 +16,7 @@ from graphql_operations.user.user_operations import UserOperations
 @pytest.mark.graphql
 @allure.title("Change quote item quantity (GraphQL)")
 def test_change_quote_item_quantity(
-    config: dict[str, Any],
+    config: Config,
     auth: Auth,
     dataset: dict[str, Any],
     graphql_client: GraphQLClient,
@@ -96,7 +97,7 @@ def test_change_quote_item_quantity(
 @pytest.mark.graphql
 @allure.title("Change quote comment (GraphQL)")
 def test_change_quote_comment(
-    config: dict[str, Any],
+    config: Config,
     auth: Auth,
     dataset: dict[str, Any],
     graphql_client: GraphQLClient,
@@ -168,7 +169,7 @@ def test_change_quote_comment(
 @pytest.mark.graphql
 @allure.title("Remove quote shipping and billing addresses (GraphQL)")
 def test_change_quote_shipping_and_billing_addresses(
-    config: dict[str, Any],
+    config: Config,
     auth: Auth,
     dataset: dict[str, Any],
     graphql_client: GraphQLClient,
@@ -260,7 +261,7 @@ def test_change_quote_shipping_and_billing_addresses(
 @pytest.mark.graphql
 @allure.title("Remove quote item (GraphQL)")
 def test_remove_quote_item(
-    config: dict[str, Any],
+    config: Config,
     auth: Auth,
     dataset: dict[str, Any],
     graphql_client: GraphQLClient,
@@ -330,7 +331,7 @@ def test_remove_quote_item(
 @pytest.mark.graphql
 @allure.title("Submit quote request (GraphQL)")
 def test_submit_quote_request(
-    config: dict[str, Any],
+    config: Config,
     auth: Auth,
     dataset: dict[str, Any],
     graphql_client: GraphQLClient,

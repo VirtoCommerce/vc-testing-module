@@ -6,13 +6,14 @@ import pytest
 from playwright.sync_api import Page, expect
 
 from fixtures.anonymous_catalog_requests import AnonymousCatalogRequests
+from fixtures.config import Config
 from tests_e2e.pages.category_page import CategoryPage
 
 
 @pytest.mark.e2e
 @allure.title("Switch category grid view (E2E)")
 def test_e2e_switch_category_grid_view(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     page: Page,
     anonymous_catalog_requests: AnonymousCatalogRequests,
@@ -44,7 +45,7 @@ def test_e2e_switch_category_grid_view(
 @pytest.mark.e2e
 @allure.title("Switch category list view (E2E)")
 def test_e2e_switch_category_list_view(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     page: Page,
     anonymous_catalog_requests: AnonymousCatalogRequests,

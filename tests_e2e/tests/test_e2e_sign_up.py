@@ -1,12 +1,12 @@
 import os
 import random
-from typing import Any
 
 import allure
 import pytest
 from playwright.sync_api import Page, expect
 
 from fixtures.auth import Auth
+from fixtures.config import Config
 from fixtures.graphql_client import GraphQLClient
 from fixtures.webapi_client import WebAPISession
 from graphql_operations.contact.contact_operations import ContactOperations
@@ -17,7 +17,7 @@ from tests_e2e.pages.successful_registration_page import SuccessfulRegistrationP
 
 @pytest.mark.e2e
 @allure.feature("Select personal registration (E2E)")
-def test_e2e_select_personal_registration(config: dict[str, Any], page: Page):
+def test_e2e_select_personal_registration(config: Config, page: Page):
     print(f"{os.linesep}Running E2E test to select personal registration...", end=" ")
 
     sign_up_page = SignUpPage(config, page)
@@ -33,7 +33,7 @@ def test_e2e_select_personal_registration(config: dict[str, Any], page: Page):
 
 @pytest.mark.e2e
 @allure.feature("Select organization registration (E2E)")
-def test_e2e_select_organization_registration(config: dict[str, Any], page: Page):
+def test_e2e_select_organization_registration(config: Config, page: Page):
     print(
         f"{os.linesep}Running E2E test to select organization registration...", end=" "
     )
@@ -52,7 +52,7 @@ def test_e2e_select_organization_registration(config: dict[str, Any], page: Page
 @pytest.mark.e2e
 @allure.feature("Sign up personal account (E2E)")
 def test_e2e_sign_up_personal_account(
-    config: dict[str, Any],
+    config: Config,
     page: Page,
     auth: Auth,
     graphql_client: GraphQLClient,
@@ -100,7 +100,7 @@ def test_e2e_sign_up_personal_account(
 @pytest.mark.e2e
 @allure.feature("Sign up organization account (E2E)")
 def test_e2e_sign_up_organization_account(
-    config: dict[str, Any],
+    config: Config,
     page: Page,
     auth: Auth,
     graphql_client: GraphQLClient,

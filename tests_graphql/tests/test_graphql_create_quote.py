@@ -6,6 +6,7 @@ import allure
 import pytest
 
 from fixtures.auth import Auth
+from fixtures.config import Config
 from fixtures.graphql_client import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.quote.quote_operations import QuoteOperations
@@ -15,7 +16,7 @@ from graphql_operations.user.user_operations import UserOperations
 @pytest.mark.graphql
 @allure.title("Create empty quote (GraphQL)")
 def test_create_empty_quote(
-    config: dict[str, Any],
+    config: Config,
     auth: Auth,
     dataset: dict[str, Any],
     graphql_client: GraphQLClient,
@@ -58,7 +59,7 @@ def test_create_empty_quote(
 @pytest.mark.graphql
 @allure.title("Create quote with items from cart (GraphQL)")
 def test_create_quote_with_items_from_cart(
-    config: dict[str, Any],
+    config: Config,
     auth: Auth,
     dataset: dict[str, Any],
     graphql_client: GraphQLClient,
