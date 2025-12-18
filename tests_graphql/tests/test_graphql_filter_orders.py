@@ -4,7 +4,6 @@ from typing import Any
 
 import allure
 import pytest
-from dateutil import parser
 
 from fixtures.auth import Auth
 from fixtures.graphql_client import GraphQLClient
