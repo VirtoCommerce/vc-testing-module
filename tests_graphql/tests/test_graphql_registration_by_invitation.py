@@ -13,7 +13,11 @@ from graphql_operations.user.user_operations import UserOperations
 @pytest.mark.graphql
 @allure.feature("Registration by invitation (GraphQL)")
 def test_graphql_registration_by_invitation(
-    config: Dict[str, Any], auth: Auth, graphql_client: GraphQLClient, webapi_client, dataset: dict[str, Any]
+    config: Dict[str, Any],
+    auth: Auth,
+    graphql_client: GraphQLClient,
+    webapi_client,
+    dataset: dict[str, Any],
 ):
     print(
         f"{os.linesep}Running GraphQL test to register a user by invitation...", end=" "
@@ -36,17 +40,17 @@ def test_graphql_registration_by_invitation(
 
     auth.authenticate(
         dataset_user["userName"],
-        config["users_password"],
-    )    
+        config["USERS_PASSWORD"],
+    )
 
     contact_operations.invite_user(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "organizationId": dataset_organization["id"],
             "emails": ["e2e-test-corporate-temp@test.com"],
             "message": "You are invited to join the organization",
             "roleIds": ["org-employee"],
-            "urlSuffix": "/confirm-invitation"  
+            "urlSuffix": "/confirm-invitation",
         }
     )
 
@@ -55,13 +59,13 @@ def test_graphql_registration_by_invitation(
     )
 
     auth.authenticate(
-        config["admin_username"],
-        config["admin_password"],
+        config["ADMIN_USERNAME"],
+        config["ADMIN_PASSWORD"],
     )
 
     token = webapi_client.get(
         f"/api/platform/security/users/{invited_user['id']}/generatePasswordResetToken"
-    )        
+    )
 
     register_result = user_operations.register_by_invitation(
         payload={

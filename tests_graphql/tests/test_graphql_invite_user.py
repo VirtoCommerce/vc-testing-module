@@ -1,6 +1,6 @@
 import os
-from typing import Any
 import random
+from typing import Any
 
 import allure
 import pytest
@@ -38,7 +38,7 @@ def test_invite_user(
 
     auth.authenticate(
         dataset_user["userName"],
-        config["users_password"],
+        config["USERS_PASSWORD"],
     )
 
     maintainer_user = user_operations.get_me()
@@ -46,12 +46,12 @@ def test_invite_user(
 
     invitation_result = contact_operations.invite_user(
         payload={
-            "storeId": config["store_id"],         
+            "storeId": config["STORE_ID"],
             "organizationId": dataset_organization["id"],
             "emails": [invite_employee_email],
             "message": "You are invited to join the organization",
             "roleIds": ["org-employee"],
-            "urlSuffix": "/confirm-invitation"            
+            "urlSuffix": "/confirm-invitation",
         }
     )
 
@@ -76,8 +76,8 @@ def test_invite_user(
     )
 
     auth.authenticate(
-        config["admin_username"],
-        config["admin_password"],
+        config["ADMIN_USERNAME"],
+        config["ADMIN_PASSWORD"],
     )
 
     contact_operations.delete_contact(

@@ -1,9 +1,10 @@
 import os
-from datetime import datetime, timedelta
+from datetime import timedelta
 from typing import Any
 
 import allure
 import pytest
+from dateutil import parser
 
 from fixtures.auth import Auth
 from fixtures.graphql_client import GraphQLClient
@@ -127,7 +128,7 @@ def test_filter_orders_by_date(
 
     order = order_operations.get_order(dataset["orders"][0]["id"])
 
-    order_date = datetime.strptime(order["createdDate"], "%Y-%m-%dT%H:%M:%S.%fZ")
+    order_date = parser.isoparse(order["createdDate"])
 
     from_date = order_date - timedelta(weeks=1)
     to_date = order_date + timedelta(weeks=1)
