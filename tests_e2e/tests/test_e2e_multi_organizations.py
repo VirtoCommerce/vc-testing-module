@@ -151,4 +151,6 @@ def test_e2e_search_organization_in_list(config: dict[str, Any], dataset: dict[s
     expect(organization_item).to_contain_text(organization_name)
     number_of_organizations_after_search = len(organization_selector_items_after_search)  
 
+    # The search term "ACME Aurora Market" contains "Market" which matches 2 organizations
+    # that user[9] has access to: "ACME Aurora Market" and "ACME Desert Cove Market"
     assert number_of_organizations_after_search == 2, f"Number of organizations is not 2, but {number_of_organizations_after_search}"  
