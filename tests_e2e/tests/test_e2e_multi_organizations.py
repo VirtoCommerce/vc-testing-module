@@ -9,6 +9,29 @@ from tests_e2e.pages.home_page import HomePage
 from tests_e2e.pages.sign_in_page import SignInPage
 
 
+def get_user_organization_count(dataset: dict[str, Any], user: dict[str, Any]) -> int:
+    """
+    Get the expected number of organizations for a user from the dataset.
+    
+    Args:
+        dataset: The dataset containing contacts and organizations
+        user: The user object from the dataset
+        
+    Returns:
+        The number of organizations the user has access to
+    """
+    member_id = user.get("memberId")
+    if not member_id:
+        return 0
+    
+    contacts = dataset.get("contacts", [])
+    user_contact = next(
+        (contact for contact in contacts if contact.get("id") == member_id),
+        None
+    )
+    return len(user_contact.get("organizations", [])) if user_contact else 0
+
+
 @pytest.mark.e2e
 @allure.title("Switch between organizations (E2E)")
 def test_e2e_switch_between_organizations(config: dict[str, Any], dataset: dict[str, Any], page: Page):
@@ -16,11 +39,12 @@ def test_e2e_switch_between_organizations(config: dict[str, Any], dataset: dict[
 
     page.set_viewport_size({"width": 1920, "height": 1080})
 
-    sign_in_page = SignInPage(page, config)
-    home_page = HomePage(page, config)
-
-    dataset_user = dataset["users"][0]
-
+    sign_in_page = SignInPage(page, config) 
+    home_page = HomePage(page, config)   
+    
+    dataset_user = dataset["users"][0] 
+    expected_org_count = get_user_organization_count(dataset, dataset_user)
+       
     sign_in_page.navigate()
 
     sign_in_page.sign_in(dataset_user["userName"], config["users_password"])
@@ -30,17 +54,20 @@ def test_e2e_switch_between_organizations(config: dict[str, Any], dataset: dict[
 
     home_page.top_header_component.account_menu_button.click()
 
-    expect(organization_list).to_be_visible()
+    expect(organization_list, "Organization list is not visible").to_be_visible()
     page.wait_for_load_state("networkidle")
 
     number_of_organizations = len(organization_selector.organization_selector_items)
-    assert number_of_organizations == 3, f"Number of organizations is not 3, but {number_of_organizations}"
+    assert number_of_organizations == expected_org_count, f"Number of organizations is not {expected_org_count}, but {number_of_organizations}" 
+
 
     current_organization = home_page.top_header_component.organization_name_label.text_content()
     print(f"Current organization is {current_organization}")
     for organization in organization_selector.organization_selector_items:
         if organization.text_content() == current_organization:
-            expect(organization.locator("input")).to_have_attribute("aria-checked", "true")
+            expect(
+                organization.locator("input"), f"Organization '{organization.text_content()}' is not selected"
+            ).to_have_attribute("aria-checked", "true")
 
     organization_items = organization_selector.organization_selector_items
     current_name = current_organization
@@ -51,12 +78,16 @@ def test_e2e_switch_between_organizations(config: dict[str, Any], dataset: dict[
         if org_name != current_name:
             selected_organization = organization
 
-            expect(selected_organization.locator("input")).to_have_attribute("aria-checked", "false")
+            expect(
+                selected_organization.locator("input"), f"Organization '{org_name}' is already selected"
+            ).to_have_attribute("aria-checked", "false")
 
             selected_organization.locator("input").click()
             page.wait_for_load_state("networkidle")
 
-            expect(home_page.top_header_component.organization_name_label).to_have_text(org_name)
+            expect(
+                home_page.top_header_component.organization_name_label, f"Current organization should be '{org_name}'"
+            ).to_have_text(org_name)
 
             home_page.top_header_component.account_menu_button.click()
             page.wait_for_selector(
@@ -68,7 +99,9 @@ def test_e2e_switch_between_organizations(config: dict[str, Any], dataset: dict[
             target_item = next((item for item in refreshed_items if item.text_content().strip() == org_name), None)
             assert target_item, f"Organization '{org_name}' item not found after switching"
 
-            expect(target_item.locator("input")).to_have_attribute("aria-checked", "true")
+            expect(
+                target_item.locator("input"), f"Organization '{org_name}' did not become selected"
+            ).to_have_attribute("aria-checked", "true")
 
             break
 
@@ -85,20 +118,21 @@ def test_e2e_search_organization_in_list(config: dict[str, Any], dataset: dict[s
 
     dataset_user = dataset["users"][9]
     organization_name = dataset["organizations"][3]["name"]
-
+    expected_org_count = get_user_organization_count(dataset, dataset_user)
+       
     sign_in_page.navigate()
 
     sign_in_page.sign_in(dataset_user["userName"], config["users_password"])
     organization_list = home_page.top_header_component.account_menu_component.organization_list
 
     home_page.top_header_component.account_menu_button.click()
-    expect(organization_list).to_be_visible()
+    expect(organization_list, "Organization list is not visible").to_be_visible()
     page.wait_for_load_state("networkidle")
 
     organization_selector_items = home_page.top_header_component.account_menu_component.organization_selector_items
     number_of_organizations = len(organization_selector_items)
 
-    assert number_of_organizations == 11, f"Number of organizations is not 11, but {number_of_organizations}"
+    assert number_of_organizations == expected_org_count, f"Number of organizations is not {expected_org_count}, but {number_of_organizations}"
 
     search_input = home_page.top_header_component.account_menu_component.search_organization
     search_input.fill(organization_name)
@@ -116,6 +150,7 @@ def test_e2e_search_organization_in_list(config: dict[str, Any], dataset: dict[s
     expect(organization_item).to_contain_text(organization_name)
     number_of_organizations_after_search = len(organization_selector_items_after_search)
 
-    assert (
-        number_of_organizations_after_search == 2
-    ), f"Number of organizations is not 2, but {number_of_organizations_after_search}"
+    # Note: This assertion verifies the search functionality. The expected count of 2 is based on
+    # the UI's search behavior with the specific search term and user's organization access.
+    # For "ACME Aurora Market", the search matches: "ACME Aurora Market" and "ACME Desert Cove Market"
+    assert number_of_organizations_after_search == 2, f"Number of organizations after search is not 2, but {number_of_organizations_after_search}"  

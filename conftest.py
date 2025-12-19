@@ -3,7 +3,7 @@ import os
 import allure
 import pytest
 from dotenv import load_dotenv
-from playwright.sync_api import Page, expect, sync_playwright
+from playwright.sync_api import Page, expect
 from pytest import Parser
 
 from fixtures.anonymous_catalog_requests import anonymous_catalog_requests
@@ -60,12 +60,11 @@ def screenshot_on_failure(request, _page_for_failure: Page | None):
     screenshot_path = os.path.join(screenshots_dir, f"{request.node.name}.png")
     page.screenshot(path=screenshot_path, full_page=True)
 
-    if allure:
-        allure.attach.file(
-            screenshot_path,
-            name=request.node.name,
-            attachment_type=allure.attachment_type.PNG,
-        )
+    allure.attach.file(
+        screenshot_path,
+        name=request.node.name,
+        attachment_type=allure.attachment_type.PNG,
+    )
 
 
 @pytest.fixture(scope="session")
