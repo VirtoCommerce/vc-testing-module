@@ -53,9 +53,7 @@ def test_e2e_select_language_in_store(config, page: Page, dataset: dict[str, Any
     else:
         print(f"{os.linesep}Language {language} not found in store available languages")
     
-    expect(page).to_have_url(f"{config['frontend_base_url']}/{language['twoLetterLanguageName'].lower()}/")
-
-    page.screenshot(path=f"screenshots/language_{language['twoLetterLanguageName'].lower()}.png")
+    expect(page).to_have_url(f"{config['frontend_base_url']}/{language['twoLetterLanguageName'].lower()}/")  
 
     home_page.sign_out()
     expect(home_page.top_header_component.sign_in_link).to_be_visible()
