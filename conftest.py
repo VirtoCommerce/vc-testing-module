@@ -60,12 +60,11 @@ def screenshot_on_failure(request, _page_for_failure: Page | None):
     screenshot_path = os.path.join(screenshots_dir, f"{request.node.name}.png")
     page.screenshot(path=screenshot_path, full_page=True)
 
-    if allure:
-        allure.attach.file(
-            screenshot_path,
-            name=request.node.name,
-            attachment_type=allure.attachment_type.PNG,
-        )
+    allure.attach.file(
+        screenshot_path,
+        name=request.node.name,
+        attachment_type=allure.attachment_type.PNG,
+    )
 
 
 @pytest.fixture(scope="session")
