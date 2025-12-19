@@ -1,4 +1,3 @@
-import os
 from typing import Any
 
 import allure
@@ -8,22 +7,15 @@ from playwright.sync_api import Page, expect
 from tests_e2e.pages.home_page import HomePage
 from tests_e2e.pages.sign_in_page import SignInPage
 
+EXPECTED_ORGANIZATION_SEARCH_RESULTS = 2
+
 
 def get_user_organization_count(dataset: dict[str, Any], user: dict[str, Any]) -> int:
-    """
-    Get the expected number of organizations for a user from the dataset.
-    
-    Args:
-        dataset: The dataset containing contacts and organizations
-        user: The user object from the dataset
-        
-    Returns:
-        The number of organizations the user has access to
-    """
+
     member_id = user.get("memberId")
     if not member_id:
         return 0
-    
+
     contacts = dataset.get("contacts", [])
     user_contact = next(
         (contact for contact in contacts if contact.get("id") == member_id),
@@ -32,125 +24,121 @@ def get_user_organization_count(dataset: dict[str, Any], user: dict[str, Any]) -
     return len(user_contact.get("organizations", [])) if user_contact else 0
 
 
+def assert_organization_count(account_menu_component, expected_count: int) -> None:
+    actual_count = len(account_menu_component.organization_selector_items)
+    assert (
+        actual_count == expected_count
+    ), f"Number of organizations is not {expected_count}, but {actual_count}"
+
+
 @pytest.mark.e2e
 @allure.title("Switch between organizations (E2E)")
 def test_e2e_switch_between_organizations(config: dict[str, Any], dataset: dict[str, Any], page: Page):
-    print(f"{os.linesep}Running E2E test to switch between organizations...", end=" ")
+    with allure.step("Prepare browser and page objects"):
+        page.set_viewport_size({"width": 1920, "height": 1080})
+        sign_in_page = SignInPage(page, config)
+        home_page = HomePage(page, config)
 
-    page.set_viewport_size({"width": 1920, "height": 1080})
-
-    sign_in_page = SignInPage(page, config) 
-    home_page = HomePage(page, config)   
-    
-    dataset_user = dataset["users"][0] 
+    dataset_user = dataset["users"][0]
     expected_org_count = get_user_organization_count(dataset, dataset_user)
-       
-    sign_in_page.navigate()
 
-    sign_in_page.sign_in(dataset_user["userName"], config["users_password"])
+    with allure.step("Sign in and open account menu"):
+        sign_in_page.navigate()
+        sign_in_page.sign_in(dataset_user["userName"], config["users_password"])
+        account_menu = home_page.open_account_menu()
+        assert_organization_count(account_menu, expected_org_count)
+        current_organization = home_page.current_organization_name
+        first_list_item_name = (
+            account_menu.organization_names[0] if account_menu.organization_names else ""
+        )
+        assert (
+            first_list_item_name == current_organization
+        ), f"Current organization '{current_organization}' is not the first in the list (found '{first_list_item_name}')"
 
-    organization_list = home_page.top_header_component.account_menu_component.organization_list
-    organization_selector = home_page.top_header_component.account_menu_component
+    with allure.step("Switch to a different organization"):
+        for org_name in account_menu.organization_names:
+            if org_name == current_organization:
+                continue
 
-    home_page.top_header_component.account_menu_button.click()
-
-    expect(organization_list, "Organization list is not visible").to_be_visible()
-    page.wait_for_load_state("networkidle")
-
-    number_of_organizations = len(organization_selector.organization_selector_items)
-    assert number_of_organizations == expected_org_count, f"Number of organizations is not {expected_org_count}, but {number_of_organizations}" 
-
-
-    current_organization = home_page.top_header_component.organization_name_label.text_content()
-    print(f"Current organization is {current_organization}")
-    for organization in organization_selector.organization_selector_items:
-        if organization.text_content() == current_organization:
-            expect(
-                organization.locator("input"), f"Organization '{organization.text_content()}' is not selected"
-            ).to_have_attribute("aria-checked", "true")
-
-    organization_items = organization_selector.organization_selector_items
-    current_name = current_organization
-
-    for organization in organization_items:
-        org_name = organization.text_content().strip()
-
-        if org_name != current_name:
-            selected_organization = organization
+            account_menu.assert_selection_state(org_name, selected=False)
+            account_menu.select_organization(org_name)
+            home_page.wait_for_network_idle()
 
             expect(
-                selected_organization.locator("input"), f"Organization '{org_name}' is already selected"
-            ).to_have_attribute("aria-checked", "false")
-
-            selected_organization.locator("input").click()
-            page.wait_for_load_state("networkidle")
-
-            expect(
-                home_page.top_header_component.organization_name_label, f"Current organization should be '{org_name}'"
+                home_page.top_header_component.organization_name_label,
+                f"Current organization should be '{org_name}'",
             ).to_have_text(org_name)
 
-            home_page.top_header_component.account_menu_button.click()
-            page.wait_for_selector(
-                "[data-test-id^='main-layout.top-header.account-menu.organization-selector-item-']", timeout=30000
+            account_menu = home_page.open_account_menu()
+            account_menu.assert_selection_state(org_name, selected=True)
+            current_organization = home_page.current_organization_name
+            first_list_item_name = (
+                account_menu.organization_names[0] if account_menu.organization_names else ""
             )
-
-            organization_selector = home_page.top_header_component.account_menu_component
-            refreshed_items = organization_selector.organization_selector_items
-            target_item = next((item for item in refreshed_items if item.text_content().strip() == org_name), None)
-            assert target_item, f"Organization '{org_name}' item not found after switching"
-
-            expect(
-                target_item.locator("input"), f"Organization '{org_name}' did not become selected"
-            ).to_have_attribute("aria-checked", "true")
-
+            assert (
+                first_list_item_name == current_organization
+            ), f"Current organization '{current_organization}' is not the first in the list (found '{first_list_item_name}')"
             break
 
 
 @pytest.mark.e2e
 @allure.title("Search the organization in the list")
 def test_e2e_search_organization_in_list(config: dict[str, Any], dataset: dict[str, Any], page: Page):
-    print(f"{os.linesep}Running E2E test to search the organization in the list...", end=" ")
-
-    page.set_viewport_size({"width": 1920, "height": 1080})
-
-    sign_in_page = SignInPage(page, config)
-    home_page = HomePage(page, config)
+    with allure.step("Prepare browser and page objects"):
+        page.set_viewport_size({"width": 1920, "height": 1080})
+        sign_in_page = SignInPage(page, config)
+        home_page = HomePage(page, config)
 
     dataset_user = dataset["users"][9]
     organization_name = dataset["organizations"][3]["name"]
+    partial_organization_name = organization_name[5:].strip().lower()
     expected_org_count = get_user_organization_count(dataset, dataset_user)
-       
-    sign_in_page.navigate()
 
-    sign_in_page.sign_in(dataset_user["userName"], config["users_password"])
-    organization_list = home_page.top_header_component.account_menu_component.organization_list
+    with allure.step("Sign in and open account menu"):
+        sign_in_page.navigate()
+        sign_in_page.sign_in(dataset_user["userName"], config["users_password"])
+        account_menu = home_page.open_account_menu()
+        assert_organization_count(account_menu, expected_org_count)
+        current_organization = home_page.current_organization_name
+        first_list_item_name = (
+            account_menu.organization_names[0] if account_menu.organization_names else ""
+        )
+        assert (
+            first_list_item_name == current_organization
+        ), f"Current organization '{current_organization}' is not the first in the list (found '{first_list_item_name}')"
 
-    home_page.top_header_component.account_menu_button.click()
-    expect(organization_list, "Organization list is not visible").to_be_visible()
-    page.wait_for_load_state("networkidle")
+    with allure.step(f"Search for organization '{organization_name}'"):
+        account_menu.search(organization_name)
+        expect(account_menu.organization_list).to_be_visible()
+        expect(
+            account_menu.organization_selector_item(organization_name)
+        ).to_contain_text(organization_name)
 
-    organization_selector_items = home_page.top_header_component.account_menu_component.organization_selector_items
-    number_of_organizations = len(organization_selector_items)
+        current_organization = home_page.current_organization_name
+        account_menu.assert_selection_state(current_organization, selected=True)      
+        
 
-    assert number_of_organizations == expected_org_count, f"Number of organizations is not {expected_org_count}, but {number_of_organizations}"
+        filtered_items_count = len(account_menu.organization_selector_items)
+        assert (
+            filtered_items_count == EXPECTED_ORGANIZATION_SEARCH_RESULTS
+        ), f"Number of organizations after search is not {EXPECTED_ORGANIZATION_SEARCH_RESULTS}, but {filtered_items_count}"
 
-    search_input = home_page.top_header_component.account_menu_component.search_organization
-    search_input.fill(organization_name)
-    search_input.press("Enter")
-    page.wait_for_timeout(3000)
+        account_menu.search_organization_clear_button.click()
+        page.wait_for_timeout(1000)
+        account_menu.search(partial_organization_name)
+        page.wait_for_timeout(1000)
+        expect(account_menu.organization_list).to_be_visible()
+        assert len(account_menu.organization_selector_items) == EXPECTED_ORGANIZATION_SEARCH_RESULTS, f"Number of organizations after search is not {EXPECTED_ORGANIZATION_SEARCH_RESULTS}, but {len(account_menu.organization_selector_items)}"
 
-    organization_item = home_page.top_header_component.account_menu_component.organization_selector_item(
-        organization_name
-    )
-    organization_selector_items_after_search = (
-        home_page.top_header_component.account_menu_component.organization_selector_items
-    )
-
-    expect(organization_list).to_be_visible()
-    expect(organization_item).to_contain_text(organization_name)
-    number_of_organizations_after_search = len(organization_selector_items_after_search)
-
-    # Note: This assertion verifies the search functionality. The expected count of 2 is based on
-    # the UI's search behavior with the specific search term and user's organization access.
-    # For "ACME Aurora Market", the search matches: "ACME Aurora Market" and "ACME Desert Cove Market"
-    assert number_of_organizations_after_search == 2, f"Number of organizations after search is not 2, but {number_of_organizations_after_search}"  
+    
+    with allure.step(f"Clear search for organization '{organization_name}'"):
+        account_menu.search_organization_clear_button.click()
+        page.wait_for_timeout(1000)
+        expect(account_menu.organization_list).to_be_visible()
+        assert len(account_menu.organization_selector_items) == expected_org_count, f"Number of organizations after search is not {expected_org_count}, but {len(account_menu.organization_selector_items)}"
+    
+    with allure.step(f"Search for invalid organization name"):
+        account_menu.search("Invalid organization name")
+        page.wait_for_timeout(1000)
+        expect(account_menu.organization_list).to_be_visible()
+        assert len(account_menu.organization_selector_items) == 0, f"Number of organizations after search is not 0, but {len(account_menu.organization_selector_items)}"

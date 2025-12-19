@@ -1,6 +1,7 @@
-from re import L
-from playwright.sync_api import Locator
-from typing import List, Optional
+import re
+from typing import List
+
+from playwright.sync_api import Locator, expect
 
 class AccountMenuComponent:
     def __init__(self, element: Locator):
@@ -25,10 +26,11 @@ class AccountMenuComponent:
             "[data-test-id^='main-layout.top-header.account-menu.organization-selector-item-']"
         ).all()
 
-    def organization_selector_item(self, organization_name: str) -> Locator:       
+    def organization_selector_item(self, organization_name: str) -> Locator:
+        exact_text = re.compile(f"^{re.escape(organization_name)}$")
         return self.element.locator(
             "[data-test-id^='main-layout.top-header.account-menu.organization-selector-item-']",
-            has_text=organization_name,
+            has_text=exact_text,
         )
   
 
@@ -39,9 +41,34 @@ class AccountMenuComponent:
                 "[data-test-id='main-layout.account-menu.top-header.organizations-search']"
             ).locator("input")
         )
+
+    @property
+    def search_organization_clear_button(self) -> Locator:
+        return self.element.locator(".vc-input__clear button, button.vc-input__clear").first
     
     @property
     def organization_list(self) -> Locator:
         return self.element.locator(
             "[data-test-id='main-layout.account-menu.top-header.organizations-list']"
         )
+
+    @property
+    def organization_names(self) -> List[str]:
+        return [
+            (item.text_content() or "").strip()
+            for item in self.organization_selector_items
+        ]
+
+    def search(self, value: str) -> None:
+        self.search_organization.fill(value)
+        self.search_organization.press("Enter")
+
+    def assert_selection_state(self, organization_name: str, *, selected: bool) -> None:
+        state = "true" if selected else "false"
+        expect(
+            self.organization_selector_item(organization_name).locator("input"),
+            f"Organization '{organization_name}' selection mismatch",
+        ).to_have_attribute("aria-checked", state)
+
+    def select_organization(self, organization_name: str) -> None:
+        self.organization_selector_item(organization_name).locator("input").click()
