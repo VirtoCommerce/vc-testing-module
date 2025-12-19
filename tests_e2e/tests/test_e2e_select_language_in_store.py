@@ -17,6 +17,8 @@ from tests_e2e.pages.sign_in_page import SignInPage
 def test_e2e_select_language_in_store(config, page: Page, dataset: dict[str, Any], graphql_client, language):
     print(f"{os.linesep}Running E2E test to select language in store...", end=" ")
 
+    page.set_viewport_size({"width": 1920, "height": 1080})
+
     sign_in_page = SignInPage(page, config)
     home_page = HomePage(page, config)
     store_operations = StoreOperations(graphql_client)
@@ -50,6 +52,10 @@ def test_e2e_select_language_in_store(config, page: Page, dataset: dict[str, Any
         )
     else:
         print(f"{os.linesep}Language {language} not found in store available languages")
+    
+    expect(page).to_have_url(f"{config['frontend_base_url']}/{language['twoLetterLanguageName'].lower()}/")
+
+    page.screenshot(path=f"screenshots/language_{language['twoLetterLanguageName'].lower()}.png")
 
     home_page.sign_out()
     expect(home_page.top_header_component.sign_in_link).to_be_visible()
