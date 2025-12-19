@@ -3,7 +3,7 @@ import os
 import allure
 import pytest
 from dotenv import load_dotenv
-from playwright.sync_api import Page, expect, sync_playwright
+from playwright.sync_api import Page, expect
 from pytest import Parser
 
 from fixtures.anonymous_catalog_requests import anonymous_catalog_requests
