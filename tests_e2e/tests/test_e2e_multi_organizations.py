@@ -20,6 +20,13 @@ def test_e2e_switch_between_organizations(config: dict[str, Any], dataset: dict[
     home_page = HomePage(page, config)   
     
     dataset_user = dataset["users"][0] 
+    
+    # Get expected organization count from dataset
+    user_contact = next(
+        (contact for contact in dataset["contacts"] if contact["id"] == dataset_user["memberId"]),
+        None
+    )
+    expected_org_count = len(user_contact["organizations"]) if user_contact else 0
        
     sign_in_page.navigate()
 
@@ -34,7 +41,7 @@ def test_e2e_switch_between_organizations(config: dict[str, Any], dataset: dict[
     page.wait_for_load_state("networkidle")
 
     number_of_organizations = len(organization_selector.organization_selector_items)
-    assert number_of_organizations == 3, f"Number of organizations is not 3, but {number_of_organizations}" 
+    assert number_of_organizations == expected_org_count, f"Number of organizations is not {expected_org_count}, but {number_of_organizations}" 
 
 
     current_organization = home_page.top_header_component.organization_name_label.text_content()
@@ -104,6 +111,13 @@ def test_e2e_search_organization_in_list(config: dict[str, Any], dataset: dict[s
     
     dataset_user = dataset["users"][9]
     organization_name = dataset["organizations"][3]["name"]
+    
+    # Get expected organization count from dataset
+    user_contact = next(
+        (contact for contact in dataset["contacts"] if contact["id"] == dataset_user["memberId"]),
+        None
+    )
+    expected_org_count = len(user_contact["organizations"]) if user_contact else 0
        
     sign_in_page.navigate()
 
@@ -117,7 +131,7 @@ def test_e2e_search_organization_in_list(config: dict[str, Any], dataset: dict[s
     organization_selector_items = home_page.top_header_component.account_menu_component.organization_selector_items
     number_of_organizations = len(organization_selector_items)
 
-    assert number_of_organizations == 11, f"Number of organizations is not 11, but {number_of_organizations}"
+    assert number_of_organizations == expected_org_count, f"Number of organizations is not {expected_org_count}, but {number_of_organizations}"
 
     search_input = home_page.top_header_component.account_menu_component.search_organization
     search_input.fill(organization_name)
