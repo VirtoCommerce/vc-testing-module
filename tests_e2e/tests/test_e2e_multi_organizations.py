@@ -9,6 +9,24 @@ from tests_e2e.pages.home_page import HomePage
 from tests_e2e.pages.sign_in_page import SignInPage
 
 
+def get_user_organization_count(dataset: dict[str, Any], user: dict[str, Any]) -> int:
+    """
+    Get the expected number of organizations for a user from the dataset.
+    
+    Args:
+        dataset: The dataset containing contacts and organizations
+        user: The user object from the dataset
+        
+    Returns:
+        The number of organizations the user has access to
+    """
+    user_contact = next(
+        (contact for contact in dataset["contacts"] if contact["id"] == user["memberId"]),
+        None
+    )
+    return len(user_contact.get("organizations", [])) if user_contact else 0
+
+
 @pytest.mark.e2e
 @allure.title("Switch between organizations (E2E)")
 def test_e2e_switch_between_organizations(config: dict[str, Any], dataset: dict[str, Any], page: Page):
@@ -20,13 +38,7 @@ def test_e2e_switch_between_organizations(config: dict[str, Any], dataset: dict[
     home_page = HomePage(page, config)   
     
     dataset_user = dataset["users"][0] 
-    
-    # Get expected organization count from dataset
-    user_contact = next(
-        (contact for contact in dataset["contacts"] if contact["id"] == dataset_user["memberId"]),
-        None
-    )
-    expected_org_count = len(user_contact["organizations"]) if user_contact else 0
+    expected_org_count = get_user_organization_count(dataset, dataset_user)
        
     sign_in_page.navigate()
 
@@ -111,13 +123,7 @@ def test_e2e_search_organization_in_list(config: dict[str, Any], dataset: dict[s
     
     dataset_user = dataset["users"][9]
     organization_name = dataset["organizations"][3]["name"]
-    
-    # Get expected organization count from dataset
-    user_contact = next(
-        (contact for contact in dataset["contacts"] if contact["id"] == dataset_user["memberId"]),
-        None
-    )
-    expected_org_count = len(user_contact["organizations"]) if user_contact else 0
+    expected_org_count = get_user_organization_count(dataset, dataset_user)
        
     sign_in_page.navigate()
 
