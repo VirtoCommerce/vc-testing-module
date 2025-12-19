@@ -41,8 +41,9 @@ def test_e2e_select_language_in_store(config, page: Page, dataset: dict[str, Any
             store["defaultLanguage"]["twoLetterLanguageName"]
         )
 
+    language_param = language
     language = next(
-        (lang for lang in store["availableLanguages"] if lang["cultureName"] == language),
+        (lang for lang in store["availableLanguages"] if lang["cultureName"] == language_param),
         None,
     )
     if language:
@@ -50,10 +51,9 @@ def test_e2e_select_language_in_store(config, page: Page, dataset: dict[str, Any
         expect(home_page.top_header_component.language_selector_component.current_language_label).to_have_text(
             language["twoLetterLanguageName"]
         )
+        expect(page).to_have_url(f"{config['frontend_base_url']}/{language['twoLetterLanguageName'].lower()}/")
     else:
-        print(f"{os.linesep}Language {language} not found in store available languages")
-    
-    expect(page).to_have_url(f"{config['frontend_base_url']}/{language['twoLetterLanguageName'].lower()}/")  
+        print(f"{os.linesep}Language {language_param} not found in store available languages")
 
     home_page.sign_out()
     expect(home_page.top_header_component.sign_in_link).to_be_visible()
