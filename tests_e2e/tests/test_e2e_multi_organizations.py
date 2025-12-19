@@ -51,16 +51,12 @@ def test_e2e_switch_between_organizations(config: dict[str, Any], dataset: dict[
         if org_name != current_name:
             selected_organization = organization
 
-            expect(
-                selected_organization.locator("input"), f"Organization '{org_name}' is already selected"
-            ).to_have_attribute("aria-checked", "false")
+            expect(selected_organization.locator("input")).to_have_attribute("aria-checked", "false")
 
             selected_organization.locator("input").click()
             page.wait_for_load_state("networkidle")
 
-            expect(
-                home_page.top_header_component.organization_name_label, f"Current organization should be '{org_name}'"
-            ).to_have_text(org_name)
+            expect(home_page.top_header_component.organization_name_label).to_have_text(org_name)
 
             home_page.top_header_component.account_menu_button.click()
             page.wait_for_selector(
@@ -72,9 +68,7 @@ def test_e2e_switch_between_organizations(config: dict[str, Any], dataset: dict[
             target_item = next((item for item in refreshed_items if item.text_content().strip() == org_name), None)
             assert target_item, f"Organization '{org_name}' item not found after switching"
 
-            expect(
-                target_item.locator("input"), f"Organization '{org_name}' did not become selected"
-            ).to_have_attribute("aria-checked", "true")
+            expect(target_item.locator("input")).to_have_attribute("aria-checked", "true")
 
             break
 
