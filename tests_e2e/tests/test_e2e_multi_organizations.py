@@ -9,6 +9,29 @@ from tests_e2e.pages.home_page import HomePage
 from tests_e2e.pages.sign_in_page import SignInPage
 
 
+def get_user_organization_count(dataset: dict[str, Any], user: dict[str, Any]) -> int:
+    """
+    Get the expected number of organizations for a user from the dataset.
+    
+    Args:
+        dataset: The dataset containing contacts and organizations
+        user: The user object from the dataset
+        
+    Returns:
+        The number of organizations the user has access to
+    """
+    member_id = user.get("memberId")
+    if not member_id:
+        return 0
+    
+    contacts = dataset.get("contacts", [])
+    user_contact = next(
+        (contact for contact in contacts if contact.get("id") == member_id),
+        None
+    )
+    return len(user_contact.get("organizations", [])) if user_contact else 0
+
+
 @pytest.mark.e2e
 @allure.title("Switch between organizations (E2E)")
 def test_e2e_switch_between_organizations(config: dict[str, Any], dataset: dict[str, Any], page: Page):
@@ -16,11 +39,12 @@ def test_e2e_switch_between_organizations(config: dict[str, Any], dataset: dict[
 
     page.set_viewport_size({"width": 1920, "height": 1080})
 
-    sign_in_page = SignInPage(page, config)
-    home_page = HomePage(page, config)
-
-    dataset_user = dataset["users"][0]
-
+    sign_in_page = SignInPage(page, config) 
+    home_page = HomePage(page, config)   
+    
+    dataset_user = dataset["users"][0] 
+    expected_org_count = get_user_organization_count(dataset, dataset_user)
+       
     sign_in_page.navigate()
 
     sign_in_page.sign_in(dataset_user["userName"], config["users_password"])
@@ -34,7 +58,8 @@ def test_e2e_switch_between_organizations(config: dict[str, Any], dataset: dict[
     page.wait_for_load_state("networkidle")
 
     number_of_organizations = len(organization_selector.organization_selector_items)
-    assert number_of_organizations == 3, f"Number of organizations is not 3, but {number_of_organizations}"
+    assert number_of_organizations == expected_org_count, f"Number of organizations is not {expected_org_count}, but {number_of_organizations}" 
+
 
     current_organization = home_page.top_header_component.organization_name_label.text_content()
     print(f"Current organization is {current_organization}")
@@ -93,7 +118,8 @@ def test_e2e_search_organization_in_list(config: dict[str, Any], dataset: dict[s
 
     dataset_user = dataset["users"][9]
     organization_name = dataset["organizations"][3]["name"]
-
+    expected_org_count = get_user_organization_count(dataset, dataset_user)
+       
     sign_in_page.navigate()
 
     sign_in_page.sign_in(dataset_user["userName"], config["users_password"])
@@ -106,7 +132,7 @@ def test_e2e_search_organization_in_list(config: dict[str, Any], dataset: dict[s
     organization_selector_items = home_page.top_header_component.account_menu_component.organization_selector_items
     number_of_organizations = len(organization_selector_items)
 
-    assert number_of_organizations == 11, f"Number of organizations is not 11, but {number_of_organizations}"
+    assert number_of_organizations == expected_org_count, f"Number of organizations is not {expected_org_count}, but {number_of_organizations}"
 
     search_input = home_page.top_header_component.account_menu_component.search_organization
     search_input.fill(organization_name)
@@ -124,6 +150,7 @@ def test_e2e_search_organization_in_list(config: dict[str, Any], dataset: dict[s
     expect(organization_item).to_contain_text(organization_name)
     number_of_organizations_after_search = len(organization_selector_items_after_search)
 
-    assert (
-        number_of_organizations_after_search == 2
-    ), f"Number of organizations is not 2, but {number_of_organizations_after_search}"
+    # Note: This assertion verifies the search functionality. The expected count of 2 is based on
+    # the UI's search behavior with the specific search term and user's organization access.
+    # For "ACME Aurora Market", the search matches: "ACME Aurora Market" and "ACME Desert Cove Market"
+    assert number_of_organizations_after_search == 2, f"Number of organizations after search is not 2, but {number_of_organizations_after_search}"  
