@@ -59,11 +59,11 @@ def test_reset_password(
     notification_id = search_reset_password_email_notification["results"][0]["id"]
     print(f"{os.linesep}Notification ID: {notification_id}")
 
+    sleep(20)
+
     notification = webapi_client.get(
         f"/api/notifications/journal/{notification_id}",
     )
-
-    sleep(20)
 
     assert notification is not None
     assert notification["notificationType"] == "ResetPasswordEmailNotification"
