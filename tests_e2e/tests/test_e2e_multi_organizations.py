@@ -20,8 +20,13 @@ def get_user_organization_count(dataset: dict[str, Any], user: dict[str, Any]) -
     Returns:
         The number of organizations the user has access to
     """
+    member_id = user.get("memberId")
+    if not member_id:
+        return 0
+    
+    contacts = dataset.get("contacts", [])
     user_contact = next(
-        (contact for contact in dataset["contacts"] if contact["id"] == user["memberId"]),
+        (contact for contact in contacts if contact["id"] == member_id),
         None
     )
     return len(user_contact.get("organizations", [])) if user_contact else 0
