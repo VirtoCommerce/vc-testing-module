@@ -1,6 +1,7 @@
 import os
 from typing import Any
 import random
+from time import sleep
 
 import allure
 import pytest
@@ -59,6 +60,8 @@ def test_invite_user(
         raise Exception(
             f"{os.linesep}Invitation failed: {invitation_result['errors'][0]}"
         )
+    
+    sleep(20)
 
     invited_contact = contact_operations.fetch_organization_contacts(
         organization_id=dataset_organization["id"],
