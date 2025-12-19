@@ -1,4 +1,5 @@
 allure-python-commons==2.13.5
+allure-pytest==2.13.5
 anyio==4.8.0
 astroid==3.3.8
 attrs==25.1.0

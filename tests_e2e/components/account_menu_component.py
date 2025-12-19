@@ -24,3 +24,24 @@ class AccountMenuComponent:
         return self.element.locator(
             "[data-test-id^='main-layout.top-header.account-menu.organization-selector-item-']"
         ).all()
+
+    def organization_selector_item(self, organization_name: str) -> Locator:       
+        return self.element.locator(
+            "[data-test-id^='main-layout.top-header.account-menu.organization-selector-item-']",
+            has_text=organization_name,
+        )
+  
+
+    @property
+    def search_organization(self) -> Locator:    
+        return (
+            self.element.locator(
+                "[data-test-id='main-layout.account-menu.top-header.organizations-search']"
+            ).locator("input")
+        )
+    
+    @property
+    def organization_list(self) -> Locator:
+        return self.element.locator(
+            "[data-test-id='main-layout.account-menu.top-header.organizations-list']"
+        )

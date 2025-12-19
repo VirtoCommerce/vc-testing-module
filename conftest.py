@@ -3,7 +3,7 @@ import os
 import allure
 import pytest
 from dotenv import load_dotenv
-from playwright.sync_api import expect, sync_playwright
+from playwright.sync_api import Page, expect, sync_playwright
 from pytest import Parser
 
 from fixtures.anonymous_catalog_requests import anonymous_catalog_requests
@@ -19,6 +19,53 @@ from fixtures.requests_tracker import requests_tracker
 from fixtures.webapi_client import webapi_client
 
 load_dotenv(override=True)
+
+
+@pytest.hookimpl(tryfirst=True, hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    """
+    Capture and store the test outcome on the item so fixtures can react to failures.
+    """
+    outcome = yield
+    rep = outcome.get_result()
+    setattr(item, f"rep_{rep.when}", rep)
+
+
+@pytest.fixture
+def _page_for_failure(request) -> Page | None:
+    """
+    Ensure we can grab the Playwright page before it is closed, but only for tests that use it.
+    """
+    if "page" not in request.fixturenames:
+        return None
+    return request.getfixturevalue("page")
+
+
+@pytest.fixture(autouse=True)
+def screenshot_on_failure(request, _page_for_failure: Page | None):
+    """
+    Take a Playwright page screenshot when a test using the `page` fixture fails.
+    """
+    yield
+
+    rep_call = getattr(request.node, "rep_call", None)
+    if not rep_call or not rep_call.failed or _page_for_failure is None:
+        return
+
+    page = _page_for_failure
+
+    screenshots_dir = os.path.join("screenshots", "failures")
+    os.makedirs(screenshots_dir, exist_ok=True)
+
+    screenshot_path = os.path.join(screenshots_dir, f"{request.node.name}.png")
+    page.screenshot(path=screenshot_path, full_page=True)
+
+    if allure:
+        allure.attach.file(
+            screenshot_path,
+            name=request.node.name,
+            attachment_type=allure.attachment_type.PNG,
+        )
 
 
 @pytest.fixture(scope="session")
