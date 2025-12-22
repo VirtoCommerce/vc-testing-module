@@ -1,4 +1,3 @@
-import time
 from typing import Any
 
 import pytest
@@ -51,7 +50,8 @@ def test_e2e_category_price_range_filter_slider(
     category_page.price_filter_slider.upper_input.fill("2000")
 
     page.locator("body").click()
-    requests_tracker.wait_for_all_requests()
+
+    category_page.products_count_locator.wait_for(state="visible")
 
     assert category_page.products_count == 13, "Products count is not equal to 13"
 
@@ -94,6 +94,6 @@ def test_e2e_category_price_range_filter_checkboxes(
     category_page.price_filter_facets.click_facet_item("filter-price-[1300 TO 1500)")
     category_page.price_filter_facets.click_facet_item("filter-price-[1500 TO 2000)")
 
-    time.sleep(2)
+    category_page.products_count_locator.wait_for(state="visible")  
 
     assert category_page.products_count == 13, "Products count is not equal to 13"

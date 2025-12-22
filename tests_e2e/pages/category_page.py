@@ -66,6 +66,10 @@ class CategoryPage(MainLayoutPage):
     def products_count(self) -> int:
         return int(self.page.locator(".category__products-count .me-1").text_content())
 
+    @property
+    def products_count_locator(self) -> Locator:
+        return self.page.locator(".category__products-count .me-1")
+
     def navigate(self) -> None:
         self.page.goto(f"{self.url}?sort=price-ascending")
         self.page.wait_for_load_state("networkidle")
