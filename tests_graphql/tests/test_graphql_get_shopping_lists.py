@@ -5,6 +5,7 @@ import allure
 import pytest
 
 from fixtures.auth import Auth
+from fixtures.config import Config
 from fixtures.graphql_client import GraphQLClient
 from graphql_operations.shopping_lists.shopping_lists_operations import (
     ShoppingListsOperations,
@@ -15,7 +16,7 @@ from graphql_operations.user.user_operations import UserOperations
 @pytest.mark.graphql
 @allure.title("Get shopping lists (GraphQL)")
 def test_get_shopping_lists(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     auth: Auth,
     graphql_client: GraphQLClient,
@@ -31,7 +32,7 @@ def test_get_shopping_lists(
 
     auth.authenticate(
         dataset_user["userName"],
-        config["users_password"],
+        config["USERS_PASSWORD"],
     )
 
     user = user_operations.get_me()
@@ -39,7 +40,7 @@ def test_get_shopping_lists(
     shopping_list = shopping_lists_operations.create_shopping_list(
         payload={
             "userId": user["id"],
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "listName": "Test shopping list",
             "cultureName": culture,
             "currencyCode": currency,
@@ -48,7 +49,7 @@ def test_get_shopping_lists(
     )
 
     shopping_lists_response = shopping_lists_operations.get_shopping_lists(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,

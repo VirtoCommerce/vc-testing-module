@@ -4,6 +4,7 @@ import allure
 import pytest
 from playwright.sync_api import Page, expect
 
+from fixtures.config import Config
 from tests_e2e.pages.home_page import HomePage
 from tests_e2e.pages.sign_in_page import SignInPage
 
@@ -33,7 +34,10 @@ def assert_organization_count(account_menu_component, expected_count: int) -> No
 
 @pytest.mark.e2e
 @allure.title("Switch between organizations (E2E)")
-def test_e2e_switch_between_organizations(config: dict[str, Any], dataset: dict[str, Any], page: Page):
+def test_e2e_switch_between_organizations(
+    config: Config,
+    dataset: dict[str, Any],
+    page: Page):
     with allure.step("Prepare browser and page objects"):
         page.set_viewport_size({"width": 1920, "height": 1080})
         sign_in_page = SignInPage(page, config)
@@ -44,7 +48,7 @@ def test_e2e_switch_between_organizations(config: dict[str, Any], dataset: dict[
 
     with allure.step("Sign in and open account menu"):
         sign_in_page.navigate()
-        sign_in_page.sign_in(dataset_user["userName"], config["users_password"])
+        sign_in_page.sign_in(dataset_user["userName"], config["USERS_PASSWORD"])
         account_menu = home_page.open_account_menu()
         assert_organization_count(account_menu, expected_org_count)
         current_organization = home_page.current_organization_name
@@ -86,20 +90,20 @@ def test_e2e_switch_between_organizations(config: dict[str, Any], dataset: dict[
 
 @pytest.mark.e2e
 @allure.title("Search the organization in the list")
-def test_e2e_search_organization_in_list(config: dict[str, Any], dataset: dict[str, Any], page: Page):
+def test_e2e_search_organization_in_list(config: Config, dataset: dict[str, Any], page: Page):
     with allure.step("Prepare browser and page objects"):
         page.set_viewport_size({"width": 1920, "height": 1080})
         sign_in_page = SignInPage(page, config)
         home_page = HomePage(page, config)
 
     dataset_user = dataset["users"][9]
-    organization_name = dataset["organizations"][3]["name"]
-    partial_organization_name = organization_name[:5].lower()
+    organization_name = dataset["organizations"][5]["name"]
+    partial_organization_name = organization_name[:9].lower()
     expected_org_count = get_user_organization_count(dataset, dataset_user)
 
     with allure.step("Sign in and open account menu"):
         sign_in_page.navigate()
-        sign_in_page.sign_in(dataset_user["userName"], config["users_password"])
+        sign_in_page.sign_in(dataset_user["userName"], config["USERS_PASSWORD"])
         account_menu = home_page.open_account_menu()
         assert_organization_count(account_menu, expected_org_count)
         current_organization = home_page.current_organization_name

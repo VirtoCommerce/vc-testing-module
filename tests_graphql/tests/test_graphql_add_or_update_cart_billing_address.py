@@ -4,6 +4,7 @@ from typing import Any
 import allure
 import pytest
 
+from fixtures.config import Config
 from fixtures.graphql_client import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
@@ -12,7 +13,7 @@ from graphql_operations.user.user_operations import UserOperations
 @pytest.mark.graphql
 @allure.title("Add cart billing address (GraphQL)")
 def test_add_cart_billing_address(
-    config: dict[str, Any], dataset: dict[str, Any], graphql_client: GraphQLClient
+    config: Config, dataset: dict[str, Any], graphql_client: GraphQLClient
 ):
     print(f"{os.linesep}Running test to add a cart billing address...", end=" ")
 
@@ -42,7 +43,7 @@ def test_add_cart_billing_address(
 
     cart = cart_operations.add_or_update_cart_payment(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,
@@ -57,7 +58,7 @@ def test_add_cart_billing_address(
     # Test teardown
     cart_operations.remove_cart_address(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "addressId": test_address["id"],
             "currencyCode": currency,
@@ -113,7 +114,7 @@ def test_add_cart_billing_address(
 @pytest.mark.graphql
 @allure.title("Update cart billing address (GraphQL)")
 def test_update_cart_billing_address(
-    config: dict[str, Any], dataset: dict[str, Any], graphql_client: GraphQLClient
+    config: Config, dataset: dict[str, Any], graphql_client: GraphQLClient
 ):
     print(f"{os.linesep}Running test to update a cart billing address...", end=" ")
 
@@ -143,7 +144,7 @@ def test_update_cart_billing_address(
 
     cart = cart_operations.add_or_update_cart_payment(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,
@@ -163,7 +164,7 @@ def test_update_cart_billing_address(
 
     updated_cart = cart_operations.add_or_update_cart_payment(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,
@@ -179,7 +180,7 @@ def test_update_cart_billing_address(
     # Test teardown
     cart_operations.remove_cart_address(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "addressId": test_address["id"],
             "currencyCode": currency,

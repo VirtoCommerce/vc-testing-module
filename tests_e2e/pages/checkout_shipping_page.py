@@ -1,17 +1,18 @@
 from playwright.sync_api import Locator, Page
 
+from fixtures.config import Config
 from tests_e2e.components import CheckoutShippingDetailsComponent
 from tests_e2e.pages import CheckoutLayoutPage
 
 
 class CheckoutShippingPage(CheckoutLayoutPage):
-    def __init__(self, config: dict, page: Page):
+    def __init__(self, config: Config, page: Page):
         self.config = config
         self.page = page
 
     @property
     def url(self) -> str:
-        return f"{self.config['frontend_base_url']}/checkout/shipping"
+        return f"{self.config['FRONTEND_BASE_URL']}/checkout/shipping"
 
     @property
     def shipping_details_section_component(self) -> CheckoutShippingDetailsComponent:

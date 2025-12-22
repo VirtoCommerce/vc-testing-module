@@ -5,6 +5,7 @@ from typing import Any
 import allure
 import pytest
 
+from fixtures.config import Config
 from fixtures.graphql_client import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
@@ -13,7 +14,7 @@ from graphql_operations.user.user_operations import UserOperations
 @pytest.mark.graphql
 @allure.title("Unselect cart items (GraphQL)")
 def test_unselect_cart_items(
-    config: dict[str, Any], dataset: dict[str, Any], graphql_client: GraphQLClient
+    config: Config, dataset: dict[str, Any], graphql_client: GraphQLClient
 ):
     print(f"{os.linesep}Running test to unselect cart items...", end=" ")
 
@@ -41,7 +42,7 @@ def test_unselect_cart_items(
 
     cart = cart_operations.add_items_to_cart(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,
@@ -64,7 +65,7 @@ def test_unselect_cart_items(
 
     updated_cart = cart_operations.unselect_cart_items(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,
@@ -100,7 +101,7 @@ def test_unselect_cart_items(
 @pytest.mark.graphql
 @allure.title("Unselect all cart items (GraphQL)")
 def test_unselect_all_cart_items(
-    config: dict[str, Any], dataset: dict[str, Any], graphql_client: GraphQLClient
+    config: Config, dataset: dict[str, Any], graphql_client: GraphQLClient
 ):
     print(f"{os.linesep}Running test to unselect all cart items...", end=" ")
 
@@ -128,7 +129,7 @@ def test_unselect_all_cart_items(
 
     cart_operations.add_items_to_cart(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,
@@ -147,7 +148,7 @@ def test_unselect_all_cart_items(
 
     cart = cart_operations.unselect_all_cart_items(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,

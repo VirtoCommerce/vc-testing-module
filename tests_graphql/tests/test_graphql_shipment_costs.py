@@ -6,6 +6,7 @@ import allure
 import pytest
 
 from fixtures.auth import Auth
+from fixtures.config import Config
 from fixtures.graphql_client import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
@@ -14,7 +15,7 @@ from graphql_operations.user.user_operations import UserOperations
 @pytest.mark.graphql
 @allure.title("Get shipment costs (GraphQL)")
 def test_get_shipment_costs(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     auth: Auth,
     graphql_client: GraphQLClient,
@@ -36,13 +37,13 @@ def test_get_shipment_costs(
 
     dataset_user = dataset["users"][1]
 
-    auth.authenticate(dataset_user["userName"], config["users_password"])
+    auth.authenticate(dataset_user["userName"], config["USERS_PASSWORD"])
 
     user = user_operations.get_me()
 
     cart = cart_operations.add_item_to_cart(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "productId": product_id_in_stock,
             "quantity": 1,
@@ -77,7 +78,7 @@ def test_get_shipment_costs(
 
     cart = cart_operations.add_or_update_cart_shipment(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,
@@ -103,7 +104,7 @@ def test_get_shipment_costs(
 
     cart = cart_operations.add_or_update_cart_payment(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,
@@ -119,7 +120,7 @@ def test_get_shipment_costs(
 
     cart = cart_operations.add_item_to_cart(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "productId": product_id_in_stock,
             "quantity": 1,
@@ -130,7 +131,7 @@ def test_get_shipment_costs(
 
     cart = cart_operations.add_or_update_cart_shipment(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,
@@ -146,7 +147,7 @@ def test_get_shipment_costs(
 
     cart = cart_operations.add_or_update_cart_shipment(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,
@@ -161,7 +162,7 @@ def test_get_shipment_costs(
 
     cart = cart_operations.add_or_update_cart_shipment(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,

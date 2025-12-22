@@ -5,6 +5,7 @@ import allure
 import pytest
 
 from fixtures.auth import Auth
+from fixtures.config import Config
 from fixtures.graphql_client import GraphQLClient
 from graphql_operations.contact.contact_operations import ContactOperations
 from graphql_operations.user.user_operations import UserOperations
@@ -13,7 +14,7 @@ from graphql_operations.user.user_operations import UserOperations
 @pytest.mark.graphql
 @allure.title("Add address to favorites (GraphQL)")
 def test_add_address_to_favorites(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     auth: Auth,
     graphql_client: GraphQLClient,
@@ -23,7 +24,7 @@ def test_add_address_to_favorites(
     user_operations = UserOperations(graphql_client)
     contact_operations = ContactOperations(graphql_client)
 
-    auth.authenticate(dataset["users"][0]["userName"], config["users_password"])
+    auth.authenticate(dataset["users"][0]["userName"], config["USERS_PASSWORD"])
 
     user = user_operations.get_me()
 

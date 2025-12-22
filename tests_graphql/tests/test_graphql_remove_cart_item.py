@@ -4,6 +4,7 @@ from typing import Any
 import allure
 import pytest
 
+from fixtures.config import Config
 from fixtures.graphql_client import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
@@ -12,7 +13,7 @@ from graphql_operations.user.user_operations import UserOperations
 @pytest.mark.graphql
 @allure.title("Remove item from cart (GraphQL)")
 def test_remove_item_from_cart(
-    config: dict[str, Any], dataset: dict[str, Any], graphql_client: GraphQLClient
+    config: Config, dataset: dict[str, Any], graphql_client: GraphQLClient
 ):
     print(f"{os.linesep}Running test to remove item from cart...", end=" ")
 
@@ -27,7 +28,7 @@ def test_remove_item_from_cart(
 
     cart = cart_operations.add_item_to_cart(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "productId": product_id_in_stock,
             "quantity": 1,
@@ -40,7 +41,7 @@ def test_remove_item_from_cart(
 
     updated_cart = cart_operations.remove_cart_item(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,

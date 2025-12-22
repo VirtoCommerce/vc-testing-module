@@ -4,6 +4,7 @@ from typing import Any
 import allure
 import pytest
 
+from fixtures.config import Config
 from fixtures.graphql_client import GraphQLClient
 from graphql_operations.catalog.categories_operations import CategoriesOperations
 from graphql_operations.seo.seo_operations import SeoOperations
@@ -13,7 +14,7 @@ from graphql_operations.user.user_operations import UserOperations
 @pytest.mark.graphql
 @allure.title("Category SEO (GraphQL)")
 def test_category_seo(
-    config: dict[str, Any], dataset: dict[str, Any], graphql_client: GraphQLClient
+    config: Config, dataset: dict[str, Any], graphql_client: GraphQLClient
 ):
     print(f"{os.linesep}Running test to get category SEO...", end=" ")
 
@@ -28,7 +29,7 @@ def test_category_seo(
     user = user_operations.get_me()
 
     categories_response = categories_operations.get_categories(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,
@@ -42,7 +43,7 @@ def test_category_seo(
     )
 
     category = categories_operations.get_category(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,
@@ -50,7 +51,7 @@ def test_category_seo(
     )
 
     seo_info = seo_operations.get_slug_info(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         culture_name=culture,
         slug=category["slug"],

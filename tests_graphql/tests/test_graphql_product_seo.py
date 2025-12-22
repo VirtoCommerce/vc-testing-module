@@ -4,6 +4,7 @@ from typing import Any
 import allure
 import pytest
 
+from fixtures.config import Config
 from fixtures.graphql_client import GraphQLClient
 from graphql_operations.catalog.products_operations import ProductsOperations
 from graphql_operations.seo.seo_operations import SeoOperations
@@ -13,7 +14,7 @@ from graphql_operations.user.user_operations import UserOperations
 @pytest.mark.graphql
 @allure.title("Product SEO (GraphQL)")
 def test_product_seo(
-    config: dict[str, Any], dataset: dict[str, Any], graphql_client: GraphQLClient
+    config: Config, dataset: dict[str, Any], graphql_client: GraphQLClient
 ):
     print(f"{os.linesep}Running test to get product SEO...", end=" ")
 
@@ -28,7 +29,7 @@ def test_product_seo(
     user = user_operations.get_me()
 
     product = products_operations.get_product(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         culture_name=culture,
         currency_code=currency,
@@ -36,7 +37,7 @@ def test_product_seo(
     )
 
     seo_info = seo_operations.get_slug_info(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         culture_name=culture,
         slug=product["slug"],

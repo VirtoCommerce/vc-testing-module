@@ -5,6 +5,7 @@ from typing import Any
 import allure
 import pytest
 
+from fixtures.config import Config
 from fixtures.graphql_client import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
@@ -13,7 +14,7 @@ from graphql_operations.user.user_operations import UserOperations
 @pytest.mark.graphql
 @allure.title("Select cart items (GraphQL)")
 def test_select_cart_items(
-    config: dict[str, Any], dataset: dict[str, Any], graphql_client: GraphQLClient
+    config: Config, dataset: dict[str, Any], graphql_client: GraphQLClient
 ):
     print(f"{os.linesep}Running test to select cart items...", end=" ")
 
@@ -41,7 +42,7 @@ def test_select_cart_items(
 
     cart_operations.add_items_to_cart(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,
@@ -60,7 +61,7 @@ def test_select_cart_items(
 
     cart = cart_operations.unselect_all_cart_items(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,
@@ -73,7 +74,7 @@ def test_select_cart_items(
 
     updated_cart = cart_operations.select_cart_items(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,
@@ -113,7 +114,7 @@ def test_select_cart_items(
 @pytest.mark.graphql
 @allure.title("Select all cart items (GraphQL)")
 def test_select_all_cart_items(
-    config: dict[str, Any], dataset: dict[str, Any], graphql_client: GraphQLClient
+    config: Config, dataset: dict[str, Any], graphql_client: GraphQLClient
 ):
     print(f"{os.linesep}Running test to select all cart items...", end=" ")
 
@@ -141,7 +142,7 @@ def test_select_all_cart_items(
 
     cart_operations.add_items_to_cart(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,
@@ -160,7 +161,7 @@ def test_select_all_cart_items(
 
     cart_operations.unselect_all_cart_items(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,
@@ -169,7 +170,7 @@ def test_select_all_cart_items(
 
     cart = cart_operations.select_all_cart_items(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,

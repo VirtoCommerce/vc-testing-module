@@ -1,10 +1,10 @@
 import os
-import random
 from typing import Any
 
 import allure
 import pytest
 
+from fixtures.config import Config
 from fixtures.graphql_client import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
@@ -13,20 +13,14 @@ from graphql_operations.user.user_operations import UserOperations
 @pytest.mark.graphql
 @allure.title("Apply cart coupon (GraphQL)")
 def test_add_cart_coupon(
-    config: dict[str, Any], dataset: dict[str, Any], graphql_client: GraphQLClient
+    config: Config, dataset: dict[str, Any], graphql_client: GraphQLClient
 ):
     print(f"{os.linesep}Running test to apply coupon to cart...", end=" ")
 
     currency = dataset["currencies"][0]["code"]
     culture = dataset["languages"][0]["allowedValues"][0]
     coupon_code = dataset["coupons"][0]["code"]
-    product_id_in_stock = random.choice(
-        [
-            product_inventory
-            for product_inventory in dataset["productInventories"]
-            if product_inventory["inStockQuantity"] > 0
-        ]
-    )["productId"]
+    product_id = "product-acme-laptop-asus-vivobook-16-x1607qa"
 
     user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
@@ -35,18 +29,18 @@ def test_add_cart_coupon(
 
     cart = cart_operations.add_item_to_cart(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,
-            "productId": product_id_in_stock,
+            "productId": product_id,
             "quantity": 1,
         }
     )
 
     cart_with_coupon = cart_operations.apply_coupon(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "couponCode": coupon_code,
             "currencyCode": currency,
@@ -59,7 +53,7 @@ def test_add_cart_coupon(
     # Test teardown
     cart_operations.remove_coupon(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "couponCode": coupon_code,
             "currencyCode": currency,
