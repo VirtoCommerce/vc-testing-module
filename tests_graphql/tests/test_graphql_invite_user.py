@@ -1,11 +1,12 @@
 import os
-from typing import Any
 import random
+from typing import Any
 
 import allure
 import pytest
 
 from fixtures.auth import Auth
+from fixtures.config import Config
 from fixtures.graphql_client import GraphQLClient
 from graphql_operations.contact.contact_operations import ContactOperations
 from graphql_operations.user.user_operations import UserOperations
@@ -14,7 +15,7 @@ from graphql_operations.user.user_operations import UserOperations
 @pytest.mark.graphql
 @allure.feature("Invite user (GraphQL)")
 def test_invite_user(
-    config: dict[str, Any],
+    config: Config,
     auth: Auth,
     dataset: dict[str, Any],
     graphql_client: GraphQLClient,
@@ -38,7 +39,7 @@ def test_invite_user(
 
     auth.authenticate(
         dataset_user["userName"],
-        config["users_password"],
+        config["USERS_PASSWORD"],
     )
 
     maintainer_user = user_operations.get_me()
@@ -46,12 +47,12 @@ def test_invite_user(
 
     invitation_result = contact_operations.invite_user(
         payload={
-            "storeId": config["store_id"],         
+            "storeId": config["STORE_ID"],
             "organizationId": dataset_organization["id"],
             "emails": [invite_employee_email],
             "message": "You are invited to join the organization",
             "roleIds": ["org-employee"],
-            "urlSuffix": "/confirm-invitation"            
+            "urlSuffix": "/confirm-invitation",
         }
     )
 
@@ -76,8 +77,8 @@ def test_invite_user(
     )
 
     auth.authenticate(
-        config["admin_username"],
-        config["admin_password"],
+        config["ADMIN_USERNAME"],
+        config["ADMIN_PASSWORD"],
     )
 
     contact_operations.delete_contact(

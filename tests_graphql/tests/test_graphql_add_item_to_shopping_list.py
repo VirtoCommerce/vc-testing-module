@@ -5,6 +5,7 @@ import allure
 import pytest
 
 from fixtures.auth import Auth
+from fixtures.config import Config
 from fixtures.graphql_client import GraphQLClient
 from graphql_operations.shopping_lists.shopping_lists_operations import (
     ShoppingListsOperations,
@@ -15,7 +16,7 @@ from graphql_operations.user.user_operations import UserOperations
 @pytest.mark.graphql
 @allure.title("Add item to shopping list (GraphQL)")
 def test_add_item_to_shopping_list(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     auth: Auth,
     graphql_client: GraphQLClient,
@@ -27,16 +28,16 @@ def test_add_item_to_shopping_list(
 
     currency = dataset["currencies"][0]["code"]
     culture = dataset["languages"][0]["allowedValues"][0]
-    product = dataset["products"][1]
+    product_id = "product-acme-laptop-asus-vivobook-16-x1607qa"
 
-    auth.authenticate(dataset["users"][0]["userName"], config["users_password"])
+    auth.authenticate(dataset["users"][0]["userName"], config["USERS_PASSWORD"])
 
     user = user_operations.get_me()
 
     shopping_list = shopping_lists_operations.create_shopping_list(
         payload={
             "userId": user["id"],
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "listName": "Test shopping list",
             "cultureName": culture,
             "currencyCode": currency,
@@ -46,7 +47,7 @@ def test_add_item_to_shopping_list(
 
     shopping_list_with_item = shopping_lists_operations.add_item_to_shopping_list(
         list_id=shopping_list["id"],
-        product_id=product["id"],
+        product_id=product_id,
         quantity=1,
     )
 

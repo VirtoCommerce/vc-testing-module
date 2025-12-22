@@ -6,6 +6,7 @@ import allure
 import pytest
 from playwright.sync_api import Page, expect
 
+from fixtures.config import Config
 from fixtures.requests_tracker import RequestsTracker
 from tests_e2e.pages.cart_page import CartPage
 from tests_e2e.pages.category_page import CategoryPage
@@ -16,7 +17,7 @@ from tests_e2e.pages.sign_in_page import SignInPage
 @pytest.mark.e2e
 @allure.title("Add product to cart and save for later (E2E)")
 def test_e2e_add_product_to_cart_and_save_for_later(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     page: Page,
     requests_tracker: RequestsTracker,
@@ -31,36 +32,50 @@ def test_e2e_add_product_to_cart_and_save_for_later(
     sign_in_page = SignInPage(page, config)
     sign_in_page.navigate()
 
-    sign_in_page.sign_in(dataset["users"][0]["userName"], config["users_password"])
+    sign_in_page.sign_in(dataset["users"][0]["userName"], config["USERS_PASSWORD"])
     time.sleep(2)
 
     cart_page = CartPage(config, page)
 
     category_to_browse = next(
-        category for category in dataset["categories"] if category["id"] == "category-acme-laptops"
+        category
+        for category in dataset["categories"]
+        if category["id"] == "category-acme-laptops"
     )
 
     product_to_add_to_cart_1 = next(
-        product for product in dataset["products"] if product["id"] == "product-acme-laptop-hp-pavilion-16-ag0087nr"
+        product
+        for product in dataset["products"]
+        if product["id"] == "product-acme-laptop-hp-pavilion-16-ag0087nr"
     )
 
     product_to_add_to_cart_2 = next(
-        product for product in dataset["products"] if product["id"] == "product-acme-laptop-asus-zenbook-a14-ux3407"
+        product
+        for product in dataset["products"]
+        if product["id"] == "product-acme-laptop-asus-zenbook-a14-ux3407"
     )
 
     product_quantity = 2
 
-    category_page = CategoryPage(config, page, category_to_browse["seoInfos"][0]["semanticUrl"])
+    category_page = CategoryPage(
+        config, page, category_to_browse["seoInfos"][0]["semanticUrl"]
+    )
     category_page.navigate()
-    category_page.add_product_to_cart(product_to_add_to_cart_1["code"], product_quantity)
+    category_page.add_product_to_cart(
+        product_to_add_to_cart_1["code"], product_quantity
+    )
     category_page.add_product_to_cart(product_to_add_to_cart_2["code"], 1)
     requests_tracker.wait_for_all_requests()
 
     cart_page.navigate()
 
     expect(
-        cart_page.get_line_item_by_sku(product_to_add_to_cart_1["code"]).quantity_stepper_component.quantity_input
-    ).to_have_value(str(product_quantity)), f"Product quantity is not equal to {product_quantity}"
+        cart_page.get_line_item_by_sku(
+            product_to_add_to_cart_1["code"]
+        ).quantity_stepper_component.quantity_input
+    ).to_have_value(
+        str(product_quantity)
+    ), f"Product quantity is not equal to {product_quantity}"
 
     cart_page.save_for_later(product_to_add_to_cart_1["code"])
     requests_tracker.wait_for_all_requests()
@@ -86,7 +101,9 @@ def test_e2e_add_product_to_cart_and_save_for_later(
     save_for_later_page = SaveForLaterPage(page, config)
     save_for_later_page.navigate()
 
-    saved_item = save_for_later_page.get_line_item_by_sku(product_to_add_to_cart_1["code"])
+    saved_item = save_for_later_page.get_line_item_by_sku(
+        product_to_add_to_cart_1["code"]
+    )
     expect(
         saved_item.element
     ).to_be_visible(), f"Product {product_to_add_to_cart_1['code']} should be in saved for later"
@@ -101,7 +118,7 @@ def test_e2e_add_product_to_cart_and_save_for_later(
 @pytest.mark.e2e
 @allure.title("Move product from saved for later to cart (E2E)")
 def test_e2e_move_product_from_saved_for_later_to_cart(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     page: Page,
     requests_tracker: RequestsTracker,
@@ -116,20 +133,26 @@ def test_e2e_move_product_from_saved_for_later_to_cart(
     sign_in_page = SignInPage(page, config)
     sign_in_page.navigate()
 
-    sign_in_page.sign_in(dataset["users"][0]["userName"], config["users_password"])
+    sign_in_page.sign_in(dataset["users"][0]["userName"], config["USERS_PASSWORD"])
     time.sleep(2)
 
     category_to_browse = next(
-        category for category in dataset["categories"] if category["id"] == "category-acme-laptops"
+        category
+        for category in dataset["categories"]
+        if category["id"] == "category-acme-laptops"
     )
 
     product_to_add_to_cart = next(
-        product for product in dataset["products"] if product["id"] == "product-acme-laptop-hp-pavilion-16-ag0087nr"
+        product
+        for product in dataset["products"]
+        if product["id"] == "product-acme-laptop-hp-pavilion-16-ag0087nr"
     )
 
     product_quantity = 3
 
-    category_page = CategoryPage(config, page, category_to_browse["seoInfos"][0]["semanticUrl"])
+    category_page = CategoryPage(
+        config, page, category_to_browse["seoInfos"][0]["semanticUrl"]
+    )
     category_page.navigate()
     category_page.add_product_to_cart(product_to_add_to_cart["code"], product_quantity)
     requests_tracker.wait_for_all_requests()
@@ -144,8 +167,12 @@ def test_e2e_move_product_from_saved_for_later_to_cart(
     save_for_later_page = SaveForLaterPage(page, config)
     save_for_later_page.navigate()
 
-    saved_item = save_for_later_page.get_line_item_by_sku(product_to_add_to_cart["code"])
-    expect(saved_item.element).to_be_visible(), f"Product {product_to_add_to_cart['code']} should be in saved for later"
+    saved_item = save_for_later_page.get_line_item_by_sku(
+        product_to_add_to_cart["code"]
+    )
+    expect(
+        saved_item.element
+    ).to_be_visible(), f"Product {product_to_add_to_cart['code']} should be in saved for later"
 
     expect(saved_item.add_to_cart_component.quantity_input).to_have_value(
         str(product_quantity)
@@ -159,8 +186,12 @@ def test_e2e_move_product_from_saved_for_later_to_cart(
         cart_page.get_line_item_by_sku(product_to_add_to_cart["code"]).element
     ).to_be_visible(), f"Product {product_to_add_to_cart['code']} should be in cart"
     expect(
-        cart_page.get_line_item_by_sku(product_to_add_to_cart["code"]).quantity_stepper_component.quantity_input
-    ).to_have_value(str(product_quantity)), f"Product quantity is not equal to {product_quantity}"
+        cart_page.get_line_item_by_sku(
+            product_to_add_to_cart["code"]
+        ).quantity_stepper_component.quantity_input
+    ).to_have_value(
+        str(product_quantity)
+    ), f"Product quantity is not equal to {product_quantity}"
 
     cart_page.clear_cart()
 
@@ -168,4 +199,6 @@ def test_e2e_move_product_from_saved_for_later_to_cart(
     save_for_later_page.remove_line_item(product_to_add_to_cart["code"])
     requests_tracker.wait_for_all_requests()
 
-    assert save_for_later_page.is_empty, "Saved for later page is not empty after removing product"
+    assert (
+        save_for_later_page.is_empty
+    ), "Saved for later page is not empty after removing product"

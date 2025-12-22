@@ -1,39 +1,40 @@
 import json
 from dataclasses import dataclass
 from threading import Lock
-from typing import Any, Optional
 
 import allure
 import pytest
 import requests
 from playwright.sync_api import Page
 
+from fixtures.config import Config
+
 
 @dataclass
 class TokenPayload:
     grant_type: str
-    scope: Optional[str] = None
-    store_id: Optional[str] = None
-    username: Optional[str] = None
-    password: Optional[str] = None
+    scope: str | None = None
+    store_id: str | None = None
+    username: str | None = None
+    password: str | None = None
 
 
 @dataclass
 class TokenData:
-    access_token: Optional[str] = None
-    refresh_token: Optional[str] = None
-    expires_in: Optional[int] = None
-    token_type: Optional[str] = None
+    access_token: str | None = None
+    refresh_token: str | None = None
+    expires_in: int | None = None
+    token_type: str | None = None
 
 
 class Auth:
-    def __init__(self, config: dict[str, Any]):
+    def __init__(self, config: Config):
         self.config = config
-        self.token_data: Optional[TokenData] = None
+        self.token_data: TokenData | None = None
         self.lock = Lock()
 
     def get_token(self, payload: TokenPayload) -> TokenData:
-        url = f"{self.config['backend_base_url']}/connect/token"
+        url = f"{self.config['BACKEND_BASE_URL']}/connect/token"
 
         headers = {
             "Content-Type": "application/x-www-form-urlencoded",
@@ -41,7 +42,7 @@ class Auth:
 
         response = requests.post(
             url,
-            data=payload.__dict__ | {"storeId": self.config["store_id"]},
+            data=payload.__dict__ | {"storeId": self.config["STORE_ID"]},
             headers=headers,
         )
 
@@ -61,7 +62,7 @@ class Auth:
         }
 
     def revoke_token(self) -> None:
-        url = f"{self.config['backend_base_url']}/revoke/token"
+        url = f"{self.config['BACKEND_BASE_URL']}/revoke/token"
 
         headers = {
             "Content-Type": "application/x-www-form-urlencoded",
@@ -75,7 +76,7 @@ class Auth:
             payload = TokenPayload(
                 grant_type="password",
                 scope="offline_access",
-                store_id=self.config["store_id"],
+                store_id=self.config["STORE_ID"],
                 username=username,
                 password=password,
             )
@@ -87,7 +88,7 @@ class Auth:
             self.revoke_token()
             self.token_data = TokenData()
 
-    def get_auth_headers(self) -> Optional[dict[str, str]]:
+    def get_auth_headers(self) -> dict[str, str] | None:
         with self.lock:
             if self.token_data is None:
                 return None
@@ -99,5 +100,5 @@ class Auth:
 
 @pytest.fixture(scope="session")
 @allure.title("Fixture to handle authorization token")
-def auth(config: dict[str, Any]) -> Auth:
+def auth(config: Config) -> Auth:
     return Auth(config)

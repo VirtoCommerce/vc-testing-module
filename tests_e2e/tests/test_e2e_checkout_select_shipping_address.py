@@ -7,6 +7,7 @@ import pytest
 from playwright.sync_api import Page, expect
 
 from fixtures.anonymous_catalog_requests import AnonymousCatalogRequests
+from fixtures.config import Config
 from tests_e2e.components.select_address_modal_component import (
     SelectAddressModalComponent,
 )
@@ -19,7 +20,7 @@ from tests_e2e.pages.sign_in_page import SignInPage
 @pytest.mark.e2e
 @allure.title("Select shipping address in single-page checkout (E2E)")
 def test_e2e_single_page_checkout_select_shipping_address(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     anonymous_catalog_requests: AnonymousCatalogRequests,
     product_quantity_control: str,
@@ -41,7 +42,7 @@ def test_e2e_single_page_checkout_select_shipping_address(
 
     sign_in_page = SignInPage(page, config)
     sign_in_page.navigate()
-    sign_in_page.sign_in(dataset["users"][0]["userName"], config["users_password"])
+    sign_in_page.sign_in(dataset["users"][0]["userName"], config["USERS_PASSWORD"])
     time.sleep(2)
 
     category_to_browse = next(
@@ -101,7 +102,7 @@ def test_e2e_single_page_checkout_select_shipping_address(
 @pytest.mark.e2e
 @allure.title("Select shipping address in multi-step checkout (E2E)")
 def test_e2e_multi_step_checkout_select_shipping_address(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     anonymous_catalog_requests: AnonymousCatalogRequests,
     product_quantity_control: str,
@@ -123,7 +124,7 @@ def test_e2e_multi_step_checkout_select_shipping_address(
 
     sign_in_page = SignInPage(page, config)
     sign_in_page.navigate()
-    sign_in_page.sign_in(dataset["users"][0]["userName"], config["users_password"])
+    sign_in_page.sign_in(dataset["users"][0]["userName"], config["USERS_PASSWORD"])
     time.sleep(2)
 
     category_to_browse = next(

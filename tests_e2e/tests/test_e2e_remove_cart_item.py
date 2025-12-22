@@ -1,5 +1,4 @@
 import os
-import time
 from typing import Any
 
 import allure
@@ -7,6 +6,7 @@ import pytest
 from playwright.sync_api import Page, expect
 
 from fixtures.anonymous_catalog_requests import AnonymousCatalogRequests
+from fixtures.config import Config
 from fixtures.requests_tracker import RequestsTracker
 from tests_e2e.pages.cart_page import CartPage
 from tests_e2e.pages.category_page import CategoryPage
@@ -15,7 +15,7 @@ from tests_e2e.pages.category_page import CategoryPage
 @pytest.mark.e2e
 @allure.title("Remove cart item (E2E)")
 def test_e2e_remove_cart_item(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     page: Page,
     anonymous_catalog_requests: AnonymousCatalogRequests,

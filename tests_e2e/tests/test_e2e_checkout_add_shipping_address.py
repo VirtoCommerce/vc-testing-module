@@ -6,6 +6,7 @@ import pytest
 from playwright.sync_api import Page, expect
 
 from fixtures.anonymous_catalog_requests import AnonymousCatalogRequests
+from fixtures.config import Config
 from tests_e2e.components.edit_address_modal_component import EditAddressModalComponent
 from tests_e2e.pages.cart_page import CartPage
 from tests_e2e.pages.category_page import CategoryPage
@@ -15,7 +16,7 @@ from tests_e2e.pages.checkout_shipping_page import CheckoutShippingPage
 @pytest.mark.e2e
 @allure.title("Add shipping address in anonymous single-page checkout (E2E)")
 def test_e2e_anonymous_single_page_checkout_add_shipping_address(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     anonymous_catalog_requests: AnonymousCatalogRequests,
     product_quantity_control: str,
@@ -99,7 +100,7 @@ def test_e2e_anonymous_single_page_checkout_add_shipping_address(
 @pytest.mark.e2e
 @allure.title("Add shipping address in anonymous multi-step checkout (E2E)")
 def test_e2e_anonymous_multi_step_checkout_add_shipping_address(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     anonymous_catalog_requests: AnonymousCatalogRequests,
     product_quantity_control: str,

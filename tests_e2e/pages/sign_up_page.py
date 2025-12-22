@@ -2,17 +2,18 @@ from typing import Optional
 
 from playwright.sync_api import Locator, Page
 
+from fixtures.config import Config
 from tests_e2e.pages import MainLayoutPage
 
 
 class SignUpPage(MainLayoutPage):
-    def __init__(self, config: dict, page: Page):
+    def __init__(self, config: Config, page: Page):
         self.page = page
         self.config = config
 
     @property
     def url(self) -> str:
-        return f"{self.config['frontend_base_url']}/sign-up"
+        return f"{self.config['FRONTEND_BASE_URL']}/sign-up"
 
     @property
     def personal_registration_radio_button(self) -> Locator:
@@ -55,7 +56,7 @@ class SignUpPage(MainLayoutPage):
         return self.page.locator("[data-test-id='sign-up-submit-button']")
 
     def navigate(self) -> None:
-        self.page.goto(f"{self.config['frontend_base_url']}/sign-up")
+        self.page.goto(f"{self.config['FRONTEND_BASE_URL']}/sign-up")
         self.page.wait_for_load_state("networkidle")
 
     def select_personal_registration(self) -> None:

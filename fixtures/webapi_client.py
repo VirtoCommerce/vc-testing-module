@@ -1,17 +1,17 @@
 import json
-import os
 from textwrap import dedent
-from typing import Any, Dict, Optional, Union
+from typing import Any, Union
 
 import allure
 import pytest
 import requests
 
 from fixtures.auth import Auth
+from fixtures.config import Config
 
 
 class WebAPISession(requests.Session):
-    def __init__(self, config: Dict[str, Any], auth: Auth):
+    def __init__(self, config: Config, auth: Auth):
         super().__init__()
         self.config = config
         self.auth_handler = auth
@@ -30,7 +30,7 @@ class WebAPISession(requests.Session):
     ) -> Union[dict, str, bytes]:
         self.update_auth_headers()
 
-        url = f"{self.config['backend_base_url']}{endpoint}"
+        url = f"{self.config['BACKEND_BASE_URL']}{endpoint}"
 
         try:
             response = super().request(method, url, **kwargs)
@@ -42,7 +42,6 @@ class WebAPISession(requests.Session):
                     URL: {method} {url}
                     PAYLOAD: {kwargs.get('data')}
                     RESPONSE: {e.response.text}
-                    {os.linesep}
                 """
             )
             e.message = message
@@ -60,17 +59,17 @@ class WebAPISession(requests.Session):
             return response.text
 
     def get(
-        self, endpoint: str, params: Optional[dict] = None, **kwargs
+        self, endpoint: str, params: dict[str, Any] | None = None, **kwargs
     ) -> Union[dict, str, bytes]:
         return self.send_request("GET", endpoint, params=params, **kwargs)
 
     def post(
-        self, endpoint: str, data: Optional[dict] = None, **kwargs
+        self, endpoint: str, data: dict[str, Any] | None = None, **kwargs
     ) -> Union[dict, str, bytes]:
         return self.send_request("POST", endpoint, data=json.dumps(data), **kwargs)
 
     def put(
-        self, endpoint: str, data: Optional[dict] = None, **kwargs
+        self, endpoint: str, data: dict[str, Any] | None = None, **kwargs
     ) -> Union[dict, str, bytes]:
         return self.send_request("PUT", endpoint, data=json.dumps(data), **kwargs)
 
@@ -78,17 +77,17 @@ class WebAPISession(requests.Session):
         return self.send_request("DELETE", endpoint, **kwargs)
 
     def patch(
-        self, endpoint: str, data: Optional[dict] = None, **kwargs
+        self, endpoint: str, data: dict[str, Any] | None = None, **kwargs
     ) -> Union[dict, str, bytes]:
         return self.send_request("PATCH", endpoint, data=json.dumps(data), **kwargs)
 
     def request(
-        self, method: str, endpoint: str, data: Optional[dict] = None, **kwargs
+        self, method: str, endpoint: str, data: dict[str, Any] | None = None, **kwargs
     ) -> Union[dict, str, bytes]:
         return self.send_request(method, endpoint, data=json.dumps(data), **kwargs)
 
 
 @pytest.fixture(scope="session")
 @allure.title("Fixture to initialize Web API Client")
-def webapi_client(config: Dict[str, Any], auth: Auth) -> WebAPISession:
+def webapi_client(config: Config, auth: Auth) -> WebAPISession:
     return WebAPISession(config, auth)

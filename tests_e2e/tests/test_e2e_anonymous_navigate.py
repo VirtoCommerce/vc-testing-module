@@ -7,13 +7,14 @@ import pytest
 from playwright.sync_api import Page, expect
 
 from fixtures.anonymous_catalog_requests import AnonymousCatalogRequests
+from fixtures.config import Config
 from tests_e2e.pages import HomePage
 
 
 @pytest.mark.e2e
 @allure.title("Navigate application as anonymous user (E2E)")
 def test_e2e_navigate_application_as_anonymous_user(
-    config: dict[str, Any],
+    config: Config,
     page: Page,
     anonymous_catalog_requests: AnonymousCatalogRequests,
 ):
@@ -33,7 +34,7 @@ def test_e2e_navigate_application_as_anonymous_user(
 @pytest.mark.e2e
 @allure.title("Navigate application as registered user (E2E)")
 def test_e2e_navigate_application_as_registered_user(
-    config: dict[str, Any],
+    config: Config,
     page: Page,
     anonymous_catalog_requests: AnonymousCatalogRequests,
 ):

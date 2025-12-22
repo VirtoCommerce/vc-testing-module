@@ -23,14 +23,14 @@ def test_e2e_select_language_in_store(config, page: Page, dataset: dict[str, Any
 
     sign_in_page.navigate()
 
-    sign_in_page.sign_in(dataset["users"][0]["userName"], config["users_password"])
+    sign_in_page.sign_in(dataset["users"][0]["userName"], config["USERS_PASSWORD"])
 
     expect(page).to_have_url(home_page.url)
     expect(home_page.top_header_component.sign_in_link).not_to_be_visible()
     expect(home_page.top_header_component.sign_up_link).not_to_be_visible()
     expect(home_page.top_header_component.dashboard_link).to_be_visible()
 
-    frontend_domain = config["frontend_base_url"].split("//")[1]
+    frontend_domain = config["FRONTEND_BASE_URL"].split("//")[1]
     store = store_operations.get_store(domain=frontend_domain)
 
     if store["defaultLanguage"]["cultureName"] == "en-US":

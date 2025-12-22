@@ -1,14 +1,22 @@
-[
-    {
-        "code": "USD",
-        "name": "US Dollar",
-        "englishName": "US Dollar",
-        "symbol": "$"
-    },
-    {
-        "code": "EUR",
-        "name": "Euro",
-        "englishName": "Euro",
-        "symbol": "€"
-    }
-]
+{
+    "method": "POST",
+    "endpoint": "/api/currencies",
+    "payload_type": "single",
+    "priority": 2,
+    "data": [
+        {
+            "code": "USD",
+            "name": "US Dollar",
+            "symbol": "$",
+            "decimalDigits": 2,
+            "exchangeRate": 1.0
+        },
+        {
+            "code": "EUR",
+            "name": "Euro",
+            "symbol": "€",
+            "decimalDigits": 2,
+            "exchangeRate": 1.0
+        }
+    ]
+}

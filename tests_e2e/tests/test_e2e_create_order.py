@@ -6,6 +6,7 @@ import allure
 import pytest
 from playwright.sync_api import Page, expect
 
+from fixtures.config import Config
 from fixtures.requests_tracker import RequestsTracker
 from tests_e2e.components.select_address_modal_component import (
     SelectAddressModalComponent,
@@ -22,7 +23,7 @@ from tests_e2e.pages.sign_in_page import SignInPage
 @pytest.mark.e2e
 @allure.title("Create order - multi-step checkout (E2E)")
 def test_e2e_create_order_multi_step_checkout(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     page: Page,
     requests_tracker: RequestsTracker,
@@ -41,7 +42,7 @@ def test_e2e_create_order_multi_step_checkout(
 
     sign_in_page = SignInPage(page, config)
     sign_in_page.navigate()
-    sign_in_page.sign_in(dataset["users"][0]["userName"], config["users_password"])
+    sign_in_page.sign_in(dataset["users"][0]["userName"], config["USERS_PASSWORD"])
 
     expect(page).not_to_have_url(sign_in_page.url), "Sign in page is still visible"
 
@@ -171,7 +172,7 @@ def test_e2e_create_order_multi_step_checkout(
 @pytest.mark.e2e
 @allure.title("Create order - single-page checkout (E2E)")
 def test_e2e_create_order_single_page_checkout(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     page: Page,
     requests_tracker: RequestsTracker,
@@ -190,7 +191,7 @@ def test_e2e_create_order_single_page_checkout(
 
     sign_in_page = SignInPage(page, config)
     sign_in_page.navigate()
-    sign_in_page.sign_in(dataset["users"][0]["userName"], config["users_password"])
+    sign_in_page.sign_in(dataset["users"][0]["userName"], config["USERS_PASSWORD"])
 
     expect(page).not_to_have_url(sign_in_page.url), "Sign in page is still visible"
 

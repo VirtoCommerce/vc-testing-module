@@ -15,26 +15,11 @@ from fixtures.config import config
 from fixtures.dataset import dataset
 from fixtures.graphql_client import graphql_client
 from fixtures.product_quantity_control import product_quantity_control
+from fixtures.range_filter_type import range_filter_type
 from fixtures.requests_tracker import requests_tracker
 from fixtures.webapi_client import webapi_client
 
 load_dotenv(override=True)
-
-
-@pytest.fixture(scope="session")
-def config():
-    return {
-        "backend_base_url": os.getenv(
-            "BACKEND_BASE_URL"#, "https://vcptcore-demo.govirto.com"
-        ),
-        "frontend_base_url": os.getenv(
-            "FRONTEND_BASE_URL"#, "https://vcptcore-demo-storefront.govirto.com"
-        ),
-        "admin_username": os.getenv("ADMIN_USERNAME"),
-        "admin_password": os.getenv("ADMIN_PASSWORD"),
-        "store_id": os.getenv("STORE_ID"),
-        "users_password": os.getenv("USERS_PASSWORD"),
-    }
 
 
 def pytest_addoption(parser: Parser):
@@ -57,6 +42,13 @@ def pytest_addoption(parser: Parser):
         action="store_true",
         default=False,
         help="Run browser in headed mode",
+    )
+    parser.addoption(
+        "--range-filter-type",
+        action="store",
+        choices=["slider", "default"],
+        default="slider",
+        help="Choose range filter type (e.g., slider, default)",
     )
 
 

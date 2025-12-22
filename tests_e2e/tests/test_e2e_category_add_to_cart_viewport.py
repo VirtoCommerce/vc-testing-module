@@ -6,13 +6,14 @@ import pytest
 from playwright.sync_api import Page, expect
 
 from fixtures.anonymous_catalog_requests import AnonymousCatalogRequests
+from fixtures.config import Config
 from tests_e2e.pages.category_page import CategoryPage
 
 
 @pytest.mark.e2e
 @allure.title("Category add to cart component viewport (E2E)")
 def test_e2e_category_add_to_cart_component_viewport(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     page: Page,
     anonymous_catalog_requests: AnonymousCatalogRequests,

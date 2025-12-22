@@ -4,36 +4,38 @@ from typing import Any
 import allure
 import pytest
 
+from fixtures.config import Config
 from fixtures.graphql_client import GraphQLClient
 from graphql_operations.catalog.products_operations import ProductsOperations
 from graphql_operations.user.user_operations import UserOperations
 
 
-@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Create configurable item (GraphQL)")
 def test_create_configurable_item(
-    config: dict[str, Any], dataset: dict[str, Any], graphql_client: GraphQLClient
+    config: Config, dataset: dict[str, Any], graphql_client: GraphQLClient
 ):
     print(f"{os.linesep}Running test to create configurable item...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     products_operations = ProductsOperations(graphql_client)
 
-    user = user_operations.get_user()
+    user = user_operations.get_me()
+
+    base_product_id = "product-acme-laptop-hp-omnibook-x-flip-16"
 
     base_product = products_operations.get_product(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
-        id=dataset["products"][0]["id"],
+        id=base_product_id,
         culture_name=dataset["languages"][0]["allowedValues"][0],
         currency_code=dataset["currencies"][0]["code"],
     )
 
     product_configuration = products_operations.get_product_configuration(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
-        configurable_product_id=dataset["products"][0]["id"],
+        configurable_product_id=base_product_id,
         culture_name=dataset["languages"][0]["allowedValues"][0],
         currency_code=dataset["currencies"][0]["code"],
     )
@@ -62,8 +64,8 @@ def test_create_configurable_item(
 
     configured_line_item = products_operations.create_configured_line_item(
         payload={
-            "storeId": config["store_id"],
-            "configurableProductId": dataset["products"][0]["id"],
+            "storeId": config["STORE_ID"],
+            "configurableProductId": base_product_id,
             "cultureName": dataset["languages"][0]["allowedValues"][0],
             "currencyCode": dataset["currencies"][0]["code"],
             "configurationSections": configuration_sections,
