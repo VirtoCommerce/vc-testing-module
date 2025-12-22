@@ -51,7 +51,7 @@ def test_e2e_select_language_in_store(config, page: Page, dataset: dict[str, Any
         expect(home_page.top_header_component.language_selector_component.current_language_label).to_have_text(
             language["twoLetterLanguageName"]
         )
-        expect(page).to_have_url(f"{config['frontend_base_url']}/{language['twoLetterLanguageName'].lower()}/")
+        expect(page).to_have_url(f"{config['FRONTEND_BASE_URL']}/{language['twoLetterLanguageName'].lower()}/")
     else:
         print(f"{os.linesep}Language {language_param} not found in store available languages")
 
