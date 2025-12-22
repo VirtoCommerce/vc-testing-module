@@ -77,7 +77,7 @@
     },
     {
     "id": "organization-aurora-market",
-    "name": "ACME Aurora Market",
+    "name": "Aurora Market",
     "description": "ACME Aurora Market",
     "memberType": "Organization",
     "status": "Approved",
@@ -101,7 +101,7 @@
     },
     {
     "id": "organization-harbor-supplies",
-    "name": "ACME Harbor Supplies",
+    "name": "Harbor Supplies",
     "description": "ACME Harbor Supplies",
     "memberType": "Organization",
     "status": "Approved",
@@ -125,7 +125,7 @@
     },
     {
     "id": "organization-lone-star-outfitters",
-    "name": "ACME Lone Star Outfitters",
+    "name": "Lone Star Outfitters",
     "description": "ACME Lone Star Outfitters",
     "memberType": "Organization",
     "status": "Approved",
@@ -149,7 +149,7 @@
     },
     {
     "id": "organization-lakeview-goods",
-    "name": "ACME Lakeview Goods",
+    "name": "Lakeview Goods",
     "description": "ACME Lakeview Goods",
     "memberType": "Organization",
     "status": "Approved",
@@ -173,7 +173,7 @@
     },
     {
     "id": "organization-sunrise-bazaar",
-    "name": "ACME Sunrise Bazaar",
+    "name": "Sunrise Bazaar",
     "description": "ACME Sunrise Bazaar",
     "memberType": "Organization",
     "status": "Approved",
@@ -197,7 +197,7 @@
     },
     {
     "id": "organization-redwood-provisions",
-    "name": "ACME Redwood Provisions",
+    "name": "Redwood Provisions",
     "description": "ACME Redwood Provisions",
     "memberType": "Organization",
     "status": "Approved",
@@ -221,7 +221,7 @@
     },
     {
     "id": "organization-bayfront-traders",
-    "name": "ACME Bayfront Traders",
+    "name": "Bayfront Traders",
     "description": "ACME Bayfront Traders",
     "memberType": "Organization",
     "status": "Approved",
@@ -245,7 +245,7 @@
     },
     {
     "id": "organization-desert-cove-market",
-    "name": "ACME Desert Cove Market",
+    "name": "Desert Cove Market",
     "description": "ACME Desert Cove Market",
     "memberType": "Organization",
     "status": "Approved",

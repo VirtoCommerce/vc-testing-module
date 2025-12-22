@@ -41,6 +41,12 @@ class AccountMenuComponent:
                 "[data-test-id='main-layout.account-menu.top-header.organizations-search']"
             ).locator("input")
         )
+    
+    @property
+    def organizations_empty(self) -> Locator:
+        return self.element.locator(
+            "[data-test-id='main-layout.top-header.account-menu.organizations-empty']"
+        )
 
     @property
     def search_organization_clear_button(self) -> Locator:
