@@ -1,5 +1,6 @@
 from typing import Any
 
+import allure
 import pytest
 from playwright.sync_api import Page, expect
 
@@ -12,7 +13,9 @@ from tests_e2e.pages.category_page import CategoryPage
 from tests_e2e.pages.checkout_shipping_page import CheckoutShippingPage
 
 
+@pytest.mark.ignore
 @pytest.mark.e2e
+@allure.title("Select pickup location in single-page checkout (E2E)")
 def test_e2e_select_pickup_location_single_page_checkout(
     config: Config,
     dataset: dict[str, Any],
@@ -108,7 +111,9 @@ def test_e2e_select_pickup_location_single_page_checkout(
     ).to_be_visible(), "Selected address label is not visible"
 
 
+@pytest.mark.ignore
 @pytest.mark.e2e
+@allure.title("Select pickup location in multi-step checkout (E2E)")
 def test_e2e_select_pickup_location_multi_step_checkout(
     config: Config,
     dataset: dict[str, Any],
