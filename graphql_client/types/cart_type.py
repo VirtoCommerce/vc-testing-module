@@ -3,21 +3,21 @@ from pydantic import BaseModel
 
 class CartType(BaseModel):
     def __init__(self):
-        from graphql_client.types.payment_method_type import PaymentMethodType
-        from graphql_client.types.cart_address_type import CartAddressType
-        from graphql_client.types.payment_type import PaymentType
-        from graphql_client.types.discount_type import DiscountType
-        from decimal import Decimal
-        from graphql_client.types.dynamic_property_value_type import DynamicPropertyValueType
-        from graphql_client.types.validation_error_type import ValidationErrorType
-        from graphql_client.types.shipping_method_type import ShippingMethodType
-        from graphql_client.types.line_item_type import LineItemType
         from graphql_client.types.coupon_type import CouponType
-        from graphql_client.types.currency_type import CurrencyType
-        from graphql_client.types.tax_detail_type import TaxDetailType
+        from graphql_client.types.payment_method_type import PaymentMethodType
         from graphql_client.types.shipment_type import ShipmentType
-        from graphql_client.types.gift_item_type import GiftItemType
+        from graphql_client.types.tax_detail_type import TaxDetailType
+        from graphql_client.types.validation_error_type import ValidationErrorType
+        from graphql_client.types.dynamic_property_value_type import DynamicPropertyValueType
+        from decimal import Decimal
+        from graphql_client.types.line_item_type import LineItemType
+        from graphql_client.types.currency_type import CurrencyType
+        from graphql_client.types.discount_type import DiscountType
+        from graphql_client.types.payment_type import PaymentType
         from graphql_client.types.money_type import MoneyType
+        from graphql_client.types.cart_address_type import CartAddressType
+        from graphql_client.types.gift_item_type import GiftItemType
+        from graphql_client.types.shipping_method_type import ShippingMethodType
 
         self.id: str
         self.name: str

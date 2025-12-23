@@ -3,15 +3,15 @@ from pydantic import BaseModel
 
 class VariationType(BaseModel):
     def __init__(self):
+        from graphql_client.types.asset import Asset
+        from graphql_client.types.price_type import PriceType
         from graphql_client.types.property import Property
-        from graphql_client.types.rating import Rating
+        from graphql_client.types.outline_type import OutlineType
         from graphql_client.types.common_vendor import CommonVendor
         from graphql_client.types.image_type import ImageType
+        from graphql_client.types.rating import Rating
+        from graphql_client.types.price_type import PriceType
         from graphql_client.types.availability_data import AvailabilityData
-        from graphql_client.types.price_type import PriceType
-        from graphql_client.types.price_type import PriceType
-        from graphql_client.types.asset import Asset
-        from graphql_client.types.outline_type import OutlineType
 
         self.id: str
         self.name: str

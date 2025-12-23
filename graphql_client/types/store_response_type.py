@@ -3,13 +3,13 @@ from pydantic import BaseModel
 
 class StoreResponseType(BaseModel):
     def __init__(self):
-        from graphql_client.types.language_type import LanguageType
-        from graphql_client.types.graph_ql_settings_type import GraphQLSettingsType
-        from graphql_client.types.language_type import LanguageType
         from graphql_client.types.dynamic_property_value_type import DynamicPropertyValueType
         from graphql_client.types.currency_type import CurrencyType
         from graphql_client.types.store_settings_type import StoreSettingsType
         from graphql_client.types.currency_type import CurrencyType
+        from graphql_client.types.language_type import LanguageType
+        from graphql_client.types.graph_ql_settings_type import GraphQLSettingsType
+        from graphql_client.types.language_type import LanguageType
 
         self.storeId: str
         self.storeName: str
