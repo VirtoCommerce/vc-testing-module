@@ -51,6 +51,7 @@ def test_e2e_select_organization_registration(config: Dict[str, Any], page: Page
 
 
 @pytest.mark.e2e
+@pytest.mark.skip(reason="temporary skipped as it is blocked by cloudflare captcha on opus")
 @allure.feature("Sign up personal account (E2E)")
 def test_e2e_sign_up_personal_account(
     config: Dict[str, Any],

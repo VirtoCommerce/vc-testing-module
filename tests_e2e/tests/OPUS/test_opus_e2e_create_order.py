@@ -36,7 +36,6 @@ def test_e2e_create_order(config: dict, page: Page, requests_tracker: RequestsTr
     category_page.navigate()
     requests_tracker.wait_for_all_requests()
     suppliers_filter_component = SuppliersFilterComponent(page)
-    page.pause()
     suppliers_filter_checkbox = suppliers_filter_component.get_supplier_checkbox(TEST_SUPPLIER["name"])
     suppliers_filter_checkbox.click()
     requests_tracker.wait_for_all_requests()
