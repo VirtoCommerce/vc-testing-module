@@ -59,7 +59,7 @@ def test_e2e_sign_up_personal_account(
     auth: Auth,
     graphql_client: GraphQLClient,
 ):
-    print(f"{os.linesep}Running E2E test to sign up personal account...", end=" ")
+    print(f"{os.linesep}Running E2E test to sign up personal account..", end=" ")
 
     sign_up_page = SignUpPage(config, page)
     successful_registration_page = SuccessfulRegistrationPage(config, page)
