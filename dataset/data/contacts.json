@@ -14,7 +14,14 @@
             "organizations": [
                 "organization-acme-store",
                 "organization-acme-store-2",
-                "organization-acme-store-3"
+                "organization-acme-store-3",
+                "organization-aurora-market",
+                "organization-harbor-supplies",
+                "organization-lone-star-outfitters",
+                "organization-lakeview-goods",
+                "organization-sunrise-bazaar",
+                "organization-redwood-provisions",
+                "organization-desert-cove-market"
             ],
             "emails": [
                 "acme_store_employee_1@acme.com"

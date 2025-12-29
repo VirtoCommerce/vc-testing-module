@@ -60,7 +60,10 @@ def test_e2e_switch_between_organizations(
         ), f"Current organization '{current_organization}' is not the first in the list (found '{first_list_item_name}')"
 
         assert len(account_menu.organization_selector_items) == expected_org_count, f"Number of organizations is not {expected_org_count}, but {len(account_menu.organization_selector_items)}"
-        expect(account_menu.search_organization).not_to_be_visible()
+        
+        if len(account_menu.organization_selector_items) < 10:
+            expect(account_menu.search_organization, "Search organization input is visible when there are fewer than 10 organizations").not_to_be_visible()
+
 
     with allure.step("Switch to a different organization"):
         for org_name in account_menu.organization_names:
@@ -116,10 +119,10 @@ def test_e2e_search_organization_in_list(config: Config, dataset: dict[str, Any]
             first_list_item_name == current_organization
         ), f"Current organization '{current_organization}' is not the first in the list (found '{first_list_item_name}')"
 
-        if len (account_menu.organization_selector_items) > 10:
-            expect(account_menu.search_organization).to_be_visible(), "Search organization input is not visible when there are more than 10 organizations"
+        if len(account_menu.organization_selector_items) > 10:
+            expect(account_menu.search_organization, "Search organization input is not visible when there are more than 10 organizations").to_be_visible()
         else:
-            expect(account_menu.search_organization).not_to_be_visible(), "Search organization input is visible when there are less than 10 organizations"
+            expect(account_menu.search_organization, "Search organization input is visible when there are 10 or fewer organizations").not_to_be_visible()
 
     with allure.step(f"Search for organization '{organization_name}'"):
         account_menu.search(organization_name)
