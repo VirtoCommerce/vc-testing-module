@@ -41,15 +41,15 @@ class CategoryPage(MainLayoutPage):
         return [
             ProductCardComponent(card)
             for card in self.products_grid_view.locator(
-                "[data-test-id='product-card']"
+                ProductCardComponent.PRODUCT_CARD_COMPONENT
             ).all()
         ]
 
     def navigate(self) -> None:
         self.page.goto(self.url)
-        self.page.wait_for_load_state("domcontentloaded")
-        # Wait for product cards to be visible
-        self.page.wait_for_selector("[data-test-id='product-card']", state="visible", timeout=30000)
+        self.page.wait_for_load_state("load")
+        # Wait for product cards to be visible (increased timeout for CI)
+        self.page.wait_for_selector(ProductCardComponent.PRODUCT_CARD_COMPONENT, state="visible", timeout=60000)
 
     def get_product_card_by_sku(self, sku: str) -> Optional[ProductCardComponent]:
         for product_card in self.product_cards:

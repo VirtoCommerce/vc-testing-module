@@ -5,6 +5,8 @@ from .quantity_stepper_component import QuantityStepperComponent
 
 
 class ProductCardComponent:
+    PRODUCT_CARD_COMPONENT = "[data-test-id='product-card']"
+    
     def __init__(self, element: Locator):
         self.element = element
 
