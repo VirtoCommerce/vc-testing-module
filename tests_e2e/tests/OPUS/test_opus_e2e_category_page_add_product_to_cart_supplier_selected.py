@@ -109,8 +109,6 @@ def test_e2e_category_add_product_to_cart_with_quantity_stepper(
 
     category_to_browse = TEST_CATEGORY_1["seoPath"]
     product_to_add_to_cart = TEST_PRODUCT_2
-    suppliers_filter_component = SuppliersFilterComponent(page)
-    suppliers_filter_checkbox = suppliers_filter_component.get_supplier_checkbox("_AUTOTESTS MOCK SUPPLIER")
 
     category_page = CategoryPage(
         config, page, category_to_browse
@@ -120,6 +118,9 @@ def test_e2e_category_add_product_to_cart_with_quantity_stepper(
     expect(page).to_have_url(
         f"{config['frontend_base_url']}/{category_to_browse}"
     )
+    
+    suppliers_filter_component = SuppliersFilterComponent(page)
+    suppliers_filter_checkbox = suppliers_filter_component.get_supplier_checkbox("_AUTOTESTS MOCK SUPPLIER")
     suppliers_filter_checkbox.click()
     requests_tracker.wait_for_all_requests()
 
