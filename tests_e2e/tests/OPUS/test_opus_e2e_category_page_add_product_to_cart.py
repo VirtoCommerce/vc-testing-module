@@ -110,6 +110,7 @@ def test_e2e_category_add_product_to_cart_with_quantity_stepper(
         config, page, category_to_browse
     )
     category_page.navigate()
+    assert category_page.results_number > 10000, "No results found on the category page"
 
     expect(page).to_have_url(
         f"{config['frontend_base_url']}/{category_to_browse}"

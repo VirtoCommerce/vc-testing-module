@@ -27,6 +27,16 @@ class CategoryPage(MainLayoutPage):
         return CategoryViewSwitcherComponent(
             self.page.locator("[data-test-id='category-page.view-switcher']")
         )
+    
+
+    @property
+    def results_number(self) -> int:
+        text = self.page.locator("b[class='me-1']").inner_text()
+        # Remove comma separators (e.g., "504,547" -> "504547")
+        number = int(text.replace(",", ""))
+        # Print the number of results to console
+        print(f"Results number: {number}")
+        return number 
 
     @property
     def products_grid_view(self) -> Locator:
