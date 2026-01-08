@@ -25,6 +25,8 @@ def test_get_page_context_store_info(
 
     page_context = page_context_operations.get_store_context(
         store_id=config["store_id"],
+        domain=config["frontend_base_url"],
+        permalink="/",
         culture_name=culture,
     )
 

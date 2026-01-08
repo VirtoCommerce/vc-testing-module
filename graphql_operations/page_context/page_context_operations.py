@@ -41,6 +41,7 @@ class PageContextOperations:
         store_id: Optional[str] = None,
         culture_name: Optional[str] = None,
         domain: Optional[str] = None,
+        permalink: Optional[str] = None,
     ) -> PageContextResponseType:
         """Get page context with only store-related fields"""
         return_fields = """
@@ -72,6 +73,7 @@ class PageContextOperations:
             store_id=store_id,
             culture_name=culture_name,
             domain=domain,
+            permalink=permalink,
             return_fields=return_fields,
         )
 
