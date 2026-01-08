@@ -3,26 +3,26 @@ from pydantic import BaseModel
 
 class Product(BaseModel):
     def __init__(self):
-        from graphql_client.types.breadcrumb import Breadcrumb
-        from graphql_client.types.property import Property
-        from decimal import Decimal
-        from graphql_client.types.common_vendor import CommonVendor
-        from graphql_client.types.image_type import ImageType
-        from graphql_client.types.category import Category
-        from graphql_client.types.brand_type import BrandType
-        from graphql_client.types.price_type import PriceType
-        from graphql_client.types.video_connection import VideoConnection
-        from graphql_client.types.variation_type import VariationType
-        from graphql_client.types.variation_type import VariationType
-        from graphql_client.types.asset import Asset
-        from graphql_client.types.outline_type import OutlineType
         from graphql_client.types.product_association_connection import ProductAssociationConnection
-        from graphql_client.types.rating import Rating
+        from graphql_client.types.brand_type import BrandType
+        from graphql_client.types.common_vendor import CommonVendor
         from graphql_client.types.availability_data import AvailabilityData
-        from graphql_client.types.seo_info import SeoInfo
+        from graphql_client.types.video_connection import VideoConnection
         from graphql_client.types.price_type import PriceType
         from graphql_client.types.description_type import DescriptionType
+        from graphql_client.types.property import Property
+        from graphql_client.types.category import Category
+        from graphql_client.types.variation_type import VariationType
+        from graphql_client.types.seo_info import SeoInfo
         from graphql_client.types.description_type import DescriptionType
+        from graphql_client.types.variation_type import VariationType
+        from graphql_client.types.breadcrumb import Breadcrumb
+        from graphql_client.types.image_type import ImageType
+        from graphql_client.types.price_type import PriceType
+        from graphql_client.types.rating import Rating
+        from decimal import Decimal
+        from graphql_client.types.outline_type import OutlineType
+        from graphql_client.types.asset import Asset
 
         self.id: str
         self.code: str

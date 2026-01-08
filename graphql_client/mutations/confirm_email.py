@@ -7,23 +7,12 @@ class ConfirmEmailMutation:
         self.graphql_client = graphql_client
 
     def execute(self, variables: dict, return_fields: str = None) -> CustomIdentityResultType:
-        default_return_fields = """
-                    succeeded
-                    errors {
-                        code
-                        parameter
-                        description
-                    }
-        """
-
-        fields = return_fields or default_return_fields
-
         query_string = f"""
             mutation confirmEmail($command: InputConfirmEmailType!) {{
                 confirmEmail(
                     command: $command
                 ) {{
-                    {fields}
+                    {return_fields}
                 }}
             }}
         """
