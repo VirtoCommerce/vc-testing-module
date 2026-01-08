@@ -199,7 +199,6 @@ def test_get_page_context_available_languages(
     assert page_context["store"] is not None, "Store info is None"
     assert page_context["store"]["availableLanguages"] is not None, "Available languages is None"
     assert len(page_context["store"]["availableLanguages"]) > 0, "Available languages is empty"
-    
     # Verify that each language has required fields
     for language in page_context["store"]["availableLanguages"]:
         assert language["cultureName"] is not None, "Language culture name is None"
