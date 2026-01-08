@@ -1,10 +1,10 @@
 import os
-import random
 from typing import Any
 
 import allure
 import pytest
 
+from fixtures.config import Config
 from fixtures.graphql_client import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
@@ -13,7 +13,7 @@ from graphql_operations.user.user_operations import UserOperations
 @pytest.mark.graphql
 @allure.title("Add cart shipment (GraphQL)")
 def test_add_cart_shipment(
-    config: dict[str, Any], dataset: dict[str, Any], graphql_client: GraphQLClient
+    config: Config, dataset: dict[str, Any], graphql_client: GraphQLClient
 ):
     print(f"{os.linesep}Running test to add a cart shipment...", end=" ")
 
@@ -22,21 +22,15 @@ def test_add_cart_shipment(
 
     currency = dataset["currencies"][0]["code"]
     culture = dataset["languages"][0]["allowedValues"][0]
-    product_id_in_stock = random.choice(
-        [
-            product_inventory
-            for product_inventory in dataset["productInventories"]
-            if product_inventory["inStockQuantity"] > 0
-        ]
-    )["productId"]
+    product_id = "product-acme-laptop-asus-vivobook-16-x1607qa"
 
     user = user_operations.get_me()
 
     cart = cart_operations.add_item_to_cart(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
-            "productId": product_id_in_stock,
+            "productId": product_id,
             "quantity": 1,
             "currencyCode": currency,
             "cultureName": culture,
@@ -60,7 +54,7 @@ def test_add_cart_shipment(
 
     cart_with_shipment = cart_operations.add_or_update_cart_shipment(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,
@@ -73,7 +67,7 @@ def test_add_cart_shipment(
     # Test teardown
     cart_operations.clear_shipments(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,
@@ -106,7 +100,7 @@ def test_add_cart_shipment(
 @pytest.mark.graphql
 @allure.title("Update cart shipment (GraphQL)")
 def test_update_cart_shipment(
-    config: dict[str, Any], dataset: dict[str, Any], graphql_client: GraphQLClient
+    config: Config, dataset: dict[str, Any], graphql_client: GraphQLClient
 ):
     print(f"{os.linesep}Running test to update a cart shipment...", end=" ")
 
@@ -115,21 +109,15 @@ def test_update_cart_shipment(
 
     currency = dataset["currencies"][0]["code"]
     culture = dataset["languages"][0]["allowedValues"][0]
-    product_id_in_stock = random.choice(
-        [
-            product_inventory
-            for product_inventory in dataset["productInventories"]
-            if product_inventory["inStockQuantity"] > 0
-        ]
-    )["productId"]
+    product_id = "product-acme-laptop-asus-vivobook-16-x1607qa"
 
     user = user_operations.get_me()
 
     cart = cart_operations.add_item_to_cart(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
-            "productId": product_id_in_stock,
+            "productId": product_id,
             "quantity": 1,
             "currencyCode": currency,
             "cultureName": culture,
@@ -153,7 +141,7 @@ def test_update_cart_shipment(
 
     cart_with_shipment = cart_operations.add_or_update_cart_shipment(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,
@@ -179,7 +167,7 @@ def test_update_cart_shipment(
 
     cart_with_updated_shipment = cart_operations.add_or_update_cart_shipment(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,
@@ -192,7 +180,7 @@ def test_update_cart_shipment(
     # Test teardown
     cart_operations.clear_shipments(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,

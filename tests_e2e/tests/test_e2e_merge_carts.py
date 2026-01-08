@@ -7,6 +7,7 @@ import pytest
 from playwright.sync_api import Page
 
 from fixtures.anonymous_catalog_requests import AnonymousCatalogRequests
+from fixtures.config import Config
 from tests_e2e.pages.cart_page import CartPage
 from tests_e2e.pages.category_page import CategoryPage
 from tests_e2e.pages.sign_in_page import SignInPage
@@ -15,7 +16,7 @@ from tests_e2e.pages.sign_in_page import SignInPage
 @pytest.mark.e2e
 @allure.title("Merge carts (E2E)")
 def test_e2e_merge_carts(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     page: Page,
     anonymous_catalog_requests: AnonymousCatalogRequests,
@@ -54,7 +55,7 @@ def test_e2e_merge_carts(
 
     sign_in_page = SignInPage(page, config)
     sign_in_page.navigate()
-    sign_in_page.sign_in(user["userName"], config["users_password"])
+    sign_in_page.sign_in(user["userName"], config["USERS_PASSWORD"])
 
     cart_page = CartPage(config, page)
     cart_page.navigate()

@@ -77,4 +77,8 @@ CART_FRAGMENT = f"""
     shippingTotal {{
         {MONEY_FRAGMENT}
     }}
+    validationErrors {{
+        errorCode
+        errorMessage
+    }}
 """

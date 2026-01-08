@@ -6,6 +6,7 @@ from gql import Client
 from gql.transport.requests import RequestsHTTPTransport
 
 from fixtures.auth import Auth
+from fixtures.config import Config
 
 
 class GraphQLClient(Client):
@@ -26,9 +27,9 @@ class GraphQLClient(Client):
 
 @pytest.fixture(scope="session")
 @allure.title("Fixture to initialize GraphQL Client")
-def graphql_client(config: Dict[str, Any], auth: Auth) -> GraphQLClient:
+def graphql_client(config: Config, auth: Auth) -> GraphQLClient:
     transport = RequestsHTTPTransport(
-        url=f"{config['backend_base_url']}/graphql",
+        url=f"{config['BACKEND_BASE_URL']}/graphql",
         headers={"Content-Type": "application/json"},
         use_json=True,
         verify=True,

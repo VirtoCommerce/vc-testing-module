@@ -1,105 +1,152 @@
-[
-  {
-    "id": "store-acme",
-    "name": "ACME Store",
-    "catalog": "catalog-acme",
-    "storeState": "Open",
-    "defaultCurrency": "USD",
-    "defaultLanguage": "en-US",
-    "mainFulfillmentCenterId": "ffc-acme-usa-springfield-il",
-    "adminEmail": "acme_store_administrator@acme.com",
-    "adminEmailName": "ACME Store Administrator",
-    "email": "store@acme.com",
-    "emailName": "ACME Store",
-    "url": "{storeUrl}",
-    "languages": [
-      "en-US",
-      "pl-PL",
-      "zh-CN",
-      "es-ES",
-      "pt-PT",
-      "ja-JP",
-      "it-IT",
-      "fr-FR",
-      "ru-RU",
-      "de-DE"
-    ],
-    "currencies": ["USD", "EUR"],
-    "additionalCurrencies": ["EUR"],
-    "additionalLanguages": [
-      "de-DE",
-      "fr-FR",
-      "it-IT",
-      "es-ES",
-      "ja-JP",
-      "pl-PL",
-      "pt-PT",
-      "ru-RU",
-      "zh-CN"
-    ],
-    "additionalFulfillmentCenterIds": [
-      "ffc-acme-usa-morrisville-nc",
-      "ffc-acme-usa-riverton-oh"
-    ],
-    "settings": [
-      {
-        "objectId": "store-acme",
-        "objectType": "Store",
-        "moduleId": "VirtoCommerce.Store",
-        "name": "Stores.SeoLinksType",
-        "groupName": "SEO",
-        "value": "Long",
-        "valueType": "ShortText"
-      },
-      {
-        "itHasValues": true,
-        "objectId": "store-acme",
-        "objectType": "Store",
-        "isReadOnly": false,
-        "value": "Approved",      
-        "restartRequired": false,
-        "moduleId": "VirtoCommerce.Customer",
-        "groupName": "Customer|Statuses",
-        "name": "Customer.OrganizationDefaultStatus",
-        "displayName": null,
-        "isRequired": false,
-        "isHidden": false,
-        "isPublic": false,
-        "valueType": "ShortText",
-        "allowedValues": null,
-        "defaultValue": null,
-        "isDictionary": false,
-        "isLocalizable": false
-     },
-     {
-        "itHasValues": true,
-        "objectId": "store-acme",
-        "objectType": "Store",
-        "isReadOnly": false,
-        "value": "Approved",       
-        "restartRequired": false,
-        "moduleId": "VirtoCommerce.Customer",
-        "groupName": "Customer|Statuses",
-        "name": "Customer.ContactDefaultStatus",
-        "displayName": null,
-        "isRequired": false,
-        "isHidden": false,
-        "isPublic": false,
-        "valueType": "ShortText",
-        "allowedValues": null,
-        "defaultValue": null,
-        "isDictionary": false,
-        "isLocalizable": false
-      },
-      {
-        "objectId": "store-acme",
-        "objectType": "Store",
-        "moduleId": "VirtoCommerce.XPickup",
-        "name": "XPickup.Enabled",
-        "groupName": "BOPIS",
-        "value": true,
-        "valueType": "Boolean"
-      }
+{
+    "method": "POST",
+    "endpoint": "/api/stores",
+    "payload_type": "single",
+    "priority": 9,
+    "data": [
+        {
+            "id": "store-acme",
+            "name": "ACME Store",
+            "catalog": "catalog-acme",
+            "storeState": "Open",
+            "defaultCurrency": "USD",
+            "defaultLanguage": "en-US",
+            "mainFulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "adminEmail": "acme_store_administrator@acme.com",
+            "adminEmailName": "ACME Store Administrator",
+            "email": "store@acme.com",
+            "emailName": "ACME Store",
+            "url": "{ENV:FRONTEND_BASE_URL}",
+            "languages": [
+                "en-US",
+                "pl-PL",
+                "zh-CN",
+                "es-ES",
+                "pt-PT",
+                "ja-JP",
+                "it-IT",
+                "fr-FR",
+                "ru-RU",
+                "de-DE"
+            ],
+            "currencies": [
+                "USD",
+                "EUR"
+            ],
+            "additionalCurrencies": [
+                "EUR"
+            ],
+            "additionalLanguages": [
+                "de-DE",
+                "fr-FR",
+                "it-IT",
+                "es-ES",
+                "ja-JP",
+                "pl-PL",
+                "pt-PT",
+                "ru-RU",
+                "zh-CN"
+            ],
+            "additionalFulfillmentCenterIds": [
+                "ffc-acme-usa-morrisville-nc",
+                "ffc-acme-usa-riverton-oh"
+            ],
+            "settings": [
+                {
+                    "objectId": "store-acme",
+                    "objectType": "Store",
+                    "moduleId": "VirtoCommerce.Store",
+                    "name": "Stores.SeoLinksType",
+                    "groupName": "SEO",
+                    "value": "Long",
+                    "valueType": "ShortText"
+                },
+                {
+                    "itHasValues": true,
+                    "objectId": "store-acme",
+                    "objectType": "Store",
+                    "isReadOnly": false,
+                    "value": "Approved",
+                    "restartRequired": false,
+                    "moduleId": "VirtoCommerce.Customer",
+                    "groupName": "Customer|Statuses",
+                    "name": "Customer.OrganizationDefaultStatus",
+                    "displayName": null,
+                    "isRequired": false,
+                    "isHidden": false,
+                    "isPublic": false,
+                    "valueType": "ShortText",
+                    "allowedValues": null,
+                    "defaultValue": null,
+                    "isDictionary": false,
+                    "isLocalizable": false
+                },
+                {
+                    "itHasValues": true,
+                    "objectId": "store-acme",
+                    "objectType": "Store",
+                    "isReadOnly": false,
+                    "value": "Approved",
+                    "restartRequired": false,
+                    "moduleId": "VirtoCommerce.Customer",
+                    "groupName": "Customer|Statuses",
+                    "name": "Customer.ContactDefaultStatus",
+                    "displayName": null,
+                    "isRequired": false,
+                    "isHidden": false,
+                    "isPublic": false,
+                    "valueType": "ShortText",
+                    "allowedValues": null,
+                    "defaultValue": null,
+                    "isDictionary": false,
+                    "isLocalizable": false
+                },
+                {
+                    "objectId": "store-acme",
+                    "objectType": "Store",
+                    "moduleId": "VirtoCommerce.XPickup",
+                    "name": "XPickup.Enabled",
+                    "groupName": "BOPIS",
+                    "value": true,
+                    "valueType": "Boolean"
+                },
+                {
+                    "objectId": "store-acme",
+                    "objectType": "Store",
+                    "moduleId": "VirtoCommerce.XPickup",
+                    "name": "XPickup.Enabled",
+                    "groupName": "BOPIS",
+                    "value": true,
+                    "valueType": "Boolean"
+                },
+                {
+                    "objectId": "store-acme",
+                    "objectType": "Store",
+                    "moduleId": "VirtoCommerce.Shipping",
+                    "name": "Shipping.Bopis.GoogleMaps.Enabled",
+                    "groupName": "BOPIS",
+                    "value": true,
+                    "valueType": "Boolean"
+                },
+                {
+                    "objectId": "store-acme",
+                    "objectType": "Store",
+                    "moduleId": "VirtoCommerce.Shipping",
+                    "name": "Shipping.Bopis.GoogleMaps.ApiKey",
+                    "groupName": "BOPIS",
+                    "value": "{ENV:BOPIS_GOOGLE_MAPS_API_KEY}",
+                    "valueType": "ShortText"
+                },
+                {
+                    "objectId": "store-acme",
+                    "objectType": "Store",
+                    "moduleId": "VirtoCommerce.Quote",
+                    "name": "Quotes.EnableQuotes",
+                    "groupName": "General",
+                    "value": true,
+                    "valueType": "Boolean"
+                }
+            ]
+        }
     ]
-  }
-]
+}

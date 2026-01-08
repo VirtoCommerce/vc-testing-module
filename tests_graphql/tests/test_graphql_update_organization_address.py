@@ -5,6 +5,7 @@ import allure
 import pytest
 
 from fixtures.auth import Auth
+from fixtures.config import Config
 from fixtures.graphql_client import GraphQLClient
 from graphql_operations.contact.contact_operations import ContactOperations
 from graphql_operations.user.user_operations import UserOperations
@@ -13,7 +14,7 @@ from graphql_operations.user.user_operations import UserOperations
 @pytest.mark.graphql
 @allure.title("Update organization address (GraphQL)")
 def test_update_organization_address(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     auth: Auth,
     graphql_client: GraphQLClient,
@@ -27,7 +28,7 @@ def test_update_organization_address(
 
     auth.authenticate(
         dataset_user["userName"],
-        config["users_password"],
+        config["USERS_PASSWORD"],
     )
 
     user = user_operations.get_me()

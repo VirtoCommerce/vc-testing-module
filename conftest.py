@@ -3,7 +3,7 @@ import os
 import allure
 import pytest
 from dotenv import load_dotenv
-from playwright.sync_api import expect, sync_playwright
+from playwright.sync_api import Page, expect
 from pytest import Parser
 
 from fixtures.anonymous_catalog_requests import anonymous_catalog_requests
@@ -15,27 +15,57 @@ from fixtures.config import config
 from fixtures.dataset import dataset
 from fixtures.graphql_client import graphql_client
 from fixtures.product_quantity_control import product_quantity_control
+from fixtures.range_filter_type import range_filter_type
 from fixtures.requests_tracker import requests_tracker
 from fixtures.webapi_client import webapi_client
 
 load_dotenv(override=True)
 
 
-@pytest.fixture(scope="session")
-def config():
-    return {
-        "backend_base_url": os.getenv(
-            "BACKEND_BASE_URL"#, "https://vcptcore-demo.govirto.com"
-        ),
-        "frontend_base_url": os.getenv(
-            "FRONTEND_BASE_URL"#, "https://vcptcore-demo-storefront.govirto.com"
-        ),
-        "admin_username": os.getenv("ADMIN_USERNAME"),
-        "admin_password": os.getenv("ADMIN_PASSWORD"),
-        "store_id": os.getenv("STORE_ID"),
-        "users_password": os.getenv("USERS_PASSWORD"),
-    }
+@pytest.hookimpl(tryfirst=True, hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    """
+    Capture and store the test outcome on the item so fixtures can react to failures.
+    """
+    outcome = yield
+    rep = outcome.get_result()
+    setattr(item, f"rep_{rep.when}", rep)
 
+
+@pytest.fixture
+def _page_for_failure(request) -> Page | None:
+    """
+    Ensure we can grab the Playwright page before it is closed, but only for tests that use it.
+    """
+    if "page" not in request.fixturenames:
+        return None
+    return request.getfixturevalue("page")
+
+
+@pytest.fixture(autouse=True)
+def screenshot_on_failure(request, _page_for_failure: Page | None):
+    """
+    Take a Playwright page screenshot when a test using the `page` fixture fails.
+    """
+    yield
+
+    rep_call = getattr(request.node, "rep_call", None)
+    if not rep_call or not rep_call.failed or _page_for_failure is None:
+        return
+
+    page = _page_for_failure
+
+    screenshots_dir = os.path.join("screenshots", "failures")
+    os.makedirs(screenshots_dir, exist_ok=True)
+
+    screenshot_path = os.path.join(screenshots_dir, f"{request.node.name}.png")
+    page.screenshot(path=screenshot_path, full_page=True)
+
+    allure.attach.file(
+        screenshot_path,
+        name=request.node.name,
+        attachment_type=allure.attachment_type.PNG,
+    )
 
 def pytest_addoption(parser: Parser):
     parser.addoption(
@@ -57,6 +87,13 @@ def pytest_addoption(parser: Parser):
         action="store_true",
         default=False,
         help="Run browser in headed mode",
+    )
+    parser.addoption(
+        "--range-filter-type",
+        action="store",
+        choices=["slider", "default"],
+        default="slider",
+        help="Choose range filter type (e.g., slider, default)",
     )
 
 

@@ -5,6 +5,7 @@ import allure
 import pytest
 
 from fixtures.auth import Auth
+from fixtures.config import Config
 from fixtures.graphql_client import GraphQLClient
 from graphql_operations.contact.contact_operations import ContactOperations
 from graphql_operations.user.user_operations import UserOperations
@@ -13,7 +14,7 @@ from graphql_operations.user.user_operations import UserOperations
 @pytest.mark.graphql
 @allure.title("Filter organization contacts by role (GraphQL)")
 def test_filter_organization_contacts_by_role(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     auth: Auth,
     graphql_client: GraphQLClient,
@@ -29,7 +30,7 @@ def test_filter_organization_contacts_by_role(
 
     auth.authenticate(
         dataset_user["userName"],
-        config["users_password"],
+        config["USERS_PASSWORD"],
     )
 
     user = user_operations.get_me()
@@ -84,7 +85,7 @@ def test_filter_organization_contacts_by_role(
 @pytest.mark.graphql
 @allure.title("Filter organization contacts by status (GraphQL)")
 def test_filter_organization_contacts_by_status(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     auth: Auth,
     graphql_client: GraphQLClient,
@@ -101,7 +102,7 @@ def test_filter_organization_contacts_by_status(
 
     auth.authenticate(
         dataset_user["userName"],
-        config["users_password"],
+        config["USERS_PASSWORD"],
     )
 
     user = user_operations.get_me()

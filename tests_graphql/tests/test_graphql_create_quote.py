@@ -6,6 +6,7 @@ import allure
 import pytest
 
 from fixtures.auth import Auth
+from fixtures.config import Config
 from fixtures.graphql_client import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.quote.quote_operations import QuoteOperations
@@ -15,7 +16,7 @@ from graphql_operations.user.user_operations import UserOperations
 @pytest.mark.graphql
 @allure.title("Create empty quote (GraphQL)")
 def test_create_empty_quote(
-    config: dict[str, Any],
+    config: Config,
     auth: Auth,
     dataset: dict[str, Any],
     graphql_client: GraphQLClient,
@@ -27,7 +28,7 @@ def test_create_empty_quote(
 
     auth.authenticate(
         dataset["users"][0]["userName"],
-        config["users_password"],
+        config["USERS_PASSWORD"],
     )
 
     currency = dataset["currencies"][0]["code"]
@@ -37,7 +38,7 @@ def test_create_empty_quote(
 
     quote = quote_operations.create_quote(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,
@@ -49,7 +50,7 @@ def test_create_empty_quote(
     assert quote["id"] is not None, "Quote ID is None"
     assert quote["number"] is not None, "Quote number is None"
     assert quote["status"] == "Draft", "Quote status is not Draft"
-    assert quote["storeId"] == config["store_id"], "Quote store ID is not correct"
+    assert quote["storeId"] == config["STORE_ID"], "Quote store ID is not correct"
     assert quote["customerId"] == user["id"], "Quote customer ID is not correct"
     assert quote["comment"] is None, "Quote comment is not None"
     assert len(quote["items"]) == 0, "Quote items are not empty"
@@ -58,7 +59,7 @@ def test_create_empty_quote(
 @pytest.mark.graphql
 @allure.title("Create quote with items from cart (GraphQL)")
 def test_create_quote_with_items_from_cart(
-    config: dict[str, Any],
+    config: Config,
     auth: Auth,
     dataset: dict[str, Any],
     graphql_client: GraphQLClient,
@@ -71,7 +72,7 @@ def test_create_quote_with_items_from_cart(
 
     auth.authenticate(
         dataset["users"][0]["userName"],
-        config["users_password"],
+        config["USERS_PASSWORD"],
     )
 
     currency = dataset["currencies"][0]["code"]
@@ -88,7 +89,7 @@ def test_create_quote_with_items_from_cart(
 
     cart = cart_operations.add_item_to_cart(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "productId": product_id_in_stock,
             "quantity": 1,
@@ -117,7 +118,7 @@ def test_create_quote_with_items_from_cart(
     assert quote["id"] is not None, "Quote ID is None"
     assert quote["number"] is not None, "Quote number is None"
     assert quote["status"] == "Draft", "Quote status is not Draft"
-    assert quote["storeId"] == config["store_id"], "Quote store ID is not correct"
+    assert quote["storeId"] == config["STORE_ID"], "Quote store ID is not correct"
     assert quote["customerId"] == user["id"], "Quote customer ID is not correct"
     assert quote["comment"] == "Test comment", "Quote comment is not correct"
     assert len(quote["items"]) > 0, "Quote items are empty"

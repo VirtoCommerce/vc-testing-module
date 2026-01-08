@@ -5,6 +5,7 @@ import allure
 import pytest
 
 from fixtures.auth import Auth
+from fixtures.config import Config
 from fixtures.graphql_client import GraphQLClient
 from graphql_operations.order.order_operations import OrderOperations
 
@@ -12,7 +13,7 @@ from graphql_operations.order.order_operations import OrderOperations
 @pytest.mark.graphql
 @allure.title("Sort orders by date (GraphQL)")
 def test_sort_orders_by_date(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     auth: Auth,
     graphql_client: GraphQLClient,
@@ -31,7 +32,7 @@ def test_sort_orders_by_date(
 
     auth.authenticate(
         user_maintainer["userName"],
-        config["users_password"],
+        config["USERS_PASSWORD"],
     )
 
     search_orders_result_created_date_desc = order_operations.get_organization_orders(
@@ -71,7 +72,7 @@ def test_sort_orders_by_date(
 @pytest.mark.graphql
 @allure.title("Sort orders by total amount (GraphQL)")
 def test_sort_orders_by_total_amount(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     auth: Auth,
     graphql_client: GraphQLClient,
@@ -90,7 +91,7 @@ def test_sort_orders_by_total_amount(
 
     auth.authenticate(
         user_maintainer["userName"],
-        config["users_password"],
+        config["USERS_PASSWORD"],
     )
 
     search_orders_result_total_amount_desc = order_operations.get_organization_orders(

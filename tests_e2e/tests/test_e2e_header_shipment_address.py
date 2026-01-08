@@ -7,9 +7,7 @@ import pytest
 from playwright.sync_api import Page, expect
 
 from fixtures.anonymous_catalog_requests import AnonymousCatalogRequests
-from fixtures.auth import Auth
-from fixtures.graphql_client import GraphQLClient
-from graphql_operations.contact.contact_operations import ContactOperations
+from fixtures.config import Config
 from tests_e2e.components.edit_address_modal_component import EditAddressModalComponent
 from tests_e2e.pages.home_page import HomePage
 from tests_e2e.pages.main_layout_page import MainLayoutPage
@@ -32,7 +30,7 @@ test_address = {
 @pytest.mark.e2e
 @allure.title("Add shipment address in header for anonymous user (E2E)")
 def test_e2e_add_shipment_address_in_header_for_anonymous_user(
-    config: dict[str, Any],
+    config: Config,
     anonymous_catalog_requests: AnonymousCatalogRequests,
     page: Page,
 ):
@@ -83,11 +81,9 @@ def test_e2e_add_shipment_address_in_header_for_anonymous_user(
 @pytest.mark.e2e
 @allure.title("Select shipment address in header for registered user (E2E)")
 def test_e2e_select_shipment_address_in_header_for_registered_user(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
-    auth: Auth,
     page: Page,
-    graphql_client: GraphQLClient,
 ):
     print(
         f"{os.linesep}Running E2E test to add shipment address in header for anonymous user...",
@@ -99,7 +95,7 @@ def test_e2e_select_shipment_address_in_header_for_registered_user(
     sign_in_page = SignInPage(page, config)
     sign_in_page.navigate()
 
-    sign_in_page.sign_in(dataset["users"][0]["userName"], config["users_password"])
+    sign_in_page.sign_in(dataset["users"][0]["userName"], config["USERS_PASSWORD"])
     time.sleep(2)
 
     layout = MainLayoutPage(page)

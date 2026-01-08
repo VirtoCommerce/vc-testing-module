@@ -4,6 +4,7 @@ from typing import Any
 import allure
 import pytest
 
+from fixtures.config import Config
 from fixtures.graphql_client import GraphQLClient
 from graphql_operations.catalog.products_operations import ProductsOperations
 from graphql_operations.user.user_operations import UserOperations
@@ -12,7 +13,7 @@ from graphql_operations.user.user_operations import UserOperations
 @pytest.mark.graphql
 @allure.feature("Filter product variations by stock (GraphQL)")
 def test_filter_product_variations_by_stock(
-    config: dict[str, Any], dataset: dict[str, Any], graphql_client: GraphQLClient
+    config: Config, dataset: dict[str, Any], graphql_client: GraphQLClient
 ):
     print(f"{os.linesep}Running test to filter product variations by stock...", end=" ")
 
@@ -27,7 +28,7 @@ def test_filter_product_variations_by_stock(
     user = user_operations.get_me()
 
     search_variations_result_all = product_operations.get_products(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,
@@ -35,7 +36,7 @@ def test_filter_product_variations_by_stock(
     )
 
     search_variations_result_in_stock = product_operations.get_products(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,
@@ -53,7 +54,7 @@ def test_filter_product_variations_by_stock(
 @pytest.mark.graphql
 @allure.feature("Filter product variations by price (GraphQL)")
 def test_filter_product_variations_by_price(
-    config: dict[str, Any], dataset: dict[str, Any], graphql_client: GraphQLClient
+    config: Config, dataset: dict[str, Any], graphql_client: GraphQLClient
 ):
     print(f"{os.linesep}Running test to filter product variations by price...", end=" ")
 
@@ -68,7 +69,7 @@ def test_filter_product_variations_by_price(
     user = user_operations.get_me()
 
     search_variations_result_to_1000 = product_operations.get_products(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,
@@ -76,7 +77,7 @@ def test_filter_product_variations_by_price(
     )
 
     search_variations_result_from_1000_to_1200 = product_operations.get_products(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,
@@ -84,7 +85,7 @@ def test_filter_product_variations_by_price(
     )
 
     search_variations_result_1400_to = product_operations.get_products(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,
@@ -102,12 +103,10 @@ def test_filter_product_variations_by_price(
     ), "Total count of variations with price between 1400 and is not correct"
 
 
-
 @pytest.mark.graphql
 @allure.feature("Filter product variations by property (GraphQL)")
 def test_filter_product_variations_by_property(
-    config: dict[str, Any], dataset: dict[str, Any], graphql_client: GraphQLClient
-
+    config: Config, dataset: dict[str, Any], graphql_client: GraphQLClient
 ):
     print(
         f"{os.linesep}Running test to filter product variations by property...", end=" "
@@ -118,14 +117,13 @@ def test_filter_product_variations_by_property(
     catalog = dataset["catalogs"][0]
     product_family_id = dataset["productVariations"][3]["mainProductId"]
 
-
     user_operations = UserOperations(graphql_client)
     product_operations = ProductsOperations(graphql_client)
 
     user = user_operations.get_me()
 
     search_variations_result_8gb = product_operations.get_products(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,
@@ -133,7 +131,7 @@ def test_filter_product_variations_by_property(
     )
 
     search_variations_result_16gb = product_operations.get_products(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,
@@ -141,7 +139,7 @@ def test_filter_product_variations_by_property(
     )
 
     search_variations_result_32gb = product_operations.get_products(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,

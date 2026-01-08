@@ -1,6 +1,6 @@
-from playwright.sync_api import Page
+from playwright.sync_api import Page, expect
 
-from tests_e2e.components import TopHeaderComponent
+from tests_e2e.components import AccountMenuComponent, TopHeaderComponent
 
 
 class MainLayoutPage:
@@ -12,6 +12,36 @@ class MainLayoutPage:
         return TopHeaderComponent(
             self.page.locator("[data-test-id='main-layout.top-header']")
         )
+
+    @property
+    def account_menu(self) -> AccountMenuComponent:
+        return self.top_header_component.account_menu_component
+
+    def dismiss_blocking_modal(self) -> None:
+        modal_wrapper = self.page.locator(".vc-modal__wrapper")
+        try:
+            if modal_wrapper.is_visible():
+                # Attempt to close any overlaying modal (e.g., headlessui portals)
+                self.page.keyboard.press("Escape")
+                modal_wrapper.first.wait_for(state="hidden", timeout=2_000)
+        except Exception:
+            # Best-effort cleanup; do not fail test flow if the modal persists
+            pass
+
+    def open_account_menu(self) -> AccountMenuComponent:
+        self.dismiss_blocking_modal()
+        self.top_header_component.account_menu_button.click()
+        expect(self.account_menu.organization_list, "Organization list is not visible").to_be_visible()
+        self.page.wait_for_load_state("networkidle")
+        return self.account_menu
+
+    @property
+    def current_organization_name(self) -> str:
+        name = self.top_header_component.organization_name_label.text_content()
+        return name.strip() if name else ""
+
+    def wait_for_network_idle(self) -> None:
+        self.page.wait_for_load_state("networkidle")
 
     def change_language(self, language: str) -> None:
         self.top_header_component.language_selector_component.element.click()

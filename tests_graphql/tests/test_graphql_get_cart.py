@@ -6,6 +6,7 @@ import allure
 import pytest
 
 from fixtures.auth import Auth
+from fixtures.config import Config
 from fixtures.graphql_client import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
@@ -14,7 +15,7 @@ from graphql_operations.user.user_operations import UserOperations
 @pytest.mark.graphql
 @allure.title("Get null cart (GraphQL)")
 def test_get_null_cart(
-    config: dict[str, Any], dataset: dict[str, Any], graphql_client: GraphQLClient
+    config: Config, dataset: dict[str, Any], graphql_client: GraphQLClient
 ):
     print(f"{os.linesep}Running test to get null cart...", end=" ")
 
@@ -27,7 +28,7 @@ def test_get_null_cart(
     user = user_operations.get_me()
 
     cart = cart_operations.get_cart(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,
@@ -39,7 +40,7 @@ def test_get_null_cart(
 @pytest.mark.graphql
 @allure.title("Get anonymous cart (GraphQL)")
 def test_get_anonymous_cart(
-    config: dict[str, Any], dataset: dict[str, Any], graphql_client: GraphQLClient
+    config: Config, dataset: dict[str, Any], graphql_client: GraphQLClient
 ):
     print(f"{os.linesep}Running test to get anonymous cart...", end=" ")
 
@@ -60,7 +61,7 @@ def test_get_anonymous_cart(
 
     cart = cart_operations.add_item_to_cart(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "productId": product_id_in_stock,
             "quantity": 1,
@@ -85,7 +86,7 @@ def test_get_anonymous_cart(
 @pytest.mark.graphql
 @allure.title("Get registered user cart (GraphQL)")
 def test_get_registered_user_cart(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     auth: Auth,
     graphql_client: GraphQLClient,
@@ -106,13 +107,13 @@ def test_get_registered_user_cart(
         ]
     )["productId"]
 
-    auth.authenticate(dataset_user["userName"], config["users_password"])
+    auth.authenticate(dataset_user["userName"], config["USERS_PASSWORD"])
 
     user = user_operations.get_me()
 
     cart = cart_operations.add_item_to_cart(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "productId": product_id_in_stock,
             "quantity": 1,

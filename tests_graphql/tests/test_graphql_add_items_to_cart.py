@@ -1,10 +1,10 @@
 import os
-import random
 from typing import Any
 
 import allure
 import pytest
 
+from fixtures.config import Config
 from fixtures.graphql_client import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
@@ -13,7 +13,7 @@ from graphql_operations.user.user_operations import UserOperations
 @pytest.mark.graphql
 @allure.title("Add items to anonymous cart (GraphQL)")
 def test_add_items_to_anonymous_cart(
-    config: dict[str, Any], dataset: dict[str, Any], graphql_client: GraphQLClient
+    config: Config, dataset: dict[str, Any], graphql_client: GraphQLClient
 ):
     print(f"{os.linesep}Running test to add items to anonymous cart...", end=" ")
 
@@ -22,36 +22,24 @@ def test_add_items_to_anonymous_cart(
 
     currency = dataset["currencies"][0]["code"]
     culture = dataset["languages"][0]["allowedValues"][0]
-    product_id_in_stock_1 = random.choice(
-        [
-            product_inventory
-            for product_inventory in dataset["productInventories"]
-            if product_inventory["inStockQuantity"] > 0
-        ]
-    )["productId"]
-    product_id_in_stock_2 = random.choice(
-        [
-            product_inventory
-            for product_inventory in dataset["productInventories"]
-            if product_inventory["inStockQuantity"] > 0
-        ]
-    )["productId"]
+    product_1_id = "product-acme-laptop-asus-zenbook-a14-ux3407"
+    product_2_id = "product-acme-laptop-asus-vivobook-16-x1607qa"
 
     user = user_operations.get_me()
 
     cart = cart_operations.add_items_to_cart(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
             "cultureName": culture,
             "cartItems": [
                 {
-                    "productId": product_id_in_stock_1,
+                    "productId": product_1_id,
                     "quantity": 5,
                 },
                 {
-                    "productId": product_id_in_stock_2,
+                    "productId": product_2_id,
                     "quantity": 10,
                 },
             ],

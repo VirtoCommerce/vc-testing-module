@@ -1,392 +1,398 @@
-[
-  {
-    "id": "pickup-location-acme-westfield-world-trade-center",
-    "name": "Westfield World Trade Center",
-    "description": "Attraction",
-    "storeId": "store-acme",
-    "geoLocation": "40.711660,-74.011100",
-    "workingHours": "* **Mon - Sun**: 9 - 18",
-    "contactPhone": "+10000000001",
-    "contactEmail": "pickup1@example.com",
-    "isActive": true,
-    "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
-    "transferFulfillmentCenterIds": [
-      "ffc-acme-usa-riverton-oh",
-      "ffc-acme-usa-morrisville-nc"
-    ],
-    "address": {
-      "addressType": "Shipping",
-      "city": "New York",
-      "countryCode": "USA",
-      "countryName": "United States of America",
-      "line1": "185 Greenwich St",
-      "postalCode": "10001",
-      "regionId": "NY",
-      "regionName": "New York"
-    }
-  },
-  {
-    "id": "pickup-location-acme-the-shops-at-columbus-circle",
-    "name": "The Shops at Columbus Circle",
-    "description": "Shopping mall",
-    "storeId": "store-acme",
-    "geoLocation": "40.768044,-73.982125",
-    "workingHours": "* **Mon - Sun**: 9 - 18",
-    "contactPhone": "+10000000002",
-    "contactEmail": "pickup2@example.com",
-    "isActive": true,
-    "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
-    "transferFulfillmentCenterIds": [
-      "ffc-acme-usa-springfield-il",
-      "ffc-acme-usa-morrisville-nc"
-    ],
-    "address": {
-      "addressType": "Shipping",
-      "city": "New York",
-      "countryCode": "USA",
-      "countryName": "United States of America",
-      "line1": "10 Columbus Cir",
-      "postalCode": "10002",
-      "regionId": "NY",
-      "regionName": "New York"
-    }
-  },
-  {
-    "id": "pickup-location-acme-manhattan-mall",
-    "name": "Manhattan Mall",
-    "description": "Shopping mall",
-    "storeId": "store-acme",
-    "geoLocation": "40.749576,-73.986571",
-    "workingHours": "* **Mon - Sun**: 9 - 18",
-    "contactPhone": "+10000000003",
-    "contactEmail": "pickup3@example.com",
-    "isActive": true,
-    "fulfillmentCenterId": "ffc-acme-usa-morrisville-nc",
-    "transferFulfillmentCenterIds": [
-      "ffc-acme-usa-springfield-il",
-      "ffc-acme-usa-riverton-oh"
-    ],
-    "address": {
-      "addressType": "Shipping",
-      "city": "New York",
-      "countryCode": "USA",
-      "countryName": "United States of America",
-      "line1": "100 W 33rd St",
-      "postalCode": "10003",
-      "regionId": "NY",
-      "regionName": "New York"
-    }
-  },
-  {
-    "id": "pickup-location-acme-bloomingdales",
-    "name": "Bloomingdale's",
-    "description": "Attraction",
-    "storeId": "store-acme",
-    "geoLocation": "40.763641,-73.967879",
-    "workingHours": "* **Mon - Sun**: 9 - 18",
-    "contactPhone": "+10000000004",
-    "contactEmail": "pickup4@example.com",
-    "isActive": true,
-    "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
-    "transferFulfillmentCenterIds": [
-      "ffc-acme-usa-springfield-il",
-      "ffc-acme-usa-morrisville-nc"
-    ],
-    "address": {
-      "addressType": "Shipping",
-      "city": "New York",
-      "countryCode": "USA",
-      "countryName": "United States of America",
-      "line1": "11000 3rd Ave",
-      "postalCode": "10004",
-      "regionId": "NY",
-      "regionName": "New York"
-    }
-  },
-  {
-    "id": "pickup-location-acme-chelsea-market",
-    "name": "Chelsea Market",
-    "description": "Local market",
-    "storeId": "store-acme",
-    "geoLocation": "40.742438,-74.005897",
-    "workingHours": "* **Mon - Sun**: 9 - 18",
-    "contactPhone": "+10000000005",
-    "contactEmail": "pickup5@example.com",
-    "isActive": true,
-    "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
-    "transferFulfillmentCenterIds": [
-      "ffc-acme-usa-riverton-oh",
-      "ffc-acme-usa-morrisville-nc"
-    ],
-    "address": {
-      "addressType": "Shipping",
-      "city": "New York",
-      "countryCode": "USA",
-      "countryName": "United States of America",
-      "line1": "75 9th Ave",
-      "postalCode": "10005",
-      "regionId": "NY",
-      "regionName": "New York"
-    }
-  },
-  {
-    "id": "pickup-location-acme-union-square-greenmarket",
-    "name": "Union Square Greenmarket",
-    "description": "Local market",
-    "storeId": "store-acme",
-    "geoLocation": "40.735863,-73.989549",
-    "workingHours": "* **Mon - Sun**: 9 - 18",
-    "contactPhone": "+10000000006",
-    "contactEmail": "pickup6@example.com",
-    "isActive": true,
-    "fulfillmentCenterId": "ffc-acme-usa-morrisville-nc",
-    "transferFulfillmentCenterIds": [
-      "ffc-acme-usa-springfield-il",
-      "ffc-acme-usa-riverton-oh"
-    ],
-    "address": {
-      "addressType": "Shipping",
-      "city": "New York",
-      "countryCode": "USA",
-      "countryName": "United States of America",
-      "line1": "E 17th St & Union Square E",
-      "postalCode": "10006",
-      "regionId": "NY",
-      "regionName": "New York"
-    }
-  },
-  {
-    "id": "pickup-location-acme-brookfield-place",
-    "name": "Brookfield Place",
-    "description": "Local market",
-    "storeId": "store-acme",
-    "geoLocation": "40.716310,-74.016839",
-    "workingHours": "* **Mon - Sun**: 9 - 18",
-    "contactPhone": "+10000000007",
-    "contactEmail": "pickup7@example.com",
-    "isActive": true,
-    "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
-    "transferFulfillmentCenterIds": [
-      "ffc-acme-usa-springfield-il",
-      "ffc-acme-usa-morrisville-nc"
-    ],
-    "address": {
-      "addressType": "Shipping",
-      "city": "New York",
-      "countryCode": "USA",
-      "countryName": "United States of America",
-      "line1": "230 Vesey St",
-      "postalCode": "10007",
-      "regionId": "NY",
-      "regionName": "New York"
-    }
-  },
-  {
-    "id": "pickup-location-acme-ssex-street-market",
-    "name": "Ssex Street Market",
-    "description": "Local market",
-    "storeId": "store-acme",
-    "geoLocation": "40.718987,-73.988213",
-    "workingHours": "* **Mon - Sun**: 9 - 18",
-    "contactPhone": "+10000000008",
-    "contactEmail": "pickup8@example.com",
-    "isActive": true,
-    "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
-    "transferFulfillmentCenterIds": [
-      "ffc-acme-usa-riverton-oh",
-      "ffc-acme-usa-morrisville-nc"
-    ],
-    "address": {
-      "addressType": "Shipping",
-      "city": "New York",
-      "countryCode": "USA",
-      "countryName": "United States of America",
-      "line1": "88 Essex St",
-      "postalCode": "10008",
-      "regionId": "NY",
-      "regionName": "New York"
-    }
-  },
-  {
-    "id": "pickup-location-acme-grand-central-market",
-    "name": "Grand Central Market",
-    "description": "Local market",
-    "storeId": "store-acme",
-    "geoLocation": "40.751620,-73.976500",
-    "workingHours": "* **Mon - Sun**: 9 - 18",
-    "contactPhone": "+10000000009",
-    "contactEmail": "pickup9@example.com",
-    "isActive": true,
-    "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
-    "transferFulfillmentCenterIds": [
-      "ffc-acme-usa-springfield-il",
-      "ffc-acme-usa-morrisville-nc"
-    ],
-    "address": {
-      "addressType": "Shipping",
-      "city": "New York",
-      "countryCode": "USA",
-      "countryName": "United States of America",
-      "line1": "89 E 42nd St",
-      "postalCode": "10009",
-      "regionId": "NY",
-      "regionName": "New York"
-    }
-  },
-  {
-    "id": "pickup-location-acme-rockefeller-center-shops",
-    "name": "Rockefeller Center Shops",
-    "description": "Shopping mall",
-    "storeId": "store-acme",
-    "geoLocation": "40.758740,-73.978674",
-    "workingHours": "* **Mon - Sun**: 9 - 18",
-    "contactPhone": "+10000000010",
-    "contactEmail": "pickup10@example.com",
-    "isActive": true,
-    "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
-    "transferFulfillmentCenterIds": [
-      "ffc-acme-usa-riverton-oh",
-      "ffc-acme-usa-morrisville-nc"
-    ],
-    "address": {
-      "addressType": "Shipping",
-      "city": "New York",
-      "countryCode": "USA",
-      "countryName": "United States of America",
-      "line1": "45 Rockefeller Plaza",
-      "postalCode": "10010",
-      "regionId": "NY",
-      "regionName": "New York"
-    }
-  },
-  {
-    "id": "pickup-location-acme-city-point",
-    "name": "City Point",
-    "description": "Attraction",
-    "storeId": "store-acme",
-    "geoLocation": "40.694800,-73.986600",
-    "workingHours": "* **Mon - Sun**: 9 - 18",
-    "contactPhone": "+10000000011",
-    "contactEmail": "pickup11@example.com",
-    "isActive": true,
-    "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
-    "transferFulfillmentCenterIds": [
-      "ffc-acme-usa-springfield-il",
-      "ffc-acme-usa-morrisville-nc"
-    ],
-    "address": {
-      "addressType": "Shipping",
-      "city": "New York",
-      "countryCode": "USA",
-      "countryName": "United States of America",
-      "line1": "445 Albee Square W",
-      "postalCode": "10011",
-      "regionId": "NY",
-      "regionName": "New York"
-    }
-  },
-  {
-    "id": "pickup-location-acme-atlantic-terminal-mall",
-    "name": "Atlantic Terminal Mall",
-    "description": "Shopping mall",
-    "storeId": "store-acme",
-    "geoLocation": "40.688700,-73.975700",
-    "workingHours": "* **Mon - Sun**: 9 - 18",
-    "contactPhone": "+10000000012",
-    "contactEmail": "pickup12@example.com",
-    "isActive": true,
-    "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
-    "transferFulfillmentCenterIds": [
-      "ffc-acme-usa-riverton-oh",
-      "ffc-acme-usa-morrisville-nc"
-    ],
-    "address": {
-      "addressType": "Shipping",
-      "city": "New York",
-      "countryCode": "USA",
-      "countryName": "United States of America",
-      "line1": "139 Flatbush Ave",
-      "postalCode": "10012",
-      "regionId": "NY",
-      "regionName": "New York"
-    }
-  },
-  {
-    "id": "pickup-location-acme-kings-plaza",
-    "name": "Kings Plaza",
-    "description": "Attraction",
-    "storeId": "store-acme",
-    "geoLocation": "40.607800,-73.945000",
-    "workingHours": "* **Mon - Sun**: 9 - 18",
-    "contactPhone": "+10000000013",
-    "contactEmail": "pickup13@example.com",
-    "isActive": true,
-    "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
-    "transferFulfillmentCenterIds": [
-      "ffc-acme-usa-springfield-il",
-      "ffc-acme-usa-morrisville-nc"
-    ],
-    "address": {
-      "addressType": "Shipping",
-      "city": "New York",
-      "countryCode": "USA",
-      "countryName": "United States of America",
-      "line1": "5100 Kings Plaza",
-      "postalCode": "10013",
-      "regionId": "NY",
-      "regionName": "New York"
-    }
-  },
-  {
-    "id": "pickup-location-acme-dekalb-market-hall",
-    "name": "Decalb Market Hall",
-    "description": "Local market",
-    "storeId": "store-acme",
-    "geoLocation": "40.694500,-73.987100",
-    "workingHours": "* **Mon - Sun**: 9 - 18",
-    "contactPhone": "+10000000014",
-    "contactEmail": "pickup14@example.com",
-    "isActive": true,
-    "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
-    "transferFulfillmentCenterIds": [
-      "ffc-acme-usa-riverton-oh",
-      "ffc-acme-usa-morrisville-nc"
-    ],
-    "address": {
-      "addressType": "Shipping",
-      "city": "New York",
-      "countryCode": "USA",
-      "countryName": "United States of America",
-      "line1": "445 Albee Sq W",
-      "postalCode": "10014",
-      "regionId": "NY",
-      "regionName": "New York"
-    }
-  },
-  {
-    "id": "pickup-location-acme-brooklyn-flea-fulton-stall",
-    "name": "Brooklyn Flea (Fulton Stall)",
-    "description": "Attraction",
-    "storeId": "store-acme",
-    "geoLocation": "40.702900,-73.989300",
-    "workingHours": "* **Mon - Sun**: 9 - 18",
-    "contactPhone": "+10000000015",
-    "contactEmail": "pickup15@example.com",
-    "isActive": true,
-    "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
-    "transferFulfillmentCenterIds": [
-      "ffc-acme-usa-springfield-il",
-      "ffc-acme-usa-morrisville-nc"
-    ],
-    "address": {
-      "addressType": "Shipping",
-      "city": "New York",
-      "countryCode": "USA",
-      "countryName": "United States of America",
-      "line1": "80 Pearl St",
-      "postalCode": "10015",
-      "regionId": "NY",
-      "regionName": "New York"
-    }
-  }
-]
+{
+    "method": "POST",
+    "endpoint": "/api/shipping/pickup-locations",
+    "payload_type": "single",
+    "priority": 24,
+    "data": [
+        {
+            "id": "pickup-location-acme-westfield-world-trade-center",
+            "name": "Westfield World Trade Center",
+            "description": "Attraction",
+            "storeId": "store-acme",
+            "geoLocation": "40.711660,-74.011100",
+            "workingHours": "* **Mon - Sun**: 9 - 18",
+            "contactPhone": "+10000000001",
+            "contactEmail": "pickup1@example.com",
+            "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-riverton-oh",
+                "ffc-acme-usa-morrisville-nc"
+            ],
+            "address": {
+                "addressType": "Shipping",
+                "city": "New York",
+                "countryCode": "USA",
+                "countryName": "United States of America",
+                "line1": "185 Greenwich St",
+                "postalCode": "10001",
+                "regionId": "NY",
+                "regionName": "New York"
+            }
+        },
+        {
+            "id": "pickup-location-acme-the-shops-at-columbus-circle",
+            "name": "The Shops at Columbus Circle",
+            "description": "Shopping mall",
+            "storeId": "store-acme",
+            "geoLocation": "40.768044,-73.982125",
+            "workingHours": "* **Mon - Sun**: 9 - 18",
+            "contactPhone": "+10000000002",
+            "contactEmail": "pickup2@example.com",
+            "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-springfield-il",
+                "ffc-acme-usa-morrisville-nc"
+            ],
+            "address": {
+                "addressType": "Shipping",
+                "city": "New York",
+                "countryCode": "USA",
+                "countryName": "United States of America",
+                "line1": "10 Columbus Cir",
+                "postalCode": "10002",
+                "regionId": "NY",
+                "regionName": "New York"
+            }
+        },
+        {
+            "id": "pickup-location-acme-manhattan-mall",
+            "name": "Manhattan Mall",
+            "description": "Shopping mall",
+            "storeId": "store-acme",
+            "geoLocation": "40.749576,-73.986571",
+            "workingHours": "* **Mon - Sun**: 9 - 18",
+            "contactPhone": "+10000000003",
+            "contactEmail": "pickup3@example.com",
+            "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-morrisville-nc",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-springfield-il",
+                "ffc-acme-usa-riverton-oh"
+            ],
+            "address": {
+                "addressType": "Shipping",
+                "city": "New York",
+                "countryCode": "USA",
+                "countryName": "United States of America",
+                "line1": "100 W 33rd St",
+                "postalCode": "10003",
+                "regionId": "NY",
+                "regionName": "New York"
+            }
+        },
+        {
+            "id": "pickup-location-acme-bloomingdales",
+            "name": "Bloomingdale's",
+            "description": "Attraction",
+            "storeId": "store-acme",
+            "geoLocation": "40.763641,-73.967879",
+            "workingHours": "* **Mon - Sun**: 9 - 18",
+            "contactPhone": "+10000000004",
+            "contactEmail": "pickup4@example.com",
+            "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-springfield-il",
+                "ffc-acme-usa-morrisville-nc"
+            ],
+            "address": {
+                "addressType": "Shipping",
+                "city": "New York",
+                "countryCode": "USA",
+                "countryName": "United States of America",
+                "line1": "11000 3rd Ave",
+                "postalCode": "10004",
+                "regionId": "NY",
+                "regionName": "New York"
+            }
+        },
+        {
+            "id": "pickup-location-acme-chelsea-market",
+            "name": "Chelsea Market",
+            "description": "Local market",
+            "storeId": "store-acme",
+            "geoLocation": "40.742438,-74.005897",
+            "workingHours": "* **Mon - Sun**: 9 - 18",
+            "contactPhone": "+10000000005",
+            "contactEmail": "pickup5@example.com",
+            "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-riverton-oh",
+                "ffc-acme-usa-morrisville-nc"
+            ],
+            "address": {
+                "addressType": "Shipping",
+                "city": "New York",
+                "countryCode": "USA",
+                "countryName": "United States of America",
+                "line1": "75 9th Ave",
+                "postalCode": "10005",
+                "regionId": "NY",
+                "regionName": "New York"
+            }
+        },
+        {
+            "id": "pickup-location-acme-union-square-greenmarket",
+            "name": "Union Square Greenmarket",
+            "description": "Local market",
+            "storeId": "store-acme",
+            "geoLocation": "40.735863,-73.989549",
+            "workingHours": "* **Mon - Sun**: 9 - 18",
+            "contactPhone": "+10000000006",
+            "contactEmail": "pickup6@example.com",
+            "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-morrisville-nc",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-springfield-il",
+                "ffc-acme-usa-riverton-oh"
+            ],
+            "address": {
+                "addressType": "Shipping",
+                "city": "New York",
+                "countryCode": "USA",
+                "countryName": "United States of America",
+                "line1": "E 17th St & Union Square E",
+                "postalCode": "10006",
+                "regionId": "NY",
+                "regionName": "New York"
+            }
+        },
+        {
+            "id": "pickup-location-acme-brookfield-place",
+            "name": "Brookfield Place",
+            "description": "Local market",
+            "storeId": "store-acme",
+            "geoLocation": "40.716310,-74.016839",
+            "workingHours": "* **Mon - Sun**: 9 - 18",
+            "contactPhone": "+10000000007",
+            "contactEmail": "pickup7@example.com",
+            "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-springfield-il",
+                "ffc-acme-usa-morrisville-nc"
+            ],
+            "address": {
+                "addressType": "Shipping",
+                "city": "New York",
+                "countryCode": "USA",
+                "countryName": "United States of America",
+                "line1": "230 Vesey St",
+                "postalCode": "10007",
+                "regionId": "NY",
+                "regionName": "New York"
+            }
+        },
+        {
+            "id": "pickup-location-acme-ssex-street-market",
+            "name": "Ssex Street Market",
+            "description": "Local market",
+            "storeId": "store-acme",
+            "geoLocation": "40.718987,-73.988213",
+            "workingHours": "* **Mon - Sun**: 9 - 18",
+            "contactPhone": "+10000000008",
+            "contactEmail": "pickup8@example.com",
+            "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-riverton-oh",
+                "ffc-acme-usa-morrisville-nc"
+            ],
+            "address": {
+                "addressType": "Shipping",
+                "city": "New York",
+                "countryCode": "USA",
+                "countryName": "United States of America",
+                "line1": "88 Essex St",
+                "postalCode": "10008",
+                "regionId": "NY",
+                "regionName": "New York"
+            }
+        },
+        {
+            "id": "pickup-location-acme-grand-central-market",
+            "name": "Grand Central Market",
+            "description": "Local market",
+            "storeId": "store-acme",
+            "geoLocation": "40.751620,-73.976500",
+            "workingHours": "* **Mon - Sun**: 9 - 18",
+            "contactPhone": "+10000000009",
+            "contactEmail": "pickup9@example.com",
+            "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-springfield-il",
+                "ffc-acme-usa-morrisville-nc"
+            ],
+            "address": {
+                "addressType": "Shipping",
+                "city": "New York",
+                "countryCode": "USA",
+                "countryName": "United States of America",
+                "line1": "89 E 42nd St",
+                "postalCode": "10009",
+                "regionId": "NY",
+                "regionName": "New York"
+            }
+        },
+        {
+            "id": "pickup-location-acme-rockefeller-center-shops",
+            "name": "Rockefeller Center Shops",
+            "description": "Shopping mall",
+            "storeId": "store-acme",
+            "geoLocation": "40.758740,-73.978674",
+            "workingHours": "* **Mon - Sun**: 9 - 18",
+            "contactPhone": "+10000000010",
+            "contactEmail": "pickup10@example.com",
+            "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-riverton-oh",
+                "ffc-acme-usa-morrisville-nc"
+            ],
+            "address": {
+                "addressType": "Shipping",
+                "city": "New York",
+                "countryCode": "USA",
+                "countryName": "United States of America",
+                "line1": "45 Rockefeller Plaza",
+                "postalCode": "10010",
+                "regionId": "NY",
+                "regionName": "New York"
+            }
+        },
+        {
+            "id": "pickup-location-acme-city-point",
+            "name": "City Point",
+            "description": "Attraction",
+            "storeId": "store-acme",
+            "geoLocation": "40.694800,-73.986600",
+            "workingHours": "* **Mon - Sun**: 9 - 18",
+            "contactPhone": "+10000000011",
+            "contactEmail": "pickup11@example.com",
+            "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-springfield-il",
+                "ffc-acme-usa-morrisville-nc"
+            ],
+            "address": {
+                "addressType": "Shipping",
+                "city": "New York",
+                "countryCode": "USA",
+                "countryName": "United States of America",
+                "line1": "445 Albee Square W",
+                "postalCode": "10011",
+                "regionId": "NY",
+                "regionName": "New York"
+            }
+        },
+        {
+            "id": "pickup-location-acme-atlantic-terminal-mall",
+            "name": "Atlantic Terminal Mall",
+            "description": "Shopping mall",
+            "storeId": "store-acme",
+            "geoLocation": "40.688700,-73.975700",
+            "workingHours": "* **Mon - Sun**: 9 - 18",
+            "contactPhone": "+10000000012",
+            "contactEmail": "pickup12@example.com",
+            "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-riverton-oh",
+                "ffc-acme-usa-morrisville-nc"
+            ],
+            "address": {
+                "addressType": "Shipping",
+                "city": "New York",
+                "countryCode": "USA",
+                "countryName": "United States of America",
+                "line1": "139 Flatbush Ave",
+                "postalCode": "10012",
+                "regionId": "NY",
+                "regionName": "New York"
+            }
+        },
+        {
+            "id": "pickup-location-acme-kings-plaza",
+            "name": "Kings Plaza",
+            "description": "Attraction",
+            "storeId": "store-acme",
+            "geoLocation": "40.607800,-73.945000",
+            "workingHours": "* **Mon - Sun**: 9 - 18",
+            "contactPhone": "+10000000013",
+            "contactEmail": "pickup13@example.com",
+            "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-springfield-il",
+                "ffc-acme-usa-morrisville-nc"
+            ],
+            "address": {
+                "addressType": "Shipping",
+                "city": "New York",
+                "countryCode": "USA",
+                "countryName": "United States of America",
+                "line1": "5100 Kings Plaza",
+                "postalCode": "10013",
+                "regionId": "NY",
+                "regionName": "New York"
+            }
+        },
+        {
+            "id": "pickup-location-acme-dekalb-market-hall",
+            "name": "Decalb Market Hall",
+            "description": "Local market",
+            "storeId": "store-acme",
+            "geoLocation": "40.694500,-73.987100",
+            "workingHours": "* **Mon - Sun**: 9 - 18",
+            "contactPhone": "+10000000014",
+            "contactEmail": "pickup14@example.com",
+            "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-riverton-oh",
+                "ffc-acme-usa-morrisville-nc"
+            ],
+            "address": {
+                "addressType": "Shipping",
+                "city": "New York",
+                "countryCode": "USA",
+                "countryName": "United States of America",
+                "line1": "445 Albee Sq W",
+                "postalCode": "10014",
+                "regionId": "NY",
+                "regionName": "New York"
+            }
+        },
+        {
+            "id": "pickup-location-acme-brooklyn-flea-fulton-stall",
+            "name": "Brooklyn Flea (Fulton Stall)",
+            "description": "Attraction",
+            "storeId": "store-acme",
+            "geoLocation": "40.702900,-73.989300",
+            "workingHours": "* **Mon - Sun**: 9 - 18",
+            "contactPhone": "+10000000015",
+            "contactEmail": "pickup15@example.com",
+            "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-springfield-il",
+                "ffc-acme-usa-morrisville-nc"
+            ],
+            "address": {
+                "addressType": "Shipping",
+                "city": "New York",
+                "countryCode": "USA",
+                "countryName": "United States of America",
+                "line1": "80 Pearl St",
+                "postalCode": "10015",
+                "regionId": "NY",
+                "regionName": "New York"
+            }
+        }
+    ]
+}

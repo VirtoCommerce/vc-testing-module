@@ -3,8 +3,8 @@ from pydantic import BaseModel
 
 class WhiteLabelingSettingsType(BaseModel):
     def __init__(self):
-        from graphql_client.types.favicon_type import FaviconType
         from graphql_client.types.menu_link_type import MenuLinkType
+        from graphql_client.types.favicon_type import FaviconType
 
         self.userId: str | None
         self.organizationId: str | None

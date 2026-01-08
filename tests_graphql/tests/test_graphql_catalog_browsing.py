@@ -7,6 +7,7 @@ from gql.transport.exceptions import TransportQueryError
 
 from fixtures.anonymous_catalog_requests import AnonymousCatalogRequests
 from fixtures.auth import Auth
+from fixtures.config import Config
 from fixtures.graphql_client import GraphQLClient
 from graphql_operations.catalog.categories_operations import CategoriesOperations
 from graphql_operations.catalog.products_operations import ProductsOperations
@@ -16,7 +17,7 @@ from graphql_operations.user.user_operations import UserOperations
 @pytest.mark.graphql
 @allure.title("Success catalog browsing as anonymous user (GraphQL)")
 def test_success_catalog_browsing_as_anonymous_user(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     anonymous_catalog_requests: AnonymousCatalogRequests,
     graphql_client: GraphQLClient,
@@ -39,7 +40,7 @@ def test_success_catalog_browsing_as_anonymous_user(
     user = user_operations.get_me()
 
     categories_response = categories_operations.get_categories(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,
@@ -53,7 +54,7 @@ def test_success_catalog_browsing_as_anonymous_user(
     )
 
     category = categories_operations.get_category(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,
@@ -61,7 +62,7 @@ def test_success_catalog_browsing_as_anonymous_user(
     )
 
     products_response = products_operations.get_products(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,
@@ -71,7 +72,7 @@ def test_success_catalog_browsing_as_anonymous_user(
     product_to_compare = products_response["items"][0]
 
     product = products_operations.get_product(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         culture_name=culture,
         currency_code=currency,
@@ -85,7 +86,7 @@ def test_success_catalog_browsing_as_anonymous_user(
 @pytest.mark.graphql
 @allure.title("Unsuccess catalog browsing as anonymous user (GraphQL)")
 def test_unsuccess_catalog_browsing_as_anonymous_user(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     anonymous_catalog_requests: AnonymousCatalogRequests,
     graphql_client: GraphQLClient,
@@ -111,7 +112,7 @@ def test_unsuccess_catalog_browsing_as_anonymous_user(
 
     with pytest.raises(TransportQueryError) as categories_exc_info:
         categories_operations.get_categories(
-            store_id=config["store_id"],
+            store_id=config["STORE_ID"],
             user_id=user["id"],
             currency_code=currency,
             culture_name=culture,
@@ -120,7 +121,7 @@ def test_unsuccess_catalog_browsing_as_anonymous_user(
 
     with pytest.raises(TransportQueryError) as category_exc_info:
         categories_operations.get_category(
-            store_id=config["store_id"],
+            store_id=config["STORE_ID"],
             user_id=user["id"],
             currency_code=currency,
             culture_name=culture,
@@ -129,7 +130,7 @@ def test_unsuccess_catalog_browsing_as_anonymous_user(
 
     with pytest.raises(TransportQueryError) as products_exc_info:
         products_operations.get_products(
-            store_id=config["store_id"],
+            store_id=config["STORE_ID"],
             user_id=user["id"],
             currency_code=currency,
             culture_name=culture,
@@ -138,7 +139,7 @@ def test_unsuccess_catalog_browsing_as_anonymous_user(
 
     with pytest.raises(TransportQueryError) as product_exc_info:
         products_operations.get_product(
-            store_id=config["store_id"],
+            store_id=config["STORE_ID"],
             user_id=user["id"],
             culture_name=culture,
             currency_code=currency,
@@ -166,7 +167,7 @@ def test_unsuccess_catalog_browsing_as_anonymous_user(
 @pytest.mark.graphql
 @allure.title("Catalog browsing as registered user (GraphQL)")
 def test_catalog_browsing_as_registered_user(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     auth: Auth,
     anonymous_catalog_requests: AnonymousCatalogRequests,
@@ -186,13 +187,13 @@ def test_catalog_browsing_as_registered_user(
 
     auth.authenticate(
         username=dataset["users"][0]["userName"],
-        password=config["users_password"],
+        password=config["USERS_PASSWORD"],
     )
 
     user = user_operations.get_me()
 
     categories_response = categories_operations.get_categories(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,
@@ -206,7 +207,7 @@ def test_catalog_browsing_as_registered_user(
     )
 
     category = categories_operations.get_category(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,
@@ -214,7 +215,7 @@ def test_catalog_browsing_as_registered_user(
     )
 
     products_response = products_operations.get_products(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         currency_code=currency,
         culture_name=culture,
@@ -224,7 +225,7 @@ def test_catalog_browsing_as_registered_user(
     product_to_compare = products_response["items"][0]
 
     product = products_operations.get_product(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         culture_name=culture,
         currency_code=currency,

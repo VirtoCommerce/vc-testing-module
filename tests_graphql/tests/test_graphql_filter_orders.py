@@ -1,11 +1,12 @@
 import os
-from datetime import timedelta
+from datetime import datetime, timedelta
 from typing import Any
 
 import allure
 import pytest
 
 from fixtures.auth import Auth
+from fixtures.config import Config
 from fixtures.graphql_client import GraphQLClient
 from graphql_operations.order.order_operations import OrderOperations
 
@@ -13,7 +14,7 @@ from graphql_operations.order.order_operations import OrderOperations
 @pytest.mark.graphql
 @allure.title("Filter orders by status (GraphQL)")
 def test_filter_orders_by_status(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     auth: Auth,
     graphql_client: GraphQLClient,
@@ -31,7 +32,7 @@ def test_filter_orders_by_status(
 
     auth.authenticate(
         user_maintainer["userName"],
-        config["users_password"],
+        config["USERS_PASSWORD"],
     )
 
     culture = dataset["languages"][0]["defaultValue"]
@@ -103,7 +104,7 @@ def test_filter_orders_by_status(
 @pytest.mark.graphql
 @allure.title("Filter orders by date (GraphQL)")
 def test_filter_orders_by_date(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     auth: Auth,
     graphql_client: GraphQLClient,
@@ -122,11 +123,16 @@ def test_filter_orders_by_date(
 
     auth.authenticate(
         user_maintainer["userName"],
-        config["users_password"],
+        config["USERS_PASSWORD"],
     )
 
-    from_date = dataset["createdDate"] - timedelta(weeks=1)
-    to_date = dataset["createdDate"] + timedelta(weeks=1)
+    order = order_operations.get_order(dataset["orders"][0]["id"])
+
+    normalized_order_date = order["createdDate"][:-2] + "Z"
+    order_date = datetime.strptime(normalized_order_date, "%Y-%m-%dT%H:%M:%S.%fZ")
+
+    from_date = order_date - timedelta(weeks=1)
+    to_date = order_date + timedelta(weeks=1)
 
     search_orders_result = order_operations.get_organization_orders(
         culture_name=culture,

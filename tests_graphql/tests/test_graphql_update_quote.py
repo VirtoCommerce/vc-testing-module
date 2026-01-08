@@ -6,6 +6,7 @@ import allure
 import pytest
 
 from fixtures.auth import Auth
+from fixtures.config import Config
 from fixtures.graphql_client import GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.quote.quote_operations import QuoteOperations
@@ -15,7 +16,7 @@ from graphql_operations.user.user_operations import UserOperations
 @pytest.mark.graphql
 @allure.title("Change quote item quantity (GraphQL)")
 def test_change_quote_item_quantity(
-    config: dict[str, Any],
+    config: Config,
     auth: Auth,
     dataset: dict[str, Any],
     graphql_client: GraphQLClient,
@@ -28,7 +29,7 @@ def test_change_quote_item_quantity(
 
     auth.authenticate(
         dataset["users"][0]["userName"],
-        config["users_password"],
+        config["USERS_PASSWORD"],
     )
 
     currency = dataset["currencies"][0]["code"]
@@ -45,7 +46,7 @@ def test_change_quote_item_quantity(
 
     cart = cart_operations.add_item_to_cart(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "productId": product_id_in_stock,
             "quantity": 1,
@@ -70,7 +71,7 @@ def test_change_quote_item_quantity(
     )
 
     updated_quote = quote_operations.get_quote(
-        store_id=config["store_id"],
+        store_id=config["STORE_ID"],
         user_id=user["id"],
         id=quote["id"],
         currency_code=currency,
@@ -96,7 +97,7 @@ def test_change_quote_item_quantity(
 @pytest.mark.graphql
 @allure.title("Change quote comment (GraphQL)")
 def test_change_quote_comment(
-    config: dict[str, Any],
+    config: Config,
     auth: Auth,
     dataset: dict[str, Any],
     graphql_client: GraphQLClient,
@@ -109,7 +110,7 @@ def test_change_quote_comment(
 
     auth.authenticate(
         dataset["users"][0]["userName"],
-        config["users_password"],
+        config["USERS_PASSWORD"],
     )
 
     currency = dataset["currencies"][0]["code"]
@@ -126,7 +127,7 @@ def test_change_quote_comment(
 
     cart = cart_operations.add_item_to_cart(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "productId": product_id_in_stock,
             "quantity": 1,
@@ -168,7 +169,7 @@ def test_change_quote_comment(
 @pytest.mark.graphql
 @allure.title("Remove quote shipping and billing addresses (GraphQL)")
 def test_change_quote_shipping_and_billing_addresses(
-    config: dict[str, Any],
+    config: Config,
     auth: Auth,
     dataset: dict[str, Any],
     graphql_client: GraphQLClient,
@@ -184,7 +185,7 @@ def test_change_quote_shipping_and_billing_addresses(
 
     auth.authenticate(
         dataset["users"][0]["userName"],
-        config["users_password"],
+        config["USERS_PASSWORD"],
     )
 
     currency = dataset["currencies"][0]["code"]
@@ -201,7 +202,7 @@ def test_change_quote_shipping_and_billing_addresses(
 
     cart = cart_operations.add_item_to_cart(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "productId": product_id_in_stock,
             "quantity": 1,
@@ -260,7 +261,7 @@ def test_change_quote_shipping_and_billing_addresses(
 @pytest.mark.graphql
 @allure.title("Remove quote item (GraphQL)")
 def test_remove_quote_item(
-    config: dict[str, Any],
+    config: Config,
     auth: Auth,
     dataset: dict[str, Any],
     graphql_client: GraphQLClient,
@@ -273,7 +274,7 @@ def test_remove_quote_item(
 
     auth.authenticate(
         dataset["users"][0]["userName"],
-        config["users_password"],
+        config["USERS_PASSWORD"],
     )
 
     currency = dataset["currencies"][0]["code"]
@@ -290,7 +291,7 @@ def test_remove_quote_item(
 
     cart = cart_operations.add_item_to_cart(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "productId": product_id_in_stock,
             "quantity": 1,
@@ -330,7 +331,7 @@ def test_remove_quote_item(
 @pytest.mark.graphql
 @allure.title("Submit quote request (GraphQL)")
 def test_submit_quote_request(
-    config: dict[str, Any],
+    config: Config,
     auth: Auth,
     dataset: dict[str, Any],
     graphql_client: GraphQLClient,
@@ -343,7 +344,7 @@ def test_submit_quote_request(
 
     auth.authenticate(
         dataset["users"][0]["userName"],
-        config["users_password"],
+        config["USERS_PASSWORD"],
     )
 
     currency = dataset["currencies"][0]["code"]
@@ -360,7 +361,7 @@ def test_submit_quote_request(
 
     cart = cart_operations.add_item_to_cart(
         payload={
-            "storeId": config["store_id"],
+            "storeId": config["STORE_ID"],
             "userId": user["id"],
             "productId": product_id_in_stock,
             "quantity": 1,

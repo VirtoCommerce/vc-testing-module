@@ -1,16 +1,17 @@
 from playwright.sync_api import Locator, Page
 
+from fixtures.config import Config
 from tests_e2e.pages import MainLayoutPage
 
 
 class SignInPage(MainLayoutPage):
-    def __init__(self, page: Page, config: dict):
+    def __init__(self, page: Page, config: Config):
         self.page = page
         self.config = config
 
     @property
     def url(self) -> str:
-        return f"{self.config['frontend_base_url']}/sign-in"
+        return f"{self.config['FRONTEND_BASE_URL']}/sign-in"
 
     @property
     def email_input(self) -> Locator:

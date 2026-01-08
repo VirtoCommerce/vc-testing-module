@@ -7,6 +7,7 @@ import pytest
 from playwright.sync_api import Page, expect
 
 from fixtures.anonymous_catalog_requests import AnonymousCatalogRequests
+from fixtures.config import Config
 from tests_e2e.pages.cart_page import CartPage
 from tests_e2e.pages.category_page import CategoryPage
 from tests_e2e.pages.checkout_shipping_page import CheckoutShippingPage
@@ -15,7 +16,7 @@ from tests_e2e.pages.checkout_shipping_page import CheckoutShippingPage
 @pytest.mark.e2e
 @allure.title("Checkout multi-step - Switch shipping option (E2E)")
 def test_e2e_checkout_multi_step_switch_shipping_option(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     page: Page,
     anonymous_catalog_requests: AnonymousCatalogRequests,
@@ -101,7 +102,7 @@ def test_e2e_checkout_multi_step_switch_shipping_option(
 @pytest.mark.e2e
 @allure.title("Checkout single-page - Switch shipping option (E2E)")
 def test_e2e_checkout_single_page_switch_shipping_option(
-    config: dict[str, Any],
+    config: Config,
     dataset: dict[str, Any],
     page: Page,
     anonymous_catalog_requests: AnonymousCatalogRequests,

@@ -2,25 +2,30 @@ from typing import List, Optional
 
 from playwright.sync_api import Page
 
-from tests_e2e.components import (
-    LineItemComponent,
+from fixtures.config import Config
+from tests_e2e.components import LineItemComponent
+from tests_e2e.components.delete_wishlist_product_modal import (
+    DeleteWishlistProductModalComponent,
 )
-from tests_e2e.components.delete_wishlist_product_modal import DeleteWishlistProductModalComponent
+
 from .main_layout_page import MainLayoutPage
 
 
 class SaveForLaterPage(MainLayoutPage):
-    def __init__(self, page: Page, config: dict):
+    def __init__(self, page: Page, config: Config):
         self.page = page
         self.config = config
 
     @property
     def url(self) -> str:
-        return f"{self.config['frontend_base_url']}/account/saved-for-later"
+        return f"{self.config['FRONTEND_BASE_URL']}/account/saved-for-later"
 
     @property
     def line_items(self) -> List[LineItemComponent]:
-        return [LineItemComponent(item) for item in self.page.locator("[data-test-id='line-item']").all()]
+        return [
+            LineItemComponent(item)
+            for item in self.page.locator("[data-test-id='line-item']").all()
+        ]
 
     @property
     def is_empty(self) -> bool:
