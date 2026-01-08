@@ -45,11 +45,35 @@ PAGE_CONTEXT_FRAGMENT = """
         secondaryLogoUrl
         faviconUrl
         themePresetName
-    }
+    }    
     user {
         id
         userName
         email
+        contact {
+            id
+            firstName
+            lastName
+            fullName
+            organizationId
+            defaultLanguage
+            currencyCode
+        }
+        operator {
+            userName
+            contact {
+                fullName
+            }
+        }
+        roles {
+            name
+        }
+        permissions
+        isAdministrator
+        passwordExpired
+        passwordExpiryInDays
+        forcePasswordChange
+        lockedState
     }
 """
 
