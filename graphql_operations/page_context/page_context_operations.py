@@ -151,12 +151,12 @@ class PageContextOperations:
                 operator {
                     userName
                     contact {
-                        fullName             
-                    }            
+                        fullName
+                    }
                 }
                 roles {
                     name
-                }          
+                }
             }
         """
 
