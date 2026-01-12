@@ -9,7 +9,6 @@ from playwright.sync_api import Page, expect
 
 from fixtures.auth import Auth
 from fixtures.config import Config
-from fixtures.graphql_client import GraphQLClient
 from fixtures.webapi_client import WebAPISession
 from graphql_operations.contact.contact_operations import ContactOperations
 from tests_e2e.components.edit_address_modal_component import EditAddressModalComponent
