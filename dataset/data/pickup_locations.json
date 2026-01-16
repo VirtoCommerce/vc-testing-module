@@ -117,7 +117,7 @@
             "contactPhone": "+10000000005",
             "contactEmail": "pickup5@example.com",
             "isActive": true,
-            "fulfillmentCenterId": "",
+            "fulfillmentCenterId": null,
             "transferFulfillmentCenterIds": [
                 "ffc-acme-usa-riverton-oh",
                 "ffc-acme-usa-morrisville-nc"
@@ -195,7 +195,7 @@
             "contactPhone": "+10000000008",
             "contactEmail": "pickup8@example.com",
             "isActive": true,
-            "fulfillmentCenterId": "",
+            "fulfillmentCenterId": null,
             "transferFulfillmentCenterIds": [
                 "ffc-acme-usa-riverton-oh",
                 "ffc-acme-usa-morrisville-nc",
@@ -249,7 +249,7 @@
             "contactPhone": "+10000000010",
             "contactEmail": "pickup10@example.com",
             "isActive": true,
-            "fulfillmentCenterId": "",
+            "fulfillmentCenterId": null,
             "transferFulfillmentCenterIds": [             
                 "ffc-acme-eur-billund-dk"
 
@@ -406,7 +406,7 @@
             "contactPhone": "+49 30 555-1001",
             "contactEmail": "pickup-berlin1@acme.com",
             "isActive": true,
-            "fulfillmentCenterId": "",
+            "fulfillmentCenterId": null,
             "transferFulfillmentCenterIds": [
                 "ffc-acme-eur-billund-dk",
                 "ffc-acme-usa-springfield-il",
@@ -434,7 +434,7 @@
             "contactPhone": "+49 30 555-1002",
             "contactEmail": "pickup-berlin2@acme.com",
             "isActive": true,
-            "fulfillmentCenterId": "",
+            "fulfillmentCenterId": null,
             "transferFulfillmentCenterIds": [
                 "ffc-acme-eur-berlin-de",
                 "ffc-acme-eur-billund-dk"
@@ -461,7 +461,7 @@
             "contactPhone": "+49 30 555-1003",
             "contactEmail": "pickup-berlin3@acme.com",
             "isActive": true,
-            "fulfillmentCenterId": "",
+            "fulfillmentCenterId": null,
             "transferFulfillmentCenterIds": [
                 "ffc-acme-eur-billund-dk",
                 "ffc-acme-eur-berlin-de"
@@ -487,7 +487,7 @@
             "contactPhone": "+45 75 33 1001",
             "contactEmail": "pickup-billund1@acme.com",
             "isActive": true,
-            "fulfillmentCenterId": "",
+            "fulfillmentCenterId": null,
             "transferFulfillmentCenterIds": [                     
                 "ffc-acme-usa-morrisville-nc",
                 "ffc-acme-eur-berlin-de",
@@ -514,7 +514,7 @@
             "contactPhone": "+45 75 33 1002",
             "contactEmail": "pickup-billund2@acme.com",
             "isActive": true,
-            "fulfillmentCenterId": "",
+            "fulfillmentCenterId": null,
             "transferFulfillmentCenterIds": [
                 "ffc-acme-eur-berlin-de",
                 "ffc-acme-eur-billund-dk"

@@ -65,11 +65,7 @@ class PickupLocationsOperations:
             "sort": sort,
         }
 
-        variables = {
-            k: v
-            for k, v in variables.items()
-            if v is not None or k in ["productId", "storeId", "cultureName"]
-        }
+        variables = {k: v for k, v in variables.items() if v is not None}
 
         result = product_pickup_locations_query.execute(
             variables=variables, return_fields=PRODUCT_PICKUP_LOCATION_FRAGMENT
@@ -104,11 +100,7 @@ class PickupLocationsOperations:
             "filter": filter,
         }
       
-        variables = {
-            k: v
-            for k, v in variables.items()
-            if v is not None or k in ["cartId", "storeId", "cultureName"]
-        }
+        variables = {k: v for k, v in variables.items() if v is not None}
 
         result = cart_pickup_locations_query.execute(
             variables=variables, return_fields=CART_PICKUP_LOCATION_FRAGMENT
