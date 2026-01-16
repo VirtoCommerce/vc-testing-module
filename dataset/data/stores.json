@@ -49,7 +49,11 @@
             ],
             "additionalFulfillmentCenterIds": [
                 "ffc-acme-usa-morrisville-nc",
-                "ffc-acme-usa-riverton-oh"
+                "ffc-acme-usa-riverton-oh",
+                "ffc-acme-eur-berlin-de",
+                "ffc-acme-eur-billund-dk",
+                "ffc-acme-usa-springfield-il"
+
             ],
             "settings": [
                 {

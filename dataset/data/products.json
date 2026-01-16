@@ -2,7 +2,7 @@
     "method": "POST",
     "endpoint": "/api/catalog/products",
     "payload_type": "single",
-    "priority": 11,
+    "priority": 13,
     "data": [
         {
             "id": "product-acme-laptop-acer-aspire-16-ai",
@@ -8230,6 +8230,55 @@
             ],
             "properties": [
                 {
+                    "isReadOnly": false,
+                    "isManageable": true,
+                    "isNew": false,
+                    "catalogId": "catalog-acme",
+                    "categoryId": null,
+                    "propertyGroupId": null,
+                    "name": "VirtoFrontend_UI_Layout",
+                    "required": false,
+                    "dictionary": true,
+                    "multivalue": false,
+                    "multilanguage": false,
+                    "hidden": false,
+                    "valueType": "ShortText",
+                    "type": "Product",
+                    "outerId": null,
+                    "measureId": null,
+                    "ownerName": null,
+                    "displayOrder": null,
+                    "values": [
+                        {
+                            "propertyName": "VirtoFrontend_UI_Layout",
+                            "propertyId": null,
+                            "languageCode": null,
+                            "alias": "B2B",
+                            "displayOrder": 0,
+                            "valueType": "ShortText",
+                            "valueId": "property-acme-virto-frontend-ui-layout-b2c",
+                            "value": "B2B",
+                            "propertyMultivalue": false,
+                            "outerId": null,
+                            "unitOfMeasureId": null,
+                            "colorCode": null,
+                            "isInherited": false,
+                            "id": null
+                        }
+                    ],
+                    "attributes": [],
+                    "displayNames": [
+                        {
+                            "name": "Type",
+                            "languageCode": "en-US"
+                        }
+                    ],
+                    "validationRules": [],
+                    "validationRule": null,
+                    "isInherited": true,
+                    "id": "property-acme-virto-frontend-ui-layout"
+                },
+                {
                     "id": "property-acme-battery-capacity",
                     "catalogId": "catalog-acme",
                     "categoryId": "category-acme-laptops",
@@ -8273,24 +8322,53 @@
                     ]
                 },
                 {
-                    "id": "property-acme-color",
+                    "isReadOnly": false,
+                    "isManageable": true,
+                    "isNew": false,
                     "catalogId": "catalog-acme",
-                    "categoryId": "category-acme-laptops",
+                    "categoryId": null,
+                    "propertyGroupId": null,
                     "name": "Color",
-                    "type": "Variation",
+                    "required": false,
+                    "dictionary": true,
+                    "multivalue": false,
+                    "multilanguage": false,
+                    "hidden": false,
                     "valueType": "Color",
+                    "type": "Variation",
+                    "outerId": null,
+                    "measureId": null,
+                    "ownerName": null,
+                    "displayOrder": null,
                     "values": [
                         {
-                            "value": "Blue",
-                            "valueId": "property-acme-color-blue",
-                            "colorCode": "blue",
+                            "propertyName": "Color",
+                            "propertyId": null,
+                            "languageCode": null,
                             "alias": "Blue",
-                            "displayOrder": null,
-                            "isInherited": true,
-                            "id": "property-acme-color-blue",
-                            "propertyId": "property-acme-color"
+                            "displayOrder": 0,
+                            "valueType": "Color",
+                            "valueId": "property-acme-color-blue",
+                            "value": "Blue",
+                            "propertyMultivalue": false,
+                            "outerId": null,
+                            "unitOfMeasureId": null,
+                            "colorCode": "blue",
+                            "isInherited": false,
+                            "id": "b8f4a2c1-9d5e-4f3a-8c7b-1e2d3f4a5b6c"
                         }
-                    ]
+                    ],
+                    "attributes": [],
+                    "displayNames": [
+                        {
+                            "name": "Color",
+                            "languageCode": "en-US"
+                        }
+                    ],
+                    "validationRules": [],
+                    "validationRule": null,
+                    "isInherited": true,
+                    "id": "property-acme-color"
                 },
                 {
                     "id": "property-acme-cpu-cores",
@@ -10651,6 +10729,535 @@
                         {
                             "value": 1000,
                             "unitOfMeasureId": "measure-unit-storage-gigabyte"
+                        }
+                    ]
+                }
+            ]
+        },       
+        {
+            "id": "product-acme-product1-track-inventory-false",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-phones-tablets",
+            "name": "Product1 - Track inventory = false",
+            "code": "product-acme-product1-track-inventory-false",
+            "vendor": "Apple",
+            "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-product1",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Product1 - Track inventory = false",
+                    "semanticUrl": "product1",
+                    "storeId": "store-acme"
+                }
+            ],
+            "images": [
+                {
+                    "url": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17-finish-select-202509-sage_GEO_EMEA?wid=5120&hei=2880&fmt=webp&qlt=90&.v=WGdCRlQ0YVlqbTdXTEkxRnVQb0oxZ3VBTlNROXF1MzBwZUoyNEVtMWw3aDQ5VWNJbUZTSkFodDQ1anBXVUVnSk9MekhWSGZtV1pvV240QzNuTk80VS9jVTIwcEJjL3Axby9SNE1La0phb1h5eFgwZnUzK2o2NmxjekV1UHpBT2c&traceId=1",
+                    "group": "images"
+                }
+            ],
+            "properties": [
+                {
+                    "id": "property-acme-brand",
+                    "catalogId": "catalog-acme",
+                    "categoryId": null,
+                    "name": "Brand",
+                    "type": "Product",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "Apple"
+                        }
+                    ]
+                },
+                {
+                    "id": "property-acme-virto-frontend-ui-layout",
+                    "catalogId": "catalog-acme",
+                    "categoryId": null,
+                    "name": "VirtoFrontend_UI_Layout",
+                    "type": "Product",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "B2B"
+                        }
+                    ]
+                },
+                {
+                    "id": "property-acme-weight",
+                    "catalogId": "catalog-acme",
+                    "categoryId": null,
+                    "name": "Weight",
+                    "type": "Product",
+                    "valueType": "Number",
+                    "values": [
+                        {
+                            "value": 100
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "product-acme-product2-main1-stock",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-phones-tablets",
+            "name": "Product2 - Main_1 stock",
+            "code": "product-acme-product2-main1-stock",
+            "vendor": "Apple",
+            "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-product2",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Product2 - Main_1 stock",
+                    "semanticUrl": "product2",
+                    "storeId": "store-acme"
+                }
+            ],
+            "images": [
+                {
+                    "url": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17-finish-select-202509-lavender_GEO_EMEA?wid=5120&hei=2880&fmt=webp&qlt=90&.v=WGdCRlQ0YVlqbTdXTEkxRnVQb0oxbGoraU1aeXdWbEh0SUtyMmtxWGg5dXdPVU4zTkFIWDYzNXNHVU44cTk4ajhLcXQxZ1h0QThIT2dnUm5qbGk5OUJkSERIUjY1Wk1Od3FtNjF6NFZLVXNYajN1aGR4R3ZYZVBDQm8zSlNqanBycDg5NlprcjhNSkY3UURyM0Y2UGJn&traceId=1",
+                    "group": "images"
+                }
+            ],
+            "properties": [
+                {
+                    "id": "property-acme-brand",
+                    "catalogId": "catalog-acme",
+                    "categoryId": null,
+                    "name": "Brand",
+                    "type": "Product",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "Apple"
+                        }
+                    ]
+                },
+                {
+                    "id": "property-acme-virto-frontend-ui-layout",
+                    "catalogId": "catalog-acme",
+                    "categoryId": null,
+                    "name": "VirtoFrontend_UI_Layout",
+                    "type": "Product",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "B2B"
+                        }
+                    ]
+                },
+                {
+                    "id": "property-acme-weight",
+                    "catalogId": "catalog-acme",
+                    "categoryId": null,
+                    "name": "Weight",
+                    "type": "Product",
+                    "valueType": "Number",
+                    "values": [
+                        {
+                            "value": 100
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "product-acme-product2-main12-stock",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-phones-tablets",
+            "name": "Product2 - Main_1_2 stock",
+            "code": "product-acme-product2-main12-stock",
+            "vendor": "Apple",
+            "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-product2-main12-stock",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Product2 - Main_1_2 stock",
+                    "semanticUrl": "product2---main12-stock",
+                    "storeId": "store-acme"
+                }
+            ],
+            "images": [
+                {
+                    "url": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17-finish-select-202509-lavender_GEO_EMEA?wid=5120&hei=2880&fmt=webp&qlt=90&.v=WGdCRlQ0YVlqbTdXTEkxRnVQb0oxbGoraU1aeXdWbEh0SUtyMmtxWGg5dXdPVU4zTkFIWDYzNXNHVU44cTk4ajhLcXQxZ1h0QThIT2dnUm5qbGk5OUJkSERIUjY1Wk1Od3FtNjF6NFZLVXNYajN1aGR4R3ZYZVBDQm8zSlNqanBycDg5NlprcjhNSkY3UURyM0Y2UGJn&traceId=1",
+                    "group": "images"
+                }
+            ],
+            "properties": [
+                {
+                    "id": "property-acme-brand",
+                    "catalogId": "catalog-acme",
+                    "categoryId": null,
+                    "name": "Brand",
+                    "type": "Product",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "Apple"
+                        }
+                    ]
+                },
+                {
+                    "id": "property-acme-virto-frontend-ui-layout",
+                    "catalogId": "catalog-acme",
+                    "categoryId": null,
+                    "name": "VirtoFrontend_UI_Layout",
+                    "type": "Product",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "B2B"
+                        }
+                    ]
+                },
+                {
+                    "id": "property-acme-weight",
+                    "catalogId": "catalog-acme",
+                    "categoryId": null,
+                    "name": "Weight",
+                    "type": "Product",
+                    "valueType": "Number",
+                    "values": [
+                        {
+                            "value": 100
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "product-acme-product2-main2-stock",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-phones-tablets",
+            "name": "Product2 - Main_2 stock",
+            "code": "product-acme-product2-main2-stock",
+            "vendor": "Apple",
+            "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-product2-main2-stock",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Product2 - Main_2 stock",
+                    "semanticUrl": "product2---main2-stock",
+                    "storeId": "store-acme"
+                }
+            ],
+            "images": [
+                {
+                    "url": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17-finish-select-202509-lavender_GEO_EMEA?wid=5120&hei=2880&fmt=webp&qlt=90&.v=WGdCRlQ0YVlqbTdXTEkxRnVQb0oxbGoraU1aeXdWbEh0SUtyMmtxWGg5dXdPVU4zTkFIWDYzNXNHVU44cTk4ajhLcXQxZ1h0QThIT2dnUm5qbGk5OUJkSERIUjY1Wk1Od3FtNjF6NFZLVXNYajN1aGR4R3ZYZVBDQm8zSlNqanBycDg5NlprcjhNSkY3UURyM0Y2UGJn&traceId=1",
+                    "group": "images"
+                }
+            ],
+            "properties": [
+                {
+                    "id": "property-acme-brand",
+                    "catalogId": "catalog-acme",
+                    "categoryId": null,
+                    "name": "Brand",
+                    "type": "Product",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "Apple"
+                        }
+                    ]
+                },
+                {
+                    "id": "property-acme-virto-frontend-ui-layout",
+                    "catalogId": "catalog-acme",
+                    "categoryId": null,
+                    "name": "VirtoFrontend_UI_Layout",
+                    "type": "Product",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "B2B"
+                        }
+                    ]
+                },
+                {
+                    "id": "property-acme-weight",
+                    "catalogId": "catalog-acme",
+                    "categoryId": null,
+                    "name": "Weight",
+                    "type": "Product",
+                    "valueType": "Number",
+                    "values": [
+                        {
+                            "value": 100
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "product-acme-product3-transfer",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-phones-tablets",
+            "name": "Product3 - Transfer_3",
+            "code": "product-acme-product3-transfer",
+            "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-product3-transfer",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Product3 - Transfer_3",
+                    "semanticUrl": "product3---transfer",
+                    "storeId": "store-acme"
+                }
+            ],
+            "images": [
+                {
+                    "url": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17-finish-select-202509-black_GEO_EMEA?wid=5120&hei=2880&fmt=webp&qlt=90&.v=WGdCRlQ0YVlqbTdXTEkxRnVQb0oxa3pYQjBteGp2cFFHL09TNGhVUUhxeWo2VUVzcmZ5OEgyS012Ry8yTDQ1bTBoUVhuTWlrY2hIK090ZGZZbk9HeEJWb1BiTjRORlc1Y1lKU3JWempySktjazd3VTl3TzZzZTVUZkZybC92M1hmbW94YnYxc1YvNXZ4emJGL0IxNFp3&traceId=1",
+                    "group": "images"
+                }
+            ]
+        },
+        {
+            "id": "product-acme-product4-main-transfer",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-phones-tablets",
+            "name": "Product4 - Main_1 + transfer_1",
+            "code": "product-acme-product4-main-transfer",
+            "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-product4-main-transfer",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Product4 - Main_1 + transfer_1",
+                    "semanticUrl": "product4---main-transfer",
+                    "storeId": "store-acme"
+                }
+            ],
+            "images": [
+                {
+                    "url": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/ipad-digitalmat-gallery-1-202210?wid=728&hei=666&fmt=png-alpha&.v=b09yUUVmdlhWdlN1cWxTVitvUG5xTmxsTzVKU05XZEpBL0Y1VXhvbVNlb1RDMFgyWE5CaGc1dHIrSkVKb1NNV1M0TjRWdzF2UjRGVEY0c3dBQVZ6VFFYbnBWVlpIWWpSZ1ZkR3BYRlE3REE",
+                    "group": "Images"
+                }
+            ]
+        },
+        {
+            "id": "product-acme-product4-main2-transfer1",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-phones-tablets",
+            "name": "Product4 - Main_2 + transfer_1",
+            "code": "product-acme-product4-main2-transfer1",
+            "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-product4-main2-transfer1",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Product4 - Main_2 + transfer_1",
+                    "semanticUrl": "product4---main2-transfer1",
+                    "storeId": "store-acme"
+                }
+            ],
+            "images": [
+                {
+                    "url": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/ipad-digitalmat-gallery-1-202210?wid=728&hei=666&fmt=png-alpha&.v=b09yUUVmdlhWdlN1cWxTVitvUG5xTmxsTzVKU05XZEpBL0Y1VXhvbVNlb1RDMFgyWE5CaGc1dHIrSkVKb1NNV1M0TjRWdzF2UjRGVEY0c3dBQVZ6VFFYbnBWVlpIWWpSZ1ZkR3BYRlE3REE",
+                    "group": "Images"
+                }
+            ]
+        },
+        {
+            "id": "product-acme-product5-transfer-b2b",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-phones-tablets",
+            "name": "Product5 - Transfer_1",
+            "code": "product-acme-product5-transfer-b2b",
+            "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-product5-transfer-b2b",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Product5 - Transfer_1",
+                    "semanticUrl": "product5-transfer-b2b",
+                    "storeId": "store-acme"
+                }
+            ],
+            "images": [
+                {
+                    "url": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/airpods-pro-3-hero-select-202509?wid=976&hei=916&fmt=jpeg&qlt=90&.v=cmp4MmZ6OWxOeHNNTXh4SzlBNUpEb1RucE9zZTI5eEREaWZpY29lSld3eWVDYXovZDMyN1dXU211bjZoVlVUcWJGcXNRQnFCV0w3WVRjTExvdm1ic1YxRUxFRmRlWDBITzhnRmZ5OTRmaVdKTExiOEFsRmxtQ2Nua0tRSC83MkI",
+                    "group": "images"
+                }
+            ]
+        },
+        {
+            "id": "product-acme-product5-transfer12",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-phones-tablets",
+            "name": "Product5 - Transfer_1_2",
+            "code": "product-acme-product5-transfer12",
+            "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-product5-transfer12",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Product5 - Transfer_1_2",
+                    "semanticUrl": "product5---transfer12",
+                    "storeId": "store-acme"
+                }
+            ],
+            "images": [
+                {
+                    "url": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/airpods-pro-3-hero-select-202509?wid=976&hei=916&fmt=jpeg&qlt=90&.v=cmp4MmZ6OWxOeHNNTXh4SzlBNUpEb1RucE9zZTI5eEREaWZpY29lSld3eWVDYXovZDMyN1dXU211bjZoVlVUcWJGcXNRQnFCV0w3WVRjTExvdm1ic1YxRUxFRmRlWDBITzhnRmZ5OTRmaVdKTExiOEFsRmxtQ2Nua0tRSC83MkI",
+                    "group": "images"
+                }
+            ]
+        },
+        {
+            "id": "product-acme-product5-transfer123",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-phones-tablets",
+            "name": "Product5 - Transfer_1_2_3",
+            "code": "product-acme-product5-transfer123",
+            "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-product5-transfer123",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Product5 - Transfer_1_2_3",
+                    "semanticUrl": "product5---transfer123",
+                    "storeId": "store-acme"
+                }
+            ],
+            "images": [
+                {
+                    "url": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/airpods-pro-3-hero-select-202509?wid=976&hei=916&fmt=jpeg&qlt=90&.v=cmp4MmZ6OWxOeHNNTXh4SzlBNUpEb1RucE9zZTI5eEREaWZpY29lSld3eWVDYXovZDMyN1dXU211bjZoVlVUcWJGcXNRQnFCV0w3WVRjTExvdm1ic1YxRUxFRmRlWDBITzhnRmZ5OTRmaVdKTExiOEFsRmxtQ2Nua0tRSC83MkI",
+                    "group": "images"
+                }
+            ]
+        },
+        {
+            "id": "product-acme-product6-track-inventory-true-stock-0",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-phones-tablets",
+            "name": "Product6 - Track inventory = true; Stock = 0",
+            "code": "product-acme-product6-track-inventory-true-stock-0",
+            "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-product6-track-inventory-true-stock-0",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Product6 - Track inventory = true; Stock = 0",
+                    "semanticUrl": "product6---track-inventory-true-stock-0",
+                    "storeId": "store-acme"
+                }
+            ]
+        },
+        {
+            "id": "product-acme-product7-berlin",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-phones-tablets",
+            "name": "Product7- Berlin+Berlin Branch (Billund, Lego House) - via transfer",
+            "code": "product-acme-product7-berlin",
+            "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-product7",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Product7- Berlin+Berlin Branch (Billund, Lego House) - via transfer",
+                    "semanticUrl": "product7",
+                    "storeId": "store-acme"
+                }
+            ],
+            "images": [
+                {
+                    "url": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/mba13-starlight-select-202503?wid=904&hei=840&fmt=jpeg&qlt=90&.v=U3RnbTBEaGs0WGRSa05FY2NWZjZNVjVIeG1GZXZCc2xNMHRiT3dJVEsvMmxLeXRZUkZPU04xN0huck9BdWxkVXVUb3VPa2FUZVhQMFhDQnVBMWhwQXpJbUhxSE4yZ0tBY2hHU29QRjN6VXc",
+                    "group": "images"
+                }
+            ]
+        },
+        {
+            "id": "product-acme-product8-mfc-stock",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-phones-tablets",
+            "name": "Product8 - MFC stock ( Illinois + Ohio)",
+            "code": "product-acme-product8-mfc-stock",
+            "vendor": "Apple",
+            "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-product8-mfc-stock",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Product8 - MFC stock ( Illinois + Ohio)",
+                    "semanticUrl": "product8---mfc-stock",
+                    "storeId": "store-acme"
+                }
+            ],
+            "images": [
+                {
+                    "url": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17-finish-select-202509-lavender_GEO_EMEA?wid=5120&hei=2880&fmt=webp&qlt=90&.v=WGdCRlQ0YVlqbTdXTEkxRnVQb0oxbGoraU1aeXdWbEh0SUtyMmtxWGg5dXdPVU4zTkFIWDYzNXNHVU44cTk4ajhLcXQxZ1h0QThIT2dnUm5qbGk5OUJkSERIUjY1Wk1Od3FtNjF6NFZLVXNYajN1aGR4R3ZYZVBDQm8zSlNqanBycDg5NlprcjhNSkY3UURyM0Y2UGJn&traceId=1",
+                    "group": "images"
+                }
+            ],
+            "properties": [
+                {
+                    "id": "property-acme-brand",
+                    "catalogId": "catalog-acme",
+                    "categoryId": null,
+                    "name": "Brand",
+                    "type": "Product",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "Apple"
+                        }
+                    ]
+                },
+                {
+                    "id": "property-acme-virto-frontend-ui-layout",
+                    "catalogId": "catalog-acme",
+                    "categoryId": null,
+                    "name": "VirtoFrontend_UI_Layout",
+                    "type": "Product",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "B2B"
+                        }
+                    ]
+                },
+                {
+                    "id": "property-acme-weight",
+                    "catalogId": "catalog-acme",
+                    "categoryId": null,
+                    "name": "Weight",
+                    "type": "Product",
+                    "valueType": "Number",
+                    "values": [
+                        {
+                            "value": 100
                         }
                     ]
                 }

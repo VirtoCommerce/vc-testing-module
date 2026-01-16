@@ -6,6 +6,7 @@ from graphql_operations.common.money_fragment import MONEY_FRAGMENT
 
 CART_FRAGMENT = f"""
     id
+    name
     customerId
     isAnonymous
     items {{

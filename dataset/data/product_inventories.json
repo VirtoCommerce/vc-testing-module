@@ -339,6 +339,174 @@
             "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
             "fulfillmentCenterName": "USA Springfield IL FFC",
             "inStockQuantity": 100000
+        },
+        {
+            "productId": "product-acme-product2-main1-stock",
+            "sku": "product-acme-product2-main1-stock",
+            "productName": "Product2 - Main_1 stock",
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "fulfillmentCenterName": "ACME USA Illinois FFC",
+            "inStockQuantity": 5
+        },
+        {
+            "productId": "product-acme-product2-main12-stock",
+            "sku": "product-acme-product2-main12-stock",
+            "productName": "Product2 - Main_1_2 stock",
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "fulfillmentCenterName": "ACME USA Illinois FFC",
+            "inStockQuantity": 7
+        },
+        {
+            "productId": "product-acme-product2-main2-stock",
+            "sku": "product-acme-product2-main2-stock",
+            "productName": "Product2 - Main_2 stock",
+            "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+            "fulfillmentCenterName": "ACME USA Ohio FFC",
+            "inStockQuantity": 10
+        },
+        {
+            "productId": "product-acme-product3-transfer",
+            "sku": "product-acme-product3-transfer",
+            "productName": "Product3 - Transfer_3",
+            "fulfillmentCenterId": "ffc-acme-eur-berlin-de",
+            "fulfillmentCenterName": "ACME Europe Berlin FFC",
+            "inStockQuantity": 15
+        },
+        {
+            "productId": "product-acme-product3-transfer",
+            "sku": "product-acme-product3-transfer",
+            "productName": "Product3 - Transfer_3",
+            "fulfillmentCenterId": "ffc-acme-eur-billund-dk",
+            "fulfillmentCenterName": "ACME Europe Billund FFC",
+            "inStockQuantity": 20
+        },
+        {
+            "productId": "product-acme-product3-transfer",
+            "sku": "product-acme-product3-transfer",
+            "productName": "Product3 - Transfer_3",
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "fulfillmentCenterName": "ACME USA Illinois FFC",
+            "inStockQuantity": 0
+        },
+        {
+            "productId": "product-acme-product4-main-transfer",
+            "sku": "product-acme-product4-main-transfer",
+            "productName": "Product4 - Main_1 + transfer_1",
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "fulfillmentCenterName": "ACME USA Illinois FFC",
+            "inStockQuantity": 6
+        },
+        {
+            "productId": "product-acme-product4-main-transfer",
+            "sku": "product-acme-product4-main-transfer",
+            "productName": "Product4 - Main_1 + transfer_1",
+            "fulfillmentCenterId": "ffc-acme-eur-billund-dk",
+            "fulfillmentCenterName": "ACME Europe Billund FFC",
+            "inStockQuantity": 12
+        },
+        {
+            "productId": "product-acme-product4-main2-transfer1",
+            "sku": "product-acme-product4-main2-transfer1",
+            "productName": "Product4 - Main_2 + transfer_1",
+            "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+            "fulfillmentCenterName": "ACME USA Ohio FFC",
+            "inStockQuantity": 8
+        },
+        {
+            "productId": "product-acme-product4-main2-transfer1",
+            "sku": "product-acme-product4-main2-transfer1",
+            "productName": "Product4 - Main_2 + transfer_1",
+            "fulfillmentCenterId": "ffc-acme-eur-billund-dk",
+            "fulfillmentCenterName": "ACME Europe Billund FFC",
+            "inStockQuantity": 14
+        },
+        {
+            "productId": "product-acme-product5-transfer-b2b",
+            "sku": "product-acme-product5-transfer-b2b",
+            "productName": "Product5 - Transfer_1",
+            "fulfillmentCenterId": "ffc-acme-eur-billund-dk",
+            "fulfillmentCenterName": "ACME Europe Billund FFC",
+            "inStockQuantity": 30
+        },
+        {
+            "productId": "product-acme-product5-transfer12",
+            "sku": "product-acme-product5-transfer12",
+            "productName": "Product5 - Transfer_1_2",
+            "fulfillmentCenterId": "ffc-acme-eur-berlin-de",
+            "fulfillmentCenterName": "ACME Europe Berlin FFC",
+            "inStockQuantity": 18
+        },
+        {
+            "productId": "product-acme-product5-transfer12",
+            "sku": "product-acme-product5-transfer12",
+            "productName": "Product5 - Transfer_1_2",
+            "fulfillmentCenterId": "ffc-acme-eur-billund-dk",
+            "fulfillmentCenterName": "ACME Europe Billund FFC",
+            "inStockQuantity": 22
+        },
+        {
+            "productId": "product-acme-product5-transfer123",
+            "sku": "product-acme-product5-transfer123",
+            "productName": "Product5 - Transfer_1_2_3",
+            "fulfillmentCenterId": "ffc-acme-eur-berlin-de",
+            "fulfillmentCenterName": "ACME Europe Berlin FFC",
+            "inStockQuantity": 10
+        },
+        {
+            "productId": "product-acme-product5-transfer123",
+            "sku": "product-acme-product5-transfer123",
+            "productName": "Product5 - Transfer_1_2_3",
+            "fulfillmentCenterId": "ffc-acme-eur-billund-dk",
+            "fulfillmentCenterName": "ACME Europe Billund FFC",
+            "inStockQuantity": 15
+        },
+        {
+            "productId": "product-acme-product5-transfer123",
+            "sku": "product-acme-product5-transfer123",
+            "productName": "Product5 - Transfer_1_2_3",
+            "fulfillmentCenterId": "ffc-acme-usa-morrisville-nc",
+            "fulfillmentCenterName": "ACME USA Morrisville NC FFC",
+            "inStockQuantity": 20
+        },
+        {
+            "productId": "product-acme-product6-track-inventory-true-stock-0",
+            "sku": "product-acme-product6-track-inventory-true-stock-0",
+            "productName": "Product6 - Track inventory = true; Stock = 0",
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "fulfillmentCenterName": "ACME USA Illinois FFC",
+            "inStockQuantity": 0
+        },
+        {
+            "productId": "product-acme-product7-berlin",
+            "sku": "product-acme-product7-berlin",
+            "productName": "Product7- Berlin+Berlin Branch (Billund, Lego House) - via transfer",
+            "fulfillmentCenterId": "ffc-acme-eur-berlin-de",
+            "fulfillmentCenterName": "ACME Europe Berlin FFC",
+            "inStockQuantity": 50
+        },
+        {
+            "productId": "product-acme-product7-berlin",
+            "sku": "product-acme-product7-berlin",
+            "productName": "Product7- Berlin+Berlin Branch (Billund, Lego House) - via transfer",
+            "fulfillmentCenterId": "ffc-acme-eur-billund-dk",
+            "fulfillmentCenterName": "ACME Europe Billund FFC",
+            "inStockQuantity": 75
+        },
+        {
+            "productId": "product-acme-product8-mfc-stock",
+            "sku": "product-acme-product8-mfc-stock",
+            "productName": "Product8 - MFC stock ( Illinois + Ohio)",
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "fulfillmentCenterName": "ACME USA Illinois FFC",
+            "inStockQuantity": 66
+        },
+        {
+            "productId": "product-acme-product8-mfc-stock",
+            "sku": "product-acme-product8-mfc-stock",
+            "productName": "Product8 - MFC stock ( Illinois + Ohio)",
+            "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+            "fulfillmentCenterName": "ACME USA Ohio FFC",
+            "inStockQuantity": 44
         }
     ]
 }
