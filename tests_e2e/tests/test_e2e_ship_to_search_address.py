@@ -45,7 +45,7 @@ def test_e2e_add_multiple_shipping_addresses(
             webapi_client=webapi_client,
             config=config,
             auth=auth,
-            dataset=dataset,
+            organization=user_organization,
         )
 
     page.set_viewport_size({"width": 1920, "height": 1080})
@@ -175,12 +175,19 @@ def test_e2e_search_shipping_address(
         end=" ",
     )
 
+    test_user = dataset["users"][9]
+    user_organization = next(
+        (org for org in dataset["organizations"] 
+         if org["id"] == test_user.get("organizationId")),
+        None
+    )
+
     page.set_viewport_size({"width": 1920, "height": 1080})
 
     sign_in_page = SignInPage(page, config)
     sign_in_page.navigate()
 
-    sign_in_page.sign_in(dataset["users"][9]["userName"], config["USERS_PASSWORD"])
+    sign_in_page.sign_in(test_user["userName"], config["USERS_PASSWORD"])
     time.sleep(2)
 
     layout = MainLayoutPage(page)
@@ -296,7 +303,7 @@ def test_e2e_search_shipping_address(
             webapi_client=webapi_client,
             config=config,
             auth=auth,
-            dataset=dataset,
+            organization=user_organization,
         )
 
     auth.clear_token()
@@ -306,7 +313,7 @@ def cleanup_organization_addresses(
     webapi_client: WebAPISession,
     config: Config,   
     auth: Auth,
-    dataset: dict[str, Any],
+    organization: dict[str, Any],
 ):
     print(f"{os.linesep}Running test to remove addresses from organization...", end=" ")
 
@@ -315,7 +322,7 @@ def cleanup_organization_addresses(
         config["ADMIN_PASSWORD"],
     )
 
-    organization_id = dataset['organizations'][0]['id']   
+    organization_id = organization['id']
     
     get_organization = webapi_client.get(f"/api/members/{organization_id}")    
     assert get_organization is not None, "Organization is None"
@@ -341,15 +348,15 @@ def restore_organization_addresses(
     webapi_client: WebAPISession,
     config: Config,   
     auth: Auth,
-    dataset: dict[str, Any],
+    organization: dict[str, Any],
 ):
     print(f"{os.linesep}Running test to restore addresses to organization...", end=" ")
     
     auth.authenticate(config["ADMIN_USERNAME"], config["ADMIN_PASSWORD"])
     
-    organization_id = dataset['organizations'][0]['id']
-    organization_addresses = dataset['organizations'][0]['addresses']
-    organization_name = dataset['organizations'][0]['name']
+    organization_id = organization['id']
+    organization_addresses = organization['addresses']
+    organization_name = organization['name']
 
     get_organization = webapi_client.get(f"/api/members/{organization_id}")
     assert get_organization is not None, "Organization is None"
@@ -367,7 +374,7 @@ def restore_organization_addresses(
     get_updated = webapi_client.get(f"/api/members/{organization_id}")
     assert get_updated is not None, "Updated organization is None"
     assert get_updated.get("addresses") is not None, "Addresses are None"
-    assert len(get_updated.get("addresses")) == 1, "Addresses count is not 1"
+    assert len(get_updated.get("addresses")) == len(organization_addresses), f"Addresses count mismatch: expected {len(organization_addresses)}"
 
 def generate_test_addresses(count: int) -> list[dict[str, str]]:
     """Generate a list of test addresses with unique random data."""
