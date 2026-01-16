@@ -386,7 +386,7 @@
             "productName": "Product3 - Transfer_3",
             "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
             "fulfillmentCenterName": "ACME USA Illinois FFC",
-            "inStockQuantity": 25
+            "inStockQuantity": 0
         },
         {
             "productId": "product-acme-product4-main-transfer",
@@ -464,8 +464,8 @@
             "productId": "product-acme-product5-transfer123",
             "sku": "product-acme-product5-transfer123",
             "productName": "Product5 - Transfer_1_2_3",
-            "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
-            "fulfillmentCenterName": "ACME USA Ohio FFC",
+            "fulfillmentCenterId": "ffc-acme-usa-morrisville-nc",
+            "fulfillmentCenterName": "ACME USA Morrisville NC FFC",
             "inStockQuantity": 20
         },
         {

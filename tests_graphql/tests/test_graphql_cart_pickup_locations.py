@@ -139,9 +139,8 @@ def test_get_cart_pickup_locations_multiple_products(
     )
 
     assert result["totalCount"] > 0, "No pickup locations found for cart with multiple products"
-    assert len(result['items']) > 0, "No pickup location items returned"
-    
-    # Multi-product carts may have mixed availability types (Today, Transfer, GlobalTransfer)
+    assert len(result['items']) > 0, "No pickup location items returned"    
+ 
     valid_availability_types = {"Today", "Transfer", "GlobalTransfer"}
     transfer_locations = []
     for item in result['items']:
@@ -312,9 +311,9 @@ def test_cart_pickup_locations_all_availability_types(
 
     user = user_operations.get_me()
 
-    # Product3 is in Berlin, Billund, and Illinois - should have mix of availability types
+        
     product_multi_region = next(
-        (p for p in dataset["products"] if p["id"] == "product-acme-product3-transfer"),
+        (p for p in dataset["products"] if p["id"] == "product-acme-product4-main-transfer"),
         None,
     )
 

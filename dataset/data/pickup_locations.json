@@ -64,8 +64,7 @@
             "contactEmail": "pickup3@example.com",
             "isActive": true,
             "fulfillmentCenterId": "ffc-acme-usa-morrisville-nc",
-            "transferFulfillmentCenterIds": [
-                "ffc-acme-usa-springfield-il",
+            "transferFulfillmentCenterIds": [            
                 "ffc-acme-usa-riverton-oh",
                 "ffc-acme-eur-berlin-de",
                 "ffc-acme-eur-billund-dk"
@@ -92,8 +91,7 @@
             "contactEmail": "pickup4@example.com",
             "isActive": true,
             "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
-            "transferFulfillmentCenterIds": [
-                "ffc-acme-usa-springfield-il",
+            "transferFulfillmentCenterIds": [              
                 "ffc-acme-usa-morrisville-nc"
             ],
             "address": {
@@ -144,8 +142,7 @@
             "contactEmail": "pickup6@example.com",
             "isActive": true,
             "fulfillmentCenterId": "ffc-acme-usa-morrisville-nc",
-            "transferFulfillmentCenterIds": [
-                "ffc-acme-usa-springfield-il",
+            "transferFulfillmentCenterIds": [             
                 "ffc-acme-usa-riverton-oh"
             ],
             "address": {
@@ -170,8 +167,7 @@
             "contactEmail": "pickup7@example.com",
             "isActive": true,
             "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
-            "transferFulfillmentCenterIds": [
-                "ffc-acme-usa-springfield-il",
+            "transferFulfillmentCenterIds": [               
                 "ffc-acme-usa-morrisville-nc"
             ],
             "address": {
@@ -224,8 +220,7 @@
             "contactEmail": "pickup9@example.com",
             "isActive": true,
             "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
-            "transferFulfillmentCenterIds": [
-                "ffc-acme-usa-springfield-il",
+            "transferFulfillmentCenterIds": [               
                 "ffc-acme-usa-morrisville-nc"
             ],
             "address": {
@@ -276,8 +271,7 @@
             "contactEmail": "pickup11@example.com",
             "isActive": true,
             "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
-            "transferFulfillmentCenterIds": [
-                "ffc-acme-usa-springfield-il",
+            "transferFulfillmentCenterIds": [               
                 "ffc-acme-usa-morrisville-nc"
             ],
             "address": {
@@ -329,8 +323,7 @@
             "contactEmail": "pickup13@example.com",
             "isActive": true,
             "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
-            "transferFulfillmentCenterIds": [
-                "ffc-acme-usa-springfield-il",
+            "transferFulfillmentCenterIds": [              
                 "ffc-acme-usa-morrisville-nc"
             ],
             "address": {
@@ -381,8 +374,7 @@
             "contactEmail": "pickup15@example.com",
             "isActive": true,
             "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
-            "transferFulfillmentCenterIds": [
-                "ffc-acme-usa-springfield-il",
+            "transferFulfillmentCenterIds": [              
                 "ffc-acme-usa-morrisville-nc"
             ],
             "address": {
@@ -408,8 +400,7 @@
             "isActive": true,
             "fulfillmentCenterId": null,
             "transferFulfillmentCenterIds": [
-                "ffc-acme-eur-billund-dk",
-                "ffc-acme-usa-springfield-il",
+                "ffc-acme-eur-billund-dk",            
                 "ffc-acme-usa-riverton-oh",
                 "ffc-acme-usa-morrisville-nc"
             ],
