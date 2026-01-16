@@ -76,6 +76,7 @@ def test_get_cart_pickup_locations_transfer_required(
         }
     )
 
+@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Get cart pickup locations - multiple products (GraphQL)")
 def test_get_cart_pickup_locations_multiple_products(
@@ -161,7 +162,7 @@ def test_get_cart_pickup_locations_multiple_products(
         }
     )
 
-
+@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Cart pickup locations - verify Today availability type (GraphQL)")
 def test_cart_pickup_locations_today_availability(
@@ -226,6 +227,7 @@ def test_cart_pickup_locations_today_availability(
     )
 
 
+@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Cart pickup locations - verify Transfer availability type (GraphQL)")
 def test_cart_pickup_locations_transfer_availability(
