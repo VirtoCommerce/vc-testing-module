@@ -33,11 +33,19 @@ def test_e2e_add_multiple_shipping_addresses(
     )
 
     test_user = dataset["users"][9]
-    user_organization = next(
-        (org for org in dataset["organizations"] 
-         if org["id"] == test_user.get("organizationId")),
+    # Find contact by user's memberId, then get their organization
+    user_contact = next(
+        (contact for contact in dataset["contacts"] 
+         if contact["id"] == test_user.get("memberId")),
         None
     )
+    user_organization = next(
+        (org for org in dataset["organizations"] 
+         if org["id"] == user_contact.get("defaultOrganizationId")),
+        None
+    ) if user_contact else None
+    
+    assert user_organization is not None, f"Could not find organization for user {test_user['userName']}"
     
     with allure.step("Cleanup existing addresses"):
         auth.authenticate(test_user["userName"], config["USERS_PASSWORD"])
@@ -45,7 +53,7 @@ def test_e2e_add_multiple_shipping_addresses(
             webapi_client=webapi_client,
             config=config,
             auth=auth,
-            dataset=dataset,
+            organization=user_organization,
         )
 
     page.set_viewport_size({"width": 1920, "height": 1080})
@@ -59,25 +67,40 @@ def test_e2e_add_multiple_shipping_addresses(
     home_page = HomePage(page, config)
     layout = MainLayoutPage(page)
     ship_to = layout.top_header_component.ship_to_selector
+    add_shipping_address_button = layout.top_header_component.add_shipping_address_button
 
-    initial_count = 0
-    ship_to_selector = layout.top_header_component.ship_to_selector
-    if ship_to_selector.trigger_button.is_visible():
+
+    with allure.step("Open Ship To selector"):
+        expect(add_shipping_address_button).to_be_visible(), "Add shipping address button is not visible"
+        add_shipping_address_text = add_shipping_address_button.inner_text()
+        assert "Add new address" in add_shipping_address_text
+        assert "Ship to:" in add_shipping_address_text
+        add_shipping_address_button.click()
+
+    with allure.step("Add first test address"):
+        test_address = generate_test_addresses(1)[0]
+        edit_address_modal = EditAddressModalComponent(page.get_by_role("dialog"))
+        expect(edit_address_modal.element).to_be_visible(), "Edit address modal is not visible"
+        edit_address_modal.address_form_component.fill_address(test_address)
+        edit_address_modal.submit_button.click()
+        time.sleep(1)
+        expect(edit_address_modal.element).not_to_be_visible(), "Edit address modal is still visible"
+        time.sleep(1)
+    
+    with allure.step("Verify first address is added"):
+        ship_to_selector = layout.top_header_component.ship_to_selector
+        expect(ship_to_selector.trigger_button).to_be_visible(), "Ship to trigger is not visible"
         ship_to_selector.trigger_button.click()
         time.sleep(0.5)
         
-        dropdown = ship_to.shipping_addresses_dropdown
-        if dropdown.is_visible():
-            while ship_to_selector.more_button.is_visible():
-                ship_to_selector.more_button.click()
-                time.sleep(0.5)
-            initial_count = len(ship_to_selector.shipping_addresses)
-        ship_to_selector.trigger_button.click()
-        time.sleep(0.3)
-    
-    print(f"Initial address count: {initial_count}")
+        initial_count = len(ship_to.shipping_addresses)
+        assert initial_count == 1, "Initial address count is not 1"
+        
+        ship_to_selector.trigger_button.click()  # Close dropdown
+        time.sleep(0.5)
 
-    test_addresses = generate_test_addresses(7)
+    test_addresses = generate_test_addresses(6)
+
 
     for i, address in enumerate(test_addresses):
         with allure.step(f"Add address {i + 1}: {address['city']}"):
@@ -125,30 +148,13 @@ def test_e2e_add_multiple_shipping_addresses(
             pytest.skip("More button is not visible - not enough addresses to trigger pagination")
 
         final_addresses_count = len(ship_to_selector.shipping_addresses)
-        expected_count = initial_count + 7
-        
+        expected_count = initial_count + 6
         print(f"Final address count: {final_addresses_count}, Expected: {expected_count}")
         
         assert (
             final_addresses_count == expected_count
-        ), f"Expected {expected_count} addresses (initial {initial_count} + 7), but found {final_addresses_count}"
-    
-    with allure.step("Test search functionality"):
-        organization_address = dataset["organizations"][0]["addresses"][0]
-        search_field_input = page.get_by_role("textbox").first
-        search_field_input.fill(organization_address["line1"] + " " + organization_address["city"])
-        time.sleep(1)
-        print(f"Filtered count for {organization_address['line1']} {organization_address['city']}: {len(ship_to.shipping_addresses)}")
-        assert len(ship_to.shipping_addresses) >= 1, f"Expected at least 1 address for {organization_address['line1']} {organization_address['city']}, found {len(ship_to.shipping_addresses)}"
-        for addr in ship_to.shipping_addresses:
-            addr_text = addr.inner_text()        
-            assert organization_address["line1"] in addr_text, f"Address '{addr_text}' does not contain {organization_address['line1']}"
-            assert organization_address["city"] in addr_text, f"Address '{addr_text}' does not contain {organization_address['city']}"
-
-        search_field_input.fill("")
-        time.sleep(1)        
-       
-    
+        ), f"Expected {expected_count} addresses (initial {initial_count} + 6), but found {final_addresses_count}"       
+           
     with allure.step("Select an address from the list"):
         if len(ship_to.shipping_addresses) > 0:
             ship_to.shipping_addresses[0].click()
@@ -178,12 +184,27 @@ def test_e2e_search_shipping_address(
         end=" ",
     )
 
+    test_user = dataset["users"][9]
+    # Find contact by user's memberId, then get their organization
+    user_contact = next(
+        (contact for contact in dataset["contacts"] 
+         if contact["id"] == test_user.get("memberId")),
+        None
+    )
+    user_organization = next(
+        (org for org in dataset["organizations"] 
+         if org["id"] == user_contact.get("defaultOrganizationId")),
+        None
+    ) if user_contact else None
+    
+    assert user_organization is not None, f"Could not find organization for user {test_user['userName']}"
+
     page.set_viewport_size({"width": 1920, "height": 1080})
 
     sign_in_page = SignInPage(page, config)
     sign_in_page.navigate()
 
-    sign_in_page.sign_in(dataset["users"][9]["userName"], config["USERS_PASSWORD"])
+    sign_in_page.sign_in(test_user["userName"], config["USERS_PASSWORD"])
     time.sleep(2)
 
     layout = MainLayoutPage(page)
@@ -199,10 +220,10 @@ def test_e2e_search_shipping_address(
         if not dropdown.is_visible():
             pytest.skip("No addresses available - dropdown not visible")
 
-    with allure.step("Get initial addresses count"):   
-        ship_to.more_button.is_visible()
-        ship_to.more_button.click()
-        time.sleep(0.5)
+    with allure.step("Get initial addresses count"):
+        if ship_to.more_button.is_visible():
+            ship_to.more_button.click()
+            time.sleep(0.5)
         initial_count = len(ship_to.shipping_addresses)
         print(f"Initial count: {initial_count}")
 
@@ -293,13 +314,13 @@ def test_e2e_search_shipping_address(
         restored_count = len(ship_to.shipping_addresses)
         assert restored_count == initial_count, f"Expected {initial_count} addresses, found {restored_count}"
     
-    with allure.step("Cleanup existing addresses"):
+    with allure.step("Restore existing addresses"):
         auth.authenticate(config["ADMIN_USERNAME"], config["ADMIN_PASSWORD"])
-        cleanup_organization_addresses(
+        restore_organization_addresses(
             webapi_client=webapi_client,
             config=config,
             auth=auth,
-            dataset=dataset,
+            organization=user_organization,
         )
 
     auth.clear_token()
@@ -309,7 +330,7 @@ def cleanup_organization_addresses(
     webapi_client: WebAPISession,
     config: Config,   
     auth: Auth,
-    dataset: dict[str, Any],
+    organization: dict[str, Any],
 ):
     print(f"{os.linesep}Running test to remove addresses from organization...", end=" ")
 
@@ -318,8 +339,7 @@ def cleanup_organization_addresses(
         config["ADMIN_PASSWORD"],
     )
 
-    organization_id = dataset['organizations'][0]['id']
-    organization_addresses = dataset['organizations'][0]['addresses'][0]
+    organization_id = organization['id']
     
     get_organization = webapi_client.get(f"/api/members/{organization_id}")    
     assert get_organization is not None, "Organization is None"
@@ -328,7 +348,7 @@ def cleanup_organization_addresses(
         "id": organization_id,
         "name": get_organization.get("name"),
         "memberType": "Organization",
-        "addresses": [organization_addresses]
+        "addresses": []
     }
     
     update_result = webapi_client.put(f"/api/members", data=update_data)    
@@ -338,8 +358,41 @@ def cleanup_organization_addresses(
     get_updated = webapi_client.get(f"/api/members/{organization_id}")
     assert get_updated is not None, "Updated organization is None"
     assert get_updated.get("addresses") is not None, "Addresses are None"
-    assert len(get_updated.get("addresses")) == 1, "Addresses count is not 1"    
+    assert len(get_updated.get("addresses")) == 0, "Addresses count is not 0" 
 
+
+def restore_organization_addresses(
+    webapi_client: WebAPISession,
+    config: Config,   
+    auth: Auth,
+    organization: dict[str, Any],
+    
+):
+    print(f"{os.linesep}Running test to restore addresses to organization...", end=" ")
+    
+    auth.authenticate(config["ADMIN_USERNAME"], config["ADMIN_PASSWORD"])
+    
+    organization_id = organization['id']
+    organization_addresses = organization['addresses']
+    organization_name = organization['name']
+
+    get_organization = webapi_client.get(f"/api/members/{organization_id}")
+    assert get_organization is not None, "Organization is None"
+
+    update_data = {
+        "id": organization_id,
+        "name": organization_name,
+        "memberType": "Organization",
+        "addresses": organization_addresses
+    }
+    
+    update_result = webapi_client.put(f"/api/members", data=update_data)
+    assert update_result is not None, "Update result is None"
+
+    get_updated = webapi_client.get(f"/api/members/{organization_id}")
+    assert get_updated is not None, "Updated organization is None"
+    assert get_updated.get("addresses") is not None, "Addresses are None"
+    assert len(get_updated.get("addresses")) == len(organization_addresses), f"Addresses count mismatch: expected {len(organization_addresses)}"
 
 def generate_test_addresses(count: int) -> list[dict[str, str]]:
     """Generate a list of test addresses with unique random data."""

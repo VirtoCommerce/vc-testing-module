@@ -139,27 +139,24 @@ def test_product_pickup_locations_multi_ffc(
     for location in locations_with_today:
         assert (
             location.get("availableQuantity", 0) > 0
-        ), f"Location {location['name']} has Today availability but no stock"
-
-    
+        ), f"Location {location['name']} has Today availability but no stock"    
 
 
 @pytest.mark.graphql
-@allure.title("Get product pickup locations - product with zero stock (GraphQL)")
-def test_product_pickup_locations_zero_stock(
+@allure.title("Get product pickup locations - product with track inventory false (GraphQL)")
+def test_product_pickup_locations_track_inventory_false(
     config: Config, dataset: dict[str, Any], graphql_client: GraphQLClient
 ):
-    """Test getting pickup locations for a product with zero stock in all FFCs"""
+    """Test getting pickup locations for a product with track inventory false"""
     print(
-        f"{os.linesep}Running test to get product pickup locations (zero stock)...",
+        f"{os.linesep}Running test to get product pickup locations (track inventory false)...",
         end=" ",
     )
 
     pickup_locations_operations = PickupLocationsOperations(graphql_client)
     culture = dataset["languages"][0]["allowedValues"][0]
 
-    # Product6 has zero stock
-    product_id = "product-acme-product6-track-inventory-true-stock-0"
+    product_id = "product-acme-product1-track-inventory-false"
     product = next(
         (p for p in dataset["products"] if p["id"] == product_id),
         None,
@@ -174,12 +171,10 @@ def test_product_pickup_locations_zero_stock(
         culture_name=culture,
     )
 
-    # All locations should have zero available quantity
+    assert result["totalCount"] > 0, "No pickup locations found for product with track inventory false"
+    assert len(result["items"]) > 0, "Pickup locations items list is empty"
     for location in result["items"]:
-        available_qty = location.get("availableQuantity", 0)
-        assert (
-            available_qty == 0
-        ), f"Location {location['name']} should have 0 stock, got {available_qty}"
+        assert location.get("availabilityType") == "Today", f"Location {location['name']} should have Today availability, got {location.get('availabilityType')}"
 
 
 @pytest.mark.graphql

@@ -10740,7 +10740,8 @@
             "categoryId": "category-acme-phones-tablets",
             "name": "Product1 - Track inventory = false",
             "code": "product-acme-product1-track-inventory-false",
-            "vendor": "Apple",
+            "vendor": null,
+            "trackInventory": false,
             "productType": "Physical",
             "seoObjectType": "Product",
             "seoInfos": [
