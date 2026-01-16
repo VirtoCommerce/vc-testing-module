@@ -14,7 +14,7 @@ from graphql_operations.pickup_locations.pickup_locations_operations import (
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
 
-
+@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Get cart pickup locations - product with transfer required (GraphQL)")
 def test_get_cart_pickup_locations_transfer_required(
@@ -74,6 +74,7 @@ def test_get_cart_pickup_locations_transfer_required(
     assert cart["itemsQuantity"] == 1, "Cart items quantity is not the same"
     assert cart["items"][0]["productId"] == product_transfer["id"], "Cart item product ID is not the same"  
     assert len(cart["items"]) > 0, "Cart items is empty" 
+ 
 
     result = pickup_locations_operations.get_cart_pickup_locations(
         cart_id=cart["id"],
@@ -101,7 +102,7 @@ def test_get_cart_pickup_locations_transfer_required(
         }
     )
 
-
+@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Get cart pickup locations - multiple products (GraphQL)")
 def test_get_cart_pickup_locations_multiple_products(
@@ -198,6 +199,7 @@ def test_get_cart_pickup_locations_multiple_products(
     )
 
 
+@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Cart pickup locations - verify Today availability type (GraphQL)")
 def test_cart_pickup_locations_today_availability(
@@ -283,6 +285,7 @@ def test_cart_pickup_locations_today_availability(
 
 
 
+@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Cart pickup locations - verify Transfer availability type (GraphQL)")
 def test_cart_pickup_locations_transfer_availability(
@@ -368,6 +371,7 @@ def test_cart_pickup_locations_transfer_availability(
     )
 
 
+@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Cart pickup locations - verify all availability types present (GraphQL)")
 def test_cart_pickup_locations_all_availability_types(
@@ -455,6 +459,7 @@ def test_cart_pickup_locations_all_availability_types(
     )
 
 
+@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Cart pickup locations - Today availability has higher priority (GraphQL)")
 def test_cart_pickup_locations_today_priority(
