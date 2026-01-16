@@ -349,6 +349,7 @@ def restore_organization_addresses(
     config: Config,   
     auth: Auth,
     organization: dict[str, Any],
+    
 ):
     print(f"{os.linesep}Running test to restore addresses to organization...", end=" ")
     
