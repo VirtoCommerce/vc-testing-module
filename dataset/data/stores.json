@@ -108,15 +108,6 @@
                 {
                     "objectId": "store-acme",
                     "objectType": "Store",
-                    "moduleId": "VirtoCommerce.XPickup",
-                    "name": "XPickup.Enabled",
-                    "groupName": "BOPIS",
-                    "value": true,
-                    "valueType": "Boolean"
-                },
-                {
-                    "objectId": "store-acme",
-                    "objectType": "Store",
                     "moduleId": "VirtoCommerce.Shipping",
                     "name": "Shipping.Bopis.GoogleMaps.Enabled",
                     "groupName": "BOPIS",
@@ -143,7 +134,7 @@
                     "objectType": "Store",
                     "isReadOnly": false,
                     "value": true,
-                    "id": "22a60bf1-a8c7-472b-a8f6-b8f30b707f0f",
+                    "id": null,
                     "restartRequired": false,
                     "moduleId": "VirtoCommerce.XPickup",
                     "groupName": "BOPIS",

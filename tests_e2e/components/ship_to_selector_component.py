@@ -24,7 +24,7 @@ class ShipToSelectorComponent:
 
     @property
     def shipping_addresses(self) -> list[Locator]:
-        return self.element.locator(".ship-to-selector__item").all()
+        return self.element.locator("button.ship-to-selector__item").all()
 
     @property
     def add_new_address_button(self) -> Locator:
