@@ -33,11 +33,19 @@ def test_e2e_add_multiple_shipping_addresses(
     )
 
     test_user = dataset["users"][9]
-    user_organization = next(
-        (org for org in dataset["organizations"] 
-         if org["id"] == test_user.get("organizationId")),
+    # Find contact by user's memberId, then get their organization
+    user_contact = next(
+        (contact for contact in dataset["contacts"] 
+         if contact["id"] == test_user.get("memberId")),
         None
     )
+    user_organization = next(
+        (org for org in dataset["organizations"] 
+         if org["id"] == user_contact.get("defaultOrganizationId")),
+        None
+    ) if user_contact else None
+    
+    assert user_organization is not None, f"Could not find organization for user {test_user['userName']}"
     
     with allure.step("Cleanup existing addresses"):
         auth.authenticate(test_user["userName"], config["USERS_PASSWORD"])
@@ -176,11 +184,19 @@ def test_e2e_search_shipping_address(
     )
 
     test_user = dataset["users"][9]
-    user_organization = next(
-        (org for org in dataset["organizations"] 
-         if org["id"] == test_user.get("organizationId")),
+    # Find contact by user's memberId, then get their organization
+    user_contact = next(
+        (contact for contact in dataset["contacts"] 
+         if contact["id"] == test_user.get("memberId")),
         None
     )
+    user_organization = next(
+        (org for org in dataset["organizations"] 
+         if org["id"] == user_contact.get("defaultOrganizationId")),
+        None
+    ) if user_contact else None
+    
+    assert user_organization is not None, f"Could not find organization for user {test_user['userName']}"
 
     page.set_viewport_size({"width": 1920, "height": 1080})
 
@@ -203,10 +219,10 @@ def test_e2e_search_shipping_address(
         if not dropdown.is_visible():
             pytest.skip("No addresses available - dropdown not visible")
 
-    with allure.step("Get initial addresses count"):   
-        ship_to.more_button.is_visible()
-        ship_to.more_button.click()
-        time.sleep(0.5)
+    with allure.step("Get initial addresses count"):
+        if ship_to.more_button.is_visible():
+            ship_to.more_button.click()
+            time.sleep(0.5)
         initial_count = len(ship_to.shipping_addresses)
         print(f"Initial count: {initial_count}")
 
