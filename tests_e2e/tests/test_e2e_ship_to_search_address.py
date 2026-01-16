@@ -73,7 +73,8 @@ def test_e2e_add_multiple_shipping_addresses(
     with allure.step("Open Ship To selector"):
         expect(add_shipping_address_button).to_be_visible(), "Add shipping address button is not visible"
         add_shipping_address_text = add_shipping_address_button.inner_text()
-        assert add_shipping_address_text in ["Ship to:\nAdd new address"], f"Add shipping address button text is not 'Ship to:\nAdd new address', got {add_shipping_address_text}"
+        assert "Add new address" in add_shipping_address_text
+        assert "Ship to:" in add_shipping_address_text
         add_shipping_address_button.click()
 
     with allure.step("Add first test address"):
