@@ -14,7 +14,7 @@ from graphql_operations.pickup_locations.pickup_locations_operations import (
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
 
-@pytest.mark.ignore
+
 @pytest.mark.graphql
 @allure.title("Get cart pickup locations - product with transfer required (GraphQL)")
 def test_get_cart_pickup_locations_transfer_required(
@@ -36,8 +36,7 @@ def test_get_cart_pickup_locations_transfer_required(
     auth.authenticate(dataset["users"][0]["userName"], config["USERS_PASSWORD"])
 
     user = user_operations.get_me()
-
-    # Clear cart before test to ensure clean state
+   
     cart_operations.clear_cart(
         {
             "storeId": config["STORE_ID"],
@@ -80,7 +79,11 @@ def test_get_cart_pickup_locations_transfer_required(
         cart_id=cart["id"],
         store_id=config["STORE_ID"],
         culture_name=culture,
+        facet="address_countryname address_regionname address_city",
+        first=50
     )
+
+    print(result)
 
     transfer_locations = [
         loc
@@ -173,6 +176,8 @@ def test_get_cart_pickup_locations_multiple_products(
         cart_id=cart["id"],
         store_id=config["STORE_ID"],
         culture_name=culture,
+        facet="address_countryname address_regionname address_city",
+        first=50
     )
 
     assert result["totalCount"] > 0, "No pickup locations found for cart with multiple products"
@@ -264,6 +269,8 @@ def test_cart_pickup_locations_today_availability(
         cart_id=cart["id"],
         store_id=config["STORE_ID"],
         culture_name=culture,
+        facet="address_countryname address_regionname address_city",
+        first=50
     )
 
     today_locations = [
@@ -350,6 +357,8 @@ def test_cart_pickup_locations_transfer_availability(
         cart_id=cart["id"],
         store_id=config["STORE_ID"],
         culture_name=culture,
+        facet="address_countryname address_regionname address_city",
+        first=50
     )
 
     # Locations with transfer from Billund should have Transfer or GlobalTransfer availability
@@ -359,6 +368,7 @@ def test_cart_pickup_locations_transfer_availability(
     ]
 
     assert len(transfer_locations) > 0, "No locations with Transfer availability found"
+ 
 
     cart_operations.clear_cart(
         {
@@ -435,7 +445,9 @@ def test_cart_pickup_locations_all_availability_types(
         cart_id=cart["id"],
         store_id=config["STORE_ID"],
         culture_name=culture,
-    )
+        facet="address_countryname address_regionname address_city",
+        first=50
+    )   
 
     assert result["totalCount"] > 0, "No pickup locations found for cart with multiple products"
     assert len(result['items']) > 0, "No pickup location items returned"    
@@ -444,9 +456,10 @@ def test_cart_pickup_locations_all_availability_types(
     transfer_locations = [loc for loc in result["items"] if loc.get("availabilityType") == "Transfer"]
     global_transfer_locations = [loc for loc in result["items"] if loc.get("availabilityType") == "GlobalTransfer"]
 
-    assert len(today_locations) > 0, "No Today availability locations found"
+    assert len(today_locations) > 0, "No Today availability locations found"    
     assert len(transfer_locations) > 0, "No Transfer availability locations found"
     assert len(global_transfer_locations) > 0, "No GlobalTransfer availability locations found"
+    
 
     cart_operations.clear_cart(
         {
@@ -523,6 +536,8 @@ def test_cart_pickup_locations_today_priority(
         cart_id=cart["id"],
         store_id=config["STORE_ID"],
         culture_name=culture,
+        facet="address_countryname address_regionname address_city",
+        first=50
     )
     
     today_locations = [l for l in result["items"] if l.get("availabilityType") == "Today"]

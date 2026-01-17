@@ -196,7 +196,7 @@
                     "objectId": "store-acme",
                     "objectType": "Store",
                     "isReadOnly": false,
-                    "value": null,
+                    "value": "Global transfer",
                     "id": null,
                     "restartRequired": false,
                     "moduleId": "VirtoCommerce.XPickup",
