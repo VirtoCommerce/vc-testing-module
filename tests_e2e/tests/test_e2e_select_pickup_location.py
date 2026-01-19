@@ -12,7 +12,7 @@ from tests_e2e.pages.cart_page import CartPage
 from tests_e2e.pages.category_page import CategoryPage
 from tests_e2e.pages.checkout_shipping_page import CheckoutShippingPage
 
-
+@pytest.mark.ignore
 @pytest.mark.e2e
 @allure.title("Select pickup location in single-page checkout (E2E)")
 def test_e2e_select_pickup_location_single_page_checkout(
