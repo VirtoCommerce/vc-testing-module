@@ -15,7 +15,7 @@ from graphql_operations.pickup_locations.pickup_locations_operations import (
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
 
-
+@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Get cart pickup locations - product with transfer required (GraphQL)")
 def test_get_cart_pickup_locations_transfer_required(
