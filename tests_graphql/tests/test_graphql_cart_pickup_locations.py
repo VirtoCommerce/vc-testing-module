@@ -3,7 +3,6 @@ import time
 from typing import Any
 
 import allure
-from playwright.sync_api import expect
 import pytest
 
 from fixtures.webapi_client import WebAPISession
@@ -87,7 +86,7 @@ def test_get_cart_pickup_locations_transfer_required(
     assert len(cart["items"]) > 0, "Cart items is empty" 
 
     time.sleep(5)
-    print(f"Cart items: {len(cart["items"])}")
+    print(f"Cart items: {len(cart['items'])}")
 
     result = pickup_locations_operations.get_cart_pickup_locations(
         cart_id=cart_id,
