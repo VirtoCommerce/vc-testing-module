@@ -19,6 +19,7 @@ from tests_e2e.components.suppliers_filter_component import SuppliersFilterCompo
 from fixtures.requests_tracker import RequestsTracker
 from tests_e2e.components.quantity_stepper_component import QuantityStepperComponent
 from tests_e2e.components.product_card_component import ProductCardComponent
+from tests_e2e.pages.payment_form_page import PaymentFormPage
 
 @pytest.mark.e2e
 @allure.title("Create order with card payment (E2E)")
@@ -72,8 +73,15 @@ def test_e2e_create_order_with_card_payment(config: dict, page: Page, requests_t
 
     # Select card payment method
     checkout_billing_page.select_card_payment_method()
-    checkout_billing_page.select_billing_address()
-    page.pause()
+    
+    # Open billing address selector
+    checkout_billing_page.click_select_billing_address_button()
+    
+    # Print available addresses (optional, for debugging)
+    checkout_billing_page.print_available_billing_addresses()
+    
+    # Select first billing address (index 0)
+    checkout_billing_page.select_billing_address_by_index(0)
     
     expect(
         checkout_billing_page.review_order_button
@@ -97,6 +105,19 @@ def test_e2e_create_order_with_card_payment(config: dict, page: Page, requests_t
     ).to_be_enabled(), "Place order button is disabled"
     
     checkout_review_order_page.place_order_button.click()
+    
+    # Wait for navigation to payment page
+    page.wait_for_url("**/checkout/payment", timeout=60000)
+    page.wait_for_load_state("domcontentloaded")
+    
+    import time
+    time.sleep(5)  # Give iframes time to load dynamically
+
+    payment_form_page = PaymentFormPage(page)
+    payment_form_page.fill_payment_form()
+    requests_tracker.wait_for_all_requests()
+    payment_form_page.click_pay_now_button()
+    requests_tracker.wait_for_all_requests()
 
     checkout_completed_page = CheckoutCompletedPage(config, page)
 
