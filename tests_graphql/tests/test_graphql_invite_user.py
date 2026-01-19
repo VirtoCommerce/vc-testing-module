@@ -1,6 +1,5 @@
 import os
 import random
-from time import sleep
 from typing import Any
 
 import allure
@@ -9,6 +8,7 @@ import pytest
 from fixtures.auth import Auth
 from fixtures.config import Config
 from fixtures.graphql_client import GraphQLClient
+from fixtures.webapi_client import WebAPISession
 from graphql_operations.contact.contact_operations import ContactOperations
 from graphql_operations.user.user_operations import UserOperations
 
@@ -20,6 +20,7 @@ def test_invite_user(
     auth: Auth,
     dataset: dict[str, Any],
     graphql_client: GraphQLClient,
+    webapi_client: WebAPISession
 ):
     print(f"{os.linesep}Running test to invite user...", end=" ")
 
@@ -62,8 +63,17 @@ def test_invite_user(
             f"{os.linesep}Invitation failed: {invitation_result['errors'][0]}"
         )
     
-    sleep(20)
+    auth.authenticate(
+        config["ADMIN_USERNAME"],
+        config["ADMIN_PASSWORD"],
+    )
 
+    member_indextation = webapi_client.post(f"/api/search/indexes/index", data={
+        "indexName": "members",
+        "deleteExistingIndex": False        
+    }) 
+   
+        
     invited_contact = contact_operations.fetch_organization_contacts(
         organization_id=dataset_organization["id"],
         user_id=maintainer_user["id"],
@@ -77,11 +87,6 @@ def test_invite_user(
             "contactId": invited_contact["id"],
             "organizationId": dataset_organization["id"],
         }
-    )
-
-    auth.authenticate(
-        config["ADMIN_USERNAME"],
-        config["ADMIN_PASSWORD"],
     )
 
     contact_operations.delete_contact(
@@ -103,3 +108,4 @@ def test_invite_user(
     assert (
         invited_contact["status"] == "Invited"
     ), "Invited contact status is not Invited"
+    assert invited_contact["emails"][0] == invite_employee_email, "Invited contact email is not the same"
