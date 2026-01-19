@@ -1,10 +1,12 @@
 import os
+import time
 from typing import Any
 
 import allure
 from playwright.sync_api import expect
 import pytest
 
+from fixtures.webapi_client import WebAPISession
 from fixtures.auth import Auth
 from fixtures.config import Config
 from fixtures.graphql_client import GraphQLClient
@@ -18,7 +20,7 @@ from graphql_operations.user.user_operations import UserOperations
 @pytest.mark.graphql
 @allure.title("Get cart pickup locations - product with transfer required (GraphQL)")
 def test_get_cart_pickup_locations_transfer_required(
-    config: Config, dataset: dict[str, Any], auth: Auth, graphql_client: GraphQLClient
+    config: Config, dataset: dict[str, Any], auth: Auth, graphql_client: GraphQLClient, webapi_client: WebAPISession
 ):
     """Test getting pickup locations for cart with product requiring transfer"""
     print(
@@ -32,6 +34,15 @@ def test_get_cart_pickup_locations_transfer_required(
 
     currency = dataset["currencies"][0]["code"]
     culture = dataset["languages"][0]["allowedValues"][0]
+
+    auth.authenticate(config["ADMIN_USERNAME"], config["ADMIN_PASSWORD"])
+
+    pickupLocations_indexation = webapi_client.post(f"/api/search/indexes/index", data={
+        "deleteExistingIndex": False,
+        "documentType": "ProductPickupLocation",
+    })
+
+    auth.clear_token()
 
     auth.authenticate(dataset["users"][0]["userName"], config["USERS_PASSWORD"])
 
@@ -74,7 +85,9 @@ def test_get_cart_pickup_locations_transfer_required(
     assert cart["itemsQuantity"] == 1, "Cart items quantity is not the same"
     assert cart["items"][0]["productId"] == product_transfer["id"], "Cart item product ID is not the same"  
     assert len(cart["items"]) > 0, "Cart items is empty" 
- 
+
+    time.sleep(5)
+    print(f"Cart items: {len(cart["items"])}")
 
     result = pickup_locations_operations.get_cart_pickup_locations(
         cart_id=cart_id,
@@ -82,9 +95,7 @@ def test_get_cart_pickup_locations_transfer_required(
         culture_name=culture,
         facet="address_countryname address_regionname address_city",
         first=50
-    ) 
-
-    print(result)
+    )    
 
     transfer_locations = [
         loc
