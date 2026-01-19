@@ -10,7 +10,7 @@ class CheckoutCompletedPage(MainLayoutPage):
 
     @property
     def url(self) -> str:
-        return f"{self.config['frontend_base_url']}/checkout/payment/success"
+        return f"{self.config['frontend_base_url']}/checkout/completed"
 
     @property
     def order_number(self) -> str:

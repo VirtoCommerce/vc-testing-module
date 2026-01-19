@@ -20,6 +20,7 @@ from fixtures.requests_tracker import RequestsTracker
 from tests_e2e.components.quantity_stepper_component import QuantityStepperComponent
 from tests_e2e.components.product_card_component import ProductCardComponent
 from tests_e2e.pages.payment_form_page import PaymentFormPage
+from tests_e2e.pages.payment_successful_page import PaymentSuccessfulPage
 
 @pytest.mark.e2e
 @allure.title("Create order with card payment (E2E)")
@@ -119,9 +120,9 @@ def test_e2e_create_order_with_card_payment(config: dict, page: Page, requests_t
     payment_form_page.click_pay_now_button()
     requests_tracker.wait_for_all_requests()
 
-    checkout_completed_page = CheckoutCompletedPage(config, page)
+    payment_successful_page = PaymentSuccessfulPage(config, page)
 
     expect(page).to_have_url(
-        checkout_completed_page.url
-    ), "Checkout completed page is not loaded"
+        payment_successful_page.url
+    ), "Payment successful page is not loaded"
 
