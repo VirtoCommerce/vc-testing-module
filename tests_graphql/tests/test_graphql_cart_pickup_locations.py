@@ -69,6 +69,7 @@ def test_get_cart_pickup_locations_transfer_required(
         }
     )
 
+    cart_id = cart["id"]
    
     assert cart["itemsQuantity"] == 1, "Cart items quantity is not the same"
     assert cart["items"][0]["productId"] == product_transfer["id"], "Cart item product ID is not the same"  
@@ -76,12 +77,14 @@ def test_get_cart_pickup_locations_transfer_required(
  
 
     result = pickup_locations_operations.get_cart_pickup_locations(
-        cart_id=cart["id"],
+        cart_id=cart_id,
         store_id=config["STORE_ID"],
         culture_name=culture,
         facet="address_countryname address_regionname address_city",
         first=50
-    )    
+    ) 
+
+    print(result)
 
     transfer_locations = [
         loc
@@ -167,16 +170,20 @@ def test_get_cart_pickup_locations_multiple_products(
         }
     )
 
+    cart_id = cart["id"]
+
     assert cart["itemsQuantity"] == 2, "Cart items quantity is not the same" 
     assert len(cart["items"]) == 2, "Cart items is not the same" 
 
     result = pickup_locations_operations.get_cart_pickup_locations(
-        cart_id=cart["id"],
+        cart_id=cart_id,
         store_id=config["STORE_ID"],
         culture_name=culture,
         facet="address_countryname address_regionname address_city",
         first=50
     )
+
+    print(result)
 
     assert result["totalCount"] > 0, "No pickup locations found for cart with multiple products"
     assert len(result['items']) > 0, "No pickup location items returned"    
