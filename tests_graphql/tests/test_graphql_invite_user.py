@@ -1,5 +1,6 @@
 import os
 import random
+import time
 from typing import Any
 
 import allure
@@ -68,10 +69,7 @@ def test_invite_user(
         config["ADMIN_PASSWORD"],
     )
 
-    member_indextation = webapi_client.post(f"/api/search/indexes/index", data={
-        "indexName": "members",
-        "deleteExistingIndex": False        
-    }) 
+    time.sleep(10)
    
         
     invited_contact = contact_operations.fetch_organization_contacts(
