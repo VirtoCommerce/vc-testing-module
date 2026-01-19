@@ -81,19 +81,18 @@ def test_get_cart_pickup_locations_transfer_required(
         culture_name=culture,
         facet="address_countryname address_regionname address_city",
         first=50
-    )
-
-    print(result)
+    )    
 
     transfer_locations = [
         loc
         for loc in result["items"]
         if loc.get("availabilityType") in ["Transfer", "GlobalTransfer"]
+        
     ]
 
+    assert result["totalCount"] > 0, "No pickup locations found for cart with product requiring transfer"
+    assert len(result['items']) > 0, "No pickup location items returned"    
     assert len(transfer_locations) > 0, "No transfer locations found for cart with product requiring transfer"
-
-    print(f"Found {len(transfer_locations)} locations with transfer availability")
 
     cart_operations.clear_cart(
         {
@@ -126,8 +125,7 @@ def test_get_cart_pickup_locations_multiple_products(
     auth.authenticate(dataset["users"][0]["userName"], config["USERS_PASSWORD"])
 
     user = user_operations.get_me()
-
-    # Clear cart before test to ensure clean state
+    
     cart_operations.clear_cart(
         {
             "storeId": config["STORE_ID"],
