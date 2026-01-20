@@ -79,7 +79,12 @@ class WebAPISession(requests.Session):
     def patch(
         self, endpoint: str, data: dict[str, Any] | None = None, **kwargs
     ) -> Union[dict, str, bytes]:
-        return self.send_request("PATCH", endpoint, data=json.dumps(data), **kwargs)
+        headers = kwargs.pop("headers", {})
+        # JSON Patch requires a distinct media type on .NET APIs.
+        headers.setdefault("Content-Type", "application/json-patch+json")
+        return self.send_request(
+            "PATCH", endpoint, data=json.dumps(data), headers=headers, **kwargs
+        )
 
     def request(
         self, method: str, endpoint: str, data: dict[str, Any] | None = None, **kwargs
