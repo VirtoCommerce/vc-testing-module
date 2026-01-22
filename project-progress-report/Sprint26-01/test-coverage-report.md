@@ -17,9 +17,19 @@ This report provides test coverage statistics comparing the state of the test su
 
 ---
 
-## Test Coverage Comparison Chart
+## Charts & Visualizations
+
+### Test Coverage Comparison (Dec 23, 2025 vs Jan 22, 2026)
 
 ![Test Coverage Comparison](./test-coverage-comparison-chart.png)
+
+### Test Distribution by Feature Area
+
+![Test Distribution](./test-distribution-pie-chart.png)
+
+### Test Coverage Growth Trend
+
+![Growth Trend](./test-growth-trend-chart.png)
 
 ---
 
