@@ -8,7 +8,7 @@ from fixtures.config import Config
 from tests_e2e.pages.home_page import HomePage
 from tests_e2e.pages.sign_in_page import SignInPage
 
-EXPECTED_ORGANIZATION_SEARCH_RESULTS = 3
+EXPECTED_ORGANIZATION_SEARCH_RESULTS = 4
 
 
 def get_user_organization_count(dataset: dict[str, Any], user: dict[str, Any]) -> int:
