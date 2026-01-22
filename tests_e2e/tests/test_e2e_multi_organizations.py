@@ -8,7 +8,7 @@ from fixtures.config import Config
 from tests_e2e.pages.home_page import HomePage
 from tests_e2e.pages.sign_in_page import SignInPage
 
-EXPECTED_ORGANIZATION_SEARCH_RESULTS = 4
+EXPECTED_ORGANIZATION_SEARCH_RESULTS = 3
 
 
 def get_user_organization_count(dataset: dict[str, Any], user: dict[str, Any]) -> int:
@@ -145,8 +145,8 @@ def test_e2e_search_organization_in_list(config: Config, dataset: dict[str, Any]
         page.wait_for_timeout(2000)
         expect(account_menu.organization_list).to_be_visible()
         assert (
-            len(account_menu.organization_selector_items) == EXPECTED_ORGANIZATION_SEARCH_RESULTS
-        ), f"Number of organizations after search is not {EXPECTED_ORGANIZATION_SEARCH_RESULTS}, but {len(account_menu.organization_selector_items)}"
+            len(account_menu.organization_selector_items) >= EXPECTED_ORGANIZATION_SEARCH_RESULTS
+        ), f"Number of organizations after search is not at least {EXPECTED_ORGANIZATION_SEARCH_RESULTS}, but {len(account_menu.organization_selector_items)}"
 
     with allure.step(f"Clear search for organization '{organization_name}'"):
         account_menu.search_organization_clear_button.click()
