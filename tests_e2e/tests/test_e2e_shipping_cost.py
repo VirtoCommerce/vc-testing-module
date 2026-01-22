@@ -26,9 +26,7 @@ def test_e2e_shipping_cost_single_page_checkout(
     graphql_client: Client,
 ):
     if checkout_mode == "multi-step":
-        pytest.skip(
-            "Checkout mode is a single-page, skipping test for multi-step checkout"
-        )
+        pytest.skip("Checkout mode is a single-page, skipping test for multi-step checkout")
 
     print(
         f"{os.linesep}Running E2E test to calculate shipping cost in single-page checkout...",
@@ -40,14 +38,10 @@ def test_e2e_shipping_cost_single_page_checkout(
     auth.authenticate(dataset["users"][0]["userName"], config["USERS_PASSWORD"])
 
     category_to_browse = next(
-        category
-        for category in dataset["categories"]
-        if category["id"] == "category-acme-laptops"
+        category for category in dataset["categories"] if category["id"] == "category-acme-laptops"
     )
     product_to_add_to_cart = next(
-        product
-        for product in dataset["products"]
-        if product["id"] == "product-acme-laptop-hp-pavilion-16-ag0087nr"
+        product for product in dataset["products"] if product["id"] == "product-acme-laptop-hp-pavilion-16-ag0087nr"
     )
 
     category_page = CategoryPage(
@@ -75,17 +69,19 @@ def test_e2e_shipping_cost_single_page_checkout(
         culture,
     )
 
+    assert cart is not None, "Cart is None - cannot retrieve shipping methods"
+    assert cart.get("availableShippingMethods") is not None, "Available shipping methods is None"
+    assert len(cart["availableShippingMethods"]) > 0, "No shipping methods available"
+
     ground_shipping_method = next(
         shipping_method
         for shipping_method in cart["availableShippingMethods"]
-        if shipping_method["code"] == "FixedRate"
-        and shipping_method["optionName"] == "Ground"
+        if shipping_method["code"] == "FixedRate" and shipping_method["optionName"] == "Ground"
     )
     air_shipping_method = next(
         shipping_method
         for shipping_method in cart["availableShippingMethods"]
-        if shipping_method["code"] == "FixedRate"
-        and shipping_method["optionName"] == "Air"
+        if shipping_method["code"] == "FixedRate" and shipping_method["optionName"] == "Air"
     )
     bopis_shipping_method = next(
         shipping_method
@@ -132,9 +128,7 @@ def test_e2e_shipping_cost_multi_step_checkout(
     graphql_client: Client,
 ):
     if checkout_mode == "single-page":
-        pytest.skip(
-            "Checkout mode is a single-page, skipping test for multi-step checkout"
-        )
+        pytest.skip("Checkout mode is a single-page, skipping test for multi-step checkout")
 
     print(
         f"{os.linesep}Running E2E test to calculate shipping cost in multi-step checkout...",
@@ -146,14 +140,10 @@ def test_e2e_shipping_cost_multi_step_checkout(
     auth.authenticate(dataset["users"][0]["userName"], config["USERS_PASSWORD"])
 
     category_to_browse = next(
-        category
-        for category in dataset["categories"]
-        if category["id"] == "category-acme-laptops"
+        category for category in dataset["categories"] if category["id"] == "category-acme-laptops"
     )
     product_to_add_to_cart = next(
-        product
-        for product in dataset["products"]
-        if product["id"] == "product-acme-laptop-hp-pavilion-16-ag0087nr"
+        product for product in dataset["products"] if product["id"] == "product-acme-laptop-hp-pavilion-16-ag0087nr"
     )
 
     category_page = CategoryPage(
@@ -185,14 +175,12 @@ def test_e2e_shipping_cost_multi_step_checkout(
     ground_shipping_method = next(
         shipping_method
         for shipping_method in cart["availableShippingMethods"]
-        if shipping_method["code"] == "FixedRate"
-        and shipping_method["optionName"] == "Ground"
+        if shipping_method["code"] == "FixedRate" and shipping_method["optionName"] == "Ground"
     )
     air_shipping_method = next(
         shipping_method
         for shipping_method in cart["availableShippingMethods"]
-        if shipping_method["code"] == "FixedRate"
-        and shipping_method["optionName"] == "Air"
+        if shipping_method["code"] == "FixedRate" and shipping_method["optionName"] == "Air"
     )
     bopis_shipping_method = next(
         shipping_method

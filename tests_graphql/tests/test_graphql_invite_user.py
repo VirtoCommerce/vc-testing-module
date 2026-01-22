@@ -17,22 +17,14 @@ from graphql_operations.user.user_operations import UserOperations
 @pytest.mark.graphql
 @allure.feature("Invite user (GraphQL)")
 def test_invite_user(
-    config: Config,
-    auth: Auth,
-    dataset: dict[str, Any],
-    graphql_client: GraphQLClient,
-    webapi_client: WebAPISession
+    config: Config, auth: Auth, dataset: dict[str, Any], graphql_client: GraphQLClient, webapi_client: WebAPISession
 ):
     print(f"{os.linesep}Running test to invite user...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     contact_operations = ContactOperations(graphql_client)
 
-    dataset_user = next(
-        user
-        for user in dataset["users"]
-        if user["id"] == "user-acme-store-maintainer-1"
-    )
+    dataset_user = next(user for user in dataset["users"] if user["id"] == "user-acme-store-maintainer-1")
 
     dataset_organization = next(
         organization
@@ -60,18 +52,15 @@ def test_invite_user(
     )
 
     if invitation_result["succeeded"] == False:
-        raise Exception(
-            f"{os.linesep}Invitation failed: {invitation_result['errors'][0]}"
-        )
-    
+        raise Exception(f"{os.linesep}Invitation failed: {invitation_result['errors'][0]}")
+
     auth.authenticate(
         config["ADMIN_USERNAME"],
         config["ADMIN_PASSWORD"],
     )
 
-    time.sleep(10)
-   
-        
+    time.sleep(20)
+
     invited_contact = contact_operations.fetch_organization_contacts(
         organization_id=dataset_organization["id"],
         user_id=maintainer_user["id"],
@@ -103,7 +92,5 @@ def test_invite_user(
 
     assert invitation_result["succeeded"] == True, "User was not invited"
     assert invited_contact is not None, "Invited contact was not found"
-    assert (
-        invited_contact["status"] == "Invited"
-    ), "Invited contact status is not Invited"
+    assert invited_contact["status"] == "Invited", "Invited contact status is not Invited"
     assert invited_contact["emails"][0] == invite_employee_email, "Invited contact email is not the same"
