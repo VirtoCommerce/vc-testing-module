@@ -3,18 +3,24 @@ import os
 import pytest
 from dotenv import dotenv_values
 
+DEFAULTS = {
+    "CHECKOUT_MODE": "single-page",
+    "PRODUCT_QUANTITY_CONTROL": "stepper",
+    "RANGE_FILTER_TYPE": "slider",
+}
+
 
 class Config:
     def __init__(self):
-        file_values = dotenv_values(encoding="utf-8")
-        env_vaues = dict(os.environ)
-        self._config = {**file_values, **env_vaues}
+        env_file_values = dotenv_values(encoding="utf-8")
+        env_os_values = dict[str, str](os.environ)
+        self._config = {**DEFAULTS, **env_file_values, **env_os_values}
 
     def __getitem__(self, key: str):
         return self._config[key]
 
     def to_dict(self) -> dict:
-        return dict(self._config)
+        return dict[str, str](self._config)
 
 
 @pytest.fixture(scope="session")

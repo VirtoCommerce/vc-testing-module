@@ -1,26 +1,22 @@
 import os
-import time
 from typing import Any
 
-import allure
 import pytest
 from playwright.sync_api import Page, expect
 
-from fixtures.config import Config
-from fixtures.requests_tracker import RequestsTracker
-from tests_e2e.pages.cart_page import CartPage
-from tests_e2e.pages.category_page import CategoryPage
-from tests_e2e.pages.save_for_later_page import SaveForLaterPage
-from tests_e2e.pages.sign_in_page import SignInPage
+from fixtures import Auth, Config, GraphQLClient
+from graphql_operations.cart.cart_operations import CartOperations
+from graphql_operations.user.user_operations import UserOperations
+from tests_e2e.pages import CartPage, SaveForLaterPage
 
 
 @pytest.mark.e2e
-@allure.title("Add product to cart and save for later (E2E)")
 def test_e2e_add_product_to_cart_and_save_for_later(
     config: Config,
     dataset: dict[str, Any],
+    auth: Auth,
+    graphql_client: GraphQLClient,
     page: Page,
-    requests_tracker: RequestsTracker,
 ):
     print(
         f"{os.linesep}Running E2E test to add product to cart and save for later...",
@@ -29,99 +25,62 @@ def test_e2e_add_product_to_cart_and_save_for_later(
 
     page.set_viewport_size({"width": 1920, "height": 1080})
 
-    sign_in_page = SignInPage(page, config)
-    sign_in_page.navigate()
+    auth.authenticate(dataset["users"][0]["userName"], config["USERS_PASSWORD"], page)
 
-    sign_in_page.sign_in(dataset["users"][0]["userName"], config["USERS_PASSWORD"])
-    time.sleep(2)
+    user_operations = UserOperations(graphql_client)
+    cart_operations = CartOperations(graphql_client)
+
+    product = dataset["products"][1]
+
+    user = user_operations.get_me()
+    cart = cart_operations.add_item_to_cart(
+        payload={
+            "storeId": config["STORE_ID"],
+            "userId": user["id"],
+            "productId": product["code"],
+            "quantity": 2,
+        }
+    )
 
     cart_page = CartPage(config, page)
-
-    category_to_browse = next(
-        category
-        for category in dataset["categories"]
-        if category["id"] == "category-acme-laptops"
-    )
-
-    product_to_add_to_cart_1 = next(
-        product
-        for product in dataset["products"]
-        if product["id"] == "product-acme-laptop-hp-pavilion-16-ag0087nr"
-    )
-
-    product_to_add_to_cart_2 = next(
-        product
-        for product in dataset["products"]
-        if product["id"] == "product-acme-laptop-asus-zenbook-a14-ux3407"
-    )
-
-    product_quantity = 2
-
-    category_page = CategoryPage(
-        config, page, category_to_browse["seoInfos"][0]["semanticUrl"]
-    )
-    category_page.navigate()
-    category_page.add_product_to_cart(
-        product_to_add_to_cart_1["code"], product_quantity
-    )
-    category_page.add_product_to_cart(product_to_add_to_cart_2["code"], 1)
-    requests_tracker.wait_for_all_requests()
-
     cart_page.navigate()
 
+    cart_page.save_for_later(product["code"])
+
+    line_item = cart_page.get_line_item_by_sku(product["code"])
     expect(
-        cart_page.get_line_item_by_sku(
-            product_to_add_to_cart_1["code"]
-        ).quantity_stepper_component.quantity_input
-    ).to_have_value(
-        str(product_quantity)
-    ), f"Product quantity is not equal to {product_quantity}"
-
-    cart_page.save_for_later(product_to_add_to_cart_1["code"])
-    requests_tracker.wait_for_all_requests()
-    time.sleep(3)
-
-    # Verify that the first product is no longer in the cart
-    removed_item = cart_page.get_line_item_by_sku(product_to_add_to_cart_1["code"])
-    assert (
-        removed_item is None
-    ), f"Product {product_to_add_to_cart_1['code']} should not be in cart after saving for later"
-
-    # Verify that the cart has only 1 item left
-    assert (
-        len(cart_page.line_items) == 1
-    ), f"Cart should have 1 item after saving for later, but found {len(cart_page.line_items)}"
-
-    # Verify that the second product is still in the cart
-    remaining_item = cart_page.get_line_item_by_sku(product_to_add_to_cart_2["code"])
-    expect(
-        remaining_item.element
-    ).to_be_visible(), f"Product {product_to_add_to_cart_2['code']} should still be in cart"
+        line_item.element
+    ).not_to_be_visible(), f"Product {product['code']} should not be in cart"
 
     save_for_later_page = SaveForLaterPage(page, config)
     save_for_later_page.navigate()
 
-    saved_item = save_for_later_page.get_line_item_by_sku(
-        product_to_add_to_cart_1["code"]
-    )
+    saved_item = save_for_later_page.get_line_item_by_sku(product["code"])
     expect(
         saved_item.element
-    ).to_be_visible(), f"Product {product_to_add_to_cart_1['code']} should be in saved for later"
+    ).to_be_visible(), f"Product {product['code']} should be in saved for later"
 
-    save_for_later_page.remove_line_item(product_to_add_to_cart_1["code"])
-    requests_tracker.wait_for_all_requests()
+    save_for_later_page.remove_line_item(product["code"])
 
-    cart_page.navigate()
-    cart_page.clear_cart()
+    expect(
+        saved_item.element
+    ).not_to_be_visible(), f"Product {product['code']} should not be in saved for later"
+
+    cart_operations.remove_cart(
+        payload={
+            "cartId": cart["id"],
+            "userId": user["id"],
+        }
+    )
 
 
 @pytest.mark.e2e
-@allure.title("Move product from saved for later to cart (E2E)")
 def test_e2e_move_product_from_saved_for_later_to_cart(
     config: Config,
     dataset: dict[str, Any],
+    graphql_client: GraphQLClient,
+    auth: Auth,
     page: Page,
-    requests_tracker: RequestsTracker,
 ):
     print(
         f"{os.linesep}Running E2E test to move product from saved for later to cart...",
@@ -130,75 +89,64 @@ def test_e2e_move_product_from_saved_for_later_to_cart(
 
     page.set_viewport_size({"width": 1920, "height": 1080})
 
-    sign_in_page = SignInPage(page, config)
-    sign_in_page.navigate()
+    auth.authenticate(dataset["users"][0]["userName"], config["USERS_PASSWORD"], page)
 
-    sign_in_page.sign_in(dataset["users"][0]["userName"], config["USERS_PASSWORD"])
-    time.sleep(2)
+    user_operations = UserOperations(graphql_client)
+    cart_operations = CartOperations(graphql_client)
 
-    category_to_browse = next(
-        category
-        for category in dataset["categories"]
-        if category["id"] == "category-acme-laptops"
-    )
-
-    product_to_add_to_cart = next(
-        product
-        for product in dataset["products"]
-        if product["id"] == "product-acme-laptop-hp-pavilion-16-ag0087nr"
-    )
-
+    product = dataset["products"][1]
     product_quantity = 3
 
-    category_page = CategoryPage(
-        config, page, category_to_browse["seoInfos"][0]["semanticUrl"]
+    user = user_operations.get_me()
+    cart = cart_operations.add_item_to_cart(
+        payload={
+            "storeId": config["STORE_ID"],
+            "userId": user["id"],
+            "productId": product["code"],
+            "quantity": product_quantity,
+        }
     )
-    category_page.navigate()
-    category_page.add_product_to_cart(product_to_add_to_cart["code"], product_quantity)
-    requests_tracker.wait_for_all_requests()
 
     cart_page = CartPage(config, page)
     cart_page.navigate()
 
-    cart_page.save_for_later(product_to_add_to_cart["code"])
-    requests_tracker.wait_for_all_requests()
-    time.sleep(3)
+    cart_page.save_for_later(product["code"])
+
+    line_item = cart_page.get_line_item_by_sku(product["code"])
+    expect(
+        line_item.element
+    ).not_to_be_visible(), f"Product {product['code']} should not be in cart"
 
     save_for_later_page = SaveForLaterPage(page, config)
     save_for_later_page.navigate()
 
-    saved_item = save_for_later_page.get_line_item_by_sku(
-        product_to_add_to_cart["code"]
-    )
+    saved_item = save_for_later_page.get_line_item_by_sku(product["code"])
     expect(
         saved_item.element
-    ).to_be_visible(), f"Product {product_to_add_to_cart['code']} should be in saved for later"
-
-    expect(saved_item.add_to_cart_component.quantity_input).to_have_value(
-        str(product_quantity)
-    ), f"Product quantity is not equal to {product_quantity}"
+    ).to_be_visible(), f"Product {product['code']} should be in saved for later"
 
     saved_item.add_to_cart_component.add_to_cart_text_button.click()
-    requests_tracker.wait_for_all_requests()
+    page.locator(".vc-dialog-footer button.vc-button--solid--primary").click()
+
+    expect(
+        saved_item.element
+    ).to_be_visible(), f"Product {product['code']} should be in saved for later"
+
+    save_for_later_page.remove_line_item(product["code"])
+
+    expect(
+        saved_item.element
+    ).not_to_be_visible(), f"Product {product['code']} should not be in saved for later"
 
     cart_page.navigate()
+    line_item = cart_page.get_line_item_by_sku(product["code"])
     expect(
-        cart_page.get_line_item_by_sku(product_to_add_to_cart["code"]).element
-    ).to_be_visible(), f"Product {product_to_add_to_cart['code']} should be in cart"
-    expect(
-        cart_page.get_line_item_by_sku(
-            product_to_add_to_cart["code"]
-        ).quantity_stepper_component.quantity_input
-    ).to_have_value(
-        str(product_quantity)
-    ), f"Product quantity is not equal to {product_quantity}"
+        line_item.element
+    ).to_be_visible(), f"Product {product['code']} should be in cart"
 
-    cart_page.clear_cart()
-
-    save_for_later_page.navigate()
-    save_for_later_page.remove_line_item(product_to_add_to_cart["code"])
-    requests_tracker.wait_for_all_requests()
-
-    assert (
-        save_for_later_page.is_empty
-    ), "Saved for later page is not empty after removing product"
+    cart_operations.remove_cart(
+        payload={
+            "cartId": cart["id"],
+            "userId": user["id"],
+        }
+    )

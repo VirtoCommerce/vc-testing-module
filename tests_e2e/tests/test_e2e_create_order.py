@@ -1,37 +1,36 @@
 import os
-import time
 from typing import Any
 
-import allure
 import pytest
 from playwright.sync_api import Page, expect
 
-from fixtures.config import Config
-from fixtures.requests_tracker import RequestsTracker
+from fixtures import Auth, Config, GraphQLClient
+from graphql_operations.cart.cart_operations import CartOperations
+from graphql_operations.user.user_operations import UserOperations
 from tests_e2e.components.select_address_modal_component import (
     SelectAddressModalComponent,
 )
-from tests_e2e.pages.cart_page import CartPage
-from tests_e2e.pages.category_page import CategoryPage
-from tests_e2e.pages.checkout_billing_page import CheckoutBillingPage
-from tests_e2e.pages.checkout_completed_page import CheckoutCompletedPage
-from tests_e2e.pages.checkout_review_order_page import CheckoutReviewOrderPage
-from tests_e2e.pages.checkout_shipping_page import CheckoutShippingPage
-from tests_e2e.pages.sign_in_page import SignInPage
+from tests_e2e.pages import (
+    CartPage,
+    CheckoutBillingPage,
+    CheckoutCompletedPage,
+    CheckoutReviewOrderPage,
+    CheckoutShippingPage,
+)
 
 
 @pytest.mark.e2e
-@allure.title("Create order - multi-step checkout (E2E)")
 def test_e2e_create_order_multi_step_checkout(
     config: Config,
     dataset: dict[str, Any],
+    auth: Auth,
+    graphql_client: GraphQLClient,
     page: Page,
-    requests_tracker: RequestsTracker,
-    product_quantity_control: str,
-    checkout_mode: str,
 ):
-    if checkout_mode == "single-page":
-        pytest.skip("Checkout mode is a multi-step")
+    if config["CHECKOUT_MODE"] == "single-page":
+        pytest.skip(
+            "Checkout mode is a single-page, skipping test for multi-step checkout"
+        )
 
     print(
         f"{os.linesep}Running E2E test to create order in multi-step checkout...",
@@ -40,38 +39,25 @@ def test_e2e_create_order_multi_step_checkout(
 
     page.set_viewport_size({"width": 1920, "height": 1080})
 
-    sign_in_page = SignInPage(page, config)
-    sign_in_page.navigate()
-    sign_in_page.sign_in(dataset["users"][0]["userName"], config["USERS_PASSWORD"])
+    user_operations = UserOperations(graphql_client)
+    cart_operations = CartOperations(graphql_client)
 
-    expect(page).not_to_have_url(sign_in_page.url), "Sign in page is still visible"
+    auth.authenticate(dataset["users"][0]["userName"], config["USERS_PASSWORD"], page)
 
-    category_to_browse = next(
-        category
-        for category in dataset["categories"]
-        if category["id"] == "category-acme-laptops"
+    product = dataset["products"][1]
+
+    user = user_operations.get_me()
+    cart_operations.add_item_to_cart(
+        payload={
+            "storeId": config["STORE_ID"],
+            "userId": user["id"],
+            "productId": product["code"],
+            "quantity": 2,
+        }
     )
-    product_to_add_to_cart = next(
-        product
-        for product in dataset["products"]
-        if product["id"] == "product-acme-laptop-hp-pavilion-16-ag0087nr"
-    )
-
-    category_page = CategoryPage(
-        config,
-        page,
-        category_to_browse["seoInfos"][0]["semanticUrl"],
-        product_quantity_control,
-    )
-    category_page.navigate()
-
-    category_page.add_product_to_cart(product_to_add_to_cart["code"], 2)
-
-    cart_page = CartPage(config, page)
-    cart_page.navigate()
-    cart_page.checkout_button.click()
 
     checkout_shipping_page = CheckoutShippingPage(config, page)
+    checkout_shipping_page.navigate()
 
     expect(page).to_have_url(
         checkout_shipping_page.url
@@ -87,18 +73,6 @@ def test_e2e_create_order_multi_step_checkout(
     expect(
         checkout_shipping_page.shipping_details_section_component.shipping_method_selector
     ).to_be_visible(), "Shipping method selector is not visible"
-
-    if (
-        not cart_page.shipping_details_section_component.address_selector_component.selected_address_label.is_visible()
-    ):
-        cart_page.shipping_details_section_component.address_selector_component.select_address_button.click()
-        select_address_modal = SelectAddressModalComponent(
-            page.locator("[data-test-id='select-address-modal']")
-        )
-        select_address_modal.items[0].click()
-        select_address_modal.confirm_button.click()
-        time.sleep(2)
-
     expect(
         checkout_shipping_page.shipping_details_section_component.address_selector_component.selected_address_label
     ).to_be_visible(), "Selected address label is not visible"
@@ -109,8 +83,6 @@ def test_e2e_create_order_multi_step_checkout(
     checkout_shipping_page.shipping_details_section_component.select_shipping_method(
         "FixedRate_Ground"
     )
-
-    requests_tracker.wait_for_all_requests()
 
     expect(
         checkout_shipping_page.billing_button
@@ -133,8 +105,6 @@ def test_e2e_create_order_multi_step_checkout(
     checkout_billing_page.payment_details_section_component.select_payment_method(
         "DefaultManualPaymentMethod"
     )
-
-    requests_tracker.wait_for_all_requests()
 
     expect(
         checkout_billing_page.review_order_button
@@ -170,17 +140,17 @@ def test_e2e_create_order_multi_step_checkout(
 
 
 @pytest.mark.e2e
-@allure.title("Create order - single-page checkout (E2E)")
 def test_e2e_create_order_single_page_checkout(
     config: Config,
     dataset: dict[str, Any],
+    auth: Auth,
+    graphql_client: GraphQLClient,
     page: Page,
-    requests_tracker: RequestsTracker,
-    product_quantity_control: str,
-    checkout_mode: str,
 ):
-    if checkout_mode == "multi-step":
-        pytest.skip("Checkout mode is a single-page")
+    if config["CHECKOUT_MODE"] == "multi-step":
+        pytest.skip(
+            "Checkout mode is a multi-step, skipping test for single-page checkout"
+        )
 
     print(
         f"{os.linesep}Running E2E test to create order in multi-step checkout...",
@@ -189,32 +159,22 @@ def test_e2e_create_order_single_page_checkout(
 
     page.set_viewport_size({"width": 1920, "height": 1080})
 
-    sign_in_page = SignInPage(page, config)
-    sign_in_page.navigate()
-    sign_in_page.sign_in(dataset["users"][0]["userName"], config["USERS_PASSWORD"])
+    user_operations = UserOperations(graphql_client)
+    cart_operations = CartOperations(graphql_client)
 
-    expect(page).not_to_have_url(sign_in_page.url), "Sign in page is still visible"
+    auth.authenticate(dataset["users"][0]["userName"], config["USERS_PASSWORD"], page)
 
-    category_to_browse = next(
-        category
-        for category in dataset["categories"]
-        if category["id"] == "category-acme-laptops"
+    product = dataset["products"][1]
+
+    user = user_operations.get_me()
+    cart_operations.add_item_to_cart(
+        payload={
+            "storeId": config["STORE_ID"],
+            "userId": user["id"],
+            "productId": product["code"],
+            "quantity": 2,
+        }
     )
-    product_to_add_to_cart = next(
-        product
-        for product in dataset["products"]
-        if product["id"] == "product-acme-laptop-hp-pavilion-16-ag0087nr"
-    )
-
-    category_page = CategoryPage(
-        config,
-        page,
-        category_to_browse["seoInfos"][0]["semanticUrl"],
-        product_quantity_control,
-    )
-    category_page.navigate()
-
-    category_page.add_product_to_cart(product_to_add_to_cart["code"], 2)
 
     cart_page = CartPage(config, page)
     cart_page.navigate()
@@ -254,8 +214,6 @@ def test_e2e_create_order_single_page_checkout(
         "FixedRate_Ground"
     )
 
-    requests_tracker.wait_for_all_requests()
-
     expect(
         cart_page.payment_details_section_component.element
     ).to_be_visible(), "Payment details section is not visible"
@@ -263,8 +221,6 @@ def test_e2e_create_order_single_page_checkout(
     cart_page.payment_details_section_component.select_payment_method(
         "DefaultManualPaymentMethod"
     )
-
-    requests_tracker.wait_for_all_requests()
 
     expect(
         cart_page.place_order_button
@@ -281,5 +237,4 @@ def test_e2e_create_order_single_page_checkout(
         checkout_completed_page.url
     ), "Checkout completed page is not loaded"
 
-    print(f"Order number: {checkout_completed_page.order_number}")
     assert checkout_completed_page.order_number is not None, "Order number is not found"

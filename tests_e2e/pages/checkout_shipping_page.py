@@ -23,3 +23,7 @@ class CheckoutShippingPage(CheckoutLayoutPage):
     @property
     def billing_button(self) -> Locator:
         return self.page.locator("[data-test-id='checkout.billing-button']")
+
+    def navigate(self):
+        self.page.goto(self.url)
+        self.page.wait_for_load_state("networkidle")

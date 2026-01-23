@@ -1,7 +1,5 @@
 import os
-from typing import Any
 
-import allure
 import pytest
 from playwright.sync_api import Page, expect
 
@@ -10,7 +8,6 @@ from tests_e2e.pages.sign_in_page import SignInPage
 
 
 @pytest.mark.e2e
-@allure.title("Change language (E2E)")
 def test_e2e_change_language(config: Config, page: Page):
     print(f"{os.linesep}Running E2E test to change language...", end=" ")
 

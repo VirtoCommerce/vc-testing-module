@@ -5,14 +5,10 @@
     "priority": 24,
     "data": [
         {
-            "id": "pickup-location-acme-westfield-world-trade-center",
+            "id": "pickup-location-acme-bristol",
             "name": "Westfield World Trade Center",
-            "description": "Attraction",
             "storeId": "store-acme",
-            "geoLocation": "40.711660,-74.011100",
-            "workingHours": "* **Mon - Sun**: 9 - 18",
-            "contactPhone": "+10000000001",
-            "contactEmail": "pickup1@example.com",
+            "geoLocation": "51.41899668167562, -2.5887099717970674",
             "isActive": true,
             "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
             "transferFulfillmentCenterIds": [
@@ -21,24 +17,118 @@
             ],
             "address": {
                 "addressType": "Shipping",
-                "city": "New York",
-                "countryCode": "USA",
-                "countryName": "United States of America",
-                "line1": "185 Greenwich St",
-                "postalCode": "10001",
-                "regionId": "NY",
-                "regionName": "New York"
+                "city": "Bristol",
+                "countryCode": "GBR",
+                "countryName": "United Kingdom",
+                "line1": "Roman Farm Road",
+                "postalCode": "BS4 1UN"
             }
         },
         {
-            "id": "pickup-location-acme-the-shops-at-columbus-circle",
-            "name": "The Shops at Columbus Circle",
-            "description": "Shopping mall",
+            "id": "pickup-location-acme-bristol-flea",
+            "name": "Bristol Flea (Fulton Stall)",
             "storeId": "store-acme",
-            "geoLocation": "40.768044,-73.982125",
+            "geoLocation": "51.458966612204144, -2.5852711411573495",
+            "contactPhone": "+10000000015",
+            "contactEmail": "pickup15@example.com",
             "workingHours": "* **Mon - Sun**: 9 - 18",
-            "contactPhone": "+10000000002",
-            "contactEmail": "pickup2@example.com",
+            "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-riverton-oh",
+                "ffc-acme-usa-morrisville-nc"
+            ],
+            "address": {
+                "addressType": "Shipping",
+                "city": "Bristol",
+                "countryCode": "GBR",
+                "countryName": "United Kingdom",
+                "line1": "Broadmead",
+                "line2": "The Arcade",
+                "postalCode": "BS1 3JD"
+            }
+        },
+        {
+            "id": "pickup-location-acme-clifton-down-shopping-centre",
+            "name": "Clifton Down Shopping Centre",
+            "storeId": "store-acme",
+            "geoLocation": "51.464253913566544, -2.610967267714162",
+            "contactPhone": "+10000000014",
+            "contactEmail": "pickup14@example.com",
+            "workingHours": "* **Mon - Sun**: 9 - 18",
+            "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-riverton-oh",
+                "ffc-acme-usa-morrisville-nc"
+            ],
+            "address": {
+                "addressType": "Shipping",
+                "city": "Bristol",
+                "countryCode": "GBR",
+                "countryName": "United Kingdom",
+                "line1": "Whiteladies Rd",
+                "postalCode": "BS8 2NN"
+            }
+        },
+        {
+            "id": "pickup-location-acme-northgate-global-fulfillment-hub",
+            "name": "Northgate Global Fulfillment Hub",
+            "storeId": "store-acme",
+            "geoLocation": "51.503363,-0.127625",
+            "workingHours": "* **Mon - Sun**: 9 - 18",
+            "contactPhone": "+44 20 3984 1122",
+            "contactEmail": "contact@northgate-globalhub.com",
+            "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-riverton-oh",
+                "ffc-acme-usa-morrisville-nc"
+            ],
+            "address": {
+                "addressType": "Shipping",
+                "city": "London",
+                "countryCode": "GBR",
+                "countryName": "United Kingdom",
+                "line1": "10 Downing Street",
+                "postalCode": "SW1A 2AA"
+            }
+        },
+        {
+            "id": "pickup-location-acme-transeuro-logistics-node",
+            "name": "TransEuro Logistics Node",
+            "description": "Attraction",
+            "storeId": "store-acme",
+            "geoLocation": "38.897676,-77.036530",
+            "workingHours": "* **Mon - Sun**: 9 - 18",
+            "contactPhone": "+1 202 555 4821",
+            "contactEmail": "ops@transeuro-logistics.com",
+            "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-riverton-oh",
+                "ffc-acme-usa-morrisville-nc"
+            ],
+            "address": {
+                "addressType": "Shipping",
+                "city": "Washington",
+                "countryCode": "USA",
+                "countryName": "United States of America",
+                "line1": "1600 Pennsylvania Avenue NW",
+                "postalCode": "20500",
+                "regionId": "DC",
+                "regionName": "District of Columbia"
+            }
+        },
+        {
+            "id": "pickup-location-acme-pacific-rim-distribution-center",
+            "name": "Pacific Rim Distribution Center",
+            "description": "Distribution center",
+            "storeId": "store-acme",
+            "geoLocation": "35.710063,139.810700",
+            "workingHours": "* **Mon - Sun**: 9 - 18",
+            "contactPhone": "+81 3 4520 8891",
+            "contactEmail": "support@pacificrim-dc.jp",
             "isActive": true,
             "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
             "transferFulfillmentCenterIds": [
@@ -47,13 +137,179 @@
             ],
             "address": {
                 "addressType": "Shipping",
-                "city": "New York",
-                "countryCode": "USA",
-                "countryName": "United States of America",
-                "line1": "10 Columbus Cir",
-                "postalCode": "10002",
-                "regionId": "NY",
-                "regionName": "New York"
+                "city": "Tokyo",
+                "countryCode": "JPN",
+                "countryName": "Japan",
+                "line1": "1 Chome-1-2 Oshiage",
+                "postalCode": "131-0045"
+            }
+        },
+        {
+            "id": "pickup-location-acme-nordic-freight-consolidation-facility",
+            "name": "Nordic Freight Consolidation Facility",
+            "description": "Freight consolidation facility",
+            "storeId": "store-acme",
+            "geoLocation": "59.332580,18.064900",
+            "workingHours": "* **Mon - Sun**: 9 - 18",
+            "contactPhone": "+46 8 5510 7722",
+            "contactEmail": "info@nordicfreight-center.se",
+            "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-springfield-il",
+                "ffc-acme-usa-morrisville-nc"
+            ],
+            "address": {
+                "addressType": "Shipping",
+                "city": "Stockholm",
+                "countryCode": "SWE",
+                "countryName": "Sweden",
+                "line1": "Drottninggatan 1",
+                "postalCode": "111 51"
+            }
+        },
+        {
+            "id": "pickup-location-acme-andes-cross-border-fulfillment-terminal",
+            "name": "Andes Cross‑Border Fulfillment Terminal",
+            "description": "Fulfillment terminal",
+            "storeId": "store-acme",
+            "geoLocation": "-33.437200,-70.650600",
+            "workingHours": "* **Mon - Sun**: 9 - 18",
+            "contactPhone": "+56 2 3210 9988",
+            "contactEmail": "service@andes-fulfillment.cl",
+            "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-springfield-il",
+                "ffc-acme-usa-morrisville-nc"
+            ],
+            "address": {
+                "addressType": "Shipping",
+                "city": "Santiago",
+                "countryCode": "CHL",
+                "countryName": "Chile",
+                "line1": "Plaza de Armas",
+                "postalCode": "8320000"
+            }
+        },
+        {
+            "id": "pickup-location-acme-euroalpine-distribution-hub",
+            "name": "EuroAlpine Distribution Hub",
+            "description": "Distribution hub",
+            "storeId": "store-acme",
+            "geoLocation": "48.208174,16.373819",
+            "workingHours": "* **Mon - Sun**: 9 - 18",
+            "contactPhone": "+43 1 720 4411",
+            "contactEmail": "office@euroalpine-hub.at",
+            "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-springfield-il",
+                "ffc-acme-usa-morrisville-nc"
+            ],
+            "address": {
+                "addressType": "Shipping",
+                "city": "Vienna",
+                "countryCode": "AUT",
+                "countryName": "Austria",
+                "line1": "Stephansplatz 3",
+                "postalCode": "1010"
+            }
+        },
+        {
+            "id": "pickup-location-acme-sahara-continental-logistics-center",
+            "name": "Sahara Continental Logistics Center",
+            "description": "Logistics center",
+            "storeId": "store-acme",
+            "geoLocation": "31.629472,-7.981084",
+            "workingHours": "* **Mon - Sun**: 9 - 18",
+            "contactPhone": "+212 5 2430 7711",
+            "contactEmail": "contact@sahara-logistics.ma",
+            "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-springfield-il",
+                "ffc-acme-usa-morrisville-nc"
+            ],
+            "address": {
+                "addressType": "Shipping",
+                "city": "Casablanca",
+                "countryCode": "MAR",
+                "countryName": "Morocco",
+                "line1": "Avenue Mohammed V",
+                "postalCode": "40000"
+            }
+        },
+        {
+            "id": "pickup-location-acme-baltic-maritime-fulfillment-station",
+            "name": "Baltic Maritime Fulfillment Station",
+            "description": "Fulfillment station",
+            "storeId": "store-acme",
+            "geoLocation": "59.437000,24.753600",
+            "workingHours": "* **Mon - Sun**: 9 - 18",
+            "contactPhone": "+372 660 9120",
+            "contactEmail": "support@baltic-maritime.ee",
+            "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-springfield-il",
+                "ffc-acme-usa-morrisville-nc"
+            ],
+            "address": {
+                "addressType": "Shipping",
+                "city": "Tallinn",
+                "countryCode": "EST",
+                "countryName": "Estonia",
+                "line1": "Town Hall Square",
+                "postalCode": "10146"
+            }
+        },
+        {
+            "id": "pickup-location-acme-southern-hemisphere-distribution-node",
+            "name": "Southern Hemisphere Distribution Node",
+            "description": "Distribution node",
+            "storeId": "store-acme",
+            "geoLocation": "-37.817979,144.969098",
+            "workingHours": "* **Mon - Sun**: 9 - 18",
+            "contactPhone": "+61 3 7010 5522",
+            "contactEmail": "hello@southernhemi-distribution.au",
+            "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-springfield-il",
+                "ffc-acme-usa-morrisville-nc"
+            ],
+            "address": {
+                "addressType": "Shipping",
+                "city": "Melbourne",
+                "countryCode": "AUS",
+                "countryName": "Australia",
+                "line1": "Federation Square",
+                "postalCode": "3000"
+            }
+        },
+        {
+            "id": "pickup-location-acme-danube-central-fulfillment-depot",
+            "name": "Danube Central Fulfillment Depot",
+            "description": "Fulfillment depot",
+            "storeId": "store-acme",
+            "geoLocation": "47.514000,19.077000",
+            "workingHours": "* **Mon - Sun**: 9 - 18",
+            "contactPhone": "+36 1 880 4410",
+            "contactEmail": "admin@danube-fulfillment.hu",
+            "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-springfield-il",
+                "ffc-acme-usa-morrisville-nc"
+            ],
+            "address": {
+                "addressType": "Shipping",
+                "city": "Budapest",
+                "countryCode": "HUN",
+                "countryName": "Hungary",
+                "line1": "Heroes' Square",
+                "postalCode": "1146"
             }
         },
         {
@@ -390,6 +646,58 @@
                 "countryName": "United States of America",
                 "line1": "80 Pearl St",
                 "postalCode": "10015",
+                "regionId": "NY",
+                "regionName": "New York"
+            }
+        },
+        {
+            "id": "pickup-location-acme-empire-state-building",
+            "name": "Empire State Building",
+            "description": "Attraction",
+            "storeId": "store-acme",
+            "geoLocation": "40.748817,–73.985428",
+            "workingHours": "* **Mon - Sun**: 9 - 18",
+            "contactPhone": "+12125553470",
+            "contactEmail": "info@esb‑nyc.com",
+            "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-riverton-oh",
+                "ffc-acme-usa-morrisville-nc"
+            ],
+            "address": {
+                "addressType": "Shipping",
+                "city": "New York",
+                "countryCode": "USA",
+                "countryName": "United States of America",
+                "line1": "20 W 34th St",
+                "postalCode": "10001",
+                "regionId": "NY",
+                "regionName": "New York"
+            }
+        },
+        {
+            "id": "pickup-location-acme-fifth-avenue-midtown-hub",
+            "name": "Fifth Avenue Midtown Hub",
+            "description": "Distribution hub",
+            "storeId": "store-acme",
+            "geoLocation": "40.761640,–73.974890",
+            "workingHours": "* **Mon - Sun**: 9 - 18",
+            "contactPhone": "+12125557824",
+            "contactEmail": "contact@fifthave‑nyc.com",
+            "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-riverton-oh",
+                "ffc-acme-usa-morrisville-nc"
+            ],
+            "address": {
+                "addressType": "Shipping",
+                "city": "Manhattan",
+                "countryCode": "USA",
+                "countryName": "United States of America",
+                "line1": "689 5th Ave",
+                "postalCode": "10022",
                 "regionId": "NY",
                 "regionName": "New York"
             }

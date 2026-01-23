@@ -1,0 +1,877 @@
+import os
+from typing import Any
+
+import pytest
+from playwright.sync_api import Page, expect
+
+from fixtures import Auth, Config, GraphQLClient
+from graphql_operations.cart.cart_operations import CartOperations
+from graphql_operations.user.user_operations import UserOperations
+from tests_e2e.components.select_bopis_map_modal_component import (
+    SelectBopisMapModalComponent,
+)
+from tests_e2e.pages import CartPage, CheckoutShippingPage
+
+
+@pytest.mark.e2e
+def test_e2e_filter_pickup_locations_elements_single_page_checkout(
+    config: Config,
+    auth: Auth,
+    graphql_client: GraphQLClient,
+    page: Page,
+    dataset: dict[str, Any],
+):
+    if config["CHECKOUT_MODE"] == "multi-step":
+        pytest.skip("Checkout mode is a multi-step, skipping test")
+
+    print(
+        f"{os.linesep}Running E2E test to check filter pickup locations elements on pickup point selection modal in single-page checkout...",
+        end=" ",
+    )
+
+    page.set_viewport_size({"width": 1920, "height": 1080})
+
+    country_to_filter = "United States of America"
+    region_to_filter = "New York"
+    city_to_filter = "Manhattan"
+
+    user_operations = UserOperations(graphql_client)
+    cart_operations = CartOperations(graphql_client)
+
+    auth.authenticate(dataset["users"][0]["userName"], config["USERS_PASSWORD"], page)
+
+    product = dataset["products"][1]
+
+    user = user_operations.get_me()
+    cart = cart_operations.add_item_to_cart(
+        payload={
+            "storeId": config["STORE_ID"],
+            "userId": user["id"],
+            "productId": product["code"],
+            "quantity": 2,
+        }
+    )
+
+    cart_page = CartPage(config, page)
+    cart_page.navigate()
+
+    cart_page.shipping_details_section_component.pickup_delivery_option_switcher.click()
+    cart_page.shipping_details_section_component.pickup_point_section.locator(
+        "[data-test-id='select-address-button']"
+    ).click()
+
+    select_pickup_location_modal = SelectBopisMapModalComponent(
+        page.locator(".select-address-map-modal")
+    )
+
+    expect(select_pickup_location_modal.element).to_be_visible()
+    expect(select_pickup_location_modal.pickup_locations_list).to_be_visible()
+
+    select_pickup_location_modal.filter_countries_dropdown.select_item_by_name(
+        country_to_filter
+    )
+    select_pickup_location_modal.filter_regions_dropdown.select_item_by_name(
+        region_to_filter
+    )
+    select_pickup_location_modal.filter_cities_dropdown.select_item_by_name(
+        city_to_filter
+    )
+
+    expect(select_pickup_location_modal.applied_filters_panel).to_be_visible()
+    expect(
+        select_pickup_location_modal.get_applied_filter_chip_by_name(
+            country_to_filter
+        ).element
+    ).to_be_visible()
+    expect(
+        select_pickup_location_modal.get_applied_filter_chip_by_name(
+            region_to_filter
+        ).element
+    ).to_be_visible()
+    expect(
+        select_pickup_location_modal.get_applied_filter_chip_by_name(
+            city_to_filter
+        ).element
+    ).to_be_visible()
+    expect(select_pickup_location_modal.reset_filters_chip).to_be_visible()
+
+    cart_operations.remove_cart(
+        payload={
+            "cartId": cart["id"],
+            "userId": user["id"],
+        }
+    )
+
+
+@pytest.mark.e2e
+def test_e2e_filter_pickup_locations_country_region_keyword_found_single_page_checkout(
+    config: Config,
+    auth: Auth,
+    graphql_client: GraphQLClient,
+    page: Page,
+    dataset: dict[str, Any],
+):
+    if config["CHECKOUT_MODE"] == "multi-step":
+        pytest.skip("Checkout mode is a multi-step, skipping test")
+
+    print(
+        f"{os.linesep}Running E2E test to filter pickup locations by country, region with search keyword with positive results in single-page checkout...",
+        end=" ",
+    )
+
+    page.set_viewport_size({"width": 1920, "height": 1080})
+
+    user_operations = UserOperations(graphql_client)
+    cart_operations = CartOperations(graphql_client)
+
+    product = dataset["products"][1]
+
+    auth.authenticate(dataset["users"][0]["userName"], config["USERS_PASSWORD"], page)
+
+    user = user_operations.get_me()
+    cart = cart_operations.add_item_to_cart(
+        payload={
+            "storeId": config["STORE_ID"],
+            "userId": user["id"],
+            "productId": product["code"],
+            "quantity": 2,
+        }
+    )
+
+    cart_page = CartPage(config, page)
+    cart_page.navigate()
+
+    country_to_filter = "United States of America"
+    region_to_filter = "New York"
+    keyword_to_search = "Empire"
+
+    cart_page.shipping_details_section_component.pickup_delivery_option_switcher.click()
+    cart_page.shipping_details_section_component.pickup_point_section.locator(
+        "[data-test-id='select-address-button']"
+    ).click()
+
+    select_pickup_location_modal = SelectBopisMapModalComponent(
+        page.locator(".select-address-map-modal")
+    )
+
+    select_pickup_location_modal.filter_countries_dropdown.select_item_by_name(
+        country_to_filter
+    )
+    select_pickup_location_modal.filter_regions_dropdown.select_item_by_name(
+        region_to_filter
+    )
+    select_pickup_location_modal.search_pickup_location_input.fill(keyword_to_search)
+    select_pickup_location_modal.search_button.click()
+
+    pickup_points = [
+        pickup_point
+        for pickup_point in select_pickup_location_modal.pickup_locations
+        if pickup_point.country == country_to_filter
+        and pickup_point.region == "NY"
+        and select_pickup_location_modal.has_pickup_location_with_keyword(
+            keyword_to_search
+        )
+    ]
+
+    assert len(pickup_points) >= 1, "No pickup locations found"
+
+    cart_operations.remove_cart(
+        payload={
+            "cartId": cart["id"],
+            "userId": user["id"],
+        }
+    )
+
+
+@pytest.mark.e2e
+def test_e2e_filter_pickup_locations_country_region_city_keyword_found_single_page_checkout(
+    config: Config,
+    auth: Auth,
+    graphql_client: GraphQLClient,
+    page: Page,
+    dataset: dict[str, Any],
+):
+    if config["CHECKOUT_MODE"] == "multi-step":
+        pytest.skip("Checkout mode is a multi-step, skipping test")
+
+    print(
+        f"{os.linesep}Running E2E test to filter pickup locations by country, region, city with search keyword with positive results in single-page checkout...",
+        end=" ",
+    )
+
+    page.set_viewport_size({"width": 1920, "height": 1080})
+
+    user_operations = UserOperations(graphql_client)
+    cart_operations = CartOperations(graphql_client)
+
+    auth.authenticate(dataset["users"][0]["userName"], config["USERS_PASSWORD"], page)
+
+    country_to_filter = "United States of America"
+    region_to_filter = "New York"
+    city_to_filter = "Manhattan"
+    keyword_to_search = "5th"
+
+    product = dataset["products"][1]
+
+    user = user_operations.get_me()
+    cart = cart_operations.add_item_to_cart(
+        payload={
+            "storeId": config["STORE_ID"],
+            "userId": user["id"],
+            "productId": product["code"],
+            "quantity": 2,
+        }
+    )
+
+    cart_page = CartPage(config, page)
+    cart_page.navigate()
+
+    cart_page.shipping_details_section_component.pickup_delivery_option_switcher.click()
+    cart_page.shipping_details_section_component.pickup_point_section.locator(
+        "[data-test-id='select-address-button']"
+    ).click()
+
+    select_pickup_location_modal = SelectBopisMapModalComponent(
+        page.locator(".select-address-map-modal")
+    )
+
+    select_pickup_location_modal.filter_countries_dropdown.select_item_by_name(
+        country_to_filter
+    )
+    select_pickup_location_modal.filter_regions_dropdown.select_item_by_name(
+        region_to_filter
+    )
+    select_pickup_location_modal.filter_cities_dropdown.select_item_by_name(
+        city_to_filter
+    )
+    select_pickup_location_modal.search_pickup_location_input.fill(keyword_to_search)
+    select_pickup_location_modal.search_button.click()
+
+    pickup_points = [
+        pickup_point
+        for pickup_point in select_pickup_location_modal.pickup_locations
+        if pickup_point.country == country_to_filter
+        and pickup_point.region == "NY"
+        and pickup_point.city == city_to_filter
+        and select_pickup_location_modal.has_pickup_location_with_keyword(
+            keyword_to_search
+        )
+    ]
+
+    assert len(pickup_points) >= 1, "No pickup locations found"
+
+    cart_operations.remove_cart(
+        payload={
+            "cartId": cart["id"],
+            "userId": user["id"],
+        }
+    )
+
+
+@pytest.mark.e2e
+def test_e2e_filter_pickup_locations_country_region_city_keyword_not_found_single_page_checkout(
+    config: Config,
+    auth: Auth,
+    graphql_client: GraphQLClient,
+    page: Page,
+    dataset: dict[str, Any],
+):
+    if config["CHECKOUT_MODE"] == "multi-step":
+        pytest.skip("Checkout mode is a multi-step, skipping test")
+
+    print(
+        f"{os.linesep}Running E2E test to filter pickup locations by country, region, city with search keyword with negative results in single-page checkout...",
+        end=" ",
+    )
+
+    page.set_viewport_size({"width": 1920, "height": 1080})
+
+    user_operations = UserOperations(graphql_client)
+    cart_operations = CartOperations(graphql_client)
+
+    auth.authenticate(dataset["users"][0]["userName"], config["USERS_PASSWORD"], page)
+
+    country_to_filter = "United States of America"
+    region_to_filter = "New York"
+    city_to_filter = "Manhattan"
+    keyword_to_search = "NonExistent"
+
+    product = dataset["products"][1]
+
+    user = user_operations.get_me()
+    cart = cart_operations.add_item_to_cart(
+        payload={
+            "storeId": config["STORE_ID"],
+            "userId": user["id"],
+            "productId": product["code"],
+            "quantity": 2,
+        }
+    )
+
+    cart_page = CartPage(config, page)
+    cart_page.navigate()
+
+    cart_page.shipping_details_section_component.pickup_delivery_option_switcher.click()
+    cart_page.shipping_details_section_component.pickup_point_section.locator(
+        "[data-test-id='select-address-button']"
+    ).click()
+
+    select_pickup_location_modal = SelectBopisMapModalComponent(
+        page.locator(".select-address-map-modal")
+    )
+
+    select_pickup_location_modal.filter_countries_dropdown.select_item_by_name(
+        country_to_filter
+    )
+    select_pickup_location_modal.filter_regions_dropdown.select_item_by_name(
+        region_to_filter
+    )
+    select_pickup_location_modal.filter_cities_dropdown.select_item_by_name(
+        city_to_filter
+    )
+    select_pickup_location_modal.search_pickup_location_input.fill(keyword_to_search)
+    select_pickup_location_modal.search_button.click()
+
+    pickup_points = [
+        pickup_point
+        for pickup_point in select_pickup_location_modal.pickup_locations
+        if pickup_point.country == country_to_filter
+        and pickup_point.region == region_to_filter
+        and pickup_point.city == city_to_filter
+        and select_pickup_location_modal.has_pickup_location_with_keyword(
+            keyword_to_search
+        )
+    ]
+
+    assert len(pickup_points) == 0, "Pickup locations found"
+
+    cart_operations.remove_cart(
+        payload={
+            "cartId": cart["id"],
+            "userId": user["id"],
+        }
+    )
+
+
+@pytest.mark.e2e
+def test_e2e_filter_pickup_locations_remove_filters_single_page_checkout(
+    config: Config,
+    auth: Auth,
+    graphql_client: GraphQLClient,
+    page: Page,
+    dataset: dict[str, Any],
+):
+    if config["CHECKOUT_MODE"] == "multi-step":
+        pytest.skip("Checkout mode is a multi-step, skipping test")
+
+    print(
+        f"{os.linesep}Running E2E test to remove filters from pickup point selection modal in single-page checkout...",
+        end=" ",
+    )
+
+    page.set_viewport_size({"width": 1920, "height": 1080})
+
+    user_operations = UserOperations(graphql_client)
+    cart_operations = CartOperations(graphql_client)
+
+    auth.authenticate(dataset["users"][0]["userName"], config["USERS_PASSWORD"], page)
+
+    country_to_filter = "United States of America"
+    region_to_filter = "New York"
+    city_to_filter = "Manhattan"
+    keyword_to_search = "Fifth"
+
+    product = dataset["products"][1]
+
+    user = user_operations.get_me()
+    cart = cart_operations.add_item_to_cart(
+        payload={
+            "storeId": config["STORE_ID"],
+            "userId": user["id"],
+            "productId": product["code"],
+            "quantity": 2,
+        }
+    )
+
+    cart_page = CartPage(config, page)
+    cart_page.navigate()
+
+    cart_page.shipping_details_section_component.pickup_delivery_option_switcher.click()
+    cart_page.shipping_details_section_component.pickup_point_section.locator(
+        "[data-test-id='select-address-button']"
+    ).click()
+
+    select_pickup_location_modal = SelectBopisMapModalComponent(
+        page.locator(".select-address-map-modal")
+    )
+
+    all_pickup_points_count = len(select_pickup_location_modal.pickup_locations)
+
+    select_pickup_location_modal.filter_countries_dropdown.select_item_by_name(
+        country_to_filter
+    )
+    select_pickup_location_modal.filter_regions_dropdown.select_item_by_name(
+        region_to_filter
+    )
+    select_pickup_location_modal.filter_cities_dropdown.select_item_by_name(
+        city_to_filter
+    )
+    select_pickup_location_modal.search_pickup_location_input.fill(keyword_to_search)
+    select_pickup_location_modal.search_button.click()
+
+    filtered_pickup_points_count = len(select_pickup_location_modal.pickup_locations)
+
+    select_pickup_location_modal.get_applied_filter_chip_by_name(
+        region_to_filter
+    ).close_chip()
+
+    updated_pickup_points_count = len(select_pickup_location_modal.pickup_locations)
+
+    select_pickup_location_modal.reset_filters_chip.click()
+
+    restored_pickup_points_count = len(select_pickup_location_modal.pickup_locations)
+
+    assert (
+        updated_pickup_points_count == filtered_pickup_points_count
+    ), "Pickup points count not updated"
+    assert (
+        restored_pickup_points_count == all_pickup_points_count
+    ), "Pickup points count not restored"
+
+    cart_operations.remove_cart(
+        payload={
+            "cartId": cart["id"],
+            "userId": user["id"],
+        }
+    )
+
+
+@pytest.mark.e2e
+def test_e2e_filter_pickup_locations_elements_multi_step_checkout(
+    config: Config,
+    auth: Auth,
+    graphql_client: GraphQLClient,
+    page: Page,
+    dataset: dict[str, Any],
+):
+    if config["CHECKOUT_MODE"] == "single-page":
+        pytest.skip("Checkout mode is a single-page, skipping test")
+
+    print(
+        f"{os.linesep}Running E2E test to check filter pickup locations elements on pickup point selection modal in multi-step checkout...",
+        end=" ",
+    )
+
+    page.set_viewport_size({"width": 1920, "height": 1080})
+
+    country_to_filter = "United States of America"
+    region_to_filter = "New York"
+    city_to_filter = "Manhattan"
+
+    user_operations = UserOperations(graphql_client)
+    cart_operations = CartOperations(graphql_client)
+
+    auth.authenticate(dataset["users"][0]["userName"], config["USERS_PASSWORD"], page)
+
+    product = dataset["products"][1]
+
+    user = user_operations.get_me()
+    cart = cart_operations.add_item_to_cart(
+        payload={
+            "storeId": config["STORE_ID"],
+            "userId": user["id"],
+            "productId": product["code"],
+            "quantity": 2,
+        }
+    )
+
+    checkout_shipping_page = CheckoutShippingPage(config, page)
+    checkout_shipping_page.navigate()
+
+    checkout_shipping_page.shipping_details_section_component.pickup_delivery_option_switcher.click()
+    checkout_shipping_page.shipping_details_section_component.pickup_point_section.locator(
+        "[data-test-id='select-address-button']"
+    ).click()
+
+    select_pickup_location_modal = SelectBopisMapModalComponent(
+        page.locator(".select-address-map-modal")
+    )
+
+    expect(select_pickup_location_modal.element).to_be_visible()
+    expect(select_pickup_location_modal.pickup_locations_list).to_be_visible()
+
+    select_pickup_location_modal.filter_countries_dropdown.select_item_by_name(
+        country_to_filter
+    )
+    select_pickup_location_modal.filter_regions_dropdown.select_item_by_name(
+        region_to_filter
+    )
+    select_pickup_location_modal.filter_cities_dropdown.select_item_by_name(
+        city_to_filter
+    )
+
+    expect(select_pickup_location_modal.applied_filters_panel).to_be_visible()
+    expect(
+        select_pickup_location_modal.get_applied_filter_chip_by_name(
+            country_to_filter
+        ).element
+    ).to_be_visible()
+    expect(
+        select_pickup_location_modal.get_applied_filter_chip_by_name(
+            region_to_filter
+        ).element
+    ).to_be_visible()
+    expect(
+        select_pickup_location_modal.get_applied_filter_chip_by_name(
+            city_to_filter
+        ).element
+    ).to_be_visible()
+    expect(select_pickup_location_modal.reset_filters_chip).to_be_visible()
+
+    cart_operations.remove_cart(
+        payload={
+            "cartId": cart["id"],
+            "userId": user["id"],
+        }
+    )
+
+
+@pytest.mark.e2e
+def test_e2e_filter_pickup_locations_country_region_keyword_found_multi_step_checkout(
+    config: Config,
+    auth: Auth,
+    graphql_client: GraphQLClient,
+    page: Page,
+    dataset: dict[str, Any],
+):
+    if config["CHECKOUT_MODE"] == "single-page":
+        pytest.skip("Checkout mode is a single-page, skipping test")
+
+    print(
+        f"{os.linesep}Running E2E test to filter pickup locations by country, region with search keyword with positive results in multi-step checkout...",
+        end=" ",
+    )
+
+    page.set_viewport_size({"width": 1920, "height": 1080})
+
+    user_operations = UserOperations(graphql_client)
+    cart_operations = CartOperations(graphql_client)
+
+    auth.authenticate(dataset["users"][0]["userName"], config["USERS_PASSWORD"], page)
+
+    user = user_operations.get_me()
+    cart = cart_operations.add_item_to_cart(
+        payload={
+            "storeId": config["STORE_ID"],
+            "userId": user["id"],
+            "productId": "product-acme-laptop-hp-pavilion-16-ag0087nr",
+            "quantity": 2,
+        }
+    )
+
+    checkout_shipping_page = CheckoutShippingPage(config, page)
+    checkout_shipping_page.navigate()
+
+    country_to_filter = "United States of America"
+    region_to_filter = "New York"
+    keyword_to_search = "Empire"
+
+    checkout_shipping_page.shipping_details_section_component.pickup_delivery_option_switcher.click()
+    checkout_shipping_page.shipping_details_section_component.pickup_point_section.locator(
+        "[data-test-id='select-address-button']"
+    ).click()
+
+    select_pickup_location_modal = SelectBopisMapModalComponent(
+        page.locator(".select-address-map-modal")
+    )
+
+    select_pickup_location_modal.filter_countries_dropdown.select_item_by_name(
+        country_to_filter
+    )
+    select_pickup_location_modal.filter_regions_dropdown.select_item_by_name(
+        region_to_filter
+    )
+    select_pickup_location_modal.search_pickup_location_input.fill(keyword_to_search)
+    select_pickup_location_modal.search_button.click()
+
+    pickup_points = [
+        pickup_point
+        for pickup_point in select_pickup_location_modal.pickup_locations
+        if pickup_point.country == country_to_filter
+        and pickup_point.region == "NY"
+        and select_pickup_location_modal.has_pickup_location_with_keyword(
+            keyword_to_search
+        )
+    ]
+
+    assert len(pickup_points) >= 1, "No pickup locations found"
+
+    cart_operations.remove_cart(
+        payload={
+            "cartId": cart["id"],
+            "userId": user["id"],
+        }
+    )
+
+
+@pytest.mark.e2e
+def test_e2e_filter_pickup_locations_country_region_city_keyword_found_multi_step_checkout(
+    config: Config,
+    auth: Auth,
+    graphql_client: GraphQLClient,
+    page: Page,
+    dataset: dict[str, Any],
+):
+    if config["CHECKOUT_MODE"] == "single-page":
+        pytest.skip("Checkout mode is a single-page, skipping test")
+
+    print(
+        f"{os.linesep}Running E2E test to filter pickup locations by country, region, city with search keyword with positive results in multi-step checkout...",
+        end=" ",
+    )
+
+    page.set_viewport_size({"width": 1920, "height": 1080})
+
+    user_operations = UserOperations(graphql_client)
+    cart_operations = CartOperations(graphql_client)
+
+    auth.authenticate(dataset["users"][0]["userName"], config["USERS_PASSWORD"], page)
+
+    country_to_filter = "United States of America"
+    region_to_filter = "New York"
+    city_to_filter = "Manhattan"
+    keyword_to_search = "5th"
+
+    product = dataset["products"][1]
+
+    user = user_operations.get_me()
+    cart = cart_operations.add_item_to_cart(
+        payload={
+            "storeId": config["STORE_ID"],
+            "userId": user["id"],
+            "productId": product["code"],
+            "quantity": 2,
+        }
+    )
+
+    checkout_shipping_page = CheckoutShippingPage(config, page)
+    checkout_shipping_page.navigate()
+
+    checkout_shipping_page.shipping_details_section_component.pickup_delivery_option_switcher.click()
+    checkout_shipping_page.shipping_details_section_component.pickup_point_section.locator(
+        "[data-test-id='select-address-button']"
+    ).click()
+
+    select_pickup_location_modal = SelectBopisMapModalComponent(
+        page.locator(".select-address-map-modal")
+    )
+
+    select_pickup_location_modal.filter_countries_dropdown.select_item_by_name(
+        country_to_filter
+    )
+    select_pickup_location_modal.filter_regions_dropdown.select_item_by_name(
+        region_to_filter
+    )
+    select_pickup_location_modal.filter_cities_dropdown.select_item_by_name(
+        city_to_filter
+    )
+    select_pickup_location_modal.search_pickup_location_input.fill(keyword_to_search)
+    select_pickup_location_modal.search_button.click()
+
+    pickup_points = [
+        pickup_point
+        for pickup_point in select_pickup_location_modal.pickup_locations
+        if pickup_point.country == country_to_filter
+        and pickup_point.region == "NY"
+        and pickup_point.city == city_to_filter
+        and select_pickup_location_modal.has_pickup_location_with_keyword(
+            keyword_to_search
+        )
+    ]
+
+    assert len(pickup_points) >= 1, "No pickup locations found"
+
+    cart_operations.remove_cart(
+        payload={
+            "cartId": cart["id"],
+            "userId": user["id"],
+        }
+    )
+
+
+@pytest.mark.e2e
+def test_e2e_filter_pickup_locations_country_region_city_keyword_not_found_multi_step_checkout(
+    config: Config,
+    auth: Auth,
+    graphql_client: GraphQLClient,
+    page: Page,
+    dataset: dict[str, Any],
+):
+    if config["CHECKOUT_MODE"] == "single-page":
+        pytest.skip("Checkout mode is a single-page, skipping test")
+
+    print(
+        f"{os.linesep}Running E2E test to filter pickup locations by country, region, city with search keyword with negative results in multi-step checkout...",
+        end=" ",
+    )
+
+    page.set_viewport_size({"width": 1920, "height": 1080})
+
+    user_operations = UserOperations(graphql_client)
+    cart_operations = CartOperations(graphql_client)
+
+    auth.authenticate(dataset["users"][0]["userName"], config["USERS_PASSWORD"], page)
+
+    country_to_filter = "United States of America"
+    region_to_filter = "New York"
+    city_to_filter = "Manhattan"
+    keyword_to_search = "NonExistent"
+
+    product = dataset["products"][1]
+
+    user = user_operations.get_me()
+    cart = cart_operations.add_item_to_cart(
+        payload={
+            "storeId": config["STORE_ID"],
+            "userId": user["id"],
+            "productId": product["code"],
+            "quantity": 2,
+        }
+    )
+
+    checkout_shipping_page = CheckoutShippingPage(config, page)
+    checkout_shipping_page.navigate()
+
+    checkout_shipping_page.shipping_details_section_component.pickup_delivery_option_switcher.click()
+    checkout_shipping_page.shipping_details_section_component.pickup_point_section.locator(
+        "[data-test-id='select-address-button']"
+    ).click()
+
+    select_pickup_location_modal = SelectBopisMapModalComponent(
+        page.locator(".select-address-map-modal")
+    )
+
+    select_pickup_location_modal.filter_countries_dropdown.select_item_by_name(
+        country_to_filter
+    )
+    select_pickup_location_modal.filter_regions_dropdown.select_item_by_name(
+        region_to_filter
+    )
+    select_pickup_location_modal.filter_cities_dropdown.select_item_by_name(
+        city_to_filter
+    )
+    select_pickup_location_modal.search_pickup_location_input.fill(keyword_to_search)
+    select_pickup_location_modal.search_button.click()
+
+    pickup_points = [
+        pickup_point
+        for pickup_point in select_pickup_location_modal.pickup_locations
+        if pickup_point.country == country_to_filter
+        and pickup_point.region == region_to_filter
+        and pickup_point.city == city_to_filter
+        and select_pickup_location_modal.has_pickup_location_with_keyword(
+            keyword_to_search
+        )
+    ]
+
+    assert len(pickup_points) == 0, "Pickup locations found"
+
+    cart_operations.remove_cart(
+        payload={
+            "cartId": cart["id"],
+            "userId": user["id"],
+        }
+    )
+
+
+@pytest.mark.e2e
+def test_e2e_filter_pickup_locations_remove_filters_multi_step_checkout(
+    config: Config,
+    auth: Auth,
+    graphql_client: GraphQLClient,
+    page: Page,
+    dataset: dict[str, Any],
+):
+    if config["CHECKOUT_MODE"] == "single-page":
+        pytest.skip("Checkout mode is a single-page, skipping test")
+
+    print(
+        f"{os.linesep}Running E2E test to remove filters from pickup point selection modal in multi-step checkout...",
+        end=" ",
+    )
+
+    page.set_viewport_size({"width": 1920, "height": 1080})
+
+    user_operations = UserOperations(graphql_client)
+    cart_operations = CartOperations(graphql_client)
+
+    auth.authenticate(dataset["users"][0]["userName"], config["USERS_PASSWORD"], page)
+
+    country_to_filter = "United States of America"
+    region_to_filter = "New York"
+    city_to_filter = "Manhattan"
+    keyword_to_search = "Fifth"
+
+    product = dataset["products"][1]
+
+    user = user_operations.get_me()
+    cart = cart_operations.add_item_to_cart(
+        payload={
+            "storeId": config["STORE_ID"],
+            "userId": user["id"],
+            "productId": product["code"],
+            "quantity": 2,
+        }
+    )
+
+    checkout_shipping_page = CheckoutShippingPage(config, page)
+    checkout_shipping_page.navigate()
+
+    checkout_shipping_page.shipping_details_section_component.pickup_delivery_option_switcher.click()
+    checkout_shipping_page.shipping_details_section_component.pickup_point_section.locator(
+        "[data-test-id='select-address-button']"
+    ).click()
+
+    select_pickup_location_modal = SelectBopisMapModalComponent(
+        page.locator(".select-address-map-modal")
+    )
+
+    all_pickup_points_count = len(select_pickup_location_modal.pickup_locations)
+
+    select_pickup_location_modal.filter_countries_dropdown.select_item_by_name(
+        country_to_filter
+    )
+    select_pickup_location_modal.filter_regions_dropdown.select_item_by_name(
+        region_to_filter
+    )
+    select_pickup_location_modal.filter_cities_dropdown.select_item_by_name(
+        city_to_filter
+    )
+    select_pickup_location_modal.search_pickup_location_input.fill(keyword_to_search)
+    select_pickup_location_modal.search_button.click()
+
+    filtered_pickup_points_count = len(select_pickup_location_modal.pickup_locations)
+
+    select_pickup_location_modal.get_applied_filter_chip_by_name(
+        region_to_filter
+    ).close_chip()
+
+    updated_pickup_points_count = len(select_pickup_location_modal.pickup_locations)
+
+    select_pickup_location_modal.reset_filters_chip.click()
+
+    restored_pickup_points_count = len(select_pickup_location_modal.pickup_locations)
+
+    assert (
+        updated_pickup_points_count == filtered_pickup_points_count
+    ), "Pickup points count not updated"
+    assert (
+        restored_pickup_points_count == all_pickup_points_count
+    ), "Pickup points count not restored"
+
+    cart_operations.remove_cart(
+        payload={
+            "cartId": cart["id"],
+            "userId": user["id"],
+        }
+    )

@@ -5,8 +5,10 @@ from .address_selector_component import AddressSelectorComponent
 from .category_view_switcher_component import CategoryViewSwitcherComponent
 from .checkout_payment_details_component import CheckoutPaymentDetailsComponent
 from .checkout_shipping_details_component import CheckoutShippingDetailsComponent
+from .chip_component import ChipComponent
 from .clear_cart_modal_component import ClearCartModalComponent
 from .currency_selector_component import CurrencySelectorComponent
+from .filter_dropdown_component import FilterDropdownComponent
 from .filter_facet_component import FilterFacetComponent
 from .filter_slider_component import FilterSliderComponent
 from .language_selector_component import LanguageSelectorComponent
@@ -42,4 +44,6 @@ __all__ = [
     "FilterFacetComponent",
     "PickupLocationListItemComponent",
     "SelectBopisMapModalComponent",
+    "FilterDropdownComponent",
+    "ChipComponent",
 ]

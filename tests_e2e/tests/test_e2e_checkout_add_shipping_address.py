@@ -1,29 +1,25 @@
 import os
 from typing import Any
 
-import allure
 import pytest
 from playwright.sync_api import Page, expect
 
-from fixtures.anonymous_catalog_requests import AnonymousCatalogRequests
-from fixtures.config import Config
+from fixtures import Auth, Config, GraphQLClient
+from graphql_operations.cart.cart_operations import CartOperations
+from graphql_operations.user.user_operations import UserOperations
 from tests_e2e.components.edit_address_modal_component import EditAddressModalComponent
-from tests_e2e.pages.cart_page import CartPage
-from tests_e2e.pages.category_page import CategoryPage
-from tests_e2e.pages.checkout_shipping_page import CheckoutShippingPage
+from tests_e2e.pages import CartPage, CheckoutShippingPage
 
 
 @pytest.mark.e2e
-@allure.title("Add shipping address in anonymous single-page checkout (E2E)")
 def test_e2e_anonymous_single_page_checkout_add_shipping_address(
     config: Config,
+    auth: Auth,
+    graphql_client: GraphQLClient,
     dataset: dict[str, Any],
-    anonymous_catalog_requests: AnonymousCatalogRequests,
-    product_quantity_control: str,
-    checkout_mode: str,
     page: Page,
 ):
-    if checkout_mode == "multi-step":
+    if config["CHECKOUT_MODE"] == "multi-step":
         pytest.skip(
             "Checkout mode is a multi-step, skipping test for single-page checkout"
         )
@@ -33,28 +29,24 @@ def test_e2e_anonymous_single_page_checkout_add_shipping_address(
         end=" ",
     )
 
-    anonymous_catalog_requests.toggle(True)
     page.set_viewport_size({"width": 1920, "height": 1080})
 
-    category_to_browse = next(
-        category
-        for category in dataset["categories"]
-        if category["id"] == "category-acme-laptops"
-    )
-    product_to_add_to_cart = next(
-        product
-        for product in dataset["products"]
-        if product["id"] == "product-acme-laptop-hp-pavilion-16-ag0087nr"
+    user_operations = UserOperations(graphql_client)
+    cart_operations = CartOperations(graphql_client)
+
+    product = dataset["products"][1]
+
+    user = user_operations.get_me()
+    cart = cart_operations.add_item_to_cart(
+        payload={
+            "storeId": config["STORE_ID"],
+            "userId": user["id"],
+            "productId": product["code"],
+            "quantity": 2,
+        }
     )
 
-    category_page = CategoryPage(
-        config,
-        page,
-        category_to_browse["seoInfos"][0]["semanticUrl"],
-        product_quantity_control,
-    )
-    category_page.navigate()
-    category_page.add_product_to_cart(product_to_add_to_cart["code"], 2)
+    auth.set_local_storage_user_id(page, user["id"])
 
     cart_page = CartPage(config, page)
     cart_page.navigate()
@@ -94,20 +86,22 @@ def test_e2e_anonymous_single_page_checkout_add_shipping_address(
         cart_page.shipping_details_section_component.address_selector_component.selected_address_label
     ).to_be_visible()
 
-    cart_page.clear_cart()
+    cart_operations.remove_cart(
+        payload={
+            "cartId": cart["id"],
+            "userId": user["id"],
+        }
+    )
 
 
 @pytest.mark.e2e
-@allure.title("Add shipping address in anonymous multi-step checkout (E2E)")
 def test_e2e_anonymous_multi_step_checkout_add_shipping_address(
     config: Config,
-    dataset: dict[str, Any],
-    anonymous_catalog_requests: AnonymousCatalogRequests,
-    product_quantity_control: str,
-    checkout_mode: str,
+    auth: Auth,
+    graphql_client: GraphQLClient,
     page: Page,
 ):
-    if checkout_mode == "single-page":
+    if config["CHECKOUT_MODE"] == "single-page":
         pytest.skip(
             "Checkout mode is a single-page, skipping test for multi-step checkout"
         )
@@ -117,34 +111,25 @@ def test_e2e_anonymous_multi_step_checkout_add_shipping_address(
         end=" ",
     )
 
-    anonymous_catalog_requests.toggle(True)
     page.set_viewport_size({"width": 1920, "height": 1080})
 
-    category_to_browse = next(
-        category
-        for category in dataset["categories"]
-        if category["id"] == "category-acme-laptops"
-    )
-    product_to_add_to_cart = next(
-        product
-        for product in dataset["products"]
-        if product["id"] == "product-acme-laptop-hp-pavilion-16-ag0087nr"
+    user_operations = UserOperations(graphql_client)
+    cart_operations = CartOperations(graphql_client)
+
+    user = user_operations.get_me()
+    cart = cart_operations.add_item_to_cart(
+        payload={
+            "storeId": config["STORE_ID"],
+            "userId": user["id"],
+            "productId": "product-acme-laptop-hp-pavilion-16-ag0087nr",
+            "quantity": 2,
+        }
     )
 
-    category_page = CategoryPage(
-        config,
-        page,
-        category_to_browse["seoInfos"][0]["semanticUrl"],
-        product_quantity_control,
-    )
-    category_page.navigate()
-    category_page.add_product_to_cart(product_to_add_to_cart["code"], 2)
-
-    cart_page = CartPage(config, page)
-    cart_page.navigate()
-    cart_page.checkout_button.click()
+    auth.set_local_storage_user_id(page, user["id"])
 
     checkout_shipping_page = CheckoutShippingPage(config, page)
+    checkout_shipping_page.navigate()
 
     expect(
         checkout_shipping_page.shipping_details_section_component.address_selector_component.select_address_button
@@ -181,5 +166,9 @@ def test_e2e_anonymous_multi_step_checkout_add_shipping_address(
         checkout_shipping_page.shipping_details_section_component.address_selector_component.selected_address_label
     ).to_be_visible()
 
-    cart_page.navigate()
-    cart_page.clear_cart()
+    cart_operations.remove_cart(
+        payload={
+            "cartId": cart["id"],
+            "userId": user["id"],
+        }
+    )

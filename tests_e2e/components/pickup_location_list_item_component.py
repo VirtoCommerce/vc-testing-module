@@ -4,18 +4,36 @@ from playwright.sync_api import Locator
 class PickupLocationListItemComponent:
     def __init__(self, element: Locator):
         self.element = element
+        self.element.wait_for(state="attached", timeout=10_000)
+        self.element.wait_for(state="visible", timeout=10_000)
+
+    @property
+    def country(self) -> str:
+        return self.element.get_attribute("data-country")
+
+    @property
+    def region(self) -> str:
+        return self.element.get_attribute("data-region")
+
+    @property
+    def city(self) -> str:
+        return self.element.get_attribute("data-city")
+
+    @property
+    def line1(self) -> str:
+        return self.element.get_attribute("data-line1")
+
+    @property
+    def line2(self) -> str:
+        return self.element.get_attribute("data-line2")
 
     @property
     def name(self) -> str:
-        return self.element.locator(
-            ".select-address-map-modal__radio-button-name"
-        ).text_content()
+        return self.element.get_attribute("data-pickup-point-name")
 
     @property
     def coords(self) -> str:
-        return self.element.locator(
-            ".select-address-map-modal__radio-button"
-        ).get_attribute("data-test-coords")
+        return self.element.get_attribute("data-coords")
 
     @property
     def is_selected(self) -> bool:

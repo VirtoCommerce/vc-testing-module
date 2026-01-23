@@ -1,96 +1,94 @@
 import os
-import time
 from typing import Any
 
-import allure
 import pytest
 from playwright.sync_api import Page, expect
 
-from fixtures.anonymous_catalog_requests import AnonymousCatalogRequests
-from fixtures.config import Config
-from fixtures.requests_tracker import RequestsTracker
-from tests_e2e.pages.cart_page import CartPage
-from tests_e2e.pages.category_page import CategoryPage
+from fixtures import Auth, Config, GraphQLClient
+from graphql_operations.cart.cart_operations import CartOperations
+from graphql_operations.user.user_operations import UserOperations
+from tests_e2e.pages import CartPage, CategoryPage
 
 
 @pytest.mark.e2e
-@allure.title("Add product to cart from category page with add to cart button (E2E)")
 def test_e2e_category_add_product_to_cart_with_add_to_cart_button(
     config: Config,
-    dataset: dict[str, Any],
+    auth: Auth,
+    graphql_client: GraphQLClient,
     page: Page,
-    anonymous_catalog_requests: AnonymousCatalogRequests,
-    requests_tracker: RequestsTracker,
-    product_quantity_control: str,
+    dataset: dict[str, Any],
 ):
-    if product_quantity_control == "stepper":
+    if config["PRODUCT_QUANTITY_CONTROL"] == "stepper":
         pytest.skip("Product quantity control is a stepper")
 
     print(
-        f"{os.linesep}Running E2E test to add product to cart from category page with add to cart button...",
+        f"{os.linesep}Running E2E test to add product to a cart from category page with add to cart button...",
         end=" ",
     )
 
-    product_quantity_to_add = "2"
-
-    anonymous_catalog_requests.toggle(True)
+    category = dataset["categories"][0]
+    product = dataset["products"][1]
+    quantity_to_add = "2"
 
     page.set_viewport_size({"width": 1920, "height": 1080})
 
-    category_to_browse = next(
-        category
-        for category in dataset["categories"]
-        if category["id"] == "category-acme-laptops"
-    )
-    product_to_add_to_cart = next(
-        product
-        for product in dataset["products"]
-        if product["id"] == "product-acme-laptop-hp-pavilion-16-ag0087nr"
-    )
+    user_operations = UserOperations(graphql_client)
+    cart_operations = CartOperations(graphql_client)
 
-    category_page = CategoryPage(
-        config,
-        page,
-        category_to_browse["seoInfos"][0]["semanticUrl"],
-        product_quantity_control,
-    )
+    user = user_operations.get_me()
+
+    auth.set_local_storage_user_id(page, user["id"])
+
+    category_page = CategoryPage(config, page, category["seoInfos"][0]["semanticUrl"])
     category_page.navigate()
 
-    category_page.add_product_to_cart(
-        product_to_add_to_cart["code"], product_quantity_to_add
+    cart = cart_operations.get_cart(
+        store_id=config["STORE_ID"],
+        user_id=user["id"],
+        currency_code="USD",
+        culture_name="en-US",
     )
+
+    product_card = category_page.get_product_card_by_sku(product["code"])
+    product_card.add_to_cart_component.quantity_input.fill(quantity_to_add)
+    product_card.add_to_cart_component.add_to_cart_text_button.click()
+
+    expect(
+        product_card.count_in_cart_label
+    ).to_be_visible(), "Count in cart label is not visible"
+    expect(product_card.count_in_cart_label).to_have_text(
+        quantity_to_add
+    ), "Count in cart label is not equal to product quantity to add"
 
     cart_page = CartPage(config, page)
     cart_page.navigate()
 
-    line_item = cart_page.get_line_item_by_sku(product_to_add_to_cart["code"])
+    line_item = cart_page.get_line_item_by_sku(product["code"])
 
     assert (
-        line_item.sku == product_to_add_to_cart["code"]
-    ), f"Line item sku is not equal to product sku: {product_to_add_to_cart['code']}"
+        line_item.sku == product["code"]
+    ), f"Line item sku is not equal to product sku: {product["code"]}"
     assert (
-        str(line_item.add_to_cart_component.quantity_input.input_value())
-        == product_quantity_to_add
-    ), "Line item quantity is not equal to product quantity to add"
+        line_item.add_to_cart_component.quantity_input.input_value() == quantity_to_add
+    ), f"Line item quantity is not equal to product quantity to add: {quantity_to_add}"
 
-    cart_page.clear_cart()
-
-    requests_tracker.wait_for_all_requests()
-
-    assert cart_page.is_empty, "Cart is not empty after clearing"
+    cart_operations.remove_cart(
+        payload={
+            "cartId": cart["id"],
+            "userId": user["id"],
+        }
+    )
 
 
 @pytest.mark.e2e
-@allure.title("Add product to cart from category page with quantity stepper (E2E)")
 def test_e2e_category_add_product_to_cart_with_quantity_stepper(
     config: Config,
-    dataset: dict[str, Any],
+    auth: Auth,
+    graphql_client: GraphQLClient,
     page: Page,
-    anonymous_catalog_requests: AnonymousCatalogRequests,
-    requests_tracker: RequestsTracker,
-    product_quantity_control: str,
+    dataset: dict[str, Any],
 ):
-    if product_quantity_control == "button":
+    if config["PRODUCT_QUANTITY_CONTROL"] == "button":
         pytest.skip("Product quantity control is add to cart button")
 
     print(
@@ -98,54 +96,58 @@ def test_e2e_category_add_product_to_cart_with_quantity_stepper(
         end=" ",
     )
 
-    anonymous_catalog_requests.toggle(True)
-
     page.set_viewport_size({"width": 1920, "height": 1080})
 
-    category_to_browse = next(
-        category
-        for category in dataset["categories"]
-        if category["id"] == "category-acme-laptops"
-    )
-    product_to_add_to_cart = next(
-        product
-        for product in dataset["products"]
-        if product["id"] == "product-acme-laptop-hp-pavilion-16-ag0087nr"
-    )
-
+    category = dataset["categories"][0]
+    product = dataset["products"][1]
     quantity_to_add = 2
 
-    category_page = CategoryPage(
-        config,
-        page,
-        category_to_browse["seoInfos"][0]["semanticUrl"],
-        product_quantity_control,
-    )
-    category_page.navigate()
-    category_page.add_product_to_cart(product_to_add_to_cart["code"], quantity_to_add)
+    user_operations = UserOperations(graphql_client)
+    cart_operations = CartOperations(graphql_client)
 
-    product_card = category_page.get_product_card_by_sku(product_to_add_to_cart["code"])
+    user = user_operations.get_me()
+
+    auth.set_local_storage_user_id(page, user["id"])
+
+    category_page = CategoryPage(config, page, category["seoInfos"][0]["semanticUrl"])
+    category_page.navigate()
+
+    product_card = category_page.get_product_card_by_sku(product["code"])
+    product_card.quantity_stepper_component.increment_button.click()
+    product_card.quantity_stepper_component.increment_button.click()
 
     expect(product_card.quantity_stepper_component.quantity_input).to_have_value(
         str(quantity_to_add)
     ), f"Quantity input is not equal to {quantity_to_add}"
+    expect(
+        product_card.count_in_cart_label
+    ).to_be_visible(), "Count in cart label is not visible"
+    expect(product_card.count_in_cart_label).to_have_text(
+        str(quantity_to_add)
+    ), "Count in cart label is not equal to product quantity to add"
 
     cart_page = CartPage(config, page)
     cart_page.navigate()
 
-    line_item = cart_page.get_line_item_by_sku(product_to_add_to_cart["code"])
+    cart = cart_operations.get_cart(
+        store_id=config["STORE_ID"],
+        user_id=user["id"],
+        currency_code="USD",
+        culture_name="en-US",
+    )
+
+    line_item = cart_page.get_line_item_by_sku(product["code"])
 
     assert (
-        line_item.sku == product_to_add_to_cart["code"]
-    ), f"Line item sku is not equal to product sku: {product_to_add_to_cart['code']}"
-    assert str(
-        line_item.quantity_stepper_component.quantity_input.input_value()
-    ) == str(
-        quantity_to_add
+        line_item.sku == product["code"]
+    ), f"Line item sku is not equal to product sku: {product["code"]}"
+    expect(line_item.quantity_stepper_component.quantity_input).to_have_value(
+        str(quantity_to_add)
     ), f"Line item quantity is not equal to product quantity to add: {quantity_to_add}"
 
-    cart_page.clear_cart()
-
-    requests_tracker.wait_for_all_requests()
-
-    assert cart_page.is_empty, "Cart is not empty after clearing"
+    cart_operations.remove_cart(
+        payload={
+            "cartId": cart["id"],
+            "userId": user["id"],
+        }
+    )

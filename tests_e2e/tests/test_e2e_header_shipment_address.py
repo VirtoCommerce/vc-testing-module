@@ -1,17 +1,12 @@
 import os
-import time
 from typing import Any
 
-import allure
 import pytest
 from playwright.sync_api import Page, expect
 
-from fixtures.anonymous_catalog_requests import AnonymousCatalogRequests
-from fixtures.config import Config
+from fixtures import Auth, Config
 from tests_e2e.components.edit_address_modal_component import EditAddressModalComponent
 from tests_e2e.pages.home_page import HomePage
-from tests_e2e.pages.main_layout_page import MainLayoutPage
-from tests_e2e.pages.sign_in_page import SignInPage
 
 test_address = {
     "first_name": "John",
@@ -28,10 +23,8 @@ test_address = {
 
 
 @pytest.mark.e2e
-@allure.title("Add shipment address in header for anonymous user (E2E)")
 def test_e2e_add_shipment_address_in_header_for_anonymous_user(
     config: Config,
-    anonymous_catalog_requests: AnonymousCatalogRequests,
     page: Page,
 ):
     print(
@@ -39,7 +32,6 @@ def test_e2e_add_shipment_address_in_header_for_anonymous_user(
         end=" ",
     )
 
-    anonymous_catalog_requests.toggle(True)
     page.set_viewport_size({"width": 1920, "height": 1080})
 
     home_page = HomePage(page, config)
@@ -79,10 +71,10 @@ def test_e2e_add_shipment_address_in_header_for_anonymous_user(
 
 
 @pytest.mark.e2e
-@allure.title("Select shipment address in header for registered user (E2E)")
 def test_e2e_select_shipment_address_in_header_for_registered_user(
     config: Config,
     dataset: dict[str, Any],
+    auth: Auth,
     page: Page,
 ):
     print(
@@ -92,26 +84,23 @@ def test_e2e_select_shipment_address_in_header_for_registered_user(
 
     page.set_viewport_size({"width": 1920, "height": 1080})
 
-    sign_in_page = SignInPage(page, config)
-    sign_in_page.navigate()
+    auth.authenticate(dataset["users"][0]["userName"], config["USERS_PASSWORD"], page)
 
-    sign_in_page.sign_in(dataset["users"][0]["userName"], config["USERS_PASSWORD"])
-    time.sleep(2)
-
-    layout = MainLayoutPage(page)
+    home_page = HomePage(page, config)
+    home_page.navigate()
 
     expect(
-        layout.top_header_component.ship_to_selector.element
+        home_page.top_header_component.ship_to_selector.element
     ).to_be_visible(), "Ship to selector is not visible"
 
-    layout.top_header_component.ship_to_selector.element.click()
+    home_page.top_header_component.ship_to_selector.element.click()
 
     expect(
-        layout.top_header_component.ship_to_selector.shipping_addresses_dropdown
+        home_page.top_header_component.ship_to_selector.shipping_addresses_dropdown
     ).to_be_visible(), "Shipping addresses dropdown is not visible"
 
-    layout.top_header_component.ship_to_selector.shipping_addresses[0].click()
+    home_page.top_header_component.ship_to_selector.shipping_addresses[0].click()
 
     expect(
-        layout.top_header_component.ship_to_selector.shipping_addresses_dropdown
+        home_page.top_header_component.ship_to_selector.shipping_addresses_dropdown
     ).not_to_be_visible(), "Shipping addresses dropdown is visible"

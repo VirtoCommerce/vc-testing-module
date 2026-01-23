@@ -1,59 +1,46 @@
 import os
 from typing import Any
 
-import allure
 import pytest
 from playwright.sync_api import Page, expect
 
-from fixtures.config import Config
-from tests_e2e.pages.cart_page import CartPage
-from tests_e2e.pages.category_page import CategoryPage
-from tests_e2e.pages.checkout_shipping_page import CheckoutShippingPage
-from tests_e2e.pages.sign_in_page import SignInPage
+from fixtures import Auth, Config, GraphQLClient
+from graphql_operations.cart.cart_operations import CartOperations
+from graphql_operations.user.user_operations import UserOperations
+from tests_e2e.pages import CartPage, CategoryPage, CheckoutShippingPage, SignInPage
 
 
 @pytest.mark.e2e
-@allure.title("Proceed to multi-step checkout (E2E)")
 def test_e2e_proceed_to_multi_step_checkout(
     config: Config,
     dataset: dict[str, Any],
+    graphql_client: GraphQLClient,
     page: Page,
-    product_quantity_control: str,
-    checkout_mode: str,
+    auth: Auth,
 ):
-    if checkout_mode == "single-page":
+    if config["CHECKOUT_MODE"] == "single-page":
         pytest.skip("Checkout mode is a multi-step")
 
     print(f"{os.linesep}Running E2E test to proceed to multi-step checkout...", end=" ")
 
     page.set_viewport_size({"width": 1920, "height": 1080})
 
-    user = dataset["users"][0]
+    product = dataset["products"][1]
 
-    sign_in_page = SignInPage(page, config)
-    sign_in_page.navigate()
-    sign_in_page.sign_in(user["userName"], config["USERS_PASSWORD"])
+    user_operations = UserOperations(graphql_client)
+    cart_operations = CartOperations(graphql_client)
 
-    category_to_browse = next(
-        category
-        for category in dataset["categories"]
-        if category["id"] == "category-acme-laptops"
-    )
-    product_to_add_to_cart = next(
-        product
-        for product in dataset["products"]
-        if product["id"] == "product-acme-laptop-hp-pavilion-16-ag0087nr"
+    user = user_operations.get_me()
+    cart = cart_operations.add_item_to_cart(
+        payload={
+            "storeId": config["STORE_ID"],
+            "userId": user["id"],
+            "productId": product["code"],
+            "quantity": 2,
+        }
     )
 
-    category_page = CategoryPage(
-        config,
-        page,
-        category_to_browse["seoInfos"][0]["semanticUrl"],
-        product_quantity_control,
-    )
-    category_page.navigate()
-
-    category_page.add_product_to_cart(product_to_add_to_cart["code"], 2)
+    auth.set_local_storage_user_id(page, user["id"])
 
     cart_page = CartPage(config, page)
     cart_page.navigate()
@@ -72,20 +59,23 @@ def test_e2e_proceed_to_multi_step_checkout(
         checkout_page.shipping_details_section_component.element
     ).to_be_visible(), "Shipping details section is not visible"
 
-    cart_page.navigate()
-    cart_page.clear_cart()
+    cart_operations.remove_cart(
+        payload={
+            "cartId": cart["id"],
+            "userId": user["id"],
+        }
+    )
 
 
 @pytest.mark.e2e
-@allure.title("Proceed to single-page checkout (E2E)")
 def test_e2e_proceed_to_single_page_checkout(
     config: Config,
     dataset: dict[str, Any],
+    graphql_client: GraphQLClient,
     page: Page,
-    product_quantity_control: str,
-    checkout_mode: str,
+    auth: Auth,
 ):
-    if checkout_mode == "multi-step":
+    if config["CHECKOUT_MODE"] == "multi-step":
         pytest.skip("Checkout mode is a single-page")
 
     print(
@@ -96,30 +86,22 @@ def test_e2e_proceed_to_single_page_checkout(
 
     user = dataset["users"][0]
 
-    sign_in_page = SignInPage(page, config)
-    sign_in_page.navigate()
-    sign_in_page.sign_in(user["userName"], config["USERS_PASSWORD"])
+    user_operations = UserOperations(graphql_client)
+    cart_operations = CartOperations(graphql_client)
 
-    category_to_browse = next(
-        category
-        for category in dataset["categories"]
-        if category["id"] == "category-acme-laptops"
-    )
-    product_to_add_to_cart = next(
-        product
-        for product in dataset["products"]
-        if product["id"] == "product-acme-laptop-hp-pavilion-16-ag0087nr"
-    )
+    auth.authenticate(dataset["users"][0]["userName"], config["USERS_PASSWORD"], page)
 
-    category_page = CategoryPage(
-        config,
-        page,
-        category_to_browse["seoInfos"][0]["semanticUrl"],
-        product_quantity_control,
-    )
-    category_page.navigate()
+    product = dataset["products"][1]
 
-    category_page.add_product_to_cart(product_to_add_to_cart["code"], 2)
+    user = user_operations.get_me()
+    cart = cart_operations.add_item_to_cart(
+        payload={
+            "storeId": config["STORE_ID"],
+            "userId": user["id"],
+            "productId": product["code"],
+            "quantity": 2,
+        }
+    )
 
     cart_page = CartPage(config, page)
     cart_page.navigate()
@@ -135,4 +117,9 @@ def test_e2e_proceed_to_single_page_checkout(
         cart_page.place_order_button
     ).to_be_visible(), "Place order button is not visible"
 
-    cart_page.clear_cart()
+    cart_operations.remove_cart(
+        payload={
+            "cartId": cart["id"],
+            "userId": user["id"],
+        }
+    )

@@ -1,55 +1,42 @@
 import os
-import time
 from typing import Any
 
-import allure
 import pytest
 from playwright.sync_api import Page, expect
 
-from fixtures.anonymous_catalog_requests import AnonymousCatalogRequests
-from fixtures.config import Config
-from fixtures.requests_tracker import RequestsTracker
+from fixtures import Auth, Config, GraphQLClient
+from graphql_operations.cart.cart_operations import CartOperations
+from graphql_operations.user.user_operations import UserOperations
 from tests_e2e.components.clear_cart_modal_component import ClearCartModalComponent
-from tests_e2e.pages.cart_page import CartPage
-from tests_e2e.pages.category_page import CategoryPage
+from tests_e2e.pages import CartPage
 
 
 @pytest.mark.e2e
-@allure.title("Clear cart (E2E)")
 def test_e2e_clear_cart(
     config: Config,
     dataset: dict[str, Any],
     page: Page,
-    anonymous_catalog_requests: AnonymousCatalogRequests,
-    requests_tracker: RequestsTracker,
-    product_quantity_control: str,
+    auth: Auth,
+    graphql_client: GraphQLClient,
 ):
     print(f"{os.linesep}Running E2E test to clear cart...", end=" ")
 
-    anonymous_catalog_requests.toggle(True)
-
     page.set_viewport_size({"width": 1920, "height": 1080})
 
-    category_to_browse = next(
-        category
-        for category in dataset["categories"]
-        if category["id"] == "category-acme-laptops"
-    )
-    product_to_add_to_cart = next(
-        product
-        for product in dataset["products"]
-        if product["id"] == "product-acme-laptop-hp-pavilion-16-ag0087nr"
-    )
+    user_operations = UserOperations(graphql_client)
+    cart_operations = CartOperations(graphql_client)
 
-    category_page = CategoryPage(
-        config,
-        page,
-        category_to_browse["seoInfos"][0]["semanticUrl"],
-        product_quantity_control,
-    )
-    category_page.navigate()
+    auth.authenticate(dataset["users"][0]["userName"], config["USERS_PASSWORD"], page)
 
-    category_page.add_product_to_cart(product_to_add_to_cart["code"], 2)
+    user = user_operations.get_me()
+    cart = cart_operations.add_item_to_cart(
+        payload={
+            "storeId": config["STORE_ID"],
+            "userId": user["id"],
+            "productId": "product-acme-laptop-hp-pavilion-16-ag0087nr",
+            "quantity": 2,
+        }
+    )
 
     cart_page = CartPage(config, page)
     cart_page.navigate()
@@ -67,6 +54,13 @@ def test_e2e_clear_cart(
 
     cart_page.clear_cart()
 
-    requests_tracker.wait_for_all_requests()
+    expect(
+        cart_page.clear_cart_button
+    ).not_to_be_visible(), "Clear cart button is visible"
 
-    assert cart_page.is_empty, "Cart is not empty after clearing"
+    cart_operations.remove_cart(
+        payload={
+            "cartId": cart["id"],
+            "userId": user["id"],
+        }
+    )
