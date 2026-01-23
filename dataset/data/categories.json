@@ -71,6 +71,40 @@
                     "storeId": "store-acme"
                 }
             ]
+        },
+        {
+            "id": "category-acme-phones-tablets",
+            "code": "category-acme-phones-tablets",
+            "catalogId": "catalog-acme",
+            "name": "Phones & Tablets",
+            "seoObjectType": "Category",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-category-phones-tablets",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Phones & Tablets",
+                    "semanticUrl": "phones-tablets",
+                    "storeId": "store-acme"
+                }
+            ]
+        },
+        {
+            "id": "category-acme-smart-watches",
+            "code": "category-acme-smart-watches",
+            "catalogId": "catalog-acme",
+            "name": "Smart Watches",
+            "seoObjectType": "Category",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-category-smart-watches",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Smart Watches",
+                    "semanticUrl": "smart-watches",
+                    "storeId": "store-acme"
+                }
+            ]
         }
     ]
 }

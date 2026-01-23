@@ -9,7 +9,6 @@ from graphql_operations.contact.contact_operations import ContactOperations
 from graphql_operations.user.user_operations import UserOperations
 from tests_e2e.pages import SignUpPage, SuccessfulRegistrationPage
 
-
 @pytest.mark.e2e
 def test_e2e_select_personal_registration(config: Config, page: Page):
     print(f"{os.linesep}Running E2E test to select personal registration...", end=" ")
@@ -103,7 +102,6 @@ def test_e2e_sign_up_organization_account(
     successful_registration_page = SuccessfulRegistrationPage(config, page)
     contact_operations = ContactOperations(graphql_client)
     user_operations = UserOperations(graphql_client)
-
     sign_up_page.navigate()
 
     user_email = f"john.doe-{random.randint(1000, 9999)}@example.com"
@@ -118,6 +116,11 @@ def test_e2e_sign_up_organization_account(
     )
 
     expect(page).to_have_url(successful_registration_page.url)
+
+    auth.authenticate(user_email, config["USERS_PASSWORD"])
+    get_me = user_operations.get_me()
+    organization_id = get_me["contact"]["organizationId"]
+    assert organization_id, "Expected organizationId from get_me response"  
 
     # Test teardown
 
@@ -135,28 +138,11 @@ def test_e2e_sign_up_organization_account(
         payload={
             "userNames": [user_email],
         }
-    )
+    )  
 
-    organization_search_result = webapi_client.post(
-        f"/api/members/search",
-        data={
-            "keyword": "Some fake organization",
-            "deepSearch": True,
-            "sort": "",
-            "skip": 0,
-            "take": 20,
-            "objectType": "Member",
-        },
-    )
+    webapi_client.delete(f"/api/members?ids={organization_id}")
 
-    assert organization_search_result["results"][0]["id"] is not None
-    assert (
-        organization_search_result["results"][0]["name"] is not None
-        and organization_search_result["results"][0]["name"] == "Some fake organization"
-    )
-
-    organization_id = organization_search_result["results"][0]["id"]
-
-    webapi_client.delete(f"/api/organizations?ids={organization_id}")
+    response = webapi_client.get(f"/api/members?ids={organization_id}")  
+    assert response == [], "Expected empty response"
 
     auth.clear_token()

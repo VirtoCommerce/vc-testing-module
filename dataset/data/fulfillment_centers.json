@@ -51,6 +51,38 @@
                 "email": "usa_morrisville_nc_ffc@acme.com",
                 "phone": "(919) 264-8323"
             }
+        },
+        {
+            "id": "ffc-acme-eur-berlin-de",
+            "name": "ACME Europe Berlin FFC",
+            "address": {
+                "addressType": "Shipping",
+                "city": "Berlin",
+                "countryCode": "DEU",
+                "countryName": "Germany",
+                "line1": "Alexanderplatz 7",
+                "postalCode": "10178",
+                "regionCode": "BE",
+                "regionName": "Berlin",
+                "email": "eur_berlin_de_ffc@acme.com",
+                "phone": "+49 30 555-0198"
+            }
+        },
+        {
+            "id": "ffc-acme-eur-billund-dk",
+            "name": "ACME Europe Billund FFC",
+            "address": {
+                "addressType": "Shipping",
+                "city": "Billund",
+                "countryCode": "DNK",
+                "countryName": "Denmark",
+                "line1": "Ole Kirk's Plads 1",
+                "postalCode": "7190",
+                "regionCode": "83",
+                "regionName": "Southern Denmark",
+                "email": "eur_billund_dk_ffc@acme.com",
+                "phone": "+45 75 33 1333"
+            }
         }
     ]
 }

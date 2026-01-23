@@ -988,6 +988,339 @@
                     "productId": "product-acme-ssd-kingston-fury-renegade-g5-4000"
                 }
             ]
+        },
+        {
+            "productId": "product-acme-product1-track-inventory-false",
+            "product": {
+                "id": "product-acme-product1-track-inventory-false",
+                "name": "Product1 - Track inventory = false"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 999.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-product1-track-inventory-false"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 919.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-product1-track-inventory-false"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-product2-main1-stock",
+            "product": {
+                "id": "product-acme-product2-main1-stock",
+                "name": "Product2 - Main_1 stock"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 1099.99,
+                    "sale": 999.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-product2-main1-stock"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 1011.99,
+                    "sale": 919.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-product2-main1-stock"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-product2-main12-stock",
+            "product": {
+                "id": "product-acme-product2-main12-stock",
+                "name": "Product2 - Main_1_2 stock"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 1149.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-product2-main12-stock"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 1057.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-product2-main12-stock"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-product2-main2-stock",
+            "product": {
+                "id": "product-acme-product2-main2-stock",
+                "name": "Product2 - Main_2 stock"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 1199.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-product2-main2-stock"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 1103.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-product2-main2-stock"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-product3-transfer",
+            "product": {
+                "id": "product-acme-product3-transfer",
+                "name": "Product3 - Transfer_3"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 849.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-product3-transfer"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 781.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-product3-transfer"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-product4-main-transfer",
+            "product": {
+                "id": "product-acme-product4-main-transfer",
+                "name": "Product4 - Main_1 + transfer_1"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 599.99,
+                    "sale": 549.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-product4-main-transfer"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 551.99,
+                    "sale": 505.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-product4-main-transfer"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-product4-main2-transfer1",
+            "product": {
+                "id": "product-acme-product4-main2-transfer1",
+                "name": "Product4 - Main_2 + transfer_1"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 649.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-product4-main2-transfer1"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 597.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-product4-main2-transfer1"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-product5-transfer-b2b",
+            "product": {
+                "id": "product-acme-product5-transfer-b2b",
+                "name": "Product5 - Transfer_1"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 279.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-product5-transfer-b2b"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 257.59,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-product5-transfer-b2b"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-product5-transfer12",
+            "product": {
+                "id": "product-acme-product5-transfer12",
+                "name": "Product5 - Transfer_1_2"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 299.99,
+                    "sale": 269.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-product5-transfer12"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 275.99,
+                    "sale": 248.39,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-product5-transfer12"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-product5-transfer123",
+            "product": {
+                "id": "product-acme-product5-transfer123",
+                "name": "Product5 - Transfer_1_2_3"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 319.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-product5-transfer123"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 294.39,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-product5-transfer123"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-product6-track-inventory-true-stock-0",
+            "product": {
+                "id": "product-acme-product6-track-inventory-true-stock-0",
+                "name": "Product6 - Track inventory = true; Stock = 0"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 57.00,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-product6-track-inventory-true-stock-0"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 52.44,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-product6-track-inventory-true-stock-0"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-product7-berlin",
+            "product": {
+                "id": "product-acme-product7-berlin",
+                "name": "Product7- Berlin+Berlin Branch (Billund, Lego House) - via transfer"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 1299.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-product7-berlin"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 1195.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-product7-berlin"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-product8-mfc-stock",
+            "product": {
+                "id": "product-acme-product8-mfc-stock",
+                "name": "Product8 - MFC stock ( Illinois + Ohio)"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 1499.99,
+                    "sale": 1399.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-product8-mfc-stock"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 1379.99,
+                    "sale": 1287.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-product8-mfc-stock"
+                }
+            ]
         }
     ]
 }

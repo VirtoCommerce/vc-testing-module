@@ -12,7 +12,6 @@ from tests_e2e.components.select_bopis_map_modal_component import (
 )
 from tests_e2e.pages import CartPage, CheckoutShippingPage
 
-
 @pytest.mark.ignore
 @pytest.mark.e2e
 @allure.title("Select pickup location in single-page checkout (E2E)")

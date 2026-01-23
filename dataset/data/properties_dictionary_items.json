@@ -2,7 +2,7 @@
     "method": "POST",
     "endpoint": "/api/catalog/dictionaryitems",
     "payload_type": "array",
-    "priority": 14,
+    "priority": 12,
     "data": [
         {
             "values": [],
@@ -94,6 +94,24 @@
             "en-US": "Orange",
             "values": [],
             "id": "property-acme-color-orange"
+        },
+        {
+            "propertyId": "property-acme-virto-frontend-ui-layout",
+            "alias": "B2C",
+            "sortOrder": "1",
+            "en-US": "B2C",
+            "isNew": true,
+            "values": [],
+            "id": "property-acme-virto-frontend-ui-layout-b2c"
+        },
+        {
+            "propertyId": "property-acme-virto-frontend-ui-layout",
+            "alias": "B2B",
+            "sortOrder": "2",
+            "en-US": "B2B",
+            "isNew": true,
+            "values": [],
+            "id": "property-acme-virto-frontend-ui-layout-b2b"
         }
     ]
 }

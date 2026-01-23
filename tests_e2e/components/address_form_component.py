@@ -1,11 +1,13 @@
-from faulthandler import is_enabled
-
 from playwright.sync_api import Locator
 
 
 class AddressFormComponent:
     def __init__(self, element: Locator):
         self.element = element
+
+    @property
+    def description_input(self) -> Locator:
+        return self.element.locator("[data-test-id='description']")
 
     @property
     def first_name_input(self) -> Locator:
@@ -48,17 +50,27 @@ class AddressFormComponent:
         return self.element.locator("[data-test-id='line-2']")
 
     def fill_address(self, address: dict[str, str]) -> None:
-        self.first_name_input.fill(address["first_name"])
-        self.last_name_input.fill(address["last_name"])
-        self.email_input.fill(address["email"])
-        self.phone_input.fill(address["phone"])
+  
+        if "description" in address and self.description_input.count() > 0:
+            self.description_input.fill(address["description"])        
+    
+        if "first_name" in address and self.first_name_input.count() > 0:
+            self.first_name_input.fill(address["first_name"])
+        if "last_name" in address and self.last_name_input.count() > 0:
+            self.last_name_input.fill(address["last_name"])
+        if "email" in address and self.email_input.count() > 0:
+            self.email_input.fill(address["email"])
+        if "phone" in address and self.phone_input.count() > 0:
+            self.phone_input.fill(address["phone"])
+        
         self.select_country(address["country"])
         self.postal_code_input.fill(address["postal_code"])
         self.city_input.fill(address["city"])
         self.address_line_1_input.fill(address["address_line_1"])
-        if address["address_line_2"]:
+        
+        if address.get("address_line_2") and self.address_line_2_input.count() > 0:
             self.address_line_2_input.fill(address["address_line_2"])
-        if self.region_select.is_enabled():
+        if "region" in address and self.region_select.count() > 0 and self.region_select.is_enabled():
             self.select_region(address["region"])
 
     def select_country(self, country: str) -> None:

@@ -12,8 +12,8 @@
             "isActive": true,
             "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
             "transferFulfillmentCenterIds": [
-                "ffc-acme-usa-riverton-oh",
-                "ffc-acme-usa-morrisville-nc"
+                "ffc-acme-eur-berlin-de",
+                "ffc-acme-eur-billund-dk"
             ],
             "address": {
                 "addressType": "Shipping",
@@ -131,10 +131,7 @@
             "contactEmail": "support@pacificrim-dc.jp",
             "isActive": true,
             "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
-            "transferFulfillmentCenterIds": [
-                "ffc-acme-usa-springfield-il",
-                "ffc-acme-usa-morrisville-nc"
-            ],
+            "transferFulfillmentCenterIds": [],
             "address": {
                 "addressType": "Shipping",
                 "city": "Tokyo",
@@ -324,8 +321,9 @@
             "isActive": true,
             "fulfillmentCenterId": "ffc-acme-usa-morrisville-nc",
             "transferFulfillmentCenterIds": [
-                "ffc-acme-usa-springfield-il",
-                "ffc-acme-usa-riverton-oh"
+                "ffc-acme-usa-riverton-oh",
+                "ffc-acme-eur-berlin-de",
+                "ffc-acme-eur-billund-dk"
             ],
             "address": {
                 "addressType": "Shipping",
@@ -350,7 +348,6 @@
             "isActive": true,
             "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
             "transferFulfillmentCenterIds": [
-                "ffc-acme-usa-springfield-il",
                 "ffc-acme-usa-morrisville-nc"
             ],
             "address": {
@@ -374,7 +371,7 @@
             "contactPhone": "+10000000005",
             "contactEmail": "pickup5@example.com",
             "isActive": true,
-            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "fulfillmentCenterId": null,
             "transferFulfillmentCenterIds": [
                 "ffc-acme-usa-riverton-oh",
                 "ffc-acme-usa-morrisville-nc"
@@ -402,7 +399,6 @@
             "isActive": true,
             "fulfillmentCenterId": "ffc-acme-usa-morrisville-nc",
             "transferFulfillmentCenterIds": [
-                "ffc-acme-usa-springfield-il",
                 "ffc-acme-usa-riverton-oh"
             ],
             "address": {
@@ -428,7 +424,6 @@
             "isActive": true,
             "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
             "transferFulfillmentCenterIds": [
-                "ffc-acme-usa-springfield-il",
                 "ffc-acme-usa-morrisville-nc"
             ],
             "address": {
@@ -452,10 +447,12 @@
             "contactPhone": "+10000000008",
             "contactEmail": "pickup8@example.com",
             "isActive": true,
-            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "fulfillmentCenterId": null,
             "transferFulfillmentCenterIds": [
                 "ffc-acme-usa-riverton-oh",
-                "ffc-acme-usa-morrisville-nc"
+                "ffc-acme-usa-morrisville-nc",
+                "ffc-acme-eur-berlin-de",
+                "ffc-acme-eur-billund-dk"
             ],
             "address": {
                 "addressType": "Shipping",
@@ -480,7 +477,6 @@
             "isActive": true,
             "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
             "transferFulfillmentCenterIds": [
-                "ffc-acme-usa-springfield-il",
                 "ffc-acme-usa-morrisville-nc"
             ],
             "address": {
@@ -504,10 +500,9 @@
             "contactPhone": "+10000000010",
             "contactEmail": "pickup10@example.com",
             "isActive": true,
-            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "fulfillmentCenterId": null,
             "transferFulfillmentCenterIds": [
-                "ffc-acme-usa-riverton-oh",
-                "ffc-acme-usa-morrisville-nc"
+                "ffc-acme-eur-billund-dk"
             ],
             "address": {
                 "addressType": "Shipping",
@@ -532,7 +527,6 @@
             "isActive": true,
             "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
             "transferFulfillmentCenterIds": [
-                "ffc-acme-usa-springfield-il",
                 "ffc-acme-usa-morrisville-nc"
             ],
             "address": {
@@ -559,7 +553,8 @@
             "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
             "transferFulfillmentCenterIds": [
                 "ffc-acme-usa-riverton-oh",
-                "ffc-acme-usa-morrisville-nc"
+                "ffc-acme-usa-morrisville-nc",
+                "ffc-acme-eur-berlin-de"
             ],
             "address": {
                 "addressType": "Shipping",
@@ -584,7 +579,6 @@
             "isActive": true,
             "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
             "transferFulfillmentCenterIds": [
-                "ffc-acme-usa-springfield-il",
                 "ffc-acme-usa-morrisville-nc"
             ],
             "address": {
@@ -636,7 +630,6 @@
             "isActive": true,
             "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
             "transferFulfillmentCenterIds": [
-                "ffc-acme-usa-springfield-il",
                 "ffc-acme-usa-morrisville-nc"
             ],
             "address": {
@@ -700,6 +693,165 @@
                 "postalCode": "10022",
                 "regionId": "NY",
                 "regionName": "New York"
+            }
+        },
+        {
+            "id": "pickup-location-acme-alexanderplatz-berlin",
+            "name": "Alexanderplatz Store Berlin",
+            "description": "Shopping mall",
+            "storeId": "store-acme",
+            "geoLocation": "52.521992,13.413244",
+            "workingHours": "* **Mon - Sun**: 10 - 20",
+            "contactPhone": "+49 30 555-1001",
+            "contactEmail": "pickup-berlin1@acme.com",
+            "isActive": true,
+            "fulfillmentCenterId": null,
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-eur-billund-dk",
+                "ffc-acme-usa-riverton-oh",
+                "ffc-acme-usa-morrisville-nc"
+            ],
+            "address": {
+                "addressType": "Shipping",
+                "city": "Berlin",
+                "countryCode": "DEU",
+                "countryName": "Germany",
+                "line1": "Alexanderplatz 9",
+                "postalCode": "10178",
+                "regionId": "BE",
+                "regionName": "Berlin"
+            }
+        },
+        {
+            "id": "pickup-location-acme-kurfurstendamm-berlin",
+            "name": "Kurfürstendamm Store Berlin",
+            "description": "Shopping mall",
+            "storeId": "store-acme",
+            "geoLocation": "52.502580,13.329340",
+            "workingHours": "* **Mon - Sun**: 10 - 20",
+            "contactPhone": "+49 30 555-1002",
+            "contactEmail": "pickup-berlin2@acme.com",
+            "isActive": true,
+            "fulfillmentCenterId": null,
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-eur-berlin-de",
+                "ffc-acme-eur-billund-dk"
+            ],
+            "address": {
+                "addressType": "Shipping",
+                "city": "Berlin",
+                "countryCode": "DEU",
+                "countryName": "Germany",
+                "line1": "Kurfürstendamm 231",
+                "postalCode": "10719",
+                "regionId": "BE",
+                "regionName": "Berlin"
+            }
+        },
+        {
+            "id": "pickup-location-acme-potsdamer-platz-berlin",
+            "name": "Potsdamer Platz Arkaden",
+            "description": "Shopping mall",
+            "storeId": "store-acme",
+            "geoLocation": "52.509430,13.376110",
+            "workingHours": "* **Mon - Sun**: 10 - 21",
+            "contactPhone": "+49 30 555-1003",
+            "contactEmail": "pickup-berlin3@acme.com",
+            "isActive": true,
+            "fulfillmentCenterId": null,
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-eur-billund-dk",
+                "ffc-acme-eur-berlin-de"
+            ],
+            "address": {
+                "addressType": "Shipping",
+                "city": "Berlin",
+                "countryCode": "DEU",
+                "countryName": "Germany",
+                "line1": "Alte Potsdamer Str. 7",
+                "postalCode": "10785",
+                "regionId": "BE",
+                "regionName": "Berlin"
+            }
+        },
+        {
+            "id": "pickup-location-acme-lego-house-billund",
+            "name": "LEGO House Billund",
+            "description": "Attraction",
+            "storeId": "store-acme",
+            "geoLocation": "55.731550,9.126540",
+            "workingHours": "* **Mon - Sun**: 10 - 18",
+            "contactPhone": "+45 75 33 1001",
+            "contactEmail": "pickup-billund1@acme.com",
+            "isActive": true,
+            "fulfillmentCenterId": null,
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-usa-morrisville-nc",
+                "ffc-acme-eur-berlin-de",
+                "ffc-acme-eur-billund-dk"
+            ],
+            "address": {
+                "addressType": "Shipping",
+                "city": "Billund",
+                "countryCode": "DNK",
+                "countryName": "Denmark",
+                "line1": "Ole Kirk's Plads 1",
+                "postalCode": "7190",
+                "regionId": "83",
+                "regionName": "Southern Denmark"
+            }
+        },
+        {
+            "id": "pickup-location-acme-legoland-billund",
+            "name": "LEGOLAND Billund Resort",
+            "description": "Attraction",
+            "storeId": "store-acme",
+            "geoLocation": "55.735320,9.127890",
+            "workingHours": "* **Mon - Sun**: 10 - 18",
+            "contactPhone": "+45 75 33 1002",
+            "contactEmail": "pickup-billund2@acme.com",
+            "isActive": true,
+            "fulfillmentCenterId": null,
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-eur-berlin-de",
+                "ffc-acme-eur-billund-dk"
+            ],
+            "address": {
+                "addressType": "Shipping",
+                "city": "Billund",
+                "countryCode": "DNK",
+                "countryName": "Denmark",
+                "line1": "Nordmarksvej 9",
+                "postalCode": "7190",
+                "regionId": "83",
+                "regionName": "Southern Denmark"
+            }
+        },
+        {
+            "id": "pickup-location-acme-billund-airport",
+            "name": "Billund Airport Store",
+            "description": "Airport",
+            "storeId": "store-acme",
+            "geoLocation": "55.740278,9.151944",
+            "workingHours": "* **Mon - Sun**: 6 - 22",
+            "contactPhone": "+45 75 33 1003",
+            "contactEmail": "pickup-billund3@acme.com",
+            "isActive": true,
+            "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+            "transferFulfillmentCenterIds": [
+                "ffc-acme-eur-berlin-de",
+                "ffc-acme-usa-morrisville-nc",
+                "ffc-acme-eur-billund-dk"
+            ],
+            "address": {
+                "addressType": "Shipping",
+                "city": "Billund",
+                "countryCode": "DNK",
+                "countryName": "Denmark",
+                "line1": "Passagerterminalen 10",
+                "postalCode": "7190",
+                "regionId": "83",
+                "regionName": "Southern Denmark"
             }
         }
     ]

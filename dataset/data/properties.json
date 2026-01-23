@@ -2,8 +2,36 @@
     "method": "POST",
     "endpoint": "/api/catalog/properties?id={PAYLOAD_ITEM:id}",
     "payload_type": "single",
-    "priority": 13,
+    "priority": 11,
     "data": [
+        {
+            "isReadOnly": false,
+            "isManageable": true,
+            "isNew": true,
+            "catalogId": "catalog-acme",
+            "categoryId": null,
+            "propertyGroupId": null,
+            "name": "VirtoFrontend_UI_Layout",
+            "required": false,
+            "dictionary": true,
+            "multivalue": false,
+            "multilanguage": false,
+            "hidden": false,
+            "valueType": "ShortText",
+            "type": "Product",        
+            "displayOrder": null,
+            "values": [],
+            "attributes": [],
+            "displayNames": [
+                {
+                    "name": "Type",
+                    "languageCode": "en-US"
+                }
+            ],
+            "validationRules": null,
+            "isInherited": false,
+            "id": "property-acme-virto-frontend-ui-layout"
+        },
         {
             "id": "property-acme-brand",
             "name": "Brand",

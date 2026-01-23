@@ -42,6 +42,7 @@ def test_e2e_category_price_range_filter_slider(
     page.locator("body").click()
 
     category_page.products_count_locator.wait_for(state="visible")
+    page.wait_for_timeout(2000)
 
     assert category_page.products_count == 13, "Products count is not equal to 13"
 

@@ -3,9 +3,9 @@ from pydantic import BaseModel
 
 class ProductPickupLocationConnection(BaseModel):
     def __init__(self):
+        from graphql_client.types.page_info import PageInfo
         from graphql_client.types.product_pickup_location import ProductPickupLocation
         from graphql_client.types.product_pickup_location_edge import ProductPickupLocationEdge
-        from graphql_client.types.page_info import PageInfo
 
         self.totalCount: int | None
         self.pageInfo: PageInfo

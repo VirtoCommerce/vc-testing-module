@@ -49,7 +49,11 @@
             ],
             "additionalFulfillmentCenterIds": [
                 "ffc-acme-usa-morrisville-nc",
-                "ffc-acme-usa-riverton-oh"
+                "ffc-acme-usa-riverton-oh",
+                "ffc-acme-eur-berlin-de",
+                "ffc-acme-eur-billund-dk",
+                "ffc-acme-usa-springfield-il"
+
             ],
             "settings": [
                 {
@@ -113,24 +117,6 @@
                 {
                     "objectId": "store-acme",
                     "objectType": "Store",
-                    "moduleId": "VirtoCommerce.XPickup",
-                    "name": "XPickup.Enabled",
-                    "groupName": "BOPIS",
-                    "value": true,
-                    "valueType": "Boolean"
-                },
-                {
-                    "objectId": "store-acme",
-                    "objectType": "Store",
-                    "moduleId": "VirtoCommerce.XPickup",
-                    "name": "XPickup.Enabled",
-                    "groupName": "BOPIS",
-                    "value": true,
-                    "valueType": "Boolean"
-                },
-                {
-                    "objectId": "store-acme",
-                    "objectType": "Store",
                     "moduleId": "VirtoCommerce.Shipping",
                     "name": "Shipping.Bopis.GoogleMaps.Enabled",
                     "groupName": "BOPIS",
@@ -144,7 +130,46 @@
                     "name": "Shipping.Bopis.GoogleMaps.ApiKey",
                     "groupName": "BOPIS",
                     "value": "{ENV:BOPIS_GOOGLE_MAPS_API_KEY}",
-                    "valueType": "ShortText"
+                    "valueType": "ShortText",                 
+                    "displayName": null,
+                    "isRequired": false,
+                    "isHidden": false,
+                    "isPublic": true,             
+                    "allowedValues": null              
+                },
+                {
+                    "itHasValues": true,
+                    "objectId": "store-acme",
+                    "objectType": "Store",
+                    "isReadOnly": false,
+                    "value": true,
+                    "restartRequired": false,
+                    "moduleId": "VirtoCommerce.XPickup",
+                    "groupName": "BOPIS",
+                    "name": "XPickup.Enabled",
+                    "isRequired": false,
+                    "isHidden": false,
+                    "isPublic": true,
+                    "valueType": "Boolean"
+        
+                },
+                {
+                    "itHasValues": true,
+                    "objectId": "store-acme",
+                    "objectType": "Store",
+                    "isReadOnly": false,
+                    "value": true,           
+                    "restartRequired": false,
+                    "moduleId": "VirtoCommerce.XPickup",
+                    "groupName": "BOPIS",
+                    "name": "XPickup.GlobalTransferEnabled",           
+                    "isRequired": false,
+                    "isHidden": false,
+                    "isPublic": true,
+                    "valueType": "Boolean",     
+                    "defaultValue": false,
+                    "isDictionary": false,
+                    "isLocalizable": false
                 },
                 {
                     "objectId": "store-acme",
