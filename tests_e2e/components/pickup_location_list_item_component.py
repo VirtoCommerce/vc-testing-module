@@ -4,8 +4,6 @@ from playwright.sync_api import Locator
 class PickupLocationListItemComponent:
     def __init__(self, element: Locator):
         self.element = element
-        self.element.wait_for(state="attached", timeout=10_000)
-        self.element.wait_for(state="visible", timeout=10_000)
 
     @property
     def country(self) -> str:

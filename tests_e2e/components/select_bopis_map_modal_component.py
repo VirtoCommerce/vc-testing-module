@@ -19,28 +19,22 @@ class SelectBopisMapModalComponent:
     def pickup_locations(self) -> list[PickupLocationListItemComponent]:
         self.element.wait_for(state="attached", timeout=10_000)
         self.element.wait_for(state="visible", timeout=10_000)
-        locations = self.pickup_locations_list.locator(
-            "[data-address-id^='pickup-location-']"
-        ).all()
+        if not self.pickup_locations_list.is_visible():
+            return []
+        locations = self.pickup_locations_list.locator("[data-address-id^='pickup-location-']").all()
         return [PickupLocationListItemComponent(loc) for loc in locations]
 
     @property
     def filter_countries_dropdown(self) -> FilterDropdownComponent:
-        return FilterDropdownComponent(
-            self.element.locator("[data-test-id='filter-country']")
-        )
+        return FilterDropdownComponent(self.element.locator("[data-test-id='filter-country']"))
 
     @property
     def filter_regions_dropdown(self) -> FilterDropdownComponent:
-        return FilterDropdownComponent(
-            self.element.locator("[data-test-id='filter-region']")
-        )
+        return FilterDropdownComponent(self.element.locator("[data-test-id='filter-region']"))
 
     @property
     def filter_cities_dropdown(self) -> FilterDropdownComponent:
-        return FilterDropdownComponent(
-            self.element.locator("[data-test-id='filter-city']")
-        )
+        return FilterDropdownComponent(self.element.locator("[data-test-id='filter-city']"))
 
     @property
     def search_pickup_location_input(self) -> Locator:
@@ -56,10 +50,7 @@ class SelectBopisMapModalComponent:
 
     @property
     def applied_filters_chips(self) -> list[ChipComponent]:
-        return [
-            ChipComponent(chip)
-            for chip in self.applied_filters_panel.locator(".vc-chip").all()
-        ]
+        return [ChipComponent(chip) for chip in self.applied_filters_panel.locator(".vc-chip").all()]
 
     @property
     def reset_filters_chip(self) -> Locator:
@@ -82,38 +73,24 @@ class SelectBopisMapModalComponent:
         return self.element.locator("[data-test-id='cancel-button']")
 
     def get_map_marker_by_location_name(self, location_name: str) -> Locator:
-        return next(
-            marker
-            for marker in self.map_markers
-            if marker.get_attribute("title") == location_name
-        )
+        return next(marker for marker in self.map_markers if marker.get_attribute("title") == location_name)
 
     def get_map_marker_by_location_coords(self, coords: str) -> Locator:
-        return next(
-            marker
-            for marker in self.map_markers
-            if marker.get_attribute("position") == coords
-        )
+        return next(marker for marker in self.map_markers if marker.get_attribute("position") == coords)
 
     def get_applied_filter_chip_by_name(self, name: str) -> ChipComponent:
         return next(chip for chip in self.applied_filters_chips if chip.label == name)
 
-    def get_location_by_name(
-        self, location_name: str
-    ) -> PickupLocationListItemComponent:
-        return next(
-            pickup_point
-            for pickup_point in self.pickup_locations
-            if pickup_point.name == location_name
-        )
+    def get_location_by_name(self, location_name: str) -> PickupLocationListItemComponent:
+        return next(pickup_point for pickup_point in self.pickup_locations if pickup_point.name == location_name)
 
     def has_pickup_location_with_keyword(self, keyword: str) -> bool:
         return any(
-            (keyword in pickup_point.name)
-            or (keyword in pickup_point.city)
-            or (keyword in pickup_point.region)
-            or (keyword in pickup_point.country)
-            or (keyword in pickup_point.line1)
-            or (keyword in pickup_point.line2)
+            (pickup_point.name and keyword in pickup_point.name)
+            or (pickup_point.city and keyword in pickup_point.city)
+            or (pickup_point.region and keyword in pickup_point.region)
+            or (pickup_point.country and keyword in pickup_point.country)
+            or (pickup_point.line1 and keyword in pickup_point.line1)
+            or (pickup_point.line2 and keyword in pickup_point.line2)
             for pickup_point in self.pickup_locations
         )

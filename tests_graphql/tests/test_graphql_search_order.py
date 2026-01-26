@@ -35,10 +35,11 @@ def test_search_order(
     # Check if order exists in dataset
     if order is None or order.get("number") is None:
         auth.clear_token()
-        pytest.skip("Order not found in dataset or missing number - cannot test search")
+        pytest.skip("No valid order found in dataset")
 
     # Get the order details to check its organization (before clearing token)
     order_id = order.get("id") or dataset["orders"][0].get("id")
+    order_org_id = None
     if order_id:
         order_details = order_operations.get_order(order_id)
 
@@ -49,7 +50,7 @@ def test_search_order(
                 auth.clear_token()
                 pytest.skip(
                     f"Order '{order['number']}' belongs to organization '{order_org_id}', "
-                    f"but testing with organization '{organization['id']}' - cannot test search"
+                    f"not to the test organization '{organization['id']}'"
                 )
 
     search_orders_result = order_operations.get_organization_orders(
@@ -60,11 +61,10 @@ def test_search_order(
 
     auth.clear_token()
 
-    # If no results found, skip the test (order may not belong to this organization)
     if search_orders_result["totalCount"] == 0:
         pytest.skip(
-            f"Order '{order['number']}' not found in organization '{organization['id']}'. "
-            f"This may indicate the order belongs to a different organization or the search filter needs adjustment."
+            f"Order with number '{order['number']}' not found in organization '{organization['id']}'. "
+            f"This may indicate the order was created by a different organization or the data is stale."
         )
 
     assert search_orders_result["totalCount"] > 0, (

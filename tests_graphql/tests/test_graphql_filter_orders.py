@@ -138,20 +138,6 @@ def test_filter_orders_by_date(
 
     order = order_operations.get_order(dataset["orders"][0]["id"])
 
-    # Check if the order exists first
-    if order is None or order.get("createdDate") is None:
-        auth.clear_token()
-        pytest.skip("Order not found or missing createdDate - cannot test date filtering")
-
-    # Check if the order belongs to the organization being tested
-    order_org_id = order.get("organizationId")
-    if order_org_id != organization["id"]:
-        auth.clear_token()
-        pytest.skip(
-            f"Order belongs to organization '{order_org_id}', "
-            f"but testing with organization '{organization['id']}' - cannot test date filtering"
-        )
-
     normalized_order_date = order["createdDate"][:-2] + "Z"
     order_date = datetime.strptime(normalized_order_date, "%Y-%m-%dT%H:%M:%S.%fZ")
 
@@ -168,6 +154,7 @@ def test_filter_orders_by_date(
 
     # Verify that filtering works - the order should be found in the date range
     if search_orders_result["totalCount"] == 0:
+        order_org_id = order.get("organizationId", "unknown")
         pytest.skip(
             f"No orders found in the specified date range. "
             f"Date range: {from_date.isoformat()} to {to_date.isoformat()}, "
