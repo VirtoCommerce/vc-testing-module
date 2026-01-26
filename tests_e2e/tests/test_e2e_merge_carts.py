@@ -32,7 +32,6 @@ def test_e2e_merge_carts(
 
     registered_user = user_operations.get_me()
 
-    # Clear the registered user's cart by storeId and userId
     cart_operations.clear_cart(
         payload={
             "storeId": config["STORE_ID"],

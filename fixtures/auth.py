@@ -87,16 +87,15 @@ class Auth:
             self.token_data = self.get_token(payload)
 
             if page:
-                # Perform actual UI-based login for browser authentication
+
                 sign_in_url = f"{self.config['FRONTEND_BASE_URL']}/sign-in"
                 page.goto(sign_in_url)
                 page.wait_for_load_state("networkidle")
 
-                # Fill in login form and submit
                 page.locator("[data-test-id='sign-in-page.email-input']").fill(username)
                 page.locator("[data-test-id='sign-in-page.password-input']").fill(password)
                 page.locator("[data-test-id='sign-in-page.login-button']").click()
-                # Wait for navigation to complete after login
+
                 page.wait_for_url(f"{self.config['FRONTEND_BASE_URL']}/", timeout=30000)
                 page.wait_for_load_state("networkidle")
 
