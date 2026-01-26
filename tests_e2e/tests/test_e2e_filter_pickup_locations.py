@@ -373,25 +373,34 @@ def test_e2e_filter_pickup_locations_remove_filters_single_page_checkout(
     select_pickup_location_modal.filter_cities_dropdown.select_item_by_name(city_to_filter)
     select_pickup_location_modal.search_pickup_location_input.fill(keyword_to_search)
     select_pickup_location_modal.search_pickup_location_input.press("Enter")
+    page.wait_for_load_state("networkidle")
 
     filtered_pickup_points_count = len(select_pickup_location_modal.pickup_locations)
 
     select_pickup_location_modal.get_applied_filter_chip_by_name(region_to_filter).close_chip()
+    page.wait_for_load_state("networkidle")
 
     updated_pickup_points_count = len(select_pickup_location_modal.pickup_locations)
 
     select_pickup_location_modal.reset_filters_chip.click()
     page.wait_for_load_state("networkidle")
+    # Wait for the pickup locations list to be fully re-populated after reset
+    select_pickup_location_modal.pickup_locations_list.locator(
+        f"[data-address-id^='pickup-location-']:nth-child({all_pickup_points_count})"
+    ).wait_for(state="visible", timeout=10_000)
 
     restored_pickup_points_count = len(select_pickup_location_modal.pickup_locations)
 
     assert updated_pickup_points_count == filtered_pickup_points_count, "Pickup points count not updated"
     assert restored_pickup_points_count == all_pickup_points_count, "Pickup points count not restored"
 
-    cart_operations.remove_cart(
+    cart_operations.clear_cart(
         payload={
+            "storeId": config["STORE_ID"],
             "cartId": cart["id"],
             "userId": user["id"],
+            "currencyCode": dataset["currencies"][0]["code"],
+            "cultureName": dataset["languages"][0]["allowedValues"][0],
         }
     )
 
@@ -437,6 +446,7 @@ def test_e2e_filter_pickup_locations_elements_multi_step_checkout(
 
     checkout_shipping_page = CheckoutShippingPage(config, page)
     checkout_shipping_page.navigate()
+    page.wait_for_load_state("networkidle")
 
     checkout_shipping_page.shipping_details_section_component.pickup_delivery_option_switcher.click()
     checkout_shipping_page.shipping_details_section_component.pickup_point_section.locator(
@@ -462,6 +472,9 @@ def test_e2e_filter_pickup_locations_elements_multi_step_checkout(
         payload={
             "cartId": cart["id"],
             "userId": user["id"],
+            "currencyCode": dataset["currencies"][0]["code"],
+            "cultureName": dataset["languages"][0]["allowedValues"][0],
+            "storeId": config["STORE_ID"],
         }
     )
 
@@ -501,6 +514,7 @@ def test_e2e_filter_pickup_locations_country_region_keyword_found_multi_step_che
 
     checkout_shipping_page = CheckoutShippingPage(config, page)
     checkout_shipping_page.navigate()
+    page.wait_for_load_state("networkidle")
 
     country_to_filter = "United States of America"
     region_to_filter = "New York"
@@ -535,6 +549,9 @@ def test_e2e_filter_pickup_locations_country_region_keyword_found_multi_step_che
         payload={
             "cartId": cart["id"],
             "userId": user["id"],
+            "currencyCode": dataset["currencies"][0]["code"],
+            "cultureName": dataset["languages"][0]["allowedValues"][0],
+            "storeId": config["STORE_ID"],
         }
     )
 
@@ -581,6 +598,7 @@ def test_e2e_filter_pickup_locations_country_region_city_keyword_found_multi_ste
 
     checkout_shipping_page = CheckoutShippingPage(config, page)
     checkout_shipping_page.navigate()
+    page.wait_for_load_state("networkidle")
 
     checkout_shipping_page.shipping_details_section_component.pickup_delivery_option_switcher.click()
     checkout_shipping_page.shipping_details_section_component.pickup_point_section.locator(
@@ -614,6 +632,9 @@ def test_e2e_filter_pickup_locations_country_region_city_keyword_found_multi_ste
         payload={
             "cartId": cart["id"],
             "userId": user["id"],
+            "currencyCode": dataset["currencies"][0]["code"],
+            "cultureName": dataset["languages"][0]["allowedValues"][0],
+            "storeId": config["STORE_ID"],
         }
     )
 
@@ -660,6 +681,7 @@ def test_e2e_filter_pickup_locations_country_region_city_keyword_not_found_multi
 
     checkout_shipping_page = CheckoutShippingPage(config, page)
     checkout_shipping_page.navigate()
+    page.wait_for_load_state("networkidle")
 
     checkout_shipping_page.shipping_details_section_component.pickup_delivery_option_switcher.click()
     checkout_shipping_page.shipping_details_section_component.pickup_point_section.locator(
@@ -693,6 +715,9 @@ def test_e2e_filter_pickup_locations_country_region_city_keyword_not_found_multi
         payload={
             "cartId": cart["id"],
             "userId": user["id"],
+            "currencyCode": dataset["currencies"][0]["code"],
+            "cultureName": dataset["languages"][0]["allowedValues"][0],
+            "storeId": config["STORE_ID"],
         }
     )
 
@@ -739,6 +764,7 @@ def test_e2e_filter_pickup_locations_remove_filters_multi_step_checkout(
 
     checkout_shipping_page = CheckoutShippingPage(config, page)
     checkout_shipping_page.navigate()
+    page.wait_for_load_state("networkidle")
 
     checkout_shipping_page.shipping_details_section_component.pickup_delivery_option_switcher.click()
     checkout_shipping_page.shipping_details_section_component.pickup_point_section.locator(
@@ -754,6 +780,7 @@ def test_e2e_filter_pickup_locations_remove_filters_multi_step_checkout(
     select_pickup_location_modal.filter_cities_dropdown.select_item_by_name(city_to_filter)
     select_pickup_location_modal.search_pickup_location_input.fill(keyword_to_search)
     select_pickup_location_modal.search_pickup_location_input.press("Enter")
+    page.wait_for_load_state("networkidle")
 
     filtered_pickup_points_count = len(select_pickup_location_modal.pickup_locations)
 
@@ -763,6 +790,9 @@ def test_e2e_filter_pickup_locations_remove_filters_multi_step_checkout(
 
     select_pickup_location_modal.reset_filters_chip.click()
     page.wait_for_load_state("networkidle")
+    select_pickup_location_modal.pickup_locations_list.locator(
+        f"[data-address-id^='pickup-location-']:nth-child({all_pickup_points_count})"
+    ).wait_for(state="visible", timeout=10_000)
 
     restored_pickup_points_count = len(select_pickup_location_modal.pickup_locations)
 
@@ -773,5 +803,8 @@ def test_e2e_filter_pickup_locations_remove_filters_multi_step_checkout(
         payload={
             "cartId": cart["id"],
             "userId": user["id"],
+            "currencyCode": dataset["currencies"][0]["code"],
+            "cultureName": dataset["languages"][0]["allowedValues"][0],
+            "storeId": config["STORE_ID"],
         }
     )
