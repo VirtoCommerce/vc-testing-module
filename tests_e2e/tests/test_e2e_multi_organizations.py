@@ -29,19 +29,18 @@ def assert_organization_count(account_menu_component, expected_count: int) -> No
 
 @pytest.mark.e2e
 @allure.title("Switch between organizations (E2E)")
-def test_e2e_switch_between_organizations(config: Config, dataset: dict[str, Any], page: Page, auth: Auth):
+def test_e2e_switch_between_organizations(config: Config, dataset: dict[str, Any], page: Page):
     with allure.step("Prepare browser and page objects"):
         page.set_viewport_size({"width": 1920, "height": 1080})
-        auth.authenticate(dataset_user["userName"], config["USERS_PASSWORD"], page)
+        sign_in_page = SignInPage(page, config)
         home_page = HomePage(page, config)
 
     dataset_user = dataset["users"][0]
     expected_org_count = get_user_organization_count(dataset, dataset_user)
 
     with allure.step("Sign in and open account menu"):
-        home_page.navigate()
-        page.wait_for_load_state("networkidle")
-
+        sign_in_page.navigate()
+        sign_in_page.sign_in(dataset_user["userName"], config["USERS_PASSWORD"])
         account_menu = home_page.open_account_menu()
         assert_organization_count(account_menu, expected_org_count)
         current_organization = home_page.current_organization_name
@@ -87,19 +86,20 @@ def test_e2e_switch_between_organizations(config: Config, dataset: dict[str, Any
 @pytest.mark.e2e
 @allure.title("Search the organization in the list")
 def test_e2e_search_organization_in_list(config: Config, dataset: dict[str, Any], page: Page):
+    with allure.step("Prepare browser and page objects"):
+        page.set_viewport_size({"width": 1920, "height": 1080})
+        sign_in_page = SignInPage(page, config)
+        home_page = HomePage(page, config)
+
     dataset_user = dataset["users"][9]
-    organization_name = dataset["organizations"][3]["name"]  # [e2e] Aurora Market
+    organization_name = dataset["organizations"][3]["name"]
     partial_organization_name = dataset["organizations"][1]["name"][:9].lower()
     org_for_switch = dataset["organizations"][10]["name"]
     expected_org_count = get_user_organization_count(dataset, dataset_user)
 
-    page.set_viewport_size({"width": 1920, "height": 1080})
-    auth.authenticate(dataset_user["userName"], config["USERS_PASSWORD"], page)
-    home_page = HomePage(page, config)
-
     with allure.step("Sign in and open account menu"):
-        home_page.navigate()
-        page.wait_for_load_state("networkidle")
+        sign_in_page.navigate()
+        sign_in_page.sign_in(dataset_user["userName"], config["USERS_PASSWORD"])
         account_menu = home_page.open_account_menu()
         assert_organization_count(account_menu, expected_org_count)
         current_organization = home_page.current_organization_name
@@ -242,28 +242,20 @@ SPECIAL_CHAR_ORG_TEST_DATA = [
 @pytest.mark.parametrize("org_index,search_term,char_description", SPECIAL_CHAR_ORG_TEST_DATA)
 @allure.title("Search organization with special characters in name")
 def test_e2e_search_organization_with_special_chars(
-    config: Config,
-    dataset: dict[str, Any],
-    page: Page,
-    org_index: int,
-    search_term: str,
-    char_description: str,
-    auth: Auth,
+    config: Config, dataset: dict[str, Any], page: Page, org_index: int, search_term: str, char_description: str
 ):
     """Test searching for organizations with special characters in their names."""
     with allure.step("Prepare browser and page objects"):
         page.set_viewport_size({"width": 1920, "height": 1080})
-
+        sign_in_page = SignInPage(page, config)
         home_page = HomePage(page, config)
 
     dataset_user = dataset["users"][9]
     organization_name = dataset["organizations"][org_index]["name"]
 
-    auth.authenticate(dataset_user["userName"], config["USERS_PASSWORD"], page)
-
     with allure.step("Sign in and open account menu"):
-        home_page.navigate()
-        page.wait_for_load_state("networkidle")
+        sign_in_page.navigate()
+        sign_in_page.sign_in(dataset_user["userName"], config["USERS_PASSWORD"])
         account_menu = home_page.open_account_menu()
 
         if len(account_menu.organization_selector_items) <= 10:
