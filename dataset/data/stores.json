@@ -115,6 +115,7 @@
                     "isLocalizable": false
                 },
                 {
+                    "itHasValues": true,
                     "objectId": "store-acme",
                     "objectType": "Store",
                     "moduleId": "VirtoCommerce.Shipping",

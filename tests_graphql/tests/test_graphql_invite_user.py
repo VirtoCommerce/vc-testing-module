@@ -59,13 +59,28 @@ def test_invite_user(
         config["ADMIN_PASSWORD"],
     )
 
-    time.sleep(20)
+    # Poll for the invited contact to appear in the search index
+    invited_contact = None
+    max_attempts = 12
+    poll_interval = 5  # seconds
 
-    invited_contact = contact_operations.fetch_organization_contacts(
-        organization_id=dataset_organization["id"],
-        user_id=maintainer_user["id"],
-        search_phrase=invite_employee_email,
-    )["contacts"]["items"][0]
+    for attempt in range(max_attempts):
+        time.sleep(poll_interval)
+        result = contact_operations.fetch_organization_contacts(
+            organization_id=dataset_organization["id"],
+            user_id=maintainer_user["id"],
+            search_phrase=invite_employee_email,
+        )
+        contacts = result.get("contacts", {}).get("items", [])
+        if contacts:
+            invited_contact = contacts[0]
+            break
+
+    if invited_contact is None:
+        raise Exception(
+            f"Invited contact with email '{invite_employee_email}' was not found "
+            f"after {max_attempts * poll_interval} seconds"
+        )
 
     # Test teardown
 
