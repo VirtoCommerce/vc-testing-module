@@ -43,8 +43,8 @@ This report provides test coverage statistics comparing the state of the test su
 |--------|-------|
 | **Test Files** | 27 |
 | **Total Test Functions** | 48 |
-| **Active Tests** | 45 |
-| **Ignored Tests** | 3 |
+| **Active Tests** | 52 |
+| **Ignored Tests** | 5 |
 
 #### tests_graphql (GraphQL API Tests)
 
@@ -52,7 +52,7 @@ This report provides test coverage statistics comparing the state of the test su
 |--------|-------|
 | **Test Files** | 58 |
 | **Total Test Functions** | 113 |
-| **Active Tests** | 106 |
+| **Active Tests** | 113 |
 | **Ignored Tests** | 7 |
 
 #### Grand Total
