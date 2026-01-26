@@ -28,9 +28,7 @@ def test_e2e_create_order_multi_step_checkout(
     page: Page,
 ):
     if config["CHECKOUT_MODE"] == "single-page":
-        pytest.skip(
-            "Checkout mode is a single-page, skipping test for multi-step checkout"
-        )
+        pytest.skip("Checkout mode is a single-page, skipping test for multi-step checkout")
 
     print(
         f"{os.linesep}Running E2E test to create order in multi-step checkout...",
@@ -59,13 +57,9 @@ def test_e2e_create_order_multi_step_checkout(
     checkout_shipping_page = CheckoutShippingPage(config, page)
     checkout_shipping_page.navigate()
 
-    expect(page).to_have_url(
-        checkout_shipping_page.url
-    ), "Checkout shipping page is not loaded"
+    expect(page).to_have_url(checkout_shipping_page.url), "Checkout shipping page is not loaded"
 
-    checkout_shipping_page.shipping_details_section_component.switch_delivery_option(
-        "shipping"
-    )
+    checkout_shipping_page.shipping_details_section_component.switch_delivery_option("shipping")
 
     expect(
         checkout_shipping_page.shipping_details_section_component.address_selector_component.element
@@ -80,60 +74,39 @@ def test_e2e_create_order_multi_step_checkout(
         checkout_shipping_page.shipping_details_section_component.address_selector_component.selected_address_label
     ).not_to_be_empty(), "Selected address label is empty"
 
-    checkout_shipping_page.shipping_details_section_component.select_shipping_method(
-        "FixedRate_Ground"
-    )
+    checkout_shipping_page.shipping_details_section_component.select_shipping_method("FixedRate_Ground")
 
-    expect(
-        checkout_shipping_page.billing_button
-    ).to_be_visible(), "Billing button is not visible"
-    expect(
-        checkout_shipping_page.billing_button
-    ).to_be_enabled(), "Billing button is disabled"
+    expect(checkout_shipping_page.billing_button).to_be_visible(), "Billing button is not visible"
+    expect(checkout_shipping_page.billing_button).to_be_enabled(), "Billing button is disabled"
 
     checkout_shipping_page.billing_button.click()
 
     checkout_billing_page = CheckoutBillingPage(config, page)
 
-    expect(page).to_have_url(
-        checkout_billing_page.url
-    ), "Checkout billing page is not loaded"
+    expect(page).to_have_url(checkout_billing_page.url), "Checkout billing page is not loaded"
     expect(
         checkout_billing_page.payment_details_section_component.element
     ).to_be_visible(), "Payment details section is not visible"
 
-    checkout_billing_page.payment_details_section_component.select_payment_method(
-        "DefaultManualPaymentMethod"
-    )
+    checkout_billing_page.payment_details_section_component.select_payment_method("DefaultManualPaymentMethod")
 
-    expect(
-        checkout_billing_page.review_order_button
-    ).to_be_visible(), "Review order button is not visible"
-    expect(
-        checkout_billing_page.review_order_button
-    ).to_be_enabled(), "Review order button is disabled"
+    expect(checkout_billing_page.review_order_button).to_be_visible(), "Review order button is not visible"
+    expect(checkout_billing_page.review_order_button).to_be_enabled(), "Review order button is disabled"
 
     checkout_billing_page.review_order_button.click()
 
     checkout_review_order_page = CheckoutReviewOrderPage(config, page)
 
-    expect(page).to_have_url(
-        checkout_review_order_page.url
-    ), "Checkout review order page is not loaded"
-    expect(
-        checkout_review_order_page.place_order_button
-    ).to_be_visible(), "Place order button is not visible"
-    expect(
-        checkout_review_order_page.place_order_button
-    ).to_be_enabled(), "Place order button is disabled"
+    expect(page).to_have_url(checkout_review_order_page.url), "Checkout review order page is not loaded"
+    expect(checkout_review_order_page.place_order_button).to_be_visible(), "Place order button is not visible"
+    expect(checkout_review_order_page.place_order_button).to_be_enabled(), "Place order button is disabled"
 
     checkout_review_order_page.place_order_button.click()
+    page.wait_for_load_state("networkidle")
 
     checkout_completed_page = CheckoutCompletedPage(config, page)
 
-    expect(page).to_have_url(
-        checkout_completed_page.url
-    ), "Checkout completed page is not loaded"
+    expect(page).to_have_url(checkout_completed_page.url), "Checkout completed page is not loaded"
 
     print(f"Order number: {checkout_completed_page.order_number}")
     assert checkout_completed_page.order_number is not None, "Order number is not found"
@@ -148,9 +121,7 @@ def test_e2e_create_order_single_page_checkout(
     page: Page,
 ):
     if config["CHECKOUT_MODE"] == "multi-step":
-        pytest.skip(
-            "Checkout mode is a multi-step, skipping test for single-page checkout"
-        )
+        pytest.skip("Checkout mode is a multi-step, skipping test for single-page checkout")
 
     print(
         f"{os.linesep}Running E2E test to create order in multi-step checkout...",
@@ -193,13 +164,9 @@ def test_e2e_create_order_single_page_checkout(
         cart_page.shipping_details_section_component.shipping_method_selector
     ).to_be_visible(), "Shipping method selector is not visible"
 
-    if (
-        not cart_page.shipping_details_section_component.address_selector_component.selected_address_label.is_visible()
-    ):
+    if not cart_page.shipping_details_section_component.address_selector_component.selected_address_label.is_visible():
         cart_page.shipping_details_section_component.address_selector_component.select_address_button.click()
-        select_address_modal = SelectAddressModalComponent(
-            page.locator("[data-test-id='select-address-modal']")
-        )
+        select_address_modal = SelectAddressModalComponent(page.locator("[data-test-id='select-address-modal']"))
         select_address_modal.items[0].click()
         select_address_modal.confirm_button.click()
 
@@ -210,31 +177,22 @@ def test_e2e_create_order_single_page_checkout(
         cart_page.shipping_details_section_component.address_selector_component.selected_address_label
     ).not_to_be_empty(), "Selected address label is empty"
 
-    cart_page.shipping_details_section_component.select_shipping_method(
-        "FixedRate_Ground"
-    )
+    cart_page.shipping_details_section_component.select_shipping_method("FixedRate_Ground")
 
     expect(
         cart_page.payment_details_section_component.element
     ).to_be_visible(), "Payment details section is not visible"
 
-    cart_page.payment_details_section_component.select_payment_method(
-        "DefaultManualPaymentMethod"
-    )
+    cart_page.payment_details_section_component.select_payment_method("DefaultManualPaymentMethod")
 
-    expect(
-        cart_page.place_order_button
-    ).to_be_visible(), "Place order button is not visible"
-    expect(
-        cart_page.place_order_button
-    ).to_be_enabled(), "Place order button is disabled"
+    expect(cart_page.place_order_button).to_be_visible(), "Place order button is not visible"
+    expect(cart_page.place_order_button).to_be_enabled(), "Place order button is disabled"
 
     cart_page.place_order_button.click()
+    page.wait_for_load_state("networkidle")
 
     checkout_completed_page = CheckoutCompletedPage(config, page)
 
-    expect(page).to_have_url(
-        checkout_completed_page.url
-    ), "Checkout completed page is not loaded"
+    expect(page).to_have_url(checkout_completed_page.url), "Checkout completed page is not loaded"
 
     assert checkout_completed_page.order_number is not None, "Order number is not found"

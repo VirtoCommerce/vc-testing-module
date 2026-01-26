@@ -41,7 +41,9 @@ def test_e2e_add_multiple_shipping_addresses(
         (contact for contact in dataset["contacts"] if contact["id"] == test_user.get("memberId")), None
     )
 
-    auth.authenticate(test_user["userName"], config["USERS_PASSWORD"])
+    page.set_viewport_size({"width": 1920, "height": 1080})
+
+    auth.authenticate(test_user["userName"], config["USERS_PASSWORD"], page)
 
     page_context_operations = PageContextOperations(graphql_client)
 
@@ -70,20 +72,15 @@ def test_e2e_add_multiple_shipping_addresses(
             organization=user_organization,
         )
 
-    page.set_viewport_size({"width": 1920, "height": 1080})
-
-    sign_in_page = SignInPage(page, config)
-    sign_in_page.navigate()
-
-    sign_in_page.sign_in(test_user["userName"], config["USERS_PASSWORD"])
-    time.sleep(2)
-
     home_page = HomePage(page, config)
     layout = MainLayoutPage(page)
     ship_to = layout.top_header_component.ship_to_selector
     add_shipping_address_button = layout.top_header_component.add_shipping_address_button
 
     with allure.step("Open Ship To selector"):
+        home_page.navigate()
+        page.wait_for_load_state("networkidle")
+
         expect(add_shipping_address_button).to_be_visible(), "Add shipping address button is not visible"
         add_shipping_address_text = add_shipping_address_button.inner_text()
         assert "Add new address" in add_shipping_address_text
@@ -205,17 +202,17 @@ def test_e2e_search_shipping_address(
     assert user_organization is not None, f"Could not find organization for user {test_user['userName']}"
 
     page.set_viewport_size({"width": 1920, "height": 1080})
+    auth.authenticate(test_user["userName"], config["USERS_PASSWORD"], page)
 
-    sign_in_page = SignInPage(page, config)
-    sign_in_page.navigate()
-
-    sign_in_page.sign_in(test_user["userName"], config["USERS_PASSWORD"])
-    time.sleep(2)
+    home_page = HomePage(page, config)
 
     layout = MainLayoutPage(page)
     ship_to = layout.top_header_component.ship_to_selector
 
     with allure.step("Open Ship To selector"):
+        home_page.navigate()
+        page.wait_for_load_state("networkidle")
+
         ship_to_button = ship_to.trigger_button
         expect(ship_to_button).to_be_visible(), "Ship to button is not visible"
         ship_to_button.click()
@@ -235,7 +232,6 @@ def test_e2e_search_shipping_address(
         if initial_count == 0:
             pytest.skip("No addresses available for search test")
 
-    # Check if search field is visible (might only be visible with enough addresses)
     search_field = ship_to.search_field
     if not search_field.is_visible():
         pytest.skip(

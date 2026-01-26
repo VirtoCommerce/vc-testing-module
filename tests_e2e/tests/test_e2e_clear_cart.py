@@ -40,11 +40,10 @@ def test_e2e_clear_cart(
 
     cart_page = CartPage(config, page)
     cart_page.navigate()
+    page.wait_for_load_state("networkidle")
     cart_page.clear_cart_button.click()
 
-    clear_cart_modal = ClearCartModalComponent(
-        page.locator("[data-test-id='clear-cart-modal']")
-    )
+    clear_cart_modal = ClearCartModalComponent(page.locator("[data-test-id='clear-cart-modal']"))
 
     expect(clear_cart_modal.element).to_be_visible(), "Clear cart modal is not visible"
 
@@ -53,14 +52,8 @@ def test_e2e_clear_cart(
     expect(clear_cart_modal.element).not_to_be_visible(), "Clear cart modal is visible"
 
     cart_page.clear_cart()
+    page.wait_for_load_state("networkidle")
 
-    expect(
-        cart_page.clear_cart_button
-    ).not_to_be_visible(), "Clear cart button is visible"
+    expect(cart_page.clear_cart_button).not_to_be_visible(), "Clear cart button is visible"
 
-    cart_operations.remove_cart(
-        payload={
-            "cartId": cart["id"],
-            "userId": user["id"],
-        }
-    )
+    cart_operations.remove_cart(payload={"cartId": cart["id"], "userId": user["id"]})
