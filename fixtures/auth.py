@@ -74,9 +74,7 @@ class Auth:
         response = requests.post(url, data={}, headers=headers)
         response.raise_for_status()
 
-    def authenticate(
-        self, username: str, password: str, page: Page | None = None
-    ) -> None:
+    def authenticate(self, username: str, password: str, page: Page | None = None) -> None:
         with self.lock:
             payload = TokenPayload(
                 grant_type="password",
@@ -89,9 +87,18 @@ class Auth:
             self.token_data = self.get_token(payload)
 
             if page:
-                page.add_init_script(
-                    f"localStorage.setItem('auth', JSON.stringify({self.token_data.to_dict()}))"
-                )
+                # Perform actual UI-based login for browser authentication
+                sign_in_url = f"{self.config['FRONTEND_BASE_URL']}/sign-in"
+                page.goto(sign_in_url)
+                page.wait_for_load_state("networkidle")
+
+                # Fill in login form and submit
+                page.locator("[data-test-id='sign-in-page.email-input']").fill(username)
+                page.locator("[data-test-id='sign-in-page.password-input']").fill(password)
+                page.locator("[data-test-id='sign-in-page.login-button']").click()
+                # Wait for navigation to complete after login
+                page.wait_for_url(f"{self.config['FRONTEND_BASE_URL']}/", timeout=30000)
+                page.wait_for_load_state("networkidle")
 
     def clear_token(self) -> None:
         with self.lock:
