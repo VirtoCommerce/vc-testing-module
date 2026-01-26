@@ -7,6 +7,7 @@
         {
             "id": "pickup-location-acme-bristol",
             "name": "Westfield World Trade Center",
+            "description": "World Trade Center",
             "storeId": "store-acme",
             "geoLocation": "51.41899668167562, -2.5887099717970674",
             "isActive": true,
@@ -27,6 +28,7 @@
         {
             "id": "pickup-location-acme-bristol-flea",
             "name": "Bristol Flea (Fulton Stall)",
+            "description": "Flea market",
             "storeId": "store-acme",
             "geoLocation": "51.458966612204144, -2.5852711411573495",
             "contactPhone": "+10000000015",
@@ -51,6 +53,7 @@
         {
             "id": "pickup-location-acme-clifton-down-shopping-centre",
             "name": "Clifton Down Shopping Centre",
+            "description": "Shopping centre",
             "storeId": "store-acme",
             "geoLocation": "51.464253913566544, -2.610967267714162",
             "contactPhone": "+10000000014",
@@ -75,6 +78,7 @@
             "id": "pickup-location-acme-northgate-global-fulfillment-hub",
             "name": "Northgate Global Fulfillment Hub",
             "storeId": "store-acme",
+            "description": "Fulfillment hub",
             "geoLocation": "51.503363,-0.127625",
             "workingHours": "* **Mon - Sun**: 9 - 18",
             "contactPhone": "+44 20 3984 1122",
