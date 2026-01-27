@@ -1,0 +1,22 @@
+name: GraphQL Tests Docker
+
+on:
+  workflow_dispatch:
+    inputs:
+      frontendZipUrl:
+        description: 'Frontend zip url'
+        required: true
+        type: string
+        default: 'https://github.com/VirtoCommerce/vc-frontend/releases/download/2.39.0/vc-theme-b2b-vue-2.39.0.zip'
+
+jobs:
+  graphql-tests:
+    uses: VirtoCommerce/.github/.github/workflows/ui-autotests.yml@v3.800.22
+    with:
+      installModules: 'true'
+      installCustomModule: 'false'
+      platformDockerTag: 'linux-latest'
+      frontendZipUrl: '${{ inputs.frontendZipUrl }}'
+    secrets:
+      envPAT: ${{ secrets.REPO_TOKEN }}
+      testSecretEnvFile: ${{ secrets.VC_TESTING_MODULE_ENV_FILE }}

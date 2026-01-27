@@ -1,0 +1,24 @@
+name: E2E Tests Docker
+
+on:
+  workflow_dispatch:
+    inputs:
+      frontendZipUrl:
+        description: 'Frontend zip url'
+        required: true
+        type: string
+        default: 'https://github.com/VirtoCommerce/vc-frontend/releases/download/2.39.0/vc-theme-b2b-vue-2.39.0.zip'
+
+jobs:
+  e2e-tests:
+    uses: VirtoCommerce/.github/.github/workflows/e2e-autotests.yml@v3.800.22
+    with:
+      installModules: 'false'
+      installCustomModule: 'false'
+      runTests: 'true'
+      vctestingRepoBranch: '${{ github.ref_name }}'
+      frontendZipUrl: '${{ inputs.frontendZipUrl }}'
+      customPackagesJsonUrl: 'https://github.com/${{ github.repository }}/raw/${{ github.ref_name }}/backend-packages.json'
+    secrets:
+      envPAT: ${{ secrets.REPO_TOKEN }}
+      testSecretEnvFile: ${{ secrets.VC_TESTING_MODULE_ENV_FILE }}
