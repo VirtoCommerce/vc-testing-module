@@ -3,7 +3,7 @@ name: GraphQL Tests Docker
 on:
   workflow_dispatch:
     inputs:
-      version:
+      frontendZipUrl:
         description: 'Frontend zip url'
         required: true
         type: string
@@ -16,7 +16,7 @@ jobs:
       installModules: 'true'
       installCustomModule: 'false'
       platformDockerTag: 'linux-latest'
-      frontendZipUrl: '${{ inputs.version }}'
+      frontendZipUrl: '${{ inputs.frontendZipUrl }}'
     secrets:
       envPAT: ${{ secrets.REPO_TOKEN }}
       testSecretEnvFile: ${{ secrets.VC_TESTING_MODULE_ENV_FILE }}

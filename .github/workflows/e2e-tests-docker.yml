@@ -3,37 +3,22 @@ name: E2E Tests Docker
 on:
   workflow_dispatch:
     inputs:
-      version:
+      frontendZipUrl:
         description: 'Frontend zip url'
         required: true
         type: string
         default: 'https://github.com/VirtoCommerce/vc-frontend/releases/download/2.39.0/vc-theme-b2b-vue-2.39.0.zip'
 
 jobs:
-  set-params:
-    runs-on: ubuntu-latest
-    outputs:
-      branchName: ${{ steps.params.outputs.branchName }}
-    steps:
-      - name: Set params
-        id: params
-        run: |
-          if ($env:GITHUB_EVENT_NAME -eq 'pull_request') {
-            Add-Content -Path $env:GITHUB_OUTPUT -Value "branchName=${{ github.head_ref }}"
-          } else {
-            Add-Content -Path $env:GITHUB_OUTPUT -Value "branchName=${{ github.ref_name }}"
-          }
-        shell: pwsh
   e2e-tests:
-    needs: set-params
     uses: VirtoCommerce/.github/.github/workflows/e2e-autotests.yml@v3.800.22
     with:
       installModules: 'false'
       installCustomModule: 'false'
       runTests: 'true'
-      vctestingRepoBranch: '${{ needs.set-params.outputs.branchName }}'
-      frontendZipUrl: '${{ inputs.version }}'
-      customPackagesJsonUrl: 'https://github.com/${{ github.repository }}/raw/${{ needs.set-params.outputs.branchName }}/backend-packages.json'
+      vctestingRepoBranch: '${{ github.ref_name }}'
+      frontendZipUrl: '${{ inputs.frontendZipUrl }}'
+      customPackagesJsonUrl: 'https://github.com/${{ github.repository }}/raw/${{ github.ref_name }}/backend-packages.json'
     secrets:
       envPAT: ${{ secrets.REPO_TOKEN }}
       testSecretEnvFile: ${{ secrets.VC_TESTING_MODULE_ENV_FILE }}
