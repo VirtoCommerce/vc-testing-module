@@ -11,7 +11,7 @@ on:
 
 jobs:
   graphql-tests:
-    uses: VirtoCommerce/.github/.github/workflows/ui-autotests.yml@test-VCST-4552 #v3.800.23
+    uses: VirtoCommerce/.github/.github/workflows/ui-autotests.yml@v3.800.23
     with:
       installModules: 'true'
       installCustomModule: 'false'
