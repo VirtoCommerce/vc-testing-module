@@ -15,7 +15,7 @@ from graphql_operations.pickup_locations.pickup_locations_operations import (
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
 
-@pytest.mark.ignore
+
 @pytest.mark.graphql
 @allure.title("Get cart pickup locations - product with transfer required (GraphQL)")
 def test_get_cart_pickup_locations_transfer_required(
@@ -33,12 +33,11 @@ def test_get_cart_pickup_locations_transfer_required(
 
     currency = dataset["currencies"][0]["code"]
     culture = dataset["languages"][0]["allowedValues"][0]
- 
 
     auth.authenticate(dataset["users"][0]["userName"], config["USERS_PASSWORD"])
 
     user = user_operations.get_me()
-   
+
     cart_operations.clear_cart(
         {
             "storeId": config["STORE_ID"],
@@ -70,29 +69,25 @@ def test_get_cart_pickup_locations_transfer_required(
             ],
         }
     )
-  
-   
+
     assert cart["itemsQuantity"] == 1, "Cart items quantity is not the same"
-    assert cart["items"][0]["productId"] == product_transfer["id"], "Cart item product ID is not the same"  
-    assert len(cart["items"]) > 0, "Cart items is empty" 
+    assert cart["items"][0]["productId"] == product_transfer["id"], "Cart item product ID is not the same"
+    assert len(cart["items"]) > 0, "Cart items is empty"
 
     result = pickup_locations_operations.get_cart_pickup_locations(
         cart_id=cart["id"],
         store_id=config["STORE_ID"],
         culture_name=culture,
         facet="address_countryname address_regionname address_city",
-        first=50
-    )    
+        first=50,
+    )
 
     transfer_locations = [
-        loc
-        for loc in result["items"]
-        if loc.get("availabilityType") in ["Transfer", "GlobalTransfer"]
-        
+        loc for loc in result["items"] if loc.get("availabilityType") in ["Transfer", "GlobalTransfer"]
     ]
 
     assert result["totalCount"] > 0, "No pickup locations found for cart with product requiring transfer"
-    assert len(result['items']) > 0, "No pickup location items returned"    
+    assert len(result["items"]) > 0, "No pickup location items returned"
     assert len(transfer_locations) > 0, "No transfer locations found for cart with product requiring transfer"
 
     cart_operations.clear_cart(
@@ -105,7 +100,7 @@ def test_get_cart_pickup_locations_transfer_required(
         }
     )
 
-@pytest.mark.ignore
+
 @pytest.mark.graphql
 @allure.title("Get cart pickup locations - multiple products (GraphQL)")
 def test_get_cart_pickup_locations_multiple_products(
@@ -126,7 +121,7 @@ def test_get_cart_pickup_locations_multiple_products(
     auth.authenticate(dataset["users"][0]["userName"], config["USERS_PASSWORD"])
 
     user = user_operations.get_me()
-    
+
     cart_operations.clear_cart(
         {
             "storeId": config["STORE_ID"],
@@ -163,33 +158,34 @@ def test_get_cart_pickup_locations_multiple_products(
                 {
                     "productId": product2["id"],
                     "quantity": 1,
-                }
+                },
             ],
         }
-    ) 
+    )
 
-    assert cart["itemsQuantity"] == 2, "Cart items quantity is not the same" 
-    assert len(cart["items"]) == 2, "Cart items is not the same" 
+    assert cart["itemsQuantity"] == 2, "Cart items quantity is not the same"
+    assert len(cart["items"]) == 2, "Cart items is not the same"
 
     result = pickup_locations_operations.get_cart_pickup_locations(
         cart_id=cart["id"],
         store_id=config["STORE_ID"],
         culture_name=culture,
         facet="address_countryname address_regionname address_city",
-        first=50
-    ) 
+        first=50,
+    )
 
     assert result["totalCount"] > 0, "No pickup locations found for cart with multiple products"
-    assert len(result['items']) > 0, "No pickup location items returned"    
- 
+    assert len(result["items"]) > 0, "No pickup location items returned"
+
     valid_availability_types = {"Today", "Transfer", "GlobalTransfer"}
     transfer_locations = []
-    for item in result['items']:
-        assert item['availabilityType'] in valid_availability_types, \
-            f"Invalid availability type: {item['availabilityType']}"
-        if item['availabilityType'] in ["Transfer", "GlobalTransfer"]:
+    for item in result["items"]:
+        assert (
+            item["availabilityType"] in valid_availability_types
+        ), f"Invalid availability type: {item['availabilityType']}"
+        if item["availabilityType"] in ["Transfer", "GlobalTransfer"]:
             transfer_locations.append(item)
-    
+
     print(f"Found {len(transfer_locations)} locations with Transfer availability out of {len(result['items'])} total")
 
     cart_operations.clear_cart(
@@ -203,7 +199,6 @@ def test_get_cart_pickup_locations_multiple_products(
     )
 
 
-@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Cart pickup locations - verify Today availability type (GraphQL)")
 def test_cart_pickup_locations_today_availability(
@@ -261,23 +256,20 @@ def test_cart_pickup_locations_today_availability(
     )
 
     assert cart["itemsQuantity"] == 1, "Cart items quantity is not the same"
-    assert cart["items"][0]["productId"] == product_illinois["id"], "Cart item product ID is not the same"  
-    assert len(cart["items"]) == 1, "Cart items is not the same, expected 1, got " + str(len(cart["items"])) 
+    assert cart["items"][0]["productId"] == product_illinois["id"], "Cart item product ID is not the same"
+    assert len(cart["items"]) == 1, "Cart items is not the same, expected 1, got " + str(len(cart["items"]))
 
     result = pickup_locations_operations.get_cart_pickup_locations(
         cart_id=cart["id"],
         store_id=config["STORE_ID"],
         culture_name=culture,
         facet="address_countryname address_regionname address_city",
-        first=50
+        first=50,
     )
 
-    today_locations = [
-        loc for loc in result["items"] if loc.get("availabilityType") == "Today"
-    ]
+    today_locations = [loc for loc in result["items"] if loc.get("availabilityType") == "Today"]
 
     assert len(today_locations) > 0, "No locations with Today availability found"
-
 
     cart_operations.clear_cart(
         {
@@ -290,8 +282,6 @@ def test_cart_pickup_locations_today_availability(
     )
 
 
-
-@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Cart pickup locations - verify Transfer availability type (GraphQL)")
 def test_cart_pickup_locations_transfer_availability(
@@ -349,25 +339,23 @@ def test_cart_pickup_locations_transfer_availability(
     )
 
     assert cart["itemsQuantity"] == 1, "Cart items quantity is not the same"
-    assert cart["items"][0]["productId"] == product_billund["id"], "Cart item product ID is not the same"  
-    assert len(cart["items"]) == 1, "Cart items is not the same, expected 1, got " + str(len(cart["items"])) 
+    assert cart["items"][0]["productId"] == product_billund["id"], "Cart item product ID is not the same"
+    assert len(cart["items"]) == 1, "Cart items is not the same, expected 1, got " + str(len(cart["items"]))
 
     result = pickup_locations_operations.get_cart_pickup_locations(
         cart_id=cart["id"],
         store_id=config["STORE_ID"],
         culture_name=culture,
         facet="address_countryname address_regionname address_city",
-        first=50
+        first=50,
     )
 
     # Locations with transfer from Billund should have Transfer or GlobalTransfer availability
     transfer_locations = [
-        loc for loc in result["items"]
-        if loc.get("availabilityType") in ["Transfer", "GlobalTransfer"]
+        loc for loc in result["items"] if loc.get("availabilityType") in ["Transfer", "GlobalTransfer"]
     ]
 
     assert len(transfer_locations) > 0, "No locations with Transfer availability found"
- 
 
     cart_operations.clear_cart(
         {
@@ -380,7 +368,6 @@ def test_cart_pickup_locations_transfer_availability(
     )
 
 
-@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Cart pickup locations - verify all availability types present (GraphQL)")
 def test_cart_pickup_locations_all_availability_types(
@@ -422,7 +409,7 @@ def test_cart_pickup_locations_all_availability_types(
         pytest.skip("Test product not found in dataset")
 
     cart = cart_operations.update_cart_quantity(
-        payload={        
+        payload={
             "storeId": config["STORE_ID"],
             "userId": user["id"],
             "currencyCode": currency,
@@ -437,28 +424,27 @@ def test_cart_pickup_locations_all_availability_types(
     )
 
     assert cart["itemsQuantity"] == 1, "Cart items quantity is not the same"
-    assert cart["items"][0]["productId"] == product_multi_region["id"], "Cart item product ID is not the same"  
-    assert len(cart["items"]) == 1, "Cart items is not the same, expected 1, got " + str(len(cart["items"])) 
+    assert cart["items"][0]["productId"] == product_multi_region["id"], "Cart item product ID is not the same"
+    assert len(cart["items"]) == 1, "Cart items is not the same, expected 1, got " + str(len(cart["items"]))
 
     result = pickup_locations_operations.get_cart_pickup_locations(
         cart_id=cart["id"],
         store_id=config["STORE_ID"],
         culture_name=culture,
         facet="address_countryname address_regionname address_city",
-        first=50
-    )   
+        first=50,
+    )
 
     assert result["totalCount"] > 0, "No pickup locations found for cart with multiple products"
-    assert len(result['items']) > 0, "No pickup location items returned"    
+    assert len(result["items"]) > 0, "No pickup location items returned"
 
     today_locations = [loc for loc in result["items"] if loc.get("availabilityType") == "Today"]
     transfer_locations = [loc for loc in result["items"] if loc.get("availabilityType") == "Transfer"]
     global_transfer_locations = [loc for loc in result["items"] if loc.get("availabilityType") == "GlobalTransfer"]
 
-    assert len(today_locations) > 0, "No Today availability locations found"    
+    assert len(today_locations) > 0, "No Today availability locations found"
     assert len(transfer_locations) > 0, "No Transfer availability locations found"
     assert len(global_transfer_locations) > 0, "No GlobalTransfer availability locations found"
-    
 
     cart_operations.clear_cart(
         {
@@ -471,7 +457,6 @@ def test_cart_pickup_locations_all_availability_types(
     )
 
 
-@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.title("Cart pickup locations - Today availability has higher priority (GraphQL)")
 def test_cart_pickup_locations_today_priority(
@@ -527,24 +512,27 @@ def test_cart_pickup_locations_today_priority(
         }
     )
 
-    assert cart["itemsQuantity"] == 1, "Cart items quantity is not the same, but expected 1, got " + str(cart["itemsQuantity"])
-    assert cart["items"][0]["productId"] == product["id"], "Cart item product ID is not the same"  
-    assert len(cart["items"]) == 1, "Cart items is not the same, expected 1, got " + str(len(cart["items"])) 
+    assert cart["itemsQuantity"] == 1, "Cart items quantity is not the same, but expected 1, got " + str(
+        cart["itemsQuantity"]
+    )
+    assert cart["items"][0]["productId"] == product["id"], "Cart item product ID is not the same"
+    assert len(cart["items"]) == 1, "Cart items is not the same, expected 1, got " + str(len(cart["items"]))
 
     result = pickup_locations_operations.get_cart_pickup_locations(
         cart_id=cart["id"],
         store_id=config["STORE_ID"],
         culture_name=culture,
         facet="address_countryname address_regionname address_city",
-        first=50
+        first=50,
     )
-    
+
     today_locations = [l for l in result["items"] if l.get("availabilityType") == "Today"]
 
     if len(today_locations) > 0 and len(result["items"]) > 0:
         first_location = result["items"][0]
-        assert first_location.get("availabilityType") == "Today", \
-            f"First location should have Today availability, got {first_location.get('availabilityType')}"
+        assert (
+            first_location.get("availabilityType") == "Today"
+        ), f"First location should have Today availability, got {first_location.get('availabilityType')}"
         print("Verified: Today availability locations appear first")
     else:
         print("No Today availability locations found or empty result")
