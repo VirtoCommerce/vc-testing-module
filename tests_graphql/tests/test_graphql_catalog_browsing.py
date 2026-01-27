@@ -5,10 +5,10 @@ import allure
 import pytest
 from gql.transport.exceptions import TransportQueryError
 
-from fixtures.anonymous_catalog_requests import AnonymousCatalogRequests
 from fixtures.auth import Auth
 from fixtures.config import Config
 from fixtures.graphql_client import GraphQLClient
+from fixtures.webapi_client import WebAPISession
 from graphql_operations.catalog.categories_operations import CategoriesOperations
 from graphql_operations.catalog.products_operations import ProductsOperations
 from graphql_operations.user.user_operations import UserOperations
@@ -19,15 +19,12 @@ from graphql_operations.user.user_operations import UserOperations
 def test_success_catalog_browsing_as_anonymous_user(
     config: Config,
     dataset: dict[str, Any],
-    anonymous_catalog_requests: AnonymousCatalogRequests,
     graphql_client: GraphQLClient,
 ):
     print(
         f"{os.linesep}Running test to successfully browse catalog as anonymous user...",
         end=" ",
     )
-
-    anonymous_catalog_requests.toggle(True)
 
     user_operations = UserOperations(graphql_client)
     categories_operations = CategoriesOperations(graphql_client)
@@ -88,15 +85,24 @@ def test_success_catalog_browsing_as_anonymous_user(
 def test_unsuccess_catalog_browsing_as_anonymous_user(
     config: Config,
     dataset: dict[str, Any],
-    anonymous_catalog_requests: AnonymousCatalogRequests,
     graphql_client: GraphQLClient,
+    auth: Auth,
+    webapi_client: WebAPISession,
 ):
     print(
         f"{os.linesep}Running test to unsuccessfully browse catalog as anonymous user...",
         end=" ",
     )
 
-    anonymous_catalog_requests.toggle(False)
+    auth.authenticate(
+        username=config["ADMIN_USERNAME"],
+        password=config["USERS_PASSWORD"],
+    )
+    webapi_client.patch(
+        f"/api/stores/{config['STORE_ID']}",
+        data=[{"op": "replace", "path": "/settings/1/value", "value": False}],
+    )
+    auth.clear_token()
 
     user_operations = UserOperations(graphql_client)
     categories_operations = CategoriesOperations(graphql_client)
@@ -146,9 +152,17 @@ def test_unsuccess_catalog_browsing_as_anonymous_user(
             id=product["id"],
         )
 
-    # Test teardown
+    auth.authenticate(
+        username=config["ADMIN_USERNAME"],
+        password=config["USERS_PASSWORD"],
+    )
+    webapi_client.patch(
+        f"/api/stores/{config['STORE_ID']}",
+        data=[{"op": "replace", "path": "/settings/1/value", "value": True}],
+    )
+    auth.clear_token()
 
-    anonymous_catalog_requests.toggle(True)
+    # Test teardown
 
     assert (
         categories_exc_info.value.errors[0]["extensions"]["code"] == "Unauthorized"
@@ -170,12 +184,9 @@ def test_catalog_browsing_as_registered_user(
     config: Config,
     dataset: dict[str, Any],
     auth: Auth,
-    anonymous_catalog_requests: AnonymousCatalogRequests,
     graphql_client: GraphQLClient,
 ):
     print(f"{os.linesep}Running test to browse catalog as registered user...", end=" ")
-
-    anonymous_catalog_requests.toggle(False)
 
     categories_operations = CategoriesOperations(graphql_client)
     products_operations = ProductsOperations(graphql_client)
@@ -235,8 +246,6 @@ def test_catalog_browsing_as_registered_user(
     auth.clear_token()
 
     # Test teardown
-
-    anonymous_catalog_requests.toggle(True)
 
     assert category["id"] == category_to_compare["id"], "Category ID does not match"
     assert product["id"] == product_to_compare["id"], "Product ID does not match"

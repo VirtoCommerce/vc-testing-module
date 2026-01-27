@@ -1,5 +1,7 @@
+import base64
 import json
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
+from datetime import datetime, timedelta, timezone
 from threading import Lock
 
 import allure
@@ -25,6 +27,33 @@ class TokenData:
     refresh_token: str | None = None
     expires_in: int | None = None
     token_type: str | None = None
+
+    def to_dict(self) -> dict[str, str]:
+        data = asdict(self)
+        # Convert expires_in (seconds) to expires_at (ISO date string)
+        expires_in = data.pop("expires_in")
+        if expires_in:
+            expires_at = datetime.now(timezone.utc) + timedelta(seconds=expires_in)
+            data["expires_at"] = expires_at.isoformat(timespec="milliseconds").replace("+00:00", "Z")
+        else:
+            data["expires_at"] = None
+        return data
+
+    def get_user_id(self) -> str | None:
+        """Extract user ID from JWT access token 'sub' claim."""
+        if not self.access_token:
+            return None
+        try:
+            # JWT has 3 parts: header.payload.signature
+            payload_part = self.access_token.split(".")[1]
+            # Add padding if needed
+            padding = 4 - len(payload_part) % 4
+            if padding != 4:
+                payload_part += "=" * padding
+            payload = json.loads(base64.urlsafe_b64decode(payload_part))
+            return payload.get("sub")
+        except Exception:
+            return None
 
 
 class Auth:
@@ -52,26 +81,23 @@ class Auth:
 
         return TokenData(**response_data)
 
-    def get_token_from_local_storage(self, page: Page, key: str) -> None:
-        data = json.loads(page.evaluate(f"localStorage.getItem('{key}')"))
-        self.token_data = {
-            "access_token": data["access_token"],
-            "refresh_token": data["refresh_token"],
-            "expires_in": data["expires_at"],
-            "token_type": data["token_type"],
-        }
+    def set_local_storage_user_id(self, page: Page, user_id: str) -> None:
+        page.add_init_script(f"localStorage.setItem('user-id', '{user_id}')")
 
-    def revoke_token(self) -> None:
+    def revoke_token(self, page: Page | None = None) -> None:
         url = f"{self.config['BACKEND_BASE_URL']}/revoke/token"
 
         headers = {
             "Content-Type": "application/x-www-form-urlencoded",
         }
 
+        if page:
+            page.add_init_script(f"localStorage.removeItem('auth')")
+
         response = requests.post(url, data={}, headers=headers)
         response.raise_for_status()
 
-    def authenticate(self, username: str, password: str) -> None:
+    def authenticate(self, username: str, password: str, page: Page | None = None) -> None:
         with self.lock:
             payload = TokenPayload(
                 grant_type="password",
@@ -82,6 +108,20 @@ class Auth:
             )
 
             self.token_data = self.get_token(payload)
+
+            if page:
+                auth_data = json.dumps(self.token_data.to_dict())
+                user_id = self.token_data.get_user_id()
+
+                page.add_init_script(
+                    f"""
+                    localStorage.setItem('auth', JSON.stringify({auth_data}));
+                    localStorage.setItem('user-id', '{user_id}');
+                """
+                )
+
+                page.goto(self.config["FRONTEND_BASE_URL"])
+                page.wait_for_load_state("networkidle")
 
     def clear_token(self) -> None:
         with self.lock:

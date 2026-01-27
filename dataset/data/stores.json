@@ -60,6 +60,15 @@
                     "objectId": "store-acme",
                     "objectType": "Store",
                     "moduleId": "VirtoCommerce.Store",
+                    "name": "Stores.AllowAnonymousUsers",
+                    "groupName": "Store|General",
+                    "value": true,
+                    "valueType": "Boolean"
+                },
+                {
+                    "objectId": "store-acme",
+                    "objectType": "Store",
+                    "moduleId": "VirtoCommerce.Store",
                     "name": "Stores.SeoLinksType",
                     "groupName": "SEO",
                     "value": "Long",

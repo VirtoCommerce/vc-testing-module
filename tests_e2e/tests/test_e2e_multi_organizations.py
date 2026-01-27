@@ -92,11 +92,9 @@ def test_e2e_search_organization_in_list(config: Config, dataset: dict[str, Any]
         home_page = HomePage(page, config)
 
     dataset_user = dataset["users"][9]
-    organization_name = dataset["organizations"][3]["name"]  # [e2e] Aurora Market
-    partial_organization_name = dataset["organizations"][1]["name"][
-        :9
-    ].lower()  # "acme stor" matches ACME Store, ACME Store 2, ACME Store 3
-    org_for_switch = dataset["organizations"][10]["name"]  # "test #123" matches Test #123 Sunrise Bazaar
+    organization_name = dataset["organizations"][3]["name"]
+    partial_organization_name = dataset["organizations"][1]["name"][:9].lower()
+    org_for_switch = dataset["organizations"][10]["name"]
     expected_org_count = get_user_organization_count(dataset, dataset_user)
 
     with allure.step("Sign in and open account menu"):

@@ -6,18 +6,14 @@ from dotenv import load_dotenv
 from playwright.sync_api import Page, expect
 from pytest import Parser
 
-from fixtures.anonymous_catalog_requests import anonymous_catalog_requests
-from fixtures.auth import auth
-from fixtures.auth_token import auth_token
-from fixtures.authenticated_page import authenticated_page
-from fixtures.checkout_mode import checkout_mode
-from fixtures.config import config
-from fixtures.dataset import dataset
-from fixtures.graphql_client import graphql_client
-from fixtures.product_quantity_control import product_quantity_control
-from fixtures.range_filter_type import range_filter_type
-from fixtures.requests_tracker import requests_tracker
-from fixtures.webapi_client import webapi_client
+from fixtures import (
+    auth,
+    config,
+    dataset,
+    graphql_client,
+    requests_tracker,
+    webapi_client,
+)
 
 load_dotenv(override=True)
 
@@ -67,33 +63,13 @@ def screenshot_on_failure(request, _page_for_failure: Page | None):
         attachment_type=allure.attachment_type.PNG,
     )
 
+
 def pytest_addoption(parser: Parser):
-    parser.addoption(
-        "--checkout-mode",
-        action="store",
-        choices=["single-page", "multi-step"],
-        default="single-page",
-        help="Select checkout flow to test (e.g., single-page, multi-step)",
-    )
-    parser.addoption(
-        "--product-quantity-control",
-        action="store",
-        choices=["stepper", "button"],
-        default="stepper",
-        help="Choose quantity selector (e.g., stepper, button)",
-    )
     parser.addoption(
         "--show-browser",
         action="store_true",
         default=False,
         help="Run browser in headed mode",
-    )
-    parser.addoption(
-        "--range-filter-type",
-        action="store",
-        choices=["slider", "default"],
-        default="slider",
-        help="Choose range filter type (e.g., slider, default)",
     )
 
 

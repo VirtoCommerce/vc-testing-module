@@ -1,29 +1,22 @@
 import os
 from typing import Any
 
-import allure
 import pytest
 from playwright.sync_api import Page, expect
 
-from fixtures.anonymous_catalog_requests import AnonymousCatalogRequests
-from fixtures.config import Config
-from tests_e2e.pages.home_page import HomePage
-from tests_e2e.pages.sign_in_page import SignInPage
+from fixtures import Auth, Config
+from tests_e2e.pages import HomePage
 
 
 @pytest.mark.e2e
-@allure.title("Main layout top header anonymous user elements presence (E2E)")
 def test_e2e_main_layout_top_header_anonymous_user_elements_presence(
     config: Config,
     page: Page,
-    anonymous_catalog_requests: AnonymousCatalogRequests,
 ):
     print(
         f"{os.linesep}Running E2E test to check main layout top header anonymous user elements presence...",
         end=" ",
     )
-
-    anonymous_catalog_requests.toggle(True)
 
     home_page = HomePage(page, config)
     home_page.navigate()
@@ -43,31 +36,24 @@ def test_e2e_main_layout_top_header_anonymous_user_elements_presence(
 
 
 @pytest.mark.e2e
-@allure.title("Main layout top header registered user elements presence (E2E)")
 def test_e2e_main_layout_top_header_registered_user_elements_presence(
     config: Config,
     dataset: dict[str, Any],
+    auth: Auth,
     page: Page,
-    anonymous_catalog_requests: AnonymousCatalogRequests,
 ):
     print(
         f"{os.linesep}Running E2E test to check main layout top header registered user elements presence...",
         end=" ",
     )
 
-    anonymous_catalog_requests.toggle(True)
-
     dataset_user = dataset["users"][0]
 
+    auth.authenticate(dataset_user["userName"], config["USERS_PASSWORD"], page)
+
     home_page = HomePage(page, config)
+    home_page.navigate()
 
-    sign_in_page = SignInPage(page, config)
-    sign_in_page.navigate()
-    sign_in_page.sign_in(dataset_user["userName"], config["USERS_PASSWORD"])
-
-    expect(page).to_have_url(
-        home_page.url
-    ), "User is not redirected to home page after sign in"
     expect(
         home_page.top_header_component.language_selector_component.element
     ).to_be_visible(), "Language selector is not visible"

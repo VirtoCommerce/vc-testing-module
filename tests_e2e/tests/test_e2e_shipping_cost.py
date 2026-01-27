@@ -1,32 +1,27 @@
 import os
 from typing import Any
 
-import allure
 import pytest
-from gql import Client
 from playwright.sync_api import Page, expect
 
-from fixtures.auth import Auth
-from fixtures.config import Config
+from fixtures import Auth, Config, GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
-from tests_e2e.pages.cart_page import CartPage
-from tests_e2e.pages.category_page import CategoryPage
+from tests_e2e.pages import CartPage, CheckoutShippingPage
 
 
 @pytest.mark.e2e
-@allure.title("Calculate shipping cost in single-page checkout (E2E)")
 def test_e2e_shipping_cost_single_page_checkout(
     config: Config,
     dataset: dict[str, Any],
     page: Page,
     auth: Auth,
-    product_quantity_control: str,
-    checkout_mode: str,
-    graphql_client: Client,
+    graphql_client: GraphQLClient,
 ):
-    if checkout_mode == "multi-step":
-        pytest.skip("Checkout mode is a single-page, skipping test for multi-step checkout")
+    if config["CHECKOUT_MODE"] == "multi-step":
+        pytest.skip(
+            "Checkout mode is a single-page, skipping test for multi-step checkout"
+        )
 
     print(
         f"{os.linesep}Running E2E test to calculate shipping cost in single-page checkout...",
@@ -35,23 +30,22 @@ def test_e2e_shipping_cost_single_page_checkout(
 
     page.set_viewport_size({"width": 1920, "height": 1080})
 
-    auth.authenticate(dataset["users"][0]["userName"], config["USERS_PASSWORD"])
+    user_operations = UserOperations(graphql_client)
+    cart_operations = CartOperations(graphql_client)
 
-    category_to_browse = next(
-        category for category in dataset["categories"] if category["id"] == "category-acme-laptops"
-    )
-    product_to_add_to_cart = next(
-        product for product in dataset["products"] if product["id"] == "product-acme-laptop-hp-pavilion-16-ag0087nr"
-    )
+    product = dataset["products"][1]
 
-    category_page = CategoryPage(
-        config,
-        page,
-        category_to_browse["seoInfos"][0]["semanticUrl"],
-        product_quantity_control,
+    auth.authenticate(dataset["users"][0]["userName"], config["USERS_PASSWORD"], page)
+
+    user = user_operations.get_me()
+    cart = cart_operations.add_item_to_cart(
+        payload={
+            "storeId": config["STORE_ID"],
+            "userId": user["id"],
+            "productId": product["code"],
+            "quantity": 2,
+        }
     )
-    category_page.navigate()
-    category_page.add_product_to_cart(product_to_add_to_cart["code"], 2)
 
     cart_page = CartPage(config, page)
     cart_page.navigate()
@@ -59,29 +53,17 @@ def test_e2e_shipping_cost_single_page_checkout(
     user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
 
-    currency = dataset["currencies"][0]["code"]
-    culture = dataset["languages"][0]["defaultValue"]
-    user = user_operations.get_me()
-    cart = cart_operations.get_cart(
-        config["STORE_ID"],
-        user["id"],
-        currency,
-        culture,
-    )
-
-    assert cart is not None, "Cart is None - cannot retrieve shipping methods"
-    assert cart.get("availableShippingMethods") is not None, "Available shipping methods is None"
-    assert len(cart["availableShippingMethods"]) > 0, "No shipping methods available"
-
     ground_shipping_method = next(
         shipping_method
         for shipping_method in cart["availableShippingMethods"]
-        if shipping_method["code"] == "FixedRate" and shipping_method["optionName"] == "Ground"
+        if shipping_method["code"] == "FixedRate"
+        and shipping_method["optionName"] == "Ground"
     )
     air_shipping_method = next(
         shipping_method
         for shipping_method in cart["availableShippingMethods"]
-        if shipping_method["code"] == "FixedRate" and shipping_method["optionName"] == "Air"
+        if shipping_method["code"] == "FixedRate"
+        and shipping_method["optionName"] == "Air"
     )
     bopis_shipping_method = next(
         shipping_method
@@ -112,23 +94,26 @@ def test_e2e_shipping_cost_single_page_checkout(
         bopis_shipping_method["price"]["formattedAmount"]
     )
 
-    cart_page.clear_cart()
-    auth.clear_token()
+    cart_operations.remove_cart(
+        payload={
+            "cartId": cart["id"],
+            "userId": user["id"],
+        }
+    )
 
 
 @pytest.mark.e2e
-@allure.title("Calculate shipping cost in multi-step checkout (E2E)")
 def test_e2e_shipping_cost_multi_step_checkout(
     config: Config,
     dataset: dict[str, Any],
     page: Page,
     auth: Auth,
-    product_quantity_control: str,
-    checkout_mode: str,
-    graphql_client: Client,
+    graphql_client: GraphQLClient,
 ):
-    if checkout_mode == "single-page":
-        pytest.skip("Checkout mode is a single-page, skipping test for multi-step checkout")
+    if config["CHECKOUT_MODE"] == "single-page":
+        pytest.skip(
+            "Checkout mode is a single-page, skipping test for multi-step checkout"
+        )
 
     print(
         f"{os.linesep}Running E2E test to calculate shipping cost in multi-step checkout...",
@@ -137,50 +122,37 @@ def test_e2e_shipping_cost_multi_step_checkout(
 
     page.set_viewport_size({"width": 1920, "height": 1080})
 
-    auth.authenticate(dataset["users"][0]["userName"], config["USERS_PASSWORD"])
-
-    category_to_browse = next(
-        category for category in dataset["categories"] if category["id"] == "category-acme-laptops"
-    )
-    product_to_add_to_cart = next(
-        product for product in dataset["products"] if product["id"] == "product-acme-laptop-hp-pavilion-16-ag0087nr"
-    )
-
-    category_page = CategoryPage(
-        config,
-        page,
-        category_to_browse["seoInfos"][0]["semanticUrl"],
-        product_quantity_control,
-    )
-    category_page.navigate()
-    category_page.add_product_to_cart(product_to_add_to_cart["code"], 2)
-
-    cart_page = CartPage(config, page)
-    cart_page.navigate()
-    cart_page.checkout_button.click()
-
     user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
 
-    currency = dataset["currencies"][0]["code"]
-    culture = dataset["languages"][0]["defaultValue"]
+    auth.authenticate(dataset["users"][0]["userName"], config["USERS_PASSWORD"], page)
+
+    product = dataset["products"][1]
+
     user = user_operations.get_me()
-    cart = cart_operations.get_cart(
-        config["STORE_ID"],
-        user["id"],
-        currency,
-        culture,
+    cart = cart_operations.add_item_to_cart(
+        payload={
+            "storeId": config["STORE_ID"],
+            "userId": user["id"],
+            "productId": product["code"],
+            "quantity": 2,
+        }
     )
+
+    checkout_shipping_page = CheckoutShippingPage(config, page)
+    checkout_shipping_page.navigate()
 
     ground_shipping_method = next(
         shipping_method
         for shipping_method in cart["availableShippingMethods"]
-        if shipping_method["code"] == "FixedRate" and shipping_method["optionName"] == "Ground"
+        if shipping_method["code"] == "FixedRate"
+        and shipping_method["optionName"] == "Ground"
     )
     air_shipping_method = next(
         shipping_method
         for shipping_method in cart["availableShippingMethods"]
-        if shipping_method["code"] == "FixedRate" and shipping_method["optionName"] == "Air"
+        if shipping_method["code"] == "FixedRate"
+        and shipping_method["optionName"] == "Air"
     )
     bopis_shipping_method = next(
         shipping_method
@@ -188,28 +160,32 @@ def test_e2e_shipping_cost_multi_step_checkout(
         if shipping_method["code"] == "BuyOnlinePickupInStore"
     )
 
-    cart_page.shipping_details_section_component.shipping_delivery_option_switcher.click()
-    cart_page.shipping_details_section_component.select_shipping_method(
+    checkout_shipping_page.shipping_details_section_component.shipping_delivery_option_switcher.click()
+    checkout_shipping_page.shipping_details_section_component.select_shipping_method(
         f"{ground_shipping_method['code']}_{ground_shipping_method['optionName']}"
     )
 
-    expect(cart_page.order_summary_component.cart_shipping_total_label).to_have_text(
-        ground_shipping_method["price"]["formattedAmount"]
-    )
+    expect(
+        checkout_shipping_page.order_summary_component.cart_shipping_total_label
+    ).to_have_text(ground_shipping_method["price"]["formattedAmount"])
 
-    cart_page.shipping_details_section_component.select_shipping_method(
+    checkout_shipping_page.shipping_details_section_component.select_shipping_method(
         f"{air_shipping_method['code']}_{air_shipping_method['optionName']}"
     )
 
-    expect(cart_page.order_summary_component.cart_shipping_total_label).to_have_text(
-        air_shipping_method["price"]["formattedAmount"]
+    expect(
+        checkout_shipping_page.order_summary_component.cart_shipping_total_label
+    ).to_have_text(air_shipping_method["price"]["formattedAmount"])
+
+    checkout_shipping_page.shipping_details_section_component.pickup_delivery_option_switcher.click()
+
+    expect(
+        checkout_shipping_page.order_summary_component.cart_shipping_total_label
+    ).to_have_text(bopis_shipping_method["price"]["formattedAmount"])
+
+    cart_operations.remove_cart(
+        payload={
+            "cartId": cart["id"],
+            "userId": user["id"],
+        }
     )
-
-    cart_page.shipping_details_section_component.pickup_delivery_option_switcher.click()
-
-    expect(cart_page.order_summary_component.cart_shipping_total_label).to_have_text(
-        bopis_shipping_method["price"]["formattedAmount"]
-    )
-
-    cart_page.clear_cart()
-    auth.clear_token()

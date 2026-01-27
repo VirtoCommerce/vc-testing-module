@@ -154,6 +154,7 @@ def test_filter_orders_by_date(
 
     # Verify that filtering works - the order should be found in the date range
     if search_orders_result["totalCount"] == 0:
+        order_org_id = order.get("organizationId", "unknown")
         pytest.skip(
             f"No orders found in the specified date range. "
             f"Date range: {from_date.isoformat()} to {to_date.isoformat()}, "
