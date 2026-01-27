@@ -7,11 +7,11 @@ on:
         description: 'Frontend zip url'
         required: true
         type: string
-        default: 'https://github.com/VirtoCommerce/vc-frontend/releases/download/2.39.0/vc-theme-b2b-vue-2.39.0.zip'
+        default: 'latest'
 
 jobs:
   e2e-tests:
-    uses: VirtoCommerce/.github/.github/workflows/e2e-autotests.yml@v3.800.22
+    uses: VirtoCommerce/.github/.github/workflows/e2e-autotests.yml@v3.800.23
     with:
       installModules: 'false'
       installCustomModule: 'false'
@@ -22,3 +22,4 @@ jobs:
     secrets:
       envPAT: ${{ secrets.REPO_TOKEN }}
       testSecretEnvFile: ${{ secrets.VC_TESTING_MODULE_ENV_FILE }}
+      sendgridApiKey: ${{ secrets.SENDGRID_APIKEY_4E2E_AUTOTESTS }}
