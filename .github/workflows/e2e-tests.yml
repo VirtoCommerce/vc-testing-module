@@ -2,7 +2,7 @@ name: E2E Tests
 
 on:
   push:
-    branches: [dev]
+    branches: [dev, 'VCST-455']
   pull_request:
     branches: [dev]
   workflow_dispatch:
