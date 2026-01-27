@@ -2,27 +2,57 @@ name: E2E Tests
 
 on:
   push:
-    branches: [dev, 'VCST-455']
+    branches: [dev]
   pull_request:
     branches: [dev]
-  workflow_dispatch:
-    inputs:
-      version:
-        description: 'Frontend zip url'
-        required: true
-        type: string
-        default: 'https://github.com/VirtoCommerce/vc-frontend/releases/download/2.39.0/vc-theme-b2b-vue-2.39.0.zip'
 
 jobs:
   e2e-tests:
-    uses: VirtoCommerce/.github/.github/workflows/e2e-autotests.yml@v3.800.22
-    with:
-      installModules: 'false'
-      installCustomModule: 'false'
-      runTests: 'true'
-      vctestingRepoBranch: '${{ github.ref_name }}'
-      frontendZipUrl: '${{ inputs.version }}'
-      customPackagesJsonUrl: 'https://github.com/${{ github.repository }}/raw/${{ github.ref_name }}/backend-packages.json'
-    secrets:
-      envPAT: ${{ secrets.REPO_TOKEN }}
-      testSecretEnvFile: ${{ secrets.VC_TESTING_MODULE_ENV_FILE }}
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [webkit] #chromium, firefox
+
+    env:
+      FRONTEND_BASE_URL: https://vcptcore-demo-storefront.govirto.com
+      BACKEND_BASE_URL: https://vcptcore-demo.govirto.com
+      ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
+      ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+      USERS_PASSWORD: ${{ secrets.USERS_PASSWORD }}
+      STORE_ID: store-acme      
+      PLAYWRIGHT_HEADLESS: "true"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13.7"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest-html
+
+      - name: Install Playwright Browsers
+        run: playwright install --with-deps ${{ matrix.browser }}
+
+      - name: Run E2E Tests
+        run: |
+          echo "Running E2E tests against ${{ env.FRONTEND_BASE_URL }}"
+          pytest tests_e2e/tests/ -v -s --checkout-mode single-page --product-quantity-control stepper -m "not ignore" --browser ${{ matrix.browser }} --html=e2e-report.html --self-contained-html --tracing=retain-on-failure
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-test-results-${{ matrix.browser }}
+          path: |
+            e2e-report.html
+            playwright-report/
+            test-results/
+          retention-days: 30
