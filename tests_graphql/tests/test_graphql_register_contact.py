@@ -23,11 +23,7 @@ def test_register_customer(
 
     contact_operations = ContactOperations(graphql_client)
 
-    dataset_user = next(
-        user
-        for user in dataset["users"]
-        if user["id"] == "user-acme-store-administrator"
-    )
+    dataset_user = next(user for user in dataset["users"] if user["id"] == "user-acme-store-administrator")
 
     auth.authenticate(dataset_user["userName"], config["USERS_PASSWORD"])
 
@@ -48,28 +44,31 @@ def test_register_customer(
         }
     )
 
-    # Test teardown
-    contact_operations.delete_contact(
-        payload={
-            "contactId": create_contact_result["contact"]["id"],
-        }
-    )
+    try:
+        assert create_contact_result is not None, "create_contact_result is None"
+        assert create_contact_result["result"]["succeeded"] is True
+        assert create_contact_result["account"] is not None
+        assert create_contact_result["account"]["id"] is not None
+        assert create_contact_result["contact"] is not None
+        assert create_contact_result["contact"]["id"] is not None
+        assert create_contact_result["organization"] is None
+    finally:
+        # Test teardown
+        if create_contact_result and create_contact_result.get("contact"):
+            contact_operations.delete_contact(
+                payload={
+                    "contactId": create_contact_result["contact"]["id"],
+                }
+            )
 
-    user_operations = UserOperations(graphql_client)
-    user_operations.delete_users(
-        payload={
-            "userNames": [temp_email],
-        }
-    )
+        user_operations = UserOperations(graphql_client)
+        user_operations.delete_users(
+            payload={
+                "userNames": [temp_email],
+            }
+        )
 
-    auth.clear_token()
-
-    assert create_contact_result["result"]["succeeded"] is True
-    assert create_contact_result["account"] is not None
-    assert create_contact_result["account"]["id"] is not None
-    assert create_contact_result["contact"] is not None
-    assert create_contact_result["contact"]["id"] is not None
-    assert create_contact_result["organization"] is None
+        auth.clear_token()
 
 
 @pytest.mark.graphql
@@ -84,11 +83,7 @@ def test_register_organization(
 
     contact_operations = ContactOperations(graphql_client)
 
-    dataset_user = next(
-        user
-        for user in dataset["users"]
-        if user["id"] == "user-acme-store-administrator"
-    )
+    dataset_user = next(user for user in dataset["users"] if user["id"] == "user-acme-store-administrator")
 
     auth.authenticate(dataset_user["userName"], config["USERS_PASSWORD"])
 
@@ -97,43 +92,27 @@ def test_register_organization(
     create_contact_result = contact_operations.create_contact(
         payload={
             "storeId": config["STORE_ID"],
-            "account": {
-                "username": temp_email,
-                "email": temp_email,
-                "password": config["USERS_PASSWORD"],
-            },
-            "contact": {
-                "firstName": "ACME",
-                "lastName": "Customer",
-            },
-            "organization": {
-                "name": "Temp Organization",
-            },
+            "account": {"username": temp_email, "email": temp_email, "password": config["USERS_PASSWORD"]},
+            "contact": {"firstName": "ACME", "lastName": "Customer"},
+            "organization": {"name": "Temp Organization"},
         }
     )
 
-    # Test teardown
-    contact_operations.delete_contact(
-        payload={
-            "contactId": create_contact_result["contact"]["id"],
-        }
-    )
-    contact_operations.delete_contact(
-        payload={
-            "contactId": create_contact_result["organization"]["id"],
-        }
-    )
+    try:
+        assert create_contact_result is not None, "create_contact_result is None"
+        assert create_contact_result["result"]["succeeded"] is True
+        assert create_contact_result["account"]["id"] is not None
+        assert create_contact_result["contact"]["id"] is not None
+        assert create_contact_result["organization"]["id"] is not None
+    finally:
+        # Test teardown
+        if create_contact_result:
+            if create_contact_result.get("contact"):
+                contact_operations.delete_contact(payload={"contactId": create_contact_result["contact"]["id"]})
+            if create_contact_result.get("organization"):
+                contact_operations.delete_contact(payload={"contactId": create_contact_result["organization"]["id"]})
 
-    user_operations = UserOperations(graphql_client)
-    user_operations.delete_users(
-        payload={
-            "userNames": [temp_email],
-        }
-    )
+        user_operations = UserOperations(graphql_client)
+        user_operations.delete_users(payload={"userNames": [temp_email]})
 
-    auth.clear_token()
-
-    assert create_contact_result["result"]["succeeded"] is True
-    assert create_contact_result["account"]["id"] is not None
-    assert create_contact_result["contact"]["id"] is not None
-    assert create_contact_result["organization"]["id"] is not None
+        auth.clear_token()
