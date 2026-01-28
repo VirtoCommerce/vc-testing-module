@@ -7,6 +7,7 @@ DEFAULTS = {
     "CHECKOUT_MODE": "single-page",
     "PRODUCT_QUANTITY_CONTROL": "stepper",
     "RANGE_FILTER_TYPE": "slider",
+    "SEARCH_QUERIES_KEY": "search-queries",
 }
 
 

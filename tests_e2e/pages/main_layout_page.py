@@ -1,6 +1,10 @@
 from playwright.sync_api import Page, expect
 
-from tests_e2e.components import AccountMenuComponent, TopHeaderComponent
+from tests_e2e.components import (
+    AccountMenuComponent,
+    SearchBarComponent,
+    TopHeaderComponent,
+)
 
 
 class MainLayoutPage:
@@ -17,6 +21,10 @@ class MainLayoutPage:
     def account_menu(self) -> AccountMenuComponent:
         return self.top_header_component.account_menu_component
 
+    @property
+    def search_bar(self) -> SearchBarComponent:
+        return SearchBarComponent(self.page.locator(".search-bar"))
+
     def dismiss_blocking_modal(self) -> None:
         modal_wrapper = self.page.locator(".vc-modal__wrapper")
         try:
@@ -31,7 +39,9 @@ class MainLayoutPage:
     def open_account_menu(self) -> AccountMenuComponent:
         self.dismiss_blocking_modal()
         self.top_header_component.account_menu_button.click()
-        expect(self.account_menu.organization_list, "Organization list is not visible").to_be_visible()
+        expect(
+            self.account_menu.organization_list, "Organization list is not visible"
+        ).to_be_visible()
         self.page.wait_for_load_state("networkidle")
         return self.account_menu
 
@@ -72,4 +82,4 @@ class MainLayoutPage:
     def sign_out(self) -> None:
         self.top_header_component.account_menu_button.click()
         self.top_header_component.account_menu_component.sign_out_button.click()
-        self.page.wait_for_load_state("networkidle")  
+        self.page.wait_for_load_state("networkidle")
