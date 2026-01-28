@@ -17,7 +17,7 @@ def test_e2e_search_bar_user_search_history_single_item(config: Config, page: Pa
     home_page.search_bar.search_input.fill("acer")
     home_page.search_bar.search_button.click()
 
-    expect(page).to_have_url(f"{config["FRONTEND_BASE_URL"]}/search?q=acer")
+    expect(page).to_have_url(f"{config['FRONTEND_BASE_URL']}/search?q=acer")
 
     home_page.navigate()
     home_page.search_bar.search_input.fill("asus")
@@ -44,17 +44,17 @@ def test_e2e_search_bar_user_search_history_multiple_items(config: Config, page:
     home_page.search_bar.search_input.fill("acer")
     home_page.search_bar.search_button.click()
 
-    expect(page).to_have_url(f"{config["FRONTEND_BASE_URL"]}/search?q=acer")
+    expect(page).to_have_url(f"{config['FRONTEND_BASE_URL']}/search?q=acer")
 
     home_page.search_bar.search_input.fill("asus")
     home_page.search_bar.search_button.click()
 
-    expect(page).to_have_url(f"{config["FRONTEND_BASE_URL"]}/search?q=asus")
+    expect(page).to_have_url(f"{config['FRONTEND_BASE_URL']}/search?q=asus")
 
     home_page.search_bar.search_input.fill("lenovo")
     home_page.search_bar.search_button.click()
 
-    expect(page).to_have_url(f"{config["FRONTEND_BASE_URL"]}/search?q=lenovo")
+    expect(page).to_have_url(f"{config['FRONTEND_BASE_URL']}/search?q=lenovo")
 
     home_page.navigate()
 
@@ -142,7 +142,7 @@ def test_e2e_search_bar_products_view_all(config: Config, page: Page):
 
     home_page.search_bar.suggestions_dropdown.product_suggestions_section.view_all_button.click()
 
-    expect(page).to_have_url(f"{config["FRONTEND_BASE_URL"]}/search?q=a")
+    expect(page).to_have_url(f"{config['FRONTEND_BASE_URL']}/search?q=a")
 
 
 @pytest.mark.e2e
@@ -173,7 +173,7 @@ def test_e2e_search_bar_products_pdp(config: Config, page: Page):
     product_path = product.product_link.get_attribute("href")
     product.product_link.click()
 
-    expect(page).to_have_url(f"{config["FRONTEND_BASE_URL"]}{product_path}")
+    expect(page).to_have_url(f"{config['FRONTEND_BASE_URL']}{product_path}")
 
 
 @pytest.mark.e2e
@@ -189,7 +189,7 @@ def test_e2e_search_bar_empty_query(config: Config, page: Page):
     home_page.search_bar.search_input.focus()
     home_page.search_bar.search_button.click()
 
-    expect(page).to_have_url(f"{config["FRONTEND_BASE_URL"]}/search")
+    expect(page).to_have_url(f"{config['FRONTEND_BASE_URL']}/search")
 
 
 @pytest.mark.e2e
@@ -269,7 +269,7 @@ def test_e2e_search_bar_history_different_users(
     home_page.search_bar.search_input.fill("acer")
     home_page.search_bar.search_button.click()
 
-    expect(page).to_have_url(f"{config["FRONTEND_BASE_URL"]}/search?q=acer")
+    expect(page).to_have_url(f"{config['FRONTEND_BASE_URL']}/search?q=acer")
 
     home_page.navigate()
     home_page.search_bar.search_input.focus()
@@ -295,7 +295,7 @@ def test_e2e_search_bar_history_different_users(
 
     home_page.search_bar.search_button.click()
 
-    expect(page).to_have_url(f"{config["FRONTEND_BASE_URL"]}/search?q=asus")
+    expect(page).to_have_url(f"{config['FRONTEND_BASE_URL']}/search?q=asus")
 
     home_page.navigate()
     home_page.search_bar.search_input.focus()
