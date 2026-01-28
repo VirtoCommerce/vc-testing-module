@@ -53,7 +53,6 @@
                 "ffc-acme-eur-berlin-de",
                 "ffc-acme-eur-billund-dk",
                 "ffc-acme-usa-springfield-il"
-
             ],
             "settings": [
                 {
@@ -131,12 +130,12 @@
                     "name": "Shipping.Bopis.GoogleMaps.ApiKey",
                     "groupName": "BOPIS",
                     "value": "{ENV:BOPIS_GOOGLE_MAPS_API_KEY}",
-                    "valueType": "ShortText",                 
+                    "valueType": "ShortText",
                     "displayName": null,
                     "isRequired": false,
                     "isHidden": false,
-                    "isPublic": true,             
-                    "allowedValues": null              
+                    "isPublic": true,
+                    "allowedValues": null
                 },
                 {
                     "itHasValues": true,
@@ -152,22 +151,21 @@
                     "isHidden": false,
                     "isPublic": true,
                     "valueType": "Boolean"
-        
                 },
                 {
                     "itHasValues": true,
                     "objectId": "store-acme",
                     "objectType": "Store",
                     "isReadOnly": false,
-                    "value": true,           
+                    "value": true,
                     "restartRequired": false,
                     "moduleId": "VirtoCommerce.XPickup",
                     "groupName": "BOPIS",
-                    "name": "XPickup.GlobalTransferEnabled",           
+                    "name": "XPickup.GlobalTransferEnabled",
                     "isRequired": false,
                     "isHidden": false,
                     "isPublic": true,
-                    "valueType": "Boolean",     
+                    "valueType": "Boolean",
                     "defaultValue": false,
                     "isDictionary": false,
                     "isLocalizable": false
@@ -177,6 +175,15 @@
                     "objectType": "Store",
                     "moduleId": "VirtoCommerce.Quote",
                     "name": "Quotes.EnableQuotes",
+                    "groupName": "General",
+                    "value": true,
+                    "valueType": "Boolean"
+                },
+                {
+                    "objectId": "store-acme",
+                    "objectType": "Store",
+                    "moduleId": "VirtoCommerce.XRecommend",
+                    "name": "XRecommend.RecommendationsEnabled",
                     "groupName": "General",
                     "value": true,
                     "valueType": "Boolean"

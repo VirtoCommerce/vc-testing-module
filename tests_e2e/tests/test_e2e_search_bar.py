@@ -1,16 +1,14 @@
 import pytest
 from playwright.sync_api import Page, expect
 
-from fixtures import Auth, GraphQLClient
+from fixtures import Auth, Config, GraphQLClient
 from graphql_operations.contact.contact_operations import ContactOperations
 from graphql_operations.user.user_operations import UserOperations
 from tests_e2e.pages import HomePage
 
 
 @pytest.mark.e2e
-def test_e2e_search_bar_user_search_history_single_item(
-    config: dict[str, str], page: Page
-):
+def test_e2e_search_bar_user_search_history_single_item(config: Config, page: Page):
     print("Running E2E test to check search history single item...", end=" ")
 
     home_page = HomePage(page, config)
@@ -37,9 +35,7 @@ def test_e2e_search_bar_user_search_history_single_item(
 
 
 @pytest.mark.e2e
-def test_e2e_search_bar_user_search_history_multiple_items(
-    config: dict[str, str], page: Page
-):
+def test_e2e_search_bar_user_search_history_multiple_items(config: Config, page: Page):
     print("Running E2E test to check search history multiple items...", end=" ")
 
     home_page = HomePage(page, config)
@@ -101,7 +97,7 @@ def test_e2e_search_bar_user_search_history_multiple_items(
 
 
 @pytest.mark.e2e
-def test_e2e_search_bar_products_suggestions(config: dict[str, str], page: Page):
+def test_e2e_search_bar_products_suggestions(config: Config, page: Page):
     print("Running E2E test to check product suggestions items...", end=" ")
 
     home_page = HomePage(page, config)
@@ -129,7 +125,7 @@ def test_e2e_search_bar_products_suggestions(config: dict[str, str], page: Page)
 
 
 @pytest.mark.e2e
-def test_e2e_search_bar_products_view_all(config: dict[str, str], page: Page):
+def test_e2e_search_bar_products_view_all(config: Config, page: Page):
     print("Running E2E test to check product suggestions view all button...", end=" ")
 
     home_page = HomePage(page, config)
@@ -150,7 +146,7 @@ def test_e2e_search_bar_products_view_all(config: dict[str, str], page: Page):
 
 
 @pytest.mark.e2e
-def test_e2e_search_bar_products_pdp(config: dict[str, str], page: Page):
+def test_e2e_search_bar_products_pdp(config: Config, page: Page):
     print(
         "Running E2E test to check product suggestions product page navigation...",
         end=" ",
@@ -181,7 +177,7 @@ def test_e2e_search_bar_products_pdp(config: dict[str, str], page: Page):
 
 
 @pytest.mark.e2e
-def test_e2e_search_bar_empty_query(config: dict[str, str], page: Page):
+def test_e2e_search_bar_empty_query(config: Config, page: Page):
     print(
         "Running E2E test to check empty query behavior...",
         end=" ",
@@ -197,7 +193,7 @@ def test_e2e_search_bar_empty_query(config: dict[str, str], page: Page):
 
 
 @pytest.mark.e2e
-def test_e2e_search_bar_unexisting_item_query(config: dict[str, str], page: Page):
+def test_e2e_search_bar_unexisting_item_query(config: Config, page: Page):
     print(
         "Running E2E test to check unexisting item query behavior...",
         end=" ",
@@ -216,7 +212,7 @@ def test_e2e_search_bar_unexisting_item_query(config: dict[str, str], page: Page
 
 @pytest.mark.e2e
 def test_e2e_search_bar_history_different_users(
-    config: dict[str, str], page: Page, auth: Auth, graphql_client: GraphQLClient
+    config: Config, page: Page, auth: Auth, graphql_client: GraphQLClient
 ):
     print(
         "Running E2E test to check search history for different users...",
