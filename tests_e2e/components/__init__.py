@@ -17,6 +17,12 @@ from .order_summary_component import OrderSummaryComponent
 from .pickup_location_list_item_component import PickupLocationListItemComponent
 from .product_card_component import ProductCardComponent
 from .quantity_stepper_component import QuantityStepperComponent
+from .search_bar_component import SearchBarComponent
+from .search_history_section_component import SearchHistorySectionComponent
+from .search_history_section_item_component import SearchHistorySectionItemComponent
+from .search_products_section_component import SearchProductsSectionComponent
+from .search_products_section_item_component import SearchProductsSectionItemComponent
+from .search_suggestions_dropdown_component import SearchSuggestionsDropdownComponent
 from .select_address_modal_component import SelectAddressModalComponent
 from .select_bopis_map_modal_component import SelectBopisMapModalComponent
 from .top_header_account_menu_component import TopHeaderAccountMenuComponent
@@ -46,4 +52,10 @@ __all__ = [
     "SelectBopisMapModalComponent",
     "FilterDropdownComponent",
     "ChipComponent",
+    "SearchBarComponent",
+    "SearchSuggestionsDropdownComponent",
+    "SearchHistorySectionComponent",
+    "SearchHistorySectionItemComponent",
+    "SearchProductsSectionComponent",
+    "SearchProductsSectionItemComponent",
 ]
