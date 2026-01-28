@@ -105,6 +105,77 @@
                     "storeId": "store-acme"
                 }
             ]
+        },
+        {
+            "id": "category-acme-peripherals",
+            "code": "category-acme-peripherals",
+            "catalogId": "catalog-acme",
+            "name": "Peripherals",
+            "seoObjectType": "Category",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-category-peripherals",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Peripherals",
+                    "semanticUrl": "peripherals",
+                    "storeId": "store-acme"
+                }
+            ]
+        },
+        {
+            "id": "category-acme-keyboards",
+            "code": "category-acme-keyboards",
+            "catalogId": "catalog-acme",
+            "parentId": "category-acme-peripherals",
+            "name": "Keyboards",
+            "seoObjectType": "Category",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-category-keyboards",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Keyboards",
+                    "semanticUrl": "keyboards",
+                    "storeId": "store-acme"
+                }
+            ]
+        },
+        {
+            "id": "category-acme-mice",
+            "code": "category-acme-mice",
+            "catalogId": "catalog-acme",
+            "parentId": "category-acme-peripherals",
+            "name": "Mice",
+            "seoObjectType": "Category",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-category-mice",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Mice",
+                    "semanticUrl": "mice",
+                    "storeId": "store-acme"
+                }
+            ]
+        },
+        {
+            "id": "category-acme-headsets",
+            "code": "category-acme-headsets",
+            "catalogId": "catalog-acme",
+            "parentId": "category-acme-peripherals",
+            "name": "Headsets",
+            "seoObjectType": "Category",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-category-headsets",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Headsets",
+                    "semanticUrl": "headsets",
+                    "storeId": "store-acme"
+                }
+            ]
         }
     ]
 }

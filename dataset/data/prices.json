@@ -1321,6 +1321,645 @@
                     "productId": "product-acme-product8-mfc-stock"
                 }
             ]
+        },
+        {
+            "productId": "product-acme-logitech-alto-keys-k98m",
+            "product": {
+                "id": "product-acme-logitech-alto-keys-k98m",
+                "name": "Logitech Alto Keys K98M"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 119.99,
+                    "sale": 109.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-logitech-alto-keys-k98m"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 100.79,
+                    "sale": 91.93,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-logitech-alto-keys-k98m"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-logitech-ergo-k860",
+            "product": {
+                "id": "product-acme-logitech-ergo-k860",
+                "name": "Logitech ERGO K860"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 149.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-logitech-ergo-k860"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 125.36,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-logitech-ergo-k860"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-logitech-signature-k650",
+            "product": {
+                "id": "product-acme-logitech-signature-k650",
+                "name": "Logitech Signature K650"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 59.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-logitech-signature-k650"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 50.14,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-logitech-signature-k650"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-razer-ornata-v3",
+            "product": {
+                "id": "product-acme-razer-ornata-v3",
+                "name": "Razer Ornata V3"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 79.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-razer-ornata-v3"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 66.86,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-razer-ornata-v3"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-razer-black-widow-v4",
+            "product": {
+                "id": "product-acme-razer-black-widow-v4",
+                "name": "Razer BlackWidow V4"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 179.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-razer-black-widow-v4"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 150.44,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-razer-black-widow-v4"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-hyperx-alloy-rise",
+            "product": {
+                "id": "product-acme-hyperx-alloy-rise",
+                "name": "HyperX Alloy Rise"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 199.99,
+                    "sale": 99.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-hyperx-alloy-rise"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 167.15,
+                    "sale": 83.57,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-hyperx-alloy-rise"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-hyperx-eve-1800",
+            "product": {
+                "id": "product-acme-hyperx-eve-1800",
+                "name": "HyperX Eve 1800"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 49.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-hyperx-eve-1800"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 41.78,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-hyperx-eve-1800"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-hyperx-origins-2-65",
+            "product": {
+                "id": "product-acme-hyperx-origins-2-65",
+                "name": "HyperX Origins 2 65"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 119.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-hyperx-origins-2-65"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 100.29,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-hyperx-origins-2-65"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-logitech-mx-master-4",
+            "product": {
+                "id": "product-acme-logitech-mx-master-4",
+                "name": "Logitech MX Master 4"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 119.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-logitech-mx-master-4"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 100.29,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-logitech-mx-master-4"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-logitech-m720-triathlon",
+            "product": {
+                "id": "product-acme-logitech-m720-triathlon",
+                "name": "Logitech M720 Triathlon"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 44.99,
+                    "sale": 41.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-logitech-m720-triathlon"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 37.60,
+                    "sale": 35.10,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-logitech-m720-triathlon"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-logitech-pro-x-superlight-2",
+            "product": {
+                "id": "product-acme-logitech-pro-x-superlight-2",
+                "name": "Logitech Pro X Superlight 2"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 179.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-logitech-pro-x-superlight-2"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 150.44,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-logitech-pro-x-superlight-2"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-razer-cobra-pro",
+            "product": {
+                "id": "product-acme-razer-cobra-pro",
+                "name": "Razer Cobra Pro"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 129.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-razer-cobra-pro"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 108.65,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-razer-cobra-pro"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-razer-basilisk-mobile",
+            "product": {
+                "id": "product-acme-razer-basilisk-mobile",
+                "name": "Razer Basilisk Mobile"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 89.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-razer-basilisk-mobile"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 75.21,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-razer-basilisk-mobile"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-razer-viper-v3-pro",
+            "product": {
+                "id": "product-acme-razer-viper-v3-pro",
+                "name": "Razer Viper V3 Pro"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 159.99,
+                    "sale": 129.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-razer-viper-v3-pro"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 133.72,
+                    "sale": 108.65,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-razer-viper-v3-pro"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-hyperx-pulsefire-haste-2",
+            "product": {
+                "id": "product-acme-hyperx-pulsefire-haste-2",
+                "name": "HyperX Pulsefire Haste 2"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 59.99,
+                    "sale": 49.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-hyperx-pulsefire-haste-2"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 50.14,
+                    "sale": 41.78,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-hyperx-pulsefire-haste-2"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-hyperx-pulsefire-saga",
+            "product": {
+                "id": "product-acme-hyperx-pulsefire-saga",
+                "name": "HyperX Pulsefire Saga"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 79.99,
+                    "sale": 59.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-hyperx-pulsefire-saga"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 66.86,
+                    "sale": 50.14,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-hyperx-pulsefire-saga"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-logitech-zone-wired-2",
+            "product": {
+                "id": "product-acme-logitech-zone-wired-2",
+                "name": "Logitech Zone Wired 2"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 129.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-logitech-zone-wired-2"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 108.65,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-logitech-zone-wired-2"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-logitech-zone-950",
+            "product": {
+                "id": "product-acme-logitech-zone-950",
+                "name": "Logitech Zone 950"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 299.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-logitech-zone-950"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 250.73,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-logitech-zone-950"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-logitech-h151-stereo-headset",
+            "product": {
+                "id": "product-acme-logitech-h151-stereo-headset",
+                "name": "Logitech H151 Stereo Headset"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 19.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-logitech-h151-stereo-headset"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 16.71,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-logitech-h151-stereo-headset"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-razer-barracuda-x",
+            "product": {
+                "id": "product-acme-razer-barracuda-x",
+                "name": "Razer Barracuda X"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 99.99,
+                    "sale": 79.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-razer-barracuda-x"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 83.57,
+                    "sale": 66.86,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-razer-barracuda-x"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-razer-kraken-v4-pro",
+            "product": {
+                "id": "product-acme-razer-kraken-v4-pro",
+                "name": "Razer Kraken V4 Pro"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 399.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-razer-kraken-v4-pro"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 334.31,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-razer-kraken-v4-pro"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-razer-black-shark-v3-pro",
+            "product": {
+                "id": "product-acme-razer-black-shark-v3-pro",
+                "name": "Razer BlackShark V3 Pro"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 249.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-razer-black-shark-v3-pro"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 208.94,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-razer-black-shark-v3-pro"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-hyperx-cloud-iii",
+            "product": {
+                "id": "product-acme-hyperx-cloud-iii",
+                "name": "HyperX Cloud III"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 99.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-hyperx-cloud-iii"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 83.57,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-hyperx-cloud-iii"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-hyperx-cloud-gaming-headset",
+            "product": {
+                "id": "product-acme-hyperx-cloud-gaming-headset",
+                "name": "HyperX Cloud Gaming Headset"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 49.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-hyperx-cloud-gaming-headset"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 41.78,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-hyperx-cloud-gaming-headset"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-hyperx-cloud-stringer-2-core",
+            "product": {
+                "id": "product-acme-hyperx-cloud-stringer-2-core",
+                "name": "HyperX Cloud Stringer 2 Core"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 29.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-hyperx-cloud-stringer-2-core"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 25.07,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-hyperx-cloud-stringer-2-core"
+                }
+            ]
         }
     ]
 }

@@ -10733,7 +10733,7 @@
                     ]
                 }
             ]
-        },       
+        },
         {
             "id": "product-acme-product1-track-inventory-false",
             "catalogId": "catalog-acme",
@@ -11259,6 +11259,1089 @@
                     "values": [
                         {
                             "value": 100
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "product-acme-logitech-alto-keys-k98m",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-keyboards",
+            "name": "Logitech Alto Keys K98M",
+            "code": "product-acme-logitech-alto-keys-k98m",
+            "vendor": "Logitech",
+            "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-logitech-alto-keys-k98m",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Logitech Alto Keys K98M",
+                    "semanticUrl": "logitech-alto-keys-k98m",
+                    "storeId": "store-acme"
+                }
+            ],
+            "properties": [
+                {
+                    "id": "property-acme-keyboard-backlight",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-keyboards",
+                    "name": "KeyboardBacklight",
+                    "type": "Product",
+                    "valueType": "Boolean",
+                    "values": [
+                        {
+                            "value": true
+                        }
+                    ]
+                },
+                {
+                    "id": "property-acme-keyboard-connectivity",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-keyboards",
+                    "name": "KeyboardConnectivity",
+                    "type": "Product",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "Bluetooth"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "product-acme-logitech-ergo-k860",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-keyboards",
+            "name": "Logitech ERGO K860",
+            "code": "product-acme-logitech-ergo-k860",
+            "vendor": "Logitech",
+            "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-logitech-ergo-k860",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Logitech ERGO K860",
+                    "semanticUrl": "logitech-ergo-k860",
+                    "storeId": "store-acme"
+                }
+            ],
+            "properties": [
+                {
+                    "id": "property-acme-keyboard-backlight",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-keyboards",
+                    "name": "KeyboardBacklight",
+                    "type": "Product",
+                    "valueType": "Boolean",
+                    "values": [
+                        {
+                            "value": false
+                        }
+                    ]
+                },
+                {
+                    "id": "property-acme-keyboard-connectivity",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-keyboards",
+                    "name": "KeyboardConnectivity",
+                    "type": "Product",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "Bluetooth"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "product-acme-logitech-signature-k650",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-keyboards",
+            "name": "Logitech Signature K650",
+            "code": "product-acme-logitech-signature-k650",
+            "vendor": "Logitech",
+            "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-logitech-signature-k650",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Logitech Signature K650",
+                    "semanticUrl": "logitech-signature-k650",
+                    "storeId": "store-acme"
+                }
+            ],
+            "properties": [
+                {
+                    "id": "property-acme-keyboard-backlight",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-keyboards",
+                    "name": "KeyboardBacklight",
+                    "type": "Product",
+                    "valueType": "Boolean",
+                    "values": [
+                        {
+                            "value": false
+                        }
+                    ]
+                },
+                {
+                    "id": "property-acme-keyboard-connectivity",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-keyboards",
+                    "name": "KeyboardConnectivity",
+                    "type": "Product",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "Bluetooth"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "product-acme-razer-ornata-v3",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-keyboards",
+            "name": "Razer Ornata V3",
+            "code": "product-acme-razer-ornata-v3",
+            "vendor": "Razer",
+            "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-razer-ornata-v3",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Razer Ornata V3",
+                    "semanticUrl": "razer-ornata-v3",
+                    "storeId": "store-acme"
+                }
+            ],
+            "properties": [
+                {
+                    "id": "property-acme-keyboard-backlight",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-keyboards",
+                    "name": "KeyboardBacklight",
+                    "type": "Product",
+                    "valueType": "Boolean",
+                    "values": [
+                        {
+                            "value": true
+                        }
+                    ]
+                },
+                {
+                    "id": "property-acme-keyboard-connectivity",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-keyboards",
+                    "name": "KeyboardConnectivity",
+                    "type": "Product",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "Bluetooth"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "product-acme-razer-black-widow-v4",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-keyboards",
+            "name": "Razer BlackWidow V4",
+            "code": "product-acme-razer-black-widow-v4",
+            "vendor": "Razer",
+            "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-razer-black-widow-v4",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Razer BlackWidow V4",
+                    "semanticUrl": "razer-black-widow-v4",
+                    "storeId": "store-acme"
+                }
+            ],
+            "properties": [
+                {
+                    "id": "property-acme-keyboard-backlight",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-keyboards",
+                    "name": "KeyboardBacklight",
+                    "type": "Product",
+                    "valueType": "Boolean",
+                    "values": [
+                        {
+                            "value": true
+                        }
+                    ]
+                },
+                {
+                    "id": "property-acme-keyboard-connectivity",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-keyboards",
+                    "name": "KeyboardConnectivity",
+                    "type": "Product",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "Bluetooth"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "product-acme-hyperx-alloy-rise",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-keyboards",
+            "name": "HyperX Alloy Rise",
+            "code": "product-acme-hyperx-allow-rise",
+            "vendor": "HyperX",
+            "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-hyperx-allow-rise",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "HyperX Alloy Rise",
+                    "semanticUrl": "hyperx-allow-rise",
+                    "storeId": "store-acme"
+                }
+            ],
+            "properties": [
+                {
+                    "id": "property-acme-keyboard-backlight",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-keyboards",
+                    "name": "KeyboardBacklight",
+                    "type": "Product",
+                    "valueType": "Boolean",
+                    "values": [
+                        {
+                            "value": true
+                        }
+                    ]
+                },
+                {
+                    "id": "property-acme-keyboard-connectivity",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-keyboards",
+                    "name": "KeyboardConnectivity",
+                    "type": "Product",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "USB-C"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "product-acme-hyperx-eve-1800",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-keyboards",
+            "name": "HyperX Eve 1800",
+            "code": "product-acme-hyperx-eve-1800",
+            "vendor": "HyperX",
+            "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-hyperx-eve-1800",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "HyperX Eve 1800",
+                    "semanticUrl": "hyperx-eve-1800",
+                    "storeId": "store-acme"
+                }
+            ],
+            "properties": [
+                {
+                    "id": "property-acme-keyboard-backlight",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-keyboards",
+                    "name": "KeyboardBacklight",
+                    "type": "Product",
+                    "valueType": "Boolean",
+                    "values": [
+                        {
+                            "value": true
+                        }
+                    ]
+                },
+                {
+                    "id": "property-acme-keyboard-connectivity",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-keyboards",
+                    "name": "KeyboardConnectivity",
+                    "type": "Product",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "USB-C"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "product-acme-hyperx-origins-2-65",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-keyboards",
+            "name": "HyperX Origins 2 65",
+            "code": "product-acme-hyperx-origins-2-65",
+            "vendor": "HyperX",
+            "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-hyperx-origins-2-65",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "HyperX Origins 2 65",
+                    "semanticUrl": "hyperx-origins-2-65",
+                    "storeId": "store-acme"
+                }
+            ],
+            "properties": [
+                {
+                    "id": "property-acme-keyboard-backlight",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-keyboards",
+                    "name": "KeyboardBacklight",
+                    "type": "Product",
+                    "valueType": "Boolean",
+                    "values": [
+                        {
+                            "value": true
+                        }
+                    ]
+                },
+                {
+                    "id": "property-acme-keyboard-connectivity",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-keyboards",
+                    "name": "KeyboardConnectivity",
+                    "type": "Product",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "USB-C"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "product-acme-logitech-mx-master-4",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-mice",
+            "name": "Logitech MX Master 4",
+            "code": "product-acme-logitech-mx-master-4",
+            "vendor": "Logitech",
+            "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-logitech-mx-master-4",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Logitech MX Master 4",
+                    "semanticUrl": "logitech-mx-master-4",
+                    "storeId": "store-acme"
+                }
+            ],
+            "properties": [
+                {
+                    "id": "property-acme-mice-backlight",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-mice",
+                    "name": "MiceBacklight",
+                    "type": "Product",
+                    "valueType": "Boolean",
+                    "values": [
+                        {
+                            "value": false
+                        }
+                    ]
+                },
+                {
+                    "id": "property-acme-mice-connectivity",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-mice",
+                    "name": "MiceConnectivity",
+                    "type": "Product",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "Bluetooth"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "product-acme-logitech-m720-triathlon",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-mice",
+            "name": "Logitech M720 Triathlon",
+            "code": "product-acme-logitech-m720-triathlon",
+            "vendor": "Logitech",
+            "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-logitech-m720-triathlon",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Logitech M720 Triathlon",
+                    "semanticUrl": "logitech-m720-triathlon",
+                    "storeId": "store-acme"
+                }
+            ],
+            "properties": [
+                {
+                    "id": "property-acme-mice-backlight",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-mice",
+                    "name": "MiceBacklight",
+                    "type": "Product",
+                    "valueType": "Boolean",
+                    "values": [
+                        {
+                            "value": false
+                        }
+                    ]
+                },
+                {
+                    "id": "property-acme-mice-connectivity",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-mice",
+                    "name": "MiceConnectivity",
+                    "type": "Product",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "Bluetooth"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "product-acme-logitech-pro-x-superlight-2",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-mice",
+            "name": "Logitech Pro X Superlight 2",
+            "code": "product-acme-logitech-pro-x-superlight-2",
+            "vendor": "Logitech",
+            "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-logitech-pro-x-superlight-2",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Logitech Pro X Superlight 2",
+                    "semanticUrl": "logitech-pro-x-superlight-2",
+                    "storeId": "store-acme"
+                }
+            ],
+            "properties": [
+                {
+                    "id": "property-acme-mice-backlight",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-mice",
+                    "name": "MiceBacklight",
+                    "type": "Product",
+                    "valueType": "Boolean",
+                    "values": [
+                        {
+                            "value": true
+                        }
+                    ]
+                },
+                {
+                    "id": "property-acme-mice-connectivity",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-mice",
+                    "name": "MiceConnectivity",
+                    "type": "Product",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "Bluetooth"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "product-acme-razer-cobra-pro",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-mice",
+            "name": "Razer Cobra Pro",
+            "code": "product-acme-razer-cobra-pro",
+            "vendor": "Razer",
+            "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-razer-cobra-pro",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Razer Cobra Pro",
+                    "semanticUrl": "razer-cobra-pro",
+                    "storeId": "store-acme"
+                }
+            ],
+            "properties": [
+                {
+                    "id": "property-acme-mice-backlight",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-mice",
+                    "name": "MiceBacklight",
+                    "type": "Product",
+                    "valueType": "Boolean",
+                    "values": [
+                        {
+                            "value": true
+                        }
+                    ]
+                },
+                {
+                    "id": "property-acme-mice-connectivity",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-mice",
+                    "name": "MiceConnectivity",
+                    "type": "Product",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "Bluetooth"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "product-acme-razer-basilisk-mobile",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-mice",
+            "name": "Razer Basilisk Mobile",
+            "code": "product-acme-razer-basilisk-mobile",
+            "vendor": "Razer",
+            "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-razer-basilisk-mobile",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Razer Basilisk Mobile",
+                    "semanticUrl": "razer-basilisk-mobile",
+                    "storeId": "store-acme"
+                }
+            ],
+            "properties": [
+                {
+                    "id": "property-acme-mice-backlight",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-mice",
+                    "name": "MiceBacklight",
+                    "type": "Product",
+                    "valueType": "Boolean",
+                    "values": [
+                        {
+                            "value": true
+                        }
+                    ]
+                },
+                {
+                    "id": "property-acme-mice-connectivity",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-mice",
+                    "name": "MiceConnectivity",
+                    "type": "Product",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "Bluetooth"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "product-acme-razer-viper-v3-pro",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-mice",
+            "name": "Razer Viper V3 Pro",
+            "code": "product-acme-razer-viper-v3-pro",
+            "vendor": "Razer",
+            "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-razer-viper-v3-pro",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Razer Viper V3 Pro",
+                    "semanticUrl": "razer-viper-v3-pro",
+                    "storeId": "store-acme"
+                }
+            ],
+            "properties": [
+                {
+                    "id": "property-acme-mice-backlight",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-mice",
+                    "name": "MiceBacklight",
+                    "type": "Product",
+                    "valueType": "Boolean",
+                    "values": [
+                        {
+                            "value": true
+                        }
+                    ]
+                },
+                {
+                    "id": "property-acme-mice-connectivity",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-mice",
+                    "name": "MiceConnectivity",
+                    "type": "Product",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "Bluetooth"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "product-acme-hyperx-pulsefire-haste-2",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-mice",
+            "name": "HyperX Pulsefire Haste 2",
+            "code": "product-acme-hyperx-pulsefire-haste-2",
+            "vendor": "HyperX",
+            "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-hyperx-pulsefire-haste-2",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "HyperX Pulsefire Haste 2",
+                    "semanticUrl": "hyperx-pulsefire-haste-2",
+                    "storeId": "store-acme"
+                }
+            ],
+            "properties": [
+                {
+                    "id": "property-acme-mice-backlight",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-mice",
+                    "name": "MiceBacklight",
+                    "type": "Product",
+                    "valueType": "Boolean",
+                    "values": [
+                        {
+                            "value": true
+                        }
+                    ]
+                },
+                {
+                    "id": "property-acme-mice-connectivity",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-mice",
+                    "name": "MiceConnectivity",
+                    "type": "Product",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "USB-C"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "product-acme-hyperx-pulsefire-saga",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-mice",
+            "name": "HyperX Pulsefire Saga",
+            "code": "product-acme-hyperx-pulsefire-saga",
+            "vendor": "HyperX",
+            "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-hyperx-pulsefire-saga",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "HyperX Pulsefire Saga",
+                    "semanticUrl": "hyperx-pulsefire-saga",
+                    "storeId": "store-acme"
+                }
+            ],
+            "properties": [
+                {
+                    "id": "property-acme-mice-backlight",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-mice",
+                    "name": "MiceBacklight",
+                    "type": "Product",
+                    "valueType": "Boolean",
+                    "values": [
+                        {
+                            "value": true
+                        }
+                    ]
+                },
+                {
+                    "id": "property-acme-mice-connectivity",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-mice",
+                    "name": "MiceConnectivity",
+                    "type": "Product",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "USB-C"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "product-acme-logitech-zone-wired-2",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-headsets",
+            "name": "Logitech Zone Wired 2",
+            "code": "product-acme-logitech-zone-wired-2",
+            "vendor": "Logitech",
+            "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-logitech-zone-wired-2",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Logitech Zone Wired 2",
+                    "semanticUrl": "logitech-zone-wired-2",
+                    "storeId": "store-acme"
+                }
+            ],
+            "properties": [
+                {
+                    "id": "property-acme-headsets-connectivity",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-headsets",
+                    "name": "HeadsetsConnectivity",
+                    "type": "Product",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "USB-C"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "product-acme-logitech-zone-950",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-headsets",
+            "name": "Logitech Zone 950",
+            "code": "product-acme-logitech-zone-950",
+            "vendor": "Logitech",
+            "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-logitech-zone-950",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Logitech Zone 950",
+                    "semanticUrl": "logitech-zone-950",
+                    "storeId": "store-acme"
+                }
+            ],
+            "properties": [
+                {
+                    "id": "property-acme-headsets-connectivity",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-headsets",
+                    "name": "HeadsetsConnectivity",
+                    "type": "Product",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "Bluetooth"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "product-acme-logitech-h151-stereo-headset",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-headsets",
+            "name": "Logitech H151 Stereo Headset",
+            "code": "product-acme-logitech-h151-stereo-headset",
+            "vendor": "Logitech",
+            "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-logitech-h151-stereo-headset",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Logitech H151 Stereo Headset",
+                    "semanticUrl": "logitech-h151-stereo-headset",
+                    "storeId": "store-acme"
+                }
+            ],
+            "properties": [
+                {
+                    "id": "property-acme-headsets-connectivity",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-headsets",
+                    "name": "HeadsetsConnectivity",
+                    "type": "Product",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "3.5mm"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "product-acme-razer-barracuda-x",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-headsets",
+            "name": "Razer Barracuda X",
+            "code": "product-acme-razer-barracuda-x",
+            "vendor": "Razer",
+            "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-razer-barracuda-x",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Razer Barracuda X",
+                    "semanticUrl": "razer-barracuda-x",
+                    "storeId": "store-acme"
+                }
+            ],
+            "properties": [
+                {
+                    "id": "property-acme-headsets-connectivity",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-headsets",
+                    "name": "HeadsetsConnectivity",
+                    "type": "Product",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "Bluetooth"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "product-acme-razer-kraken-v4-pro",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-headsets",
+            "name": "Razer Kraken V4 Pro",
+            "code": "product-acme-razer-kraken-v4-pro",
+            "vendor": "Razer",
+            "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-razer-kraken-v4-pro",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Razer Kraken V4 Pro",
+                    "semanticUrl": "razer-kraken-v4-pro",
+                    "storeId": "store-acme"
+                }
+            ],
+            "properties": [
+                {
+                    "id": "property-acme-headsets-connectivity",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-headsets",
+                    "name": "HeadsetsConnectivity",
+                    "type": "Product",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "Bluetooth"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "product-acme-razer-black-shark-v3-pro",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-headsets",
+            "name": "Razer BlackShark V3 Pro",
+            "code": "product-acme-razer-black-shark-v3-pro",
+            "vendor": "Razer",
+            "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-razer-black-shark-v3-pro",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Razer BlackShark V3 Pro",
+                    "semanticUrl": "razer-black-shark-v3-pro",
+                    "storeId": "store-acme"
+                }
+            ],
+            "properties": [
+                {
+                    "id": "property-acme-headsets-connectivity",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-headsets",
+                    "name": "HeadsetsConnectivity",
+                    "type": "Product",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "Bluetooth"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "product-acme-hyperx-cloud-iii",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-headsets",
+            "name": "HyperX Cloud III",
+            "code": "product-acme-hyperx-cloud-iii",
+            "vendor": "HyperX",
+            "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-hyperx-cloud-iii",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "HyperX Cloud III",
+                    "semanticUrl": "hyperx-cloud-iii",
+                    "storeId": "store-acme"
+                }
+            ],
+            "properties": [
+                {
+                    "id": "property-acme-headsets-connectivity",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-headsets",
+                    "name": "HeadsetsConnectivity",
+                    "type": "Product",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "USB-C"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "product-acme-hyperx-cloud-gaming-headset",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-headsets",
+            "name": "HyperX Cloud Gaming Headset",
+            "code": "product-acme-hyperx-cloud-gaming-headset",
+            "vendor": "HyperX",
+            "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-hyperx-cloud-gaming-headset",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "HyperX Cloud Gaming Headset",
+                    "semanticUrl": "hyperx-cloud-gaming-headset",
+                    "storeId": "store-acme"
+                }
+            ],
+            "properties": [
+                {
+                    "id": "property-acme-headsets-connectivity",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-headsets",
+                    "name": "HeadsetsConnectivity",
+                    "type": "Product",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "USB-C"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "product-acme-hyperx-cloud-stringer-2-core",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-headsets",
+            "name": "HyperX Cloud Stringer 2 Core",
+            "code": "product-acme-hyperx-cloud-stringer-2-core",
+            "vendor": "HyperX",
+            "productType": "Physical",
+            "seoObjectType": "Product",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-product-hyperx-cloud-stringer-2-core",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "HyperX Cloud Stringer 2 Core",
+                    "semanticUrl": "hyperx-cloud-stringer-2-core",
+                    "storeId": "store-acme"
+                }
+            ],
+            "properties": [
+                {
+                    "id": "property-acme-headsets-connectivity",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-headsets",
+                    "name": "HeadsetsConnectivity",
+                    "type": "Product",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "USB-C"
                         }
                     ]
                 }

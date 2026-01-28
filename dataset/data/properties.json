@@ -18,7 +18,7 @@
             "multilanguage": false,
             "hidden": false,
             "valueType": "ShortText",
-            "type": "Product",        
+            "type": "Product",
             "displayOrder": null,
             "values": [],
             "attributes": [],
@@ -702,6 +702,76 @@
             "displayNames": [
                 {
                     "name": "SSD Interface",
+                    "languageCode": "en-US"
+                }
+            ]
+        },
+        {
+            "id": "property-acme-keyboard-backlight",
+            "name": "KeyboardBacklight",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-keyboards",
+            "valueType": "Boolean",
+            "type": "Product",
+            "displayNames": [
+                {
+                    "name": "Keyboard Backlight",
+                    "languageCode": "en-US"
+                }
+            ]
+        },
+        {
+            "id": "property-acme-keyboard-connectivity",
+            "name": "KeyboardConnectivity",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-keyboards",
+            "valueType": "ShortText",
+            "type": "Product",
+            "displayNames": [
+                {
+                    "name": "Keyboard Connectivity",
+                    "languageCode": "en-US"
+                }
+            ]
+        },
+        {
+            "id": "property-acme-mice-backlight",
+            "name": "MiceBacklight",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-mice",
+            "valueType": "Boolean",
+            "type": "Product",
+            "displayNames": [
+                {
+                    "name": "Mice Backlight",
+                    "languageCode": "en-US"
+                }
+            ]
+        },
+        {
+            "id": "property-acme-mice-connectivity",
+            "name": "MiceConnectivity",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-mice",
+            "valueType": "ShortText",
+            "type": "Product",
+            "displayNames": [
+                {
+                    "name": "Mice Connectivity",
+                    "languageCode": "en-US"
+                }
+            ]
+        },
+        {
+            "id": "property-acme-headsets-connectivity",
+            "name": "HeadsetsConnectivity",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-headsets",
+            "valueType": "ShortText",
+            "type": "Product",
+            "displayNames": [
+                {
+                    "name": "Headsets Connectivity",
                     "languageCode": "en-US"
                 }
             ]
