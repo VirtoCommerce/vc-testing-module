@@ -71,14 +71,13 @@ def test_get_saved_for_later(
 
     # Test teardown
     # Clean up saved for later items
-    if saved_for_later and saved_for_later["items"]:
-        for item in saved_for_later["items"]:
-            saved_for_later_operations.remove_saved_for_later_item(
-                payload={
-                    "listId": saved_for_later["id"],
-                    "lineItemId": item["id"],
-                }
-            )
+    for item in saved_for_later["items"]:
+        saved_for_later_operations.remove_saved_for_later_item(
+            payload={
+                "listId": saved_for_later["id"],
+                "lineItemId": item["id"],
+            }
+        )
 
     # Remove cart
     cart_operations.remove_cart(
