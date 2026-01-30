@@ -4,9 +4,7 @@ from typing import Any
 import allure
 import pytest
 
-from fixtures.auth import Auth
-from fixtures.config import Config
-from fixtures.graphql_client import GraphQLClient
+from fixtures import Auth, Config, GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.saved_for_later.saved_for_later_operations import (
     SavedForLaterOperations,
@@ -38,33 +36,6 @@ def test_graphql_move_from_saved_for_later(
     )
 
     user = user_operations.get_me()
-
-    # Clean up any existing saved for later items
-    existing_saved_for_later = saved_for_later_operations.get_saved_for_later(
-        store_id=config["STORE_ID"],
-        user_id=user["id"],
-        currency_code=currency,
-        culture_name=culture,
-    )
-
-    if existing_saved_for_later and existing_saved_for_later["items"]:
-        for item in existing_saved_for_later["items"]:
-            saved_for_later_operations.remove_saved_for_later_item(
-                payload={
-                    "listId": existing_saved_for_later["id"],
-                    "lineItemId": item["id"],
-                }
-            )
-
-    # Clear the cart
-    cart_operations.clear_cart(
-        payload={
-            "storeId": config["STORE_ID"],
-            "userId": user["id"],
-            "currencyCode": currency,
-            "cultureName": culture,
-        }
-    )
 
     # Add item to cart
     cart = cart_operations.add_item_to_cart(
@@ -115,12 +86,20 @@ def test_graphql_move_from_saved_for_later(
     )
 
     # Test teardown
-    cart_operations.clear_cart(
+    if saved_for_later and saved_for_later["items"]:
+        for item in saved_for_later["items"]:
+            saved_for_later_operations.remove_saved_for_later_item(
+                payload={
+                    "listId": saved_for_later["id"],
+                    "lineItemId": item["id"],
+                }
+            )
+
+    # Remove cart
+    cart_operations.remove_cart(
         payload={
-            "storeId": config["STORE_ID"],
+            "cartId": cart["id"],
             "userId": user["id"],
-            "currencyCode": currency,
-            "cultureName": culture,
         }
     )
 
