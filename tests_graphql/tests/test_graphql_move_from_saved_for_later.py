@@ -13,14 +13,14 @@ from graphql_operations.user.user_operations import UserOperations
 
 
 @pytest.mark.graphql
-@allure.title("Get saved for later (GraphQL)")
-def test_get_saved_for_later(
+@allure.title("Move from saved for later (GraphQL)")
+def test_graphql_move_from_saved_for_later(
     config: Config,
     dataset: dict[str, Any],
     graphql_client: GraphQLClient,
     auth: Auth,
 ):
-    print(f"{os.linesep}Running test to get saved for later...", end=" ")
+    print(f"{os.linesep}Running test to move from saved for later...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
@@ -37,6 +37,7 @@ def test_get_saved_for_later(
 
     user = user_operations.get_me()
 
+    # Add item to cart
     cart = cart_operations.add_item_to_cart(
         payload={
             "storeId": config["STORE_ID"],
@@ -50,7 +51,8 @@ def test_get_saved_for_later(
 
     line_item_id = cart["items"][0]["id"]
 
-    move_result = saved_for_later_operations.move_to_saved_for_later(
+    # Move item to saved for later
+    saved_for_later_operations.move_to_saved_for_later(
         payload={
             "storeId": config["STORE_ID"],
             "userId": user["id"],
@@ -61,7 +63,7 @@ def test_get_saved_for_later(
         }
     )
 
-    # Get saved for later list
+    # Get saved for later list to get the line item id
     saved_for_later = saved_for_later_operations.get_saved_for_later(
         store_id=config["STORE_ID"],
         user_id=user["id"],
@@ -69,8 +71,21 @@ def test_get_saved_for_later(
         culture_name=culture,
     )
 
+    saved_line_item_id = saved_for_later["items"][0]["id"]
+
+    # Move item from saved for later back to cart
+    move_result = saved_for_later_operations.move_from_saved_for_later(
+        payload={
+            "storeId": config["STORE_ID"],
+            "userId": user["id"],
+            "cartId": cart["id"],
+            "lineItemIds": [saved_line_item_id],
+            "currencyCode": currency,
+            "cultureName": culture,
+        }
+    )
+
     # Test teardown
-    # Clean up saved for later items
     for item in saved_for_later["items"]:
         saved_for_later_operations.remove_saved_for_later_item(
             payload={
@@ -90,21 +105,17 @@ def test_get_saved_for_later(
     auth.clear_token()
 
     # Assertions
-    assert move_result is not None, "Move to saved for later result is None"
+    assert move_result is not None, "Move from saved for later result is None"
     assert move_result["cart"] is not None, "Cart in move result is None"
     assert move_result["list"] is not None, "List in move result is None"
 
-    # Verify item was removed from cart
-    assert move_result["cart"]["itemsQuantity"] == 0, "Item should be removed from cart"
+    # Verify item was added back to cart
+    assert move_result["cart"]["itemsQuantity"] == 1, "Item should be added back to cart"
 
-    # Verify item is in saved for later list
-    assert move_result["list"]["itemsQuantity"] == 1, "Item should be in saved for later list"
+    # Verify item is removed from saved for later list
+    assert move_result["list"]["itemsQuantity"] == 0, "Saved for later list should be empty"
 
-    # Verify getSavedForLater query returns the list
-    assert saved_for_later is not None, "Saved for later list is None"
-    assert saved_for_later["itemsQuantity"] == 1, "Saved for later should have 1 item"
-
-    # Verify the correct product is in saved for later
-    saved_items = saved_for_later["items"]
-    assert len(saved_items) == 1, "Should have exactly 1 saved item"
-    assert saved_items[0]["productId"] == product_id, "Saved item product ID mismatch"
+    # Verify the correct product is in cart
+    cart_items = move_result["cart"]["items"]
+    assert len(cart_items) == 1, "Should have exactly 1 item in cart"
+    assert cart_items[0]["productId"] == product_id, "Cart item product ID mismatch"
