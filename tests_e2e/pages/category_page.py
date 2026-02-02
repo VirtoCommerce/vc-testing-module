@@ -58,12 +58,8 @@ class CategoryPage(MainLayoutPage):
         return FilterFacetComponent(self.page.locator("[data-test-id='filter-price']"))
 
     @property
-    def products_count(self) -> int:
-        return int(self.page.locator(".category__products-count .me-1").text_content())
-
-    @property
     def products_count_locator(self) -> Locator:
-        return self.page.locator(".category__products-count .me-1")
+        return self.page.locator("[data-test-id='category-page.total-products-count']")
 
     def navigate(self) -> None:
         self.page.goto(f"{self.url}?sort=price-ascending")

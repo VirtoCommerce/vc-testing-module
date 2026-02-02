@@ -18,6 +18,10 @@ class SearchBarComponent:
         return self.element.locator("[data-test-id='global-search-apply-button']")
 
     @property
+    def category_scope_button(self) -> Locator:
+        return self.element.locator("[data-search-scope]")
+
+    @property
     def suggestions_dropdown(self) -> SearchSuggestionsDropdownComponent:
         return SearchSuggestionsDropdownComponent(
             self.element.locator("[data-test-id='global-search-suggestions-dropdown']")

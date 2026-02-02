@@ -4,7 +4,7 @@ from playwright.sync_api import Page, expect
 from fixtures import Auth, Config, GraphQLClient
 from graphql_operations.contact.contact_operations import ContactOperations
 from graphql_operations.user.user_operations import UserOperations
-from tests_e2e.pages import HomePage
+from tests_e2e.pages import CategoryPage, HomePage
 
 
 @pytest.mark.e2e
@@ -340,3 +340,132 @@ def test_e2e_search_bar_history_different_users(
     )
 
     auth.clear_token()
+
+
+@pytest.mark.e2e
+def test_e2e_search_bar_search_suggestions_in_category(config: Config, page: Page):
+    print(
+        "Running E2E test to check search in category...",
+        end=" ",
+    )
+
+    category_page = CategoryPage(config, page, "peripherals")
+    category_page.navigate()
+
+    expect(category_page.products_count_locator).to_be_visible()
+    expect(category_page.search_bar.category_scope_button).to_be_visible()
+    expect(category_page.search_bar.category_scope_button).to_have_text("Peripherals")
+
+    peripherals_count = int(category_page.products_count_locator.text_content())
+
+    assert peripherals_count == 25, "Peripherals count is not equal to 25"
+
+    category_page.search_bar.search_input.fill("logitech")
+
+    expect(category_page.search_bar.suggestions_dropdown.element).to_be_visible()
+    expect(
+        category_page.search_bar.suggestions_dropdown.product_suggestions_section.element
+    ).to_be_visible()
+    assert (
+        len(
+            category_page.search_bar.suggestions_dropdown.product_suggestions_section.products
+        )
+        >= 1
+    )
+
+    category_page.search_bar.search_input.fill("acer")
+
+    expect(category_page.search_bar.suggestions_dropdown.element).to_be_visible()
+    expect(
+        category_page.search_bar.suggestions_dropdown.not_found_section_element
+    ).to_be_visible()
+
+
+@pytest.mark.e2e
+def test_e2e_search_bar_search_suggestions_in_subcategory(config: Config, page: Page):
+    print(
+        "Running E2E test to check search in subcategory...",
+        end=" ",
+    )
+
+    category_page = CategoryPage(config, page, "peripherals/headsets")
+    category_page.navigate()
+
+    expect(category_page.products_count_locator).to_be_visible()
+    expect(category_page.search_bar.category_scope_button).to_be_visible()
+    expect(category_page.search_bar.category_scope_button).to_have_text("Headsets")
+
+    headsets_count = int(category_page.products_count_locator.text_content())
+
+    assert headsets_count == 9, "Headsets count is not equal to 9"
+
+    category_page.search_bar.search_input.fill("zone wired")
+
+    expect(category_page.search_bar.suggestions_dropdown.element).to_be_visible()
+    expect(
+        category_page.search_bar.suggestions_dropdown.product_suggestions_section.element
+    ).to_be_visible()
+    assert (
+        len(
+            category_page.search_bar.suggestions_dropdown.product_suggestions_section.products
+        )
+        >= 1
+    )
+
+    category_page.search_bar.search_input.fill("ergo")
+
+    expect(category_page.search_bar.suggestions_dropdown.element).to_be_visible()
+    expect(
+        category_page.search_bar.suggestions_dropdown.not_found_section_element
+    ).to_be_visible()
+
+
+@pytest.mark.e2e
+def test_e2e_search_bar_category_scope_button_operations(config: Config, page: Page):
+    print(
+        "Running E2E test to check category scope button operations...",
+        end=" ",
+    )
+
+    category_page = CategoryPage(config, page, "peripherals")
+    category_page.navigate()
+
+    expect(category_page.search_bar.category_scope_button).to_be_visible()
+    expect(category_page.search_bar.category_scope_button).to_have_text("Peripherals")
+
+    category_page.search_bar.search_input.fill("logitech")
+
+    expect(category_page.search_bar.suggestions_dropdown.element).to_be_visible()
+    expect(
+        category_page.search_bar.suggestions_dropdown.product_suggestions_section.element
+    ).to_be_visible()
+    assert (
+        len(
+            category_page.search_bar.suggestions_dropdown.product_suggestions_section.products
+        )
+        >= 1
+    )
+
+    category_page.search_bar.search_input.fill("acer")
+
+    expect(category_page.search_bar.suggestions_dropdown.element).to_be_visible()
+    expect(
+        category_page.search_bar.suggestions_dropdown.not_found_section_element
+    ).to_be_visible()
+
+    category_page.search_bar.category_scope_button.click()
+
+    expect(category_page.search_bar.category_scope_button).not_to_be_visible()
+
+    category_page.search_bar.search_input.fill("logitech")
+
+    expect(category_page.search_bar.suggestions_dropdown.element).to_be_visible()
+    expect(
+        category_page.search_bar.suggestions_dropdown.product_suggestions_section.element
+    ).to_be_visible()
+    assert (
+        len(
+            category_page.search_bar.suggestions_dropdown.product_suggestions_section.products
+        )
+        >= 1
+    )
