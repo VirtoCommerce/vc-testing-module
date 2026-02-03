@@ -1,4 +1,4 @@
-from playwright.sync_api import Locator, Page, expect
+from playwright.sync_api import Locator, Page
 
 from fixtures import Config
 from tests_e2e.components import (
@@ -41,7 +41,20 @@ class CategoryPage(MainLayoutPage):
         return self.page.locator("[data-test-id='category-page.products-list-view']")
 
     @property
+    def end_list_label(self) -> Locator:
+        return self.page.locator("[data-test-id='end-list-label']")
+
+    @property
+    def products_loader(self) -> Locator:
+        return self.page.locator("[data-test-id='category-products-loader']")
+
+    @property
     def product_cards(self) -> list[ProductCardComponent]:
+        while True:
+            self.page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
+            if self.end_list_label.is_visible():
+                break
+
         return [
             ProductCardComponent(card)
             for card in self.products_grid_view.locator(
@@ -65,21 +78,12 @@ class CategoryPage(MainLayoutPage):
         self.page.goto(f"{self.url}?sort=price-ascending")
         self.page.wait_for_load_state("networkidle")
 
-    def get_product_card_by_sku(
-        self, sku: str, max_pages_count: int = 5, scroll_pause_ms: int = 500
-    ) -> ProductCardComponent | None:
-        for _ in range(max_pages_count):
-            product_card = next(
-                (
-                    product_card
-                    for product_card in self.product_cards
-                    if product_card.sku == sku
-                ),
-                None,
-            )
-            if product_card:
-                return product_card
-
-            self.page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
-            self.page.wait_for_timeout(scroll_pause_ms)
-        return None
+    def get_product_card_by_sku(self, sku: str) -> ProductCardComponent | None:
+        return next(
+            (
+                product_card
+                for product_card in self.product_cards
+                if product_card.sku == sku
+            ),
+            None,
+        )
