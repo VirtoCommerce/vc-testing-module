@@ -22,6 +22,26 @@ class CategoryPage(MainLayoutPage):
         self.page = page
         self.seo_path = seo_path
 
+    def _fetch_all_product_cards(self, scroll_pause_ms: int = 500):
+        prev_count = 1
+
+        while True:
+            cards = self.products_grid_view.locator("[data-test-id='product-card']")
+            current_count = cards.count()
+
+            if current_count == prev_count:
+                break
+
+            prev_count = current_count
+
+            self.page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
+            self.page.wait_for_timeout(scroll_pause_ms)
+
+            try:
+                self.page.wait_for_load_state("networkidle", timeout=3000)
+            except:
+                pass
+
     @property
     def url(self) -> str:
         return f"{self.config['FRONTEND_BASE_URL']}/{self.seo_path}"
@@ -42,6 +62,8 @@ class CategoryPage(MainLayoutPage):
 
     @property
     def product_cards(self) -> list[ProductCardComponent]:
+        self._fetch_all_product_cards()
+
         return [
             ProductCardComponent(card)
             for card in self.products_grid_view.locator(
