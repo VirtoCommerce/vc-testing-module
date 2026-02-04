@@ -50,12 +50,6 @@ class CategoryPage(MainLayoutPage):
 
     @property
     def product_cards(self) -> list[ProductCardComponent]:
-        while True:
-            self.page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
-            self.page.expect_request_finished(lambda request: "/graphql" in request.url)
-            if self.end_list_label.is_visible():
-                break
-
         return [
             ProductCardComponent(card)
             for card in self.products_grid_view.locator(
