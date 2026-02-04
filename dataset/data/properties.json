@@ -705,6 +705,48 @@
                     "languageCode": "en-US"
                 }
             ]
+        },
+        {
+            "id": "property-acme-watch-band-size",
+            "name": "Size",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-watch-accessories",
+            "valueType": "ShortText",
+            "type": "Variation",
+            "displayNames": [
+                {
+                    "name": "Case Size",
+                    "languageCode": "en-US"
+                }
+            ]
+        },
+        {
+            "id": "property-acme-band-material",
+            "name": "Material",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-watch-accessories",
+            "valueType": "ShortText",
+            "type": "Product",
+            "displayNames": [
+                {
+                    "name": "Material",
+                    "languageCode": "en-US"
+                }
+            ]
+        },
+        {
+            "id": "property-acme-wrist-size",
+            "name": "WristSize",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-watch-accessories",
+            "valueType": "ShortText",
+            "type": "Variation",
+            "displayNames": [
+                {
+                    "name": "Wrist Size",
+                    "languageCode": "en-US"
+                }
+            ]
         }
     ]
 }

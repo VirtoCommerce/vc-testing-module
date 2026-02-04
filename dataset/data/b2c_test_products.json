@@ -1,0 +1,286 @@
+{
+    "method": "POST",
+    "endpoint": "/api/catalog/products",
+    "payload_type": "single",
+    "priority": 13,
+    "data": [
+        {
+            "id": "product-b2c-test-sport-band",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-watch-accessories",
+            "name": "Sport Band",
+            "code": "B2C-SPORT-BAND-001",
+            "productType": "Physical",
+            "seoObjectType": "Product",
+            "isActive": true,
+            "isBuyable": true,
+            "trackInventory": true,
+            "descriptions": [
+                {
+                    "content": "Made from custom high-performance fluoroelastomer, the Sport Band is durable and strong, yet surprisingly soft. The smooth, dense material drapes elegantly across your wrist, and the innovative pin-and-tuck closure ensures a clean fit.",
+                    "languageCode": "en-US",
+                    "reviewType": "FullReview"
+                }
+            ],
+            "seoInfos": [
+                {
+                    "id": "seo-info-b2c-test-sport-band",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Sport Band for Smart Watch",
+                    "metaDescription": "Durable fluoroelastomer Sport Band with pin-and-tuck closure. Available in multiple colors and sizes.",
+                    "semanticUrl": "sport-band",
+                    "storeId": "store-acme"
+                }
+            ],
+            "properties": [
+                {
+                    "id": "property-acme-virto-frontend-ui-layout",
+                    "catalogId": "catalog-acme",
+                    "categoryId": null,
+                    "name": "VirtoFrontend_UI_Layout",
+                    "type": "Product",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "B2C"
+                        }
+                    ]
+                },
+                {
+                    "id": "property-acme-band-material",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-watch-accessories",
+                    "name": "Material",
+                    "type": "Product",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "Fluoroelastomer"
+                        }
+                    ]
+                },
+                {
+                    "id": "property-acme-band-color",
+                    "catalogId": "catalog-acme",
+                    "categoryId": null,
+                    "name": "Color",
+                    "type": "Variation",
+                    "valueType": "Color",
+                    "dictionary": true,
+                    "values": [
+                        {
+                            "value": "Midnight Black",
+                            "colorCode": "#1D1D1F",
+                            "alias": "Midnight Black"
+                        },
+                        {
+                            "value": "Starlight",
+                            "colorCode": "#F5F5F0",
+                            "alias": "Starlight"
+                        },
+                        {
+                            "value": "Ocean Blue",
+                            "colorCode": "#006D77",
+                            "alias": "Ocean Blue"
+                        },
+                        {
+                            "value": "Alpine Green",
+                            "colorCode": "#4A5A3C",
+                            "alias": "Alpine Green"
+                        },
+                        {
+                            "value": "Light Blush",
+                            "colorCode": "#F5D6D0",
+                            "alias": "Light Blush"
+                        },
+                        {
+                            "value": "Stone Gray",
+                            "colorCode": "#8E8E93",
+                            "alias": "Stone Gray"
+                        },
+                        {
+                            "value": "Anchor Blue",
+                            "colorCode": "#1E3A5F",
+                            "alias": "Anchor Blue"
+                        },
+                        {
+                            "value": "Purple Fog",
+                            "colorCode": "#9B8AA5",
+                            "alias": "Purple Fog"
+                        },
+                        {
+                            "value": "Neon Yellow",
+                            "colorCode": "#CCFF00",
+                            "alias": "Neon Yellow"
+                        }
+                    ]
+                },
+                {
+                    "id": "property-b2c-test-band-size",
+                    "catalogId": "catalog-acme",
+                    "categoryId": null,
+                    "name": "Size",
+                    "type": "Variation",
+                    "valueType": "ShortText",
+                    "values": [
+                        {"value": "42mm"},
+                        {"value": "45mm"},
+                        {"value": "49mm"}
+                    ]
+                },
+                {
+                    "id": "property-acme-wrist-size",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-watch-accessories",
+                    "name": "WristSize",
+                    "type": "Variation",
+                    "valueType": "ShortText",
+                    "values": [
+                        {"value": "S/M"},
+                        {"value": "M/L"}
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "product-b2b-test-laptop",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-laptops",
+            "name": "B2B Test Laptop with Variations",
+            "code": "B2B-LAPTOP-001",
+            "productType": "Physical",
+            "seoObjectType": "Product",
+            "isActive": true,
+            "isBuyable": true,
+            "trackInventory": true,
+            "seoInfos": [
+                {
+                    "id": "seo-info-b2b-test-laptop",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "B2B Test Laptop with Variations",
+                    "semanticUrl": "b2b-test-laptop-variations",
+                    "storeId": "store-acme"
+                }
+            ],
+            "properties": [
+                {
+                    "id": "property-acme-virto-frontend-ui-layout",
+                    "catalogId": "catalog-acme",
+                    "categoryId": null,
+                    "name": "VirtoFrontend_UI_Layout",
+                    "type": "Product",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "B2B"
+                        }
+                    ]
+                },
+                {
+                    "id": "property-acme-ram-size",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-laptops",
+                    "name": "RamSize",
+                    "type": "Variation",
+                    "valueType": "ShortText",
+                    "values": [
+                        {"value": "8GB"},
+                        {"value": "16GB"}
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "product-b2c-test-simple",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-watch-accessories",
+            "name": "B2C Simple Product No Variations",
+            "code": "B2C-SIMPLE-001",
+            "productType": "Physical",
+            "seoObjectType": "Product",
+            "isActive": true,
+            "isBuyable": true,
+            "trackInventory": true,
+            "seoInfos": [
+                {
+                    "id": "seo-info-b2c-test-simple",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "B2C Simple Product No Variations",
+                    "semanticUrl": "b2c-test-simple-product",
+                    "storeId": "store-acme"
+                }
+            ],
+            "properties": [
+                {
+                    "id": "property-acme-virto-frontend-ui-layout",
+                    "catalogId": "catalog-acme",
+                    "categoryId": null,
+                    "name": "VirtoFrontend_UI_Layout",
+                    "type": "Product",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "B2C"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "product-b2c-test-single-option",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-watch-accessories",
+            "name": "B2C Product Single Available Option",
+            "code": "B2C-SINGLE-001",
+            "productType": "Physical",
+            "seoObjectType": "Product",
+            "isActive": true,
+            "isBuyable": true,
+            "trackInventory": true,
+            "seoInfos": [
+                {
+                    "id": "seo-info-b2c-test-single-option",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "B2C Product Single Available Option",
+                    "semanticUrl": "b2c-test-single-option",
+                    "storeId": "store-acme"
+                }
+            ],
+            "properties": [
+                {
+                    "id": "property-acme-virto-frontend-ui-layout",
+                    "catalogId": "catalog-acme",
+                    "categoryId": null,
+                    "name": "VirtoFrontend_UI_Layout",
+                    "type": "Product",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "B2C"
+                        }
+                    ]
+                },
+                {
+                    "id": "property-acme-color",
+                    "catalogId": "catalog-acme",
+                    "categoryId": null,
+                    "name": "Color",
+                    "type": "Variation",
+                    "valueType": "Color",
+                    "dictionary": true,
+                    "values": [
+                        {
+                            "value": "Black",
+                            "colorCode": "#000000",
+                            "alias": "Black"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

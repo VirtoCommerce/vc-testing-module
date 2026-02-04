@@ -105,6 +105,24 @@
                     "storeId": "store-acme"
                 }
             ]
+        },
+        {
+            "id": "category-acme-watch-accessories",
+            "code": "category-acme-watch-accessories",
+            "catalogId": "catalog-acme",
+            "parentId": "category-acme-smart-watches",
+            "name": "Accessories",
+            "seoObjectType": "Category",
+            "seoInfos": [
+                {
+                    "id": "seo-info-acme-category-watch-accessories",
+                    "isActive": true,
+                    "languageCode": "en-US",
+                    "pageTitle": "Watch Accessories",
+                    "semanticUrl": "watch-accessories",
+                    "storeId": "store-acme"
+                }
+            ]
         }
     ]
 }
