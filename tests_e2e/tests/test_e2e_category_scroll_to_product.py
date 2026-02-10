@@ -20,7 +20,7 @@ def test_e2e_category_scroll_to_product(
     page.set_viewport_size({"width": 1920, "height": 1080})
 
     category = dataset["categories"][0]
-    product = dataset["products"][1]
+    product = dataset["products"][14]
 
     category_page = CategoryPage(config, page, category["seoInfos"][0]["semanticUrl"])
     category_page.navigate()
