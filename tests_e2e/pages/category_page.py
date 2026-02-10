@@ -82,3 +82,14 @@ class CategoryPage(MainLayoutPage):
             ),
             None,
         )
+
+    def scroll_to_product_card(
+        self, sku: str, page_limit: int = 10
+    ) -> ProductCardComponent | None:
+        for _ in range(page_limit):
+            product_card = self.get_product_card_by_sku(sku)
+            if product_card:
+                product_card.element.scroll_into_view_if_needed()
+                return product_card
+            self.page.evaluate("window.scrollBy(0, 100)")
+        return None
