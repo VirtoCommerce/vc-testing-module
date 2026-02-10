@@ -91,11 +91,11 @@ class CategoryPage(MainLayoutPage):
             if product_card:
                 product_card.element.scroll_into_view_if_needed()
                 return product_card
-            self.page.evaluate("window.scrollBy(0, 100)")
-            try:
-                self.page.expect_request_finished(
-                    lambda request: "/graphql" in request.url
-                )
-            except TimeoutError:
-                pass
+            if self.end_list_label.is_visible():
+                break
+            with self.page.expect_response(
+                lambda response: "/graphql" in response.url
+                and response.status == 200
+            ):
+                self.products_loader.scroll_into_view_if_needed()
         return None
