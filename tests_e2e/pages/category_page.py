@@ -1,4 +1,4 @@
-from playwright.sync_api import Locator, Page, TimeoutError
+from playwright.sync_api import Locator, Page
 
 from fixtures import Config
 from tests_e2e.components import (
@@ -39,14 +39,6 @@ class CategoryPage(MainLayoutPage):
     @property
     def products_list_view(self) -> Locator:
         return self.page.locator("[data-test-id='category-page.products-list-view']")
-
-    @property
-    def end_list_label(self) -> Locator:
-        return self.page.locator("[data-test-id='end-list-label']")
-
-    @property
-    def products_loader(self) -> Locator:
-        return self.page.locator("[data-test-id='category-products-loader']")
 
     @property
     def product_cards(self) -> list[ProductCardComponent]:
@@ -94,14 +86,11 @@ class CategoryPage(MainLayoutPage):
             if product_card:
                 product_card.element.scroll_into_view_if_needed()
                 return product_card
-            self.products_loader.or_(self.end_list_label).wait_for(state="visible")
-            if self.end_list_label.is_visible():
-                break
             current_count = product_card_locator.count()
             with self.page.expect_response(
                 lambda response: "/graphql" in response.url
                 and response.status == 200
             ):
-                self.products_loader.scroll_into_view_if_needed()
+                self.page.keyboard.press("PageDown")
             product_card_locator.nth(current_count).wait_for()
         return None
