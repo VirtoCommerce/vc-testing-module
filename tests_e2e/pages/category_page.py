@@ -94,6 +94,7 @@ class CategoryPage(MainLayoutPage):
             if product_card:
                 product_card.element.scroll_into_view_if_needed()
                 return product_card
+            self.products_loader.or_(self.end_list_label).wait_for(state="visible")
             if self.end_list_label.is_visible():
                 break
             current_count = product_card_locator.count()
