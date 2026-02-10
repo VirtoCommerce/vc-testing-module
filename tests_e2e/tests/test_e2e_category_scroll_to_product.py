@@ -1,5 +1,4 @@
 import os
-import time
 from typing import Any
 
 import pytest
@@ -30,6 +29,5 @@ def test_e2e_category_scroll_to_product(
 
     product_card = category_page.scroll_to_product_card(product["code"])
 
-    time.sleep(5)
-
+    assert product_card is not None, "Product card is not found"
     expect(product_card.element).to_be_visible(), "Product card is not visible"

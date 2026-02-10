@@ -1,4 +1,4 @@
-from playwright.sync_api import Locator, Page
+from playwright.sync_api import Locator, Page, TimeoutError
 
 from fixtures import Config
 from tests_e2e.components import (
@@ -92,4 +92,10 @@ class CategoryPage(MainLayoutPage):
                 product_card.element.scroll_into_view_if_needed()
                 return product_card
             self.page.evaluate("window.scrollBy(0, 100)")
+            try:
+                self.page.expect_request_finished(
+                    lambda request: "/graphql" in request.url
+                )
+            except TimeoutError:
+                pass
         return None
