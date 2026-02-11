@@ -27,7 +27,7 @@ def test_e2e_category_add_product_to_cart_with_add_to_cart_button(
     )
 
     category = dataset["categories"][0]
-    product = dataset["products"][1]
+    product = dataset["products"][14]
     quantity_to_add = "2"
 
     page.set_viewport_size({"width": 1920, "height": 1080})
@@ -42,13 +42,21 @@ def test_e2e_category_add_product_to_cart_with_add_to_cart_button(
     category_page = CategoryPage(config, page, category["seoInfos"][0]["semanticUrl"])
     category_page.navigate()
 
-    product_card = category_page.get_product_card_by_sku(product["code"])
+    product_card = category_page.scroll_to_product_card(product["code"])
+
+    assert (
+        product_card is not None
+    ), f"Product card with sku {product['code']} was not found on category page"
+
     product_card.add_to_cart_component.quantity_input.fill(quantity_to_add)
     product_card.add_to_cart_component.add_to_cart_text_button.click()
 
-    expect(product_card.count_in_cart_label, "Count in cart label is not visible").to_be_visible()
     expect(
-        product_card.count_in_cart_label, "Count in cart label is not equal to product quantity to add"
+        product_card.count_in_cart_label, "Count in cart label is not visible"
+    ).to_be_visible()
+    expect(
+        product_card.count_in_cart_label,
+        "Count in cart label is not equal to product quantity to add",
     ).to_have_text(quantity_to_add)
 
     cart_page = CartPage(config, page)
@@ -65,9 +73,15 @@ def test_e2e_category_add_product_to_cart_with_add_to_cart_button(
     try:
         line_item = cart_page.get_line_item_by_sku(product["code"])
 
-        assert line_item.sku == product["code"], f"Line item sku is not equal to product sku: {product['code']}"
         assert (
-            line_item.add_to_cart_component.quantity_input.input_value() == quantity_to_add
+            line_item is not None
+        ), f"Line item with sku {product['code']} was not found in cart"
+        assert (
+            line_item.sku == product["code"]
+        ), f"Line item sku is not equal to product sku: {product['code']}"
+        assert (
+            line_item.add_to_cart_component.quantity_input.input_value()
+            == quantity_to_add
         ), f"Line item quantity is not equal to product quantity to add: {quantity_to_add}"
     finally:
         cart_operations.remove_cart(
@@ -97,7 +111,7 @@ def test_e2e_category_add_product_to_cart_with_quantity_stepper(
     page.set_viewport_size({"width": 1920, "height": 1080})
 
     category = dataset["categories"][0]
-    product = dataset["products"][1]
+    product = dataset["products"][14]
     quantity_to_add = 2
 
     user_operations = UserOperations(graphql_client)
@@ -110,7 +124,12 @@ def test_e2e_category_add_product_to_cart_with_quantity_stepper(
     category_page = CategoryPage(config, page, category["seoInfos"][0]["semanticUrl"])
     category_page.navigate()
 
-    product_card = category_page.get_product_card_by_sku(product["code"])
+    product_card = category_page.scroll_to_product_card(product["code"])
+
+    assert (
+        product_card is not None
+    ), f"Product card with sku {product['code']} was not found on category page"
+
     product_card.quantity_stepper_component.increment_button.click()
     product_card.quantity_stepper_component.increment_button.click()
 
@@ -118,9 +137,12 @@ def test_e2e_category_add_product_to_cart_with_quantity_stepper(
         product_card.quantity_stepper_component.quantity_input,
         f"Quantity input is not equal to {quantity_to_add}",
     ).to_have_value(str(quantity_to_add))
-    expect(product_card.count_in_cart_label, "Count in cart label is not visible").to_be_visible()
     expect(
-        product_card.count_in_cart_label, "Count in cart label is not equal to product quantity to add"
+        product_card.count_in_cart_label, "Count in cart label is not visible"
+    ).to_be_visible()
+    expect(
+        product_card.count_in_cart_label,
+        "Count in cart label is not equal to product quantity to add",
     ).to_have_text(str(quantity_to_add))
 
     cart_page = CartPage(config, page)
@@ -137,7 +159,12 @@ def test_e2e_category_add_product_to_cart_with_quantity_stepper(
     try:
         line_item = cart_page.get_line_item_by_sku(product["code"])
 
-        assert line_item.sku == product["code"], f"Line item sku is not equal to product sku: {product['code']}"
+        assert (
+            line_item is not None
+        ), f"Line item with sku {product['code']} was not found in cart"
+        assert (
+            line_item.sku == product["code"]
+        ), f"Line item sku is not equal to product sku: {product['code']}"
         expect(
             line_item.quantity_stepper_component.quantity_input,
             f"Line item quantity is not equal to product quantity to add: {quantity_to_add}",

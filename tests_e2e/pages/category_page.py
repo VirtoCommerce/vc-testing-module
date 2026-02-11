@@ -50,6 +50,14 @@ class CategoryPage(MainLayoutPage):
         ]
 
     @property
+    def infinity_scroll_loader(self) -> Locator:
+        return self.page.locator("[data-test-id='category-endless-scroll-loader']")
+
+    @property
+    def end_list_label(self) -> Locator:
+        return self.page.locator("[data-test-id='end-list-label']")
+
+    @property
     def price_filter_slider(self) -> FilterSliderComponent | None:
         return FilterSliderComponent(self.page.locator("[data-test-id='filter-price']"))
 
@@ -93,7 +101,7 @@ class CategoryPage(MainLayoutPage):
                     and response.status == 200,
                     timeout=5000,
                 ):
-                    self.page.keyboard.press("PageDown")
+                    self.infinity_scroll_loader.scroll_into_view_if_needed()
                 product_card_locator.nth(current_count).wait_for()
             except TimeoutError:
                 continue

@@ -34,7 +34,7 @@ def test_e2e_anonymous_single_page_checkout_add_shipping_address(
     user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
 
-    product = dataset["products"][1]
+    product = dataset["products"][14]
 
     user = user_operations.get_me()
     cart = cart_operations.add_item_to_cart(
@@ -51,6 +51,9 @@ def test_e2e_anonymous_single_page_checkout_add_shipping_address(
     cart_page = CartPage(config, page)
     cart_page.navigate()
 
+    assert (
+        cart_page.shipping_details_section_component is not None
+    ), "Shipping details section component not found on cart page."
     expect(
         cart_page.shipping_details_section_component.address_selector_component.select_address_button
     ).to_be_visible()
@@ -100,6 +103,7 @@ def test_e2e_anonymous_multi_step_checkout_add_shipping_address(
     auth: Auth,
     graphql_client: GraphQLClient,
     page: Page,
+    dataset: dict[str, Any],
 ):
     if config["CHECKOUT_MODE"] == "single-page":
         pytest.skip(
@@ -116,12 +120,14 @@ def test_e2e_anonymous_multi_step_checkout_add_shipping_address(
     user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
 
+    product = dataset["products"][14]
+
     user = user_operations.get_me()
     cart = cart_operations.add_item_to_cart(
         payload={
             "storeId": config["STORE_ID"],
             "userId": user["id"],
-            "productId": "product-acme-laptop-hp-pavilion-16-ag0087nr",
+            "productId": product["code"],
             "quantity": 2,
         }
     )

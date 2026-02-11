@@ -29,6 +29,9 @@ def test_e2e_category_price_range_filter_slider(
     category_page = CategoryPage(config, page, category["seoInfos"][0]["semanticUrl"])
     category_page.navigate()
 
+    assert (
+        category_page.price_filter_slider is not None
+    ), "Price filter slider is not present on the page"
     expect(category_page.price_filter_slider.element).to_be_visible()
 
     category_page.price_filter_slider.click_header()
@@ -42,9 +45,10 @@ def test_e2e_category_price_range_filter_slider(
     page.locator("body").click()
 
     category_page.products_count_locator.wait_for(state="visible")
-    page.wait_for_timeout(2000)
 
-    assert category_page.products_count == 13, "Products count is not equal to 13"
+    expect(
+        category_page.products_count_locator, "Products count is not equal to 17"
+    ).to_have_text("17")
 
 
 @pytest.mark.e2e
@@ -68,6 +72,9 @@ def test_e2e_category_price_range_filter_default(
     category_page = CategoryPage(config, page, category["seoInfos"][0]["semanticUrl"])
     category_page.navigate()
 
+    assert (
+        category_page.price_filter_facets is not None
+    ), "Price filter facets are not present on the page"
     expect(category_page.price_filter_facets.element).to_be_visible()
 
     category_page.price_filter_facets.click_header()
@@ -78,4 +85,6 @@ def test_e2e_category_price_range_filter_default(
 
     category_page.products_count_locator.wait_for(state="visible")
 
-    assert category_page.products_count == 13, "Products count is not equal to 13"
+    expect(
+        category_page.products_count_locator, "Products count is not equal to 17"
+    ).to_have_text("17")

@@ -1,14 +1,13 @@
 import os
 from typing import Any
 
-import allure
 import pytest
 from playwright.sync_api import Page, expect
 
 from fixtures import Auth, Config, GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
-from tests_e2e.pages import CartPage, CategoryPage
+from tests_e2e.pages import CartPage
 
 
 @pytest.mark.e2e
@@ -23,7 +22,7 @@ def test_e2e_change_cart_item(
 
     page.set_viewport_size({"width": 1920, "height": 1080})
 
-    product = dataset["products"][1]
+    product = dataset["products"][14]
 
     user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
@@ -44,12 +43,15 @@ def test_e2e_change_cart_item(
     cart_page.navigate()
 
     line_item = cart_page.get_line_item_by_sku(product["code"])
+
+    assert (
+        line_item is not None
+    ), f"Line item with SKU {product['code']} not found in cart."
+
     if config["PRODUCT_QUANTITY_CONTROL"] == "stepper":
         line_item.quantity_stepper_component.increment_button.click()
     elif config["PRODUCT_QUANTITY_CONTROL"] == "button":
         line_item.add_to_cart_component.quantity_input.fill("3")
-
-    # requests_tracker.wait_for_all_requests()
 
     if config["PRODUCT_QUANTITY_CONTROL"] == "stepper":
         expect(line_item.quantity_stepper_component.quantity_input).to_have_value("3")
