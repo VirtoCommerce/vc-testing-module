@@ -3139,10 +3139,10 @@
             ]
         },
         {
-            "id": "B2C-SINGLE-001-BLACK",
+            "id": "B2C-SINGLE-001-Yellow",
             "productType": "Physical",
-            "code": "B2C-SINGLE-001-BLACK",
-            "name": "B2C Single Option - Black",
+            "code": "B2C-SINGLE-001-YELLOW",
+            "name": "B2C Single Option - Yellow",
             "catalogId": "catalog-acme",
             "categoryId": "category-acme-watch-accessories",
             "titularItemId": "product-b2c-test-single-option",
@@ -3157,12 +3157,115 @@
                     "valueType": "Color",
                     "values": [
                         {
-                            "value": "Black",
-                            "colorCode": "black",
-                            "alias": "Black",
+                            "propertyName": "Color",
+                            "alias": "Neon Yellow",
                             "displayOrder": 0,
-                            "isInherited": false,
-                            "valueId": "property-acme-color-black"
+                            "valueType": "Color",
+                            "valueId": "property-acme-color-neon-yellow",
+                            "value": "Neon Yellow",
+                            "propertyMultivalue": false,
+                            "colorCode": "#CCFF00",
+                            "isInherited": false
+                        }
+                    ]
+                },
+                {
+                    "isReadOnly": false,
+                    "isManageable": true,
+                    "isNew": false,
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-watch-accessories",
+                    "propertyGroupId": null,
+                    "name": "Size",
+                    "required": false,
+                    "dictionary": false,
+                    "multivalue": false,
+                    "multilanguage": false,
+                    "hidden": false,
+                    "valueType": "ShortText",
+                    "type": "Variation",
+                    "outerId": null,
+                    "measureId": null,
+                    "ownerName": null,
+                    "displayOrder": null,
+                    "values": [
+                        {
+                            "propertyName": "Size",
+                            "propertyId": null,
+                            "languageCode": null,
+                            "alias": null,
+                            "displayOrder": 0,
+                            "valueType": "ShortText",
+                            "valueId": null,
+                            "value": "45mm",
+                            "propertyMultivalue": false,
+                            "isInherited": false
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "B2B-SIMPLE-001-RED",
+            "productType": "Physical",
+            "code": "B2B-SIMPLE-001-RED",
+            "name": "B2B Simple Product - Red",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-watch-accessories",
+            "titularItemId": "product-b2c-test-simple",
+            "mainProductId": "product-b2c-test-simple",
+            "isActive": true,
+            "isBuyable": true,
+            "trackInventory": true,
+            "properties": [
+                {
+                    "name": "Color",
+                    "type": "Variation",
+                    "valueType": "Color",
+                    "values": [
+                        {
+                            "propertyName": "Color",
+                            "alias": "Red",
+                            "displayOrder": 0,
+                            "valueType": "Color",
+                            "valueId": "property-acme-color-red",
+                            "value": "Red",
+                            "propertyMultivalue": false,
+                            "colorCode": "red",
+                            "isInherited": false
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "B2B-SIMPLE-001-BLUE",
+            "productType": "Physical",
+            "code": "B2B-SIMPLE-001-BLUE",
+            "name": "B2B Simple Product - Blue",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-watch-accessories",
+            "titularItemId": "product-b2c-test-simple",
+            "mainProductId": "product-b2c-test-simple",
+            "isActive": true,
+            "isBuyable": true,
+            "trackInventory": true,
+            "properties": [
+                {
+                    "name": "Color",
+                    "type": "Variation",
+                    "valueType": "Color",
+                    "values": [
+                        {
+                            "propertyName": "Color",
+                            "alias": "Blue",
+                            "displayOrder": 0,
+                            "valueType": "Color",
+                            "valueId": "property-acme-color-blue",
+                            "value": "Blue",
+                            "propertyMultivalue": false,
+                            "colorCode": "blue",
+                            "isInherited": false
                         }
                     ]
                 }

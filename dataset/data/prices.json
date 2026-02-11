@@ -1798,6 +1798,56 @@
             ]
         },
         {
+            "productId": "B2B-SIMPLE-001-RED",
+            "product": {
+                "id": "B2B-SIMPLE-001-RED",
+                "name": "B2B Simple Product - Red"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 22.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2B-SIMPLE-001-RED"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 20.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2B-SIMPLE-001-RED"
+                }
+            ]
+        },
+        {
+            "productId": "B2B-SIMPLE-001-BLUE",
+            "product": {
+                "id": "B2B-SIMPLE-001-BLUE",
+                "name": "B2B Simple Product - Blue"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 24.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2B-SIMPLE-001-BLUE"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 22.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2B-SIMPLE-001-BLUE"
+                }
+            ]
+        },
+        {
             "productId": "product-b2c-test-single-option",
             "product": {
                 "id": "product-b2c-test-single-option",

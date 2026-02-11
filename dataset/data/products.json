@@ -11513,8 +11513,8 @@
             "id": "product-b2c-test-simple",
             "catalogId": "catalog-acme",
             "categoryId": "category-acme-watch-accessories",
-            "name": "B2C Simple Product No Variations",
-            "code": "B2C-SIMPLE-001",
+            "name": "B2B Simple Product with Variations table",
+            "code": "B2B-SIMPLE-001",
             "productType": "Physical",
             "seoObjectType": "Product",
             "isActive": true,
@@ -11522,11 +11522,11 @@
             "trackInventory": true,
             "seoInfos": [
                 {
-                    "id": "seo-info-b2c-test-simple",
+                    "id": "seo-info-b2b-test-simple",
                     "isActive": true,
                     "languageCode": "en-US",
-                    "pageTitle": "B2C Simple Product No Variations",
-                    "semanticUrl": "b2c-test-simple-product",
+                    "pageTitle": "B2B Simple Product with Variations table",
+                    "semanticUrl": "b2b-test-simple-product",
                     "storeId": "store-acme"
                 }
             ],
@@ -11540,14 +11540,37 @@
                     "valueType": "ShortText",
                     "values": [
                         {
-                            "value": "B2C",
+                            "value": "B2B",
                             "propertyName": "VirtoFrontend_UI_Layout",
-                            "alias": "B2C",
+                            "alias": "B2B",
                             "displayOrder": 0,
                             "valueType": "ShortText",
-                            "valueId": "property-acme-virto-frontend-ui-layout-b2c",
+                            "valueId": "property-acme-virto-frontend-ui-layout-b2b",
                             "propertyMultivalue": false,
                             "isInherited": false
+                        }
+                    ]
+                },
+                {
+                    "id": "property-acme-color",
+                    "catalogId": "catalog-acme",
+                    "categoryId": null,
+                    "name": "Color",
+                    "type": "Variation",
+                    "valueType": "Color",
+                    "dictionary": true,
+                    "values": [
+                        {
+                            "value": "Red",
+                            "colorCode": "red",
+                            "alias": "Red",
+                            "valueId": "property-acme-color-red"
+                        },
+                        {
+                            "value": "Blue",
+                            "colorCode": "blue",
+                            "alias": "Blue",
+                            "valueId": "property-acme-color-blue"
                         }
                     ]
                 }
@@ -11611,6 +11634,19 @@
                             "isInherited": false,
                             "value": "Black",
                             "valueId": "property-acme-color-black"
+                        }
+                    ]
+                },
+                {
+                    "id": "property-acme-size",
+                    "catalogId": "catalog-acme",
+                    "categoryId": null,
+                    "name": "Size",
+                    "type": "Variation",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "42mm"
                         }
                     ]
                 }

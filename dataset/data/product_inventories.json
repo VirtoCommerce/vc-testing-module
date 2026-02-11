@@ -677,6 +677,22 @@
             "inStockQuantity": 200
         },
         {
+            "productId": "B2B-SIMPLE-001-RED",
+            "sku": "B2B-SIMPLE-001-RED",
+            "productName": "B2B Simple Product - Red",
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "fulfillmentCenterName": "USA Springfield IL FFC",
+            "inStockQuantity": 150
+        },
+        {
+            "productId": "B2B-SIMPLE-001-BLUE",
+            "sku": "B2B-SIMPLE-001-BLUE",
+            "productName": "B2B Simple Product - Blue",
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "fulfillmentCenterName": "USA Springfield IL FFC",
+            "inStockQuantity": 120
+        },
+        {
             "productId": "product-b2c-test-single-option",
             "sku": "B2C-SINGLE-001",
             "productName": "B2C Product Single Available Option",
