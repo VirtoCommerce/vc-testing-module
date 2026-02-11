@@ -86,15 +86,12 @@ class CategoryPage(MainLayoutPage):
     def scroll_to_product_card(
         self, sku: str, page_limit: int = 10
     ) -> ProductCardComponent | None:
-        product_card_locator = self.products_grid_view.locator(
-            "[data-test-id='product-card']"
-        )
         for _ in range(page_limit):
             product_card = self.get_product_card_by_sku(sku)
             if product_card:
                 product_card.element.scroll_into_view_if_needed()
                 return product_card
-            current_count = product_card_locator.count()
+            self.infinity_scroll_loader.scroll_into_view_if_needed()
             try:
                 with self.page.expect_response(
                     lambda response: "/graphql" in response.url
@@ -102,7 +99,27 @@ class CategoryPage(MainLayoutPage):
                     timeout=5000,
                 ):
                     self.infinity_scroll_loader.scroll_into_view_if_needed()
-                product_card_locator.nth(current_count).wait_for()
             except TimeoutError:
                 continue
         return None
+
+        # product_card_locator = self.products_grid_view.locator(
+        #    "[data-test-id='product-card']"
+        # )
+        # for _ in range(page_limit):
+        #    product_card = self.get_product_card_by_sku(sku)
+        #    if product_card:
+        #        product_card.element.scroll_into_view_if_needed()
+        #        return product_card
+        #    current_count = product_card_locator.count()
+        #    try:
+        #        with self.page.expect_response(
+        #            lambda response: "/graphql" in response.url
+        #            and response.status == 200,
+        #            timeout=5000,
+        #        ):
+        #            self.infinity_scroll_loader.scroll_into_view_if_needed()
+        #        product_card_locator.nth(current_count).wait_for()
+        #    except TimeoutError:
+        #        continue
+        # return None
