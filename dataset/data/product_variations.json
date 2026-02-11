@@ -2237,6 +2237,936 @@
                     ]
                 }
             ]
+        },
+        {
+            "id": "B2C-SPORT-BAND-MIDNIGHT-42-SM",
+            "productType": "Physical",
+            "code": "B2C-SPORT-BAND-MIDNIGHT-42-SM",
+            "name": "Sport Band - Midnight Black - 42mm - S/M",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-watch-accessories",
+            "titularItemId": "product-b2c-test-sport-band",
+            "mainProductId": "product-b2c-test-sport-band",
+            "isActive": true,
+            "isBuyable": true,
+            "trackInventory": true,
+            "properties": [
+                {
+                    "name": "Color",
+                    "type": "Variation",
+                    "valueType": "Color",
+                    "values": [
+                        {
+                            "value": "Midnight Black",
+                            "colorCode": "#1D1D1F",
+                            "alias": "Midnight Black",
+                            "displayOrder": 0,
+                            "isInherited": false,
+                            "valueId": "property-acme-color-midnight-black"
+                        }
+                    ]
+                },
+                {
+                    "name": "Size",
+                    "type": "Variation",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "42mm"
+                        }
+                    ]
+                },
+                {
+                    "name": "WristSize",
+                    "type": "Variation",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "S/M"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "B2C-SPORT-BAND-MIDNIGHT-42-ML",
+            "productType": "Physical",
+            "code": "B2C-SPORT-BAND-MIDNIGHT-42-ML",
+            "name": "Sport Band - Midnight Black - 42mm - M/L",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-watch-accessories",
+            "titularItemId": "product-b2c-test-sport-band",
+            "mainProductId": "product-b2c-test-sport-band",
+            "isActive": true,
+            "isBuyable": true,
+            "trackInventory": true,
+            "properties": [
+                {
+                    "name": "Color",
+                    "type": "Variation",
+                    "valueType": "Color",
+                    "values": [
+                        {
+                            "value": "Midnight Black",
+                            "colorCode": "#1D1D1F",
+                            "alias": "Midnight Black",
+                            "displayOrder": 0,
+                            "isInherited": false,
+                            "valueId": "property-acme-color-midnight-black"
+                        }
+                    ]
+                },
+                {
+                    "name": "Size",
+                    "type": "Variation",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "42mm"
+                        }
+                    ]
+                },
+                {
+                    "name": "WristSize",
+                    "type": "Variation",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "M/L"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "B2C-SPORT-BAND-MIDNIGHT-45-SM",
+            "productType": "Physical",
+            "code": "B2C-SPORT-BAND-MIDNIGHT-45-SM",
+            "name": "Sport Band - Midnight Black - 45mm - S/M",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-watch-accessories",
+            "titularItemId": "product-b2c-test-sport-band",
+            "mainProductId": "product-b2c-test-sport-band",
+            "isActive": true,
+            "isBuyable": true,
+            "trackInventory": true,
+            "properties": [
+                {
+                    "name": "Color",
+                    "type": "Variation",
+                    "valueType": "Color",
+                    "values": [
+                        {
+                            "value": "Midnight Black",
+                            "colorCode": "#1D1D1F",
+                            "alias": "Midnight Black",
+                            "displayOrder": 0,
+                            "isInherited": false,
+                            "valueId": "property-acme-color-midnight-black"
+                        }
+                    ]
+                },
+                {
+                    "name": "Size",
+                    "type": "Variation",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "45mm"
+                        }
+                    ]
+                },
+                {
+                    "name": "WristSize",
+                    "type": "Variation",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "S/M"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "B2C-SPORT-BAND-MIDNIGHT-45-ML",
+            "productType": "Physical",
+            "code": "B2C-SPORT-BAND-MIDNIGHT-45-ML",
+            "name": "Sport Band - Midnight Black - 45mm - M/L",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-watch-accessories",
+            "titularItemId": "product-b2c-test-sport-band",
+            "mainProductId": "product-b2c-test-sport-band",
+            "isActive": true,
+            "isBuyable": true,
+            "trackInventory": true,
+            "properties": [
+                {
+                    "name": "Color",
+                    "type": "Variation",
+                    "valueType": "Color",
+                    "values": [
+                        {
+                            "value": "Midnight Black",
+                            "colorCode": "#1D1D1F",
+                            "alias": "Midnight Black",
+                            "displayOrder": 0,
+                            "isInherited": false,
+                            "valueId": "property-acme-color-midnight-black"
+                        }
+                    ]
+                },
+                {
+                    "name": "Size",
+                    "type": "Variation",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "45mm"
+                        }
+                    ]
+                },
+                {
+                    "name": "WristSize",
+                    "type": "Variation",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "M/L"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "B2C-SPORT-BAND-MIDNIGHT-49-ML",
+            "productType": "Physical",
+            "code": "B2C-SPORT-BAND-MIDNIGHT-49-ML",
+            "name": "Sport Band - Midnight Black - 49mm - M/L",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-watch-accessories",
+            "titularItemId": "product-b2c-test-sport-band",
+            "mainProductId": "product-b2c-test-sport-band",
+            "isActive": true,
+            "isBuyable": true,
+            "trackInventory": true,
+            "properties": [
+                {
+                    "name": "Color",
+                    "type": "Variation",
+                    "valueType": "Color",
+                    "values": [
+                        {
+                            "value": "Midnight Black",
+                            "colorCode": "#1D1D1F",
+                            "alias": "Midnight Black",
+                            "displayOrder": 0,
+                            "isInherited": false,
+                            "valueId": "property-acme-color-midnight-black"
+                        }
+                    ]
+                },
+                {
+                    "name": "Size",
+                    "type": "Variation",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "49mm"
+                        }
+                    ]
+                },
+                {
+                    "name": "WristSize",
+                    "type": "Variation",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "M/L"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "B2C-SPORT-BAND-STARLIGHT-42-SM",
+            "productType": "Physical",
+            "code": "B2C-SPORT-BAND-STARLIGHT-42-SM",
+            "name": "Sport Band - Starlight - 42mm - S/M",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-watch-accessories",
+            "titularItemId": "product-b2c-test-sport-band",
+            "mainProductId": "product-b2c-test-sport-band",
+            "isActive": true,
+            "isBuyable": true,
+            "trackInventory": true,
+            "properties": [
+                {
+                    "name": "Color",
+                    "type": "Variation",
+                    "valueType": "Color",
+                    "values": [
+                        {
+                            "value": "Starlight",
+                            "colorCode": "#F5F5F0",
+                            "alias": "Starlight",
+                            "displayOrder": 0,
+                            "isInherited": false,
+                            "valueId": "property-acme-color-starlight"
+                        }
+                    ]
+                },
+                {
+                    "name": "Size",
+                    "type": "Variation",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "42mm"
+                        }
+                    ]
+                },
+                {
+                    "name": "WristSize",
+                    "type": "Variation",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "S/M"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "B2C-SPORT-BAND-STARLIGHT-45-ML",
+            "productType": "Physical",
+            "code": "B2C-SPORT-BAND-STARLIGHT-45-ML",
+            "name": "Sport Band - Starlight - 45mm - M/L",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-watch-accessories",
+            "titularItemId": "product-b2c-test-sport-band",
+            "mainProductId": "product-b2c-test-sport-band",
+            "isActive": true,
+            "isBuyable": true,
+            "trackInventory": true,
+            "properties": [
+                {
+                    "name": "Color",
+                    "type": "Variation",
+                    "valueType": "Color",
+                    "values": [
+                        {
+                            "value": "Starlight",
+                            "colorCode": "#F5F5F0",
+                            "alias": "Starlight",
+                            "displayOrder": 0,
+                            "isInherited": false,
+                            "valueId": "property-acme-color-starlight"
+                        }
+                    ]
+                },
+                {
+                    "name": "Size",
+                    "type": "Variation",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "45mm"
+                        }
+                    ]
+                },
+                {
+                    "name": "WristSize",
+                    "type": "Variation",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "M/L"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "B2C-SPORT-BAND-LIGHTBLUSH-45-SM",
+            "productType": "Physical",
+            "code": "B2C-SPORT-BAND-LIGHTBLUSH-45-SM",
+            "name": "Sport Band - Light Blush - 45mm - S/M",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-watch-accessories",
+            "titularItemId": "product-b2c-test-sport-band",
+            "mainProductId": "product-b2c-test-sport-band",
+            "isActive": true,
+            "isBuyable": true,
+            "trackInventory": true,
+            "properties": [
+                {
+                    "name": "Color",
+                    "type": "Variation",
+                    "valueType": "Color",
+                    "values": [
+                        {
+                            "value": "Light Blush",
+                            "colorCode": "#F5D6D0",
+                            "alias": "Light Blush",
+                            "displayOrder": 0,
+                            "isInherited": false,
+                            "valueId": "property-acme-color-light-blush"
+                        }
+                    ]
+                },
+                {
+                    "name": "Size",
+                    "type": "Variation",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "45mm"
+                        }
+                    ]
+                },
+                {
+                    "name": "WristSize",
+                    "type": "Variation",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "S/M"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "B2C-SPORT-BAND-LIGHTBLUSH-45-ML",
+            "productType": "Physical",
+            "code": "B2C-SPORT-BAND-LIGHTBLUSH-45-ML",
+            "name": "Sport Band - Light Blush - 45mm - M/L",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-watch-accessories",
+            "titularItemId": "product-b2c-test-sport-band",
+            "mainProductId": "product-b2c-test-sport-band",
+            "isActive": true,
+            "isBuyable": true,
+            "trackInventory": true,
+            "properties": [
+                {
+                    "name": "Color",
+                    "type": "Variation",
+                    "valueType": "Color",
+                    "values": [
+                        {
+                            "value": "Light Blush",
+                            "colorCode": "#F5D6D0",
+                            "alias": "Light Blush",
+                            "displayOrder": 0,
+                            "isInherited": false,
+                            "valueId": "property-acme-color-light-blush"
+                        }
+                    ]
+                },
+                {
+                    "name": "Size",
+                    "type": "Variation",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "45mm"
+                        }
+                    ]
+                },
+                {
+                    "name": "WristSize",
+                    "type": "Variation",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "M/L"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "B2C-SPORT-BAND-ANCHORBLUE-42-ML",
+            "productType": "Physical",
+            "code": "B2C-SPORT-BAND-ANCHORBLUE-42-ML",
+            "name": "Sport Band - Anchor Blue - 42mm - M/L",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-watch-accessories",
+            "titularItemId": "product-b2c-test-sport-band",
+            "mainProductId": "product-b2c-test-sport-band",
+            "isActive": true,
+            "isBuyable": true,
+            "trackInventory": true,
+            "properties": [
+                {
+                    "name": "Color",
+                    "type": "Variation",
+                    "valueType": "Color",
+                    "values": [
+                        {
+                            "value": "Anchor Blue",
+                            "colorCode": "#1E3A5F",
+                            "alias": "Anchor Blue",
+                            "displayOrder": 0,
+                            "isInherited": false,
+                            "valueId": "property-acme-color-anchor-blue"
+                        }
+                    ]
+                },
+                {
+                    "name": "Size",
+                    "type": "Variation",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "42mm"
+                        }
+                    ]
+                },
+                {
+                    "name": "WristSize",
+                    "type": "Variation",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "M/L"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "B2C-SPORT-BAND-ANCHORBLUE-45-ML",
+            "productType": "Physical",
+            "code": "B2C-SPORT-BAND-ANCHORBLUE-45-ML",
+            "name": "Sport Band - Anchor Blue - 45mm - M/L",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-watch-accessories",
+            "titularItemId": "product-b2c-test-sport-band",
+            "mainProductId": "product-b2c-test-sport-band",
+            "isActive": true,
+            "isBuyable": true,
+            "trackInventory": true,
+            "properties": [
+                {
+                    "name": "Color",
+                    "type": "Variation",
+                    "valueType": "Color",
+                    "values": [
+                        {
+                            "value": "Anchor Blue",
+                            "colorCode": "#1E3A5F",
+                            "alias": "Anchor Blue",
+                            "displayOrder": 0,
+                            "isInherited": false,
+                            "valueId": "property-acme-color-anchor-blue"
+                        }
+                    ]
+                },
+                {
+                    "name": "Size",
+                    "type": "Variation",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "45mm"
+                        }
+                    ]
+                },
+                {
+                    "name": "WristSize",
+                    "type": "Variation",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "M/L"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "B2C-SPORT-BAND-STONEGRAY-45-SM",
+            "productType": "Physical",
+            "code": "B2C-SPORT-BAND-STONEGRAY-45-SM",
+            "name": "Sport Band - Stone Gray - 45mm - S/M",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-watch-accessories",
+            "titularItemId": "product-b2c-test-sport-band",
+            "mainProductId": "product-b2c-test-sport-band",
+            "isActive": true,
+            "isBuyable": true,
+            "trackInventory": true,
+            "properties": [
+                {
+                    "name": "Color",
+                    "type": "Variation",
+                    "valueType": "Color",
+                    "values": [
+                        {
+                            "value": "Stone Gray",
+                            "colorCode": "#8E8E93",
+                            "alias": "Stone Gray",
+                            "displayOrder": 0,
+                            "isInherited": false,
+                            "valueId": "property-acme-color-stone-gray"
+                        }
+                    ]
+                },
+                {
+                    "name": "Size",
+                    "type": "Variation",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "45mm"
+                        }
+                    ]
+                },
+                {
+                    "name": "WristSize",
+                    "type": "Variation",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "S/M"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "B2C-SPORT-BAND-STONEGRAY-49-ML",
+            "productType": "Physical",
+            "code": "B2C-SPORT-BAND-STONEGRAY-49-ML",
+            "name": "Sport Band - Stone Gray - 49mm - M/L",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-watch-accessories",
+            "titularItemId": "product-b2c-test-sport-band",
+            "mainProductId": "product-b2c-test-sport-band",
+            "isActive": true,
+            "isBuyable": true,
+            "trackInventory": true,
+            "properties": [
+                {
+                    "name": "Color",
+                    "type": "Variation",
+                    "valueType": "Color",
+                    "values": [
+                        {
+                            "value": "Stone Gray",
+                            "colorCode": "#8E8E93",
+                            "alias": "Stone Gray",
+                            "displayOrder": 0,
+                            "isInherited": false,
+                            "valueId": "property-acme-color-stone-gray"
+                        }
+                    ]
+                },
+                {
+                    "name": "Size",
+                    "type": "Variation",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "49mm"
+                        }
+                    ]
+                },
+                {
+                    "name": "WristSize",
+                    "type": "Variation",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "M/L"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "B2C-SPORT-BAND-PURPLEFOG-42-SM",
+            "productType": "Physical",
+            "code": "B2C-SPORT-BAND-PURPLEFOG-42-SM",
+            "name": "Sport Band - Purple Fog - 42mm - S/M",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-watch-accessories",
+            "titularItemId": "product-b2c-test-sport-band",
+            "mainProductId": "product-b2c-test-sport-band",
+            "isActive": true,
+            "isBuyable": true,
+            "trackInventory": true,
+            "properties": [
+                {
+                    "name": "Color",
+                    "type": "Variation",
+                    "valueType": "Color",
+                    "values": [
+                        {
+                            "value": "Purple Fog",
+                            "colorCode": "#9B8AA5",
+                            "alias": "Purple Fog",
+                            "displayOrder": 0,
+                            "isInherited": false,
+                            "valueId": "property-acme-color-purple-fog"
+                        }
+                    ]
+                },
+                {
+                    "name": "Size",
+                    "type": "Variation",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "42mm"
+                        }
+                    ]
+                },
+                {
+                    "name": "WristSize",
+                    "type": "Variation",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "S/M"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "B2C-SPORT-BAND-PURPLEFOG-45-ML",
+            "productType": "Physical",
+            "code": "B2C-SPORT-BAND-PURPLEFOG-45-ML",
+            "name": "Sport Band - Purple Fog - 45mm - M/L",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-watch-accessories",
+            "titularItemId": "product-b2c-test-sport-band",
+            "mainProductId": "product-b2c-test-sport-band",
+            "isActive": true,
+            "isBuyable": true,
+            "trackInventory": true,
+            "properties": [
+                {
+                    "name": "Color",
+                    "type": "Variation",
+                    "valueType": "Color",
+                    "values": [
+                        {
+                            "value": "Purple Fog",
+                            "colorCode": "#9B8AA5",
+                            "alias": "Purple Fog",
+                            "displayOrder": 0,
+                            "isInherited": false,
+                            "valueId": "property-acme-color-purple-fog"
+                        }
+                    ]
+                },
+                {
+                    "name": "Size",
+                    "type": "Variation",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "45mm"
+                        }
+                    ]
+                },
+                {
+                    "name": "WristSize",
+                    "type": "Variation",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "M/L"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "B2C-SPORT-BAND-NEONYELLOW-45-SM",
+            "productType": "Physical",
+            "code": "B2C-SPORT-BAND-NEONYELLOW-45-SM",
+            "name": "Sport Band - Neon Yellow - 45mm - S/M",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-watch-accessories",
+            "titularItemId": "product-b2c-test-sport-band",
+            "mainProductId": "product-b2c-test-sport-band",
+            "isActive": true,
+            "isBuyable": true,
+            "trackInventory": true,
+            "properties": [
+                {
+                    "name": "Color",
+                    "type": "Variation",
+                    "valueType": "Color",
+                    "values": [
+                        {
+                            "value": "Neon Yellow",
+                            "colorCode": "#CCFF00",
+                            "alias": "Neon Yellow",
+                            "displayOrder": 0,
+                            "isInherited": false,
+                            "valueId": "property-acme-color-neon-yellow"
+                        }
+                    ]
+                },
+                {
+                    "name": "Size",
+                    "type": "Variation",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "45mm"
+                        }
+                    ]
+                },
+                {
+                    "name": "WristSize",
+                    "type": "Variation",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "S/M"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "B2C-SPORT-BAND-NEONYELLOW-49-ML",
+            "productType": "Physical",
+            "code": "B2C-SPORT-BAND-NEONYELLOW-49-ML",
+            "name": "Sport Band - Neon Yellow - 49mm - M/L",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-watch-accessories",
+            "titularItemId": "product-b2c-test-sport-band",
+            "mainProductId": "product-b2c-test-sport-band",
+            "isActive": true,
+            "isBuyable": true,
+            "trackInventory": true,
+            "properties": [
+                {
+                    "name": "Color",
+                    "type": "Variation",
+                    "valueType": "Color",
+                    "values": [
+                        {
+                            "value": "Neon Yellow",
+                            "colorCode": "#CCFF00",
+                            "alias": "Neon Yellow",
+                            "displayOrder": 0,
+                            "isInherited": false,
+                            "valueId": "property-acme-color-neon-yellow"
+                        }
+                    ]
+                },
+                {
+                    "name": "Size",
+                    "type": "Variation",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "49mm"
+                        }
+                    ]
+                },
+                {
+                    "name": "WristSize",
+                    "type": "Variation",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "M/L"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "B2B-LAPTOP-001-8GB",
+            "productType": "Physical",
+            "code": "B2B-LAPTOP-001-8GB",
+            "name": "B2B Test Laptop - 8GB RAM",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-laptops",
+            "titularItemId": "product-b2b-test-laptop",
+            "mainProductId": "product-b2b-test-laptop",
+            "isActive": true,
+            "isBuyable": true,
+            "trackInventory": true,
+            "properties": [
+                {
+                    "name": "RamSize",
+                    "type": "Variation",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "8GB"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "B2B-LAPTOP-001-16GB",
+            "productType": "Physical",
+            "code": "B2B-LAPTOP-001-16GB",
+            "name": "B2B Test Laptop - 16GB RAM",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-laptops",
+            "titularItemId": "product-b2b-test-laptop",
+            "mainProductId": "product-b2b-test-laptop",
+            "isActive": true,
+            "isBuyable": true,
+            "trackInventory": true,
+            "properties": [
+                {
+                    "name": "RamSize",
+                    "type": "Variation",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "16GB"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "B2C-SINGLE-001-BLACK",
+            "productType": "Physical",
+            "code": "B2C-SINGLE-001-BLACK",
+            "name": "B2C Single Option - Black",
+            "catalogId": "catalog-acme",
+            "categoryId": "category-acme-watch-accessories",
+            "titularItemId": "product-b2c-test-single-option",
+            "mainProductId": "product-b2c-test-single-option",
+            "isActive": true,
+            "isBuyable": true,
+            "trackInventory": true,
+            "properties": [
+                {
+                    "name": "Color",
+                    "type": "Variation",
+                    "valueType": "Color",
+                    "values": [
+                        {
+                            "value": "Black",
+                            "colorCode": "black",
+                            "alias": "Black",
+                            "displayOrder": 0,
+                            "isInherited": false,
+                            "valueId": "property-acme-color-black"
+                        }
+                    ]
+                }
+            ]
         }
     ]
 }

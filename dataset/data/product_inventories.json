@@ -507,6 +507,190 @@
             "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
             "fulfillmentCenterName": "ACME USA Ohio FFC",
             "inStockQuantity": 44
+        },
+        {
+            "productId": "product-b2c-test-sport-band",
+            "sku": "B2C-SPORT-BAND-001",
+            "productName": "Sport Band",
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "fulfillmentCenterName": "USA Springfield IL FFC",
+            "inStockQuantity": 100
+        },
+        {
+            "productId": "B2C-SPORT-BAND-MIDNIGHT-42-SM",
+            "sku": "B2C-SPORT-BAND-MIDNIGHT-42-SM",
+            "productName": "Sport Band - Midnight Black - 42mm - S/M",
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "fulfillmentCenterName": "USA Springfield IL FFC",
+            "inStockQuantity": 100
+        },
+        {
+            "productId": "B2C-SPORT-BAND-MIDNIGHT-42-ML",
+            "sku": "B2C-SPORT-BAND-MIDNIGHT-42-ML",
+            "productName": "Sport Band - Midnight Black - 42mm - M/L",
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "fulfillmentCenterName": "USA Springfield IL FFC",
+            "inStockQuantity": 100
+        },
+        {
+            "productId": "B2C-SPORT-BAND-MIDNIGHT-45-SM",
+            "sku": "B2C-SPORT-BAND-MIDNIGHT-45-SM",
+            "productName": "Sport Band - Midnight Black - 45mm - S/M",
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "fulfillmentCenterName": "USA Springfield IL FFC",
+            "inStockQuantity": 100
+        },
+        {
+            "productId": "B2C-SPORT-BAND-MIDNIGHT-45-ML",
+            "sku": "B2C-SPORT-BAND-MIDNIGHT-45-ML",
+            "productName": "Sport Band - Midnight Black - 45mm - M/L",
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "fulfillmentCenterName": "USA Springfield IL FFC",
+            "inStockQuantity": 100
+        },
+        {
+            "productId": "B2C-SPORT-BAND-MIDNIGHT-49-ML",
+            "sku": "B2C-SPORT-BAND-MIDNIGHT-49-ML",
+            "productName": "Sport Band - Midnight Black - 49mm - M/L",
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "fulfillmentCenterName": "USA Springfield IL FFC",
+            "inStockQuantity": 0
+        },
+        {
+            "productId": "B2C-SPORT-BAND-STARLIGHT-42-SM",
+            "sku": "B2C-SPORT-BAND-STARLIGHT-42-SM",
+            "productName": "Sport Band - Starlight - 42mm - S/M",
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "fulfillmentCenterName": "USA Springfield IL FFC",
+            "inStockQuantity": 100
+        },
+        {
+            "productId": "B2C-SPORT-BAND-STARLIGHT-45-ML",
+            "sku": "B2C-SPORT-BAND-STARLIGHT-45-ML",
+            "productName": "Sport Band - Starlight - 45mm - M/L",
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "fulfillmentCenterName": "USA Springfield IL FFC",
+            "inStockQuantity": 100
+        },
+        {
+            "productId": "B2C-SPORT-BAND-LIGHTBLUSH-45-SM",
+            "sku": "B2C-SPORT-BAND-LIGHTBLUSH-45-SM",
+            "productName": "Sport Band - Light Blush - 45mm - S/M",
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "fulfillmentCenterName": "USA Springfield IL FFC",
+            "inStockQuantity": 100
+        },
+        {
+            "productId": "B2C-SPORT-BAND-LIGHTBLUSH-45-ML",
+            "sku": "B2C-SPORT-BAND-LIGHTBLUSH-45-ML",
+            "productName": "Sport Band - Light Blush - 45mm - M/L",
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "fulfillmentCenterName": "USA Springfield IL FFC",
+            "inStockQuantity": 100
+        },
+        {
+            "productId": "B2C-SPORT-BAND-ANCHORBLUE-42-ML",
+            "sku": "B2C-SPORT-BAND-ANCHORBLUE-42-ML",
+            "productName": "Sport Band - Anchor Blue - 42mm - M/L",
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "fulfillmentCenterName": "USA Springfield IL FFC",
+            "inStockQuantity": 100
+        },
+        {
+            "productId": "B2C-SPORT-BAND-ANCHORBLUE-45-ML",
+            "sku": "B2C-SPORT-BAND-ANCHORBLUE-45-ML",
+            "productName": "Sport Band - Anchor Blue - 45mm - M/L",
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "fulfillmentCenterName": "USA Springfield IL FFC",
+            "inStockQuantity": 0
+        },
+        {
+            "productId": "B2C-SPORT-BAND-STONEGRAY-45-SM",
+            "sku": "B2C-SPORT-BAND-STONEGRAY-45-SM",
+            "productName": "Sport Band - Stone Gray - 45mm - S/M",
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "fulfillmentCenterName": "USA Springfield IL FFC",
+            "inStockQuantity": 100
+        },
+        {
+            "productId": "B2C-SPORT-BAND-STONEGRAY-49-ML",
+            "sku": "B2C-SPORT-BAND-STONEGRAY-49-ML",
+            "productName": "Sport Band - Stone Gray - 49mm - M/L",
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "fulfillmentCenterName": "USA Springfield IL FFC",
+            "inStockQuantity": 100
+        },
+        {
+            "productId": "B2C-SPORT-BAND-PURPLEFOG-42-SM",
+            "sku": "B2C-SPORT-BAND-PURPLEFOG-42-SM",
+            "productName": "Sport Band - Purple Fog - 42mm - S/M",
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "fulfillmentCenterName": "USA Springfield IL FFC",
+            "inStockQuantity": 100
+        },
+        {
+            "productId": "B2C-SPORT-BAND-PURPLEFOG-45-ML",
+            "sku": "B2C-SPORT-BAND-PURPLEFOG-45-ML",
+            "productName": "Sport Band - Purple Fog - 45mm - M/L",
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "fulfillmentCenterName": "USA Springfield IL FFC",
+            "inStockQuantity": 100
+        },
+        {
+            "productId": "B2C-SPORT-BAND-NEONYELLOW-45-SM",
+            "sku": "B2C-SPORT-BAND-NEONYELLOW-45-SM",
+            "productName": "Sport Band - Neon Yellow - 45mm - S/M",
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "fulfillmentCenterName": "USA Springfield IL FFC",
+            "inStockQuantity": 100
+        },
+        {
+            "productId": "B2C-SPORT-BAND-NEONYELLOW-49-ML",
+            "sku": "B2C-SPORT-BAND-NEONYELLOW-49-ML",
+            "productName": "Sport Band - Neon Yellow - 49mm - M/L",
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "fulfillmentCenterName": "USA Springfield IL FFC",
+            "inStockQuantity": 100
+        },
+        {
+            "productId": "B2B-LAPTOP-001-8GB",
+            "sku": "B2B-LAPTOP-001-8GB",
+            "productName": "B2B Test Laptop - 8GB RAM",
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "fulfillmentCenterName": "USA Springfield IL FFC",
+            "inStockQuantity": 50
+        },
+        {
+            "productId": "B2B-LAPTOP-001-16GB",
+            "sku": "B2B-LAPTOP-001-16GB",
+            "productName": "B2B Test Laptop - 16GB RAM",
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "fulfillmentCenterName": "USA Springfield IL FFC",
+            "inStockQuantity": 50
+        },
+        {
+            "productId": "product-b2c-test-simple",
+            "sku": "B2C-SIMPLE-001",
+            "productName": "B2C Simple Product No Variations",
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "fulfillmentCenterName": "USA Springfield IL FFC",
+            "inStockQuantity": 200
+        },
+        {
+            "productId": "product-b2c-test-single-option",
+            "sku": "B2C-SINGLE-001",
+            "productName": "B2C Product Single Available Option",
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "fulfillmentCenterName": "USA Springfield IL FFC",
+            "inStockQuantity": 100
+        },
+        {
+            "productId": "B2C-SINGLE-001-BLACK",
+            "sku": "B2C-SINGLE-001-BLACK",
+            "productName": "B2C Single Option - Black",
+            "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+            "fulfillmentCenterName": "USA Springfield IL FFC",
+            "inStockQuantity": 100
         }
     ]
 }
