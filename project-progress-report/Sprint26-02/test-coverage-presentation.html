@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test Coverage Report - Sprint 26-02</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+  :root {
+    --bg: #0f172a;
+    --surface: #1e293b;
+    --surface-2: #334155;
+    --border: #475569;
+    --text: #f1f5f9;
+    --text-muted: #94a3b8;
+    --accent: #38bdf8;
+    --accent-2: #818cf8;
+    --green: #4ade80;
+    --red: #f87171;
+    --orange: #fb923c;
+    --yellow: #facc15;
+    --cyan: #22d3ee;
+    --pink: #f472b6;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  .slide {
+    display: none;
+    width: 100vw;
+    height: 100vh;
+    padding: 48px 64px;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .slide.active { display: flex; }
+
+  /* Title Slide */
+  .slide.title-slide {
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+  }
+  .slide.title-slide::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 30% 50%, rgba(56, 189, 248, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 70% 50%, rgba(129, 140, 248, 0.08) 0%, transparent 50%);
+  }
+  .title-slide h1 {
+    font-size: 3.2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .title-slide h2 {
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: var(--text-muted);
+    margin-bottom: 40px;
+    position: relative;
+  }
+  .title-slide .meta {
+    font-size: 1rem;
+    color: var(--text-muted);
+    position: relative;
+  }
+  .title-slide .meta span {
+    margin: 0 12px;
+    padding: 6px 16px;
+    background: var(--surface);
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    display: inline-block;
+    margin-top: 8px;
+  }
+
+  /* Content Slides */
+  .slide h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 32px;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .slide h2 .icon { font-size: 1.6rem; }
+  .slide h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+  }
+
+  /* Cards Grid */
+  .cards { display: grid; gap: 20px; }
+  .cards-2 { grid-template-columns: 1fr 1fr; }
+  .cards-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .cards-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+
+  .card {
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 24px;
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  }
+  .card.green::before { background: linear-gradient(90deg, var(--green), #22d3ee); }
+  .card.red::before { background: linear-gradient(90deg, var(--red), var(--orange)); }
+  .card.yellow::before { background: linear-gradient(90deg, var(--yellow), var(--orange)); }
+  .card.pink::before { background: linear-gradient(90deg, var(--pink), var(--accent-2)); }
+
+  .card .label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+  }
+  .card .value {
+    font-size: 2.8rem;
+    font-weight: 800;
+    line-height: 1.1;
+  }
+  .card .change {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-top: 6px;
+  }
+  .card .change.positive { color: var(--green); }
+  .card .change.negative { color: var(--red); }
+
+  /* Chart Container */
+  .chart-container {
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 24px;
+    border: 1px solid var(--border);
+    flex: 1;
+    min-height: 0;
+    position: relative;
+  }
+  .chart-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    flex: 1;
+    min-height: 0;
+  }
+  .chart-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+  }
+
+  /* Tables */
+  .table-wrap {
+    background: var(--surface);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th {
+    background: var(--surface-2);
+    padding: 14px 20px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border);
+  }
+  td {
+    padding: 12px 20px;
+    border-bottom: 1px solid rgba(71, 85, 105, 0.4);
+    font-size: 0.95rem;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(56, 189, 248, 0.04); }
+  td.num { font-weight: 600; font-variant-numeric: tabular-nums; }
+  td.positive { color: var(--green); font-weight: 600; }
+  td.negative { color: var(--red); font-weight: 600; }
+
+  /* Bullet Lists */
+  .bullet-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .bullet-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 1.05rem;
+    line-height: 1.5;
+  }
+  .bullet-list li .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-top: 8px;
+    flex-shrink: 0;
+  }
+  .bullet-list li .dot.green { background: var(--green); }
+  .bullet-list li .dot.pink { background: var(--pink); }
+  .bullet-list li .dot.orange { background: var(--orange); }
+
+  /* Badge */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+  .badge.success { background: rgba(74, 222, 128, 0.15); color: var(--green); }
+  .badge.warning { background: rgba(251, 146, 60, 0.15); color: var(--orange); }
+
+  /* Progress Bar */
+  .progress-wrap { margin-top: 12px; }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+    color: var(--text-muted);
+  }
+  .progress-bar {
+    height: 10px;
+    background: var(--surface-2);
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 5px;
+    transition: width 1s ease;
+  }
+  .progress-fill.blue { background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
+  .progress-fill.green { background: linear-gradient(90deg, var(--green), var(--cyan)); }
+
+  /* Navigation */
+  .nav {
+    position: fixed;
+    bottom: 24px;
+    right: 32px;
+    display: flex;
+    gap: 8px;
+    z-index: 100;
+  }
+  .nav button {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  .nav button:hover { background: var(--surface-2); border-color: var(--accent); }
+  .nav button:disabled { opacity: 0.3; cursor: default; }
+
+  .slide-counter {
+    position: fixed;
+    bottom: 32px;
+    left: 32px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    z-index: 100;
+  }
+
+  /* Responsive adjustments for slide content */
+  .flex-col { display: flex; flex-direction: column; gap: 20px; flex: 1; min-height: 0; }
+  .flex-row { display: flex; gap: 20px; flex: 1; min-height: 0; }
+  .flex-1 { flex: 1; min-height: 0; }
+  .mt-auto { margin-top: auto; }
+
+  /* Ignored test items */
+  .ignored-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .ignored-item .file {
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    color: var(--accent);
+    flex: 1;
+  }
+  .ignored-item .count {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--orange);
+  }
+  .ignored-item .reason {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+
+  /* Achievement row */
+  .achievement-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .achievement {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .achievement .a-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+  }
+  .achievement .a-icon.blue { background: rgba(56, 189, 248, 0.15); }
+  .achievement .a-icon.green { background: rgba(74, 222, 128, 0.15); }
+  .achievement .a-icon.purple { background: rgba(129, 140, 248, 0.15); }
+  .achievement .a-icon.pink { background: rgba(244, 114, 182, 0.15); }
+  .achievement .a-title { font-weight: 600; margin-bottom: 4px; }
+  .achievement .a-desc { font-size: 0.9rem; color: var(--text-muted); line-height: 1.4; }
+
+  /* Section Slide */
+  .slide.section-slide {
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(135deg, #0f172a 0%, #1a1a2e 100%);
+  }
+  .section-slide h2 {
+    font-size: 2.6rem;
+    justify-content: center;
+  }
+  .section-slide p {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    max-width: 600px;
+  }
+
+  /* Comparison bars */
+  .compare-bar-group { margin-bottom: 20px; }
+  .compare-bar-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+  }
+  .compare-bar-label .name { font-weight: 600; }
+  .compare-bar-label .val { color: var(--text-muted); }
+  .compare-bar {
+    height: 32px;
+    background: var(--surface-2);
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+  }
+  .compare-bar .fill {
+    height: 100%;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    padding-left: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: width 1s ease;
+  }
+
+  @media print {
+    .slide { display: flex !important; page-break-after: always; height: 100vh; }
+    .nav, .slide-counter { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Slide 1: Title -->
+<div class="slide title-slide active" id="slide-1">
+  <h1>Test Coverage Report</h1>
+  <h2>Sprint 26-02 | Two-Week Comparison</h2>
+  <div class="meta">
+    <span>February 6, 2026</span>
+    <span>Jan 26 - Feb 6 vs Jan 12-25</span>
+    <span>VirtoCommerce QA</span>
+  </div>
+</div>
+
+<!-- Slide 2: Executive Summary - Key Numbers -->
+<div class="slide" id="slide-2">
+  <h2><span class="icon">&#x1f4ca;</span> Executive Summary</h2>
+  <div class="cards cards-4" style="margin-bottom: 24px;">
+    <div class="card">
+      <div class="label">Total Test Functions</div>
+      <div class="value" style="color: var(--accent);">178</div>
+      <div class="change positive">+17 (+10.6%)</div>
+    </div>
+    <div class="card green">
+      <div class="label">Active Tests</div>
+      <div class="value" style="color: var(--green);">173</div>
+      <div class="change positive">+22 (+14.6%)</div>
+    </div>
+    <div class="card red">
+      <div class="label">Ignored Tests</div>
+      <div class="value" style="color: var(--red);">5</div>
+      <div class="change positive">-5 (-50%)</div>
+    </div>
+    <div class="card yellow">
+      <div class="label">Active Rate</div>
+      <div class="value" style="color: var(--yellow);">97.2%</div>
+      <div class="change positive">+3.4%</div>
+    </div>
+  </div>
+  <div class="cards cards-2">
+    <div class="card">
+      <h3>Key Achievements</h3>
+      <ul class="bullet-list">
+        <li><span class="dot green"></span><span><strong>+17</strong> new test functions (11% growth)</span></li>
+        <li><span class="dot green"></span><span><strong>+2</strong> new test files created</span></li>
+        <li><span class="dot green"></span><span><strong>+22</strong> active tests enabled</span></li>
+        <li><span class="dot green"></span><span><strong>-5</strong> ignored tests (50% reduction)</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Major Focus Areas</h3>
+      <ul class="bullet-list">
+        <li><span class="dot"></span><span>Customer search history feature coverage</span></li>
+        <li><span class="dot pink"></span><span>Test stabilization &amp; reliability</span></li>
+        <li><span class="dot orange"></span><span>CI/CD automation with Docker</span></li>
+        <li><span class="dot green"></span><span>Authentication system improvements</span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 3: Test Growth Trend -->
+<div class="slide" id="slide-3">
+  <h2><span class="icon">&#x1f4c8;</span> Test Functions Growth Trend</h2>
+  <div class="chart-container" style="flex: 1;">
+    <canvas id="growthChart"></canvas>
+  </div>
+</div>
+
+<!-- Slide 4: Active vs Ignored -->
+<div class="slide" id="slide-4">
+  <h2><span class="icon">&#x2705;</span> Active vs Ignored Tests</h2>
+  <div class="chart-row">
+    <div class="chart-container">
+      <h3 style="margin-bottom:8px;">Test Status by Period</h3>
+      <div class="chart-wrapper">
+        <canvas id="activeIgnoredChart"></canvas>
+      </div>
+    </div>
+    <div class="chart-container">
+      <h3 style="margin-bottom:8px;">Active Rate Trend</h3>
+      <div class="chart-wrapper">
+        <canvas id="activeRateChart"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 5: Current State Breakdown -->
+<div class="slide" id="slide-5">
+  <h2><span class="icon">&#x1f50d;</span> Current State - February 6, 2026</h2>
+  <div class="flex-row">
+    <div style="flex: 1; display: flex; flex-direction: column; gap: 20px;">
+      <div class="card">
+        <div class="label">tests_e2e (End-to-End)</div>
+        <div style="display:flex; gap: 24px; align-items: baseline; margin: 8px 0;">
+          <div><span style="font-size:2.2rem; font-weight:800; color:var(--accent);">65</span> <span style="color:var(--text-muted); font-size:0.9rem;">tests</span></div>
+          <div><span style="font-size:1.4rem; font-weight:700; color:var(--green);">62</span> <span style="color:var(--text-muted); font-size:0.85rem;">active</span></div>
+          <div><span style="font-size:1.4rem; font-weight:700; color:var(--red);">3</span> <span style="color:var(--text-muted); font-size:0.85rem;">ignored</span></div>
+        </div>
+        <div class="progress-wrap">
+          <div class="progress-label"><span>Active Rate</span><span>95.4%</span></div>
+          <div class="progress-bar"><div class="progress-fill blue" style="width:95.4%"></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="label">tests_graphql (GraphQL API)</div>
+        <div style="display:flex; gap: 24px; align-items: baseline; margin: 8px 0;">
+          <div><span style="font-size:2.2rem; font-weight:800; color:var(--accent-2);">113</span> <span style="color:var(--text-muted); font-size:0.9rem;">tests</span></div>
+          <div><span style="font-size:1.4rem; font-weight:700; color:var(--green);">111</span> <span style="color:var(--text-muted); font-size:0.85rem;">active</span></div>
+          <div><span style="font-size:1.4rem; font-weight:700; color:var(--red);">2</span> <span style="color:var(--text-muted); font-size:0.85rem;">ignored</span></div>
+        </div>
+        <div class="progress-wrap">
+          <div class="progress-label"><span>Active Rate</span><span>98.2%</span></div>
+          <div class="progress-bar"><div class="progress-fill green" style="width:98.2%"></div></div>
+        </div>
+      </div>
+      <div class="card green">
+        <div class="label">Grand Total</div>
+        <div style="display:flex; gap: 24px; align-items: baseline; margin: 8px 0;">
+          <div><span style="font-size:2.2rem; font-weight:800; color:var(--text);">178</span> <span style="color:var(--text-muted); font-size:0.9rem;">tests</span></div>
+          <div><span style="font-size:1.4rem; font-weight:700; color:var(--green);">173</span> <span style="color:var(--text-muted); font-size:0.85rem;">active</span></div>
+          <div><span style="font-size:1.4rem; font-weight:700; color:var(--red);">5</span> <span style="color:var(--text-muted); font-size:0.85rem;">ignored</span></div>
+        </div>
+        <div class="progress-wrap">
+          <div class="progress-label"><span>Active Rate</span><span>97.2%</span></div>
+          <div class="progress-bar"><div class="progress-fill green" style="width:97.2%"></div></div>
+        </div>
+      </div>
+    </div>
+    <div style="flex: 1;">
+      <div class="chart-container" style="height: 100%;">
+        <h3 style="margin-bottom: 8px;">Distribution by Type</h3>
+        <div style="height: calc(100% - 36px); display:flex; align-items:center; justify-content:center;">
+          <canvas id="distributionChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 6: Period Comparison - E2E -->
+<div class="slide" id="slide-6">
+  <h2><span class="icon">&#x1f504;</span> Two-Week Comparison - E2E Tests</h2>
+  <div class="flex-row">
+    <div style="flex: 1.2;">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Metric</th><th>Period 1<br><small>Jan 12-25</small></th><th>Period 2<br><small>Jan 26 - Feb 6</small></th><th>Change</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Test Files</td><td class="num">27</td><td class="num">29</td><td class="positive">+2 (+7.4%)</td></tr>
+            <tr><td>Total Functions</td><td class="num">48</td><td class="num">65</td><td class="positive">+17 (+35.4%)</td></tr>
+            <tr><td>Active Tests</td><td class="num">45</td><td class="num">62</td><td class="positive">+17 (+37.8%)</td></tr>
+            <tr><td>Ignored Tests</td><td class="num">3</td><td class="num">3</td><td class="num" style="color:var(--text-muted)">0</td></tr>
+            <tr><td>Active Rate</td><td class="num">93.8%</td><td class="num">95.4%</td><td class="positive">+1.6%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top: 20px;">
+        <div class="compare-bar-group">
+          <div class="compare-bar-label"><span class="name">Period 1 - Functions</span><span class="val">48</span></div>
+          <div class="compare-bar"><div class="fill" style="width:73.8%; background: linear-gradient(90deg, rgba(56,189,248,0.4), rgba(56,189,248,0.6));">48</div></div>
+        </div>
+        <div class="compare-bar-group">
+          <div class="compare-bar-label"><span class="name">Period 2 - Functions</span><span class="val">65</span></div>
+          <div class="compare-bar"><div class="fill" style="width:100%; background: linear-gradient(90deg, var(--accent), var(--accent-2));">65</div></div>
+        </div>
+      </div>
+    </div>
+    <div style="flex: 0.8;">
+      <div class="chart-container" style="height: 100%;">
+        <canvas id="e2eCompareChart"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 7: Period Comparison - GraphQL -->
+<div class="slide" id="slide-7">
+  <h2><span class="icon">&#x1f504;</span> Two-Week Comparison - GraphQL Tests</h2>
+  <div class="flex-row">
+    <div style="flex: 1.2;">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Metric</th><th>Period 1<br><small>Jan 12-25</small></th><th>Period 2<br><small>Jan 26 - Feb 6</small></th><th>Change</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Test Files</td><td class="num">58</td><td class="num">58</td><td class="num" style="color:var(--text-muted)">0</td></tr>
+            <tr><td>Total Functions</td><td class="num">113</td><td class="num">113</td><td class="num" style="color:var(--text-muted)">0</td></tr>
+            <tr><td>Active Tests</td><td class="num">106</td><td class="num">111</td><td class="positive">+5 (+4.7%)</td></tr>
+            <tr><td>Ignored Tests</td><td class="num">7</td><td class="num">2</td><td class="positive">-5 (-71.4%)</td></tr>
+            <tr><td>Active Rate</td><td class="num">93.8%</td><td class="num">98.2%</td><td class="positive">+4.4%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top: 20px;">
+        <div class="compare-bar-group">
+          <div class="compare-bar-label"><span class="name">Period 1 - Ignored</span><span class="val">7 ignored</span></div>
+          <div class="compare-bar"><div class="fill" style="width:100%; background: linear-gradient(90deg, rgba(248,113,113,0.5), rgba(248,113,113,0.7));">7</div></div>
+        </div>
+        <div class="compare-bar-group">
+          <div class="compare-bar-label"><span class="name">Period 2 - Ignored</span><span class="val">2 ignored</span></div>
+          <div class="compare-bar"><div class="fill" style="width:28.6%; background: linear-gradient(90deg, var(--green), var(--cyan));">2</div></div>
+        </div>
+      </div>
+    </div>
+    <div style="flex: 0.8;">
+      <div class="chart-container" style="height: 100%;">
+        <canvas id="graphqlCompareChart"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 8: Grand Total Comparison -->
+<div class="slide" id="slide-8">
+  <h2><span class="icon">&#x1f3af;</span> Grand Total - Period Comparison</h2>
+  <div class="table-wrap" style="margin-bottom: 24px;">
+    <table>
+      <thead>
+        <tr><th>Metric</th><th>Period 1 (Jan 12-25)</th><th>Period 2 (Jan 26 - Feb 6)</th><th>Change</th><th>% Change</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Total Test Files</td><td class="num">85</td><td class="num">87</td><td class="positive">+2</td><td class="positive">+2.4%</td></tr>
+        <tr><td>Total Test Functions</td><td class="num">161</td><td class="num">178</td><td class="positive">+17</td><td class="positive">+10.6%</td></tr>
+        <tr><td>Active Tests</td><td class="num">151</td><td class="num">173</td><td class="positive">+22</td><td class="positive">+14.6%</td></tr>
+        <tr><td>Ignored Tests</td><td class="num">10</td><td class="num">5</td><td class="positive">-5</td><td class="positive">-50%</td></tr>
+        <tr><td>Active Rate</td><td class="num">93.8%</td><td class="num">97.2%</td><td class="positive">+3.4%</td><td style="color:var(--text-muted)">-</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div style="flex:1; min-height: 0;">
+    <div class="chart-container" style="height: 100%;">
+      <canvas id="grandTotalChart"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 9: What Changed -->
+<div class="slide" id="slide-9">
+  <h2><span class="icon">&#x1f195;</span> What Changed in Period 2</h2>
+  <div class="flex-row">
+    <div style="flex: 1; display: flex; flex-direction: column; gap: 16px;">
+      <div class="card">
+        <h3>New E2E Test File</h3>
+        <div style="display:flex; align-items:center; gap:12px; margin: 8px 0;">
+          <span style="font-family:monospace; color:var(--accent); font-size:0.95rem;">test_e2e_search_bar.py</span>
+          <span class="badge success">10+ tests</span>
+          <span class="badge success">NEW</span>
+        </div>
+        <p style="color:var(--text-muted); font-size:0.9rem;">Complete E2E coverage for customer search history feature</p>
+      </div>
+      <div class="card green">
+        <h3>GraphQL Tests Re-enabled</h3>
+        <ul class="bullet-list" style="margin-top:8px;">
+          <li><span class="dot green"></span><span>5 cart pickup location tests stabilized</span></li>
+          <li><span class="dot green"></span><span>Enhanced with proper wait states</span></li>
+          <li><span class="dot green"></span><span>Improved assertions and reliability</span></li>
+        </ul>
+      </div>
+      <div class="card pink">
+        <h3>513 Lines of New Test Code</h3>
+        <p style="color:var(--text-muted); font-size:0.9rem; margin-top:4px;">Search history tracking, product suggestions, history display</p>
+      </div>
+    </div>
+    <div style="flex: 1;">
+      <div class="card" style="height: 100%;">
+        <h3>New E2E Components (+8)</h3>
+        <ul class="bullet-list" style="margin-top: 12px;">
+          <li><span class="dot"></span><span><code style="color:var(--accent);">search_bar_component.py</code></span></li>
+          <li><span class="dot"></span><span><code style="color:var(--accent);">search_history_section_component.py</code></span></li>
+          <li><span class="dot"></span><span><code style="color:var(--accent);">search_history_section_item_component.py</code></span></li>
+          <li><span class="dot"></span><span><code style="color:var(--accent);">search_products_section_component.py</code></span></li>
+          <li><span class="dot"></span><span><code style="color:var(--accent);">search_products_section_item_component.py</code></span></li>
+          <li><span class="dot"></span><span><code style="color:var(--accent);">search_suggestions_dropdown_component.py</code></span></li>
+          <li><span class="dot pink"></span><span><code style="color:var(--pink);">pickup_location_list_item_component.py</code></span></li>
+          <li><span class="dot pink"></span><span><code style="color:var(--pink);">select_bopis_map_modal_component.py</code></span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 10: Ignored Tests -->
+<div class="slide" id="slide-10">
+  <h2><span class="icon">&#x26a0;&#xfe0f;</span> Ignored Tests Analysis</h2>
+  <div class="cards cards-3" style="margin-bottom: 24px;">
+    <div class="card">
+      <div class="label">Previous Period</div>
+      <div class="value" style="color:var(--red);">10</div>
+      <div class="change" style="color:var(--text-muted);">6.2% of total</div>
+    </div>
+    <div class="card green">
+      <div class="label">Current Period</div>
+      <div class="value" style="color:var(--green);">5</div>
+      <div class="change positive">2.8% of total</div>
+    </div>
+    <div class="card yellow">
+      <div class="label">Reduction</div>
+      <div class="value" style="color:var(--yellow);">50%</div>
+      <div class="change positive">-5 tests removed</div>
+    </div>
+  </div>
+  <div class="flex-row">
+    <div style="flex: 1;">
+      <h3>E2E Ignored (3)</h3>
+      <div style="display:flex; flex-direction:column; gap:10px; margin-top:12px;">
+        <div class="ignored-item">
+          <div class="file">test_e2e_select_language_in_store.py</div>
+          <div class="count">1</div>
+          <div class="reason">Under investigation</div>
+        </div>
+        <div class="ignored-item">
+          <div class="file">test_e2e_select_pickup_location.py</div>
+          <div class="count">2</div>
+          <div class="reason">Stability issues</div>
+        </div>
+      </div>
+      <h3 style="margin-top: 20px;">GraphQL Ignored (2)</h3>
+      <div style="display:flex; flex-direction:column; gap:10px; margin-top:12px;">
+        <div class="ignored-item">
+          <div class="file">test_graphql_page_context.py</div>
+          <div class="count">1</div>
+          <div class="reason">Flaky behavior</div>
+        </div>
+        <div class="ignored-item">
+          <div class="file">test_graphql_invite_user.py</div>
+          <div class="count">1</div>
+          <div class="reason">Indexing timing</div>
+        </div>
+      </div>
+    </div>
+    <div style="flex: 0.8;">
+      <div class="chart-container" style="height: 100%;">
+        <canvas id="ignoredChart"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 11: Quality Metrics -->
+<div class="slide" id="slide-11">
+  <h2><span class="icon">&#x1f3af;</span> Quality Metrics</h2>
+  <div class="cards cards-3" style="margin-bottom: 24px;">
+    <div class="card green">
+      <div class="label">Active Test Rate</div>
+      <div class="value" style="color:var(--green);">97.2%</div>
+      <div class="change positive">Target: 95% - EXCEEDING</div>
+      <div class="progress-wrap">
+        <div class="progress-bar"><div class="progress-fill green" style="width:97.2%"></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="label">New Test Code</div>
+      <div class="value" style="color:var(--accent);">+513</div>
+      <div class="change" style="color:var(--text-muted);">lines (search feature)</div>
+    </div>
+    <div class="card yellow">
+      <div class="label">Net Codebase Growth</div>
+      <div class="value" style="color:var(--yellow);">+837</div>
+      <div class="change" style="color:var(--text-muted);">lines total</div>
+    </div>
+  </div>
+  <div class="chart-row">
+    <div class="chart-container">
+      <h3 style="margin-bottom:8px;">Growth Velocity (tests/day)</h3>
+      <div class="chart-wrapper">
+        <canvas id="velocityChart"></canvas>
+      </div>
+    </div>
+    <div class="chart-container">
+      <h3 style="margin-bottom:8px;">Test Distribution Balance</h3>
+      <div class="chart-wrapper" style="display:flex; align-items:center; justify-content:center;">
+        <canvas id="balanceChart"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 12: Key Achievements -->
+<div class="slide" id="slide-12">
+  <h2><span class="icon">&#x1f680;</span> Key Achievements</h2>
+  <div class="achievement-grid">
+    <div class="achievement">
+      <div class="a-icon blue">&#x1f50d;</div>
+      <div>
+        <div class="a-title">New Feature Coverage</div>
+        <div class="a-desc">Customer search history fully tested with 10+ new E2E tests and 8 reusable components</div>
+      </div>
+    </div>
+    <div class="achievement">
+      <div class="a-icon green">&#x2705;</div>
+      <div>
+        <div class="a-title">Test Stabilization</div>
+        <div class="a-desc">50% reduction in ignored tests. Pickup location tests re-enabled with enhanced wait states</div>
+      </div>
+    </div>
+    <div class="achievement">
+      <div class="a-icon purple">&#x1f4c8;</div>
+      <div>
+        <div class="a-title">E2E Growth: +35%</div>
+        <div class="a-desc">17 new E2E test functions added. Active test count grew from 45 to 62</div>
+      </div>
+    </div>
+    <div class="achievement">
+      <div class="a-icon pink">&#x1f3af;</div>
+      <div>
+        <div class="a-title">Active Rate: 97.2%</div>
+        <div class="a-desc">Improved from 93.8%, exceeding the 95% target. Only 5 tests remain ignored</div>
+      </div>
+    </div>
+    <div class="achievement">
+      <div class="a-icon blue">&#x2699;&#xfe0f;</div>
+      <div>
+        <div class="a-title">Infrastructure</div>
+        <div class="a-desc">CI/CD automation with Docker, GitHub Actions, SendGrid integration for email testing</div>
+      </div>
+    </div>
+    <div class="achievement">
+      <div class="a-icon green">&#x1f510;</div>
+      <div>
+        <div class="a-title">Auth Enhancement</div>
+        <div class="a-desc">UI-based login, improved JWT handling, token expiration management</div>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top: 24px;">
+    <div class="card" style="display:flex; gap:48px; align-items:center; justify-content:center; padding:20px;">
+      <div style="text-align:center;">
+        <div style="font-size:0.8rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.05em;">Sprint Duration</div>
+        <div style="font-size:1.8rem; font-weight:800; color:var(--accent);">12 days</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-size:0.8rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.05em;">New Tests</div>
+        <div style="font-size:1.8rem; font-weight:800; color:var(--green);">+17</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-size:0.8rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.05em;">New Files</div>
+        <div style="font-size:1.8rem; font-weight:800; color:var(--accent-2);">+2</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-size:0.8rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.05em;">Tests/Day</div>
+        <div style="font-size:1.8rem; font-weight:800; color:var(--yellow);">1.13</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 13: Recommendations -->
+<div class="slide" id="slide-13">
+  <h2><span class="icon">&#x1f4cb;</span> Recommendations for Next Period</h2>
+  <div class="cards cards-2">
+    <div class="card">
+      <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+        <div style="width:36px; height:36px; border-radius:10px; background:rgba(74,222,128,0.15); display:flex; align-items:center; justify-content:center; font-size:1.1rem;">1</div>
+        <h3 style="margin:0;">Continue Test Stabilization</h3>
+      </div>
+      <ul class="bullet-list">
+        <li><span class="dot green"></span><span>Address remaining 5 ignored tests</span></li>
+        <li><span class="dot green"></span><span>Target: &lt;2% ignored test rate</span></li>
+        <li><span class="dot green"></span><span>Focus on pickup location &amp; page context stability</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+        <div style="width:36px; height:36px; border-radius:10px; background:rgba(56,189,248,0.15); display:flex; align-items:center; justify-content:center; font-size:1.1rem;">2</div>
+        <h3 style="margin:0;">Maintain Growth Momentum</h3>
+      </div>
+      <ul class="bullet-list">
+        <li><span class="dot"></span><span>Continue 1+ test per day average</span></li>
+        <li><span class="dot"></span><span>Focus on critical user journeys</span></li>
+        <li><span class="dot"></span><span>Expand coverage for new features</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+        <div style="width:36px; height:36px; border-radius:10px; background:rgba(129,140,248,0.15); display:flex; align-items:center; justify-content:center; font-size:1.1rem;">3</div>
+        <h3 style="margin:0;">Infrastructure Enhancement</h3>
+      </div>
+      <ul class="bullet-list">
+        <li><span class="dot pink"></span><span>Expand CI/CD coverage</span></li>
+        <li><span class="dot pink"></span><span>Add automated coverage reporting</span></li>
+        <li><span class="dot pink"></span><span>Integrate with PR review workflow</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+        <div style="width:36px; height:36px; border-radius:10px; background:rgba(244,114,182,0.15); display:flex; align-items:center; justify-content:center; font-size:1.1rem;">4</div>
+        <h3 style="margin:0;">Component Library Expansion</h3>
+      </div>
+      <ul class="bullet-list">
+        <li><span class="dot orange"></span><span>Reuse new search components across tests</span></li>
+        <li><span class="dot orange"></span><span>Document component patterns</span></li>
+        <li><span class="dot orange"></span><span>Standardize page object model usage</span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 14: Thank You -->
+<div class="slide title-slide" id="slide-14">
+  <h1>Thank You</h1>
+  <h2>Questions &amp; Discussion</h2>
+  <div class="meta">
+    <span>Sprint 26-02</span>
+    <span>Feb 6, 2026</span>
+    <span>VirtoCommerce QA</span>
+  </div>
+</div>
+
+<!-- Navigation -->
+<div class="nav">
+  <button id="prevBtn" onclick="changeSlide(-1)">&#x2190;</button>
+  <button id="nextBtn" onclick="changeSlide(1)">&#x2192;</button>
+</div>
+<div class="slide-counter"><span id="current">1</span> / <span id="total">14</span></div>
+
+<script>
+let currentSlide = 1;
+const totalSlides = 14;
+
+function showSlide(n) {
+  document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+  document.getElementById('slide-' + n).classList.add('active');
+  document.getElementById('current').textContent = n;
+  document.getElementById('prevBtn').disabled = n === 1;
+  document.getElementById('nextBtn').disabled = n === totalSlides;
+  currentSlide = n;
+}
+
+function changeSlide(d) {
+  const next = currentSlide + d;
+  if (next >= 1 && next <= totalSlides) showSlide(next);
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); changeSlide(1); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); changeSlide(-1); }
+  if (e.key === 'Home') { e.preventDefault(); showSlide(1); }
+  if (e.key === 'End') { e.preventDefault(); showSlide(totalSlides); }
+});
+
+// Chart defaults
+Chart.defaults.color = '#94a3b8';
+Chart.defaults.borderColor = 'rgba(71, 85, 105, 0.4)';
+Chart.defaults.font.family = "'Inter', sans-serif";
+
+// Slide 3: Growth Trend
+new Chart(document.getElementById('growthChart'), {
+  type: 'line',
+  data: {
+    labels: ['Dec 23, 2025', 'Jan 22, 2026', 'Feb 6, 2026'],
+    datasets: [
+      {
+        label: 'Total Tests',
+        data: [121, 161, 178],
+        borderColor: '#38bdf8',
+        backgroundColor: 'rgba(56, 189, 248, 0.1)',
+        fill: true,
+        tension: 0.3,
+        pointRadius: 8,
+        pointHoverRadius: 12,
+        pointBackgroundColor: '#38bdf8',
+        borderWidth: 3
+      },
+      {
+        label: 'Active Tests',
+        data: [118, 151, 173],
+        borderColor: '#4ade80',
+        backgroundColor: 'rgba(74, 222, 128, 0.08)',
+        fill: true,
+        tension: 0.3,
+        pointRadius: 8,
+        pointHoverRadius: 12,
+        pointBackgroundColor: '#4ade80',
+        borderWidth: 3
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'top', labels: { padding: 20, font: { size: 14 } } },
+      tooltip: {
+        backgroundColor: '#1e293b',
+        titleColor: '#f1f5f9',
+        bodyColor: '#f1f5f9',
+        borderColor: '#475569',
+        borderWidth: 1,
+        padding: 12,
+        titleFont: { size: 14 },
+        bodyFont: { size: 13 }
+      }
+    },
+    scales: {
+      y: {
+        beginAtZero: false,
+        min: 90,
+        max: 200,
+        grid: { color: 'rgba(71, 85, 105, 0.3)' },
+        ticks: { font: { size: 13 } }
+      },
+      x: {
+        grid: { color: 'rgba(71, 85, 105, 0.3)' },
+        ticks: { font: { size: 13 } }
+      }
+    }
+  }
+});
+
+// Slide 4: Active vs Ignored
+new Chart(document.getElementById('activeIgnoredChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Period 1\nJan 12-25', 'Period 2\nJan 26-Feb 6'],
+    datasets: [
+      {
+        label: 'Active',
+        data: [151, 173],
+        backgroundColor: 'rgba(74, 222, 128, 0.7)',
+        borderColor: '#4ade80',
+        borderWidth: 2,
+        borderRadius: 6
+      },
+      {
+        label: 'Ignored',
+        data: [10, 5],
+        backgroundColor: 'rgba(248, 113, 113, 0.7)',
+        borderColor: '#f87171',
+        borderWidth: 2,
+        borderRadius: 6
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'top', labels: { padding: 16, font: { size: 13 } } }
+    },
+    scales: {
+      y: { beginAtZero: true, grid: { color: 'rgba(71, 85, 105, 0.3)' } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+new Chart(document.getElementById('activeRateChart'), {
+  type: 'line',
+  data: {
+    labels: ['Dec 23', 'Jan 22', 'Feb 6'],
+    datasets: [
+      {
+        label: 'Active Rate %',
+        data: [97.5, 93.8, 97.2],
+        borderColor: '#facc15',
+        backgroundColor: 'rgba(250, 204, 21, 0.1)',
+        fill: true,
+        tension: 0.3,
+        pointRadius: 8,
+        pointBackgroundColor: '#facc15',
+        borderWidth: 3
+      },
+      {
+        label: 'Target (95%)',
+        data: [95, 95, 95],
+        borderColor: 'rgba(248, 113, 113, 0.5)',
+        borderDash: [8, 4],
+        pointRadius: 0,
+        borderWidth: 2,
+        fill: false
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'top', labels: { padding: 16, font: { size: 13 } } }
+    },
+    scales: {
+      y: { min: 88, max: 100, grid: { color: 'rgba(71, 85, 105, 0.3)' }, ticks: { callback: v => v + '%' } },
+      x: { grid: { color: 'rgba(71, 85, 105, 0.3)' } }
+    }
+  }
+});
+
+// Slide 5: Distribution Doughnut
+new Chart(document.getElementById('distributionChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['E2E Tests (65)', 'GraphQL Tests (113)'],
+    datasets: [{
+      data: [65, 113],
+      backgroundColor: ['rgba(56, 189, 248, 0.8)', 'rgba(129, 140, 248, 0.8)'],
+      borderColor: ['#38bdf8', '#818cf8'],
+      borderWidth: 2,
+      hoverOffset: 8
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: true,
+    cutout: '55%',
+    plugins: {
+      legend: { position: 'bottom', labels: { padding: 20, font: { size: 14 } } }
+    }
+  }
+});
+
+// Slide 6: E2E Compare
+new Chart(document.getElementById('e2eCompareChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Files', 'Total', 'Active', 'Ignored'],
+    datasets: [
+      {
+        label: 'Period 1',
+        data: [27, 48, 45, 3],
+        backgroundColor: 'rgba(56, 189, 248, 0.4)',
+        borderColor: 'rgba(56, 189, 248, 0.7)',
+        borderWidth: 1,
+        borderRadius: 4
+      },
+      {
+        label: 'Period 2',
+        data: [29, 65, 62, 3],
+        backgroundColor: 'rgba(56, 189, 248, 0.8)',
+        borderColor: '#38bdf8',
+        borderWidth: 1,
+        borderRadius: 4
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { position: 'top', labels: { padding: 16, font: { size: 13 } } } },
+    scales: {
+      y: { beginAtZero: true, grid: { color: 'rgba(71, 85, 105, 0.3)' } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// Slide 7: GraphQL Compare
+new Chart(document.getElementById('graphqlCompareChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Files', 'Total', 'Active', 'Ignored'],
+    datasets: [
+      {
+        label: 'Period 1',
+        data: [58, 113, 106, 7],
+        backgroundColor: 'rgba(129, 140, 248, 0.4)',
+        borderColor: 'rgba(129, 140, 248, 0.7)',
+        borderWidth: 1,
+        borderRadius: 4
+      },
+      {
+        label: 'Period 2',
+        data: [58, 113, 111, 2],
+        backgroundColor: 'rgba(129, 140, 248, 0.8)',
+        borderColor: '#818cf8',
+        borderWidth: 1,
+        borderRadius: 4
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { position: 'top', labels: { padding: 16, font: { size: 13 } } } },
+    scales: {
+      y: { beginAtZero: true, grid: { color: 'rgba(71, 85, 105, 0.3)' } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// Slide 8: Grand Total
+new Chart(document.getElementById('grandTotalChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Test Files', 'Total Functions', 'Active Tests', 'Ignored Tests'],
+    datasets: [
+      {
+        label: 'Period 1 (Jan 12-25)',
+        data: [85, 161, 151, 10],
+        backgroundColor: 'rgba(148, 163, 184, 0.3)',
+        borderColor: 'rgba(148, 163, 184, 0.6)',
+        borderWidth: 1,
+        borderRadius: 6
+      },
+      {
+        label: 'Period 2 (Jan 26-Feb 6)',
+        data: [87, 178, 173, 5],
+        backgroundColor: ['rgba(56,189,248,0.7)', 'rgba(129,140,248,0.7)', 'rgba(74,222,128,0.7)', 'rgba(248,113,113,0.7)'],
+        borderColor: ['#38bdf8', '#818cf8', '#4ade80', '#f87171'],
+        borderWidth: 2,
+        borderRadius: 6
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { position: 'top', labels: { padding: 16, font: { size: 14 } } } },
+    scales: {
+      y: { beginAtZero: true, grid: { color: 'rgba(71, 85, 105, 0.3)' } },
+      x: { grid: { display: false }, ticks: { font: { size: 13 } } }
+    }
+  }
+});
+
+// Slide 10: Ignored Tests
+new Chart(document.getElementById('ignoredChart'), {
+  type: 'bar',
+  data: {
+    labels: ['E2E', 'GraphQL'],
+    datasets: [
+      {
+        label: 'Period 1',
+        data: [3, 7],
+        backgroundColor: 'rgba(248, 113, 113, 0.5)',
+        borderColor: '#f87171',
+        borderWidth: 1,
+        borderRadius: 6
+      },
+      {
+        label: 'Period 2',
+        data: [3, 2],
+        backgroundColor: 'rgba(74, 222, 128, 0.5)',
+        borderColor: '#4ade80',
+        borderWidth: 1,
+        borderRadius: 6
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    indexAxis: 'y',
+    plugins: { legend: { position: 'top', labels: { padding: 16, font: { size: 13 } } } },
+    scales: {
+      x: { beginAtZero: true, grid: { color: 'rgba(71, 85, 105, 0.3)' }, ticks: { stepSize: 1 } },
+      y: { grid: { display: false }, ticks: { font: { size: 14, weight: '600' } } }
+    }
+  }
+});
+
+// Slide 11: Velocity
+new Chart(document.getElementById('velocityChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Sprint 26-01\n(30 days)', 'Sprint 26-02\n(12 days)'],
+    datasets: [
+      {
+        label: 'Tests / Day',
+        data: [1.33, 1.13],
+        backgroundColor: ['rgba(56, 189, 248, 0.7)', 'rgba(129, 140, 248, 0.7)'],
+        borderColor: ['#38bdf8', '#818cf8'],
+        borderWidth: 2,
+        borderRadius: 6,
+        barThickness: 60
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: { label: ctx => ctx.parsed.y + ' tests/day' }
+      }
+    },
+    scales: {
+      y: { beginAtZero: true, max: 2, grid: { color: 'rgba(71, 85, 105, 0.3)' }, ticks: { stepSize: 0.5 } },
+      x: { grid: { display: false }, ticks: { font: { size: 13 } } }
+    }
+  }
+});
+
+// Balance Chart
+new Chart(document.getElementById('balanceChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['E2E (36.5%)', 'GraphQL (63.5%)'],
+    datasets: [{
+      data: [36.5, 63.5],
+      backgroundColor: ['rgba(56, 189, 248, 0.8)', 'rgba(129, 140, 248, 0.8)'],
+      borderColor: ['#38bdf8', '#818cf8'],
+      borderWidth: 2,
+      hoverOffset: 8
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: true,
+    cutout: '55%',
+    plugins: {
+      legend: { position: 'bottom', labels: { padding: 16, font: { size: 13 } } },
+      title: {
+        display: true,
+        text: 'Target: 30-40% E2E  |  Status: Well-balanced',
+        color: '#4ade80',
+        font: { size: 12 },
+        padding: { top: 10 }
+      }
+    }
+  }
+});
+</script>
+</body>
+</html>
