@@ -27,6 +27,8 @@ from .select_address_modal_component import SelectAddressModalComponent
 from .select_bopis_map_modal_component import SelectBopisMapModalComponent
 from .top_header_account_menu_component import TopHeaderAccountMenuComponent
 from .top_header_component import TopHeaderComponent
+from .variation_option_component import VariationOptionComponent
+from .variation_selector_component import VariationSelectorComponent
 
 __all__ = [
     "AccountMenuComponent",
@@ -58,4 +60,6 @@ __all__ = [
     "SearchHistorySectionItemComponent",
     "SearchProductsSectionComponent",
     "SearchProductsSectionItemComponent",
+    "VariationOptionComponent",
+    "VariationSelectorComponent",
 ]

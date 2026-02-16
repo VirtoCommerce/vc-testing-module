@@ -1321,6 +1321,631 @@
                     "productId": "product-acme-product8-mfc-stock"
                 }
             ]
+        },
+        {
+            "productId": "product-b2c-test-sport-band",
+            "product": {
+                "id": "product-b2c-test-sport-band",
+                "name": "Sport Band"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 49.00,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-b2c-test-sport-band"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 45.00,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-b2c-test-sport-band"
+                }
+            ]
+        },
+        {
+            "productId": "B2C-SPORT-BAND-MIDNIGHT-42-SM",
+            "product": {
+                "id": "B2C-SPORT-BAND-MIDNIGHT-42-SM",
+                "name": "Sport Band - Midnight Black - 42mm - S/M"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 39.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2C-SPORT-BAND-MIDNIGHT-42-SM"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 36.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2C-SPORT-BAND-MIDNIGHT-42-SM"
+                }
+            ]
+        },
+        {
+            "productId": "B2C-SPORT-BAND-MIDNIGHT-42-ML",
+            "product": {
+                "id": "B2C-SPORT-BAND-MIDNIGHT-42-ML",
+                "name": "Sport Band - Midnight Black - 42mm - M/L"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 39.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2C-SPORT-BAND-MIDNIGHT-42-ML"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 36.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2C-SPORT-BAND-MIDNIGHT-42-ML"
+                }
+            ]
+        },
+        {
+            "productId": "B2C-SPORT-BAND-MIDNIGHT-45-SM",
+            "product": {
+                "id": "B2C-SPORT-BAND-MIDNIGHT-45-SM",
+                "name": "Sport Band - Midnight Black - 45mm - S/M"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 44.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2C-SPORT-BAND-MIDNIGHT-45-SM"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 41.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2C-SPORT-BAND-MIDNIGHT-45-SM"
+                }
+            ]
+        },
+        {
+            "productId": "B2C-SPORT-BAND-MIDNIGHT-45-ML",
+            "product": {
+                "id": "B2C-SPORT-BAND-MIDNIGHT-45-ML",
+                "name": "Sport Band - Midnight Black - 45mm - M/L"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 44.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2C-SPORT-BAND-MIDNIGHT-45-ML"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 41.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2C-SPORT-BAND-MIDNIGHT-45-ML"
+                }
+            ]
+        },
+        {
+            "productId": "B2C-SPORT-BAND-MIDNIGHT-49-ML",
+            "product": {
+                "id": "B2C-SPORT-BAND-MIDNIGHT-49-ML",
+                "name": "Sport Band - Midnight Black - 49mm - M/L"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 49.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2C-SPORT-BAND-MIDNIGHT-49-ML"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 46.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2C-SPORT-BAND-MIDNIGHT-49-ML"
+                }
+            ]
+        },
+        {
+            "productId": "B2C-SPORT-BAND-STARLIGHT-42-SM",
+            "product": {
+                "id": "B2C-SPORT-BAND-STARLIGHT-42-SM",
+                "name": "Sport Band - Starlight - 42mm - S/M"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 42.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2C-SPORT-BAND-STARLIGHT-42-SM"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 39.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2C-SPORT-BAND-STARLIGHT-42-SM"
+                }
+            ]
+        },
+        {
+            "productId": "B2C-SPORT-BAND-STARLIGHT-45-ML",
+            "product": {
+                "id": "B2C-SPORT-BAND-STARLIGHT-45-ML",
+                "name": "Sport Band - Starlight - 45mm - M/L"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 47.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2C-SPORT-BAND-STARLIGHT-45-ML"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 44.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2C-SPORT-BAND-STARLIGHT-45-ML"
+                }
+            ]
+        },
+        {
+            "productId": "B2C-SPORT-BAND-LIGHTBLUSH-45-SM",
+            "product": {
+                "id": "B2C-SPORT-BAND-LIGHTBLUSH-45-SM",
+                "name": "Sport Band - Light Blush - 45mm - S/M"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 46.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2C-SPORT-BAND-LIGHTBLUSH-45-SM"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 43.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2C-SPORT-BAND-LIGHTBLUSH-45-SM"
+                }
+            ]
+        },
+        {
+            "productId": "B2C-SPORT-BAND-LIGHTBLUSH-45-ML",
+            "product": {
+                "id": "B2C-SPORT-BAND-LIGHTBLUSH-45-ML",
+                "name": "Sport Band - Light Blush - 45mm - M/L"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 46.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2C-SPORT-BAND-LIGHTBLUSH-45-ML"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 43.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2C-SPORT-BAND-LIGHTBLUSH-45-ML"
+                }
+            ]
+        },
+        {
+            "productId": "B2C-SPORT-BAND-ANCHORBLUE-42-ML",
+            "product": {
+                "id": "B2C-SPORT-BAND-ANCHORBLUE-42-ML",
+                "name": "Sport Band - Anchor Blue - 42mm - M/L"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 44.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2C-SPORT-BAND-ANCHORBLUE-42-ML"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 41.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2C-SPORT-BAND-ANCHORBLUE-42-ML"
+                }
+            ]
+        },
+        {
+            "productId": "B2C-SPORT-BAND-ANCHORBLUE-45-ML",
+            "product": {
+                "id": "B2C-SPORT-BAND-ANCHORBLUE-45-ML",
+                "name": "Sport Band - Anchor Blue - 45mm - M/L"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 49.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2C-SPORT-BAND-ANCHORBLUE-45-ML"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 46.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2C-SPORT-BAND-ANCHORBLUE-45-ML"
+                }
+            ]
+        },
+        {
+            "productId": "B2C-SPORT-BAND-STONEGRAY-45-SM",
+            "product": {
+                "id": "B2C-SPORT-BAND-STONEGRAY-45-SM",
+                "name": "Sport Band - Stone Gray - 45mm - S/M"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 45.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2C-SPORT-BAND-STONEGRAY-45-SM"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 42.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2C-SPORT-BAND-STONEGRAY-45-SM"
+                }
+            ]
+        },
+        {
+            "productId": "B2C-SPORT-BAND-STONEGRAY-49-ML",
+            "product": {
+                "id": "B2C-SPORT-BAND-STONEGRAY-49-ML",
+                "name": "Sport Band - Stone Gray - 49mm - M/L"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 52.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2C-SPORT-BAND-STONEGRAY-49-ML"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 48.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2C-SPORT-BAND-STONEGRAY-49-ML"
+                }
+            ]
+        },
+        {
+            "productId": "B2C-SPORT-BAND-PURPLEFOG-42-SM",
+            "product": {
+                "id": "B2C-SPORT-BAND-PURPLEFOG-42-SM",
+                "name": "Sport Band - Purple Fog - 42mm - S/M"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 47.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2C-SPORT-BAND-PURPLEFOG-42-SM"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 44.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2C-SPORT-BAND-PURPLEFOG-42-SM"
+                }
+            ]
+        },
+        {
+            "productId": "B2C-SPORT-BAND-PURPLEFOG-45-ML",
+            "product": {
+                "id": "B2C-SPORT-BAND-PURPLEFOG-45-ML",
+                "name": "Sport Band - Purple Fog - 45mm - M/L"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 52.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2C-SPORT-BAND-PURPLEFOG-45-ML"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 48.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2C-SPORT-BAND-PURPLEFOG-45-ML"
+                }
+            ]
+        },
+        {
+            "productId": "B2C-SPORT-BAND-NEONYELLOW-45-SM",
+            "product": {
+                "id": "B2C-SPORT-BAND-NEONYELLOW-45-SM",
+                "name": "Sport Band - Neon Yellow - 45mm - S/M"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 54.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2C-SPORT-BAND-NEONYELLOW-45-SM"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 50.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2C-SPORT-BAND-NEONYELLOW-45-SM"
+                }
+            ]
+        },
+        {
+            "productId": "B2C-SPORT-BAND-NEONYELLOW-49-ML",
+            "product": {
+                "id": "B2C-SPORT-BAND-NEONYELLOW-49-ML",
+                "name": "Sport Band - Neon Yellow - 49mm - M/L"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 59.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2C-SPORT-BAND-NEONYELLOW-49-ML"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 55.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2C-SPORT-BAND-NEONYELLOW-49-ML"
+                }
+            ]
+        },
+        {
+            "productId": "product-b2c-test-simple",
+            "product": {
+                "id": "product-b2c-test-simple",
+                "name": "B2C Simple Product No Variations"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 19.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-b2c-test-simple"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 17.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-b2c-test-simple"
+                }
+            ]
+        },
+        {
+            "productId": "B2B-SIMPLE-001-RED",
+            "product": {
+                "id": "B2B-SIMPLE-001-RED",
+                "name": "B2B Simple Product - Red"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 22.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2B-SIMPLE-001-RED"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 20.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2B-SIMPLE-001-RED"
+                }
+            ]
+        },
+        {
+            "productId": "B2B-SIMPLE-001-BLUE",
+            "product": {
+                "id": "B2B-SIMPLE-001-BLUE",
+                "name": "B2B Simple Product - Blue"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 24.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2B-SIMPLE-001-BLUE"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 22.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2B-SIMPLE-001-BLUE"
+                }
+            ]
+        },
+        {
+            "productId": "product-b2c-test-single-option",
+            "product": {
+                "id": "product-b2c-test-single-option",
+                "name": "B2C Product Single Available Option"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 24.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-b2c-test-single-option"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 22.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-b2c-test-single-option"
+                }
+            ]
+        },
+        {
+            "productId": "B2C-SINGLE-001-BLACK",
+            "product": {
+                "id": "B2C-SINGLE-001-BLACK",
+                "name": "B2C Single Option - Black"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 24.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2C-SINGLE-001-BLACK"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 22.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2C-SINGLE-001-BLACK"
+                }
+            ]
+        },
+        {
+            "productId": "B2B-LAPTOP-001-8GB",
+            "product": {
+                "id": "B2B-LAPTOP-001-8GB",
+                "name": "B2B Test Laptop - 8GB RAM"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 799.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2B-LAPTOP-001-8GB"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 749.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2B-LAPTOP-001-8GB"
+                }
+            ]
+        },
+        {
+            "productId": "B2B-LAPTOP-001-16GB",
+            "product": {
+                "id": "B2B-LAPTOP-001-16GB",
+                "name": "B2B Test Laptop - 16GB RAM"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 999.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2B-LAPTOP-001-16GB"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 949.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2B-LAPTOP-001-16GB"
+                }
+            ]
         }
     ]
 }

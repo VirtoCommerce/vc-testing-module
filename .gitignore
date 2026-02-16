@@ -181,5 +181,5 @@ snapshot_tests_failures/
 allure-results/
 allure-report/
 screenshots/
-.claude/ 
-.serena/ 
+.serena/
+.claude/settings.local.json

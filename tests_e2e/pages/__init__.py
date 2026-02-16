@@ -7,6 +7,7 @@ from .checkout_review_order_page import CheckoutReviewOrderPage
 from .checkout_shipping_page import CheckoutShippingPage
 from .home_page import HomePage
 from .main_layout_page import MainLayoutPage
+from .product_page import ProductPage
 from .save_for_later_page import SaveForLaterPage
 from .sign_in_page import SignInPage
 from .sign_up_page import SignUpPage
@@ -22,6 +23,7 @@ __all__ = [
     "CheckoutShippingPage",
     "HomePage",
     "MainLayoutPage",
+    "ProductPage",
     "SignInPage",
     "SignUpPage",
     "SuccessfulRegistrationPage",
