@@ -1,4 +1,4 @@
-from playwright.sync_api import Page, expect
+from playwright.sync_api import Locator, Page, expect
 
 from tests_e2e.components import (
     AccountMenuComponent,
@@ -13,9 +13,7 @@ class MainLayoutPage:
 
     @property
     def top_header_component(self) -> TopHeaderComponent:
-        return TopHeaderComponent(
-            self.page.locator("[data-test-id='main-layout.top-header']")
-        )
+        return TopHeaderComponent(self.page.locator("[data-test-id='main-layout.top-header']"))
 
     @property
     def account_menu(self) -> AccountMenuComponent:
@@ -24,6 +22,14 @@ class MainLayoutPage:
     @property
     def search_bar(self) -> SearchBarComponent:
         return SearchBarComponent(self.page.locator(".search-bar"))
+
+    @property
+    def cart_link(self) -> Locator:
+        return self.page.locator("[data-test-id='desktop-main-menu-cart-link'] a")
+
+    @property
+    def cart_badge(self) -> Locator:
+        return self.page.locator("[data-test-id='desktop-main-menu-cart-link'] .vc-badge__content")
 
     def dismiss_blocking_modal(self) -> None:
         modal_wrapper = self.page.locator(".vc-modal__wrapper")
@@ -39,9 +45,7 @@ class MainLayoutPage:
     def open_account_menu(self) -> AccountMenuComponent:
         self.dismiss_blocking_modal()
         self.top_header_component.account_menu_button.click()
-        expect(
-            self.account_menu.organization_list, "Organization list is not visible"
-        ).to_be_visible()
+        expect(self.account_menu.organization_list, "Organization list is not visible").to_be_visible()
         self.page.wait_for_load_state("networkidle")
         return self.account_menu
 
@@ -56,9 +60,7 @@ class MainLayoutPage:
     def change_language(self, language: str) -> None:
         self.top_header_component.language_selector_component.element.click()
 
-        language_item = self.top_header_component.language_selector_component.get_language_menu_item(
-            language
-        )
+        language_item = self.top_header_component.language_selector_component.get_language_menu_item(language)
 
         if not language_item:
             raise ValueError(f"Language item with language '{language}' not found")
@@ -69,9 +71,7 @@ class MainLayoutPage:
     def change_currency(self, currency: str) -> None:
         self.top_header_component.currency_selector_component.element.click()
 
-        currency_item = self.top_header_component.currency_selector_component.get_currency_menu_item(
-            currency
-        )
+        currency_item = self.top_header_component.currency_selector_component.get_currency_menu_item(currency)
 
         if not currency_item:
             raise ValueError(f"Currency item with currency '{currency}' not found")

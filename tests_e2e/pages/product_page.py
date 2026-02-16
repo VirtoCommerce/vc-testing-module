@@ -1,14 +1,12 @@
 from playwright.sync_api import Locator, Page
 
 from fixtures import Config
-from tests_e2e.components import AddToCartComponent
 from tests_e2e.components.variation_selector_component import VariationSelectorComponent
 
 from .main_layout_page import MainLayoutPage
 
 
 class ProductPage(MainLayoutPage):
-    """Page object for product detail page with B2C variation selector support."""
 
     def __init__(self, page: Page, config: Config, seo_path: str):
         super().__init__(page)
@@ -20,53 +18,68 @@ class ProductPage(MainLayoutPage):
         return f"{self.config['FRONTEND_BASE_URL']}/{self.seo_path}"
 
     @property
-    def product_name(self) -> Locator:
-        return self.page.locator("[data-test-id='product-page.product-name']")
+    def content(self) -> Locator:
+        return self.page.locator("[data-test-id='content']")
 
     @property
-    def product_sku(self) -> Locator:
-        return self.page.locator("[data-test-id='product-page.product-sku']")
+    def sidebar(self) -> Locator:
+        return self.page.locator("[data-test-id='sidebar']")
+
+    @property
+    def product_name(self) -> Locator:
+        return self.page.locator("h1")
 
     @property
     def product_price(self) -> Locator:
-        return self.page.locator("[data-test-id='product-page.product-price']")
-
-    @property
-    def stock_status(self) -> Locator:
-        return self.page.locator("[data-test-id='product-page.stock-status']")
+        return self.sidebar.locator(".product-price__value")
 
     @property
     def variation_selector_element(self) -> Locator:
-        return self.page.locator("[data-test-id='product-page.variation-selector']")
+        return self.content.locator("[data-test-id^='variant-picker-group--']").first
 
     @property
     def variation_selector(self) -> VariationSelectorComponent:
-        return VariationSelectorComponent(self.variation_selector_element)
+        return VariationSelectorComponent(self.content)
 
     @property
-    def add_to_cart_component(self) -> AddToCartComponent:
-        return AddToCartComponent(self.page.locator("[data-test-id='add-to-cart-component']"))
+    def quantity_stepper_input(self) -> Locator:
+        return self.page.locator("[data-test-id='quantity-stepper-input']")
+
+    @property
+    def quantity_stepper_decrement(self) -> Locator:
+        return self.page.locator("[data-test-id='quantity-stepper-decrement']")
+
+    @property
+    def quantity_stepper_increment(self) -> Locator:
+        return self.page.locator("[data-test-id='quantity-stepper-increment']")
+
+    @property
+    def count_in_cart_label(self) -> Locator:
+        return self.page.locator("[data-test-id='count-in-cart-label']")
 
     @property
     def add_to_cart_button(self) -> Locator:
-        return self.page.locator("[data-test-id='add-to-cart-button']")
+        return self.quantity_stepper_increment
 
     @property
-    def validation_message(self) -> Locator:
-        return self.page.locator("[data-test-id='product-page.validation-message']")
+    def stock_status(self) -> Locator:
+        return self.sidebar.locator("[title='In stock']")
+
+    @property
+    def disabled_add_to_cart_button(self) -> Locator:
+        return self.sidebar.locator("button.product-price__disabled-button")
 
     def navigate(self) -> None:
         self.page.goto(self.url)
         self.page.wait_for_load_state("networkidle")
 
-    def get_current_sku(self) -> str | None:
-        return self.product_sku.text_content()
-
     def get_current_price(self) -> str | None:
-        return self.product_price.text_content()
+        if self.product_price.is_visible():
+            return self.product_price.text_content()
+        return None
 
     def is_add_to_cart_enabled(self) -> bool:
-        return self.add_to_cart_button.is_enabled()
+        return self.quantity_stepper_increment.is_visible() and self.quantity_stepper_increment.is_enabled()
 
     def is_variation_selector_visible(self) -> bool:
         return self.variation_selector_element.is_visible()

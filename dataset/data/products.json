@@ -11304,11 +11304,12 @@
             "isActive": true,
             "isBuyable": true,
             "trackInventory": true,
-            "descriptions": [
+            "reviews": [
                 {
-                    "content": "Made from custom high-performance fluoroelastomer, the Sport Band is durable and strong, yet surprisingly soft. The smooth, dense material drapes elegantly across your wrist, and the innovative pin-and-tuck closure ensures a clean fit.",
+                    "content": "Made from a custom high-performance fluoroelastomer, the Sport Band is durable and strong, yet surprisingly soft. The smooth, dense material drapes elegantly across your wrist and feels comfortable next to your skin. An innovative pin-and-tuck closure ensures a clean fit.",
+                    "reviewType": "QuickReview",
                     "languageCode": "en-US",
-                    "reviewType": "FullReview"
+                    "isInherited": false            
                 }
             ],
             "seoInfos": [
@@ -11340,6 +11341,19 @@
                             "value": "B2C",
                             "propertyMultivalue": false,
                             "isInherited": false
+                        }
+                    ]
+                },
+                {
+                    "id": "property-acme-band-brand",
+                    "catalogId": "catalog-acme",
+                    "categoryId": "category-acme-watch-accessories",
+                    "name": "Brand",
+                    "type": "Product",
+                    "valueType": "ShortText",
+                    "values": [
+                        {
+                            "value": "Apple"
                         }
                     ]
                 },
