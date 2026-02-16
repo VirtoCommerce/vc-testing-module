@@ -9,11 +9,6 @@ class VariationSelectorComponent:
         self.element = element
 
     @property
-    def is_visible(self) -> bool:
-        """Check if the variation selector is visible on the page."""
-        return self.element.locator("[data-test-id^='variant-picker-group--']").first.is_visible()
-
-    @property
     def option_groups(self) -> list[Locator]:
         """Return all variant picker group elements."""
         return self.element.locator("[data-test-id^='variant-picker-group--']").all()
@@ -74,24 +69,6 @@ class VariationSelectorComponent:
             if option.is_selected:
                 return option
         return None
-
-    def get_available_options(self, group_name: str) -> list[VariationOptionComponent]:
-        """Return all enabled options within a named group."""
-        options = self.get_options_for_group(group_name)
-        return [opt for opt in options if opt.is_available]
-
-    def get_unavailable_options(self, group_name: str) -> list[VariationOptionComponent]:
-        """Return all disabled options within a named group."""
-        options = self.get_options_for_group(group_name)
-        return [opt for opt in options if not opt.is_available]
-
-    def get_available_options_count(self, group_name: str) -> int:
-        """Return the count of enabled options within a named group."""
-        return len(self.get_available_options(group_name))
-
-    def get_total_options_count(self, group_name: str) -> int:
-        """Return the total count of options within a named group."""
-        return len(self.get_options_for_group(group_name))
 
     def get_all_group_names(self) -> list[str]:
         """Return display names for all variant picker groups.
