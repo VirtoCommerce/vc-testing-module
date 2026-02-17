@@ -7,7 +7,7 @@ from playwright.sync_api import Page, expect
 from fixtures import Auth, Config, GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
-from tests_e2e.pages import CartPage, CheckoutShippingPage
+from tests_e2e.pages import CartPage, CategoryPage, CheckoutShippingPage
 
 
 @pytest.mark.e2e
@@ -33,7 +33,7 @@ def test_e2e_shipping_cost_single_page_checkout(
     user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
 
-    product = dataset["products"][1]
+    product = dataset["products"][14]
 
     auth.authenticate(dataset["users"][0]["userName"], config["USERS_PASSWORD"], page)
 
@@ -127,7 +127,7 @@ def test_e2e_shipping_cost_multi_step_checkout(
 
     auth.authenticate(dataset["users"][0]["userName"], config["USERS_PASSWORD"], page)
 
-    product = dataset["products"][1]
+    product = dataset["products"][14]
 
     user = user_operations.get_me()
     cart = cart_operations.add_item_to_cart(
