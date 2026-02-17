@@ -27,7 +27,7 @@ nodeenv==1.9.1
 packaging==24.2
 pathspec==0.12.1
 pi==0.1.2
-pillow==11.3.0
+pillow==12.1.1
 pixelmatch==0.3.0
 platformdirs==4.3.6
 playwright==1.55.0
