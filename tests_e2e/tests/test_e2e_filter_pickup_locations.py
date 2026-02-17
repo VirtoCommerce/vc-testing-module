@@ -40,7 +40,7 @@ def test_e2e_filter_pickup_locations_elements_single_page_checkout(
 
     auth.authenticate(dataset["users"][0]["userName"], config["USERS_PASSWORD"], page)
 
-    product = dataset["products"][1]
+    product = dataset["products"][14]
 
     user = user_operations.get_me()
     cart = cart_operations.add_item_to_cart(
@@ -55,24 +55,48 @@ def test_e2e_filter_pickup_locations_elements_single_page_checkout(
     cart_page = CartPage(config, page)
     cart_page.navigate()
 
+    assert (
+        cart_page.shipping_details_section_component is not None
+    ), "Shipping details section component not found"
+
     cart_page.shipping_details_section_component.pickup_delivery_option_switcher.click()
     cart_page.shipping_details_section_component.pickup_point_section.locator(
         "[data-test-id='select-address-button']"
     ).click()
 
-    select_pickup_location_modal = SelectBopisMapModalComponent(page.locator(".select-address-map-modal"))
+    select_pickup_location_modal = SelectBopisMapModalComponent(
+        page.locator(".select-address-map-modal")
+    )
 
     expect(select_pickup_location_modal.element).to_be_visible()
     expect(select_pickup_location_modal.pickup_locations_list).to_be_visible()
 
-    select_pickup_location_modal.filter_countries_dropdown.select_item_by_name(country_to_filter)
-    select_pickup_location_modal.filter_regions_dropdown.select_item_by_name(region_to_filter)
-    select_pickup_location_modal.filter_cities_dropdown.select_item_by_name(city_to_filter)
+    select_pickup_location_modal.filter_countries_dropdown.select_item_by_name(
+        country_to_filter
+    )
+    select_pickup_location_modal.filter_regions_dropdown.select_item_by_name(
+        region_to_filter
+    )
+    select_pickup_location_modal.filter_cities_dropdown.select_item_by_name(
+        city_to_filter
+    )
 
     expect(select_pickup_location_modal.applied_filters_panel).to_be_visible()
-    expect(select_pickup_location_modal.get_applied_filter_chip_by_name(country_to_filter).element).to_be_visible()
-    expect(select_pickup_location_modal.get_applied_filter_chip_by_name(region_to_filter).element).to_be_visible()
-    expect(select_pickup_location_modal.get_applied_filter_chip_by_name(city_to_filter).element).to_be_visible()
+    expect(
+        select_pickup_location_modal.get_applied_filter_chip_by_name(
+            country_to_filter
+        ).element
+    ).to_be_visible()
+    expect(
+        select_pickup_location_modal.get_applied_filter_chip_by_name(
+            region_to_filter
+        ).element
+    ).to_be_visible()
+    expect(
+        select_pickup_location_modal.get_applied_filter_chip_by_name(
+            city_to_filter
+        ).element
+    ).to_be_visible()
     expect(select_pickup_location_modal.reset_filters_chip).to_be_visible()
 
     cart_operations.remove_cart(
@@ -104,7 +128,7 @@ def test_e2e_filter_pickup_locations_country_region_keyword_found_single_page_ch
     user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
 
-    product = dataset["products"][1]
+    product = dataset["products"][14]
 
     auth.authenticate(dataset["users"][0]["userName"], config["USERS_PASSWORD"], page)
 
@@ -125,15 +149,25 @@ def test_e2e_filter_pickup_locations_country_region_keyword_found_single_page_ch
     region_to_filter = "New York"
     keyword_to_search = "Empire"
 
+    assert (
+        cart_page.shipping_details_section_component is not None
+    ), "Shipping details section component is not found"
+
     cart_page.shipping_details_section_component.pickup_delivery_option_switcher.click()
     cart_page.shipping_details_section_component.pickup_point_section.locator(
         "[data-test-id='select-address-button']"
     ).click()
 
-    select_pickup_location_modal = SelectBopisMapModalComponent(page.locator(".select-address-map-modal"))
+    select_pickup_location_modal = SelectBopisMapModalComponent(
+        page.locator(".select-address-map-modal")
+    )
 
-    select_pickup_location_modal.filter_countries_dropdown.select_item_by_name(country_to_filter)
-    select_pickup_location_modal.filter_regions_dropdown.select_item_by_name(region_to_filter)
+    select_pickup_location_modal.filter_countries_dropdown.select_item_by_name(
+        country_to_filter
+    )
+    select_pickup_location_modal.filter_regions_dropdown.select_item_by_name(
+        region_to_filter
+    )
     select_pickup_location_modal.search_pickup_location_input.fill(keyword_to_search)
     select_pickup_location_modal.search_pickup_location_input.press("Enter")
     page.wait_for_load_state("networkidle")
@@ -186,7 +220,7 @@ def test_e2e_filter_pickup_locations_country_region_city_keyword_found_single_pa
     city_to_filter = "Manhattan"
     keyword_to_search = "5th"
 
-    product = dataset["products"][1]
+    product = dataset["products"][14]
 
     user = user_operations.get_me()
     cart = cart_operations.add_item_to_cart(
@@ -201,16 +235,28 @@ def test_e2e_filter_pickup_locations_country_region_city_keyword_found_single_pa
     cart_page = CartPage(config, page)
     cart_page.navigate()
 
+    assert (
+        cart_page.shipping_details_section_component is not None
+    ), "Shipping details section component is not found"
+
     cart_page.shipping_details_section_component.pickup_delivery_option_switcher.click()
     cart_page.shipping_details_section_component.pickup_point_section.locator(
         "[data-test-id='select-address-button']"
     ).click()
 
-    select_pickup_location_modal = SelectBopisMapModalComponent(page.locator(".select-address-map-modal"))
+    select_pickup_location_modal = SelectBopisMapModalComponent(
+        page.locator(".select-address-map-modal")
+    )
 
-    select_pickup_location_modal.filter_countries_dropdown.select_item_by_name(country_to_filter)
-    select_pickup_location_modal.filter_regions_dropdown.select_item_by_name(region_to_filter)
-    select_pickup_location_modal.filter_cities_dropdown.select_item_by_name(city_to_filter)
+    select_pickup_location_modal.filter_countries_dropdown.select_item_by_name(
+        country_to_filter
+    )
+    select_pickup_location_modal.filter_regions_dropdown.select_item_by_name(
+        region_to_filter
+    )
+    select_pickup_location_modal.filter_cities_dropdown.select_item_by_name(
+        city_to_filter
+    )
     select_pickup_location_modal.search_pickup_location_input.fill(keyword_to_search)
     select_pickup_location_modal.search_pickup_location_input.press("Enter")
     page.wait_for_load_state("networkidle")
@@ -265,7 +311,7 @@ def test_e2e_filter_pickup_locations_country_region_city_keyword_not_found_singl
     city_to_filter = "Manhattan"
     keyword_to_search = "NonExistent"
 
-    product = dataset["products"][1]
+    product = dataset["products"][14]
 
     user = user_operations.get_me()
     cart = cart_operations.add_item_to_cart(
@@ -280,16 +326,28 @@ def test_e2e_filter_pickup_locations_country_region_city_keyword_not_found_singl
     cart_page = CartPage(config, page)
     cart_page.navigate()
 
+    assert (
+        cart_page.shipping_details_section_component is not None
+    ), "Shipping details section component is not found"
+
     cart_page.shipping_details_section_component.pickup_delivery_option_switcher.click()
     cart_page.shipping_details_section_component.pickup_point_section.locator(
         "[data-test-id='select-address-button']"
     ).click()
 
-    select_pickup_location_modal = SelectBopisMapModalComponent(page.locator(".select-address-map-modal"))
+    select_pickup_location_modal = SelectBopisMapModalComponent(
+        page.locator(".select-address-map-modal")
+    )
 
-    select_pickup_location_modal.filter_countries_dropdown.select_item_by_name(country_to_filter)
-    select_pickup_location_modal.filter_regions_dropdown.select_item_by_name(region_to_filter)
-    select_pickup_location_modal.filter_cities_dropdown.select_item_by_name(city_to_filter)
+    select_pickup_location_modal.filter_countries_dropdown.select_item_by_name(
+        country_to_filter
+    )
+    select_pickup_location_modal.filter_regions_dropdown.select_item_by_name(
+        region_to_filter
+    )
+    select_pickup_location_modal.filter_cities_dropdown.select_item_by_name(
+        city_to_filter
+    )
     select_pickup_location_modal.search_pickup_location_input.fill(keyword_to_search)
     select_pickup_location_modal.search_pickup_location_input.press("Enter")
     page.wait_for_load_state("networkidle")
@@ -344,7 +402,7 @@ def test_e2e_filter_pickup_locations_remove_filters_single_page_checkout(
     city_to_filter = "Manhattan"
     keyword_to_search = "Fifth"
 
-    product = dataset["products"][1]
+    product = dataset["products"][14]
 
     user = user_operations.get_me()
     cart = cart_operations.add_item_to_cart(
@@ -359,25 +417,39 @@ def test_e2e_filter_pickup_locations_remove_filters_single_page_checkout(
     cart_page = CartPage(config, page)
     cart_page.navigate()
 
+    assert (
+        cart_page.shipping_details_section_component is not None
+    ), "Shipping details section component is not found"
+
     cart_page.shipping_details_section_component.pickup_delivery_option_switcher.click()
     cart_page.shipping_details_section_component.pickup_point_section.locator(
         "[data-test-id='select-address-button']"
     ).click()
 
-    select_pickup_location_modal = SelectBopisMapModalComponent(page.locator(".select-address-map-modal"))
+    select_pickup_location_modal = SelectBopisMapModalComponent(
+        page.locator(".select-address-map-modal")
+    )
 
     all_pickup_points_count = len(select_pickup_location_modal.pickup_locations)
 
-    select_pickup_location_modal.filter_countries_dropdown.select_item_by_name(country_to_filter)
-    select_pickup_location_modal.filter_regions_dropdown.select_item_by_name(region_to_filter)
-    select_pickup_location_modal.filter_cities_dropdown.select_item_by_name(city_to_filter)
+    select_pickup_location_modal.filter_countries_dropdown.select_item_by_name(
+        country_to_filter
+    )
+    select_pickup_location_modal.filter_regions_dropdown.select_item_by_name(
+        region_to_filter
+    )
+    select_pickup_location_modal.filter_cities_dropdown.select_item_by_name(
+        city_to_filter
+    )
     select_pickup_location_modal.search_pickup_location_input.fill(keyword_to_search)
     select_pickup_location_modal.search_pickup_location_input.press("Enter")
     page.wait_for_load_state("networkidle")
 
     filtered_pickup_points_count = len(select_pickup_location_modal.pickup_locations)
 
-    select_pickup_location_modal.get_applied_filter_chip_by_name(region_to_filter).close_chip()
+    select_pickup_location_modal.get_applied_filter_chip_by_name(
+        region_to_filter
+    ).close_chip()
     page.wait_for_load_state("networkidle")
 
     updated_pickup_points_count = len(select_pickup_location_modal.pickup_locations)
@@ -391,8 +463,12 @@ def test_e2e_filter_pickup_locations_remove_filters_single_page_checkout(
 
     restored_pickup_points_count = len(select_pickup_location_modal.pickup_locations)
 
-    assert updated_pickup_points_count == filtered_pickup_points_count, "Pickup points count not updated"
-    assert restored_pickup_points_count == all_pickup_points_count, "Pickup points count not restored"
+    assert (
+        updated_pickup_points_count == filtered_pickup_points_count
+    ), "Pickup points count not updated"
+    assert (
+        restored_pickup_points_count == all_pickup_points_count
+    ), "Pickup points count not restored"
 
     cart_operations.clear_cart(
         payload={
@@ -432,7 +508,7 @@ def test_e2e_filter_pickup_locations_elements_multi_step_checkout(
 
     auth.authenticate(dataset["users"][0]["userName"], config["USERS_PASSWORD"], page)
 
-    product = dataset["products"][1]
+    product = dataset["products"][14]
 
     user = user_operations.get_me()
     cart = cart_operations.add_item_to_cart(
@@ -453,19 +529,39 @@ def test_e2e_filter_pickup_locations_elements_multi_step_checkout(
         "[data-test-id='select-address-button']"
     ).click()
 
-    select_pickup_location_modal = SelectBopisMapModalComponent(page.locator(".select-address-map-modal"))
+    select_pickup_location_modal = SelectBopisMapModalComponent(
+        page.locator(".select-address-map-modal")
+    )
 
     expect(select_pickup_location_modal.element).to_be_visible()
     expect(select_pickup_location_modal.pickup_locations_list).to_be_visible()
 
-    select_pickup_location_modal.filter_countries_dropdown.select_item_by_name(country_to_filter)
-    select_pickup_location_modal.filter_regions_dropdown.select_item_by_name(region_to_filter)
-    select_pickup_location_modal.filter_cities_dropdown.select_item_by_name(city_to_filter)
+    select_pickup_location_modal.filter_countries_dropdown.select_item_by_name(
+        country_to_filter
+    )
+    select_pickup_location_modal.filter_regions_dropdown.select_item_by_name(
+        region_to_filter
+    )
+    select_pickup_location_modal.filter_cities_dropdown.select_item_by_name(
+        city_to_filter
+    )
 
     expect(select_pickup_location_modal.applied_filters_panel).to_be_visible()
-    expect(select_pickup_location_modal.get_applied_filter_chip_by_name(country_to_filter).element).to_be_visible()
-    expect(select_pickup_location_modal.get_applied_filter_chip_by_name(region_to_filter).element).to_be_visible()
-    expect(select_pickup_location_modal.get_applied_filter_chip_by_name(city_to_filter).element).to_be_visible()
+    expect(
+        select_pickup_location_modal.get_applied_filter_chip_by_name(
+            country_to_filter
+        ).element
+    ).to_be_visible()
+    expect(
+        select_pickup_location_modal.get_applied_filter_chip_by_name(
+            region_to_filter
+        ).element
+    ).to_be_visible()
+    expect(
+        select_pickup_location_modal.get_applied_filter_chip_by_name(
+            city_to_filter
+        ).element
+    ).to_be_visible()
     expect(select_pickup_location_modal.reset_filters_chip).to_be_visible()
 
     cart_operations.remove_cart(
@@ -500,6 +596,8 @@ def test_e2e_filter_pickup_locations_country_region_keyword_found_multi_step_che
     user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
 
+    product = dataset["products"][14]
+
     auth.authenticate(dataset["users"][0]["userName"], config["USERS_PASSWORD"], page)
 
     user = user_operations.get_me()
@@ -507,7 +605,7 @@ def test_e2e_filter_pickup_locations_country_region_keyword_found_multi_step_che
         payload={
             "storeId": config["STORE_ID"],
             "userId": user["id"],
-            "productId": "product-acme-laptop-hp-pavilion-16-ag0087nr",
+            "productId": product["code"],
             "quantity": 2,
         }
     )
@@ -525,10 +623,16 @@ def test_e2e_filter_pickup_locations_country_region_keyword_found_multi_step_che
         "[data-test-id='select-address-button']"
     ).click()
 
-    select_pickup_location_modal = SelectBopisMapModalComponent(page.locator(".select-address-map-modal"))
+    select_pickup_location_modal = SelectBopisMapModalComponent(
+        page.locator(".select-address-map-modal")
+    )
 
-    select_pickup_location_modal.filter_countries_dropdown.select_item_by_name(country_to_filter)
-    select_pickup_location_modal.filter_regions_dropdown.select_item_by_name(region_to_filter)
+    select_pickup_location_modal.filter_countries_dropdown.select_item_by_name(
+        country_to_filter
+    )
+    select_pickup_location_modal.filter_regions_dropdown.select_item_by_name(
+        region_to_filter
+    )
     select_pickup_location_modal.search_pickup_location_input.fill(keyword_to_search)
     select_pickup_location_modal.search_pickup_location_input.press("Enter")
     page.wait_for_load_state("networkidle")
@@ -584,7 +688,7 @@ def test_e2e_filter_pickup_locations_country_region_city_keyword_found_multi_ste
     city_to_filter = "Manhattan"
     keyword_to_search = "5th"
 
-    product = dataset["products"][1]
+    product = dataset["products"][14]
 
     user = user_operations.get_me()
     cart = cart_operations.add_item_to_cart(
@@ -605,11 +709,19 @@ def test_e2e_filter_pickup_locations_country_region_city_keyword_found_multi_ste
         "[data-test-id='select-address-button']"
     ).click()
 
-    select_pickup_location_modal = SelectBopisMapModalComponent(page.locator(".select-address-map-modal"))
+    select_pickup_location_modal = SelectBopisMapModalComponent(
+        page.locator(".select-address-map-modal")
+    )
 
-    select_pickup_location_modal.filter_countries_dropdown.select_item_by_name(country_to_filter)
-    select_pickup_location_modal.filter_regions_dropdown.select_item_by_name(region_to_filter)
-    select_pickup_location_modal.filter_cities_dropdown.select_item_by_name(city_to_filter)
+    select_pickup_location_modal.filter_countries_dropdown.select_item_by_name(
+        country_to_filter
+    )
+    select_pickup_location_modal.filter_regions_dropdown.select_item_by_name(
+        region_to_filter
+    )
+    select_pickup_location_modal.filter_cities_dropdown.select_item_by_name(
+        city_to_filter
+    )
     select_pickup_location_modal.search_pickup_location_input.fill(keyword_to_search)
     select_pickup_location_modal.search_pickup_location_input.press("Enter")
     page.wait_for_load_state("networkidle")
@@ -667,7 +779,7 @@ def test_e2e_filter_pickup_locations_country_region_city_keyword_not_found_multi
     city_to_filter = "Manhattan"
     keyword_to_search = "NonExistent"
 
-    product = dataset["products"][1]
+    product = dataset["products"][14]
 
     user = user_operations.get_me()
     cart = cart_operations.add_item_to_cart(
@@ -688,11 +800,19 @@ def test_e2e_filter_pickup_locations_country_region_city_keyword_not_found_multi
         "[data-test-id='select-address-button']"
     ).click()
 
-    select_pickup_location_modal = SelectBopisMapModalComponent(page.locator(".select-address-map-modal"))
+    select_pickup_location_modal = SelectBopisMapModalComponent(
+        page.locator(".select-address-map-modal")
+    )
 
-    select_pickup_location_modal.filter_countries_dropdown.select_item_by_name(country_to_filter)
-    select_pickup_location_modal.filter_regions_dropdown.select_item_by_name(region_to_filter)
-    select_pickup_location_modal.filter_cities_dropdown.select_item_by_name(city_to_filter)
+    select_pickup_location_modal.filter_countries_dropdown.select_item_by_name(
+        country_to_filter
+    )
+    select_pickup_location_modal.filter_regions_dropdown.select_item_by_name(
+        region_to_filter
+    )
+    select_pickup_location_modal.filter_cities_dropdown.select_item_by_name(
+        city_to_filter
+    )
     select_pickup_location_modal.search_pickup_location_input.fill(keyword_to_search)
     select_pickup_location_modal.search_pickup_location_input.press("Enter")
     page.wait_for_load_state("networkidle")
@@ -750,7 +870,7 @@ def test_e2e_filter_pickup_locations_remove_filters_multi_step_checkout(
     city_to_filter = "Manhattan"
     keyword_to_search = "Fifth"
 
-    product = dataset["products"][1]
+    product = dataset["products"][14]
 
     user = user_operations.get_me()
     cart = cart_operations.add_item_to_cart(
@@ -771,20 +891,30 @@ def test_e2e_filter_pickup_locations_remove_filters_multi_step_checkout(
         "[data-test-id='select-address-button']"
     ).click()
 
-    select_pickup_location_modal = SelectBopisMapModalComponent(page.locator(".select-address-map-modal"))
+    select_pickup_location_modal = SelectBopisMapModalComponent(
+        page.locator(".select-address-map-modal")
+    )
 
     all_pickup_points_count = len(select_pickup_location_modal.pickup_locations)
 
-    select_pickup_location_modal.filter_countries_dropdown.select_item_by_name(country_to_filter)
-    select_pickup_location_modal.filter_regions_dropdown.select_item_by_name(region_to_filter)
-    select_pickup_location_modal.filter_cities_dropdown.select_item_by_name(city_to_filter)
+    select_pickup_location_modal.filter_countries_dropdown.select_item_by_name(
+        country_to_filter
+    )
+    select_pickup_location_modal.filter_regions_dropdown.select_item_by_name(
+        region_to_filter
+    )
+    select_pickup_location_modal.filter_cities_dropdown.select_item_by_name(
+        city_to_filter
+    )
     select_pickup_location_modal.search_pickup_location_input.fill(keyword_to_search)
     select_pickup_location_modal.search_pickup_location_input.press("Enter")
     page.wait_for_load_state("networkidle")
 
     filtered_pickup_points_count = len(select_pickup_location_modal.pickup_locations)
 
-    select_pickup_location_modal.get_applied_filter_chip_by_name(region_to_filter).close_chip()
+    select_pickup_location_modal.get_applied_filter_chip_by_name(
+        region_to_filter
+    ).close_chip()
 
     updated_pickup_points_count = len(select_pickup_location_modal.pickup_locations)
 
@@ -796,8 +926,12 @@ def test_e2e_filter_pickup_locations_remove_filters_multi_step_checkout(
 
     restored_pickup_points_count = len(select_pickup_location_modal.pickup_locations)
 
-    assert updated_pickup_points_count == filtered_pickup_points_count, "Pickup points count not updated"
-    assert restored_pickup_points_count == all_pickup_points_count, "Pickup points count not restored"
+    assert (
+        updated_pickup_points_count == filtered_pickup_points_count
+    ), "Pickup points count not updated"
+    assert (
+        restored_pickup_points_count == all_pickup_points_count
+    ), "Pickup points count not restored"
 
     cart_operations.remove_cart(
         payload={

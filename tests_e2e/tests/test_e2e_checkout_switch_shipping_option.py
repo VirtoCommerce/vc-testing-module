@@ -35,7 +35,7 @@ def test_e2e_checkout_multi_step_switch_shipping_option(
 
     auth.authenticate(dataset["users"][0]["userName"], config["USERS_PASSWORD"], page)
 
-    product = dataset["products"][1]
+    product = dataset["products"][14]
 
     user = user_operations.get_me()
     cart = cart_operations.add_item_to_cart(
@@ -50,40 +50,47 @@ def test_e2e_checkout_multi_step_switch_shipping_option(
     checkout_shipping_page = CheckoutShippingPage(config, page)
     checkout_shipping_page.navigate()
 
-    expect(page).to_have_url(
+    expect(page, "Checkout shipping page is not loaded").to_have_url(
         checkout_shipping_page.url
-    ), "Checkout shipping page is not loaded"
+    )
     expect(
-        checkout_shipping_page.shipping_details_section_component.element
-    ).to_be_visible(), "Shipping details section is not visible"
+        checkout_shipping_page.shipping_details_section_component.element,
+        "Shipping details section is not visible",
+    ).to_be_visible()
     expect(
-        checkout_shipping_page.shipping_details_section_component.pickup_delivery_option_switcher
-    ).to_be_visible(), "Pickup delivery option switcher is not visible"
+        checkout_shipping_page.shipping_details_section_component.pickup_delivery_option_switcher,
+        "Pickup delivery option switcher is not visible",
+    ).to_be_visible()
     expect(
-        checkout_shipping_page.shipping_details_section_component.shipping_delivery_option_switcher
-    ).to_be_visible(), "Shipping delivery option switcher is not visible"
+        checkout_shipping_page.shipping_details_section_component.shipping_delivery_option_switcher,
+        "Shipping delivery option switcher is not visible",
+    ).to_be_visible()
 
     checkout_shipping_page.shipping_details_section_component.switch_delivery_option(
         "pickup"
     )
 
     expect(
-        checkout_shipping_page.shipping_details_section_component.pickup_point_section
-    ).to_be_visible(), "Pickup point section is not visible"
+        checkout_shipping_page.shipping_details_section_component.pickup_point_section,
+        "Pickup point section is not visible",
+    ).to_be_visible()
     expect(
-        checkout_shipping_page.shipping_details_section_component.shipping_method_selector
-    ).not_to_be_visible(), "Shipping method selector is visible"
+        checkout_shipping_page.shipping_details_section_component.shipping_method_selector,
+        "Shipping method selector is visible",
+    ).not_to_be_visible()
 
     checkout_shipping_page.shipping_details_section_component.switch_delivery_option(
         "shipping"
     )
 
     expect(
-        checkout_shipping_page.shipping_details_section_component.pickup_point_section
-    ).not_to_be_visible(), "Pickup point section is visible"
+        checkout_shipping_page.shipping_details_section_component.pickup_point_section,
+        "Pickup point section is visible",
+    ).not_to_be_visible()
     expect(
-        checkout_shipping_page.shipping_details_section_component.shipping_method_selector
-    ).to_be_visible(), "Shipping method selector is not visible"
+        checkout_shipping_page.shipping_details_section_component.shipping_method_selector,
+        "Shipping method selector is not visible",
+    ).to_be_visible()
 
     cart_operations.remove_cart(
         payload={
@@ -118,7 +125,7 @@ def test_e2e_checkout_single_page_switch_shipping_option(
 
     auth.authenticate(dataset["users"][0]["userName"], config["USERS_PASSWORD"], page)
 
-    product = dataset["products"][1]
+    product = dataset["products"][14]
 
     user = user_operations.get_me()
     cart = cart_operations.add_item_to_cart(
@@ -133,34 +140,44 @@ def test_e2e_checkout_single_page_switch_shipping_option(
     cart_page = CartPage(config, page)
     cart_page.navigate()
 
-    expect(page).to_have_url(cart_page.url), "Cart page is not loaded"
+    expect(page, "Cart page is not loaded").to_have_url(cart_page.url)
+    assert (
+        cart_page.shipping_details_section_component is not None
+    ), "Shipping details section component is not found"
     expect(
-        cart_page.shipping_details_section_component.element
-    ).to_be_visible(), "Shipping details section is not visible"
+        cart_page.shipping_details_section_component.element,
+        "Shipping details section is not visible",
+    ).to_be_visible()
     expect(
-        cart_page.shipping_details_section_component.pickup_delivery_option_switcher
-    ).to_be_visible(), "Pickup delivery option switcher is not visible"
+        cart_page.shipping_details_section_component.pickup_delivery_option_switcher,
+        "Pickup delivery option switcher is not visible",
+    ).to_be_visible()
     expect(
-        cart_page.shipping_details_section_component.shipping_delivery_option_switcher
-    ).to_be_visible(), "Shipping delivery option switcher is not visible"
+        cart_page.shipping_details_section_component.shipping_delivery_option_switcher,
+        "Shipping delivery option switcher is not visible",
+    ).to_be_visible()
 
     cart_page.shipping_details_section_component.switch_delivery_option("pickup")
 
     expect(
-        cart_page.shipping_details_section_component.pickup_point_section
-    ).to_be_visible(), "Pickup point section is not visible"
+        cart_page.shipping_details_section_component.pickup_point_section,
+        "Pickup point section is not visible",
+    ).to_be_visible()
     expect(
-        cart_page.shipping_details_section_component.shipping_method_selector
-    ).not_to_be_visible(), "Shipping method selector is visible"
+        cart_page.shipping_details_section_component.shipping_method_selector,
+        "Shipping method selector is visible",
+    ).not_to_be_visible()
 
     cart_page.shipping_details_section_component.switch_delivery_option("shipping")
 
     expect(
-        cart_page.shipping_details_section_component.pickup_point_section
-    ).not_to_be_visible(), "Pickup point section is visible"
+        cart_page.shipping_details_section_component.pickup_point_section,
+        "Pickup point section is visible",
+    ).not_to_be_visible()
     expect(
-        cart_page.shipping_details_section_component.shipping_method_selector
-    ).to_be_visible(), "Shipping method selector is not visible"
+        cart_page.shipping_details_section_component.shipping_method_selector,
+        "Shipping method selector is not visible",
+    ).to_be_visible()
 
     cart_operations.remove_cart(
         payload={

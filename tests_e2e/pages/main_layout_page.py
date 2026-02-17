@@ -1,4 +1,4 @@
-from playwright.sync_api import Page, expect
+from playwright.sync_api import Locator, Page, expect
 
 from tests_e2e.components import (
     AccountMenuComponent,
@@ -24,6 +24,23 @@ class MainLayoutPage:
     @property
     def search_bar(self) -> SearchBarComponent:
         return SearchBarComponent(self.page.locator(".search-bar"))
+
+    @property
+    def cart_link(self) -> Locator:
+        return self.page.locator("[data-test-id='desktop-main-menu-cart-link']")
+
+    @property
+    def cart_items_badge(self) -> Locator:
+        return self.cart_link.locator(".vc-badge")
+
+    @property
+    def cart_items_count(self) -> int:
+        text_content = self.cart_items_badge.locator(
+            ".vc-badge__content"
+        ).text_content()
+        if text_content and text_content.isdigit():
+            return int(text_content)
+        return 0
 
     def dismiss_blocking_modal(self) -> None:
         modal_wrapper = self.page.locator(".vc-modal__wrapper")
