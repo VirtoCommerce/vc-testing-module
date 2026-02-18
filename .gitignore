@@ -183,3 +183,4 @@ allure-report/
 screenshots/
 .serena/
 .claude/settings.local.json
+*.local.md
