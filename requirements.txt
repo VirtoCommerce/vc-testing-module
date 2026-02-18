@@ -54,7 +54,7 @@ typing_extensions==4.15.0
 urllib3==2.2.3
 virtualenv==20.29.2
 yarl==1.18.3
-aiohttp==3.13.0
+aiohttp==3.13.3
 inflection==0.5.1
 pydantic==2.12.2
 isort==7.0.0
