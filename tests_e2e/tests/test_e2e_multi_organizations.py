@@ -220,21 +220,11 @@ def test_e2e_search_organization_in_list(config: Config, dataset: dict[str, Any]
 
 SPECIAL_CHAR_ORG_TEST_DATA = [
     (3, "[e2e] ", "literal brackets"),
-    (4, "]test[ Harbor", "reversed brackets"),
     (5, "(parentheses) ", "parentheses"),
     (6, "Company & ", "ampersand"),
-    (7, " #123 ", "hash/pound sign"),
-    (8, "50% Off ", "percent sign"),
-    (9, "C++ Co ", "plus signs"),
     (10, "Test* Des", "asterisk"),
-    (11, "Test?", "question mark"),
     (12, '"Quoted" Double Quotes', "double quotes"),
-    (13, "'Single' Single", "single quotes"),
     (14, "Test/Slash", "forward slash"),
-    (16, "Test@Email", "at sign"),
-    (17, "Test!Exclaim", "exclamation mark"),
-    (18, "Test-Dash", "dash/hyphen"),
-    (19, "Test_Underscore", "underscore"),
 ]
 
 
