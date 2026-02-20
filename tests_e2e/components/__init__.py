@@ -14,7 +14,9 @@ from .filter_slider_component import FilterSliderComponent
 from .language_selector_component import LanguageSelectorComponent
 from .line_item_component import LineItemComponent
 from .order_summary_component import OrderSummaryComponent
+from .pickup_location_card_dialog_component import PickupLocationCardDialogComponent
 from .pickup_location_list_item_component import PickupLocationListItemComponent
+from .pickup_locations_modal_component import PickupLocationsModalComponent
 from .product_card_component import ProductCardComponent
 from .quantity_stepper_component import QuantityStepperComponent
 from .search_bar_component import SearchBarComponent
@@ -50,7 +52,9 @@ __all__ = [
     "AddressFormComponent",
     "FilterSliderComponent",
     "FilterFacetComponent",
+    "PickupLocationCardDialogComponent",
     "PickupLocationListItemComponent",
+    "PickupLocationsModalComponent",
     "SelectBopisMapModalComponent",
     "FilterDropdownComponent",
     "ChipComponent",
