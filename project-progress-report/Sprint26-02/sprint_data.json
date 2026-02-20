@@ -1,0 +1,33 @@
+{
+    "sprint_name": "Sprint 26-02",
+    "report_date": "February 6, 2026",
+    "theme": "light",
+
+    "trend": {
+        "dates": ["Dec 23\n2025", "Jan 22\n2026", "Feb 6\n2026"],
+        "total_tests": [121, 161, 178],
+        "active_tests": [118, 151, 177]
+    },
+
+    "current": {
+        "e2e":     { "files": 29, "functions": 65,  "active": 64,  "ignored": 3 },
+        "graphql": { "files": 58, "functions": 113, "active": 113, "ignored": 2 },
+        "total":   { "files": 87, "functions": 178, "active": 177, "ignored": 5 }
+    },
+
+    "previous": {
+        "sprint_name": "Sprint 26-01",
+        "e2e":     { "files": 27, "functions": 48, "active": 45, "ignored": 3 },
+        "graphql": { "files": 58, "functions": 113, "active": 106, "ignored": 7 },
+        "total":   { "files": 85, "functions": 161, "active": 151, "ignored": 10 }
+    },
+
+    "achievements": [
+        { "title": "New Feature\nCoverage",  "value": "+10 tests", "color": "accent1" },
+        { "title": "Test\nStabilization",    "value": "-50%",      "color": "green" },
+        { "title": "E2E\nGrowth",            "value": "+35.4%",    "color": "orange" },
+        { "title": "Active\nTest Rate",      "value": "97.2%",     "color": "secondary" },
+        { "title": "Growth\nVelocity",       "value": "1.13/day",  "color": "gray" },
+        { "title": "Component\nLibrary",     "value": "+8 new",    "color": "primary" }
+    ]
+}

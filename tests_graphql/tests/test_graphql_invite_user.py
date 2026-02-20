@@ -19,7 +19,6 @@ DEFAULT_ROLE_ID = "org-employee"
 INDEXING_WAIT_SECONDS = 10
 
 
-@pytest.mark.ignore
 @pytest.mark.graphql
 @allure.feature("Invite user (GraphQL)")
 def test_invite_user(

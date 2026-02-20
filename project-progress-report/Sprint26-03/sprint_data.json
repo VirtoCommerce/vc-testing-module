@@ -1,0 +1,33 @@
+{
+    "sprint_name": "Sprint 26-03",
+    "report_date": "February 20, 2026",
+    "theme": "dark",
+
+    "trend": {
+        "dates": ["Dec 23\n2025", "Jan 22\n2026", "Feb 6\n2026", "Feb 20\n2026"],
+        "total_tests": [121, 161, 178, 183],
+        "active_tests": [118, 151, 173, 178]
+    },
+
+    "current": {
+        "e2e":     { "files": 30, "functions": 68,  "active": 65,  "ignored": 3 },
+        "graphql": { "files": 60, "functions": 115, "active": 113, "ignored": 2 },
+        "total":   { "files": 90, "functions": 183, "active": 178, "ignored": 5 }
+    },
+
+    "previous": {
+        "sprint_name": "Sprint 26-02",
+        "e2e":     { "files": 29, "functions": 65,  "active": 62,  "ignored": 3 },
+        "graphql": { "files": 58, "functions": 113, "active": 111, "ignored": 2 },
+        "total":   { "files": 87, "functions": 178, "active": 173, "ignored": 5 }
+    },
+
+    "achievements": [
+        { "title": "New Tests",    "value": "+5",         "color": "accent1" },
+        { "title": "New Files",    "value": "+3",         "color": "green" },
+        { "title": "Active Rate",  "value": "97.3%",      "color": "accent2" },
+        { "title": "Code Reduced", "value": "-490 lines", "color": "secondary" },
+        { "title": "Growth",       "value": "+2.8%",      "color": "orange" },
+        { "title": "Deps Updated", "value": "3",          "color": "primary" }
+    ]
+}
