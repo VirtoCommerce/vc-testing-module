@@ -41,7 +41,6 @@ def test_reset_password(
     )
 
     assert send_password_reset_email_result is True
-   
 
     auth.authenticate(config["ADMIN_USERNAME"], config["ADMIN_PASSWORD"])
 
@@ -63,7 +62,7 @@ def test_reset_password(
     notification_id = search_reset_password_email_notification["results"][0]["id"]
     print(f"{os.linesep}Notification ID: {notification_id}")
 
-    sleep(20)
+    sleep(5)
 
     notification = webapi_client.get(
         f"/api/notifications/journal/{notification_id}",
@@ -72,13 +71,11 @@ def test_reset_password(
     assert notification is not None
     assert notification["notificationType"] == "ResetPasswordEmailNotification"
     assert notification["to"] == dataset["users"][2]["email"]
-    assert notification["subject"] is not None and notification["subject"].startswith(
-        "Reset password link"
-    )
+    assert notification["subject"] is not None and notification["subject"].startswith("Reset password link")
     assert notification["body"] is not None
     if notification["status"] != "Sent":
         pytest.fail(f"Notification status is not Sent: {notification['lastSendError']}")
-   
+
     # Extract and set Token from URL
     body_html = notification["body"]
 
