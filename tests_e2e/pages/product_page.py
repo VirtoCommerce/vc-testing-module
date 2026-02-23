@@ -1,6 +1,7 @@
 from playwright.sync_api import Locator, Page
 
 from fixtures import Config
+from tests_e2e.components.pickup_locations_modal_component import PickupLocationsModalComponent
 from tests_e2e.components.variation_selector_component import VariationSelectorComponent
 
 from .main_layout_page import MainLayoutPage
@@ -69,6 +70,18 @@ class ProductPage(MainLayoutPage):
     def disabled_add_to_cart_button(self) -> Locator:
         return self.sidebar.locator("button.product-price__disabled-button")
 
+    @property
+    def shipment_options_widget(self) -> Locator:
+        return self.page.locator("[data-test-id='shipment-options-widget']")
+
+    @property
+    def check_pickup_locations_button(self) -> Locator:
+        return self.page.locator("[data-test-id='check-pickup-locations-button']")
+
+    @property
+    def pickup_locations_modal(self) -> PickupLocationsModalComponent:
+        return PickupLocationsModalComponent(self.page.locator("[data-test-id='pickup-locations-modal']"), self.page)
+
     def navigate(self) -> None:
         self.page.goto(self.url)
         self.page.wait_for_load_state("networkidle")
@@ -83,3 +96,10 @@ class ProductPage(MainLayoutPage):
 
     def is_variation_selector_visible(self) -> bool:
         return self.variation_selector_element.is_visible()
+
+    def open_pickup_locations_modal(self) -> PickupLocationsModalComponent:
+        """Click the 'Check pickup locations' button and return the modal component."""
+        self.check_pickup_locations_button.click()
+        modal = self.pickup_locations_modal
+        modal.element.wait_for(state="visible", timeout=10_000)
+        return modal

@@ -16,23 +16,10 @@ from playwright.sync_api import Page, expect
 from fixtures import Auth, Config, GraphQLClient
 from graphql_operations.cart.cart_operations import CartOperations
 from graphql_operations.user.user_operations import UserOperations
+from tests_e2e.helpers import build_seo_path
 from tests_e2e.pages import ProductPage
 
 SPORT_BAND_PRODUCT_ID = "product-b2c-test-sport-band"
-
-
-def _build_seo_path(product: dict, dataset: dict) -> str:
-    """Build full SEO path from category hierarchy + product semantic URL."""
-    categories_by_id = {c["id"]: c for c in dataset["categories"]}
-    parts = []
-    category_id = product["categoryId"]
-    while category_id:
-        cat = categories_by_id[category_id]
-        parts.append(cat["seoInfos"][0]["semanticUrl"])
-        category_id = cat.get("parentId")
-    parts.reverse()
-    parts.append(product["seoInfos"][0]["semanticUrl"])
-    return "/".join(parts)
 
 
 def _find_variation(dataset: dict, color: str, size: str, wrist_size: str) -> dict:
@@ -87,7 +74,7 @@ def test_e2e_select_variant_option(
         wrist_size_prop = next(p for p in variation_props if p["name"] == "WristSize")
         wrist_size_value = wrist_size_prop["values"][0]["value"]  # S/M
 
-        seo_path = _build_seo_path(product, dataset)
+        seo_path = build_seo_path(product, dataset)
 
         user_operations = UserOperations(graphql_client)
         user = user_operations.get_me()
@@ -190,7 +177,7 @@ def test_e2e_variant_title_and_price_change(
         second_variation = _find_variation(dataset, second_color, size_value, wrist_size_value)
         second_expected_price = _get_variation_price_usd(dataset, second_variation["id"])
 
-        seo_path = _build_seo_path(product, dataset)
+        seo_path = build_seo_path(product, dataset)
 
         user_operations = UserOperations(graphql_client)
         user = user_operations.get_me()
@@ -287,7 +274,7 @@ def test_e2e_add_variant_combinations_to_cart(
             var = _find_variation(dataset, combo["color"], combo["size"], combo["wrist_size"])
             variations.append(var)
 
-        seo_path = _build_seo_path(product, dataset)
+        seo_path = build_seo_path(product, dataset)
 
     with allure.step("Authenticate and open product page"):
         user_operations = UserOperations(graphql_client)
