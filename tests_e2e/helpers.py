@@ -30,7 +30,7 @@ def resolve_search_keyword(items: list[dict[str, Any]], case_id: str) -> str:
         return items[0]["name"]
 
     if case_id == "partial_name":
-        return items[0]["name"].split()[0]
+        return items[1]["name"].split()[0]
 
     if case_id in _ADDRESS_FIELD_MAP:
         field = _ADDRESS_FIELD_MAP[case_id]
