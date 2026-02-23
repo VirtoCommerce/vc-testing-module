@@ -26,7 +26,7 @@ from fixtures import Config, GraphQLClient
 from graphql_operations.pickup_locations.pickup_locations_operations import (
     PickupLocationsOperations,
 )
-from tests_e2e.helpers import build_seo_path, resolve_search_keyword
+from tests_e2e.helpers import build_seo_path, navigate_to_product_page, resolve_search_keyword
 from tests_e2e.pages import ProductPage
 
 PRODUCT_ID = "product-acme-laptop-asus-vivobook-16-x1607qa"
@@ -60,11 +60,7 @@ def pickup_locations_data(graphql_client: GraphQLClient, config: Config, dataset
 @pytest.fixture
 def product_page(page: Page, config: Config, dataset: dict[str, Any]) -> ProductPage:
     """Navigate to the pickup locations test product page."""
-    page.set_viewport_size({"width": 1920, "height": 1080})
-    product = next(p for p in dataset["products"] if p["id"] == PRODUCT_ID)
-    pp = ProductPage(page, config, build_seo_path(product, dataset))
-    pp.navigate()
-    return pp
+    return navigate_to_product_page(page, config, dataset, PRODUCT_ID)
 
 
 @pytest.mark.e2e
@@ -421,11 +417,7 @@ def test_e2e_product_out_of_stock_pickup_locations_not_displayed(
         end=" ",
     )
 
-    page.set_viewport_size({"width": 1920, "height": 1080})
-
-    product = next(p for p in dataset["products"] if p["id"] == OUT_OF_STOCK_PRODUCT_ID)
-    product_page = ProductPage(page, config, build_seo_path(product, dataset))
-    product_page.navigate()
+    product_page = navigate_to_product_page(page, config, dataset, OUT_OF_STOCK_PRODUCT_ID)
 
     with allure.step("Verify product page loaded"):
         expect(

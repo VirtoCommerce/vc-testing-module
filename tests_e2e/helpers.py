@@ -1,6 +1,19 @@
 from typing import Any
 
 import pytest
+from playwright.sync_api import Page
+
+from fixtures import Config
+from tests_e2e.pages import ProductPage
+
+
+def navigate_to_product_page(page: Page, config: Config, dataset: dict[str, Any], product_id: str) -> ProductPage:
+
+    page.set_viewport_size({"width": 1920, "height": 1080})
+    product = next(p for p in dataset["products"] if p["id"] == product_id)
+    pp = ProductPage(page, config, build_seo_path(product, dataset))
+    pp.navigate()
+    return pp
 
 
 def build_seo_path(product: dict, dataset: dict) -> str:
