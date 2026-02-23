@@ -84,22 +84,27 @@ class PickupLocationsModalComponent:
         return self.pickup_availability_chips.nth(index)
 
     def search(self, keyword: str) -> None:
-        """Fill the search input and submit with Enter key."""
         self.search_keyword_input.fill(keyword)
         self.search_keyword_input.press("Enter")
 
+    def wait_for_search_results(self, timeout: int = 10_000) -> None:
+
+        first_item = self.pickup_location_items.first
+        not_found = self.pickup_locations_not_found
+
+        # Use Playwright's built-in `or_` combinator to wait for either state.
+        first_item.or_(not_found).wait_for(state="visible", timeout=timeout)
+
     def click_location_by_index(self, index: int) -> None:
-        """Click a pickup location by its index to select it and show its card."""
 
         self.pickup_location_items.nth(index).locator(".vc-radio-button").click()
 
     def clear_search(self) -> None:
-        """Clear the search input and submit to reset results."""
         self.search_keyword_input.clear()
         self.search_keyword_input.press("Enter")
 
     def wait_for_map_ready(self, timeout: int = 15_000) -> None:
-        """Wait for the Google Map to be visible and at least one marker to be attached."""
+
         self.pickup_locations_map.wait_for(state="visible", timeout=timeout)
         markers = self.pickup_locations_map.locator("gmp-advanced-marker")
         if markers.count() > 0:
