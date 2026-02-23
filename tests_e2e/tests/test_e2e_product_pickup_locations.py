@@ -259,7 +259,7 @@ def test_e2e_product_pickup_locations_search_reset(
     )
 
     expected_total = pickup_locations_data["totalCount"]
-    keyword_to_search = pickup_locations_data["items"][0]["name"]
+    keyword_to_search = pickup_locations_data["items"][2]["name"]
 
     modal = product_page.open_pickup_locations_modal()
     modal.wait_for_map_ready()
