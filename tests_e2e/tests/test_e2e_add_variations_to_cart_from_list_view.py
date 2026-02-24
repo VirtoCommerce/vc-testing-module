@@ -87,7 +87,10 @@ def test_e2e_add_variation_to_cart_from_list_view(
             variation_red = product_card.get_variation_line_item_by_name(VARIATION_NAME_RED)
             assert variation_red is not None, f"Variation line item '{VARIATION_NAME_RED}' not found"
 
-            variation_red.quantity_stepper_increment.click()
+            if config["PRODUCT_QUANTITY_CONTROL"] == "button":
+                variation_red.add_to_cart_component.add_to_cart_text_button.click()
+            else:
+                variation_red.quantity_stepper_increment.click()
             page.wait_for_load_state("networkidle")
 
             expect(
@@ -103,7 +106,10 @@ def test_e2e_add_variation_to_cart_from_list_view(
             variation_blue = product_card.get_variation_line_item_by_name(VARIATION_NAME_BLUE)
             assert variation_blue is not None, f"Variation line item '{VARIATION_NAME_BLUE}' not found"
 
-            variation_blue.quantity_stepper_increment.click()
+            if config["PRODUCT_QUANTITY_CONTROL"] == "button":
+                variation_blue.add_to_cart_component.add_to_cart_text_button.click()
+            else:
+                variation_blue.quantity_stepper_increment.click()
             page.wait_for_load_state("networkidle")
 
             expect(
@@ -195,21 +201,32 @@ def test_e2e_update_variation_quantity_from_list_view(
             variation_red = product_card.get_variation_line_item_by_name(VARIATION_NAME_RED)
             assert variation_red is not None, f"Variation line item '{VARIATION_NAME_RED}' not found"
 
-            variation_red.quantity_stepper_increment.click()
+            if config["PRODUCT_QUANTITY_CONTROL"] == "button":
+                variation_red.add_to_cart_component.add_to_cart_text_button.click()
+            else:
+                variation_red.quantity_stepper_increment.click()
             page.wait_for_load_state("networkidle")
 
             expect(variation_red.quantity_input, "Quantity input should show '1'").to_have_value("1")
             expect(variation_red.count_in_cart_label, "Count in cart should show '1'").to_have_text("1")
 
         with allure.step(f"Increment '{VARIATION_NAME_RED}' quantity to 2"):
-            variation_red.quantity_stepper_increment.click()
+            if config["PRODUCT_QUANTITY_CONTROL"] == "button":
+                variation_red.add_to_cart_component.quantity_input.fill("2")
+                variation_red.add_to_cart_component.add_to_cart_text_button.click()
+            else:
+                variation_red.quantity_stepper_increment.click()
             page.wait_for_load_state("networkidle")
 
             expect(variation_red.quantity_input, "Quantity input should show '2'").to_have_value("2")
             expect(variation_red.count_in_cart_label, "Count in cart should show '2'").to_have_text("2")
 
         with allure.step(f"Decrement '{VARIATION_NAME_RED}' quantity back to 1"):
-            variation_red.quantity_stepper_decrement.click()
+            if config["PRODUCT_QUANTITY_CONTROL"] == "button":
+                variation_red.add_to_cart_component.quantity_input.fill("1")
+                variation_red.add_to_cart_component.add_to_cart_text_button.click()
+            else:
+                variation_red.quantity_stepper_decrement.click()
             page.wait_for_load_state("networkidle")
 
             expect(variation_red.quantity_input, "Quantity input should show '1'").to_have_value("1")

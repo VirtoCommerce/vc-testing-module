@@ -1,10 +1,16 @@
 from playwright.sync_api import Locator
 
+from .add_to_cart_component import AddToCartComponent
+
 
 class VariationLineItemComponent:
 
     def __init__(self, element: Locator):
         self.element = element
+
+    @property
+    def add_to_cart_component(self) -> AddToCartComponent:
+        return AddToCartComponent(self.element.locator("[data-test-id='add-to-cart-component']"))
 
     @property
     def name(self) -> str:
