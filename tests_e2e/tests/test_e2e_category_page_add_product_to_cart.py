@@ -42,7 +42,7 @@ def test_e2e_category_add_product_to_cart_with_add_to_cart_button(
     category_page = CategoryPage(config, page, category["seoInfos"][0]["semanticUrl"])
     category_page.navigate()
 
-    product_card = category_page.get_product_card_by_sku(product["code"])
+    product_card = category_page.get_product_card_by_sku_grid(product["code"])
     product_card.add_to_cart_component.quantity_input.fill(quantity_to_add)
     product_card.add_to_cart_component.add_to_cart_text_button.click()
 
@@ -110,7 +110,7 @@ def test_e2e_category_add_product_to_cart_with_quantity_stepper(
     category_page = CategoryPage(config, page, category["seoInfos"][0]["semanticUrl"])
     category_page.navigate()
 
-    product_card = category_page.get_product_card_by_sku(product["code"])
+    product_card = category_page.get_product_card_by_sku_grid(product["code"])
     product_card.quantity_stepper_component.increment_button.click()
     product_card.quantity_stepper_component.increment_button.click()
 

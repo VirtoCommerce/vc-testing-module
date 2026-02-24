@@ -18,8 +18,8 @@ class CategoryPage(MainLayoutPage):
         page: Page,
         seo_path: str,
     ):
+        super().__init__(page)
         self.config = config
-        self.page = page
         self.seo_path = seo_path
 
     @property
@@ -28,9 +28,7 @@ class CategoryPage(MainLayoutPage):
 
     @property
     def view_switcher(self) -> CategoryViewSwitcherComponent:
-        return CategoryViewSwitcherComponent(
-            self.page.locator("[data-test-id='category-page.view-switcher']")
-        )
+        return CategoryViewSwitcherComponent(self.page.locator("[data-test-id='category-page.view-switcher']"))
 
     @property
     def products_grid_view(self) -> Locator:
@@ -41,20 +39,25 @@ class CategoryPage(MainLayoutPage):
         return self.page.locator("[data-test-id='category-page.products-list-view']")
 
     @property
-    def product_cards(self) -> list[ProductCardComponent]:
+    def product_cards_grid(self) -> list[ProductCardComponent]:
         return [
             ProductCardComponent(card)
-            for card in self.products_grid_view.locator(
-                "[data-test-id='product-card']"
-            ).all()
+            for card in self.products_grid_view.locator("[data-test-id='product-card']").all()
         ]
 
     @property
-    def price_filter_slider(self) -> FilterSliderComponent | None:
+    def product_cards_list(self) -> list[ProductCardComponent]:
+        return [
+            ProductCardComponent(card)
+            for card in self.products_list_view.locator("[data-test-id='product-card']").all()
+        ]
+
+    @property
+    def price_filter_slider(self) -> FilterSliderComponent:
         return FilterSliderComponent(self.page.locator("[data-test-id='filter-price']"))
 
     @property
-    def price_filter_facets(self) -> FilterFacetComponent | None:
+    def price_filter_facets(self) -> FilterFacetComponent:
         return FilterFacetComponent(self.page.locator("[data-test-id='filter-price']"))
 
     @property
@@ -65,12 +68,18 @@ class CategoryPage(MainLayoutPage):
     def products_count_locator(self) -> Locator:
         return self.page.locator(".category__products-count .me-1")
 
-    def navigate(self) -> None:
-        self.page.goto(f"{self.url}?sort=price-ascending")
+    def navigate(self, sort: str = "price-ascending") -> None:
+        self.page.goto(f"{self.url}?sort={sort}")
         self.page.wait_for_load_state("networkidle")
 
-    def get_product_card_by_sku(self, sku: str) -> ProductCardComponent | None:
-        for product_card in self.product_cards:
+    def get_product_card_by_sku_grid(self, sku: str) -> ProductCardComponent | None:
+        for product_card in self.product_cards_grid:
+            if product_card.sku == sku:
+                return product_card
+        return None
+
+    def get_product_card_by_sku_list(self, sku: str) -> ProductCardComponent | None:
+        for product_card in self.product_cards_list:
             if product_card.sku == sku:
                 return product_card
         return None

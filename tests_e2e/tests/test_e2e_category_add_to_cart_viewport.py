@@ -29,7 +29,7 @@ def test_e2e_category_add_to_cart_component_viewport(
 
     category_page.view_switcher.switch_category_view("grid")
 
-    product_card = category_page.get_product_card_by_sku(product["code"])
+    product_card = category_page.get_product_card_by_sku_grid(product["code"])
 
     expect(product_card.element).to_be_visible(), "Product card is not visible"
 
