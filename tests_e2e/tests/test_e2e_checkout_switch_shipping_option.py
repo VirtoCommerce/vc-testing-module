@@ -11,6 +11,7 @@ from tests_e2e.pages import CartPage, CheckoutShippingPage
 
 
 @pytest.mark.e2e
+@pytest.mark.checkout_mode("multi-step")
 def test_e2e_checkout_multi_step_switch_shipping_option(
     config: Config,
     auth: Auth,
@@ -18,10 +19,6 @@ def test_e2e_checkout_multi_step_switch_shipping_option(
     graphql_client: GraphQLClient,
     page: Page,
 ):
-    if config["CHECKOUT_MODE"] == "single-page":
-        pytest.skip(
-            "Checkout mode is a single-page, skipping test for multi-step checkout"
-        )
 
     print(
         f"{os.linesep}Running E2E test to switch shipping option in multi-step checkout...",
@@ -50,9 +47,7 @@ def test_e2e_checkout_multi_step_switch_shipping_option(
     checkout_shipping_page = CheckoutShippingPage(config, page)
     checkout_shipping_page.navigate()
 
-    expect(page).to_have_url(
-        checkout_shipping_page.url
-    ), "Checkout shipping page is not loaded"
+    expect(page).to_have_url(checkout_shipping_page.url), "Checkout shipping page is not loaded"
     expect(
         checkout_shipping_page.shipping_details_section_component.element
     ).to_be_visible(), "Shipping details section is not visible"
@@ -63,9 +58,7 @@ def test_e2e_checkout_multi_step_switch_shipping_option(
         checkout_shipping_page.shipping_details_section_component.shipping_delivery_option_switcher
     ).to_be_visible(), "Shipping delivery option switcher is not visible"
 
-    checkout_shipping_page.shipping_details_section_component.switch_delivery_option(
-        "pickup"
-    )
+    checkout_shipping_page.shipping_details_section_component.switch_delivery_option("pickup")
 
     expect(
         checkout_shipping_page.shipping_details_section_component.pickup_point_section
@@ -74,9 +67,7 @@ def test_e2e_checkout_multi_step_switch_shipping_option(
         checkout_shipping_page.shipping_details_section_component.shipping_method_selector
     ).not_to_be_visible(), "Shipping method selector is visible"
 
-    checkout_shipping_page.shipping_details_section_component.switch_delivery_option(
-        "shipping"
-    )
+    checkout_shipping_page.shipping_details_section_component.switch_delivery_option("shipping")
 
     expect(
         checkout_shipping_page.shipping_details_section_component.pickup_point_section
@@ -94,6 +85,7 @@ def test_e2e_checkout_multi_step_switch_shipping_option(
 
 
 @pytest.mark.e2e
+@pytest.mark.checkout_mode("single-page")
 def test_e2e_checkout_single_page_switch_shipping_option(
     config: Config,
     auth: Auth,
@@ -101,10 +93,6 @@ def test_e2e_checkout_single_page_switch_shipping_option(
     graphql_client: GraphQLClient,
     page: Page,
 ):
-    if config["CHECKOUT_MODE"] == "multi-step":
-        pytest.skip(
-            "Checkout mode is a multi-step, skipping test for single-page checkout"
-        )
 
     print(
         f"{os.linesep}Running E2E test to switch shipping option in single-page checkout...",

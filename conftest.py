@@ -14,8 +14,35 @@ from fixtures import (
     requests_tracker,
     webapi_client,
 )
+from fixtures.config import Config
 
 load_dotenv(override=True)
+
+FEATURE_MARKERS = {
+    "checkout_mode": "CHECKOUT_MODE",
+    "quantity_control": "PRODUCT_QUANTITY_CONTROL",
+    "range_filter": "RANGE_FILTER_TYPE",
+}
+
+_config_instance = None
+
+
+def _get_config():
+    global _config_instance
+    if _config_instance is None:
+        _config_instance = Config()
+    return _config_instance
+
+
+def pytest_runtest_setup(item):
+    cfg = _get_config()
+    for marker_name, config_key in FEATURE_MARKERS.items():
+        marker = item.get_closest_marker(marker_name)
+        if marker:
+            required_value = marker.args[0]
+            actual_value = cfg[config_key]
+            if actual_value != required_value:
+                pytest.skip(f"Requires {marker_name}={required_value}, got {actual_value}")
 
 
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
@@ -117,9 +144,7 @@ def authenticated_page(auth_token, config, browser_context):
 
     # Set auth object in localStorage
     page = browser_context.new_page()
-    page.goto(
-        config["frontend_base_url"]
-    )  # Wait for page load before manipulating storage
+    page.goto(config["frontend_base_url"])  # Wait for page load before manipulating storage
     page.evaluate(
         f"""
         localStorage.setItem('auth', JSON.stringify({auth_token[1]}));

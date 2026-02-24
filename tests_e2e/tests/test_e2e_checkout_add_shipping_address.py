@@ -12,6 +12,7 @@ from tests_e2e.pages import CartPage, CheckoutShippingPage
 
 
 @pytest.mark.e2e
+@pytest.mark.checkout_mode("single-page")
 def test_e2e_anonymous_single_page_checkout_add_shipping_address(
     config: Config,
     auth: Auth,
@@ -19,10 +20,6 @@ def test_e2e_anonymous_single_page_checkout_add_shipping_address(
     dataset: dict[str, Any],
     page: Page,
 ):
-    if config["CHECKOUT_MODE"] == "multi-step":
-        pytest.skip(
-            "Checkout mode is a multi-step, skipping test for single-page checkout"
-        )
 
     print(
         f"{os.linesep}Running E2E test to add a shipping address in anonymous single-page checkout...",
@@ -57,9 +54,7 @@ def test_e2e_anonymous_single_page_checkout_add_shipping_address(
 
     cart_page.shipping_details_section_component.address_selector_component.select_address_button.click()
 
-    edit_address_modal = EditAddressModalComponent(
-        page.locator("[data-test-id='edit-address-modal']")
-    )
+    edit_address_modal = EditAddressModalComponent(page.locator("[data-test-id='edit-address-modal']"))
 
     expect(edit_address_modal.element).to_be_visible()
 
@@ -95,16 +90,13 @@ def test_e2e_anonymous_single_page_checkout_add_shipping_address(
 
 
 @pytest.mark.e2e
+@pytest.mark.checkout_mode("multi-step")
 def test_e2e_anonymous_multi_step_checkout_add_shipping_address(
     config: Config,
     auth: Auth,
     graphql_client: GraphQLClient,
     page: Page,
 ):
-    if config["CHECKOUT_MODE"] == "single-page":
-        pytest.skip(
-            "Checkout mode is a single-page, skipping test for multi-step checkout"
-        )
 
     print(
         f"{os.linesep}Running E2E test to add a shipping address in anonymous multi-step checkout...",
@@ -137,9 +129,7 @@ def test_e2e_anonymous_multi_step_checkout_add_shipping_address(
 
     checkout_shipping_page.shipping_details_section_component.address_selector_component.select_address_button.click()
 
-    edit_address_modal = EditAddressModalComponent(
-        page.locator("[data-test-id='edit-address-modal']")
-    )
+    edit_address_modal = EditAddressModalComponent(page.locator("[data-test-id='edit-address-modal']"))
 
     expect(edit_address_modal.element).to_be_visible()
 

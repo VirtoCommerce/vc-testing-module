@@ -20,6 +20,7 @@ from tests_e2e.pages import (
 
 
 @pytest.mark.e2e
+@pytest.mark.checkout_mode("multi-step")
 def test_e2e_create_order_multi_step_checkout(
     config: Config,
     dataset: dict[str, Any],
@@ -27,8 +28,6 @@ def test_e2e_create_order_multi_step_checkout(
     graphql_client: GraphQLClient,
     page: Page,
 ):
-    if config["CHECKOUT_MODE"] == "single-page":
-        pytest.skip("Checkout mode is a single-page, skipping test for multi-step checkout")
 
     print(
         f"{os.linesep}Running E2E test to create order in multi-step checkout...",
@@ -113,6 +112,7 @@ def test_e2e_create_order_multi_step_checkout(
 
 
 @pytest.mark.e2e
+@pytest.mark.checkout_mode("single-page")
 def test_e2e_create_order_single_page_checkout(
     config: Config,
     dataset: dict[str, Any],
@@ -120,8 +120,6 @@ def test_e2e_create_order_single_page_checkout(
     graphql_client: GraphQLClient,
     page: Page,
 ):
-    if config["CHECKOUT_MODE"] == "multi-step":
-        pytest.skip("Checkout mode is a multi-step, skipping test for single-page checkout")
 
     print(
         f"{os.linesep}Running E2E test to create order in multi-step checkout...",

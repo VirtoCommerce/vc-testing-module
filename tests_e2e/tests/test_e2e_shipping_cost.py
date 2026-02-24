@@ -11,6 +11,7 @@ from tests_e2e.pages import CartPage, CheckoutShippingPage
 
 
 @pytest.mark.e2e
+@pytest.mark.checkout_mode("single-page")
 def test_e2e_shipping_cost_single_page_checkout(
     config: Config,
     dataset: dict[str, Any],
@@ -18,10 +19,6 @@ def test_e2e_shipping_cost_single_page_checkout(
     auth: Auth,
     graphql_client: GraphQLClient,
 ):
-    if config["CHECKOUT_MODE"] == "multi-step":
-        pytest.skip(
-            "Checkout mode is a single-page, skipping test for multi-step checkout"
-        )
 
     print(
         f"{os.linesep}Running E2E test to calculate shipping cost in single-page checkout...",
@@ -56,14 +53,12 @@ def test_e2e_shipping_cost_single_page_checkout(
     ground_shipping_method = next(
         shipping_method
         for shipping_method in cart["availableShippingMethods"]
-        if shipping_method["code"] == "FixedRate"
-        and shipping_method["optionName"] == "Ground"
+        if shipping_method["code"] == "FixedRate" and shipping_method["optionName"] == "Ground"
     )
     air_shipping_method = next(
         shipping_method
         for shipping_method in cart["availableShippingMethods"]
-        if shipping_method["code"] == "FixedRate"
-        and shipping_method["optionName"] == "Air"
+        if shipping_method["code"] == "FixedRate" and shipping_method["optionName"] == "Air"
     )
     bopis_shipping_method = next(
         shipping_method
@@ -103,6 +98,7 @@ def test_e2e_shipping_cost_single_page_checkout(
 
 
 @pytest.mark.e2e
+@pytest.mark.checkout_mode("multi-step")
 def test_e2e_shipping_cost_multi_step_checkout(
     config: Config,
     dataset: dict[str, Any],
@@ -110,10 +106,6 @@ def test_e2e_shipping_cost_multi_step_checkout(
     auth: Auth,
     graphql_client: GraphQLClient,
 ):
-    if config["CHECKOUT_MODE"] == "single-page":
-        pytest.skip(
-            "Checkout mode is a single-page, skipping test for multi-step checkout"
-        )
 
     print(
         f"{os.linesep}Running E2E test to calculate shipping cost in multi-step checkout...",
@@ -145,14 +137,12 @@ def test_e2e_shipping_cost_multi_step_checkout(
     ground_shipping_method = next(
         shipping_method
         for shipping_method in cart["availableShippingMethods"]
-        if shipping_method["code"] == "FixedRate"
-        and shipping_method["optionName"] == "Ground"
+        if shipping_method["code"] == "FixedRate" and shipping_method["optionName"] == "Ground"
     )
     air_shipping_method = next(
         shipping_method
         for shipping_method in cart["availableShippingMethods"]
-        if shipping_method["code"] == "FixedRate"
-        and shipping_method["optionName"] == "Air"
+        if shipping_method["code"] == "FixedRate" and shipping_method["optionName"] == "Air"
     )
     bopis_shipping_method = next(
         shipping_method
@@ -165,23 +155,23 @@ def test_e2e_shipping_cost_multi_step_checkout(
         f"{ground_shipping_method['code']}_{ground_shipping_method['optionName']}"
     )
 
-    expect(
-        checkout_shipping_page.order_summary_component.cart_shipping_total_label
-    ).to_have_text(ground_shipping_method["price"]["formattedAmount"])
+    expect(checkout_shipping_page.order_summary_component.cart_shipping_total_label).to_have_text(
+        ground_shipping_method["price"]["formattedAmount"]
+    )
 
     checkout_shipping_page.shipping_details_section_component.select_shipping_method(
         f"{air_shipping_method['code']}_{air_shipping_method['optionName']}"
     )
 
-    expect(
-        checkout_shipping_page.order_summary_component.cart_shipping_total_label
-    ).to_have_text(air_shipping_method["price"]["formattedAmount"])
+    expect(checkout_shipping_page.order_summary_component.cart_shipping_total_label).to_have_text(
+        air_shipping_method["price"]["formattedAmount"]
+    )
 
     checkout_shipping_page.shipping_details_section_component.pickup_delivery_option_switcher.click()
 
-    expect(
-        checkout_shipping_page.order_summary_component.cart_shipping_total_label
-    ).to_have_text(bopis_shipping_method["price"]["formattedAmount"])
+    expect(checkout_shipping_page.order_summary_component.cart_shipping_total_label).to_have_text(
+        bopis_shipping_method["price"]["formattedAmount"]
+    )
 
     cart_operations.remove_cart(
         payload={

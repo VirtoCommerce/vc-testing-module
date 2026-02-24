@@ -14,6 +14,7 @@ from tests_e2e.pages import CartPage, CheckoutShippingPage
 
 
 @pytest.mark.e2e
+@pytest.mark.checkout_mode("single-page")
 def test_e2e_single_page_checkout_select_shipping_address(
     config: Config,
     dataset: dict[str, Any],
@@ -21,10 +22,6 @@ def test_e2e_single_page_checkout_select_shipping_address(
     graphql_client: GraphQLClient,
     page: Page,
 ):
-    if config["CHECKOUT_MODE"] == "multi-step":
-        pytest.skip(
-            "Checkout mode is a multi-step, skipping test for single-page checkout"
-        )
 
     print(
         f"{os.linesep}Running E2E test to select a shipping address in single-page checkout...",
@@ -57,9 +54,7 @@ def test_e2e_single_page_checkout_select_shipping_address(
 
     cart_page.shipping_details_section_component.address_selector_component.select_address_button.click()
 
-    select_address_modal = SelectAddressModalComponent(
-        page.locator("[data-test-id='select-address-modal']")
-    )
+    select_address_modal = SelectAddressModalComponent(page.locator("[data-test-id='select-address-modal']"))
 
     expect(select_address_modal.element).to_be_visible()
     expect(select_address_modal.items[0]).to_be_visible()
@@ -87,6 +82,7 @@ def test_e2e_single_page_checkout_select_shipping_address(
 
 
 @pytest.mark.e2e
+@pytest.mark.checkout_mode("multi-step")
 def test_e2e_multi_step_checkout_select_shipping_address(
     config: Config,
     dataset: dict[str, Any],
@@ -94,10 +90,6 @@ def test_e2e_multi_step_checkout_select_shipping_address(
     graphql_client: GraphQLClient,
     page: Page,
 ):
-    if config["CHECKOUT_MODE"] == "single-page":
-        pytest.skip(
-            "Checkout mode is a single-page, skipping test for multi-step checkout"
-        )
 
     print(
         f"{os.linesep}Running E2E test to select a shipping address in multi-step checkout...",
@@ -132,9 +124,7 @@ def test_e2e_multi_step_checkout_select_shipping_address(
 
     checkout_shipping_page.shipping_details_section_component.address_selector_component.select_address_button.click()
 
-    select_address_modal = SelectAddressModalComponent(
-        page.locator("[data-test-id='select-address-modal']")
-    )
+    select_address_modal = SelectAddressModalComponent(page.locator("[data-test-id='select-address-modal']"))
 
     expect(select_address_modal.element).to_be_visible()
     expect(select_address_modal.items[0]).to_be_visible()

@@ -14,6 +14,7 @@ from tests_e2e.pages import CartPage, CheckoutShippingPage
 
 
 @pytest.mark.e2e
+@pytest.mark.checkout_mode("single-page")
 def test_e2e_filter_pickup_locations_elements_single_page_checkout(
     config: Config,
     auth: Auth,
@@ -21,8 +22,6 @@ def test_e2e_filter_pickup_locations_elements_single_page_checkout(
     page: Page,
     dataset: dict[str, Any],
 ):
-    if config["CHECKOUT_MODE"] == "multi-step":
-        pytest.skip("Checkout mode is a multi-step, skipping test")
 
     print(
         f"{os.linesep}Running E2E test to check filter pickup locations elements on pickup point selection modal in single-page checkout...",
@@ -84,6 +83,7 @@ def test_e2e_filter_pickup_locations_elements_single_page_checkout(
 
 
 @pytest.mark.e2e
+@pytest.mark.checkout_mode("single-page")
 def test_e2e_filter_pickup_locations_country_region_keyword_found_single_page_checkout(
     config: Config,
     auth: Auth,
@@ -91,8 +91,6 @@ def test_e2e_filter_pickup_locations_country_region_keyword_found_single_page_ch
     page: Page,
     dataset: dict[str, Any],
 ):
-    if config["CHECKOUT_MODE"] == "multi-step":
-        pytest.skip("Checkout mode is a multi-step, skipping test")
 
     print(
         f"{os.linesep}Running E2E test to filter pickup locations by country, region with search keyword with positive results in single-page checkout...",
@@ -159,6 +157,7 @@ def test_e2e_filter_pickup_locations_country_region_keyword_found_single_page_ch
 
 
 @pytest.mark.e2e
+@pytest.mark.checkout_mode("single-page")
 def test_e2e_filter_pickup_locations_country_region_city_keyword_found_single_page_checkout(
     config: Config,
     auth: Auth,
@@ -166,8 +165,6 @@ def test_e2e_filter_pickup_locations_country_region_city_keyword_found_single_pa
     page: Page,
     dataset: dict[str, Any],
 ):
-    if config["CHECKOUT_MODE"] == "multi-step":
-        pytest.skip("Checkout mode is a multi-step, skipping test")
 
     print(
         f"{os.linesep}Running E2E test to filter pickup locations by country, region, city with search keyword with positive results in single-page checkout...",
@@ -238,6 +235,7 @@ def test_e2e_filter_pickup_locations_country_region_city_keyword_found_single_pa
 
 
 @pytest.mark.e2e
+@pytest.mark.checkout_mode("single-page")
 def test_e2e_filter_pickup_locations_country_region_city_keyword_not_found_single_page_checkout(
     config: Config,
     auth: Auth,
@@ -245,8 +243,6 @@ def test_e2e_filter_pickup_locations_country_region_city_keyword_not_found_singl
     page: Page,
     dataset: dict[str, Any],
 ):
-    if config["CHECKOUT_MODE"] == "multi-step":
-        pytest.skip("Checkout mode is a multi-step, skipping test")
 
     print(
         f"{os.linesep}Running E2E test to filter pickup locations by country, region, city with search keyword with negative results in single-page checkout...",
@@ -317,6 +313,7 @@ def test_e2e_filter_pickup_locations_country_region_city_keyword_not_found_singl
 
 
 @pytest.mark.e2e
+@pytest.mark.checkout_mode("single-page")
 def test_e2e_filter_pickup_locations_remove_filters_single_page_checkout(
     config: Config,
     auth: Auth,
@@ -324,8 +321,6 @@ def test_e2e_filter_pickup_locations_remove_filters_single_page_checkout(
     page: Page,
     dataset: dict[str, Any],
 ):
-    if config["CHECKOUT_MODE"] == "multi-step":
-        pytest.skip("Checkout mode is a multi-step, skipping test")
 
     print(
         f"{os.linesep}Running E2E test to remove filters from pickup point selection modal in single-page checkout...",
@@ -406,6 +401,7 @@ def test_e2e_filter_pickup_locations_remove_filters_single_page_checkout(
 
 
 @pytest.mark.e2e
+@pytest.mark.checkout_mode("multi-step")
 def test_e2e_filter_pickup_locations_elements_multi_step_checkout(
     config: Config,
     auth: Auth,
@@ -413,8 +409,6 @@ def test_e2e_filter_pickup_locations_elements_multi_step_checkout(
     page: Page,
     dataset: dict[str, Any],
 ):
-    if config["CHECKOUT_MODE"] == "single-page":
-        pytest.skip("Checkout mode is a single-page, skipping test")
 
     print(
         f"{os.linesep}Running E2E test to check filter pickup locations elements on pickup point selection modal in multi-step checkout...",
@@ -480,6 +474,7 @@ def test_e2e_filter_pickup_locations_elements_multi_step_checkout(
 
 
 @pytest.mark.e2e
+@pytest.mark.checkout_mode("multi-step")
 def test_e2e_filter_pickup_locations_country_region_keyword_found_multi_step_checkout(
     config: Config,
     auth: Auth,
@@ -487,8 +482,6 @@ def test_e2e_filter_pickup_locations_country_region_keyword_found_multi_step_che
     page: Page,
     dataset: dict[str, Any],
 ):
-    if config["CHECKOUT_MODE"] == "single-page":
-        pytest.skip("Checkout mode is a single-page, skipping test")
 
     print(
         f"{os.linesep}Running E2E test to filter pickup locations by country, region with search keyword with positive results in multi-step checkout...",
@@ -557,6 +550,7 @@ def test_e2e_filter_pickup_locations_country_region_keyword_found_multi_step_che
 
 
 @pytest.mark.e2e
+@pytest.mark.checkout_mode("multi-step")
 def test_e2e_filter_pickup_locations_country_region_city_keyword_found_multi_step_checkout(
     config: Config,
     auth: Auth,
@@ -564,8 +558,6 @@ def test_e2e_filter_pickup_locations_country_region_city_keyword_found_multi_ste
     page: Page,
     dataset: dict[str, Any],
 ):
-    if config["CHECKOUT_MODE"] == "single-page":
-        pytest.skip("Checkout mode is a single-page, skipping test")
 
     print(
         f"{os.linesep}Running E2E test to filter pickup locations by country, region, city with search keyword with positive results in multi-step checkout...",
@@ -640,6 +632,7 @@ def test_e2e_filter_pickup_locations_country_region_city_keyword_found_multi_ste
 
 
 @pytest.mark.e2e
+@pytest.mark.checkout_mode("multi-step")
 def test_e2e_filter_pickup_locations_country_region_city_keyword_not_found_multi_step_checkout(
     config: Config,
     auth: Auth,
@@ -647,8 +640,6 @@ def test_e2e_filter_pickup_locations_country_region_city_keyword_not_found_multi
     page: Page,
     dataset: dict[str, Any],
 ):
-    if config["CHECKOUT_MODE"] == "single-page":
-        pytest.skip("Checkout mode is a single-page, skipping test")
 
     print(
         f"{os.linesep}Running E2E test to filter pickup locations by country, region, city with search keyword with negative results in multi-step checkout...",
@@ -723,6 +714,7 @@ def test_e2e_filter_pickup_locations_country_region_city_keyword_not_found_multi
 
 
 @pytest.mark.e2e
+@pytest.mark.checkout_mode("multi-step")
 def test_e2e_filter_pickup_locations_remove_filters_multi_step_checkout(
     config: Config,
     auth: Auth,
@@ -730,8 +722,6 @@ def test_e2e_filter_pickup_locations_remove_filters_multi_step_checkout(
     page: Page,
     dataset: dict[str, Any],
 ):
-    if config["CHECKOUT_MODE"] == "single-page":
-        pytest.skip("Checkout mode is a single-page, skipping test")
 
     print(
         f"{os.linesep}Running E2E test to remove filters from pickup point selection modal in multi-step checkout...",
