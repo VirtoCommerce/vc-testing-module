@@ -9,13 +9,12 @@ from tests_e2e.pages import CategoryPage
 
 
 @pytest.mark.e2e
+@pytest.mark.range_filter("slider")
 def test_e2e_category_price_range_filter_slider(
     config: Config,
     page: Page,
     dataset: dict[str, Any],
 ):
-    if config["RANGE_FILTER_TYPE"] == "default":
-        pytest.skip("Range filter type is not supported for this test")
 
     print(
         f"{os.linesep}Running E2E test to check category price range filter slider...",
@@ -48,13 +47,12 @@ def test_e2e_category_price_range_filter_slider(
 
 
 @pytest.mark.e2e
+@pytest.mark.range_filter("default")
 def test_e2e_category_price_range_filter_default(
     config: Config,
     page: Page,
     dataset: dict[str, Any],
 ):
-    if config["RANGE_FILTER_TYPE"] == "slider":
-        pytest.skip("Range filter type is not supported for this test")
 
     print(
         f"{os.linesep}Running E2E test to check default category price range filter...",

@@ -11,6 +11,7 @@ from tests_e2e.pages import CartPage, CategoryPage, CheckoutShippingPage, SignIn
 
 
 @pytest.mark.e2e
+@pytest.mark.checkout_mode("multi-step")
 def test_e2e_proceed_to_multi_step_checkout(
     config: Config,
     dataset: dict[str, Any],
@@ -18,8 +19,6 @@ def test_e2e_proceed_to_multi_step_checkout(
     page: Page,
     auth: Auth,
 ):
-    if config["CHECKOUT_MODE"] == "single-page":
-        pytest.skip("Checkout mode is a multi-step")
 
     print(f"{os.linesep}Running E2E test to proceed to multi-step checkout...", end=" ")
 
@@ -52,9 +51,7 @@ def test_e2e_proceed_to_multi_step_checkout(
 
     checkout_page = CheckoutShippingPage(config, page)
 
-    expect(checkout_page.page).to_have_url(
-        checkout_page.url
-    ), "Checkout page is not loaded"
+    expect(checkout_page.page).to_have_url(checkout_page.url), "Checkout page is not loaded"
     expect(
         checkout_page.shipping_details_section_component.element
     ).to_be_visible(), "Shipping details section is not visible"
@@ -68,6 +65,7 @@ def test_e2e_proceed_to_multi_step_checkout(
 
 
 @pytest.mark.e2e
+@pytest.mark.checkout_mode("single-page")
 def test_e2e_proceed_to_single_page_checkout(
     config: Config,
     dataset: dict[str, Any],
@@ -75,12 +73,8 @@ def test_e2e_proceed_to_single_page_checkout(
     page: Page,
     auth: Auth,
 ):
-    if config["CHECKOUT_MODE"] == "multi-step":
-        pytest.skip("Checkout mode is a single-page")
 
-    print(
-        f"{os.linesep}Running E2E test to proceed to single-page checkout...", end=" "
-    )
+    print(f"{os.linesep}Running E2E test to proceed to single-page checkout...", end=" ")
 
     page.set_viewport_size({"width": 1920, "height": 1080})
 
@@ -113,9 +107,7 @@ def test_e2e_proceed_to_single_page_checkout(
     expect(
         cart_page.payment_details_section_component.element
     ).to_be_visible(), "Payment details section is not visible"
-    expect(
-        cart_page.place_order_button
-    ).to_be_visible(), "Place order button is not visible"
+    expect(cart_page.place_order_button).to_be_visible(), "Place order button is not visible"
 
     cart_operations.remove_cart(
         payload={

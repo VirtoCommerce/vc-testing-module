@@ -11,6 +11,7 @@ from tests_e2e.pages import CartPage, CategoryPage
 
 
 @pytest.mark.e2e
+@pytest.mark.quantity_control("button")
 def test_e2e_category_add_product_to_cart_with_add_to_cart_button(
     config: Config,
     auth: Auth,
@@ -18,8 +19,6 @@ def test_e2e_category_add_product_to_cart_with_add_to_cart_button(
     page: Page,
     dataset: dict[str, Any],
 ):
-    if config["PRODUCT_QUANTITY_CONTROL"] == "stepper":
-        pytest.skip("Product quantity control is a stepper")
 
     print(
         f"{os.linesep}Running E2E test to add product to a cart from category page with add to cart button...",
@@ -79,6 +78,7 @@ def test_e2e_category_add_product_to_cart_with_add_to_cart_button(
 
 
 @pytest.mark.e2e
+@pytest.mark.quantity_control("stepper")
 def test_e2e_category_add_product_to_cart_with_quantity_stepper(
     config: Config,
     auth: Auth,
@@ -86,8 +86,6 @@ def test_e2e_category_add_product_to_cart_with_quantity_stepper(
     page: Page,
     dataset: dict[str, Any],
 ):
-    if config["PRODUCT_QUANTITY_CONTROL"] == "button":
-        pytest.skip("Product quantity control is add to cart button")
 
     print(
         f"{os.linesep}Running E2E test to add product to cart from category page with quantity stepper...",
