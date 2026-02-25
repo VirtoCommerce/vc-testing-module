@@ -46,10 +46,16 @@ def test_e2e_add_variation_to_cart_from_list_view_stepper(
     user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
 
-    with allure.step("Authenticate as regular user"):
+    with allure.step("Authenticate as regular user and ensure empty cart"):
         dataset_user = dataset["users"][0]
         auth.authenticate(dataset_user["userName"], config["USERS_PASSWORD"], page)
         user = user_operations.get_me()
+        cart_operations.clear_cart(
+            payload={
+                "storeId": config["STORE_ID"],
+                "userId": user["id"],
+            }
+        )
 
     with allure.step("Navigate to Smart Watches category and switch to list view"):
         category_page = CategoryPage(config, page, SMART_WATCHES_SEO_PATH)
@@ -160,10 +166,16 @@ def test_e2e_add_variation_to_cart_from_list_view_button(
     user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
 
-    with allure.step("Authenticate as regular user"):
+    with allure.step("Authenticate as regular user and ensure empty cart"):
         dataset_user = dataset["users"][0]
         auth.authenticate(dataset_user["userName"], config["USERS_PASSWORD"], page)
         user = user_operations.get_me()
+        cart_operations.clear_cart(
+            payload={
+                "storeId": config["STORE_ID"],
+                "userId": user["id"],
+            }
+        )
 
     with allure.step("Navigate to Smart Watches category and switch to list view"):
         category_page = CategoryPage(config, page, SMART_WATCHES_SEO_PATH)
@@ -274,10 +286,16 @@ def test_e2e_update_variation_quantity_from_list_view_stepper(
     user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
 
-    with allure.step("Authenticate as regular user"):
+    with allure.step("Authenticate as regular user and ensure empty cart"):
         dataset_user = dataset["users"][0]
         auth.authenticate(dataset_user["userName"], config["USERS_PASSWORD"], page)
         user = user_operations.get_me()
+        cart_operations.clear_cart(
+            payload={
+                "storeId": config["STORE_ID"],
+                "userId": user["id"],
+            }
+        )
 
     with allure.step("Navigate to Smart Watches category and switch to list view"):
         category_page = CategoryPage(config, page, SMART_WATCHES_SEO_PATH)
@@ -375,10 +393,16 @@ def test_e2e_update_variation_quantity_from_list_view_button(
     user_operations = UserOperations(graphql_client)
     cart_operations = CartOperations(graphql_client)
 
-    with allure.step("Authenticate as regular user"):
+    with allure.step("Authenticate as regular user and ensure empty cart"):
         dataset_user = dataset["users"][0]
         auth.authenticate(dataset_user["userName"], config["USERS_PASSWORD"], page)
         user = user_operations.get_me()
+        cart_operations.clear_cart(
+            payload={
+                "storeId": config["STORE_ID"],
+                "userId": user["id"],
+            }
+        )
 
     with allure.step("Navigate to Smart Watches category and switch to list view"):
         category_page = CategoryPage(config, page, SMART_WATCHES_SEO_PATH)

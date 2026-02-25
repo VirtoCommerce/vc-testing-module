@@ -52,16 +52,7 @@ def test_e2e_select_variant_option(
     page: Page,
     dataset: dict[str, Any],
 ):
-    """
-    Verify variant option selection behavior on the Sport Band product page.
 
-    Steps:
-    1. Navigate to the Sport Band product page
-    2. Check that variant picker group is displayed
-    3. Check that no variant is selected and Add to Cart button is disabled
-    4. Select Color, Size, and Wrist Size options manually
-    5. Check that the Add to Cart button changed to a stepper (increase/decrease)
-    """
     with allure.step("Prepare browser and navigate to product page"):
         page.set_viewport_size({"width": 1920, "height": 1080})
 
@@ -149,14 +140,7 @@ def test_e2e_variant_title_and_price_change(
     page: Page,
     dataset: dict[str, Any],
 ):
-    """
-    Verify product title and price update when switching between variant options.
 
-    Steps:
-    1. Navigate to the Sport Band product page
-    2. Select Starlight + 42mm + S/M, verify title and price match dataset
-    3. Switch color to Midnight Black, verify title and price changed and match dataset
-    """
     with allure.step("Prepare browser and navigate to product page"):
         page.set_viewport_size({"width": 1920, "height": 1080})
 
@@ -232,16 +216,7 @@ def test_e2e_add_variant_combinations_to_cart(
     page: Page,
     dataset: dict[str, Any],
 ):
-    """
-    Add 3 different variant combinations to cart and verify cart contents.
 
-    Steps:
-    1. Navigate to the Sport Band product page
-    2. Select Light Blush + 45mm + S/M, click increase, check count-in-cart-label
-    3. Select Purple Fog + 42mm + S/M, click increase, check count-in-cart-label
-    4. Select Neon Yellow + 49mm + M/L, click increase, check count-in-cart-label
-    5. Verify cart badge shows correct count
-    """
     with allure.step("Prepare browser and navigate to product page"):
         page.set_viewport_size({"width": 1920, "height": 1080})
 
@@ -276,13 +251,19 @@ def test_e2e_add_variant_combinations_to_cart(
 
         seo_path = build_seo_path(product, dataset)
 
-    with allure.step("Authenticate and open product page"):
+    with allure.step("Authenticate and ensure empty cart"):
         user_operations = UserOperations(graphql_client)
         cart_operations = CartOperations(graphql_client)
 
         dataset_user = dataset["users"][0]
         auth.authenticate(dataset_user["userName"], config["USERS_PASSWORD"], page)
         user = user_operations.get_me()
+        cart_operations.clear_cart(
+            payload={
+                "storeId": config["STORE_ID"],
+                "userId": user["id"],
+            }
+        )
 
         product_page = ProductPage(page, config, seo_path)
         product_page.navigate()
