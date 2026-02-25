@@ -23,15 +23,8 @@ def test_e2e_search_bar_user_search_history_single_item(config: Config, page: Pa
     home_page.search_bar.search_input.fill("asus")
 
     expect(home_page.search_bar.suggestions_dropdown.element).to_be_visible()
-    expect(
-        home_page.search_bar.suggestions_dropdown.search_history_section.element
-    ).to_be_visible()
-    assert (
-        home_page.search_bar.suggestions_dropdown.search_history_section.has_item(
-            "acer"
-        )
-        == True
-    )
+    expect(home_page.search_bar.suggestions_dropdown.search_history_section.element).to_be_visible()
+    assert home_page.search_bar.suggestions_dropdown.search_history_section.has_item("acer") == True
 
 
 @pytest.mark.e2e
@@ -45,49 +38,31 @@ def test_e2e_search_bar_user_search_history_multiple_items(config: Config, page:
     home_page.search_bar.search_button.click()
 
     expect(page).to_have_url(f"{config['FRONTEND_BASE_URL']}/search?q=acer")
+    page.wait_for_load_state("networkidle")
 
     home_page.search_bar.search_input.fill("asus")
     home_page.search_bar.search_button.click()
 
     expect(page).to_have_url(f"{config['FRONTEND_BASE_URL']}/search?q=asus")
+    page.wait_for_load_state("networkidle")
 
     home_page.search_bar.search_input.fill("lenovo")
     home_page.search_bar.search_button.click()
 
     expect(page).to_have_url(f"{config['FRONTEND_BASE_URL']}/search?q=lenovo")
+    page.wait_for_load_state("networkidle")
 
     home_page.navigate()
 
     home_page.search_bar.search_input.focus()
 
     expect(home_page.search_bar.suggestions_dropdown.element).to_be_visible()
-    expect(
-        home_page.search_bar.suggestions_dropdown.search_history_section.element
-    ).to_be_visible()
-    assert (
-        home_page.search_bar.suggestions_dropdown.search_history_section.has_item(
-            "acer"
-        )
-        == True
-    )
-    assert (
-        home_page.search_bar.suggestions_dropdown.search_history_section.has_item(
-            "asus"
-        )
-        == True
-    )
-    assert (
-        home_page.search_bar.suggestions_dropdown.search_history_section.has_item(
-            "lenovo"
-        )
-        == True
-    )
+    expect(home_page.search_bar.suggestions_dropdown.search_history_section.element).to_be_visible()
+    assert home_page.search_bar.suggestions_dropdown.search_history_section.has_item("acer") == True
+    assert home_page.search_bar.suggestions_dropdown.search_history_section.has_item("asus") == True
+    assert home_page.search_bar.suggestions_dropdown.search_history_section.has_item("lenovo") == True
 
-    history_item = (
-        home_page.search_bar.suggestions_dropdown.search_history_section.get_item(
-            "acer"
-        )
-    )
+    history_item = home_page.search_bar.suggestions_dropdown.search_history_section.get_item("acer")
 
     assert history_item is not None
 
@@ -106,22 +81,10 @@ def test_e2e_search_bar_products_suggestions(config: Config, page: Page):
     home_page.search_bar.search_input.fill("acer")
 
     expect(home_page.search_bar.suggestions_dropdown.element).to_be_visible()
-    expect(
-        home_page.search_bar.suggestions_dropdown.product_suggestions_section.element
-    ).to_be_visible()
-    expect(
-        home_page.search_bar.suggestions_dropdown.product_suggestions_section.products_list_element
-    ).to_be_visible()
-    assert (
-        home_page.search_bar.suggestions_dropdown.product_suggestions_section.products
-        is not None
-    )
-    assert (
-        len(
-            home_page.search_bar.suggestions_dropdown.product_suggestions_section.products
-        )
-        >= 1
-    )
+    expect(home_page.search_bar.suggestions_dropdown.product_suggestions_section.element).to_be_visible()
+    expect(home_page.search_bar.suggestions_dropdown.product_suggestions_section.products_list_element).to_be_visible()
+    assert home_page.search_bar.suggestions_dropdown.product_suggestions_section.products is not None
+    assert len(home_page.search_bar.suggestions_dropdown.product_suggestions_section.products) >= 1
 
 
 @pytest.mark.e2e
@@ -133,12 +96,8 @@ def test_e2e_search_bar_products_view_all(config: Config, page: Page):
 
     home_page.search_bar.search_input.fill("a")
 
-    expect(
-        home_page.search_bar.suggestions_dropdown.product_suggestions_section.element
-    ).to_be_visible()
-    expect(
-        home_page.search_bar.suggestions_dropdown.product_suggestions_section.view_all_button
-    ).to_be_visible()
+    expect(home_page.search_bar.suggestions_dropdown.product_suggestions_section.element).to_be_visible()
+    expect(home_page.search_bar.suggestions_dropdown.product_suggestions_section.view_all_button).to_be_visible()
 
     home_page.search_bar.suggestions_dropdown.product_suggestions_section.view_all_button.click()
 
@@ -158,18 +117,10 @@ def test_e2e_search_bar_products_pdp(config: Config, page: Page):
     home_page.search_bar.search_input.fill("acer")
 
     expect(home_page.search_bar.suggestions_dropdown.element).to_be_visible()
-    expect(
-        home_page.search_bar.suggestions_dropdown.product_suggestions_section.element
-    ).to_be_visible()
-    expect(
-        home_page.search_bar.suggestions_dropdown.product_suggestions_section.products_list_element
-    ).to_be_visible()
+    expect(home_page.search_bar.suggestions_dropdown.product_suggestions_section.element).to_be_visible()
+    expect(home_page.search_bar.suggestions_dropdown.product_suggestions_section.products_list_element).to_be_visible()
 
-    product = (
-        home_page.search_bar.suggestions_dropdown.product_suggestions_section.products[
-            0
-        ]
-    )
+    product = home_page.search_bar.suggestions_dropdown.product_suggestions_section.products[0]
     product_path = product.product_link.get_attribute("href")
     product.product_link.click()
 
@@ -205,15 +156,11 @@ def test_e2e_search_bar_unexisting_item_query(config: Config, page: Page):
     home_page.search_bar.search_input.fill("unexisting item")
 
     expect(home_page.search_bar.suggestions_dropdown.element).to_be_visible()
-    expect(
-        home_page.search_bar.suggestions_dropdown.not_found_section_element
-    ).to_be_visible()
+    expect(home_page.search_bar.suggestions_dropdown.not_found_section_element).to_be_visible()
 
 
 @pytest.mark.e2e
-def test_e2e_search_bar_history_different_users(
-    config: Config, page: Page, auth: Auth, graphql_client: GraphQLClient
-):
+def test_e2e_search_bar_history_different_users(config: Config, page: Page, auth: Auth, graphql_client: GraphQLClient):
     print(
         "Running E2E test to check search history for different users...",
         end=" ",
@@ -275,15 +222,8 @@ def test_e2e_search_bar_history_different_users(
     home_page.search_bar.search_input.focus()
 
     expect(home_page.search_bar.suggestions_dropdown.element).to_be_visible()
-    expect(
-        home_page.search_bar.suggestions_dropdown.search_history_section.element
-    ).to_be_visible()
-    assert (
-        home_page.search_bar.suggestions_dropdown.search_history_section.has_item(
-            "acer"
-        )
-        == True
-    )
+    expect(home_page.search_bar.suggestions_dropdown.search_history_section.element).to_be_visible()
+    assert home_page.search_bar.suggestions_dropdown.search_history_section.has_item("acer") == True
 
     auth.clear_token()
 
@@ -301,21 +241,9 @@ def test_e2e_search_bar_history_different_users(
     home_page.search_bar.search_input.focus()
 
     expect(home_page.search_bar.suggestions_dropdown.element).to_be_visible()
-    expect(
-        home_page.search_bar.suggestions_dropdown.search_history_section.element
-    ).to_be_visible()
-    assert (
-        home_page.search_bar.suggestions_dropdown.search_history_section.has_item(
-            "asus"
-        )
-        == True
-    )
-    assert (
-        home_page.search_bar.suggestions_dropdown.search_history_section.has_item(
-            "acer"
-        )
-        == False
-    )
+    expect(home_page.search_bar.suggestions_dropdown.search_history_section.element).to_be_visible()
+    assert home_page.search_bar.suggestions_dropdown.search_history_section.has_item("asus") == True
+    assert home_page.search_bar.suggestions_dropdown.search_history_section.has_item("acer") == False
 
     auth.clear_token()
 
