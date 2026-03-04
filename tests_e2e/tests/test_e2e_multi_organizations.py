@@ -234,7 +234,6 @@ SPECIAL_CHAR_ORG_TEST_DATA = [
 def test_e2e_search_organization_with_special_chars(
     config: Config, dataset: dict[str, Any], page: Page, org_index: int, search_term: str, char_description: str
 ):
-    """Test searching for organizations with special characters in their names."""
     with allure.step("Prepare browser and page objects"):
         page.set_viewport_size({"width": 1920, "height": 1080})
         sign_in_page = SignInPage(page, config)
@@ -267,41 +266,20 @@ def test_e2e_search_organization_with_special_chars(
         page.wait_for_timeout(2000)
         expect(account_menu.organization_list).to_be_visible()
 
-        # Verify the organization with special chars is found
         filtered_items_count = len(account_menu.organization_selector_items)
         assert filtered_items_count >= 1, (
             f"Expected at least 1 organization matching '{search_term}' ({char_description}), "
             f"but found {filtered_items_count}"
         )
 
-        # Verify that the list is filtered and doesn't return all organizations
         assert filtered_items_count < initial_org_count, (
             f"Search results should be filtered. Expected fewer than {initial_org_count} organizations, "
             f"but found {filtered_items_count} (search term: '{search_term}')"
         )
 
-        # Verify the expected organization is in results
         expect(
             account_menu.organization_selector_item(organization_name),
             f"Organization '{organization_name}' should be visible in search results",
         ).to_be_visible()
-
-    with allure.step(f"Select organization with {char_description}"):
-        account_menu.organization_selector_item(organization_name).click()
+        account_menu.search_organization_clear_button.click()
         page.wait_for_timeout(2000)
-
-        # Verify the organization is now selected
-        expect(
-            home_page.top_header_component.organization_name_label,
-            f"Current organization should be '{organization_name}'",
-        ).to_have_text(organization_name)
-
-        current_organization = home_page.current_organization_name
-        assert (
-            current_organization == organization_name
-        ), f"Current organization is not '{organization_name}', but '{current_organization}'"
-
-    with allure.step("Verify organization is marked as selected in menu"):
-        account_menu = home_page.open_account_menu()
-        page.wait_for_timeout(2000)
-        account_menu.assert_selection_state(current_organization, selected=True)

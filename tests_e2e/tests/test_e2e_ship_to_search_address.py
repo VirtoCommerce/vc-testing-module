@@ -1,7 +1,5 @@
-import os
-import random
-import time
 from typing import Any
+import os
 
 import allure
 import pytest
@@ -9,20 +7,240 @@ from playwright.sync_api import Page, expect
 
 from fixtures.auth import Auth
 from fixtures.config import Config
-from fixtures.webapi_client import WebAPISession
-from graphql_operations.contact.contact_operations import ContactOperations
-from tests_e2e.components.edit_address_modal_component import EditAddressModalComponent
-from tests_e2e.components.ship_to_selector_component import ShipToSelectorComponent
-from tests_e2e.pages.home_page import HomePage
-from tests_e2e.pages.main_layout_page import MainLayoutPage
-from tests_e2e.pages.sign_in_page import SignInPage
 from fixtures.graphql_client import GraphQLClient
-from graphql_operations.page_context.page_context_operations import PageContextOperations
+from fixtures.webapi_client import WebAPISession
+from graphql_operations.user.user_operations import UserOperations
+from tests_e2e.components.edit_address_modal_component import EditAddressModalComponent
+from tests_e2e.pages.home_page import HomePage
+
+TEST_ADDRESSES = [
+    {
+        "first_name": "John",
+        "last_name": "Doe",
+        "email": "john.doe@example.com",
+        "phone": "5551234567",
+        "country": "United States of America",
+        "countryCode": "USA",
+        "region": "Texas",
+        "regionId": "TX",
+        "city": "Houston",
+        "postal_code": "77001",
+        "address_line_1": "100 Main Street",
+        "address_line_2": "Suite 1",
+    },
+    {
+        "first_name": "Jane",
+        "last_name": "Smith",
+        "email": "jane.smith@example.com",
+        "phone": "5559876543",
+        "country": "United States of America",
+        "countryCode": "USA",
+        "region": "Illinois",
+        "regionId": "IL",
+        "city": "Chicago",
+        "postal_code": "60601",
+        "address_line_1": "200 Oak Avenue",
+        "address_line_2": "Apt 5",
+    },
+    {
+        "first_name": "Bob",
+        "last_name": "Johnson",
+        "email": "bob.j@example.com",
+        "phone": "5555551234",
+        "country": "United States of America",
+        "countryCode": "USA",
+        "region": "California",
+        "regionId": "CA",
+        "city": "Los Angeles",
+        "postal_code": "90001",
+        "address_line_1": "300 Maple Drive",
+        "address_line_2": "Unit 10",
+    },
+    {
+        "first_name": "Alice",
+        "last_name": "Williams",
+        "email": "alice.w@example.com",
+        "phone": "5552223333",
+        "country": "United States of America",
+        "countryCode": "USA",
+        "region": "Arizona",
+        "regionId": "AZ",
+        "city": "Phoenix",
+        "postal_code": "85001",
+        "address_line_1": "400 Cedar Lane",
+        "address_line_2": "Floor 3",
+    },
+    {
+        "first_name": "Charlie",
+        "last_name": "Brown",
+        "email": "charlie.b@example.com",
+        "phone": "5558889999",
+        "country": "United States of America",
+        "countryCode": "USA",
+        "region": "New York",
+        "regionId": "NY",
+        "city": "New York",
+        "postal_code": "10001",
+        "address_line_1": "500 Pine Road",
+        "address_line_2": "# 22",
+    },
+    {
+        "first_name": "Diana",
+        "last_name": "Miller",
+        "email": "diana.m@example.com",
+        "phone": "5554445555",
+        "country": "United States of America",
+        "countryCode": "USA",
+        "region": "Texas",
+        "regionId": "TX",
+        "city": "Dallas",
+        "postal_code": "75201",
+        "address_line_1": "600 Elm Boulevard",
+        "address_line_2": "Suite 8",
+    },
+    {
+        "first_name": "Edward",
+        "last_name": "Davis",
+        "email": "edward.d@example.com",
+        "phone": "5556667777",
+        "country": "United States of America",
+        "countryCode": "USA",
+        "region": "California",
+        "regionId": "CA",
+        "city": "San Diego",
+        "postal_code": "92101",
+        "address_line_1": "700 Washington Street",
+        "address_line_2": "Apt 15",
+    },
+]
+
+
+def _get_test_user_and_org(
+    dataset: dict[str, Any],
+    config: Config,
+    auth: Auth,
+    graphql_client: GraphQLClient,
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    test_user = dataset["users"][9]
+    auth.authenticate(test_user["userName"], config["USERS_PASSWORD"])
+    user_operations = UserOperations(graphql_client)
+    me = user_operations.get_me()
+    current_org_id = me["contact"]["organizationId"]
+    auth.clear_token()
+    assert current_org_id is not None, f"No current organizationId for user {test_user['userName']}"
+    user_organization = next((org for org in dataset["organizations"] if org["id"] == current_org_id), None)
+    assert user_organization is not None, f"Organization '{current_org_id}' not found in dataset"
+    return test_user, user_organization
+
+
+def _cleanup_addresses(webapi_client: WebAPISession, config: Config, auth: Auth, organization: dict[str, Any]):
+    auth.authenticate(config["ADMIN_USERNAME"], config["ADMIN_PASSWORD"])
+    org_data = webapi_client.get(f"/api/members/{organization['id']}")
+    webapi_client.put(
+        "/api/members",
+        data={
+            "id": organization["id"],
+            "name": org_data.get("name"),
+            "memberType": "Organization",
+            "addresses": [],
+        },
+    )
+    auth.clear_token()
+
+
+def _add_addresses_via_api(
+    webapi_client: WebAPISession,
+    config: Config,
+    auth: Auth,
+    organization: dict[str, Any],
+    addresses: list[dict[str, str]],
+):
+    auth.authenticate(config["ADMIN_USERNAME"], config["ADMIN_PASSWORD"])
+    org_data = webapi_client.get(f"/api/members/{organization['id']}")
+    api_addresses = [
+        {
+            "addressType": "BillingAndShipping",
+            "firstName": addr["first_name"],
+            "lastName": addr["last_name"],
+            "email": addr["email"],
+            "phone": addr["phone"],
+            "countryCode": addr["countryCode"],
+            "countryName": addr["country"],
+            "postalCode": addr["postal_code"],
+            "regionId": addr["regionId"],
+            "regionName": addr["region"],
+            "city": addr["city"],
+            "line1": addr["address_line_1"],
+            "line2": addr.get("address_line_2", ""),
+        }
+        for addr in addresses
+    ]
+    webapi_client.put(
+        "/api/members",
+        data={
+            "id": organization["id"],
+            "name": org_data["name"],
+            "memberType": "Organization",
+            "addresses": org_data.get("addresses", []) + api_addresses,
+        },
+    )
+    auth.clear_token()
+
+
+def _restore_addresses(webapi_client: WebAPISession, config: Config, auth: Auth, organization: dict[str, Any]):
+    auth.authenticate(config["ADMIN_USERNAME"], config["ADMIN_PASSWORD"])
+    webapi_client.put(
+        "/api/members",
+        data={
+            "id": organization["id"],
+            "name": organization["name"],
+            "memberType": "Organization",
+            "addresses": organization.get("addresses", []),
+        },
+    )
+    auth.clear_token()
 
 
 @pytest.mark.e2e
-@allure.title("Add 7 shipping addresses in Ship To component (E2E)")
-def test_e2e_add_multiple_shipping_addresses(
+@allure.title("Add shipping address as anonymous user (E2E)")
+def test_e2e_add_shipping_address_anonymous(
+    config: Config,
+    page: Page,
+):
+    print(f"{os.linesep}Running E2E test to add shipping address as anonymous user...", end=" ")
+
+    page.set_viewport_size({"width": 1920, "height": 1080})
+    home_page = HomePage(page, config)
+    ship_to = home_page.top_header_component.ship_to_selector
+    add_address_btn = home_page.top_header_component.add_shipping_address_button
+
+    with allure.step("Navigate to home page"):
+        home_page.navigate()
+
+    with allure.step("Verify Ship To selector is hidden and Add Address button is visible"):
+        expect(ship_to.element, "Ship To selector should not be visible for anonymous user").not_to_be_visible()
+        expect(add_address_btn, "Add shipping address button should be visible").to_be_visible()
+
+    with allure.step("Open add address modal"):
+        add_address_btn.click()
+        modal = EditAddressModalComponent(page.get_by_role("dialog"))
+        expect(modal.element, "Edit address modal should be visible").to_be_visible()
+
+    with allure.step("Fill and submit address form"):
+        modal.address_form_component.fill_address(TEST_ADDRESSES[0])
+        modal.submit_button.click()
+        expect(modal.element, "Edit address modal should close after submit").not_to_be_visible()
+
+    with allure.step("Verify address appears in Ship To selector"):
+        expect(ship_to.element, "Ship To selector should be visible after adding address").to_be_visible()
+        expect(ship_to.selected_address_label, "Selected address label should be visible").to_be_visible()
+        expect(ship_to.selected_address_label, "Selected address label should not be empty").not_to_be_empty()
+        expect(add_address_btn, "Add shipping address button should be hidden after adding address").not_to_be_visible()
+
+
+@pytest.mark.e2e
+@allure.title("Add shipping address as authenticated user (E2E)")
+def test_e2e_add_shipping_address_authenticated(
     config: Config,
     dataset: dict[str, Any],
     page: Page,
@@ -30,145 +248,58 @@ def test_e2e_add_multiple_shipping_addresses(
     webapi_client: WebAPISession,
     graphql_client: GraphQLClient,
 ):
-    print(
-        f"{os.linesep}Running E2E test to add 7 shipping addresses...",
-        end=" ",
-    )
+    print(f"{os.linesep}Running E2E test add shipping address as authenticated user...", end=" ")
 
-    test_user = dataset["users"][9]
+    test_user, organization = _get_test_user_and_org(dataset, config, auth, graphql_client)
 
-    user_contact = next(
-        (contact for contact in dataset["contacts"] if contact["id"] == test_user.get("memberId")), None
-    )
+    with allure.step("Cleanup and add 6 addresses via API"):
+        _cleanup_addresses(webapi_client, config, auth, organization)
+        _add_addresses_via_api(webapi_client, config, auth, organization, TEST_ADDRESSES[:6])
 
     page.set_viewport_size({"width": 1920, "height": 1080})
-
     auth.authenticate(test_user["userName"], config["USERS_PASSWORD"], page)
 
-    page_context_operations = PageContextOperations(graphql_client)
-
-    page_context = page_context_operations.get_user_context(
-        store_id=config["STORE_ID"],
-        user_id=test_user["id"],
-    )
-
-    assert page_context is not None, "Page context is None"
-    assert page_context["user"] is not None, "User info is None"
-    assert page_context["user"]["contact"] is not None, "User contact is None"
-
-    organization_id = page_context["user"]["contact"]["organizationId"]
-    assert organization_id is not None, "Organization ID is None"
-
-    print(f"Organization ID: {organization_id}")
-
-    user_organization = next((org for org in dataset["organizations"] if org["id"] == organization_id), None)
-    assert user_organization is not None, f"Could not find organization with ID {organization_id}"
-
-    with allure.step("Cleanup existing addresses"):
-        cleanup_organization_addresses(
-            webapi_client=webapi_client,
-            config=config,
-            auth=auth,
-            organization=user_organization,
-        )
-
     home_page = HomePage(page, config)
-    layout = MainLayoutPage(page)
-    ship_to = layout.top_header_component.ship_to_selector
-    add_shipping_address_button = layout.top_header_component.add_shipping_address_button
 
-    with allure.step("Open Ship To selector"):
+    with allure.step("Navigate and open Ship To selector"):
         home_page.navigate()
-        page.wait_for_load_state("networkidle")
+        ship_to = home_page.top_header_component.ship_to_selector
+        expect(ship_to.trigger_button).to_be_visible()
+        ship_to.trigger_button.click()
+        expect(ship_to.shipping_addresses_dropdown).to_be_visible()
 
-        expect(add_shipping_address_button).to_be_visible(), "Add shipping address button is not visible"
-        add_shipping_address_text = add_shipping_address_button.inner_text()
-        assert "Add new address" in add_shipping_address_text
-        assert "Ship to:" in add_shipping_address_text
-        add_shipping_address_button.click()
+    with allure.step("Expand all addresses"):
+        if ship_to.more_button.is_visible():
+            ship_to.more_button.click()
 
-    with allure.step("Add first test address"):
-        test_address = generate_test_addresses(1)[0]
-        edit_address_modal = EditAddressModalComponent(page.get_by_role("dialog"))
-        expect(edit_address_modal.element).to_be_visible(), "Edit address modal is not visible"
-        edit_address_modal.address_form_component.fill_address(test_address)
-        edit_address_modal.submit_button.click()
-        time.sleep(1)
-        expect(edit_address_modal.element).not_to_be_visible(), "Edit address modal is still visible"
-        time.sleep(1)
-
-    with allure.step("Verify first address is added"):
-        ship_to_selector = layout.top_header_component.ship_to_selector
-        expect(ship_to_selector.trigger_button).to_be_visible(), "Ship to trigger is not visible"
-        ship_to_selector.trigger_button.click()
-        time.sleep(0.5)
-
-        initial_count = len(ship_to.shipping_addresses)
-        assert initial_count == 1, "Initial address count is not 1"
-
-        ship_to_selector.trigger_button.click()  # Close dropdown
-        time.sleep(0.5)
-
-    test_addresses = generate_test_addresses(6)
-
-    for i, address in enumerate(test_addresses):
-        with allure.step(f"Add address {i + 1}: {address['city']}"):
-            page.wait_for_load_state("networkidle")
-
-            ship_to_selector = layout.top_header_component.ship_to_selector
-            expect(ship_to_selector.trigger_button).to_be_visible(), "Ship to trigger is not visible"
-            ship_to_selector.trigger_button.click()
-
-            time.sleep(0.5)
-
-            add_new_btn = ship_to_selector.add_new_address_button
-            expect(add_new_btn).to_be_visible(timeout=5000), "Add new button is not visible"
-            add_new_btn.click()
-
-            edit_address_modal = EditAddressModalComponent(page.get_by_role("dialog"))
-            expect(edit_address_modal.element).to_be_visible(timeout=10000), "Edit address modal is not visible"
-
-            edit_address_modal.address_form_component.fill_address(address)
-
-            save_button = edit_address_modal.submit_button
-            expect(save_button).to_be_enabled(timeout=5000)
-            save_button.click()
-
-            expect(edit_address_modal.element).not_to_be_visible(timeout=15000), "Edit address modal is still visible"
-
-            time.sleep(1)
-
-    with allure.step("Verify all 7 addresses are added"):
-        page.wait_for_load_state("networkidle")
-
-        ship_to_selector = layout.top_header_component.ship_to_selector
-        ship_to_selector.trigger_button.click()
-        time.sleep(1)
-
-        if ship_to_selector.more_button.is_visible():
-            ship_to_selector.more_button.click()
-            time.sleep(0.5)
-        else:
-            pytest.skip("More button is not visible - not enough addresses to trigger pagination")
-
-        final_addresses_count = len(ship_to_selector.shipping_addresses)
-        expected_count = initial_count + 6
-        print(f"Final address count: {final_addresses_count}, Expected: {expected_count}")
-
-        assert (
-            final_addresses_count == expected_count
-        ), f"Expected {expected_count} addresses (initial {initial_count} + 6), but found {final_addresses_count}"
+    with allure.step("Verify all 6 addresses are displayed"):
+        expect(ship_to.element.locator("button.ship-to-selector__item")).to_have_count(6)
 
     with allure.step("Select an address from the list"):
-        if len(ship_to.shipping_addresses) > 0:
-            ship_to.shipping_addresses[0].click()
+        ship_to.shipping_addresses[0].click()
+        expect(ship_to.shipping_addresses_dropdown).not_to_be_visible()
+        expect(ship_to.trigger_button).to_be_visible()
 
-            expect(
-                ship_to.shipping_addresses_dropdown
-            ).not_to_be_visible(), "Shipping addresses dropdown should be closed after selection"
+    with allure.step("Add one more address via UI"):
+        ship_to.trigger_button.click()
+        expect(ship_to.shipping_addresses_dropdown).to_be_visible()
+        ship_to.add_new_address_button.click()
+        modal = EditAddressModalComponent(page.get_by_role("dialog"))
+        expect(modal.element, "Edit address modal should be visible").to_be_visible()
+        modal.address_form_component.fill_address(TEST_ADDRESSES[6])
+        modal.submit_button.click()
+        expect(modal.element, "Edit address modal should close after submit").not_to_be_visible()
 
-            ship_to_button = ship_to.trigger_button
-            expect(ship_to_button).to_be_visible()
+    with allure.step("Verify 7 addresses, 'Show more' button and search field are visible"):
+        ship_to.trigger_button.click()
+        expect(ship_to.shipping_addresses_dropdown).to_be_visible()
+        expect(ship_to.more_button, "Show more button should be visible with 7 addresses").to_be_visible()
+        expect(ship_to.search_field, "Search field should be visible with 7 addresses").to_be_visible()
+        ship_to.more_button.click()
+        expect(ship_to.element.locator("button.ship-to-selector__item")).to_have_count(7)
+
+    with allure.step("Restore original addresses"):
+        _restore_addresses(webapi_client, config, auth, organization)
 
 
 @pytest.mark.e2e
@@ -177,316 +308,78 @@ def test_e2e_search_shipping_address(
     config: Config,
     dataset: dict[str, Any],
     page: Page,
-    webapi_client: WebAPISession,
     auth: Auth,
+    webapi_client: WebAPISession,
+    graphql_client: GraphQLClient,
 ):
-    """
-    Note: This test requires addresses to already exist.
-    """
-    print(
-        f"{os.linesep}Running E2E test to search shipping addresses...",
-        end=" ",
-    )
+    print(f"{os.linesep}Running E2E test to search shipping address in Ship To component...", end=" ")
 
-    test_user = dataset["users"][9]
+    test_user, organization = _get_test_user_and_org(dataset, config, auth, graphql_client)
 
-    user_contact = next(
-        (contact for contact in dataset["contacts"] if contact["id"] == test_user.get("memberId")), None
-    )
-    user_organization = (
-        next((org for org in dataset["organizations"] if org["id"] == user_contact.get("defaultOrganizationId")), None)
-        if user_contact
-        else None
-    )
-
-    assert user_organization is not None, f"Could not find organization for user {test_user['userName']}"
+    with allure.step("Setup: add 7 addresses via API"):
+        _cleanup_addresses(webapi_client, config, auth, organization)
+        _add_addresses_via_api(webapi_client, config, auth, organization, TEST_ADDRESSES)
 
     page.set_viewport_size({"width": 1920, "height": 1080})
     auth.authenticate(test_user["userName"], config["USERS_PASSWORD"], page)
 
     home_page = HomePage(page, config)
 
-    layout = MainLayoutPage(page)
-    ship_to = layout.top_header_component.ship_to_selector
-
-    with allure.step("Open Ship To selector"):
+    with allure.step("Navigate and open Ship To selector"):
         home_page.navigate()
-        page.wait_for_load_state("networkidle")
+        ship_to = home_page.top_header_component.ship_to_selector
+        expect(ship_to.trigger_button).to_be_visible()
+        ship_to.trigger_button.click()
+        expect(ship_to.shipping_addresses_dropdown).to_be_visible()
 
-        ship_to_button = ship_to.trigger_button
-        expect(ship_to_button).to_be_visible(), "Ship to button is not visible"
-        ship_to_button.click()
-        time.sleep(0.5)
-
-        dropdown = ship_to.shipping_addresses_dropdown
-        if not dropdown.is_visible():
-            pytest.skip("No addresses available - dropdown not visible")
-
-    with allure.step("Get initial addresses count"):
+    with allure.step("Expand all addresses"):
         if ship_to.more_button.is_visible():
             ship_to.more_button.click()
-            time.sleep(0.5)
-        initial_count = len(ship_to.shipping_addresses)
-        print(f"Initial count: {initial_count}")
 
-        if initial_count == 0:
-            pytest.skip("No addresses available for search test")
+    addresses_locator = ship_to.element.locator("button.ship-to-selector__item")
+    expect(addresses_locator).to_have_count(7)
+    initial_count = 7
 
     search_field = ship_to.search_field
     if not search_field.is_visible():
-        pytest.skip(
-            f"Search field is not visible (found {initial_count} addresses). Search field may only be available when there are more addresses."
-        )
+        pytest.skip("Search field not visible — not enough addresses to trigger search UI")
 
-    expect(search_field).to_be_visible(), "Search field is not visible"
+    search_input = page.get_by_role("textbox").first
 
     with allure.step("Search by city name 'Houston'"):
-        search_field_input = page.get_by_role("textbox").first
-        search_field_input.fill("Houston")
-        time.sleep(1)
-
-        filtered_count = len(ship_to.shipping_addresses)
-
-        assert filtered_count >= 1, f"Expected at least 1 address for 'Houston', found {filtered_count}"
-
-        for addr in ship_to.shipping_addresses:
-            addr_text = addr.inner_text().lower()
-            assert "houston" in addr_text, f"Address '{addr_text}' does not contain 'Houston'"
+        search_input.fill("Houston")
+        expect(addresses_locator).to_have_count(1)
+        assert "houston" in ship_to.shipping_addresses[0].inner_text().lower()
 
     with allure.step("Clear search after city search"):
-        search_field_input = page.get_by_role("textbox").first
-        search_field_input.fill("")
-        time.sleep(1)
-        restored_count = len(ship_to.shipping_addresses)
-        assert restored_count == initial_count, f"Expected {initial_count} addresses, found {restored_count}"
+        search_input.fill("")
+        expect(addresses_locator).to_have_count(initial_count)
 
     with allure.step("Search by postal code '60601'"):
-        search_field_input = page.get_by_role("textbox").first
-        search_field_input.fill("60601")
-        time.sleep(1)
-
-        filtered_count = len(ship_to.shipping_addresses)
-
-        assert filtered_count >= 1, f"Expected at least 1 address for '60601', found {filtered_count}"
-
-        for addr in ship_to.shipping_addresses:
-            addr_text = addr.inner_text().lower()
-            assert "60601" in addr_text, f"Address '{addr_text}' does not contain '60601'"
+        search_input.fill("60601")
+        expect(addresses_locator).to_have_count(1)
+        assert "60601" in ship_to.shipping_addresses[0].inner_text()
 
     with allure.step("Clear search after postal code search"):
-        search_field_input = page.get_by_role("textbox").first
-        search_field_input.fill("")
-        time.sleep(1)
-        restored_count = len(ship_to.shipping_addresses)
-        assert restored_count == initial_count, f"Expected {initial_count} addresses, found {restored_count}"
+        search_input.fill("")
+        expect(addresses_locator).to_have_count(initial_count)
 
-    with allure.step("Search by street"):
-
-        random_address = random.choice(ship_to.shipping_addresses)
-        street_name = random_address.inner_text().split(",")[0].strip()
-
-        search_field_input = page.get_by_role("textbox").first
-        search_field_input.fill(street_name.lower())
-        time.sleep(1)
-
-        filtered_count = len(ship_to.shipping_addresses)
-
-        assert filtered_count >= 1, f"Expected at least 1 address for '{street_name}', found {filtered_count}"
-
-        for addr in ship_to.shipping_addresses:
-            addr_text = addr.inner_text().lower()
-            assert street_name.lower() in addr_text, f"Address '{addr_text}' does not contain '{street_name}'"
+    with allure.step("Search by street name"):
+        search_input.fill("Main Street")
+        expect(addresses_locator).to_have_count(1)
+        assert "main street" in ship_to.shipping_addresses[0].inner_text().lower()
 
     with allure.step("Clear search after street search"):
-        search_field_input = page.get_by_role("textbox").first
-        search_field_input.fill("")
-        time.sleep(1)
-        restored_count = len(ship_to.shipping_addresses)
-        assert restored_count == initial_count, f"Expected {initial_count} addresses, found {restored_count}"
+        search_input.fill("")
+        expect(addresses_locator).to_have_count(initial_count)
 
     with allure.step("Search for non-existent address"):
-        search_field_input = page.get_by_role("textbox").first
-        search_field_input.fill("XYZNONEXISTENT12345")
-        time.sleep(1)
-
-        filtered_count = len(ship_to.shipping_addresses)
-
-        assert filtered_count == 0, f"Expected 0 addresses for non-existent search, found {filtered_count}"
+        search_input.fill("XYZNONEXISTENT12345")
+        expect(addresses_locator).to_have_count(0)
 
     with allure.step("Clear search and verify all addresses return"):
-        search_field_input = page.get_by_role("textbox").first
-        search_field_input.fill("")
-        time.sleep(1)
+        search_input.fill("")
+        expect(addresses_locator).to_have_count(initial_count)
 
-        restored_count = len(ship_to.shipping_addresses)
-        assert restored_count == initial_count, f"Expected {initial_count} addresses, found {restored_count}"
-
-    with allure.step("Restore existing addresses"):
-        auth.authenticate(config["ADMIN_USERNAME"], config["ADMIN_PASSWORD"])
-        restore_organization_addresses(
-            webapi_client=webapi_client,
-            config=config,
-            auth=auth,
-            organization=user_organization,
-        )
-
-    auth.clear_token()
-
-
-def cleanup_organization_addresses(
-    webapi_client: WebAPISession,
-    config: Config,
-    auth: Auth,
-    organization: dict[str, Any],
-):
-    print(f"{os.linesep}Running test to remove addresses from organization...", end=" ")
-
-    auth.authenticate(
-        config["ADMIN_USERNAME"],
-        config["ADMIN_PASSWORD"],
-    )
-
-    organization_id = organization["id"]
-
-    get_organization = webapi_client.get(f"/api/members/{organization_id}")
-    assert get_organization is not None, "Organization is None"
-
-    update_data = {
-        "id": organization_id,
-        "name": get_organization.get("name"),
-        "memberType": "Organization",
-        "addresses": [],
-    }
-
-    update_result = webapi_client.put(f"/api/members", data=update_data)
-    assert update_result is not None, "Update result is None"
-
-    get_updated = webapi_client.get(f"/api/members/{organization_id}")
-    assert get_updated is not None, "Updated organization is None"
-    assert get_updated.get("addresses") is not None, "Addresses are None"
-    assert len(get_updated.get("addresses")) == 0, "Addresses count is not 0"
-
-
-def restore_organization_addresses(
-    webapi_client: WebAPISession,
-    config: Config,
-    auth: Auth,
-    organization: dict[str, Any],
-):
-    print(f"{os.linesep}Running test to restore addresses to organization...", end=" ")
-
-    auth.authenticate(config["ADMIN_USERNAME"], config["ADMIN_PASSWORD"])
-
-    organization_id = organization["id"]
-    organization_addresses = organization["addresses"]
-    organization_name = organization["name"]
-
-    get_organization = webapi_client.get(f"/api/members/{organization_id}")
-    assert get_organization is not None, "Organization is None"
-
-    update_data = {
-        "id": organization_id,
-        "name": organization_name,
-        "memberType": "Organization",
-        "addresses": organization_addresses,
-    }
-
-    update_result = webapi_client.put(f"/api/members", data=update_data)
-    assert update_result is not None, "Update result is None"
-
-    get_updated = webapi_client.get(f"/api/members/{organization_id}")
-    assert get_updated is not None, "Updated organization is None"
-    assert get_updated.get("addresses") is not None, "Addresses are None"
-    assert len(get_updated.get("addresses")) == len(
-        organization_addresses
-    ), f"Addresses count mismatch: expected {len(organization_addresses)}"
-
-
-def generate_test_addresses(count: int) -> list[dict[str, str]]:
-    """Generate a list of test addresses with unique random data."""
-    import random
-
-    cities = [
-        "Los Angeles",
-        "New York",
-        "Chicago",
-        "Houston",
-        "Phoenix",
-        "Philadelphia",
-        "San Antonio",
-        "San Diego",
-        "Dallas",
-        "San Jose",
-    ]
-    regions = [
-        "California",
-        "New York",
-        "Illinois",
-        "Texas",
-        "Arizona",
-        "Pennsylvania",
-        "Texas",
-        "California",
-        "Texas",
-        "California",
-    ]
-    postal_codes = [
-        "90001",
-        "10001",
-        "60601",
-        "77001",
-        "85001",
-        "19101",
-        "78201",
-        "92101",
-        "75201",
-        "95101",
-    ]
-    street_names = [
-        "Main Street",
-        "Oak Avenue",
-        "Maple Drive",
-        "Cedar Lane",
-        "Pine Road",
-        "Elm Boulevard",
-        "Washington Street",
-        "Lincoln Avenue",
-        "Park Place",
-        "Sunset Boulevard",
-        "Broadway",
-        "Highland Avenue",
-        "Lake Drive",
-        "River Road",
-        "Mountain View",
-    ]
-    unit_types = [
-        "Apt",
-        "Suite",
-        "Unit",
-        "Floor",
-        "#",
-    ]
-
-    addresses = []
-    for i in range(count):
-        street_number = random.randint(100, 9999)
-        street_name = random.choice(street_names)
-        unit_type = random.choice(unit_types)
-        unit_number = random.randint(1, 500)
-
-        addresses.append(
-            {
-                "description": f"Test Address {i + 1}",
-                "first_name": f"Test{i + 1}",
-                "last_name": f"User{i + 1}",
-                "email": f"test.user{i + 1}@example.com",
-                "phone": f"{random.randint(100, 999)}{random.randint(100, 999)}{random.randint(1000, 9999)}",
-                "country": "United States of America",
-                "postal_code": postal_codes[i % len(postal_codes)],
-                "region": regions[i % len(regions)],
-                "city": cities[i % len(cities)],
-                "address_line_1": f"{street_number} {street_name}",
-                "address_line_2": f"{unit_type} {unit_number}",
-            }
-        )
-    return addresses
+    with allure.step("Restore original addresses"):
+        _restore_addresses(webapi_client, config, auth, organization)
