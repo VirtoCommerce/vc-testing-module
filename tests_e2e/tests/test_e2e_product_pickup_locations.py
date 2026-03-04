@@ -5,17 +5,20 @@ Test Cases:
 - test_e2e_product_pickup_locations_modal_and_list: Verify modal UI elements and list content (name, address, availability)
 - test_e2e_product_pickup_locations_search_found[full_name]: Search by exact full location name
 - test_e2e_product_pickup_locations_search_found[partial_name]: Search by first word of a location name
-- test_e2e_product_pickup_locations_search_found[city]: Search by city name (skipped — known frontend bug)
-- test_e2e_product_pickup_locations_search_found[street]: Search by street address (skipped — known frontend bug)
-- test_e2e_product_pickup_locations_search_found[postal_code]: Search by postal code (skipped — known frontend bug)
+- test_e2e_product_pickup_locations_search_found[city]: Search by city name
+- test_e2e_product_pickup_locations_search_found[street]: Search by street address
+- test_e2e_product_pickup_locations_search_found[postal_code]: Search by postal code
 - test_e2e_product_pickup_locations_search_found[special_char]: Search by name containing special characters
-- test_e2e_product_pickup_locations_search_found[whitespace]: Search with leading/trailing whitespace (skipped — UI does not trim)
+- test_e2e_product_pickup_locations_search_found[whitespace_leading]: Search with leading space (e.g., " Apollo")
+- test_e2e_product_pickup_locations_search_found[whitespace_only]: Search with spaces-only input (e.g., "   ")
+- test_e2e_product_pickup_locations_search_found[whitespace_double]: Search with double spaces (e.g., "Apollo  Theater")
 - test_e2e_product_pickup_locations_search_reset: Search found → clear reset → search not found → reset button
 - test_e2e_product_pickup_locations_select_location: Click locations to verify card dialog, then close modal
 - test_e2e_product_out_of_stock_pickup_locations_not_displayed: Product out of stock — pickup locations widget is NOT displayed
 """
 
 import os
+import re
 from typing import Any
 
 import allure
@@ -26,7 +29,7 @@ from fixtures import Config, GraphQLClient
 from graphql_operations.pickup_locations.pickup_locations_operations import (
     PickupLocationsOperations,
 )
-from tests_e2e.helpers import build_seo_path, navigate_to_product_page, resolve_search_keyword
+from tests_e2e.helpers import navigate_to_product_page, resolve_search_keyword
 from tests_e2e.pages import ProductPage
 
 PRODUCT_ID = "product-acme-laptop-asus-vivobook-16-x1607qa"
@@ -147,29 +150,16 @@ def test_e2e_product_pickup_locations_modal_and_list(
         ), f"All locations should have availability chips, expected {expected_count}, got {chips_count}"
 
 
-_ADDRESS_SEARCH_BUG_REASON = "Frontend search only matches by name, not by address fields (to be fixed by dev team)"
-_WHITESPACE_SEARCH_BUG_REASON = "Frontend search does not trim leading/trailing whitespace (to be fixed by dev team)"
-
 SEARCH_CASES = [
     pytest.param("full_name", id="full_name"),
     pytest.param("partial_name", id="partial_name"),
-    pytest.param("city", id="city", marks=pytest.mark.skip(reason=_ADDRESS_SEARCH_BUG_REASON)),
-    pytest.param(
-        "street",
-        id="street",
-        marks=pytest.mark.skip(reason=_ADDRESS_SEARCH_BUG_REASON),
-    ),
-    pytest.param(
-        "postal_code",
-        id="postal_code",
-        marks=pytest.mark.skip(reason=_ADDRESS_SEARCH_BUG_REASON),
-    ),
+    pytest.param("city", id="city"),
+    pytest.param("street", id="street"),
+    pytest.param("postal_code", id="postal_code"),
     pytest.param("special_char", id="special_char"),
-    pytest.param(
-        "whitespace",
-        id="whitespace",
-        marks=pytest.mark.skip(reason=_WHITESPACE_SEARCH_BUG_REASON),
-    ),
+    pytest.param("whitespace_leading", id="whitespace_leading"),
+    pytest.param("whitespace_only", id="whitespace_only"),
+    pytest.param("whitespace_double", id="whitespace_double"),
 ]
 
 
@@ -180,6 +170,9 @@ def test_e2e_product_pickup_locations_search_found(
     product_page: ProductPage,
     pickup_locations_data: dict[str, Any],
     search_case_id: str,
+    graphql_client: GraphQLClient,
+    config: Config,
+    dataset: dict[str, Any],
 ):
     items = pickup_locations_data["items"]
     keyword_to_search = resolve_search_keyword(items, search_case_id)
@@ -203,6 +196,20 @@ def test_e2e_product_pickup_locations_search_found(
         f"Initial count should match GraphQL ({expected_total})",
     ).to_have_count(expected_total, timeout=10_000)
 
+    with allure.step(f"Query GraphQL with keyword '{keyword_display}' to get expected results"):
+        operations = PickupLocationsOperations(graphql_client)
+        culture = dataset["languages"][0]["allowedValues"][0]
+        keyword_normalized = re.sub(r"\s+", " ", keyword_to_search.strip())
+        expected_search = operations.get_product_pickup_locations(
+            product_id=PRODUCT_ID,
+            store_id=config["STORE_ID"],
+            culture_name=culture,
+            keyword=keyword_normalized or None,
+            first=expected_total,
+        )
+        expected_filtered_count = expected_search["totalCount"]
+        expected_filtered_names = {loc["name"] for loc in expected_search["items"]}
+
     with allure.step(f"Search by '{keyword_display}' and verify filtered results"):
         modal.search(keyword_to_search)
         modal.wait_for_search_results()
@@ -212,39 +219,21 @@ def test_e2e_product_pickup_locations_search_found(
             "Not found message should not be visible when results exist",
         ).not_to_be_visible()
 
-    filtered_count = modal.pickup_location_items.count()
-    assert filtered_count > 0, f"At least one location should match keyword '{keyword_to_search.strip()}'"
-    assert (
-        filtered_count <= expected_total
-    ), f"Search should not return more than total: got {filtered_count}, expected at most {expected_total}"
+    with allure.step(f"Verify filtered count matches GraphQL ({expected_filtered_count})"):
+        expect(
+            modal.pickup_location_items,
+            f"Filtered count should match GraphQL search ({expected_filtered_count})",
+        ).to_have_count(expected_filtered_count, timeout=10_000)
 
-    with allure.step("Verify each filtered result contains the keyword"):
-        keyword_normalized = keyword_to_search.strip().lower()
+        filtered_count = modal.pickup_location_items.count()
+
+    with allure.step("Verify each filtered result name matches GraphQL search results"):
         for i in range(filtered_count):
-            name_text = modal.get_location_name_by_index(i).text_content() or ""
-            address_text = modal.get_location_address_by_index(i).text_content() or ""
-            combined_text = f"{name_text} {address_text}".lower()
-            assert keyword_normalized in combined_text, (
-                f"[{search_case_id}] Location at index {i} (name='{name_text}', "
-                f"address='{address_text}') does not contain keyword '{keyword_to_search.strip()}'"
+            name_text = (modal.get_location_name_by_index(i).text_content() or "").strip()
+            assert name_text in expected_filtered_names, (
+                f"[{search_case_id}] Location at index {i} (name='{name_text}') "
+                f"not found in GraphQL search results: {expected_filtered_names}"
             )
-
-    with allure.step("Click first filtered location and verify card dialog"):
-        first_name_text = (modal.get_location_name_by_index(0).text_content() or "").strip()
-        modal.click_location_by_index(0)
-
-        card = modal.pickup_location_card
-        expect(card.element, "Card should be visible after clicking location").to_be_visible()
-        expect(card.name, "Card name should be visible").to_be_visible()
-        expect(card.info, "Card info should be visible").to_be_visible()
-
-        card_name_text = (card.name.text_content() or "").strip()
-        assert (
-            card_name_text == first_name_text
-        ), f"Card name '{card_name_text}' should match clicked location name '{first_name_text}'"
-
-        card.close_button.click()
-        expect(card.element, "Card should be hidden after closing").not_to_be_visible()
 
 
 @pytest.mark.e2e
@@ -259,7 +248,7 @@ def test_e2e_product_pickup_locations_search_reset(
     )
 
     expected_total = pickup_locations_data["totalCount"]
-    keyword_to_search = pickup_locations_data["items"][2]["name"]
+    keyword_to_search = pickup_locations_data["items"][3]["name"]
 
     modal = product_page.open_pickup_locations_modal()
     modal.wait_for_map_ready()
