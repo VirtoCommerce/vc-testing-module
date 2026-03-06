@@ -1,0 +1,34 @@
+{
+    "sprint_name": "Sprint 26-04",
+    "report_date": "March 6, 2026",
+    "theme": "dark",
+
+    "trend": {
+        "dates": ["Dec 23\n2025", "Jan 22\n2026", "Feb 6\n2026", "Feb 20\n2026", "Mar 6\n2026"],
+        "total_tests": [121, 161, 178, 183, 197],
+        "active_tests": [118, 151, 173, 178, 192]
+    },
+
+    "current": {
+        "e2e":     { "files": 32, "functions": 80,  "active": 77,  "ignored": 3 },
+        "graphql": { "files": 60, "functions": 115, "active": 113, "ignored": 2 },
+        "webapi":  { "files": 2,  "functions": 2,   "active": 2,   "ignored": 0 },
+        "total":   { "files": 94, "functions": 197, "active": 192, "ignored": 5 }
+    },
+
+    "previous": {
+        "sprint_name": "Sprint 26-03",
+        "e2e":     { "files": 30, "functions": 68,  "active": 65,  "ignored": 3 },
+        "graphql": { "files": 60, "functions": 115, "active": 113, "ignored": 2 },
+        "total":   { "files": 90, "functions": 183, "active": 178, "ignored": 5 }
+    },
+
+    "achievements": [
+        { "title": "New Tests",          "value": "+14",        "color": "accent1" },
+        { "title": "New Files",          "value": "+4",         "color": "green" },
+        { "title": "Active Rate",        "value": "97.5%",      "color": "accent2" },
+        { "title": "Files Refactored",   "value": "12+",        "color": "secondary" },
+        { "title": "Growth",             "value": "+7.7%",      "color": "orange" },
+        { "title": "VCST Tickets",       "value": "5",          "color": "primary" }
+    ]
+}
