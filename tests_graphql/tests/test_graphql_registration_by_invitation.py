@@ -58,6 +58,8 @@ def test_graphql_registration_by_invitation(
 
     token = webapi_client.get(f"/api/platform/security/users/{invited_user['id']}/generatePasswordResetToken")
 
+    auth.clear_token()
+
     register_result = user_operations.register_by_invitation(
         payload={
             "userId": invited_user["id"],
@@ -65,24 +67,30 @@ def test_graphql_registration_by_invitation(
             "password": "Password1!",
             "token": token,
             "firstName": "TestQA",
-            "lastName": "Temp E2E Test User",
+            "lastName": "TempUser",
         }
     )
 
     # Test teardown
 
-    contact_operations.delete_contact(
-        payload={
-            "contactId": invited_user["contact"]["id"],
-        }
-    )
+    try:
+        auth.authenticate(
+            config["ADMIN_USERNAME"],
+            config["ADMIN_PASSWORD"],
+        )
 
-    user_operations.delete_users(
-        payload={
-            "userNames": ["e2e-test-corporate-temp@test.com"],
-        }
-    )
+        contact_operations.delete_contact(
+            payload={
+                "contactId": invited_user["contact"]["id"],
+            }
+        )
 
-    auth.clear_token()
+        user_operations.delete_users(
+            payload={
+                "userNames": ["e2e-test-corporate-temp@test.com"],
+            }
+        )
+    finally:
+        auth.clear_token()
 
-    assert register_result["succeeded"] is True
+    assert register_result["succeeded"] is True, f"Registration failed with errors: {register_result.get('errors')}"
