@@ -74,7 +74,7 @@ def test_graphql_registration_by_invitation(
             "username": invited_user["userName"],
             "password": "Password1!",
             "token": token,
-            "firstName": "[E2E Test]",
+            "firstName": "E2E Test",
             "lastName": "Temp E2E Test User",
         }
     )
