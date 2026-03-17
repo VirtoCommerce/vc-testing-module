@@ -20,18 +20,12 @@ def test_graphql_registration_by_invitation(
     webapi_client,
     dataset: dict[str, Any],
 ):
-    print(
-        f"{os.linesep}Running GraphQL test to register a user by invitation...", end=" "
-    )
+    print(f"{os.linesep}Running GraphQL test to register a user by invitation...", end=" ")
 
     user_operations = UserOperations(graphql_client)
     contact_operations = ContactOperations(graphql_client)
 
-    dataset_user = next(
-        user
-        for user in dataset["users"]
-        if user["id"] == "user-acme-store-maintainer-1"
-    )
+    dataset_user = next(user for user in dataset["users"] if user["id"] == "user-acme-store-maintainer-1")
 
     dataset_organization = next(
         organization
@@ -55,18 +49,14 @@ def test_graphql_registration_by_invitation(
         }
     )
 
-    invited_user = user_operations.get_user_by_username(
-        "e2e-test-corporate-temp@test.com"
-    )
+    invited_user = user_operations.get_user_by_username("e2e-test-corporate-temp@test.com")
 
     auth.authenticate(
         config["ADMIN_USERNAME"],
         config["ADMIN_PASSWORD"],
     )
 
-    token = webapi_client.get(
-        f"/api/platform/security/users/{invited_user['id']}/generatePasswordResetToken"
-    )
+    token = webapi_client.get(f"/api/platform/security/users/{invited_user['id']}/generatePasswordResetToken")
 
     register_result = user_operations.register_by_invitation(
         payload={
@@ -74,7 +64,7 @@ def test_graphql_registration_by_invitation(
             "username": invited_user["userName"],
             "password": "Password1!",
             "token": token,
-            "firstName": "[E2E Test]",
+            "firstName": "TestQA",
             "lastName": "Temp E2E Test User",
         }
     )
