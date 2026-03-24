@@ -1,3 +1,5 @@
+from typing import Any
+
 import pytest
 from playwright.sync_api import Page, expect
 
@@ -160,7 +162,9 @@ def test_e2e_search_bar_unexisting_item_query(config: Config, page: Page):
 
 
 @pytest.mark.e2e
-def test_e2e_search_bar_history_different_users(config: Config, page: Page, auth: Auth, graphql_client: GraphQLClient):
+def test_e2e_search_bar_history_different_users(
+    config: Config, page: Page, auth: Auth, graphql_client: GraphQLClient, dataset: dict[str, Any]
+):
     print(
         "Running E2E test to check search history for different users...",
         end=" ",
@@ -172,7 +176,8 @@ def test_e2e_search_bar_history_different_users(config: Config, page: Page, auth
     user_operations = UserOperations(graphql_client)
     contact_operations = ContactOperations(graphql_client)
 
-    auth.authenticate(config["ADMIN_USERNAME"], config["USERS_PASSWORD"])
+    dataset_user = next(user for user in dataset["users"] if user["id"] == "user-acme-store-administrator")
+    auth.authenticate(dataset_user["userName"], config["USERS_PASSWORD"])
 
     temp_registration_info_1 = contact_operations.create_contact(
         payload={
@@ -184,7 +189,7 @@ def test_e2e_search_bar_history_different_users(config: Config, page: Page, auth
             },
             "contact": {
                 "firstName": "Test",
-                "lastName": "Employee 1",
+                "lastName": "EmployeeOne",
             },
         }
     )
@@ -198,10 +203,17 @@ def test_e2e_search_bar_history_different_users(config: Config, page: Page, auth
             },
             "contact": {
                 "firstName": "Test",
-                "lastName": "Employee 2",
+                "lastName": "EmployeeTwo",
             },
         }
     )
+
+    assert temp_registration_info_1["result"][
+        "succeeded"
+    ], f"Failed to create temp user 1: {temp_registration_info_1['result']}"
+    assert temp_registration_info_2["result"][
+        "succeeded"
+    ], f"Failed to create temp user 2: {temp_registration_info_2['result']}"
 
     temp_contact_1 = temp_registration_info_1["contact"]
     temp_contact_2 = temp_registration_info_2["contact"]
@@ -247,7 +259,7 @@ def test_e2e_search_bar_history_different_users(config: Config, page: Page, auth
 
     auth.clear_token()
 
-    auth.authenticate(config["ADMIN_USERNAME"], config["USERS_PASSWORD"])
+    auth.authenticate(dataset_user["userName"], config["USERS_PASSWORD"])
 
     user_operations.delete_users(
         payload={
