@@ -29,7 +29,7 @@ def test_get_order(
 
     currency = dataset["currencies"][0]["code"]
     culture = dataset["languages"][0]["allowedValues"][0]
-    dataset_user = dataset["users"][0]
+    dataset_user = dataset["users"][1]
     product_id_in_stock = random.choice(
         [
             product_inventory
@@ -42,6 +42,15 @@ def test_get_order(
 
     user = user_operations.get_me()
 
+    cart_operations.clear_cart(
+        payload={
+            "storeId": config["STORE_ID"],
+            "userId": user["id"],
+            "currencyCode": currency,
+            "cultureName": culture,
+        }
+    )
+
     cart = cart_operations.add_item_to_cart(
         payload={
             "storeId": config["STORE_ID"],
@@ -50,6 +59,45 @@ def test_get_order(
             "quantity": 1,
             "currencyCode": currency,
             "cultureName": culture,
+        }
+    )
+
+    shipping_method = next(
+        shipping_method
+        for shipping_method in cart["availableShippingMethods"]
+        if shipping_method["code"] == "FixedRate" and shipping_method["optionName"] == "Ground"
+    )
+
+    cart = cart_operations.add_or_update_cart_shipment(
+        payload={
+            "storeId": config["STORE_ID"],
+            "userId": user["id"],
+            "currencyCode": currency,
+            "cultureName": culture,
+            "shipment": {
+                "shipmentMethodCode": shipping_method["code"],
+                "shipmentMethodOption": shipping_method["optionName"],
+                "price": shipping_method["price"]["amount"],
+            },
+        }
+    )
+
+    payment_method = next(
+        payment_method
+        for payment_method in cart["availablePaymentMethods"]
+        if payment_method["code"] == "DefaultManualPaymentMethod"
+    )
+
+    cart = cart_operations.add_or_update_cart_payment(
+        payload={
+            "storeId": config["STORE_ID"],
+            "userId": user["id"],
+            "currencyCode": currency,
+            "cultureName": culture,
+            "payment": {
+                "paymentGatewayCode": payment_method["code"],
+                "price": payment_method["price"]["amount"],
+            },
         }
     )
 
@@ -63,14 +111,10 @@ def test_get_order(
 
     auth.clear_token()
 
-    assert (
-        order["id"] == created_order["id"]
-    ), f"Order ID mismatch: {order['id']} != {created_order['id']}"
+    assert order["id"] == created_order["id"], f"Order ID mismatch: {order['id']} != {created_order['id']}"
     assert order["number"] is not None, "Order number is missing"
     assert order["items"] is not None, "Order items are missing"
     assert (
         order["items"][0]["productId"] == product_id_in_stock
     ), f"Product ID mismatch: {order['items'][0]['productId']} != {product_id_in_stock}"
-    assert (
-        order["items"][0]["quantity"] == 1
-    ), f"Quantity mismatch: {order['items'][0]['quantity']} != 1"
+    assert order["items"][0]["quantity"] == 1, f"Quantity mismatch: {order['items'][0]['quantity']} != 1"
