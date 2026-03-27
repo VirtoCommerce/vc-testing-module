@@ -12,6 +12,7 @@ from fixtures import (
     dataset,
     graphql_client,
     requests_tracker,
+    search_readiness,
     webapi_client,
 )
 from fixtures.config import Config
