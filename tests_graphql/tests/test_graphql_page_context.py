@@ -160,14 +160,15 @@ def test_get_page_context_slug_info_authenticated_user(
         id=dataset_product["id"],
     )
 
-    page_context = page_context_operations.get_slug_context(
-        store_id=config["STORE_ID"],
-        user_id=user["id"],
-        culture_name=culture,
-        permalink=product["slug"],
-    )
-
-    auth.clear_token()
+    try:
+        page_context = page_context_operations.get_slug_context(
+            store_id=config["STORE_ID"],
+            user_id=user["id"],
+            culture_name=culture,
+            permalink=product["slug"],
+        )
+    finally:
+        auth.clear_token()
 
     assert page_context is not None, "Page context is None"
     assert page_context["slugInfo"] is not None, "Slug info is None"
@@ -185,8 +186,12 @@ def test_get_page_context_slug_info_authenticated_user(
 
 @pytest.mark.graphql
 @allure.title("Get page context for anonymous user (GraphQL)")
-def test_get_page_context_anonymous_user(config: Config, dataset: dict[str, Any], graphql_client: GraphQLClient):
+def test_get_page_context_anonymous_user(
+    config: Config, dataset: dict[str, Any], graphql_client: GraphQLClient, auth: Auth
+):
     print(f"{os.linesep}Running test to get page context for anonymous user...", end=" ")
+
+    auth.clear_token()
 
     page_context_operations = PageContextOperations(graphql_client)
     user_operations = UserOperations(graphql_client)
