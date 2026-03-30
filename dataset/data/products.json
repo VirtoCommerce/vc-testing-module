@@ -1383,7 +1383,7 @@
                     "propertyGroupId": "property-group-cpu",
                     "values": [
                         {
-                            "value": 2.50,
+                            "value": 2.5,
                             "unitOfMeasureId": "measure-unit-cpu-gigahertz"
                         }
                     ]
@@ -1860,7 +1860,7 @@
                     "propertyGroupId": "property-group-cpu",
                     "values": [
                         {
-                            "value": 5.10,
+                            "value": 5.1,
                             "unitOfMeasureId": "measure-unit-cpu-gigahertz"
                         }
                     ]
@@ -2280,7 +2280,7 @@
                     "propertyGroupId": "property-group-cpu",
                     "values": [
                         {
-                            "value": 5.20,
+                            "value": 5.2,
                             "unitOfMeasureId": "measure-unit-cpu-gigahertz"
                         }
                     ]
@@ -2700,7 +2700,7 @@
                     "propertyGroupId": "property-group-cpu",
                     "values": [
                         {
-                            "value": 3.80,
+                            "value": 3.8,
                             "unitOfMeasureId": "measure-unit-cpu-gigahertz"
                         }
                     ]
@@ -3120,7 +3120,7 @@
                     "propertyGroupId": "property-group-cpu",
                     "values": [
                         {
-                            "value": 4.40,
+                            "value": 4.4,
                             "unitOfMeasureId": "measure-unit-cpu-gigahertz"
                         }
                     ]
@@ -3540,7 +3540,7 @@
                     "propertyGroupId": "property-group-cpu",
                     "values": [
                         {
-                            "value": 5.00,
+                            "value": 5.0,
                             "unitOfMeasureId": "measure-unit-cpu-gigahertz"
                         }
                     ]
@@ -4020,7 +4020,7 @@
                     "propertyGroupId": "property-group-cpu",
                     "values": [
                         {
-                            "value": 5.10,
+                            "value": 5.1,
                             "unitOfMeasureId": "measure-unit-cpu-gigahertz"
                         }
                     ]
@@ -4500,7 +4500,7 @@
                     "propertyGroupId": "property-group-cpu",
                     "values": [
                         {
-                            "value": 5.40,
+                            "value": 5.4,
                             "unitOfMeasureId": "measure-unit-cpu-gigahertz"
                         }
                     ]
@@ -4977,7 +4977,7 @@
                     "propertyGroupId": "property-group-cpu",
                     "values": [
                         {
-                            "value": 2.70,
+                            "value": 2.7,
                             "unitOfMeasureId": "measure-unit-cpu-gigahertz"
                         }
                     ]
@@ -5454,7 +5454,7 @@
                     "propertyGroupId": "property-group-cpu",
                     "values": [
                         {
-                            "value": 2.20,
+                            "value": 2.2,
                             "unitOfMeasureId": "measure-unit-cpu-gigahertz"
                         }
                     ]
@@ -5931,7 +5931,7 @@
                     "propertyGroupId": "property-group-cpu",
                     "values": [
                         {
-                            "value": 5.00,
+                            "value": 5.0,
                             "unitOfMeasureId": "measure-unit-cpu-gigahertz"
                         }
                     ]
@@ -6408,7 +6408,7 @@
                     "propertyGroupId": "property-group-cpu",
                     "values": [
                         {
-                            "value": 5.30,
+                            "value": 5.3,
                             "unitOfMeasureId": "measure-unit-cpu-gigahertz"
                         }
                     ]
@@ -6885,7 +6885,7 @@
                     "propertyGroupId": "property-group-cpu",
                     "values": [
                         {
-                            "value": 5.40,
+                            "value": 5.4,
                             "unitOfMeasureId": "measure-unit-cpu-gigahertz"
                         }
                     ]
@@ -7362,7 +7362,7 @@
                     "propertyGroupId": "property-group-cpu",
                     "values": [
                         {
-                            "value": 5.10,
+                            "value": 5.1,
                             "unitOfMeasureId": "measure-unit-cpu-gigahertz"
                         }
                     ]
@@ -7839,7 +7839,7 @@
                     "propertyGroupId": "property-group-cpu",
                     "values": [
                         {
-                            "value": 5.10,
+                            "value": 5.1,
                             "unitOfMeasureId": "measure-unit-cpu-gigahertz"
                         }
                     ]
@@ -8388,7 +8388,7 @@
                     "propertyGroupId": "property-group-cpu",
                     "values": [
                         {
-                            "value": 4.50,
+                            "value": 4.5,
                             "unitOfMeasureId": "measure-unit-cpu-gigahertz"
                         }
                     ]
@@ -8821,7 +8821,7 @@
                     "propertyGroupId": "property-group-cpu",
                     "values": [
                         {
-                            "value": 4.80,
+                            "value": 4.8,
                             "unitOfMeasureId": "measure-unit-cpu-gigahertz"
                         }
                     ]
@@ -9254,7 +9254,7 @@
                     "propertyGroupId": "property-group-cpu",
                     "values": [
                         {
-                            "value": 2.20,
+                            "value": 2.2,
                             "unitOfMeasureId": "measure-unit-cpu-gigahertz"
                         }
                     ]
@@ -9687,7 +9687,7 @@
                     "propertyGroupId": "property-group-cpu",
                     "values": [
                         {
-                            "value": 5.40,
+                            "value": 5.4,
                             "unitOfMeasureId": "measure-unit-cpu-gigahertz"
                         }
                     ]
@@ -10120,7 +10120,7 @@
                     "propertyGroupId": "property-group-cpu",
                     "values": [
                         {
-                            "value": 4.80,
+                            "value": 4.8,
                             "unitOfMeasureId": "measure-unit-cpu-gigahertz"
                         }
                     ]
@@ -11309,7 +11309,7 @@
                     "content": "Made from a custom high-performance fluoroelastomer, the Sport Band is durable and strong, yet surprisingly soft. The smooth, dense material drapes elegantly across your wrist and feels comfortable next to your skin. An innovative pin-and-tuck closure ensures a clean fit.",
                     "reviewType": "QuickReview",
                     "languageCode": "en-US",
-                    "isInherited": false            
+                    "isInherited": false
                 }
             ],
             "seoInfos": [
@@ -11511,13 +11511,15 @@
                     "categoryId": "category-acme-laptops",
                     "name": "RamSize",
                     "type": "Variation",
-                    "valueType": "ShortText",
+                    "valueType": "Measure",
                     "values": [
                         {
-                            "value": "8GB"
+                            "value": 8,
+                            "unitOfMeasureId": "measure-unit-ram-gigabyte"
                         },
                         {
-                            "value": "16GB"
+                            "value": 16,
+                            "unitOfMeasureId": "measure-unit-ram-gigabyte"
                         }
                     ]
                 }
