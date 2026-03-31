@@ -98,9 +98,13 @@ def test_unsuccess_catalog_browsing_as_anonymous_user(
         username=config["ADMIN_USERNAME"],
         password=config["USERS_PASSWORD"],
     )
-    store = webapi_client.get(f"/api/stores/{config['STORE_ID']}").json()
+    store = webapi_client.get(f"/api/stores/{config['STORE_ID']}")
     idx = next(i for i, s in enumerate(store["settings"])
                 if s["name"] == "Stores.AllowAnonymousUsers")
+    print(
+        f"{os.linesep}Setting 'Stores.AllowAnonymousUsers' found at index {idx}, disabling...",
+        end=" "
+    )
     webapi_client.patch(
         f"/api/stores/{config['STORE_ID']}",
         data=[{"op": "replace", "path": f"/settings/{idx}/value", "value": False}],
@@ -159,7 +163,7 @@ def test_unsuccess_catalog_browsing_as_anonymous_user(
         username=config["ADMIN_USERNAME"],
         password=config["USERS_PASSWORD"],
     )
-    store = webapi_client.get(f"/api/stores/{config['STORE_ID']}").json()
+    store = webapi_client.get(f"/api/stores/{config['STORE_ID']}")
     idx = next(i for i, s in enumerate(store["settings"])
                 if s["name"] == "Stores.AllowAnonymousUsers")
     webapi_client.patch(
