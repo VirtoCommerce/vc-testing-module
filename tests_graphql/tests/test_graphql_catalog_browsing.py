@@ -98,9 +98,12 @@ def test_unsuccess_catalog_browsing_as_anonymous_user(
         username=config["ADMIN_USERNAME"],
         password=config["USERS_PASSWORD"],
     )
+    store = webapi_client.get(f"/api/stores/{config['STORE_ID']}").json()
+    idx = next(i for i, s in enumerate(store["settings"])
+                if s["name"] == "Stores.AllowAnonymousUsers")
     webapi_client.patch(
         f"/api/stores/{config['STORE_ID']}",
-        data=[{"op": "replace", "path": "/settings/1/value", "value": False}],
+        data=[{"op": "replace", "path": f"/settings/{idx}/value", "value": False}],
     )
     auth.clear_token()
 
@@ -156,9 +159,12 @@ def test_unsuccess_catalog_browsing_as_anonymous_user(
         username=config["ADMIN_USERNAME"],
         password=config["USERS_PASSWORD"],
     )
+    store = webapi_client.get(f"/api/stores/{config['STORE_ID']}").json()
+    idx = next(i for i, s in enumerate(store["settings"])
+                if s["name"] == "Stores.AllowAnonymousUsers")
     webapi_client.patch(
         f"/api/stores/{config['STORE_ID']}",
-        data=[{"op": "replace", "path": "/settings/1/value", "value": True}],
+        data=[{"op": "replace", "path": f"/settings/{idx}/value", "value": True}],
     )
     auth.clear_token()
 
