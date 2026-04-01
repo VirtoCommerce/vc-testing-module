@@ -1,39 +1,252 @@
-name: GraphQL Tests Refactored
+name: GraphQL Tests (Refactored) Docker
 
 on:
   workflow_dispatch:
+    inputs:
+      platformDockerTag:
+        description: "Platform Docker image tag"
+        required: false
+        type: string
+        default: "linux-latest"
 
 jobs:
   graphql-tests:
     timeout-minutes: 60
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        browser: [chromium]
+    runs-on: ubuntu-22.04
+
+    env:
+      GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
+
     steps:
-      - uses: actions/checkout@v4
+      # ──────────────────────────────────────────────
+      # 1. Checkout & install modules
+      # ──────────────────────────────────────────────
+      - name: Checkout testing repo
+        uses: actions/checkout@v4
+        with:
+          repository: VirtoCommerce/vc-testing-module
+          ref: vcst-4628-refactor
+          path: vc-testing-module
+          token: ${{ secrets.REPO_TOKEN }}
+
+      - name: Install VirtoCommerce.GlobalTool
+        uses: VirtoCommerce/vc-github-actions/setup-vcbuild@master
+
+      - name: Install modules and pull platform image
+        run: |
+          mkdir modules && cd modules
+          vc-build install --package-manifest-path $GITHUB_WORKSPACE/vc-testing-module/backend-packages.json --skip-dependency-solving
+          docker pull ghcr.io/virtocommerce/platform:${{ inputs.platformDockerTag }}
+          docker tag ghcr.io/virtocommerce/platform:${{ inputs.platformDockerTag }} platform:local-latest
+
+      # ──────────────────────────────────────────────
+      # 2. Start Docker infrastructure
+      # ──────────────────────────────────────────────
+      - name: Create docker-compose.yml
+        run: |
+          cat > docker-compose.yml << 'COMPOSE'
+          services:
+            vc-db:
+              image: mcr.microsoft.com/mssql/server:2017-latest
+              ports:
+                - "1433:1433"
+              environment:
+                - ACCEPT_EULA=Y
+                - MSSQL_PID=Express
+                - SA_PASSWORD=v!rto_Labs!
+              networks:
+                - virto
+
+            es:
+              image: docker.elastic.co/elasticsearch/elasticsearch:8.18.0
+              volumes:
+                - esdata01:/usr/share/elasticsearch/data
+              ports:
+                - "9200:9200"
+              networks:
+                - virto
+              environment:
+                - node.name=es
+                - cluster.name=elasticsearch
+                - cluster.initial_master_nodes=es
+                - ELASTIC_PASSWORD=v!rto_Labs!
+                - bootstrap.memory_lock=true
+                - xpack.security.enabled=false
+                - xpack.security.http.ssl.enabled=false
+                - xpack.security.transport.ssl.enabled=false
+                - xpack.license.self_generated.type=basic
+                - xpack.ml.use_auto_machine_memory_percent=true
+              mem_limit: 1g
+              ulimits:
+                memlock:
+                  soft: -1
+                  hard: -1
+              healthcheck:
+                test: ["CMD-SHELL", "curl -s http://localhost:9200"]
+                interval: 10s
+                timeout: 10s
+                retries: 120
+
+            vc-platform-web:
+              image: platform:local-latest
+              ports:
+                - "8090:80"
+              environment:
+                - ASPNETCORE_URLS=http://+
+                - VirtoCommerce__AllowInsecureHttp=true
+                - VirtoCommerce__Hangfire__JobStorageType=Memory
+                - ConnectionStrings__VirtoCommerce=Data Source=vc-db;Initial Catalog=VirtoCommerce3docker;Persist Security Info=True;User ID=sa;Password=v!rto_Labs!;MultipleActiveResultSets=False;Connect Timeout=360;TrustServerCertificate=True;
+                - Assets__FileSystem__PublicUrl=http://localhost:8090/assets/
+                - Content__FileSystem__PublicUrl=http://localhost:8090/cms-content/
+                - Search__Provider=ElasticSearch8
+                - Search__ElasticSearch8__Server=http://es:9200
+                - Search__ElasticSearch8__User=elastic
+                - Search__ElasticSearch8__Key=v!rto_Labs!
+                - Search__ElasticSearch8__EnableCompatibilityMode=true
+                - Search__PickupLocationFullTextSearchEnabled=true
+                - IdentityOptions__User__MaxPasswordAge=0
+                - Notifications__DefaultSender=virto.start@virtoway.com
+                - Notifications__Gateway=SendGrid
+                - Notifications__SendGrid__ApiKey=${SENDGRID_API_KEY}
+              depends_on:
+                - vc-db
+                - es
+              entrypoint: ["/wait-for-it.sh", "vc-db:1433", "-t", "120", "--", "dotnet", "VirtoCommerce.Platform.Web.dll"]
+              volumes:
+                - ./modules/modules:/opt/virtocommerce/platform/modules
+                - ./modules/app_data:/opt/virtocommerce/platform/app_data
+              networks:
+                - virto
+              restart: unless-stopped
+
+          volumes:
+            esdata01:
+              driver: local
+
+          networks:
+            virto:
+          COMPOSE
+
+      - name: Start database and Elasticsearch
+        env:
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_APIKEY_4E2E_AUTOTESTS }}
+        run: |
+          docker compose --project-name virtocommerce up -d vc-db es
+          sleep 15
+
+      - name: Start platform
+        env:
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_APIKEY_4E2E_AUTOTESTS }}
+        run: |
+          docker compose --project-name virtocommerce up -d
+          echo "Waiting for platform to start..."
+          for i in $(seq 1 30); do
+            if curl -sf http://localhost:8090/api/platform/diagnostics/systeminfo > /dev/null 2>&1; then
+              echo "Platform is ready!"
+              break
+            fi
+            echo "Attempt $i/30..."
+            sleep 10
+          done
+
+      # ──────────────────────────────────────────────
+      # 3. Prepare platform
+      # ──────────────────────────────────────────────
+      - name: Reset admin password
+        shell: pwsh
+        env:
+          SECRET_ENV_FILE: ${{ secrets.VC_TESTING_MODULE_ENV_FILE_NEW }}
+        run: |
+          if ($env:SECRET_ENV_FILE -match 'ADMIN_PASSWORD=(\S+)') {
+            $newAdminPassword = $matches[1]
+          } else {
+            $newAdminPassword = 'store'
+          }
+          $body = "grant_type=password&username=admin&password=store"
+          $headers = @{ "Content-Type" = "application/x-www-form-urlencoded" }
+          $token = ((Invoke-WebRequest -Uri "http://localhost:8090/connect/token" -Body $body -Headers $headers -Method POST).Content | ConvertFrom-Json).access_token
+          $authHeaders = @{ "Content-Type" = "application/json-patch+json"; "Authorization" = "Bearer $token" }
+          $resetBody = @{ "newPassword" = $newAdminPassword; "forcePasswordChangeOnNextSignIn" = $false } | ConvertTo-Json
+          Invoke-WebRequest -Uri "http://localhost:8090/api/platform/security/users/admin/resetpassword" -Body $resetBody -Headers $authHeaders -Method POST
+          Write-Host "Admin password reset successfully"
+
+      # ──────────────────────────────────────────────
+      # 4. Set up Python & tests
+      # ──────────────────────────────────────────────
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.13.7"
-      - name: Install dependencies
+          python-version: "3.13"
+
+      - name: Create .env and install dependencies
+        working-directory: vc-testing-module/_refactored
+        env:
+          SECRET_ENV_FILE: ${{ secrets.VC_TESTING_MODULE_ENV_FILE }}
         run: |
-          cd _refactored
+          echo "$SECRET_ENV_FILE" > .env
+          chmod 600 .env
+          sed -i 's|^BACKEND_BASE_URL=.*|BACKEND_BASE_URL=http://localhost:8090|g' .env
+          sed -i 's|^FRONTEND_BASE_URL=.*|FRONTEND_BASE_URL=http://localhost|g' .env
           python -m venv .venv
           source .venv/bin/activate
           python -m pip install --upgrade pip
           pip install -e .
-      - name: Install Playwright Browsers
-        run: playwright install --with-deps ${{ matrix.browser }}
-      - name: Run GraphQL Tests
-        env:
-          ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
-          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
-          STORE_ID: store-acme
-          USERS_PASSWORD: ${{ secrets.USERS_PASSWORD }}
-          BACKEND_BASE_URL: https://vcptcore-demo.govirto.com
-          FRONTEND_BASE_URL: https://vcptcore-demo-storefront.govirto.com
+
+      # ──────────────────────────────────────────────
+      # 5. Seed data & trigger indexing
+      # ──────────────────────────────────────────────
+      - name: Seed test data
+        working-directory: vc-testing-module/_refactored
         run: |
-          echo "Running GraphQL tests against ${{ env.FRONTEND_BASE_URL }}"
-          pytest /tests/graphql -m "not ignore" --tracing=retain-on-failure -v -s
+          source .venv/bin/activate
+          python -m dataset.manager --seed --mode ci
+
+      - name: Trigger search indexing
+        shell: pwsh
+        env:
+          SECRET_ENV_FILE: ${{ secrets.VC_TESTING_MODULE_ENV_FILE }}
+        run: |
+          $platformUrl = "http://localhost:8090"
+          if ($env:SECRET_ENV_FILE -match 'ADMIN_PASSWORD=(\S+)') { $adminPassword = $matches[1] } else { $adminPassword = 'store' }
+          $headers = @{ "Content-Type" = "application/x-www-form-urlencoded" }
+          $token = ((Invoke-WebRequest -Uri "$platformUrl/connect/token" -Body "grant_type=password&username=admin&password=$adminPassword" -Headers $headers -Method POST).Content | ConvertFrom-Json).access_token
+          $authHeaders = @{ "Content-Type" = "application/json-patch+json"; "Authorization" = "Bearer $token" }
+          $indexBody = @(
+            @{ "DocumentType" = "Member"; "DeleteExistingIndex" = $true },
+            @{ "DocumentType" = "Product"; "DeleteExistingIndex" = $true },
+            @{ "DocumentType" = "Category"; "DeleteExistingIndex" = $true },
+            @{ "DocumentType" = "CustomerOrder"; "DeleteExistingIndex" = $true },
+            @{ "DocumentType" = "PickupLocation"; "DeleteExistingIndex" = $true }
+          )
+          $result = Invoke-WebRequest -Uri "$platformUrl/api/search/indexes/index" -Body ($indexBody | ConvertTo-Json) -Headers $authHeaders -Method POST | ConvertFrom-Json
+          do {
+            $job = Invoke-WebRequest -Uri "$platformUrl/api/platform/jobs/$($result.JobId)" -Headers $authHeaders -Method GET | ConvertFrom-Json
+            Write-Host "Indexing completed: $($job.completed)"
+            if (-not $job.completed) { Start-Sleep -Seconds 5 }
+          } while (-not $job.completed)
+          Write-Host "Indexing finished."
+
+      # ──────────────────────────────────────────────
+      # 6. Run tests
+      # ──────────────────────────────────────────────
+      - name: Run GraphQL tests
+        working-directory: vc-testing-module/_refactored
+        run: |
+          source .venv/bin/activate
+          pytest tests/graphql -m "not ignore" -v -s
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: graphql-test-results-${{ github.run_number }}-${{ github.run_attempt }}
+          path: vc-testing-module/_refactored/test-results/
+          retention-days: 30
+
+      - name: Print container logs on failure
+        if: failure()
+        run: |
+          echo "=== Platform logs ==="
+          docker logs virtocommerce-vc-platform-web-1 --tail 100
+          echo "=== Elasticsearch logs ==="
+          docker logs virtocommerce-es-1 --tail 50
