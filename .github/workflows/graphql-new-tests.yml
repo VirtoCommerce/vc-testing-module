@@ -21,6 +21,7 @@ jobs:
 
     env:
       GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
+      FORCE_COLOR: "1"
 
     steps:
       # ──────────────────────────────────────────────
@@ -357,12 +358,12 @@ jobs:
             vc-testing-module/_refactored/screenshots/
           retention-days: 30
 
-      - name: Print container logs on failure
-        if: failure()
-        run: |
-          echo "=== Platform logs ==="
-          docker logs virtocommerce-vc-platform-web-1 --tail 100
-          echo "=== Frontend logs ==="
-          docker logs virtocommerce-nginx_frontend-1 --tail 50
-          echo "=== Elasticsearch logs ==="
-          docker logs virtocommerce-es-1 --tail 50
+      #- name: Print container logs on failure
+      #  if: failure()
+      #  run: |
+      #    echo "=== Platform logs ==="
+      #    docker logs virtocommerce-vc-platform-web-1 --tail 100
+      #    echo "=== Frontend logs ==="
+      #    docker logs virtocommerce-nginx_frontend-1 --tail 50
+      #    echo "=== Elasticsearch logs ==="
+      #    docker logs virtocommerce-es-1 --tail 50
