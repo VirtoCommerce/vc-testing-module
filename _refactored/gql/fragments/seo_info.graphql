@@ -1,0 +1,15 @@
+fragment SeoInfoFragment on SeoInfo {
+  id
+  name
+  semanticUrl
+  outline
+  pageTitle
+  metaDescription
+  imageAltDescription
+  metaKeywords
+  storeId
+  objectId
+  objectType
+  isActive
+  languageCode
+}

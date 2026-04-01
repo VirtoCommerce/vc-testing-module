@@ -1,0 +1,14 @@
+fragment PaymentFragment on PaymentType {
+  id
+  outerId
+  paymentGatewayCode
+  currency {
+    ...CurrencyFragment
+  }
+  total {
+    ...MoneyFragment
+  }
+  billingAddress {
+    ...CartAddressFragment
+  }
+}

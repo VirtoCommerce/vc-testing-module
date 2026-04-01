@@ -1,0 +1,12 @@
+fragment ContactFragment on ContactType {
+  id
+  firstName
+  lastName
+  fullName
+  status
+  organizationId
+  organizationsIds
+  securityAccounts {
+    ...UserFragment
+  }
+}

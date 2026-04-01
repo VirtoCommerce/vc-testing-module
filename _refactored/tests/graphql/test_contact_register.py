@@ -1,0 +1,117 @@
+import time
+
+import pytest
+
+from core.auth import AuthProvider
+from core.clients import GraphQLClient
+from core.global_settings import GlobalSettings
+from gql.operations import ContactOperations, UserOperations
+from tests.context import Context
+
+_PERSONAL_FIRST_NAME = "John"
+_PERSONAL_LAST_NAME = "Doe"
+_PERSONAL_EMAIL = "test-register-personal@example.com"
+
+_ORG_FIRST_NAME = "Jane"
+_ORG_LAST_NAME = "Smith"
+_ORG_EMAIL = "test-register-org@example.com"
+_ORG_NAME = "Test Registration Org"
+
+_STATUS_APPROVED = "Approved"
+
+_POLL_INTERVAL = 2  # seconds between retries
+_POLL_ATTEMPTS = 10  # max retries waiting for indexing
+
+
+def _admin_client(global_settings: GlobalSettings) -> GraphQLClient:
+    admin = AuthProvider(global_settings)
+    admin.sign_in(global_settings.admin_username, global_settings.admin_password)
+    return GraphQLClient(auth=admin, global_settings=global_settings)
+
+
+@pytest.mark.graphql
+def test_register_personal_contact(
+    graphql_client: GraphQLClient, ctx: Context, global_settings: GlobalSettings
+) -> None:
+    reg = ContactOperations(client=graphql_client).request_registration(
+        store_id=ctx.store_id,
+        language_code=ctx.culture_name,
+        first_name=_PERSONAL_FIRST_NAME,
+        last_name=_PERSONAL_LAST_NAME,
+        email=_PERSONAL_EMAIL,
+        password=global_settings.users_password.get_secret_value(),
+    )
+
+    assert reg.result.succeeded is True
+    assert reg.organization is None
+    assert reg.contact.first_name == _PERSONAL_FIRST_NAME
+    assert reg.contact.last_name == _PERSONAL_LAST_NAME
+    assert reg.account.email == _PERSONAL_EMAIL
+
+    contact_id = reg.contact.id
+
+    try:
+        with _admin_client(global_settings) as admin_client:
+            admin_contact_ops = ContactOperations(client=admin_client)
+            contact = None
+            for _ in range(_POLL_ATTEMPTS):
+                contact = admin_contact_ops.get_contact(contact_id)
+                if contact is not None:
+                    break
+                time.sleep(_POLL_INTERVAL)
+
+            assert contact is not None, f"Contact '{contact_id}' not found after polling"
+            assert contact.first_name == _PERSONAL_FIRST_NAME
+            assert contact.last_name == _PERSONAL_LAST_NAME
+            assert contact.status == _STATUS_APPROVED
+            assert contact.organizations_ids == []
+    finally:
+        with _admin_client(global_settings) as admin_client:
+            UserOperations(client=admin_client).delete_users(user_names=[_PERSONAL_EMAIL])
+            ContactOperations(client=admin_client).delete_contact(contact_id=contact_id)
+
+
+@pytest.mark.graphql
+def test_register_organization_contact(
+    graphql_client: GraphQLClient, ctx: Context, global_settings: GlobalSettings
+) -> None:
+    reg = ContactOperations(client=graphql_client).request_registration(
+        store_id=ctx.store_id,
+        language_code=ctx.culture_name,
+        first_name=_ORG_FIRST_NAME,
+        last_name=_ORG_LAST_NAME,
+        email=_ORG_EMAIL,
+        password=global_settings.users_password.get_secret_value(),
+        organization_name=_ORG_NAME,
+    )
+
+    assert reg.result.succeeded is True
+    assert reg.organization is not None
+    assert reg.organization.name == _ORG_NAME
+    assert reg.contact.first_name == _ORG_FIRST_NAME
+    assert reg.contact.last_name == _ORG_LAST_NAME
+    assert reg.account.email == _ORG_EMAIL
+
+    contact_id = reg.contact.id
+    organization_id = reg.organization.id
+
+    try:
+        with _admin_client(global_settings) as admin_client:
+            admin_contact_ops = ContactOperations(client=admin_client)
+            contact = None
+            for _ in range(_POLL_ATTEMPTS):
+                contact = admin_contact_ops.get_contact(contact_id)
+                if contact is not None and organization_id in contact.organizations_ids:
+                    break
+                time.sleep(_POLL_INTERVAL)
+
+            assert contact is not None, f"Contact '{contact_id}' not found after polling"
+            assert contact.first_name == _ORG_FIRST_NAME
+            assert contact.last_name == _ORG_LAST_NAME
+            assert contact.status == _STATUS_APPROVED
+            assert organization_id in contact.organizations_ids
+    finally:
+        with _admin_client(global_settings) as admin_client:
+            UserOperations(client=admin_client).delete_users(user_names=[_ORG_EMAIL])
+            ContactOperations(client=admin_client).delete_contact(contact_id=contact_id)
+            ContactOperations(client=admin_client).delete_contact(contact_id=organization_id)

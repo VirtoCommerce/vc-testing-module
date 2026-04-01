@@ -1,0 +1,13 @@
+fragment OrderLineItemFragment on OrderLineItemType {
+  id
+  name
+  sku
+  productId
+  quantity
+  price {
+    ...MoneyFragment
+  }
+  extendedPrice {
+    ...MoneyFragment
+  }
+}

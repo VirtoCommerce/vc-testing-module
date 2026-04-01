@@ -1,0 +1,5 @@
+fragment StoreSettingsFragment on StoreSettingsType {
+  anonymousUsersAllowed
+  taxCalculationEnabled
+  seoLinkType
+}

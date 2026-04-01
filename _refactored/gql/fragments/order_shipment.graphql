@@ -1,0 +1,10 @@
+fragment OrderShipmentFragment on OrderShipmentType {
+  id
+  number
+  shipmentMethodCode
+  shipmentMethodOption
+  status
+  total {
+    ...MoneyFragment
+  }
+}

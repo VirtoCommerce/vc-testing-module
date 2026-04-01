@@ -1,0 +1,18 @@
+fragment OrderFragment on CustomerOrderType {
+  id
+  number
+  status
+  createdDate
+  total {
+    ...MoneyFragment
+  }
+  items {
+    ...OrderLineItemFragment
+  }
+  inPayments {
+    ...OrderPaymentFragment
+  }
+  shipments {
+    ...OrderShipmentFragment
+  }
+}

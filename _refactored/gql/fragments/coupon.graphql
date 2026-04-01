@@ -1,0 +1,4 @@
+fragment CouponFragment on CouponType {
+  code
+  isAppliedSuccessfully
+}

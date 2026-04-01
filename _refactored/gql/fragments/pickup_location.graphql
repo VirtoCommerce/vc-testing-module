@@ -1,0 +1,13 @@
+fragment PickupLocationFragment on PickupLocationType {
+  id
+  isActive
+  name
+  description
+  contactEmail
+  contactPhone
+  workingHours
+  geoLocation
+  address {
+    ...PickupAddressFragment
+  }
+}

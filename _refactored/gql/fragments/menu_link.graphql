@@ -1,0 +1,5 @@
+fragment MenuLinkFragment on MenuLinkType {
+  title
+  url
+  priority
+}
