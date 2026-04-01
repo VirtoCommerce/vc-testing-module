@@ -1,5 +1,3 @@
-import time
-
 import pytest
 
 from core.auth import AuthProvider
@@ -7,6 +5,7 @@ from core.clients import GraphQLClient
 from core.global_settings import GlobalSettings
 from gql.operations import ContactOperations, UserOperations
 from tests.context import Context
+from utils.polling_utils import poll_until
 
 _PERSONAL_FIRST_NAME = "John"
 _PERSONAL_LAST_NAME = "Doe"
@@ -18,9 +17,6 @@ _ORG_EMAIL = "test-register-org@example.com"
 _ORG_NAME = "Test Registration Org"
 
 _STATUS_APPROVED = "Approved"
-
-_POLL_INTERVAL = 2  # seconds between retries
-_POLL_ATTEMPTS = 10  # max retries waiting for indexing
 
 
 def _admin_client(global_settings: GlobalSettings) -> GraphQLClient:
@@ -53,12 +49,12 @@ def test_register_personal_contact(
     try:
         with _admin_client(global_settings) as admin_client:
             admin_contact_ops = ContactOperations(client=admin_client)
-            contact = None
-            for _ in range(_POLL_ATTEMPTS):
-                contact = admin_contact_ops.get_contact(contact_id)
-                if contact is not None:
-                    break
-                time.sleep(_POLL_INTERVAL)
+            contact = poll_until(
+                fetch=lambda: admin_contact_ops.get_contact(contact_id),
+                predicate=lambda _: True,
+                attempts=global_settings.poll_attempts,
+                interval=global_settings.poll_interval,
+            )
 
             assert contact is not None, f"Contact '{contact_id}' not found after polling"
             assert contact.first_name == _PERSONAL_FIRST_NAME
@@ -98,12 +94,12 @@ def test_register_organization_contact(
     try:
         with _admin_client(global_settings) as admin_client:
             admin_contact_ops = ContactOperations(client=admin_client)
-            contact = None
-            for _ in range(_POLL_ATTEMPTS):
-                contact = admin_contact_ops.get_contact(contact_id)
-                if contact is not None and organization_id in contact.organizations_ids:
-                    break
-                time.sleep(_POLL_INTERVAL)
+            contact = poll_until(
+                fetch=lambda: admin_contact_ops.get_contact(contact_id),
+                predicate=lambda c: organization_id in c.organizations_ids,
+                attempts=global_settings.poll_attempts,
+                interval=global_settings.poll_interval,
+            )
 
             assert contact is not None, f"Contact '{contact_id}' not found after polling"
             assert contact.first_name == _ORG_FIRST_NAME

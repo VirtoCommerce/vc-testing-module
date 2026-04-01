@@ -1,4 +1,3 @@
-import time
 import uuid
 
 import pytest
@@ -8,13 +7,11 @@ from core.clients import GraphQLClient
 from core.global_settings import GlobalSettings
 from gql.operations import ContactOperations, UserOperations
 from tests.context import Context
+from utils.polling_utils import poll_until
 
 _MAINTAINER = "acme_store_maintainer_1@acme.com"
 _ROLE_EMPLOYEE = "org-employee"
 _STATUS_INVITED = "Invited"
-
-_POLL_INTERVAL = 2  # seconds between retries
-_POLL_ATTEMPTS = 10  # max retries waiting for indexing
 
 
 @pytest.mark.graphql
@@ -37,13 +34,12 @@ def test_user_invite(
     assert result.succeeded is True
 
     try:
-        invited_contact = None
-        for _ in range(_POLL_ATTEMPTS):
+        def _find_invited_contact():
             contacts = contact_ops.get_organization_contacts(
                 organization_id=ctx.organization_id,
                 search_phrase=email,
             )
-            invited_contact = next(
+            return next(
                 (
                     c
                     for c in contacts
@@ -52,9 +48,13 @@ def test_user_invite(
                 ),
                 None,
             )
-            if invited_contact is not None:
-                break
-            time.sleep(_POLL_INTERVAL)
+
+        invited_contact = poll_until(
+            fetch=_find_invited_contact,
+            predicate=lambda _: True,
+            attempts=global_settings.poll_attempts,
+            interval=global_settings.poll_interval,
+        )
 
         assert (
             invited_contact is not None

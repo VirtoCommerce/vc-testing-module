@@ -10,7 +10,7 @@ _PRODUCT_ID = "product-acme-laptop-asus-zenbook-a14-ux3407"
 _USERNAME = "acme_store_employee_1@acme.com"
 
 _SHIPMENT_CASES = [
-    ("BuyOnlinePickupInStore", None, None),
+    ("BuyOnlinePickupInStore", "Pickup", 0.0),
     ("FixedRate", "Ground", 15.0),
     ("FixedRate", "Air", 25.0),
 ]

@@ -31,6 +31,8 @@ class GlobalSettings(BaseSettings):
     range_filter_type: Literal["slider", "default"] = "slider"
     requests_timeout: int = 30
     verify_ssl: bool = False
+    poll_interval: int = 2
+    poll_attempts: int = 10
 
     @cached_property
     def env_vars(self) -> dict[str, str]:
