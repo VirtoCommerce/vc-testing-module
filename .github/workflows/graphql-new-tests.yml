@@ -335,14 +335,14 @@ jobs:
         working-directory: vc-testing-module/_refactored
         run: |
           source .venv/bin/activate
-          pytest tests/graphql -m "not ignore" -v -s
+          pytest tests/graphql -m "not ignore" -v -s --color=yes
 
       - name: Run E2E tests
         if: success() || failure()
         working-directory: vc-testing-module/_refactored
         run: |
           source .venv/bin/activate
-          pytest tests/e2e -m "not ignore" --browser chromium -v -s
+          pytest tests/e2e -m "not ignore" --browser chromium -v -s --color=yes
 
       # ──────────────────────────────────────────────
       # 8. Collect results

@@ -6,7 +6,7 @@ from rich.logging import RichHandler
 
 from core.logger.base import TRACE, Logger
 
-_default_console = Console(stderr=True, width=200)
+_default_console = Console(stderr=True, width=200, force_terminal=True)
 
 logging.addLevelName(TRACE, "TRACE")
 
