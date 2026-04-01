@@ -1,4 +1,4 @@
-name: GraphQL Tests (Refactored) Docker
+name: Tests (Refactored) Docker
 
 on:
   workflow_dispatch:
@@ -8,9 +8,14 @@ on:
         required: false
         type: string
         default: "linux-latest"
+      frontendZipUrl:
+        description: "Frontend zip URL ('latest' for latest vc-frontend release)"
+        required: false
+        type: string
+        default: "latest"
 
 jobs:
-  graphql-tests:
+  tests:
     timeout-minutes: 60
     runs-on: ubuntu-22.04
 
@@ -40,7 +45,84 @@ jobs:
           docker tag ghcr.io/virtocommerce/platform:${{ inputs.platformDockerTag }} platform:local-latest
 
       # ──────────────────────────────────────────────
-      # 2. Start Docker infrastructure
+      # 2. Build frontend Docker image
+      # ──────────────────────────────────────────────
+      - name: Build frontend Docker image
+        shell: pwsh
+        run: |
+          if ("${{ inputs.frontendZipUrl }}" -eq "latest") {
+            $releaseInfo = Invoke-RestMethod -Uri "https://api.github.com/repos/VirtoCommerce/vc-frontend/releases/latest"
+            $zipUrl = $releaseInfo.assets.browser_download_url
+            Write-Host "Using latest frontend release: $zipUrl"
+          } else {
+            $zipUrl = "${{ inputs.frontendZipUrl }}"
+            Write-Host "Using provided frontend zip: $zipUrl"
+          }
+          $fileName = Split-Path $zipUrl -Leaf
+          Invoke-WebRequest -Uri $zipUrl -OutFile $fileName -UseBasicParsing -OperationTimeoutSeconds 15 -RetryIntervalSec 1 -MaximumRetryCount 3
+          mkdir -p frontend
+          unzip -o $fileName -d ./frontend
+
+          @'
+          server {
+              listen 80;
+              server_name localhost;
+              root /usr/share/nginx/html;
+              index index.html;
+
+              location / {
+                  try_files $uri $uri/ /index.html;
+                  add_header 'Access-Control-Allow-Origin' '*';
+              }
+
+              location ~* \.(json|png|ico|gif|jpg|jpeg|css|js|xml|txt)$ {
+                  try_files $uri /assets/stores/B2B-store$uri /Themes/B2B-store/default$uri =404;
+                  root /usr/share/nginx/html;
+                  add_header Cache-Control "no-cache, must-revalidate, proxy-revalidate";
+                  error_page 404 = @static_404;
+              }
+
+              location @static_404 {
+                  add_header Cache-Control "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0" always;
+                  return 404;
+              }
+
+              error_page 500 502 503 504 /50x.html;
+              location = /50x.html { root /usr/share/nginx/html; }
+
+              proxy_buffer_size 128k;
+              proxy_buffers 4 256k;
+              proxy_busy_buffers_size 256k;
+              proxy_connect_timeout 600;
+              proxy_send_timeout 600;
+              proxy_read_timeout 600;
+
+              location /files { proxy_pass http://vc-platform-web; }
+              location /connect/token { proxy_pass http://vc-platform-web; }
+              location /graphql { proxy_pass http://vc-platform-web; }
+              location /revoke/token { proxy_pass http://vc-platform-web; }
+              location /api/files { proxy_pass http://vc-platform-web; }
+              location /cms-content { proxy_pass http://vc-platform-web; }
+              location /hub/ {
+                  proxy_pass http://vc-platform-web;
+                  proxy_http_version 1.1;
+                  proxy_set_header Upgrade $http_upgrade;
+                  proxy_set_header Connection "upgrade";
+              }
+          }
+          '@ | Set-Content -Path nginx.conf
+
+          @'
+          FROM nginx:alpine
+          COPY nginx.conf /etc/nginx/conf.d/default.conf
+          COPY ./frontend/default/ /usr/share/nginx/html
+          EXPOSE 80
+          '@ | Set-Content -Path Dockerfile.frontend
+
+          docker build -f Dockerfile.frontend -t nginx_frontend:local-latest .
+
+      # ──────────────────────────────────────────────
+      # 3. Start Docker infrastructure
       # ──────────────────────────────────────────────
       - name: Create docker-compose.yml
         run: |
@@ -86,6 +168,15 @@ jobs:
                 interval: 10s
                 timeout: 10s
                 retries: 120
+
+            nginx_frontend:
+              depends_on:
+                - vc-platform-web
+              image: nginx_frontend:local-latest
+              ports:
+                - "80:80"
+              networks:
+                - virto
 
             vc-platform-web:
               image: platform:local-latest
@@ -134,7 +225,7 @@ jobs:
           docker compose --project-name virtocommerce up -d vc-db es
           sleep 15
 
-      - name: Start platform
+      - name: Start platform and frontend
         env:
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_APIKEY_4E2E_AUTOTESTS }}
         run: |
@@ -149,9 +240,18 @@ jobs:
             fi
             sleep 15
           done
+          echo "Checking frontend..."
+          for i in $(seq 1 10); do
+            HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost 2>/dev/null) || true
+            if [ "$HTTP_CODE" = "200" ]; then
+              echo "Frontend is ready!"
+              break
+            fi
+            sleep 5
+          done
 
       # ──────────────────────────────────────────────
-      # 3. Prepare platform
+      # 4. Prepare platform
       # ──────────────────────────────────────────────
       - name: Reset admin password
         shell: pwsh
@@ -172,7 +272,7 @@ jobs:
           Write-Host "Admin password reset successfully"
 
       # ──────────────────────────────────────────────
-      # 4. Set up Python & tests
+      # 5. Set up Python & dependencies
       # ──────────────────────────────────────────────
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -182,7 +282,7 @@ jobs:
       - name: Create .env and install dependencies
         working-directory: vc-testing-module/_refactored
         env:
-          SECRET_ENV_FILE: ${{ secrets.VC_TESTING_MODULE_ENV_FILE }}
+          SECRET_ENV_FILE: ${{ secrets.VC_TESTING_MODULE_ENV_FILE_NEW }}
         run: |
           echo "$SECRET_ENV_FILE" > .env
           chmod 600 .env
@@ -192,9 +292,10 @@ jobs:
           source .venv/bin/activate
           python -m pip install --upgrade pip
           pip install -e .
+          playwright install --with-deps chromium
 
       # ──────────────────────────────────────────────
-      # 5. Seed data & trigger indexing
+      # 6. Seed data & trigger indexing
       # ──────────────────────────────────────────────
       - name: Seed test data
         working-directory: vc-testing-module/_refactored
@@ -205,7 +306,7 @@ jobs:
       - name: Trigger search indexing
         shell: pwsh
         env:
-          SECRET_ENV_FILE: ${{ secrets.VC_TESTING_MODULE_ENV_FILE }}
+          SECRET_ENV_FILE: ${{ secrets.VC_TESTING_MODULE_ENV_FILE_NEW }}
         run: |
           $platformUrl = "http://localhost:8090"
           if ($env:SECRET_ENV_FILE -match 'ADMIN_PASSWORD=(\S+)') { $adminPassword = $matches[1] } else { $adminPassword = 'store' }
@@ -228,7 +329,7 @@ jobs:
           Write-Host "Indexing finished."
 
       # ──────────────────────────────────────────────
-      # 6. Run tests
+      # 7. Run tests
       # ──────────────────────────────────────────────
       - name: Run GraphQL tests
         working-directory: vc-testing-module/_refactored
@@ -236,12 +337,24 @@ jobs:
           source .venv/bin/activate
           pytest tests/graphql -m "not ignore" -v -s
 
+      - name: Run E2E tests
+        if: success() || failure()
+        working-directory: vc-testing-module/_refactored
+        run: |
+          source .venv/bin/activate
+          pytest tests/e2e -m "not ignore" --browser chromium -v -s
+
+      # ──────────────────────────────────────────────
+      # 8. Collect results
+      # ──────────────────────────────────────────────
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: graphql-test-results-${{ github.run_number }}-${{ github.run_attempt }}
-          path: vc-testing-module/_refactored/test-results/
+          name: test-results-${{ github.run_number }}-${{ github.run_attempt }}
+          path: |
+            vc-testing-module/_refactored/test-results/
+            vc-testing-module/_refactored/screenshots/
           retention-days: 30
 
       - name: Print container logs on failure
@@ -249,5 +362,7 @@ jobs:
         run: |
           echo "=== Platform logs ==="
           docker logs virtocommerce-vc-platform-web-1 --tail 100
+          echo "=== Frontend logs ==="
+          docker logs virtocommerce-nginx_frontend-1 --tail 50
           echo "=== Elasticsearch logs ==="
           docker logs virtocommerce-es-1 --tail 50
