@@ -56,7 +56,7 @@
                             "displayOrder": null,
                             "valueType": "Measure",
                             "valueId": null,
-                            "value": 60.0000,
+                            "value": 60.0,
                             "propertyMultivalue": false,
                             "outerId": null,
                             "unitOfMeasureId": null,
@@ -240,7 +240,7 @@
                             "displayOrder": null,
                             "valueType": "Measure",
                             "valueId": null,
-                            "value": 5.2000,
+                            "value": 5.2,
                             "propertyMultivalue": false,
                             "outerId": null,
                             "unitOfMeasureId": null,
@@ -436,7 +436,7 @@
                             "displayOrder": null,
                             "valueType": "Measure",
                             "valueId": null,
-                            "value": 18.0000,
+                            "value": 18.0,
                             "propertyMultivalue": false,
                             "outerId": null,
                             "unitOfMeasureId": null,
@@ -485,7 +485,7 @@
                             "displayOrder": null,
                             "valueType": "Measure",
                             "valueId": null,
-                            "value": 32.0000,
+                            "value": 32.0,
                             "propertyMultivalue": false,
                             "outerId": null,
                             "unitOfMeasureId": null,
@@ -670,7 +670,7 @@
                             "displayOrder": null,
                             "valueType": "Measure",
                             "valueId": null,
-                            "value": 25.0000,
+                            "value": 25.0,
                             "propertyMultivalue": false,
                             "outerId": null,
                             "unitOfMeasureId": null,
@@ -854,7 +854,7 @@
                             "displayOrder": null,
                             "valueType": "Measure",
                             "valueId": null,
-                            "value": 6.4000,
+                            "value": 6.4,
                             "propertyMultivalue": false,
                             "outerId": null,
                             "unitOfMeasureId": null,
@@ -1050,7 +1050,7 @@
                             "displayOrder": null,
                             "valueType": "Measure",
                             "valueId": null,
-                            "value": 14.0000,
+                            "value": 14.0,
                             "propertyMultivalue": false,
                             "outerId": null,
                             "unitOfMeasureId": null,
@@ -1099,7 +1099,7 @@
                             "displayOrder": null,
                             "valueType": "Measure",
                             "valueId": null,
-                            "value": 24.0000,
+                            "value": 24.0,
                             "propertyMultivalue": false,
                             "outerId": null,
                             "unitOfMeasureId": null,
@@ -1280,7 +1280,7 @@
                             "displayOrder": null,
                             "valueType": "Measure",
                             "valueId": null,
-                            "value": 32.0000,
+                            "value": 32.0,
                             "propertyMultivalue": false,
                             "outerId": null,
                             "unitOfMeasureId": null,
@@ -1464,7 +1464,7 @@
                             "displayOrder": null,
                             "valueType": "Measure",
                             "valueId": null,
-                            "value": 8.4000,
+                            "value": 8.4,
                             "propertyMultivalue": false,
                             "outerId": null,
                             "unitOfMeasureId": null,
@@ -1660,7 +1660,7 @@
                             "displayOrder": null,
                             "valueType": "Measure",
                             "valueId": null,
-                            "value": 28.0000,
+                            "value": 28.0,
                             "propertyMultivalue": false,
                             "outerId": null,
                             "unitOfMeasureId": null,
@@ -1709,7 +1709,7 @@
                             "displayOrder": null,
                             "valueType": "Measure",
                             "valueId": null,
-                            "value": 32.0000,
+                            "value": 32.0,
                             "propertyMultivalue": false,
                             "outerId": null,
                             "unitOfMeasureId": null,
@@ -1758,7 +1758,7 @@
                             "displayOrder": null,
                             "valueType": "Measure",
                             "valueId": null,
-                            "value": 256.0000,
+                            "value": 256.0,
                             "propertyMultivalue": false,
                             "outerId": null,
                             "unitOfMeasureId": null,
@@ -3104,10 +3104,11 @@
                 {
                     "name": "RamSize",
                     "type": "Variation",
-                    "valueType": "ShortText",
+                    "valueType": "Measure",
                     "values": [
                         {
-                            "value": "8GB"
+                            "value": 8,
+                            "unitOfMeasureId": "measure-unit-ram-gigabyte"
                         }
                     ]
                 }
@@ -3129,10 +3130,11 @@
                 {
                     "name": "RamSize",
                     "type": "Variation",
-                    "valueType": "ShortText",
+                    "valueType": "Measure",
                     "values": [
                         {
-                            "value": "16GB"
+                            "value": 16,
+                            "unitOfMeasureId": "measure-unit-ram-gigabyte"
                         }
                     ]
                 }
