@@ -1,16 +1,16 @@
 import pytest
-from playwright.sync_api import Page, expect
-
 from core.global_settings import GlobalSettings
 from page_objects.pages import CartPage
+from playwright.sync_api import Page, expect
 
 _PRODUCT_ID = "product-acme-laptop-asus-zenbook-a14-ux3407"
 _ORIGINAL_QUANTITY = 3
 _UPDATED_QUANTITY = 4
+_USERNAME = "acme_store_employee_1@acme.com"
 
 
 @pytest.mark.e2e
-@pytest.mark.with_user("acme_store_employee_1@acme.com")
+@pytest.mark.with_user(_USERNAME)
 @pytest.mark.with_cart([(_PRODUCT_ID, _ORIGINAL_QUANTITY)])
 @pytest.mark.quantity_control("stepper")
 def test_cart_item_update_stepper(global_settings: GlobalSettings, page: Page) -> None:
@@ -29,7 +29,7 @@ def test_cart_item_update_stepper(global_settings: GlobalSettings, page: Page) -
 
 
 @pytest.mark.e2e
-@pytest.mark.with_user("acme_store_employee_1@acme.com")
+@pytest.mark.with_user(_USERNAME)
 @pytest.mark.with_cart([(_PRODUCT_ID, _ORIGINAL_QUANTITY)])
 @pytest.mark.quantity_control("button")
 def test_cart_item_update_button(global_settings: GlobalSettings, page: Page) -> None:

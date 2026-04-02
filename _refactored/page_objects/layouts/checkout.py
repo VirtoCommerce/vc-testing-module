@@ -18,5 +18,8 @@ class CheckoutLayout:
     def shipping_cost_label(self) -> Locator:
         return self._page.locator("[data-test-id='shipping-cost-label']")
 
+    def click_outside(self) -> None:
+        self._page.locator("body").click()
+
     def navigate(self) -> None:
         self._page.goto(url=self.url, wait_until="load")

@@ -1,6 +1,5 @@
+from gql.types import CartAddress, MemberAddress
 from playwright.sync_api import Locator
-
-from gql.types import CartAddress
 
 from .component import Component
 
@@ -58,7 +57,7 @@ class AddressForm(Component):
         self.region_select.click()
         self.region_select.locator("button").filter(has_text=region).click()
 
-    def fill(self, address: CartAddress) -> None:
+    def fill(self, address: CartAddress | MemberAddress) -> None:
         if address.first_name:
             self.first_name_input.fill(address.first_name)
         if address.last_name:

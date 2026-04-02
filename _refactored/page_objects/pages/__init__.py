@@ -1,3 +1,4 @@
+from .account_saved_for_later import AccountSavedForLaterPage
 from .cart import CartPage
 from .category import CategoryPage
 from .checkout_completed import CheckoutCompletedPage
@@ -8,6 +9,7 @@ from .home import HomePage
 from .sign_in import SignInPage
 
 __all__ = [
+    "AccountSavedForLaterPage",
     "CartPage",
     "CategoryPage",
     "CheckoutCompletedPage",

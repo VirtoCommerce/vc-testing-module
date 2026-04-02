@@ -10,12 +10,8 @@
             "description": "ACME Store",
             "memberType": "Organization",
             "status": "Approved",
-            "emails": [
-                "store@acme.com"
-            ],
-            "phones": [
-                "+1-217-555-0198"
-            ],
+            "emails": ["store@acme.com"],
+            "phones": ["+1-217-555-0198"],
             "addresses": [
                 {
                     "id": "address-acme-organization",
@@ -31,8 +27,8 @@
                     "regionName": "North Carolina"
                 }
             ]
-        },   
-            {
+        },
+        {
             "id": "organization-acme-store-2",
             "name": "ACME Store 2",
             "description": "ACME Store 2",
@@ -42,21 +38,21 @@
             "phones": ["+1-217-555-0199"],
             "addresses": [
                 {
-                "id": "address-acme-organization-2",
-                "addressType": "BillingAndShipping",
-                "city": "Dallas",
-                "countryCode": "USA",
-                "countryName": "United States of America",
-                "email": "store2@acme.com",
-                "line1": "123 Main St",
-                "phone": "+1-217-555-0199",
-                "postalCode": "75201",
-                "regionId": "TX",
-                "regionName": "Texas"
+                    "id": "address-acme-organization-2",
+                    "addressType": "BillingAndShipping",
+                    "city": "Dallas",
+                    "countryCode": "USA",
+                    "countryName": "United States of America",
+                    "email": "store2@acme.com",
+                    "line1": "123 Main St",
+                    "phone": "+1-217-555-0199",
+                    "postalCode": "75201",
+                    "regionId": "TX",
+                    "regionName": "Texas"
                 }
             ]
-            },
-            {
+        },
+        {
             "id": "organization-acme-store-3",
             "name": "ACME Store 3",
             "description": "ACME Store 3",
@@ -66,21 +62,45 @@
             "phones": ["+1-217-555-0200"],
             "addresses": [
                 {
-                "id": "address-acme-organization-3",
-                "addressType": "BillingAndShipping",
-                "city": "Detroit",
-                "countryCode": "USA",
-                "countryName": "United States of America",
-                "email": "store3@acme.com",
-                "line1": "220 W Congress St, Floors 2-4",
-                "phone": "+1-217-555-0200",
-                "postalCode": "48226",
-                "regionId": "MI",
-                "regionName": "Michigan"
+                    "id": "address-acme-organization-3",
+                    "addressType": "BillingAndShipping",
+                    "city": "Detroit",
+                    "countryCode": "USA",
+                    "countryName": "United States of America",
+                    "email": "store3@acme.com",
+                    "line1": "220 W Congress St, Floors 2-4",
+                    "phone": "+1-217-555-0200",
+                    "postalCode": "48226",
+                    "regionId": "MI",
+                    "regionName": "Michigan"
                 }
             ]
-            },
-            {
+        },
+        {
+            "id": "organization-acme-store-4",
+            "name": "ACME Store 4",
+            "description": "ACME Store 4",
+            "memberType": "Organization",
+            "status": "Approved",
+            "emails": ["store4@acme.com"],
+            "phones": ["+1-217-555-0400"],
+            "addresses": [
+                {
+                    "id": "address-acme-organization-4",
+                    "addressType": "BillingAndShipping",
+                    "city": "Detroit",
+                    "countryCode": "USA",
+                    "countryName": "United States of America",
+                    "email": "store4@acme.com",
+                    "line1": "220 W Congress St, Floors 2-4",
+                    "phone": "+1-217-555-0400",
+                    "postalCode": "48226",
+                    "regionId": "MI",
+                    "regionName": "Michigan"
+                }
+            ]
+        },
+        {
             "id": "organization-aurora-market",
             "name": "[e2e] Aurora Market",
             "description": "ACME Aurora Market",
@@ -90,21 +110,21 @@
             "phones": ["+1-303-555-0142"],
             "addresses": [
                 {
-                "id": "address-aurora-market",
-                "addressType": "BillingAndShipping",
-                "city": "Denver",
-                "countryCode": "USA",
-                "countryName": "United States of America",
-                "email": "hello@auroramarket.com",
-                "line1": "980 Market Street",
-                "phone": "+1-303-555-0142",
-                "postalCode": "80202",
-                "regionId": "CO",
-                "regionName": "Colorado"
+                    "id": "address-aurora-market",
+                    "addressType": "BillingAndShipping",
+                    "city": "Denver",
+                    "countryCode": "USA",
+                    "countryName": "United States of America",
+                    "email": "hello@auroramarket.com",
+                    "line1": "980 Market Street",
+                    "phone": "+1-303-555-0142",
+                    "postalCode": "80202",
+                    "regionId": "CO",
+                    "regionName": "Colorado"
                 }
             ]
-            },
-            {
+        },
+        {
             "id": "organization-harbor-supplies",
             "name": "]test[ Harbor Supplies",
             "description": "ACME Harbor Supplies",
@@ -114,21 +134,21 @@
             "phones": ["+1-206-555-0175"],
             "addresses": [
                 {
-                "id": "address-harbor-supplies",
-                "addressType": "BillingAndShipping",
-                "city": "Seattle",
-                "countryCode": "USA",
-                "countryName": "United States of America",
-                "email": "contact@harborsupplies.com",
-                "line1": "1500 Alaskan Way",
-                "phone": "+1-206-555-0175",
-                "postalCode": "98101",
-                "regionId": "WA",
-                "regionName": "Washington"
+                    "id": "address-harbor-supplies",
+                    "addressType": "BillingAndShipping",
+                    "city": "Seattle",
+                    "countryCode": "USA",
+                    "countryName": "United States of America",
+                    "email": "contact@harborsupplies.com",
+                    "line1": "1500 Alaskan Way",
+                    "phone": "+1-206-555-0175",
+                    "postalCode": "98101",
+                    "regionId": "WA",
+                    "regionName": "Washington"
                 }
             ]
-            },
-            {
+        },
+        {
             "id": "organization-lone-star-outfitters",
             "name": "(parentheses) Lone Star Outfitters",
             "description": "ACME Lone Star Outfitters",
@@ -138,21 +158,21 @@
             "phones": ["+1-512-555-0139"],
             "addresses": [
                 {
-                "id": "address-lone-star-outfitters",
-                "addressType": "BillingAndShipping",
-                "city": "Austin",
-                "countryCode": "USA",
-                "countryName": "United States of America",
-                "email": "team@lonestaroutfitters.com",
-                "line1": "210 Congress Ave",
-                "phone": "+1-512-555-0139",
-                "postalCode": "78701",
-                "regionId": "TX",
-                "regionName": "Texas"
+                    "id": "address-lone-star-outfitters",
+                    "addressType": "BillingAndShipping",
+                    "city": "Austin",
+                    "countryCode": "USA",
+                    "countryName": "United States of America",
+                    "email": "team@lonestaroutfitters.com",
+                    "line1": "210 Congress Ave",
+                    "phone": "+1-512-555-0139",
+                    "postalCode": "78701",
+                    "regionId": "TX",
+                    "regionName": "Texas"
                 }
             ]
-            },
-            {
+        },
+        {
             "id": "organization-lakeview-goods",
             "name": "Company & Sons Lakeview Goods",
             "description": "ACME Lakeview Goods",
@@ -162,21 +182,21 @@
             "phones": ["+1-312-555-0193"],
             "addresses": [
                 {
-                "id": "address-lakeview-goods",
-                "addressType": "BillingAndShipping",
-                "city": "Chicago",
-                "countryCode": "USA",
-                "countryName": "United States of America",
-                "email": "support@lakeviewgoods.com",
-                "line1": "455 N Lakeshore Dr",
-                "phone": "+1-312-555-0193",
-                "postalCode": "60611",
-                "regionId": "IL",
-                "regionName": "Illinois"
+                    "id": "address-lakeview-goods",
+                    "addressType": "BillingAndShipping",
+                    "city": "Chicago",
+                    "countryCode": "USA",
+                    "countryName": "United States of America",
+                    "email": "support@lakeviewgoods.com",
+                    "line1": "455 N Lakeshore Dr",
+                    "phone": "+1-312-555-0193",
+                    "postalCode": "60611",
+                    "regionId": "IL",
+                    "regionName": "Illinois"
                 }
             ]
-            },
-            {
+        },
+        {
             "id": "organization-sunrise-bazaar",
             "name": "Test #123 Sunrise Bazaar",
             "description": "ACME Sunrise Bazaar",
@@ -186,21 +206,21 @@
             "phones": ["+1-480-555-0164"],
             "addresses": [
                 {
-                "id": "address-sunrise-bazaar",
-                "addressType": "BillingAndShipping",
-                "city": "Phoenix",
-                "countryCode": "USA",
-                "countryName": "United States of America",
-                "email": "info@sunrisebazaar.com",
-                "line1": "2200 E Camelback Rd",
-                "phone": "+1-480-555-0164",
-                "postalCode": "85016",
-                "regionId": "AZ",
-                "regionName": "Arizona"
+                    "id": "address-sunrise-bazaar",
+                    "addressType": "BillingAndShipping",
+                    "city": "Phoenix",
+                    "countryCode": "USA",
+                    "countryName": "United States of America",
+                    "email": "info@sunrisebazaar.com",
+                    "line1": "2200 E Camelback Rd",
+                    "phone": "+1-480-555-0164",
+                    "postalCode": "85016",
+                    "regionId": "AZ",
+                    "regionName": "Arizona"
                 }
             ]
-            },
-            {
+        },
+        {
             "id": "organization-redwood-provisions",
             "name": "50% Off Redwood Provisions",
             "description": "ACME Redwood Provisions",
@@ -210,21 +230,21 @@
             "phones": ["+1-971-555-0188"],
             "addresses": [
                 {
-                "id": "address-redwood-provisions",
-                "addressType": "BillingAndShipping",
-                "city": "Portland",
-                "countryCode": "USA",
-                "countryName": "United States of America",
-                "email": "hello@redwoodprovisions.com",
-                "line1": "411 SW Oak St",
-                "phone": "+1-971-555-0188",
-                "postalCode": "97204",
-                "regionId": "OR",
-                "regionName": "Oregon"
+                    "id": "address-redwood-provisions",
+                    "addressType": "BillingAndShipping",
+                    "city": "Portland",
+                    "countryCode": "USA",
+                    "countryName": "United States of America",
+                    "email": "hello@redwoodprovisions.com",
+                    "line1": "411 SW Oak St",
+                    "phone": "+1-971-555-0188",
+                    "postalCode": "97204",
+                    "regionId": "OR",
+                    "regionName": "Oregon"
                 }
             ]
-            },
-            {
+        },
+        {
             "id": "organization-bayfront-traders",
             "name": "C++ Corp Bayfront Traders",
             "description": "ACME Bayfront Traders",
@@ -234,21 +254,21 @@
             "phones": ["+1-415-555-0157"],
             "addresses": [
                 {
-                "id": "address-bayfront-traders",
-                "addressType": "BillingAndShipping",
-                "city": "San Francisco",
-                "countryCode": "USA",
-                "countryName": "United States of America",
-                "email": "team@bayfronttraders.com",
-                "line1": "575 Market St",
-                "phone": "+1-415-555-0157",
-                "postalCode": "94105",
-                "regionId": "CA",
-                "regionName": "California"
+                    "id": "address-bayfront-traders",
+                    "addressType": "BillingAndShipping",
+                    "city": "San Francisco",
+                    "countryCode": "USA",
+                    "countryName": "United States of America",
+                    "email": "team@bayfronttraders.com",
+                    "line1": "575 Market St",
+                    "phone": "+1-415-555-0157",
+                    "postalCode": "94105",
+                    "regionId": "CA",
+                    "regionName": "California"
                 }
             ]
-            },
-            {
+        },
+        {
             "id": "organization-desert-cove-market",
             "name": "Test* Desert Cove Market",
             "description": "ACME Desert Cove Market",
@@ -258,17 +278,17 @@
             "phones": ["+1-702-555-0124"],
             "addresses": [
                 {
-                "id": "address-desert-cove-market",
-                "addressType": "BillingAndShipping",
-                "city": "Las Vegas",
-                "countryCode": "USA",
-                "countryName": "United States of America",
-                "email": "info@desertcovemarket.com",
-                "line1": "2100 S Las Vegas Blvd",
-                "phone": "+1-702-555-0124",
-                "postalCode": "89104",
-                "regionId": "NV",
-                "regionName": "Nevada"
+                    "id": "address-desert-cove-market",
+                    "addressType": "BillingAndShipping",
+                    "city": "Las Vegas",
+                    "countryCode": "USA",
+                    "countryName": "United States of America",
+                    "email": "info@desertcovemarket.com",
+                    "line1": "2100 S Las Vegas Blvd",
+                    "phone": "+1-702-555-0124",
+                    "postalCode": "89104",
+                    "regionId": "NV",
+                    "regionName": "Nevada"
                 }
             ]
         },
@@ -282,17 +302,17 @@
             "phones": ["+1-555-000-0001"],
             "addresses": [
                 {
-                "id": "address-question-mark",
-                "addressType": "BillingAndShipping",
-                "city": "Boston",
-                "countryCode": "USA",
-                "countryName": "United States of America",
-                "email": "question@specialchars.com",
-                "line1": "100 Special St",
-                "phone": "+1-555-000-0001",
-                "postalCode": "02101",
-                "regionId": "MA",
-                "regionName": "Massachusetts"
+                    "id": "address-question-mark",
+                    "addressType": "BillingAndShipping",
+                    "city": "Boston",
+                    "countryCode": "USA",
+                    "countryName": "United States of America",
+                    "email": "question@specialchars.com",
+                    "line1": "100 Special St",
+                    "phone": "+1-555-000-0001",
+                    "postalCode": "02101",
+                    "regionId": "MA",
+                    "regionName": "Massachusetts"
                 }
             ]
         },
@@ -306,17 +326,17 @@
             "phones": ["+1-555-000-0002"],
             "addresses": [
                 {
-                "id": "address-double-quotes",
-                "addressType": "BillingAndShipping",
-                "city": "Philadelphia",
-                "countryCode": "USA",
-                "countryName": "United States of America",
-                "email": "quoted@specialchars.com",
-                "line1": "101 Special St",
-                "phone": "+1-555-000-0002",
-                "postalCode": "19101",
-                "regionId": "PA",
-                "regionName": "Pennsylvania"
+                    "id": "address-double-quotes",
+                    "addressType": "BillingAndShipping",
+                    "city": "Philadelphia",
+                    "countryCode": "USA",
+                    "countryName": "United States of America",
+                    "email": "quoted@specialchars.com",
+                    "line1": "101 Special St",
+                    "phone": "+1-555-000-0002",
+                    "postalCode": "19101",
+                    "regionId": "PA",
+                    "regionName": "Pennsylvania"
                 }
             ]
         },
@@ -330,17 +350,17 @@
             "phones": ["+1-555-000-0003"],
             "addresses": [
                 {
-                "id": "address-single-quotes",
-                "addressType": "BillingAndShipping",
-                "city": "Miami",
-                "countryCode": "USA",
-                "countryName": "United States of America",
-                "email": "single@specialchars.com",
-                "line1": "102 Special St",
-                "phone": "+1-555-000-0003",
-                "postalCode": "33101",
-                "regionId": "FL",
-                "regionName": "Florida"
+                    "id": "address-single-quotes",
+                    "addressType": "BillingAndShipping",
+                    "city": "Miami",
+                    "countryCode": "USA",
+                    "countryName": "United States of America",
+                    "email": "single@specialchars.com",
+                    "line1": "102 Special St",
+                    "phone": "+1-555-000-0003",
+                    "postalCode": "33101",
+                    "regionId": "FL",
+                    "regionName": "Florida"
                 }
             ]
         },
@@ -354,17 +374,17 @@
             "phones": ["+1-555-000-0004"],
             "addresses": [
                 {
-                "id": "address-forward-slash",
-                "addressType": "BillingAndShipping",
-                "city": "Atlanta",
-                "countryCode": "USA",
-                "countryName": "United States of America",
-                "email": "slash@specialchars.com",
-                "line1": "103 Special St",
-                "phone": "+1-555-000-0004",
-                "postalCode": "30301",
-                "regionId": "GA",
-                "regionName": "Georgia"
+                    "id": "address-forward-slash",
+                    "addressType": "BillingAndShipping",
+                    "city": "Atlanta",
+                    "countryCode": "USA",
+                    "countryName": "United States of America",
+                    "email": "slash@specialchars.com",
+                    "line1": "103 Special St",
+                    "phone": "+1-555-000-0004",
+                    "postalCode": "30301",
+                    "regionId": "GA",
+                    "regionName": "Georgia"
                 }
             ]
         },
@@ -378,17 +398,17 @@
             "phones": ["+1-555-000-0005"],
             "addresses": [
                 {
-                "id": "address-backslash",
-                "addressType": "BillingAndShipping",
-                "city": "Houston",
-                "countryCode": "USA",
-                "countryName": "United States of America",
-                "email": "backslash@specialchars.com",
-                "line1": "104 Special St",
-                "phone": "+1-555-000-0005",
-                "postalCode": "77001",
-                "regionId": "TX",
-                "regionName": "Texas"
+                    "id": "address-backslash",
+                    "addressType": "BillingAndShipping",
+                    "city": "Houston",
+                    "countryCode": "USA",
+                    "countryName": "United States of America",
+                    "email": "backslash@specialchars.com",
+                    "line1": "104 Special St",
+                    "phone": "+1-555-000-0005",
+                    "postalCode": "77001",
+                    "regionId": "TX",
+                    "regionName": "Texas"
                 }
             ]
         },
@@ -402,17 +422,17 @@
             "phones": ["+1-555-000-0007"],
             "addresses": [
                 {
-                "id": "address-at-sign",
-                "addressType": "BillingAndShipping",
-                "city": "San Jose",
-                "countryCode": "USA",
-                "countryName": "United States of America",
-                "email": "atsign@specialchars.com",
-                "line1": "106 Special St",
-                "phone": "+1-555-000-0007",
-                "postalCode": "95101",
-                "regionId": "CA",
-                "regionName": "California"
+                    "id": "address-at-sign",
+                    "addressType": "BillingAndShipping",
+                    "city": "San Jose",
+                    "countryCode": "USA",
+                    "countryName": "United States of America",
+                    "email": "atsign@specialchars.com",
+                    "line1": "106 Special St",
+                    "phone": "+1-555-000-0007",
+                    "postalCode": "95101",
+                    "regionId": "CA",
+                    "regionName": "California"
                 }
             ]
         },
@@ -426,17 +446,17 @@
             "phones": ["+1-555-000-0010"],
             "addresses": [
                 {
-                "id": "address-exclaim",
-                "addressType": "BillingAndShipping",
-                "city": "Indianapolis",
-                "countryCode": "USA",
-                "countryName": "United States of America",
-                "email": "exclaim@specialchars.com",
-                "line1": "109 Special St",
-                "phone": "+1-555-000-0010",
-                "postalCode": "46201",
-                "regionId": "IN",
-                "regionName": "Indiana"
+                    "id": "address-exclaim",
+                    "addressType": "BillingAndShipping",
+                    "city": "Indianapolis",
+                    "countryCode": "USA",
+                    "countryName": "United States of America",
+                    "email": "exclaim@specialchars.com",
+                    "line1": "109 Special St",
+                    "phone": "+1-555-000-0010",
+                    "postalCode": "46201",
+                    "regionId": "IN",
+                    "regionName": "Indiana"
                 }
             ]
         },
@@ -450,17 +470,17 @@
             "phones": ["+1-555-000-0011"],
             "addresses": [
                 {
-                "id": "address-dash",
-                "addressType": "BillingAndShipping",
-                "city": "Charlotte",
-                "countryCode": "USA",
-                "countryName": "United States of America",
-                "email": "dash@specialchars.com",
-                "line1": "110 Special St",
-                "phone": "+1-555-000-0011",
-                "postalCode": "28201",
-                "regionId": "NC",
-                "regionName": "North Carolina"
+                    "id": "address-dash",
+                    "addressType": "BillingAndShipping",
+                    "city": "Charlotte",
+                    "countryCode": "USA",
+                    "countryName": "United States of America",
+                    "email": "dash@specialchars.com",
+                    "line1": "110 Special St",
+                    "phone": "+1-555-000-0011",
+                    "postalCode": "28201",
+                    "regionId": "NC",
+                    "regionName": "North Carolina"
                 }
             ]
         },
@@ -474,17 +494,17 @@
             "phones": ["+1-555-000-0012"],
             "addresses": [
                 {
-                "id": "address-underscore",
-                "addressType": "BillingAndShipping",
-                "city": "Fort Worth",
-                "countryCode": "USA",
-                "countryName": "United States of America",
-                "email": "underscore@specialchars.com",
-                "line1": "111 Special St",
-                "phone": "+1-555-000-0012",
-                "postalCode": "76101",
-                "regionId": "TX",
-                "regionName": "Texas"
+                    "id": "address-underscore",
+                    "addressType": "BillingAndShipping",
+                    "city": "Fort Worth",
+                    "countryCode": "USA",
+                    "countryName": "United States of America",
+                    "email": "underscore@specialchars.com",
+                    "line1": "111 Special St",
+                    "phone": "+1-555-000-0012",
+                    "postalCode": "76101",
+                    "regionId": "TX",
+                    "regionName": "Texas"
                 }
             ]
         }

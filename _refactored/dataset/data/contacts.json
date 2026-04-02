@@ -15,6 +15,7 @@
                 "organization-acme-store",
                 "organization-acme-store-2",
                 "organization-acme-store-3",
+                "organization-acme-store-4",
                 "organization-aurora-market",
                 "organization-harbor-supplies",
                 "organization-lone-star-outfitters",
@@ -23,9 +24,7 @@
                 "organization-redwood-provisions",
                 "organization-desert-cove-market"
             ],
-            "emails": [
-                "acme_store_employee_1@acme.com"
-            ]
+            "emails": ["acme_store_employee_1@acme.com"]
         },
         {
             "id": "contact-acme-store-employee-2",
@@ -34,12 +33,8 @@
             "memberType": "Contact",
             "status": "Approved",
             "defaultOrganizationId": "organization-acme-store",
-            "organizations": [
-                "organization-acme-store"
-            ],
-            "emails": [
-                "acme_store_employee_2@acme.com"
-            ]
+            "organizations": ["organization-acme-store"],
+            "emails": ["acme_store_employee_2@acme.com"]
         },
         {
             "id": "contact-acme-store-employee-3",
@@ -48,12 +43,8 @@
             "memberType": "Contact",
             "status": "Approved",
             "defaultOrganizationId": "organization-acme-store",
-            "organizations": [
-                "organization-acme-store"
-            ],
-            "emails": [
-                "acme_store_employee_3@acme.com"
-            ]
+            "organizations": ["organization-acme-store"],
+            "emails": ["acme_store_employee_3@acme.com"]
         },
         {
             "id": "contact-acme-store-employee-4",
@@ -62,12 +53,8 @@
             "memberType": "Contact",
             "status": "Approved",
             "defaultOrganizationId": "organization-acme-store",
-            "organizations": [
-                "organization-acme-store"
-            ],
-            "emails": [
-                "acme_store_employee_4@acme.com"
-            ]
+            "organizations": ["organization-acme-store"],
+            "emails": ["acme_store_employee_4@acme.com"]
         },
         {
             "id": "contact-acme-store-employee-5",
@@ -76,12 +63,8 @@
             "memberType": "Contact",
             "status": "Approved",
             "defaultOrganizationId": "organization-acme-store",
-            "organizations": [
-                "organization-acme-store"
-            ],
-            "emails": [
-                "acme_store_employee_5@acme.com"
-            ]
+            "organizations": ["organization-acme-store"],
+            "emails": ["acme_store_employee_5@acme.com"]
         },
         {
             "id": "contact-acme-store-employee-6",
@@ -90,12 +73,8 @@
             "memberType": "Contact",
             "status": "Approved",
             "defaultOrganizationId": "organization-acme-store",
-            "organizations": [
-                "organization-acme-store"
-            ],
-            "emails": [
-                "acme_store_employee_6@acme.com"
-            ]
+            "organizations": ["organization-acme-store"],
+            "emails": ["acme_store_employee_6@acme.com"]
         },
         {
             "id": "contact-acme-store-employee-7",
@@ -104,12 +83,8 @@
             "memberType": "Contact",
             "status": "Approved",
             "defaultOrganizationId": "organization-acme-store",
-            "organizations": [
-                "organization-acme-store"
-            ],
-            "emails": [
-                "acme_store_employee_7@acme.com"
-            ]
+            "organizations": ["organization-acme-store"],
+            "emails": ["acme_store_employee_7@acme.com"]
         },
         {
             "id": "contact-acme-store-employee-8",
@@ -118,12 +93,8 @@
             "memberType": "Contact",
             "status": "Invited",
             "defaultOrganizationId": "organization-acme-store",
-            "organizations": [
-                "organization-acme-store"
-            ],
-            "emails": [
-                "acme_store_employee_8@acme.com"
-            ]
+            "organizations": ["organization-acme-store"],
+            "emails": ["acme_store_employee_8@acme.com"]
         },
         {
             "id": "contact-acme-store-employee-9",
@@ -132,12 +103,8 @@
             "memberType": "Contact",
             "status": "Locked",
             "defaultOrganizationId": "organization-acme-store",
-            "organizations": [
-                "organization-acme-store"
-            ],
-            "emails": [
-                "acme_store_employee_9@acme.com"
-            ]
+            "organizations": ["organization-acme-store"],
+            "emails": ["acme_store_employee_9@acme.com"]
         },
         {
             "id": "contact-acme-store-maintainer-1",
@@ -167,9 +134,7 @@
                 "organization-forward-slash",
                 "organization-dash"
             ],
-            "emails": [
-                "acme_store_maintainer_1@acme.com"
-            ]
+            "emails": ["acme_store_maintainer_1@acme.com"]
         },
         {
             "id": "contact-acme-store-purchasing-agent-1",
@@ -178,12 +143,8 @@
             "memberType": "Contact",
             "status": "Approved",
             "defaultOrganizationId": "organization-acme-store",
-            "organizations": [
-                "organization-acme-store"
-            ],
-            "emails": [
-                "acme_store_purchasing_agent_1@acme.com"
-            ]
+            "organizations": ["organization-acme-store"],
+            "emails": ["acme_store_purchasing_agent_1@acme.com"]
         },
         {
             "id": "contact-acme-store-purchasing-agent-2",
@@ -192,12 +153,8 @@
             "memberType": "Contact",
             "status": "Approved",
             "defaultOrganizationId": "organization-acme-store",
-            "organizations": [
-                "organization-acme-store"
-            ],
-            "emails": [
-                "acme_store_purchasing_agent_2@acme.com"
-            ]
+            "organizations": ["organization-acme-store"],
+            "emails": ["acme_store_purchasing_agent_2@acme.com"]
         },
         {
             "id": "contact-acme-store-purchasing-agent-3",
@@ -206,12 +163,8 @@
             "memberType": "Contact",
             "status": "Approved",
             "defaultOrganizationId": "organization-acme-store",
-            "organizations": [
-                "organization-acme-store"
-            ],
-            "emails": [
-                "acme_store_purchasing_agent_3@acme.com"
-            ]
+            "organizations": ["organization-acme-store"],
+            "emails": ["acme_store_purchasing_agent_3@acme.com"]
         },
         {
             "id": "contact-acme-store-administrator",
@@ -220,12 +173,8 @@
             "memberType": "Contact",
             "status": "Approved",
             "defaultOrganizationId": "organization-acme-store",
-            "organizations": [
-                "organization-acme-store"
-            ],
-            "emails": [
-                "acme_store_administrator@acme.com"
-            ]
+            "organizations": ["organization-acme-store"],
+            "emails": ["acme_store_administrator@acme.com"]
         },
         {
             "id": "contact-acme-store-manager-1",
@@ -234,12 +183,8 @@
             "memberType": "Contact",
             "status": "Approved",
             "defaultOrganizationId": "organization-acme-store",
-            "organizations": [
-                "organization-acme-store"
-            ],
-            "emails": [
-                "acme_store_manager_1@acme.com"
-            ]
+            "organizations": ["organization-acme-store"],
+            "emails": ["acme_store_manager_1@acme.com"]
         },
         {
             "id": "contact-acme-store-manager-2",
@@ -248,12 +193,8 @@
             "memberType": "Contact",
             "status": "Approved",
             "defaultOrganizationId": "organization-acme-store",
-            "organizations": [
-                "organization-acme-store"
-            ],
-            "emails": [
-                "acme_store_manager_2@acme.com"
-            ]
+            "organizations": ["organization-acme-store"],
+            "emails": ["acme_store_manager_2@acme.com"]
         },
         {
             "id": "contact-acme-store-manager-3",
@@ -262,12 +203,8 @@
             "memberType": "Contact",
             "status": "Approved",
             "defaultOrganizationId": "organization-acme-store",
-            "organizations": [
-                "organization-acme-store"
-            ],
-            "emails": [
-                "acme_store_manager_3@acme.com"
-            ]
+            "organizations": ["organization-acme-store"],
+            "emails": ["acme_store_manager_3@acme.com"]
         },
         {
             "id": "contact-acme-store-manager-4",
@@ -276,12 +213,8 @@
             "memberType": "Contact",
             "status": "Approved",
             "defaultOrganizationId": "organization-acme-store",
-            "organizations": [
-                "organization-acme-store"
-            ],
-            "emails": [
-                "acme_store_manager_4@acme.com"
-            ]
+            "organizations": ["organization-acme-store"],
+            "emails": ["acme_store_manager_4@acme.com"]
         }
     ]
 }
