@@ -50,3 +50,31 @@ CATALOG_TEMPLATE = {
     "languages": [DEFAULT_LANGUAGE],
     "createdDate": "0001-01-01T00:00:00Z",
 }
+
+CATEGORY_TEMPLATE = {
+    "isVirtual": False,
+    "level": 0,
+    "priority": 0,
+    "isActive": True,
+    "seoObjectType": "Category",
+    "seoInfos": [],
+    "isInherited": False,
+    "createdDate": "0001-01-01T00:00:00Z",
+}
+
+PRODUCT_TEMPLATE = {
+    "productType": "Physical",
+    "weightUnit": "kg",
+    "weight": "1.0",
+    "height": "10",
+    "width": "10",
+    "length": "10",
+    "images": [],
+    "reviews": [
+        {
+            "languageCode": "en-US",
+            "reviewType": "QuickReview",
+            "content": "Automated test product",
+        }
+    ],
+}
