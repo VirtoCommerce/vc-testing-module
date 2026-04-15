@@ -199,7 +199,6 @@ jobs:
           sed -i 's|^FRONTEND_BASE_URL=.*|FRONTEND_BASE_URL=http://localhost|g' .env
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install pytest-html
 
       # ──────────────────────────────────────────────
       # 5. Seed reference test data
@@ -212,15 +211,6 @@ jobs:
         run: |
           python -m dataset.dataset_manager --seed
 
-      - name: Upload dataset_manager log
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: webapi-dataset-manager-log-${{ github.run_number }}-${{ github.run_attempt }}
-          path: vc-testing-module/dataset/dataset_manager.log
-          if-no-files-found: warn
-          retention-days: 30
-
       # ──────────────────────────────────────────────
       # 6. Run tests
       # ──────────────────────────────────────────────
@@ -228,30 +218,86 @@ jobs:
         working-directory: vc-testing-module
         run: |
           pytest tests_webapi/ -v -s -m "webapi and not ignore" \
-            --html=webapi-report.html --self-contained-html \
             --junitxml=webapi-junit.xml
 
-      - name: Upload test results
+      # Install Allure CLI (Java-based) and render allure-results/ to an HTML
+      # report that anyone can open by double-clicking index.html — no local
+      # tooling required. Fetched from the upstream GitHub release so the
+      # version is explicit.
+      - name: Install Allure CLI
+        if: always()
+        run: |
+          ALLURE_VERSION=2.29.0
+          wget -q -O allure.tgz \
+            "https://github.com/allure-framework/allure2/releases/download/${ALLURE_VERSION}/allure-${ALLURE_VERSION}.tgz"
+          sudo tar -xzf allure.tgz -C /opt
+          sudo ln -sf "/opt/allure-${ALLURE_VERSION}/bin/allure" /usr/local/bin/allure
+          allure --version
+
+      - name: Generate Allure HTML report
+        if: always()
+        working-directory: vc-testing-module
+        run: |
+          if [ -d allure-results ] && [ -n "$(ls -A allure-results 2>/dev/null)" ]; then
+            allure generate allure-results --clean -o allure-report
+          else
+            echo "::warning::allure-results is empty — skipping report render"
+          fi
+
+      # Stage everything into a single folder with a README landing page so
+      # the downloaded artifact is self-describing. `index.html` at the root
+      # redirects to the Allure report so users can double-click straight in.
+      - name: Stage consolidated report
+        if: always()
+        working-directory: vc-testing-module
+        run: |
+          mkdir -p report
+          [ -d allure-report ] && mv allure-report report/ || echo "no allure-report"
+          [ -d har-output ] && mv har-output report/ || echo "no har-output"
+          [ -f webapi-junit.xml ] && mv webapi-junit.xml report/ || echo "no junit.xml"
+          [ -f dataset/dataset_manager.log ] && cp dataset/dataset_manager.log report/ || echo "no dataset log"
+
+          cat > report/index.html << 'HTML'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="utf-8">
+            <meta http-equiv="refresh" content="0; url=allure-report/index.html">
+            <title>WebAPI Test Results</title>
+          </head>
+          <body>
+            <p>Redirecting to the <a href="allure-report/index.html">Allure report</a>.
+            If nothing happens, open <code>allure-report/index.html</code> manually.</p>
+          </body>
+          </html>
+          HTML
+
+          cat > report/README.md << 'EOF'
+          # WebAPI Test Results
+
+          Run: ${{ github.run_number }} (attempt ${{ github.run_attempt }})
+          Commit: ${{ github.sha }}
+          Branch: ${{ github.ref_name }}
+
+          ## What's in this bundle
+
+          | Path | Use it for |
+          |---|---|
+          | `index.html` | Landing page — redirects to the Allure report. Double-click to open. |
+          | `allure-report/` | Full HTML test report with steps, attachments, and history. Open `allure-report/index.html`. |
+          | `har-output/<module>/<test>.har` | Per-test HTTP traces (HAR 1.2) grouped by module. Import into Chrome DevTools → Network → "Import HAR file…". Auth headers and cookies are redacted. |
+          | `webapi-junit.xml` | JUnit XML — for programmatic consumption (IDE integrations, other dashboards). |
+          | `dataset_manager.log` | Output from the seed step. Check here first if a test fails because seed data is missing. |
+
+          The same JUnit results drive the per-test PR comment and the per-module breakdown on the run's Summary tab.
+          EOF
+
+      - name: Upload consolidated test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: webapi-test-results-${{ github.run_number }}-${{ github.run_attempt }}
-          path: |
-            vc-testing-module/webapi-report.html
-            vc-testing-module/webapi-junit.xml
-            vc-testing-module/allure-results/
-          retention-days: 30
-
-      # Per-module HAR tree — written to disk by the autouse `har_recorder`
-      # fixture in `tests_webapi/conftest.py`. Uploaded as a separate artifact
-      # so the network traces stay navigable (by module folder) without
-      # wading through the Allure bundle.
-      - name: Upload HAR files
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: webapi-har-files-${{ github.run_number }}-${{ github.run_attempt }}
-          path: vc-testing-module/har-output/
+          path: vc-testing-module/report/
           if-no-files-found: warn
           retention-days: 30
 
@@ -263,7 +309,7 @@ jobs:
         if: always()
         uses: EnricoMi/publish-unit-test-result-action@v2
         with:
-          files: vc-testing-module/webapi-junit.xml
+          files: vc-testing-module/report/webapi-junit.xml
           check_name: WebAPI Test Results
           comment_mode: always
           report_individual_runs: true
@@ -283,9 +329,9 @@ jobs:
           from collections import defaultdict
           from pathlib import Path
 
-          xml_path = Path("webapi-junit.xml")
+          xml_path = Path("report/webapi-junit.xml")
           if not xml_path.exists():
-              print("webapi-junit.xml not found — skipping module summary")
+              print("report/webapi-junit.xml not found — skipping module summary")
               raise SystemExit(0)
 
           tree = ET.parse(xml_path)
