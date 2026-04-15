@@ -33,9 +33,12 @@ def har_recorder(request, webapi_client: WebAPISession):
             pass  # hook already gone — don't fail teardown
 
         if recorder.has_entries():
+            # Pass attachment_type as a raw MIME string (not the enum) so the
+            # explicit extension="har" takes effect; the AttachmentType enum
+            # would otherwise force a .json extension on disk and in Allure.
             allure.attach(
                 recorder.serialize(),
                 name=f"{request.node.name}.har",
-                attachment_type=allure.attachment_type.JSON,
+                attachment_type="application/json",
                 extension="har",
             )
