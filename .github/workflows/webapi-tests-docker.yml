@@ -244,9 +244,28 @@ jobs:
             echo "::warning::allure-results is empty — skipping report render"
           fi
 
+      # Bundle the multi-file Allure report into a single self-contained
+      # HTML file via `allure-combine` (inlines all JS/CSS/JSON as base64).
+      # Without this, opening `allure-report/index.html` directly from disk
+      # fails because browsers block AJAX to local JSON files (CORS on
+      # file://). The combined `complete.html` loads cleanly from a
+      # double-click — no HTTP server required.
+      - name: Bundle Allure into single HTML
+        if: always()
+        working-directory: vc-testing-module
+        run: |
+          if [ -d allure-report ]; then
+            pip install allure-combine
+            allure-combine allure-report
+            ls -la allure-report/complete.html
+          else
+            echo "::warning::allure-report missing — skipping allure-combine"
+          fi
+
       # Stage everything into a single folder with a README landing page so
       # the downloaded artifact is self-describing. `index.html` at the root
-      # redirects to the Allure report so users can double-click straight in.
+      # redirects to the standalone Allure report (`complete.html`) so
+      # double-clicking works even without a local HTTP server.
       - name: Stage consolidated report
         if: always()
         working-directory: vc-testing-module
@@ -262,12 +281,12 @@ jobs:
           <html lang="en">
           <head>
             <meta charset="utf-8">
-            <meta http-equiv="refresh" content="0; url=allure-report/index.html">
+            <meta http-equiv="refresh" content="0; url=allure-report/complete.html">
             <title>WebAPI Test Results</title>
           </head>
           <body>
-            <p>Redirecting to the <a href="allure-report/index.html">Allure report</a>.
-            If nothing happens, open <code>allure-report/index.html</code> manually.</p>
+            <p>Redirecting to the <a href="allure-report/complete.html">Allure report</a>.
+            If nothing happens, open <code>allure-report/complete.html</code> manually.</p>
           </body>
           </html>
           HTML
@@ -283,8 +302,9 @@ jobs:
 
           | Path | Use it for |
           |---|---|
-          | `index.html` | Landing page — redirects to the Allure report. Double-click to open. |
-          | `allure-report/` | Full HTML test report with steps, attachments, and history. Open `allure-report/index.html`. |
+          | `index.html` | Landing page — double-click to open the standalone Allure report. |
+          | `allure-report/complete.html` | Standalone single-file Allure report with all JS/CSS/JSON inlined. Works from a local `file://` path — no HTTP server needed. |
+          | `allure-report/` (the rest) | Original multi-file Allure report. Needs an HTTP server (`python -m http.server` from this folder, or `allure open allure-report/`). |
           | `har-output/<module>/<test>.har` | Per-test HTTP traces (HAR 1.2) grouped by module. Import into Chrome DevTools → Network → "Import HAR file…". Auth headers and cookies are redacted. |
           | `webapi-junit.xml` | JUnit XML — for programmatic consumption (IDE integrations, other dashboards). |
           | `dataset_manager.log` | Output from the seed step. Check here first if a test fails because seed data is missing. |
