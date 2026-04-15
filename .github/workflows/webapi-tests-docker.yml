@@ -220,10 +220,7 @@ jobs:
           pytest tests_webapi/ -v -s -m "webapi and not ignore" \
             --junitxml=webapi-junit.xml
 
-      # Install Allure CLI (Java-based) and render allure-results/ to an HTML
-      # report that anyone can open by double-clicking index.html — no local
-      # tooling required. Fetched from the upstream GitHub release so the
-      # version is explicit.
+  
       - name: Install Allure CLI
         if: always()
         run: |
@@ -244,12 +241,7 @@ jobs:
             echo "::warning::allure-results is empty — skipping report render"
           fi
 
-      # Bundle the multi-file Allure report into a single self-contained
-      # HTML file via `allure-combine` (inlines all JS/CSS/JSON as base64).
-      # Without this, opening `allure-report/index.html` directly from disk
-      # fails because browsers block AJAX to local JSON files (CORS on
-      # file://). The combined `complete.html` loads cleanly from a
-      # double-click — no HTTP server required.
+
       - name: Bundle Allure into single HTML
         if: always()
         working-directory: vc-testing-module
@@ -262,10 +254,7 @@ jobs:
             echo "::warning::allure-report missing — skipping allure-combine"
           fi
 
-      # Stage everything into a single folder with a README landing page so
-      # the downloaded artifact is self-describing. `index.html` at the root
-      # redirects to the standalone Allure report (`complete.html`) so
-      # double-clicking works even without a local HTTP server.
+ 
       - name: Stage consolidated report
         if: always()
         working-directory: vc-testing-module
@@ -321,10 +310,7 @@ jobs:
           if-no-files-found: warn
           retention-days: 30
 
-      # Publish a GitHub Check + PR comment with a per-test summary.
-      # Runs on both pass and fail (`if: always()`).
-      # When the dispatched ref has an open PR, the action posts a sticky
-      # comment; otherwise it only creates the Checks entry on the run.
+
       - name: Publish test results summary
         if: always()
         uses: EnricoMi/publish-unit-test-result-action@v2
@@ -334,10 +320,7 @@ jobs:
           comment_mode: always
           report_individual_runs: true
 
-      # Per-module breakdown rendered into the Actions run Summary tab.
-      # Groups testcases by the module-folder segment of the JUnit `classname`
-      # (e.g. `tests_webapi.catalog.test_catalog_catalogs` -> `catalog`) and
-      # aggregates total/passed/failed/errored/skipped/time per module.
+
       - name: Per-module test summary
         if: always()
         working-directory: vc-testing-module
