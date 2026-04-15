@@ -1,0 +1,50 @@
+name: WebAPI Tests
+
+on:
+  workflow_dispatch:
+  # push:
+  #   branches: [dev]
+  # pull_request:
+  #   branches: [dev]
+
+jobs:
+  webapi-tests:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+
+    env:
+      BACKEND_BASE_URL: https://vcptcore-demo.govirto.com
+      FRONTEND_BASE_URL: https://vcptcore-demo-storefront.govirto.com
+      ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
+      ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+      USERS_PASSWORD: ${{ secrets.USERS_PASSWORD }}
+      STORE_ID: store-acme
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13.7"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest-html
+
+      - name: Run WebAPI Tests
+        run: |
+          echo "Running WebAPI tests against ${{ env.BACKEND_BASE_URL }}"
+          pytest tests_webapi/ -v -s -m "webapi and not ignore" --html=webapi-report.html --self-contained-html
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: webapi-test-results
+          path: |
+            webapi-report.html
+            allure-results/
+          retention-days: 30
