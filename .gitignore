@@ -182,6 +182,7 @@ allure-results/
 allure-report/
 webapi-junit.xml
 webapi-report.html
+har-output/
 screenshots/
 .serena/
 .claude/settings.local.json

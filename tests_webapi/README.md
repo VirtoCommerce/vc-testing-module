@@ -198,12 +198,14 @@ Rules:
 Every test in `tests_webapi/` gets an autouse fixture (`har_recorder` in
 [tests_webapi/conftest.py](conftest.py)) that records every HTTP
 request/response made through `webapi_client` during the test. The capture is
-serialized to a HAR 1.2 file and attached to the Allure report for **every
-test** — passed or failed.
+serialized to a HAR 1.2 file and written to disk under
+`har-output/<module>/<test_name>.har` — passed or failed.
 
 What you get:
 
-- One `.har` attachment named `<test_name>.har` per test run.
+- One `.har` file per test, grouped by module folder:
+  `har-output/catalog/test_catalog_create.har`,
+  `har-output/platform/test_user_create.har`, ...
 - Every request/response captured — including factory-fixture setup
   (`make_catalog` POST) and teardown (`catalog_operations.delete` DELETE).
 - Method, URL, status, timings, request body, response body, all headers.
@@ -211,18 +213,20 @@ What you get:
   replaced with `***REDACTED***` before serialization — safe to attach to bug
   reports.
 
+`har-output/` is gitignored. In CI the whole tree is uploaded as the
+`webapi-har-files-*` workflow artifact alongside the test results.
+
 Open the HAR in Chrome DevTools (right-click the Network tab → "Import HAR
 file..."), Charles, Fiddler, Paw, or any HAR viewer for a full request/response
 timeline.
 
-**Report size note.** Always-attach adds ~10-20 KB per test to Allure
-artifacts. At 18 tests that's ~250 KB; at the full migration target of ~362
-tests that's ~5-10 MB. If size ever becomes an issue, restore failure-only
-behavior by wrapping `allure.attach` in a `rep_call.failed` check (see git
-history for `tests_webapi/conftest.py`).
+**HARs are not attached to Allure.** Earlier versions of this fixture
+attached each HAR to the Allure report; that bloated the bundle at scale
+(~5–10 MB once the full migration lands) and made the traces harder to
+browse. The on-disk tree is both smaller and easier to navigate by module.
 
 If you need to disable HAR for a specific test (e.g., a huge response body
-would balloon the report), override the fixture per-test:
+would balloon the artifact), override the fixture per-test:
 
 ```python
 @pytest.fixture

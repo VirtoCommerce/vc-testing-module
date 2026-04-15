@@ -242,6 +242,19 @@ jobs:
             vc-testing-module/allure-results/
           retention-days: 30
 
+      # Per-module HAR tree — written to disk by the autouse `har_recorder`
+      # fixture in `tests_webapi/conftest.py`. Uploaded as a separate artifact
+      # so the network traces stay navigable (by module folder) without
+      # wading through the Allure bundle.
+      - name: Upload HAR files
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: webapi-har-files-${{ github.run_number }}-${{ github.run_attempt }}
+          path: vc-testing-module/har-output/
+          if-no-files-found: warn
+          retention-days: 30
+
       # Publish a GitHub Check + PR comment with a per-test summary.
       # Runs on both pass and fail (`if: always()`).
       # When the dispatched ref has an open PR, the action posts a sticky
