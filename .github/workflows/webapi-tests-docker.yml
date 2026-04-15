@@ -14,6 +14,16 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-22.04
 
+    # Needed for the publish-unit-test-result-action step below:
+    # - checks: write  — create the Checks status with the test-result summary
+    # - pull-requests: write — post a sticky comment on the PR (when the
+    #   dispatched ref has an open PR)
+    permissions:
+      contents: read
+      checks: write
+      pull-requests: write
+      issues: read
+
     env:
       GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
 
@@ -217,7 +227,9 @@ jobs:
       - name: Run WebAPI tests
         working-directory: vc-testing-module
         run: |
-          pytest tests_webapi/ -v -s -m "webapi and not ignore" --html=webapi-report.html --self-contained-html
+          pytest tests_webapi/ -v -s -m "webapi and not ignore" \
+            --html=webapi-report.html --self-contained-html \
+            --junitxml=webapi-junit.xml
 
       - name: Upload test results
         if: always()
@@ -226,8 +238,22 @@ jobs:
           name: webapi-test-results-${{ github.run_number }}-${{ github.run_attempt }}
           path: |
             vc-testing-module/webapi-report.html
+            vc-testing-module/webapi-junit.xml
             vc-testing-module/allure-results/
           retention-days: 30
+
+      # Publish a GitHub Check + PR comment with a per-test summary.
+      # Runs on both pass and fail (`if: always()`).
+      # When the dispatched ref has an open PR, the action posts a sticky
+      # comment; otherwise it only creates the Checks entry on the run.
+      - name: Publish test results summary
+        if: always()
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        with:
+          files: vc-testing-module/webapi-junit.xml
+          check_name: WebAPI Test Results
+          comment_mode: always
+          report_individual_runs: true
 
       # ──────────────────────────────────────────────
       # 7. Diagnostics on failure
