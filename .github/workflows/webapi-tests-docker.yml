@@ -1,0 +1,241 @@
+name: WebAPI Tests Docker
+
+on:
+  workflow_dispatch:
+    inputs:
+      platformDockerTag:
+        description: "Platform Docker image tag"
+        required: false
+        type: string
+        default: "linux-latest"
+
+jobs:
+  webapi-tests:
+    timeout-minutes: 60
+    runs-on: ubuntu-22.04
+
+    env:
+      GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
+
+    steps:
+      # ──────────────────────────────────────────────
+      # 1. Checkout & install modules
+      # ──────────────────────────────────────────────
+      - name: Checkout testing repo
+        uses: actions/checkout@v4
+        with:
+          repository: VirtoCommerce/vc-testing-module
+          ref: ${{ github.ref_name }}
+          path: vc-testing-module
+          token: ${{ secrets.REPO_TOKEN }}
+
+      - name: Install VirtoCommerce.GlobalTool
+        uses: VirtoCommerce/vc-github-actions/setup-vcbuild@master
+
+      - name: Install modules and pull platform image
+        run: |
+          mkdir modules && cd modules
+          vc-build install --package-manifest-path $GITHUB_WORKSPACE/vc-testing-module/backend-packages.json --skip-dependency-solving
+          docker pull ghcr.io/virtocommerce/platform:${{ inputs.platformDockerTag }}
+          docker tag ghcr.io/virtocommerce/platform:${{ inputs.platformDockerTag }} platform:local-latest
+
+      # ──────────────────────────────────────────────
+      # 2. Start Docker infrastructure
+      # ──────────────────────────────────────────────
+      - name: Create docker-compose.yml
+        run: |
+          cat > docker-compose.yml << 'COMPOSE'
+          services:
+            vc-db:
+              image: mcr.microsoft.com/mssql/server:2017-latest
+              ports:
+                - "1433:1433"
+              environment:
+                - ACCEPT_EULA=Y
+                - MSSQL_PID=Express
+                - SA_PASSWORD=v!rto_Labs!
+              networks:
+                - virto
+
+            es:
+              image: docker.elastic.co/elasticsearch/elasticsearch:8.18.0
+              volumes:
+                - esdata01:/usr/share/elasticsearch/data
+              ports:
+                - "9200:9200"
+              networks:
+                - virto
+              environment:
+                - node.name=es
+                - cluster.name=elasticsearch
+                - cluster.initial_master_nodes=es
+                - ELASTIC_PASSWORD=v!rto_Labs!
+                - bootstrap.memory_lock=true
+                - xpack.security.enabled=false
+                - xpack.security.http.ssl.enabled=false
+                - xpack.security.transport.ssl.enabled=false
+                - xpack.license.self_generated.type=basic
+                - xpack.ml.use_auto_machine_memory_percent=true
+              mem_limit: 1g
+              ulimits:
+                memlock:
+                  soft: -1
+                  hard: -1
+              healthcheck:
+                test: ["CMD-SHELL", "curl -s http://localhost:9200"]
+                interval: 10s
+                timeout: 10s
+                retries: 120
+
+            vc-platform-web:
+              image: platform:local-latest
+              ports:
+                - "8090:80"
+              environment:
+                - ASPNETCORE_URLS=http://+
+                - VirtoCommerce__AllowInsecureHttp=true
+                - VirtoCommerce__Hangfire__JobStorageType=Memory
+                - ConnectionStrings__VirtoCommerce=Data Source=vc-db;Initial Catalog=VirtoCommerce3docker;Persist Security Info=True;User ID=sa;Password=v!rto_Labs!;MultipleActiveResultSets=False;Connect Timeout=360;TrustServerCertificate=True;
+                - Assets__FileSystem__PublicUrl=http://localhost:8090/assets/
+                - Content__FileSystem__PublicUrl=http://localhost:8090/cms-content/
+                - Search__Provider=ElasticSearch8
+                - Search__ElasticSearch8__Server=http://es:9200
+                - Search__ElasticSearch8__User=elastic
+                - Search__ElasticSearch8__Key=v!rto_Labs!
+                - Search__ElasticSearch8__EnableCompatibilityMode=true
+                - Search__PickupLocationFullTextSearchEnabled=true
+                - IdentityOptions__User__MaxPasswordAge=0
+                - Notifications__DefaultSender=virto.start@virtoway.com
+                - Notifications__Gateway=SendGrid
+                - Notifications__SendGrid__ApiKey=${SENDGRID_API_KEY}
+              depends_on:
+                - vc-db
+                - es
+              entrypoint: ["/wait-for-it.sh", "vc-db:1433", "-t", "120", "--", "dotnet", "VirtoCommerce.Platform.Web.dll"]
+              volumes:
+                - ./modules/modules:/opt/virtocommerce/platform/modules
+                - ./modules/app_data:/opt/virtocommerce/platform/app_data
+              networks:
+                - virto
+              restart: unless-stopped
+
+          volumes:
+            esdata01:
+              driver: local
+
+          networks:
+            virto:
+          COMPOSE
+
+      - name: Start database and Elasticsearch
+        env:
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_APIKEY_4E2E_AUTOTESTS }}
+        run: |
+          docker compose --project-name virtocommerce up -d vc-db es
+          sleep 15
+
+      - name: Start platform
+        env:
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_APIKEY_4E2E_AUTOTESTS }}
+        run: |
+          docker compose --project-name virtocommerce up -d
+          echo "Waiting for platform to start..."
+          for i in $(seq 1 30); do
+            if curl -sf http://localhost:8090/api/platform/diagnostics/systeminfo > /dev/null 2>&1; then
+              echo "Platform is ready!"
+              break
+            fi
+            echo "Attempt $i/30..."
+            sleep 10
+          done
+
+      # ──────────────────────────────────────────────
+      # 3. Prepare platform — reset admin password to match .env
+      # ──────────────────────────────────────────────
+      - name: Reset admin password
+        shell: pwsh
+        env:
+          SECRET_ENV_FILE: ${{ secrets.VC_TESTING_MODULE_ENV_FILE }}
+        run: |
+          if ($env:SECRET_ENV_FILE -match 'ADMIN_PASSWORD=(\S+)') {
+            $newAdminPassword = $matches[1]
+          } else {
+            $newAdminPassword = 'store'
+          }
+          $body = "grant_type=password&username=admin&password=store"
+          $headers = @{ "Content-Type" = "application/x-www-form-urlencoded" }
+          $token = ((Invoke-WebRequest -Uri "http://localhost:8090/connect/token" -Body $body -Headers $headers -Method POST).Content | ConvertFrom-Json).access_token
+          $authHeaders = @{ "Content-Type" = "application/json-patch+json"; "Authorization" = "Bearer $token" }
+          $resetBody = @{ "newPassword" = $newAdminPassword; "forcePasswordChangeOnNextSignIn" = $false } | ConvertTo-Json
+          Invoke-WebRequest -Uri "http://localhost:8090/api/platform/security/users/admin/resetpassword" -Body $resetBody -Headers $authHeaders -Method POST
+          Write-Host "Admin password reset successfully"
+
+      # ──────────────────────────────────────────────
+      # 4. Set up Python & install dependencies
+      # ──────────────────────────────────────────────
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13.7"
+
+      - name: Create .env and install dependencies
+        working-directory: vc-testing-module
+        env:
+          SECRET_ENV_FILE: ${{ secrets.VC_TESTING_MODULE_ENV_FILE }}
+        run: |
+          echo "$SECRET_ENV_FILE" > .env
+          chmod 600 .env
+          sed -i 's|^BACKEND_BASE_URL=.*|BACKEND_BASE_URL=http://localhost:8090|g' .env
+          sed -i 's|^FRONTEND_BASE_URL=.*|FRONTEND_BASE_URL=http://localhost|g' .env
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest-html
+
+      # ──────────────────────────────────────────────
+      # 5. Seed reference test data
+      # (Most webapi tests create their own entities via factory fixtures, but
+      # tests that mutate seeded entities — e.g. test_contacts_organizations —
+      # still need the dataset present.)
+      # ──────────────────────────────────────────────
+      - name: Seed test data
+        working-directory: vc-testing-module
+        run: |
+          python -m dataset.dataset_manager --seed
+
+      - name: Upload dataset_manager log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: webapi-dataset-manager-log-${{ github.run_number }}-${{ github.run_attempt }}
+          path: vc-testing-module/dataset/dataset_manager.log
+          if-no-files-found: warn
+          retention-days: 30
+
+      # ──────────────────────────────────────────────
+      # 6. Run tests
+      # ──────────────────────────────────────────────
+      - name: Run WebAPI tests
+        working-directory: vc-testing-module
+        run: |
+          pytest tests_webapi/ -v -s -m "webapi and not ignore" --html=webapi-report.html --self-contained-html
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: webapi-test-results-${{ github.run_number }}-${{ github.run_attempt }}
+          path: |
+            vc-testing-module/webapi-report.html
+            vc-testing-module/allure-results/
+          retention-days: 30
+
+      # ──────────────────────────────────────────────
+      # 7. Diagnostics on failure
+      # ──────────────────────────────────────────────
+      - name: Print container logs on failure
+        if: failure()
+        run: |
+          echo "=== Platform logs ==="
+          docker logs virtocommerce-vc-platform-web-1 --tail 100
+          echo "=== Elasticsearch logs ==="
+          docker logs virtocommerce-es-1 --tail 50
