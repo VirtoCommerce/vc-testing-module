@@ -255,6 +255,80 @@ jobs:
           comment_mode: always
           report_individual_runs: true
 
+      # Per-module breakdown rendered into the Actions run Summary tab.
+      # Groups testcases by the module-folder segment of the JUnit `classname`
+      # (e.g. `tests_webapi.catalog.test_catalog_catalogs` -> `catalog`) and
+      # aggregates total/passed/failed/errored/skipped/time per module.
+      - name: Per-module test summary
+        if: always()
+        working-directory: vc-testing-module
+        run: |
+          python <<'PYEOF'
+          import os
+          import re
+          import xml.etree.ElementTree as ET
+          from collections import defaultdict
+          from pathlib import Path
+
+          xml_path = Path("webapi-junit.xml")
+          if not xml_path.exists():
+              print("webapi-junit.xml not found — skipping module summary")
+              raise SystemExit(0)
+
+          tree = ET.parse(xml_path)
+          stats = defaultdict(
+              lambda: {"total": 0, "passed": 0, "failed": 0, "errored": 0, "skipped": 0, "time": 0.0}
+          )
+
+          for tc in tree.iter("testcase"):
+              classname = tc.attrib.get("classname", "")
+              m = re.match(r"tests_webapi\.([^.]+)\.", classname)
+              module = m.group(1) if m else "(other)"
+              s = stats[module]
+              s["total"] += 1
+              try:
+                  s["time"] += float(tc.attrib.get("time") or 0)
+              except ValueError:
+                  pass
+              if tc.find("failure") is not None:
+                  s["failed"] += 1
+              elif tc.find("error") is not None:
+                  s["errored"] += 1
+              elif tc.find("skipped") is not None:
+                  s["skipped"] += 1
+              else:
+                  s["passed"] += 1
+
+          lines = [
+              "## WebAPI tests — per-module breakdown",
+              "",
+              "| Module | Total | Passed | Failed | Errored | Skipped | Time |",
+              "|---|---:|---:|---:|---:|---:|---:|",
+          ]
+          totals = {"total": 0, "passed": 0, "failed": 0, "errored": 0, "skipped": 0, "time": 0.0}
+          for module in sorted(stats):
+              s = stats[module]
+              for k in totals:
+                  totals[k] += s[k]
+              lines.append(
+                  f"| `{module}` | {s['total']} | {s['passed']} | {s['failed']} | "
+                  f"{s['errored']} | {s['skipped']} | {s['time']:.1f}s |"
+              )
+          lines.append(
+              f"| **Total** | **{totals['total']}** | **{totals['passed']}** | "
+              f"**{totals['failed']}** | **{totals['errored']}** | "
+              f"**{totals['skipped']}** | **{totals['time']:.1f}s** |"
+          )
+          lines.append("")
+
+          output = "\n".join(lines)
+          summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
+          if summary_path:
+              with open(summary_path, "a", encoding="utf-8") as f:
+                  f.write(output + "\n")
+          print(output)
+          PYEOF
+
       # ──────────────────────────────────────────────
       # 7. Diagnostics on failure
       # ──────────────────────────────────────────────
