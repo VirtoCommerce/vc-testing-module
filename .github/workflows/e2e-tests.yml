@@ -95,7 +95,6 @@ jobs:
         run: |
           mkdir -p report
           [ -d allure-report ] && mv allure-report report/ || echo "no allure-report"
-          [ -d playwright-report ] && mv playwright-report report/ || echo "no playwright-report"
           [ -d test-results ] && mv test-results report/ || echo "no test-results"
           [ -f e2e-junit.xml ] && mv e2e-junit.xml report/ || echo "no junit.xml"
 
@@ -129,7 +128,6 @@ jobs:
           | `index.html` | Landing page — double-click to open the standalone Allure report. |
           | `allure-report/complete.html` | Standalone single-file Allure report with all JS/CSS/JSON inlined. Works from a local `file://` path — no HTTP server needed. |
           | `allure-report/` (the rest) | Original multi-file Allure report. Needs an HTTP server (`python -m http.server` from this folder, or `allure open allure-report/`). |
-          | `playwright-report/` | Playwright's own HTML report. Open `playwright-report/index.html` (needs HTTP server). |
           | `test-results/` | Playwright trace zips per failed test (from `--tracing=retain-on-failure`). Open with `playwright show-trace <file>.zip` or at [trace.playwright.dev](https://trace.playwright.dev). |
           | `e2e-junit.xml` | JUnit XML — for programmatic consumption (IDE integrations, other dashboards). |
 
