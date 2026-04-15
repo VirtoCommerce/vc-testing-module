@@ -24,13 +24,58 @@ from webapi_operations.catalog.catalog_operations import CatalogOperations
 
 @pytest.mark.webapi
 @allure.feature("Catalog / Catalogs (WebAPI)")
-@allure.title("Create catalog")
+@allure.title("Create catalog — physical with default language")
 def test_catalog_create(make_catalog):
     with allure.step("POST /api/catalog/catalogs"):
         catalog = make_catalog()
 
+    with allure.step("Verify response contains expected fields"):
+        assert catalog["id"], "Catalog id missing from create response"
+        assert catalog["name"].startswith("QACatalog_"), f"Unexpected name: {catalog['name']}"
+        assert catalog["isVirtual"] is False, f"Expected isVirtual=False, got {catalog['isVirtual']}"
+
+    with allure.step("Verify default language is set"):
+        languages = catalog.get("languages", [])
+        assert len(languages) >= 1, f"Expected at least 1 language, got {len(languages)}"
+        default_langs = [lang for lang in languages if lang.get("isDefault")]
+        assert len(default_langs) == 1, f"Expected exactly 1 default language, got {len(default_langs)}"
+        assert (
+            default_langs[0]["languageCode"] == "en-US"
+        ), f"Expected default language 'en-US', got '{default_langs[0]['languageCode']}'"
+
+
+@pytest.mark.webapi
+@allure.feature("Catalog / Catalogs (WebAPI)")
+@allure.title("Create catalog — virtual")
+def test_catalog_create_virtual(make_catalog, catalog_operations: CatalogOperations):
+    custom_name = f"QACatalog_Virtual_{uuid.uuid4().hex[:8]}"
+
+    with allure.step(f"POST /api/catalog/catalogs — isVirtual=True, name={custom_name}"):
+        catalog = make_catalog(name=custom_name, isVirtual=True)
+
+    with allure.step("Verify virtual catalog response"):
+        assert catalog["id"], "Catalog id missing from create response"
+        assert catalog["name"] == custom_name, f"Expected name '{custom_name}', got '{catalog['name']}'"
+        assert catalog["isVirtual"] is True, f"Expected isVirtual=True, got {catalog['isVirtual']}"
+
+    with allure.step("Verify virtual catalog is searchable"):
+        search = catalog_operations.search(keyword=custom_name)
+        found = next((r for r in search.get("results", []) if r["id"] == catalog["id"]), None)
+        assert found is not None, f"Virtual catalog {catalog['id']} not found in search results"
+        assert found["isVirtual"] is True, "Search result isVirtual should be True"
+
+
+@pytest.mark.webapi
+@allure.feature("Catalog / Catalogs (WebAPI)")
+@allure.title("Create catalog — with custom name")
+def test_catalog_create_with_custom_name(make_catalog):
+    custom_name = f"QACatalog_Custom_{uuid.uuid4().hex[:8]}"
+
+    with allure.step(f"POST /api/catalog/catalogs — name={custom_name}"):
+        catalog = make_catalog(name=custom_name)
+
     assert catalog["id"], "Catalog id missing from create response"
-    assert catalog["name"].startswith("QACatalog_"), f"Unexpected name: {catalog['name']}"
+    assert catalog["name"] == custom_name, f"Expected exact name '{custom_name}', got '{catalog['name']}'"
 
 
 @pytest.mark.webapi
@@ -79,5 +124,5 @@ def test_catalog_delete(make_catalog, catalog_operations: CatalogOperations):
         ids = [r["id"] for r in search.get("results", [])]
         assert catalog["id"] not in ids, "Catalog still present after DELETE"
 
-    # Remove from factory's cleanup list — it's already gone.
-    # (Safe even if we don't: factory's delete swallows errors.)
+    # Factory teardown will attempt to delete this catalog again and silently
+    # swallow the error — no manual removal from the cleanup list is needed.

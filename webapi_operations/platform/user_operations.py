@@ -60,6 +60,15 @@ class UserOperations:
         """GET /api/platform/security/users/{userName}."""
         return self.client.get(f"{self.BASE}/{user_name}")
 
+    def update(self, user: dict, **overrides: Any) -> dict:
+        """PUT /api/platform/security/users — update user fields.
+
+        Pass the full user dict returned by `get_by_name` or `search`, plus
+        any fields to override. Returns the updated user object.
+        """
+        payload = {**user, **overrides}
+        return self.client.put(self.BASE, data=payload)
+
     def delete(self, *user_names: str) -> dict:
         """DELETE /api/platform/security/users?names=name1&names=name2."""
         return self.client.delete(self.BASE, params={"names": list(user_names)})

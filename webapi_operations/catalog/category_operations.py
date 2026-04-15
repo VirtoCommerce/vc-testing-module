@@ -15,6 +15,7 @@ class CategoryOperations:
     """Operations on /api/catalog/categories."""
 
     BASE = "/api/catalog/categories"
+    LIST_ENTRIES = "/api/catalog/listentries"
     LIST_ENTRIES_DELETE = "/api/catalog/listentries/delete"
 
     def __init__(self, client: WebAPISession) -> None:
@@ -39,6 +40,30 @@ class CategoryOperations:
         """POST /api/catalog/categories (same endpoint as create; `id` field triggers update)."""
         payload = {**CATEGORY_TEMPLATE, **category, **overrides}
         return self.client.post(self.BASE, data=payload)
+
+    def search(
+        self,
+        *,
+        catalog_id: str,
+        keyword: str | None = None,
+        skip: int = 0,
+        take: int = 20,
+        **extra: Any,
+    ) -> dict:
+        """POST /api/catalog/listentries — search categories within a catalog.
+
+        Returns {"listEntries": [...], "totalCount": N}.
+        """
+        payload: dict[str, Any] = {
+            "catalogId": catalog_id,
+            "responseGroup": "withCategories",
+            "skip": skip,
+            "take": take,
+            **extra,
+        }
+        if keyword is not None:
+            payload["keyword"] = keyword
+        return self.client.post(self.LIST_ENTRIES, data=payload)
 
     def delete(self, category_id: str) -> None:
         """POST /api/catalog/listentries/delete with category id in objectIds."""

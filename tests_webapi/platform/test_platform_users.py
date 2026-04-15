@@ -74,6 +74,26 @@ def test_user_search(make_user, user_operations: UserOperations):
 
 @pytest.mark.webapi
 @allure.feature("Platform / Users (WebAPI)")
+@allure.title("Update user — change email")
+def test_user_update(make_user, user_operations: UserOperations):
+    user = make_user()
+    user_name = user["user_name"]
+
+    with allure.step(f"GET /api/platform/security/users/{user_name}"):
+        full_user = user_operations.get_by_name(user_name)
+
+    new_email = f"updated_{user['email']}"
+
+    with allure.step(f"PUT /api/platform/security/users — email={new_email}"):
+        user_operations.update(full_user, email=new_email)
+
+    with allure.step("Verify email updated via GET"):
+        reloaded = user_operations.get_by_name(user_name)
+        assert reloaded["email"] == new_email, f"Expected email {new_email}, got {reloaded['email']}"
+
+
+@pytest.mark.webapi
+@allure.feature("Platform / Users (WebAPI)")
 @allure.title("Delete user")
 def test_user_delete(make_user, user_operations: UserOperations):
     user = make_user()

@@ -66,6 +66,23 @@ def test_category_get_by_id(make_category, category_operations: CategoryOperatio
 
 @pytest.mark.webapi
 @allure.feature("Catalog / Categories (WebAPI)")
+@allure.title("Search category — list entries within catalog")
+def test_category_search(make_category, category_operations: CategoryOperations):
+    category = make_category()
+
+    with allure.step(f"POST /api/catalog/listentries — catalogId={category['catalogId']}"):
+        search = category_operations.search(catalog_id=category["catalogId"])
+
+    with allure.step("Verify created category appears in results"):
+        assert search.get("totalCount", 0) >= 1, "Expected at least one result"
+        entries = search.get("listEntries", [])
+        found = next((e for e in entries if e["id"] == category["id"]), None)
+        assert found is not None, f"Created category {category['id']} not in search results"
+        assert found["name"] == category["name"], f"Expected {category['name']}, got {found['name']}"
+
+
+@pytest.mark.webapi
+@allure.feature("Catalog / Categories (WebAPI)")
 @allure.title("Delete category")
 def test_category_delete(make_category, category_operations: CategoryOperations):
     category = make_category()
