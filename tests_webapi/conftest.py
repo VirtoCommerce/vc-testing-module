@@ -1,9 +1,9 @@
 """Shared fixtures for the WebAPI test suite.
 
 Currently:
-- `har_recorder` (autouse): captures every HTTP request/response during a test;
-  on failure, attaches a HAR 1.2 file to the Allure report for debugging. Auth
-  headers and cookies are redacted before serialization.
+- `har_recorder` (autouse): captures every HTTP request/response during a test
+  and attaches a HAR 1.2 file to the Allure report for every test (passed or
+  failed). Auth headers and cookies are redacted before serialization.
 """
 
 import allure
@@ -15,10 +15,12 @@ from fixtures.webapi_client import WebAPISession
 
 @pytest.fixture(autouse=True)
 def har_recorder(request, webapi_client: WebAPISession):
-    """Record every webapi_client HTTP call for the duration of a test.
+    """Record every webapi_client HTTP call for the duration of a test and
+    attach the HAR 1.2 file to Allure.
 
-    On failure, serialize to HAR 1.2 and attach to Allure. On pass, discard
-    silently to keep the report clean.
+    Attaches on both pass and fail so the Allure report has a full network
+    trace for every test — useful for auditing happy-path traffic and for
+    debugging tests that pass but behave unexpectedly.
     """
     recorder = HARRecorder()
     webapi_client.hooks["response"].append(recorder.hook)
@@ -30,8 +32,7 @@ def har_recorder(request, webapi_client: WebAPISession):
         except ValueError:
             pass  # hook already gone — don't fail teardown
 
-        rep_call = getattr(request.node, "rep_call", None)
-        if rep_call and rep_call.failed and recorder.has_entries():
+        if recorder.has_entries():
             allure.attach(
                 recorder.serialize(),
                 name=f"{request.node.name}.har",

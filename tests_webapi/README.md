@@ -193,17 +193,17 @@ Rules:
 - **One factory per entity type per module.** If two modules need the same entity,
   promote the factory to `tests_webapi/conftest.py`.
 
-## HAR capture on failure
+## HAR capture
 
 Every test in `tests_webapi/` gets an autouse fixture (`har_recorder` in
 [tests_webapi/conftest.py](conftest.py)) that records every HTTP
-request/response made through `webapi_client` during the test. On failure, the
-capture is serialized to a HAR 1.2 file and attached to the Allure report.
+request/response made through `webapi_client` during the test. The capture is
+serialized to a HAR 1.2 file and attached to the Allure report for **every
+test** — passed or failed.
 
 What you get:
 
-- One `.har` attachment named `<test_name>.har` per failed test. Green tests
-  produce no HAR attachment.
+- One `.har` attachment named `<test_name>.har` per test run.
 - Every request/response captured — including factory-fixture setup
   (`make_catalog` POST) and teardown (`catalog_operations.delete` DELETE).
 - Method, URL, status, timings, request body, response body, all headers.
@@ -215,8 +215,14 @@ Open the HAR in Chrome DevTools (right-click the Network tab → "Import HAR
 file..."), Charles, Fiddler, Paw, or any HAR viewer for a full request/response
 timeline.
 
-If you need to disable HAR for a specific test (e.g., a large response body
-would bloat the report), override the fixture per-test:
+**Report size note.** Always-attach adds ~10-20 KB per test to Allure
+artifacts. At 18 tests that's ~250 KB; at the full migration target of ~362
+tests that's ~5-10 MB. If size ever becomes an issue, restore failure-only
+behavior by wrapping `allure.attach` in a `rep_call.failed` check (see git
+history for `tests_webapi/conftest.py`).
+
+If you need to disable HAR for a specific test (e.g., a huge response body
+would balloon the report), override the fixture per-test:
 
 ```python
 @pytest.fixture
