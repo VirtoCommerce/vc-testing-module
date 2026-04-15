@@ -1,7 +1,7 @@
 # tests_webapi — REST API test suite
 
 Pytest tests for the VirtoCommerce backend admin REST API. Migrated from the legacy
-Katalon `Test Cases/API Coverage/` suite (569 original tests across 17 modules).
+Katalon `Test Cases/API Coverage/` suite (~362 original tests across 17 modules).
 
 ## Layout
 
@@ -213,8 +213,9 @@ What you get:
   replaced with `***REDACTED***` before serialization — safe to attach to bug
   reports.
 
-`har-output/` is gitignored. In CI the whole tree is uploaded as the
-`webapi-har-files-*` workflow artifact alongside the test results.
+`har-output/` is gitignored. In CI the tree is included inside the consolidated
+`webapi-test-results-<run>` workflow artifact under `har-output/`, next to the
+rendered Allure report.
 
 Open the HAR in Chrome DevTools (right-click the Network tab → "Import HAR
 file..."), Charles, Fiddler, Paw, or any HAR viewer for a full request/response

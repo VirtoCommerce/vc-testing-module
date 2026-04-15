@@ -18,6 +18,7 @@ import uuid
 
 import allure
 import pytest
+from requests.exceptions import HTTPError
 
 from webapi_operations.catalog.category_operations import CategoryOperations
 
@@ -91,8 +92,6 @@ def test_category_delete(make_category, category_operations: CategoryOperations)
         category_operations.delete(category["id"])
 
     with allure.step("Verify category no longer returned by GET"):
-        from requests.exceptions import HTTPError
-
         try:
             reloaded = category_operations.get_by_id(category["id"])
         except HTTPError as e:

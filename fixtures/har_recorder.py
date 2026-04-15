@@ -1,12 +1,14 @@
 """HAR 1.2 recorder for WebAPI tests.
 
 Captures every HTTP request/response that flows through `WebAPISession` into a
-HAR 1.2-compliant JSON document. Intended to be installed as a `requests`
-response hook and serialized on test failure for attachment to Allure.
+HAR 1.2-compliant JSON document. Install as a `requests` response hook and
+serialize at the end of each test — the WebAPI autouse fixture writes the HAR
+to `har-output/<module>/<test_name>.har` on disk so the traces are available
+as a workflow artifact without bloating the Allure report.
 
 HAR 1.2 spec: http://www.softwareishard.com/blog/har-12-spec/
 
-Usage (from a pytest fixture):
+Usage (from `tests_webapi/conftest.py`):
 
     recorder = HARRecorder()
     session.hooks["response"].append(recorder.hook)
@@ -14,10 +16,8 @@ Usage (from a pytest fixture):
         yield recorder
     finally:
         session.hooks["response"].remove(recorder.hook)
-        if test_failed and recorder.has_entries():
-            allure.attach(recorder.serialize(), name="...har",
-                          attachment_type=allure.attachment_type.JSON,
-                          extension="har")
+        if recorder.has_entries():
+            Path(out_dir / f"{test_name}.har").write_text(recorder.serialize())
 """
 
 import json

@@ -220,7 +220,6 @@ jobs:
           pytest tests_webapi/ -v -s -m "webapi and not ignore" \
             --junitxml=webapi-junit.xml
 
-  
       - name: Install Allure CLI
         if: always()
         run: |
@@ -241,7 +240,6 @@ jobs:
             echo "::warning::allure-results is empty — skipping report render"
           fi
 
-
       - name: Bundle Allure into single HTML
         if: always()
         working-directory: vc-testing-module
@@ -254,7 +252,6 @@ jobs:
             echo "::warning::allure-report missing — skipping allure-combine"
           fi
 
- 
       - name: Stage consolidated report
         if: always()
         working-directory: vc-testing-module
@@ -310,7 +307,6 @@ jobs:
           if-no-files-found: warn
           retention-days: 30
 
-
       - name: Publish test results summary
         if: always()
         uses: EnricoMi/publish-unit-test-result-action@v2
@@ -319,7 +315,6 @@ jobs:
           check_name: WebAPI Test Results
           comment_mode: always
           report_individual_runs: true
-
 
       - name: Per-module test summary
         if: always()

@@ -19,6 +19,7 @@ import uuid
 
 import allure
 import pytest
+from requests.exceptions import HTTPError
 
 from webapi_operations.catalog.product_operations import ProductOperations
 
@@ -77,8 +78,6 @@ def test_product_delete(make_product, product_operations: ProductOperations):
         product_operations.delete(product["id"])
 
     with allure.step("Verify product no longer returned by GET"):
-        from requests.exceptions import HTTPError
-
         try:
             results = product_operations.get_by_ids([product["id"]])
         except HTTPError as e:

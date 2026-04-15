@@ -9,19 +9,16 @@ Originals:
 
 Key differences from Katalon:
 - Each test creates its own organization via `make_organization`, cleaned up
-  at teardown (except the legacy address-removal test that touches a dataset org).
-- Unique names via uuid suffix (parallel-safe under pytest-xdist).
+  at teardown — parallel-safe under pytest-xdist. No dataset-entity mutation.
+- Unique names via uuid suffix.
 - Auth via Bearer token (password grant) instead of the `api_key` header.
 """
 
 import uuid
-from typing import Any
 
 import allure
 import pytest
 
-from fixtures.auth import Auth
-from fixtures.config import Config
 from webapi_operations.contacts.organization_operations import OrganizationOperations
 
 
@@ -107,40 +104,17 @@ def test_organization_delete(make_organization, organization_operations: Organiz
 @pytest.mark.webapi
 @allure.feature("Contacts / Organizations (WebAPI)")
 @allure.title("Update organization — remove addresses")
-def test_update_members_remove_addresses(
-    organization_operations: OrganizationOperations,
-    config: Config,
-    auth: Auth,
-    dataset: dict[str, Any],
-):
-    with allure.step("Authenticate as admin"):
-        auth.authenticate(
-            config["ADMIN_USERNAME"],
-            config["ADMIN_PASSWORD"],
-        )
+def test_update_members_remove_addresses(make_organization, organization_operations: OrganizationOperations):
+    # ORGANIZATION_TEMPLATE seeds one address, so a fresh org is enough to
+    # exercise address removal without touching the shared dataset.
+    org = make_organization()
+    assert org.get("addresses"), "Fresh org should have at least one address from the template"
 
-    organization_id = dataset["organizations"][0]["id"]
+    with allure.step("PUT /api/members — addresses=[]"):
+        organization_operations.update(org, addresses=[])
 
-    with allure.step(f"GET /api/members/{organization_id}"):
-        original_org = organization_operations.get_by_id(organization_id)
-        assert original_org is not None, "Organization is None"
-
-    original_addresses = original_org.get("addresses", [])
-
-    try:
-        with allure.step("PUT /api/members — remove addresses"):
-            organization_operations.update(original_org, addresses=[])
-
-        with allure.step("Verify addresses were removed"):
-            updated_org = organization_operations.get_by_id(organization_id)
-            assert updated_org is not None, "Updated organization is None"
-            assert (
-                updated_org.get("addresses") == [] or updated_org.get("addresses") is None
-            ), "Addresses were not removed"
-    finally:
-        with allure.step("Restore original addresses"):
-            try:
-                organization_operations.update(original_org, addresses=original_addresses)
-            except Exception:
-                pass
-        auth.clear_token()
+    with allure.step("Verify addresses were removed"):
+        updated = organization_operations.get_by_id(org["id"])
+        assert updated is not None, "Updated organization is None"
+        addresses = updated.get("addresses")
+        assert addresses == [] or addresses is None, f"Addresses were not removed: {addresses}"
