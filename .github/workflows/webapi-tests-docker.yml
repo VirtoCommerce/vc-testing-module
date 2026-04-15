@@ -150,14 +150,27 @@ jobs:
         run: |
           docker compose --project-name virtocommerce up -d
           echo "Waiting for platform to start..."
+          # Drop `curl -f` so an auth-required 401/403 from the admin-only
+          # diagnostics endpoint still counts as "platform responding".
+          # The readiness signal we want is "ASP.NET pipeline is listening",
+          # not "HTTP 200 OK" — with `-f`, every run wasted the full 30
+          # attempts (≈5 min) because the endpoint requires auth and curl
+          # treated every successful response as a failure.
           for i in $(seq 1 30); do
-            if curl -sf http://localhost:8090/api/platform/diagnostics/systeminfo > /dev/null 2>&1; then
-              echo "Platform is ready!"
+            http_code=$(curl -s --connect-timeout 3 --max-time 5 \
+              -o /dev/null -w '%{http_code}' \
+              http://localhost:8090/api/platform/diagnostics/systeminfo || echo "000")
+            if [ "$http_code" != "000" ]; then
+              echo "Platform is ready! (HTTP $http_code after $i attempt(s))"
               break
             fi
             echo "Attempt $i/30..."
             sleep 10
           done
+          if [ "$http_code" = "000" ]; then
+            echo "::error::Platform did not respond within 5 minutes"
+            exit 1
+          fi
 
       # ──────────────────────────────────────────────
       # 3. Prepare platform — reset admin password to match .env
