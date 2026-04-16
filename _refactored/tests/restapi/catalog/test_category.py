@@ -71,6 +71,19 @@ def test_category_search(make_category, category_ops: CategoryOperations):
 
 @pytest.mark.restapi
 @allure.feature("Catalog / Categories (REST API)")
+@allure.title("Get new category template for catalog")
+def test_category_get_template(make_catalog, category_ops: CategoryOperations):
+    catalog = make_catalog()
+
+    with allure.step(f"GET /api/catalog/{catalog['id']}/categories/newcategory"):
+        template = category_ops.get_new_template(catalog["id"])
+
+    with allure.step("Verify template has Category SEO type"):
+        assert template.get("seoObjectType") == "Category"
+
+
+@pytest.mark.restapi
+@allure.feature("Catalog / Categories (REST API)")
 @allure.title("Delete category")
 def test_category_delete(make_category, category_ops: CategoryOperations):
     category = make_category()
