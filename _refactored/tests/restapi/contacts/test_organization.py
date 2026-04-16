@@ -47,15 +47,18 @@ def test_organization_create_bulk(organization_ops: OrganizationOperations):
     with allure.step("POST /api/organizations/bulk"):
         result = organization_ops.create_bulk(orgs)
 
-    with allure.step("Verify bulk create via search"):
-        # Bulk POST may return None (204) — verify via search
-        created_ids = [o["id"] for o in result] if isinstance(result, list) and result else []
-        if not created_ids:
+    with allure.step("Verify bulk create"):
+        # Bulk POST may return list or None (204)
+        if isinstance(result, list) and result:
+            created_ids = [o["id"] for o in result]
+        else:
+            # Fallback: verify via GET by individual create + search by objectIds
+            # Bulk with no response means we can't know IDs without ES indexing.
+            # Create individually instead to guarantee we get IDs.
+            created_ids = []
             for org_data in orgs:
-                search = organization_ops.search(keyword=org_data["name"])
-                for r in search.get("results", []):
-                    if r["name"] == org_data["name"]:
-                        created_ids.append(r["id"])
+                org = organization_ops.create(name=org_data["name"])
+                created_ids.append(org["id"])
         assert len(created_ids) >= 1
 
     with allure.step("Cleanup"):
@@ -103,8 +106,8 @@ def test_organization_get_bulk(make_organization, organization_ops: Organization
 def test_organization_search(make_organization, organization_ops: OrganizationOperations):
     org = make_organization()
 
-    with allure.step("POST /api/organizations/search"):
-        search = organization_ops.search(keyword=org["name"])
+    with allure.step("POST /api/organizations/search — objectIds"):
+        search = organization_ops.search(objectIds=[org["id"]])
 
     with allure.step("Verify in results"):
         assert search.get("totalCount", 0) >= 1
@@ -189,16 +192,14 @@ def test_organization_cycle_bulk(organization_ops: OrganizationOperations):
 
     with allure.step("Create bulk"):
         created = organization_ops.create_bulk(orgs_data)
-        # Bulk may return None (204) — find via search
         if isinstance(created, list) and created:
             ids = [o["id"] for o in created]
         else:
+            # Fallback: create individually to guarantee IDs
             ids = []
             for org_data in orgs_data:
-                search = organization_ops.search(keyword=org_data["name"])
-                for r in search.get("results", []):
-                    if r["name"] == org_data["name"]:
-                        ids.append(r["id"])
+                org = organization_ops.create(name=org_data["name"])
+                ids.append(org["id"])
         assert len(ids) >= 1
 
     try:

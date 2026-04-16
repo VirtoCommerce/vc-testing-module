@@ -124,8 +124,8 @@ def test_member_get_by_ids_group(make_member, member_ops: MemberOperations):
 def test_member_search(make_member, member_ops: MemberOperations):
     member = make_member()
 
-    with allure.step("POST /api/members/search"):
-        search = member_ops.search(keyword=member["name"])
+    with allure.step("POST /api/members/search — objectIds"):
+        search = member_ops.search(objectIds=[member["id"]])
 
     with allure.step("Verify in results"):
         assert search.get("totalCount", 0) >= 1
