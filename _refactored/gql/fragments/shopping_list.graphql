@@ -1,0 +1,19 @@
+fragment ShoppingListFragment on WishlistType {
+  id
+  name
+  storeId
+  customerId
+  customerName
+  items {
+    ...WishlistLineItemFragment
+  }
+  itemsCount
+  description
+  subTotal {
+    ...MoneyFragment
+  }
+  sharingSetting {
+    id
+    scope
+  }
+}

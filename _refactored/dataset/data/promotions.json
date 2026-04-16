@@ -1,0 +1,180 @@
+{
+    "method": "POST",
+    "endpoint": "/api/marketing/promotions",
+    "payload_type": "single",
+    "priority": 18,
+    "data": [
+        {
+            "id": "promotion-acme-50-off-for-hp-omen-transcend-14",
+            "name": "$50 off for HP Omen Transcend 14",
+            "type": "DynamicPromotion",
+            "isActive": true,
+            "storeIds": [
+                "store-acme"
+            ],
+            "dynamicExpression": {
+                "all": true,
+                "not": false,
+                "id": "PromotionConditionAndRewardTree",
+                "children": [
+                    {
+                        "id": "BlockCustomerCondition",
+                        "children": [
+                            {
+                                "id": "ConditionIsEveryone"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "BlockCatalogCondition",
+                        "children": [
+                            {
+                                "id": "ConditionEntryIs",
+                                "productIds": [
+                                    "product-acme-laptop-hp-omen-transcend-14"
+                                ],
+                                "productNames": [
+                                    "HP Omen Transcend 14"
+                                ],
+                                "productCodes": [
+                                    "product-acme-laptop-hp-omen-transcend-14"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "id": "BlockReward",
+                        "children": [
+                            {
+                                "id": "RewardItemGetOfAbs",
+                                "amount": 50
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "id": "promotion-acme-100-off-for-cart-subtotal",
+            "name": "$100 off for cart subtotal",
+            "type": "DynamicPromotion",
+            "isActive": true,
+            "storeIds": [
+                "store-acme"
+            ],
+            "dynamicExpression": {
+                "all": true,
+                "not": false,
+                "id": "PromotionConditionAndRewardTree",
+                "children": [
+                    {
+                        "id": "BlockCustomerCondition",
+                        "children": [
+                            {
+                                "id": "ConditionIsEveryone"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "BlockCartCondition",
+                        "children": [
+                            {
+                                "id": "ConditionCartSubtotalLeast",
+                                "subTotal": 4000.00,
+                                "compareCondition": "AtLeast"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "BlockReward",
+                        "children": [
+                            {
+                                "id": "RewardItemGetOfAbs",
+                                "amount": 100
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "id": "promotion-acme-100-off-for-cart-subtotal-by-coupon",
+            "name": "$100 off for cart subtotal by coupon",
+            "type": "DynamicPromotion",
+            "isActive": true,
+            "storeIds": [
+                "store-acme"
+            ],
+            "dynamicExpression": {
+                "all": true,
+                "not": false,
+                "id": "PromotionConditionAndRewardTree",
+                "children": [
+                    {
+                        "id": "BlockCustomerCondition",
+                        "children": [
+                            {
+                                "id": "ConditionIsEveryone"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "BlockReward",
+                        "children": [
+                            {
+                                "id": "RewardCartGetOfAbsSubtotal",
+                                "amount": 100
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "id": "promotion-acme-gift-for-20-cart-items",
+            "name": "Gift for 20 cart items",
+            "type": "DynamicPromotion",
+            "isActive": true,
+            "storeIds": [
+                "store-acme"
+            ],
+            "dynamicExpression": {
+                "all": true,
+                "not": false,
+                "id": "PromotionConditionAndRewardTree",
+                "children": [
+                    {
+                        "id": "BlockCustomerCondition",
+                        "children": [
+                            {
+                                "id": "ConditionIsEveryone"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "BlockCartCondition",
+                        "children": [
+                            {
+                                "id": "ConditionAtNumItemsInCart",
+                                "numItem": 20,
+                                "compareCondition": "AtLeast"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "BlockReward",
+                        "children": [
+                            {
+                                "id": "RewardItemGiftNumItem",
+                                "productId": "product-acme-laptop-lenovo-ideapad-5i",
+                                "productCode": "product-acme-laptop-lenovo-ideapad-5i",
+                                "productName": "Lenovo Ideapad 5i",
+                                "quantity": "1"
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    ]
+}

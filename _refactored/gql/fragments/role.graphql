@@ -1,0 +1,5 @@
+fragment RoleFragment on RoleType {
+  id
+  name
+  normalizedName
+}

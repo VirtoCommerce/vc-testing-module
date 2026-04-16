@@ -1,0 +1,21 @@
+fragment StoreInfoFragment on StoreResponseType {
+  storeId
+  storeName
+  catalogId
+  storeUrl
+  defaultLanguage {
+    ...LanguageFragment
+  }
+  availableLanguages {
+    ...LanguageFragment
+  }
+  defaultCurrency {
+    ...CurrencyFragment
+  }
+  availableCurrencies {
+    ...CurrencyFragment
+  }
+  settings {
+    ...StoreSettingsFragment
+  }
+}

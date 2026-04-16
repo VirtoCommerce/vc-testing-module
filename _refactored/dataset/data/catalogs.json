@@ -1,0 +1,20 @@
+{
+    "method": "POST",
+    "endpoint": "/api/catalog/catalogs",
+    "payload_type": "single",
+    "priority": 6,
+    "data": [
+        {
+            "id": "catalog-acme",
+            "name": "ACME Catalog",
+            "isVirtual": false,
+            "languages": [
+                {
+                    "languageCode": "en-US",
+                    "isActive": true,
+                    "isDefault": true
+                }
+            ]
+        }
+    ]
+}
