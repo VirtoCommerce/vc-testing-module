@@ -18,6 +18,9 @@ class CategoryOperations(RestBaseOperations):
     def get_by_id(self, category_id: str) -> dict:
         return self._client.get(self._url(f"{self.PATH}/{category_id}"))
 
+    def get_new_template(self, catalog_id: str) -> dict:
+        return self._client.get(self._url(f"/api/catalog/{catalog_id}/categories/newcategory"))
+
     def update(self, category: dict, **overrides: Any) -> dict:
         payload = {**CATEGORY_TEMPLATE, **category, **overrides}
         return self._client.post(self._url(self.PATH), json=payload)
@@ -34,6 +37,17 @@ class CategoryOperations(RestBaseOperations):
         }
         if keyword is not None:
             payload["keyword"] = keyword
+        return self._client.post(self._url(self.LIST_ENTRIES), json=payload)
+
+    def search_listentries_by_phrase(self, *, search_phrase: str, skip: int = 0, take: int = 50) -> dict:
+        payload = {
+            "searchPhrase": search_phrase,
+            "searchInVariations": False,
+            "responseGroup": "withCategories, withProducts",
+            "sort": "",
+            "skip": skip,
+            "take": take,
+        }
         return self._client.post(self._url(self.LIST_ENTRIES), json=payload)
 
     def delete(self, category_id: str) -> None:

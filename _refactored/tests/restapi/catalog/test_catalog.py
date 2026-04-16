@@ -5,7 +5,7 @@ import uuid
 import allure
 import pytest
 
-from restapi.operations import CatalogOperations
+from restapi.operations import CatalogOperations, CategoryOperations
 
 
 @pytest.mark.restapi
@@ -88,3 +88,25 @@ def test_catalog_delete(make_catalog, catalog_ops: CatalogOperations):
         search = catalog_ops.search(keyword=catalog["name"])
         ids = [r["id"] for r in search.get("results", [])]
         assert catalog["id"] not in ids
+
+
+@pytest.mark.restapi
+@allure.feature("Catalog / Catalogs (REST API)")
+@allure.title("Search listentries within catalog")
+def test_catalog_listentries_search(make_product, category_ops: CategoryOperations):
+    product = make_product()
+
+    with allure.step(
+        f"POST /api/catalog/listentries — catalogId={product['catalogId']} categoryId={product['categoryId']}"
+    ):
+        result = category_ops.search(
+            catalog_id=product["catalogId"],
+            categoryId=product["categoryId"],
+            responseGroup="withCategories, withProducts",
+            take=200,
+        )
+
+    with allure.step("Verify product appears in listentries results"):
+        entries = result.get("listEntries") or result.get("results") or []
+        ids = [e.get("id") for e in entries]
+        assert product["id"] in ids, f"Product {product['id']} not in listentries: {ids}"

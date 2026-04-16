@@ -9,6 +9,7 @@ from restapi.operations.base import RestBaseOperations
 class ProductOperations(RestBaseOperations):
     PATH = "/api/catalog/products"
     LIST_ENTRIES_DELETE = "/api/catalog/listentries/delete"
+    LIST_ENTRIES_MOVE = "/api/catalog/listentries/move"
 
     def create(self, *, catalog_id: str, category_id: str, name: str, code: str, **overrides: Any) -> dict:
         payload = {
@@ -33,6 +34,16 @@ class ProductOperations(RestBaseOperations):
     def update(self, product: dict, **overrides: Any) -> dict:
         payload = {**PRODUCT_TEMPLATE, **product, **overrides}
         return self._client.post(self._url(self.PATH), json=payload)
+
+    def create_or_update_with_body(self, body: dict) -> dict:
+        return self._client.post(self._url(self.PATH), json=body)
+
+    def get_clone(self, product_id: str) -> dict:
+        return self._client.get(self._url(f"{self.PATH}/{product_id}/clone"))
+
+    def move(self, *, target_catalog_id: str, list_entries: list[dict]) -> None:
+        payload = {"catalog": target_catalog_id, "listEntries": list_entries}
+        self._client.post(self._url(self.LIST_ENTRIES_MOVE), json=payload)
 
     def delete(self, product_id: str) -> None:
         self._client.post(self._url(self.LIST_ENTRIES_DELETE), json={"objectIds": [product_id]})
