@@ -114,12 +114,24 @@ def har_recorder(request: pytest.FixtureRequest) -> Generator[HARRecorder, None,
             pass
 
     if recorder.has_entries():
+        har_json = recorder.serialize()
+
+        # Write to disk (har-output/<suite>/<test>.har) for the workflow artifact
         root_dir = Path(request.config.rootpath)
         module = _har_module(Path(request.node.path))
         out_dir = root_dir / "har-output" / module
         out_dir.mkdir(parents=True, exist_ok=True)
         safe_name = _INVALID_FILENAME_CHARS.sub("_", request.node.name)
-        (out_dir / f"{safe_name}.har").write_text(recorder.serialize(), encoding="utf-8")
+        (out_dir / f"{safe_name}.har").write_text(har_json, encoding="utf-8")
+
+        # Attach to Allure so users can download directly from the test report.
+        # Raw MIME string (not the enum) lets the explicit extension="har" stick.
+        allure.attach(
+            har_json,
+            name=f"{request.node.name}.har",
+            attachment_type="application/json",
+            extension="har",
+        )
 
 
 @pytest.fixture(scope="session")
