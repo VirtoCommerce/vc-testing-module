@@ -11,14 +11,15 @@ class RoleOperations(RestBaseOperations):
     def create(
         self, *, name: str, description: str = "", permissions: list[dict] | None = None, **overrides: Any
     ) -> dict:
-        """POST /api/platform/security/roles."""
+        """PUT /api/platform/security/roles → returns {succeeded}, then GET by name for the full object."""
         payload: dict[str, Any] = {
             "name": name,
             "description": description,
             "permissions": permissions or [],
             **overrides,
         }
-        return self._client.post(self._url(self.PATH), json=payload)
+        self._client.put(self._url(self.PATH), json=payload)
+        return self.get_by_name(name)
 
     def get_by_name(self, role_name: str) -> dict:
         """GET /api/platform/security/roles/{roleName}."""

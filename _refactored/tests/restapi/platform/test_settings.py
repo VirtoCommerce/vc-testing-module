@@ -93,18 +93,19 @@ def test_settings_update_blacklist(settings_ops: SettingsOperations):
 
     with allure.step("Read current blacklist"):
         original = settings_ops.get_by_name(setting_name)
-        original_value = original.get("value", "")
+        original_allowed = original.get("allowedValues", []) or []
 
     test_ext = ".qatest"
 
     try:
         with allure.step(f"POST /api/platform/settings — append {test_ext}"):
-            new_value = f"{original_value}, {test_ext}" if original_value else test_ext
-            settings_ops.update([{**original, "value": new_value}])
+            new_allowed = original_allowed + [test_ext]
+            settings_ops.update([{**original, "allowedValues": new_allowed}])
 
         with allure.step("Verify extension added"):
             updated = settings_ops.get_by_name(setting_name)
-            assert test_ext in str(updated.get("value", ""))
+            updated_allowed = updated.get("allowedValues", []) or []
+            assert test_ext in updated_allowed
     finally:
         with allure.step("Restore original blacklist"):
-            settings_ops.update([{**original, "value": original_value}])
+            settings_ops.update([{**original, "allowedValues": original_allowed}])

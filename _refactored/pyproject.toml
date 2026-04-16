@@ -23,6 +23,7 @@ markers = [
     "graphql: GraphQL API tests",
     "e2e: end-to-end UI tests using Playwright (require a running frontend)",
     "restapi: REST API admin endpoint tests",
+    "serial: test mutates global platform state and must not run in parallel",
     "with_user(username): sign in as the given user for this test",
     "with_cart(items): seed a cart with the given list of (productId, quantity) pairs",
     "delete_cart_after: delete the user's cart at teardown (reads localStorage for e2e tests)",

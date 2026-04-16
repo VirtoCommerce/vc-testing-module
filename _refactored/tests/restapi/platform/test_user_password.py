@@ -16,11 +16,10 @@ from restapi.operations import UserOperations
 @allure.title("Reset password — admin path")
 def test_user_password_reset_admin(make_user, user_ops: UserOperations, global_settings: GlobalSettings):
     user = make_user()
-    full_user = user_ops.get_by_name(user["user_name"])
     new_password = f"NewPwd!{uuid.uuid4().hex[:8]}"
 
-    with allure.step(f"POST /api/platform/security/users/{full_user['id']}/resetpassword"):
-        result = user_ops.reset_password(full_user["id"], new_password)
+    with allure.step(f"POST /api/platform/security/users/{user['user_name']}/resetpassword"):
+        result = user_ops.reset_password(user["user_name"], new_password)
 
     with allure.step("Verify succeeded"):
         assert result.get("succeeded") is True
