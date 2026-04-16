@@ -10,6 +10,7 @@ dependencies = [
     "pydantic-settings==2.13.1",
     "pytest==9.0.2",
     "pytest-playwright==0.7.2",
+    "pytest-retry==1.6.3",
     "requests==2.32.5",
     "rich==14.3.3",
 ]
@@ -17,6 +18,7 @@ dependencies = [
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]
+addopts = "--retries=1 --alluredir=allure-results"
 markers = [
     "graphql: GraphQL API tests",
     "e2e: end-to-end UI tests using Playwright (require a running frontend)",

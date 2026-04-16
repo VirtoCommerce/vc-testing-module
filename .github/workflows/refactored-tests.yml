@@ -338,12 +338,15 @@ jobs:
       # ──────────────────────────────────────────────
       # 7. Run tests
       # ──────────────────────────────────────────────
+      - name: Clean allure-results
+        working-directory: vc-testing-module/_refactored
+        run: rm -rf allure-results
+
       - name: Run GraphQL tests
         working-directory: vc-testing-module/_refactored
         run: |
           source .venv/bin/activate
           pytest tests/graphql -m "not ignore" -v -s --color=yes \
-            --alluredir=allure-results \
             --junitxml=graphql-junit.xml
 
       - name: Run REST API tests
@@ -352,7 +355,6 @@ jobs:
         run: |
           source .venv/bin/activate
           pytest tests/restapi -m "not ignore" -v -s --color=yes \
-            --alluredir=allure-results \
             --junitxml=restapi-junit.xml
 
       - name: Run E2E tests
@@ -361,7 +363,6 @@ jobs:
         run: |
           source .venv/bin/activate
           pytest tests/e2e -m "not ignore" --browser chromium -v -s --color=yes \
-            --alluredir=allure-results \
             --junitxml=e2e-junit.xml
 
       # ──────────────────────────────────────────────
@@ -405,6 +406,7 @@ jobs:
         run: |
           mkdir -p report
           [ -d allure-report ] && mv allure-report report/ || echo "no allure-report"
+          [ -d har-output ] && mv har-output report/ || echo "no har-output"
           [ -d test-results ] && mv test-results report/ || echo "no test-results"
           [ -d screenshots ] && mv screenshots report/ || echo "no screenshots"
           [ -f graphql-junit.xml ] && mv graphql-junit.xml report/ || echo "no graphql-junit.xml"
@@ -440,8 +442,9 @@ jobs:
           | `index.html` | Landing page — double-click to open the standalone Allure report. |
           | `allure-report/complete.html` | Standalone single-file Allure report (GraphQL + REST API + E2E combined). Works from `file://` — no server needed. |
           | `allure-report/` (the rest) | Original multi-file Allure report. Needs `python -m http.server` or `allure open allure-report/`. |
+          | `har-output/<module>/<test>.har` | Per-test HTTP traces (HAR 1.2) from REST API tests, grouped by module. Import into Chrome DevTools Network tab. Auth headers redacted. |
           | `test-results/` | Playwright trace zips per failed E2E test. Open with `playwright show-trace <file>.zip` or at [trace.playwright.dev](https://trace.playwright.dev). |
-          | `screenshots/` | Failure screenshots from E2E tests. |
+          | `screenshots/` | Full-page screenshots captured on E2E test failure. Attached to Allure report automatically. |
           | `graphql-junit.xml` | JUnit XML for GraphQL tests. |
           | `restapi-junit.xml` | JUnit XML for REST API tests. |
           | `e2e-junit.xml` | JUnit XML for E2E tests. |

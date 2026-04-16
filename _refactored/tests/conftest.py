@@ -1,6 +1,9 @@
+import os
 from typing import Any, Generator
 
+import allure
 import pytest
+from playwright.sync_api import Page
 
 from core.auth import AuthProvider
 from core.clients import GraphQLClient
@@ -24,6 +27,44 @@ def pytest_runtest_setup(item: pytest.Item) -> None:
                 f"Requires {marker_name}='{marker.args[0]}', "
                 f"current config has '{getattr(_global_settings, marker_name)}'"
             )
+
+
+@pytest.hookimpl(tryfirst=True, hookwrapper=True)
+def pytest_runtest_makereport(item: pytest.Item, call: pytest.CallInfo) -> Generator:
+    """Capture test outcome so fixtures can react to failures."""
+    outcome = yield
+    rep = outcome.get_result()
+    setattr(item, f"rep_{rep.when}", rep)
+
+
+@pytest.fixture
+def _page_for_failure(request: pytest.FixtureRequest) -> Page | None:
+    """Grab the Playwright page before it closes, only for tests that use it."""
+    if "page" not in request.fixturenames:
+        return None
+    return request.getfixturevalue("page")
+
+
+@pytest.fixture(autouse=True)
+def screenshot_on_failure(request: pytest.FixtureRequest, _page_for_failure: Page | None) -> Generator:
+    """Take a full-page screenshot when an E2E test fails and attach to Allure."""
+    yield
+
+    rep_call = getattr(request.node, "rep_call", None)
+    if not rep_call or not rep_call.failed or _page_for_failure is None:
+        return
+
+    screenshots_dir = os.path.join("screenshots", "failures")
+    os.makedirs(screenshots_dir, exist_ok=True)
+
+    screenshot_path = os.path.join(screenshots_dir, f"{request.node.name}.png")
+    _page_for_failure.screenshot(path=screenshot_path, full_page=True)
+
+    allure.attach.file(
+        screenshot_path,
+        name=request.node.name,
+        attachment_type=allure.attachment_type.PNG,
+    )
 
 
 @pytest.fixture(scope="session")
@@ -52,17 +93,13 @@ def dataset(dataset_manager: DatasetManager) -> dict[str, list[dict[str, Any]]]:
 
 
 @pytest.fixture
-def graphql_client(
-    with_user: AuthProvider, global_settings: GlobalSettings
-) -> Generator[GraphQLClient, None, None]:
+def graphql_client(with_user: AuthProvider, global_settings: GlobalSettings) -> Generator[GraphQLClient, None, None]:
     with GraphQLClient(auth=with_user, global_settings=global_settings) as client:
         yield client
 
 
 @pytest.fixture
-def with_user(
-    request: pytest.FixtureRequest, global_settings: GlobalSettings
-) -> Generator[AuthProvider, None, None]:
+def with_user(request: pytest.FixtureRequest, global_settings: GlobalSettings) -> Generator[AuthProvider, None, None]:
     provider = AuthProvider(global_settings)
     marker = request.node.get_closest_marker("with_user")
     if marker:
@@ -87,10 +124,7 @@ def with_cart(
     if not marker:
         yield None
         return
-    items = [
-        CartItemInput(product_id=product_id, quantity=quantity)
-        for product_id, quantity in marker.args[0]
-    ]
+    items = [CartItemInput(product_id=product_id, quantity=quantity) for product_id, quantity in marker.args[0]]
     with GraphQLClient(auth=with_user, global_settings=global_settings) as client:
         cart_ops = CartOperations(client)
         cart = cart_ops.add_items_to_cart(
@@ -117,11 +151,7 @@ def delete_cart_after(
     if not request.node.get_closest_marker("delete_cart_after"):
         yield None
         return
-    page = (
-        request.getfixturevalue("page")
-        if request.node.get_closest_marker("e2e")
-        else None
-    )
+    page = request.getfixturevalue("page") if request.node.get_closest_marker("e2e") else None
     yield
     if page is not None:
         user_id: str | None = BrowserStorage(page).get_user_id()
