@@ -48,17 +48,11 @@ def test_organization_create_bulk(organization_ops: OrganizationOperations):
         result = organization_ops.create_bulk(orgs)
 
     with allure.step("Verify bulk create"):
-        # Bulk POST may return list or None (204)
+        # Platform returns 204 (None) instead of created list on some versions
         if isinstance(result, list) and result:
             created_ids = [o["id"] for o in result]
         else:
-            # Fallback: verify via GET by individual create + search by objectIds
-            # Bulk with no response means we can't know IDs without ES indexing.
-            # Create individually instead to guarantee we get IDs.
-            created_ids = []
-            for org_data in orgs:
-                org = organization_ops.create(name=org_data["name"])
-                created_ids.append(org["id"])
+            created_ids = [organization_ops.create(name=o["name"])["id"] for o in orgs]
         assert len(created_ids) >= 1
 
     with allure.step("Cleanup"):
@@ -175,9 +169,8 @@ def test_organization_cycle(organization_ops: OrganizationOperations):
 
     with allure.step("Delete"):
         organization_ops.delete(org["id"])
-        search = organization_ops.search(keyword=new_name)
-        ids = [r["id"] for r in search.get("results", [])]
-        assert org["id"] not in ids
+        search = organization_ops.search(objectIds=[org["id"]])
+        assert search.get("totalCount", 0) == 0
 
 
 @pytest.mark.restapi
@@ -192,14 +185,11 @@ def test_organization_cycle_bulk(organization_ops: OrganizationOperations):
 
     with allure.step("Create bulk"):
         created = organization_ops.create_bulk(orgs_data)
+        # Platform returns 204 (None) instead of created list on some versions
         if isinstance(created, list) and created:
             ids = [o["id"] for o in created]
         else:
-            # Fallback: create individually to guarantee IDs
-            ids = []
-            for org_data in orgs_data:
-                org = organization_ops.create(name=org_data["name"])
-                ids.append(org["id"])
+            ids = [organization_ops.create(name=o["name"])["id"] for o in orgs_data]
         assert len(ids) >= 1
 
     try:
@@ -233,7 +223,5 @@ def test_organization_delete_bulk(organization_ops: OrganizationOperations):
         organization_ops.delete(o1["id"], o2["id"])
 
     with allure.step("Verify deleted"):
-        search = organization_ops.search(keyword=f"QADelBulk")
-        ids = [r["id"] for r in search.get("results", [])]
-        assert o1["id"] not in ids
-        assert o2["id"] not in ids
+        search = organization_ops.search(objectIds=[o1["id"], o2["id"]])
+        assert search.get("totalCount", 0) == 0

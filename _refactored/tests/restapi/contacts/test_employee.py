@@ -94,7 +94,5 @@ def test_employee_delete_bulk(employee_ops: EmployeeOperations):
         employee_ops.delete(e1["id"], e2["id"])
 
     with allure.step("Verify deleted"):
-        search = employee_ops.search(keyword=f"QADelEmp")
-        ids = [r["id"] for r in search.get("results", [])]
-        assert e1["id"] not in ids
-        assert e2["id"] not in ids
+        search = employee_ops.search(objectIds=[e1["id"], e2["id"]])
+        assert search.get("totalCount", 0) == 0
