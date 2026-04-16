@@ -346,6 +346,15 @@ jobs:
             --alluredir=allure-results \
             --junitxml=graphql-junit.xml
 
+      - name: Run REST API tests
+        if: success() || failure()
+        working-directory: vc-testing-module/_refactored
+        run: |
+          source .venv/bin/activate
+          pytest tests/restapi -m "not ignore" -v -s --color=yes \
+            --alluredir=allure-results \
+            --junitxml=restapi-junit.xml
+
       - name: Run E2E tests
         if: success() || failure()
         working-directory: vc-testing-module/_refactored
@@ -399,6 +408,7 @@ jobs:
           [ -d test-results ] && mv test-results report/ || echo "no test-results"
           [ -d screenshots ] && mv screenshots report/ || echo "no screenshots"
           [ -f graphql-junit.xml ] && mv graphql-junit.xml report/ || echo "no graphql-junit.xml"
+          [ -f restapi-junit.xml ] && mv restapi-junit.xml report/ || echo "no restapi-junit.xml"
           [ -f e2e-junit.xml ] && mv e2e-junit.xml report/ || echo "no e2e-junit.xml"
 
           cat > report/index.html << 'HTML'
@@ -428,11 +438,12 @@ jobs:
           | Path | Use it for |
           |---|---|
           | `index.html` | Landing page — double-click to open the standalone Allure report. |
-          | `allure-report/complete.html` | Standalone single-file Allure report (GraphQL + E2E combined). Works from `file://` — no server needed. |
+          | `allure-report/complete.html` | Standalone single-file Allure report (GraphQL + REST API + E2E combined). Works from `file://` — no server needed. |
           | `allure-report/` (the rest) | Original multi-file Allure report. Needs `python -m http.server` or `allure open allure-report/`. |
           | `test-results/` | Playwright trace zips per failed E2E test. Open with `playwright show-trace <file>.zip` or at [trace.playwright.dev](https://trace.playwright.dev). |
           | `screenshots/` | Failure screenshots from E2E tests. |
           | `graphql-junit.xml` | JUnit XML for GraphQL tests. |
+          | `restapi-junit.xml` | JUnit XML for REST API tests. |
           | `e2e-junit.xml` | JUnit XML for E2E tests. |
 
           The same JUnit results drive the per-test PR comment and the per-file breakdown on the run's Summary tab.
@@ -453,6 +464,7 @@ jobs:
         with:
           files: |
             vc-testing-module/_refactored/report/graphql-junit.xml
+            vc-testing-module/_refactored/report/restapi-junit.xml
             vc-testing-module/_refactored/report/e2e-junit.xml
           check_name: Test Results (Refactored)
           comment_mode: always
@@ -472,12 +484,12 @@ jobs:
               lambda: {"total": 0, "passed": 0, "failed": 0, "errored": 0, "skipped": 0, "time": 0.0}
           )
 
-          for xml_name in ["report/graphql-junit.xml", "report/e2e-junit.xml"]:
+          for xml_name in ["report/graphql-junit.xml", "report/restapi-junit.xml", "report/e2e-junit.xml"]:
               xml_path = Path(xml_name)
               if not xml_path.exists():
                   continue
               tree = ET.parse(xml_path)
-              suite_label = "graphql" if "graphql" in xml_name else "e2e"
+              suite_label = "graphql" if "graphql" in xml_name else ("restapi" if "restapi" in xml_name else "e2e")
               for tc in tree.iter("testcase"):
                   classname = tc.attrib.get("classname", "")
                   bucket = classname.rsplit(".", 1)[-1] if classname else "(unknown)"
