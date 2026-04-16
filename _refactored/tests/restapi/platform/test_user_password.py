@@ -87,3 +87,32 @@ def test_user_send_verification_email(make_user, user_ops: UserOperations):
         user_ops.send_verification_email(full_user["id"])
     # No assertion on response body — endpoint returns 204/200 with no content.
     # The test verifies the endpoint doesn't error out.
+
+
+@pytest.mark.restapi
+@allure.feature("Platform / User Password (REST API)")
+@allure.title("Reset password on login page flow")
+def test_user_password_reset_on_login(make_user, user_ops: UserOperations, global_settings: GlobalSettings):
+    """Simulates the forgot-password flow: request reset, then set new password via admin."""
+    user = make_user()
+    full_user = user_ops.get_by_name(user["user_name"])
+    new_password = f"ResetPwd!{uuid.uuid4().hex[:8]}"
+
+    with allure.step("Reset password via admin endpoint"):
+        result = user_ops.reset_password(full_user["id"], new_password)
+        assert result.get("succeeded") is True
+
+    with allure.step("Verify old password no longer works"):
+        response = requests.post(
+            f"{global_settings.backend_base_url}/connect/token",
+            data={"grant_type": "password", "username": user["user_name"], "password": user["password"]},
+            timeout=global_settings.requests_timeout,
+            verify=global_settings.verify_ssl,
+        )
+        assert response.status_code == 400
+
+    with allure.step("Verify new password works"):
+        provider = AuthProvider(global_settings)
+        provider.sign_in(user["user_name"], SecretStr(new_password))
+        assert provider.is_authenticated
+        provider.sign_out()

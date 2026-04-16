@@ -1,5 +1,7 @@
 """User lock/unlock — migrated from Katalon `API Coverage/ModulePlatform/UserLock*`."""
 
+import uuid
+
 import allure
 import pytest
 import requests
@@ -7,7 +9,7 @@ from pydantic import SecretStr
 
 from core.auth import AuthProvider
 from core.global_settings import GlobalSettings
-from restapi.operations import UserOperations
+from restapi.operations import ApiKeyOperations, UserOperations
 
 
 @pytest.mark.restapi
@@ -64,3 +66,28 @@ def test_user_deleted_login_blocked(make_user, user_ops: UserOperations, global_
             verify=global_settings.verify_ssl,
         )
         assert response.status_code == 400
+
+
+@pytest.mark.restapi
+@allure.feature("Platform / User Lock (REST API)")
+@allure.title("Lock user — API key with isActive=false returns 401")
+def test_user_lock_api_key_inactive(make_user, user_ops: UserOperations, api_key_ops, global_settings: GlobalSettings):
+    from restapi.operations import ApiKeyOperations
+
+    user = make_user()
+    full_user = user_ops.get_by_name(user["user_name"])
+
+    api_key_ops_instance: ApiKeyOperations = api_key_ops
+
+    with allure.step("Create API key then deactivate"):
+        key = api_key_ops_instance.create(user_id=full_user["id"], name=f"QAKey_{uuid.uuid4().hex[:6]}")
+        api_key_ops_instance.update(key, isActive=False)
+
+    with allure.step("Verify deactivated key"):
+        keys = api_key_ops_instance.get_by_user_id(full_user["id"])
+        updated = next((k for k in keys if k["id"] == key["id"]), None)
+        assert updated is not None
+        assert updated["isActive"] is False
+
+    with allure.step("Cleanup"):
+        api_key_ops_instance.delete([key["id"]])

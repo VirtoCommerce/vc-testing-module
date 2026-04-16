@@ -81,6 +81,22 @@ def test_role_delete(make_role, role_ops: RoleOperations):
 
 @pytest.mark.restapi
 @allure.feature("Platform / Roles (REST API)")
+@allure.title("Remove permission from role")
+def test_role_remove_permission(make_role, role_ops: RoleOperations):
+    role = make_role(permissions=[{"name": "security:call_api"}, {"name": "cache:reset"}])
+
+    with allure.step("Remove one permission"):
+        role_ops.update(role, permissions=[{"name": "security:call_api"}])
+
+    with allure.step("Verify permission removed"):
+        fetched = role_ops.get_by_name(role["name"])
+        perm_names = [p.get("name") for p in fetched.get("permissions", [])]
+        assert "cache:reset" not in perm_names
+        assert "security:call_api" in perm_names
+
+
+@pytest.mark.restapi
+@allure.feature("Platform / Roles (REST API)")
 @allure.title("Get all permissions")
 def test_role_get_all_permissions(role_ops: RoleOperations):
     with allure.step("GET /api/platform/security/permissions"):

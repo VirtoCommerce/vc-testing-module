@@ -73,3 +73,18 @@ def test_auth_validation_wrong_credentials(global_settings: GlobalSettings):
 
     with allure.step("Verify 400"):
         assert response.status_code == 400
+
+
+@pytest.mark.restapi
+@allure.feature("Platform / Authorization (REST API)")
+@allure.title("Get external sign-in providers")
+def test_auth_external_sign_in_providers(global_settings: GlobalSettings):
+    with allure.step("GET /api/platform/security/externalsigninproviders"):
+        response = requests.get(
+            f"{global_settings.backend_base_url}/api/platform/security/externalsigninproviders",
+            timeout=global_settings.requests_timeout,
+            verify=global_settings.verify_ssl,
+        )
+
+    with allure.step("Verify response"):
+        assert response.status_code == 200
