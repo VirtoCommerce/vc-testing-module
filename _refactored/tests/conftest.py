@@ -61,7 +61,8 @@ def screenshot_on_failure(request: pytest.FixtureRequest, _page_for_failure: Pag
     screenshots_dir = os.path.join("screenshots", "failures")
     os.makedirs(screenshots_dir, exist_ok=True)
 
-    screenshot_path = os.path.join(screenshots_dir, f"{request.node.name}.png")
+    safe_name = _INVALID_FILENAME_CHARS.sub("_", request.node.name)
+    screenshot_path = os.path.join(screenshots_dir, f"{safe_name}.png")
     _page_for_failure.screenshot(path=screenshot_path, full_page=True)
 
     allure.attach.file(
