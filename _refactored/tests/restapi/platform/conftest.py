@@ -11,6 +11,7 @@ from restapi.operations import (
     ApiKeyOperations,
     NotificationsOperations,
     OAuthOperations,
+    RoleOperations,
     SettingsOperations,
     UserOperations,
 )
@@ -34,6 +35,11 @@ def oauth_ops(rest_client: RestClient, backend_base_url: str) -> OAuthOperations
 @pytest.fixture
 def settings_ops(rest_client: RestClient, backend_base_url: str) -> SettingsOperations:
     return SettingsOperations(rest_client, backend_base_url)
+
+
+@pytest.fixture
+def role_ops(rest_client: RestClient, backend_base_url: str) -> RoleOperations:
+    return RoleOperations(rest_client, backend_base_url)
 
 
 @pytest.fixture
@@ -74,6 +80,29 @@ def make_user(
     if created_user_names:
         try:
             user_ops.delete(*created_user_names)
+        except Exception:
+            pass
+
+
+@pytest.fixture
+def make_role(
+    role_ops: RoleOperations,
+) -> Generator[Callable[..., dict], None, None]:
+    """Factory: creates a platform role, cleans up at teardown."""
+    created_ids: list[str] = []
+
+    def _make(**overrides: Any) -> dict:
+        suffix = uuid.uuid4().hex[:8]
+        name = overrides.pop("name", f"QARole_{suffix}")
+        role = role_ops.create(name=name, **overrides)
+        created_ids.append(role["id"])
+        return role
+
+    yield _make
+
+    for rid in created_ids:
+        try:
+            role_ops.delete(rid)
         except Exception:
             pass
 

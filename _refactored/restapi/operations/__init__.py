@@ -1,5 +1,6 @@
 from restapi.operations.api_key_operations import ApiKeyOperations
 from restapi.operations.base import RestBaseOperations
+from restapi.operations.role_operations import RoleOperations
 from restapi.operations.catalog_operations import CatalogOperations
 from restapi.operations.category_operations import CategoryOperations
 from restapi.operations.notifications_operations import NotificationsOperations
@@ -18,6 +19,7 @@ __all__ = [
     "OrganizationOperations",
     "ProductOperations",
     "RestBaseOperations",
+    "RoleOperations",
     "SettingsOperations",
     "UserOperations",
 ]

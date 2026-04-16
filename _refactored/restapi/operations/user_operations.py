@@ -53,3 +53,30 @@ class UserOperations(RestBaseOperations):
 
     def delete(self, *user_names: str) -> dict:
         return self._client.delete(self._url(self.PATH), params={"names": list(user_names)})
+
+    def lock(self, user_id: str) -> None:
+        self._client.post(self._url(f"{self.PATH}/{user_id}/lock"), json={})
+
+    def unlock(self, user_id: str) -> None:
+        self._client.post(self._url(f"{self.PATH}/{user_id}/unlock"), json={})
+
+    def reset_password(self, user_id: str, new_password: str) -> dict:
+        return self._client.post(
+            self._url(f"{self.PATH}/{user_id}/resetpassword"),
+            json={"newPassword": new_password, "forcePasswordChangeOnNextSignIn": False},
+        )
+
+    def change_password(self, user_name: str, old_password: str, new_password: str) -> dict:
+        return self._client.post(
+            self._url(f"{self.PATH}/{user_name}/changepassword"),
+            json={"oldPassword": old_password, "newPassword": new_password},
+        )
+
+    def validate_password(self, password: str) -> dict:
+        return self._client.post(
+            self._url("/api/platform/security/validatepassword"),
+            json={"password": password},
+        )
+
+    def send_verification_email(self, user_id: str) -> None:
+        self._client.post(self._url(f"{self.PATH}/{user_id}/sendverificationemail"), json={})
