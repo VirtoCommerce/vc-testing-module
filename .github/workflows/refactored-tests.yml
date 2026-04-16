@@ -37,7 +37,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: VirtoCommerce/vc-testing-module
-          ref: vcst-4628-refactor
+          ref: ${{ github.ref_name }}
           path: vc-testing-module
           token: ${{ secrets.REPO_TOKEN }}
 
@@ -431,7 +431,7 @@ jobs:
 
           Run: ${{ github.run_number }} (attempt ${{ github.run_attempt }})
           Commit: ${{ github.sha }}
-          Branch: vcst-4628-refactor
+          Branch: ${{ github.ref_name }}
 
           ## What's in this bundle
 
