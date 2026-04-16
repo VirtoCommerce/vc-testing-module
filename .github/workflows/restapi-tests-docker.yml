@@ -1,0 +1,412 @@
+name: RestAPI Tests Docker
+
+on:
+  workflow_dispatch:
+    inputs:
+      platformDockerTag:
+        description: "Platform Docker image tag"
+        required: false
+        type: string
+        default: "linux-latest"
+
+jobs:
+  RestAPI-tests:
+    timeout-minutes: 60
+    runs-on: ubuntu-22.04
+
+    # Needed for the publish-unit-test-result-action step below:
+    # - checks: write  — create the Checks status with the test-result summary
+    # - pull-requests: write — post a sticky comment on the PR (when the
+    #   dispatched ref has an open PR)
+    permissions:
+      contents: read
+      checks: write
+      pull-requests: write
+      issues: read
+
+    env:
+      GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
+
+    steps:
+      # ──────────────────────────────────────────────
+      # 1. Checkout & install modules
+      # ──────────────────────────────────────────────
+      - name: Checkout testing repo
+        uses: actions/checkout@v4
+        with:
+          repository: VirtoCommerce/vc-testing-module
+          ref: ${{ github.ref_name }}
+          path: vc-testing-module
+          token: ${{ secrets.REPO_TOKEN }}
+
+      - name: Install VirtoCommerce.GlobalTool
+        uses: VirtoCommerce/vc-github-actions/setup-vcbuild@master
+
+      - name: Install modules and pull platform image
+        run: |
+          mkdir modules && cd modules
+          vc-build install --package-manifest-path $GITHUB_WORKSPACE/vc-testing-module/backend-packages.json --skip-dependency-solving
+          docker pull ghcr.io/virtocommerce/platform:${{ inputs.platformDockerTag }}
+          docker tag ghcr.io/virtocommerce/platform:${{ inputs.platformDockerTag }} platform:local-latest
+
+      # ──────────────────────────────────────────────
+      # 2. Start Docker infrastructure
+      # ──────────────────────────────────────────────
+      - name: Create docker-compose.yml
+        run: |
+          cat > docker-compose.yml << 'COMPOSE'
+          services:
+            vc-db:
+              image: mcr.microsoft.com/mssql/server:2017-latest
+              ports:
+                - "1433:1433"
+              environment:
+                - ACCEPT_EULA=Y
+                - MSSQL_PID=Express
+                - SA_PASSWORD=v!rto_Labs!
+              networks:
+                - virto
+
+            es:
+              image: docker.elastic.co/elasticsearch/elasticsearch:8.18.0
+              volumes:
+                - esdata01:/usr/share/elasticsearch/data
+              ports:
+                - "9200:9200"
+              networks:
+                - virto
+              environment:
+                - node.name=es
+                - cluster.name=elasticsearch
+                - cluster.initial_master_nodes=es
+                - ELASTIC_PASSWORD=v!rto_Labs!
+                - bootstrap.memory_lock=true
+                - xpack.security.enabled=false
+                - xpack.security.http.ssl.enabled=false
+                - xpack.security.transport.ssl.enabled=false
+                - xpack.license.self_generated.type=basic
+                - xpack.ml.use_auto_machine_memory_percent=true
+              mem_limit: 1g
+              ulimits:
+                memlock:
+                  soft: -1
+                  hard: -1
+              healthcheck:
+                test: ["CMD-SHELL", "curl -s http://localhost:9200"]
+                interval: 10s
+                timeout: 10s
+                retries: 120
+
+            vc-platform-web:
+              image: platform:local-latest
+              ports:
+                - "8090:80"
+              environment:
+                - ASPNETCORE_URLS=http://+
+                - VirtoCommerce__AllowInsecureHttp=true
+                - VirtoCommerce__Hangfire__JobStorageType=Memory
+                - ConnectionStrings__VirtoCommerce=Data Source=vc-db;Initial Catalog=VirtoCommerce3docker;Persist Security Info=True;User ID=sa;Password=v!rto_Labs!;MultipleActiveResultSets=False;Connect Timeout=360;TrustServerCertificate=True;
+                - Assets__FileSystem__PublicUrl=http://localhost:8090/assets/
+                - Content__FileSystem__PublicUrl=http://localhost:8090/cms-content/
+                - Search__Provider=ElasticSearch8
+                - Search__ElasticSearch8__Server=http://es:9200
+                - Search__ElasticSearch8__User=elastic
+                - Search__ElasticSearch8__Key=v!rto_Labs!
+                - Search__ElasticSearch8__EnableCompatibilityMode=true
+                - Search__PickupLocationFullTextSearchEnabled=true
+                - IdentityOptions__User__MaxPasswordAge=0
+                - Notifications__DefaultSender=virto.start@virtoway.com
+                - Notifications__Gateway=SendGrid
+                - Notifications__SendGrid__ApiKey=${SENDGRID_API_KEY}
+              depends_on:
+                - vc-db
+                - es
+              entrypoint: ["/wait-for-it.sh", "vc-db:1433", "-t", "120", "--", "dotnet", "VirtoCommerce.Platform.Web.dll"]
+              volumes:
+                - ./modules/modules:/opt/virtocommerce/platform/modules
+                - ./modules/app_data:/opt/virtocommerce/platform/app_data
+              networks:
+                - virto
+              restart: unless-stopped
+
+          volumes:
+            esdata01:
+              driver: local
+
+          networks:
+            virto:
+          COMPOSE
+
+      - name: Start database and Elasticsearch
+        env:
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_APIKEY_4E2E_AUTOTESTS }}
+        run: |
+          docker compose --project-name virtocommerce up -d vc-db es
+          sleep 15
+
+      - name: Start platform
+        env:
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_APIKEY_4E2E_AUTOTESTS }}
+        shell: bash
+        run: |
+          docker compose --project-name virtocommerce up -d
+          echo "Waiting for platform to start..."
+          # Drop `curl -f` so an auth-required 401/403 from the admin-only
+          # diagnostics endpoint still counts as "platform responding".
+          # curl always prints the http_code via `-w` (it writes "000" when
+          # it can't connect). Use `|| true` — NOT a fallback that appends
+          # another "000" — to keep `set -e` happy without corrupting the
+          # captured value.
+          for i in $(seq 1 30); do
+            http_code=$(curl -s --connect-timeout 3 --max-time 5 \
+              -o /dev/null -w '%{http_code}' \
+              http://localhost:8090/api/platform/diagnostics/systeminfo || true)
+            if [[ "$http_code" =~ ^[1-5][0-9][0-9]$ ]]; then
+              echo "Platform is ready! (HTTP $http_code after $i attempt(s))"
+              break
+            fi
+            echo "Attempt $i/30 (http_code=$http_code)..."
+            sleep 10
+          done
+          if [[ ! "$http_code" =~ ^[1-5][0-9][0-9]$ ]]; then
+            echo "::error::Platform did not respond within 5 minutes (last http_code=$http_code)"
+            exit 1
+          fi
+
+      # ──────────────────────────────────────────────
+      # 3. Prepare platform — reset admin password to match .env
+      # ──────────────────────────────────────────────
+      - name: Reset admin password
+        shell: pwsh
+        env:
+          SECRET_ENV_FILE: ${{ secrets.VC_TESTING_MODULE_ENV_FILE }}
+        run: |
+          if ($env:SECRET_ENV_FILE -match 'ADMIN_PASSWORD=(\S+)') {
+            $newAdminPassword = $matches[1]
+          } else {
+            $newAdminPassword = 'store'
+          }
+          $body = "grant_type=password&username=admin&password=store"
+          $headers = @{ "Content-Type" = "application/x-www-form-urlencoded" }
+          $token = ((Invoke-WebRequest -Uri "http://localhost:8090/connect/token" -Body $body -Headers $headers -Method POST).Content | ConvertFrom-Json).access_token
+          $authHeaders = @{ "Content-Type" = "application/json-patch+json"; "Authorization" = "Bearer $token" }
+          $resetBody = @{ "newPassword" = $newAdminPassword; "forcePasswordChangeOnNextSignIn" = $false } | ConvertTo-Json
+          Invoke-WebRequest -Uri "http://localhost:8090/api/platform/security/users/admin/resetpassword" -Body $resetBody -Headers $authHeaders -Method POST
+          Write-Host "Admin password reset successfully"
+
+      # ──────────────────────────────────────────────
+      # 4. Set up Python & install dependencies
+      # ──────────────────────────────────────────────
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13.7"
+
+      - name: Create .env and install dependencies
+        working-directory: vc-testing-module
+        env:
+          SECRET_ENV_FILE: ${{ secrets.VC_TESTING_MODULE_ENV_FILE }}
+        run: |
+          echo "$SECRET_ENV_FILE" > .env
+          chmod 600 .env
+          sed -i 's|^BACKEND_BASE_URL=.*|BACKEND_BASE_URL=http://localhost:8090|g' .env
+          sed -i 's|^FRONTEND_BASE_URL=.*|FRONTEND_BASE_URL=http://localhost|g' .env
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # ──────────────────────────────────────────────
+      # 5. Seed reference test data
+      # (Most RestAPI tests create their own entities via factory fixtures, but
+      # tests that mutate seeded entities — e.g. test_contacts_organizations —
+      # still need the dataset present.)
+      # ──────────────────────────────────────────────
+      - name: Seed test data
+        working-directory: vc-testing-module
+        run: |
+          python -m dataset.dataset_manager --seed
+
+      # ──────────────────────────────────────────────
+      # 6. Run tests
+      # ──────────────────────────────────────────────
+      - name: Run RestAPI tests
+        working-directory: vc-testing-module
+        run: |
+          pytest tests_webapi/ -v -s -m "webapi and not ignore" \
+            --junitxml=webapi-junit.xml
+
+      - name: Install Allure CLI
+        if: always()
+        run: |
+          ALLURE_VERSION=2.29.0
+          wget -q -O allure.tgz \
+            "https://github.com/allure-framework/allure2/releases/download/${ALLURE_VERSION}/allure-${ALLURE_VERSION}.tgz"
+          sudo tar -xzf allure.tgz -C /opt
+          sudo ln -sf "/opt/allure-${ALLURE_VERSION}/bin/allure" /usr/local/bin/allure
+          allure --version
+
+      - name: Generate Allure HTML report
+        if: always()
+        working-directory: vc-testing-module
+        run: |
+          if [ -d allure-results ] && [ -n "$(ls -A allure-results 2>/dev/null)" ]; then
+            allure generate allure-results --clean -o allure-report
+          else
+            echo "::warning::allure-results is empty — skipping report render"
+          fi
+
+      - name: Bundle Allure into single HTML
+        if: always()
+        working-directory: vc-testing-module
+        run: |
+          if [ -d allure-report ]; then
+            pip install allure-combine
+            allure-combine allure-report
+            ls -la allure-report/complete.html
+          else
+            echo "::warning::allure-report missing — skipping allure-combine"
+          fi
+
+      - name: Stage consolidated report
+        if: always()
+        working-directory: vc-testing-module
+        run: |
+          mkdir -p report
+          [ -d allure-report ] && mv allure-report report/ || echo "no allure-report"
+          [ -d har-output ] && mv har-output report/ || echo "no har-output"
+          [ -f webapi-junit.xml ] && mv webapi-junit.xml report/ || echo "no junit.xml"
+          [ -f dataset/dataset_manager.log ] && cp dataset/dataset_manager.log report/ || echo "no dataset log"
+
+          cat > report/index.html << 'HTML'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="utf-8">
+            <meta http-equiv="refresh" content="0; url=allure-report/complete.html">
+            <title>WebAPI Test Results</title>
+          </head>
+          <body>
+            <p>Redirecting to the <a href="allure-report/complete.html">Allure report</a>.
+            If nothing happens, open <code>allure-report/complete.html</code> manually.</p>
+          </body>
+          </html>
+          HTML
+
+          cat > report/README.md << 'EOF'
+          # RestAPI Test Results
+
+          Run: ${{ github.run_number }} (attempt ${{ github.run_attempt }})
+          Commit: ${{ github.sha }}
+          Branch: ${{ github.ref_name }}
+
+          ## What's in this bundle
+
+          | Path | Use it for |
+          |---|---|
+          | `index.html` | Landing page — double-click to open the standalone Allure report. |
+          | `allure-report/complete.html` | Standalone single-file Allure report with all JS/CSS/JSON inlined. Works from a local `file://` path — no HTTP server needed. |
+          | `allure-report/` (the rest) | Original multi-file Allure report. Needs an HTTP server (`python -m http.server` from this folder, or `allure open allure-report/`). |
+          | `har-output/<module>/<test>.har` | Per-test HTTP traces (HAR 1.2) grouped by module. Import into Chrome DevTools → Network → "Import HAR file…". Auth headers and cookies are redacted. |
+          | `webapi-junit.xml` | JUnit XML — for programmatic consumption (IDE integrations, other dashboards). |
+          | `dataset_manager.log` | Output from the seed step. Check here first if a test fails because seed data is missing. |
+
+          The same JUnit results drive the per-test PR comment and the per-module breakdown on the run's Summary tab.
+          EOF
+
+      - name: Upload consolidated test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: webapi-test-results-${{ github.run_number }}-${{ github.run_attempt }}
+          path: vc-testing-module/report/
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Publish test results summary
+        if: always()
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        with:
+          files: vc-testing-module/report/webapi-junit.xml
+          check_name: RestAPI Test Results
+          comment_mode: always
+          report_individual_runs: true
+
+      - name: Per-module test summary
+        if: always()
+        working-directory: vc-testing-module
+        run: |
+          python <<'PYEOF'
+          import os
+          import re
+          import xml.etree.ElementTree as ET
+          from collections import defaultdict
+          from pathlib import Path
+
+          xml_path = Path("report/webapi-junit.xml")
+          if not xml_path.exists():
+              print("report/webapi-junit.xml not found — skipping module summary")
+              raise SystemExit(0)
+
+          tree = ET.parse(xml_path)
+          stats = defaultdict(
+              lambda: {"total": 0, "passed": 0, "failed": 0, "errored": 0, "skipped": 0, "time": 0.0}
+          )
+
+          for tc in tree.iter("testcase"):
+              classname = tc.attrib.get("classname", "")
+              m = re.match(r"tests_webapi\.([^.]+)\.", classname)
+              module = m.group(1) if m else "(other)"
+              s = stats[module]
+              s["total"] += 1
+              try:
+                  s["time"] += float(tc.attrib.get("time") or 0)
+              except ValueError:
+                  pass
+              if tc.find("failure") is not None:
+                  s["failed"] += 1
+              elif tc.find("error") is not None:
+                  s["errored"] += 1
+              elif tc.find("skipped") is not None:
+                  s["skipped"] += 1
+              else:
+                  s["passed"] += 1
+
+          lines = [
+              "## RestAPI tests — per-module breakdown",
+              "",
+              "| Module | Total | Passed | Failed | Errored | Skipped | Time |",
+              "|---|---:|---:|---:|---:|---:|---:|",
+          ]
+          totals = {"total": 0, "passed": 0, "failed": 0, "errored": 0, "skipped": 0, "time": 0.0}
+          for module in sorted(stats):
+              s = stats[module]
+              for k in totals:
+                  totals[k] += s[k]
+              lines.append(
+                  f"| `{module}` | {s['total']} | {s['passed']} | {s['failed']} | "
+                  f"{s['errored']} | {s['skipped']} | {s['time']:.1f}s |"
+              )
+          lines.append(
+              f"| **Total** | **{totals['total']}** | **{totals['passed']}** | "
+              f"**{totals['failed']}** | **{totals['errored']}** | "
+              f"**{totals['skipped']}** | **{totals['time']:.1f}s** |"
+          )
+          lines.append("")
+
+          output = "\n".join(lines)
+          summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
+          if summary_path:
+              with open(summary_path, "a", encoding="utf-8") as f:
+                  f.write(output + "\n")
+          print(output)
+          PYEOF
+
+      # ──────────────────────────────────────────────
+      # 7. Diagnostics on failure
+      # ──────────────────────────────────────────────
+      - name: Print container logs on failure
+        if: failure()
+        run: |
+          echo "=== Platform logs ==="
+          docker logs virtocommerce-vc-platform-web-1 --tail 100
+          echo "=== Elasticsearch logs ==="
+          docker logs virtocommerce-es-1 --tail 50
