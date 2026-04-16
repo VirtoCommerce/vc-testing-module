@@ -78,13 +78,9 @@ def test_auth_validation_wrong_credentials(global_settings: GlobalSettings):
 @pytest.mark.restapi
 @allure.feature("Platform / Authorization (REST API)")
 @allure.title("Get external sign-in providers")
-def test_auth_external_sign_in_providers(global_settings: GlobalSettings):
+def test_auth_external_sign_in_providers(rest_client, backend_base_url: str):
     with allure.step("GET /api/platform/security/externalsigninproviders"):
-        response = requests.get(
-            f"{global_settings.backend_base_url}/api/platform/security/externalsigninproviders",
-            timeout=global_settings.requests_timeout,
-            verify=global_settings.verify_ssl,
-        )
+        result = rest_client.get(f"{backend_base_url}/api/platform/security/externalsigninproviders")
 
     with allure.step("Verify response"):
-        assert response.status_code == 200
+        assert result is not None

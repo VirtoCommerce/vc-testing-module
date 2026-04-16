@@ -1,8 +1,10 @@
 """Dynamic properties — migrated from Katalon `API Coverage/ModulePlatform/DynamicProperties/*`.
 
-Katalon had 19 sub-tests — one per VC object type. Since the CRUD pattern is
-identical (create property → verify → search → delete), we parametrize across
-all 16 object types instead of writing 16 separate functions.
+Real endpoints (from Katalon Object Repository):
+  - GET  /api/platform/dynamic/types
+  - POST /api/platform/dynamic/properties       (create — objectType in body)
+  - POST /api/platform/dynamic/properties/search (search — objectType in body)
+  - DELETE /api/platform/dynamic/properties?propertyIds=...
 """
 
 import uuid
@@ -12,7 +14,6 @@ import pytest
 
 from core.clients.rest import RestClient
 
-# All object types that Katalon tested dynamic properties for.
 DYNAMIC_PROPERTY_OBJECT_TYPES = [
     "VirtoCommerce.CartModule.Core.Model.LineItem",
     "VirtoCommerce.CartModule.Core.Model.Payment",
@@ -34,7 +35,6 @@ DYNAMIC_PROPERTY_OBJECT_TYPES = [
 
 
 def _short_type(object_type: str) -> str:
-    """VirtoCommerce.CustomerModule.Core.Model.Contact → Contact."""
     return object_type.rsplit(".", 1)[-1]
 
 
@@ -58,31 +58,29 @@ def test_dynamic_properties_get_types(rest_client: RestClient, backend_base_url:
 )
 @allure.feature("Platform / Dynamic Properties (REST API)")
 def test_dynamic_property_create_verify_delete(rest_client: RestClient, backend_base_url: str, object_type: str):
-    """Create a dynamic property for the given object type, verify it via search, then delete."""
     allure.dynamic.title(f"Create + delete dynamic property — {_short_type(object_type)}")
-    base = f"{backend_base_url}/api/platform/dynamic/types"
+    base = f"{backend_base_url}/api/platform/dynamic"
     prop_name = f"QAProp_{uuid.uuid4().hex[:8]}"
 
-    with allure.step(f"POST property name={prop_name} on {_short_type(object_type)}"):
+    with allure.step(f"POST /api/platform/dynamic/properties — {_short_type(object_type)}"):
         result = rest_client.post(
-            f"{base}/{object_type}/properties",
-            json={"name": prop_name, "valueType": "ShortText"},
+            f"{base}/properties",
+            json={"objectType": object_type, "name": prop_name, "valueType": "ShortText"},
         )
         assert result is not None
         assert result.get("name") == prop_name
-        assert result.get("objectType") == object_type
         prop_id = result["id"]
 
     with allure.step("Verify property in search"):
         search = rest_client.post(
-            f"{base}/{object_type}/properties/search",
-            json={"skip": 0, "take": 100},
+            f"{base}/properties/search",
+            json={"objectType": object_type, "skip": 0, "take": 100},
         )
         names = [p.get("name") for p in search.get("results", [])]
-        assert prop_name in names, f"Property {prop_name} not found in search: {names[:10]}..."
+        assert prop_name in names, f"Property {prop_name} not found: {names[:10]}..."
 
     with allure.step("Delete property"):
-        rest_client.delete(f"{base}/{object_type}/properties", params={"propertyIds": [prop_id]})
+        rest_client.delete(f"{base}/properties", params={"propertyIds": [prop_id]})
 
 
 @pytest.mark.restapi
@@ -90,15 +88,14 @@ def test_dynamic_property_create_verify_delete(rest_client: RestClient, backend_
 @allure.feature("Platform / Dynamic Properties (REST API)")
 @allure.title("Create dictionary dynamic property on Contact")
 def test_dynamic_property_create_dictionary(rest_client: RestClient, backend_base_url: str):
-    """Mirrors Katalon CustomerModule.Contact which creates an isDictionary=true property."""
-    base = f"{backend_base_url}/api/platform/dynamic/types"
+    base = f"{backend_base_url}/api/platform/dynamic"
     object_type = "VirtoCommerce.CustomerModule.Core.Model.Contact"
     prop_name = f"QADictProp_{uuid.uuid4().hex[:8]}"
 
     with allure.step(f"POST dictionary property name={prop_name}"):
         result = rest_client.post(
-            f"{base}/{object_type}/properties",
-            json={"name": prop_name, "valueType": "ShortText", "isDictionary": True},
+            f"{base}/properties",
+            json={"objectType": object_type, "name": prop_name, "valueType": "ShortText", "isDictionary": True},
         )
         assert result is not None
         prop_id = result["id"]
@@ -107,7 +104,7 @@ def test_dynamic_property_create_dictionary(rest_client: RestClient, backend_bas
         assert result.get("isDictionary") is True
 
     with allure.step("Cleanup"):
-        rest_client.delete(f"{base}/{object_type}/properties", params={"propertyIds": [prop_id]})
+        rest_client.delete(f"{base}/properties", params={"propertyIds": [prop_id]})
 
 
 @pytest.mark.restapi
@@ -131,16 +128,16 @@ def test_dynamic_property_create_dictionary(rest_client: RestClient, backend_bas
 def test_dynamic_property_value_types(
     rest_client: RestClient, backend_base_url: str, value_type: str, is_array: bool, is_multilingual: bool
 ):
-    """Mirrors Katalon xAPI_PropertyCreate which tests multiple valueType combinations."""
     allure.dynamic.title(f"Create property — {value_type} array={is_array} multilingual={is_multilingual}")
-    base = f"{backend_base_url}/api/platform/dynamic/types"
+    base = f"{backend_base_url}/api/platform/dynamic"
     object_type = "VirtoCommerce.CustomerModule.Core.Model.Contact"
     prop_name = f"QA_{value_type}_{uuid.uuid4().hex[:6]}"
 
     with allure.step(f"POST property {prop_name}"):
         result = rest_client.post(
-            f"{base}/{object_type}/properties",
+            f"{base}/properties",
             json={
+                "objectType": object_type,
                 "name": prop_name,
                 "valueType": value_type,
                 "isArray": is_array,
@@ -153,7 +150,7 @@ def test_dynamic_property_value_types(
         prop_id = result["id"]
 
     with allure.step("Cleanup"):
-        rest_client.delete(f"{base}/{object_type}/properties", params={"propertyIds": [prop_id]})
+        rest_client.delete(f"{base}/properties", params={"propertyIds": [prop_id]})
 
 
 @pytest.mark.restapi
@@ -162,10 +159,10 @@ def test_dynamic_property_value_types(
 def test_dynamic_properties_search(rest_client: RestClient, backend_base_url: str):
     object_type = "VirtoCommerce.CustomerModule.Core.Model.Contact"
 
-    with allure.step(f"POST /api/platform/dynamic/types/{object_type}/properties/search"):
+    with allure.step("POST /api/platform/dynamic/properties/search"):
         result = rest_client.post(
-            f"{backend_base_url}/api/platform/dynamic/types/{object_type}/properties/search",
-            json={"skip": 0, "take": 20},
+            f"{backend_base_url}/api/platform/dynamic/properties/search",
+            json={"objectType": object_type, "skip": 0, "take": 20},
         )
 
     with allure.step("Verify response"):

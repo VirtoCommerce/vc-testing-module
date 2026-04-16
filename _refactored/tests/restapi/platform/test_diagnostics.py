@@ -22,8 +22,8 @@ def test_diagnostics_system_info(rest_client: RestClient, backend_base_url: str)
 @allure.feature("Platform / Diagnostics (REST API)")
 @allure.title("Get modules with errors")
 def test_diagnostics_modules_with_errors(rest_client: RestClient, backend_base_url: str):
-    with allure.step("GET /api/platform/diagnostics/moduleserrors"):
-        errors = rest_client.get(f"{backend_base_url}/api/platform/diagnostics/moduleserrors")
+    with allure.step("GET /api/platform/diagnostics/errors"):
+        errors = rest_client.get(f"{backend_base_url}/api/platform/diagnostics/errors")
 
     with allure.step("Verify empty errors list (healthy platform)"):
         assert errors is not None
