@@ -3,6 +3,7 @@
 import allure
 import pytest
 
+from core.auth import AuthProvider
 from core.global_settings import GlobalSettings
 from restapi.operations import UserOperations
 
@@ -93,3 +94,51 @@ def test_user_delete(make_user, user_ops: UserOperations):
         search = user_ops.search(search_phrase=user["user_name"])
         names = [u["userName"] for u in search.get("users", [])]
         assert user["user_name"] not in names
+
+
+@pytest.mark.restapi
+@allure.feature("Platform / Users (REST API)")
+@allure.title("Get user by id")
+def test_user_get_by_id(make_user, user_ops: UserOperations):
+    user = make_user()
+
+    with allure.step(f"GET /api/platform/security/users/{user['user_name']}"):
+        full_user = user_ops.get_by_name(user["user_name"])
+        user_id = full_user["id"]
+
+    with allure.step("Verify fields"):
+        assert full_user["userName"] == user["user_name"]
+        assert full_user["email"] == user["email"]
+        assert full_user["id"] == user_id
+
+
+@pytest.mark.restapi
+@allure.feature("Platform / Users (REST API)")
+@allure.title("Get user by name — verify roles and type")
+def test_user_get_by_name(make_user, user_ops: UserOperations):
+    user = make_user()
+
+    with allure.step(f"GET /api/platform/security/users/{user['user_name']}"):
+        full_user = user_ops.get_by_name(user["user_name"])
+
+    with allure.step("Verify user type and name"):
+        assert full_user["userName"] == user["user_name"]
+        assert full_user["userType"] == "Manager"
+
+
+@pytest.mark.restapi
+@allure.feature("Platform / Users (REST API)")
+@allure.title("Login and logout flow")
+def test_user_login_logout(make_user, global_settings: GlobalSettings, rest_client):
+    user = make_user()
+
+    with allure.step("Login via /connect/token"):
+        login_auth = AuthProvider(global_settings)
+        from pydantic import SecretStr
+
+        login_auth.sign_in(user["user_name"], SecretStr(user["password"]))
+        assert login_auth.is_authenticated
+
+    with allure.step("Logout"):
+        login_auth.sign_out()
+        assert not login_auth.is_authenticated
