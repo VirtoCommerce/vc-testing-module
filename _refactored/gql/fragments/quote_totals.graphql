@@ -1,0 +1,23 @@
+fragment QuoteTotalsFragment on QuoteTotalsType {
+  originalSubTotalExlTax {
+    ...MoneyFragment
+  }
+  subTotalExlTax {
+    ...MoneyFragment
+  }
+  shippingTotal {
+    ...MoneyFragment
+  }
+  discountTotal {
+    ...MoneyFragment
+  }
+  taxTotal {
+    ...MoneyFragment
+  }
+  grandTotalExlTax {
+    ...MoneyFragment
+  }
+  grandTotalInclTax {
+    ...MoneyFragment
+  }
+}

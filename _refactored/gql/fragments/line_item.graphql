@@ -1,0 +1,23 @@
+fragment LineItemFragment on LineItemType {
+  id
+  sku
+  productId
+  name
+  quantity
+  listPrice {
+    ...MoneyFragment
+  }
+  salePrice {
+    ...MoneyFragment
+  }
+  placedPrice {
+    ...MoneyFragment
+  }
+  extendedPrice {
+    ...MoneyFragment
+  }
+  discountAmount {
+    ...MoneyFragment
+  }
+  selectedForCheckout
+}

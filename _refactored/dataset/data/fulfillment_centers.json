@@ -1,0 +1,88 @@
+{
+    "method": "PUT",
+    "endpoint": "/api/inventory/fulfillmentcenters",
+    "payload_type": "single",
+    "priority": 4,
+    "data": [
+        {
+            "id": "ffc-acme-usa-springfield-il",
+            "name": "ACME USA Illinois FFC",
+            "address": {
+                "addressType": "Shipping",
+                "city": "Springfield",
+                "countryCode": "USA",
+                "countryName": "United States of America",
+                "line1": "742 Evergreen Terrace",
+                "postalCode": "62704",
+                "regionCode": "IL",
+                "regionName": "Illinois",
+                "email": "usa_springfield_il_ffc@acme.com",
+                "phone": "(217) 555-0198"
+            }
+        },
+        {
+            "id": "ffc-acme-usa-riverton-oh",
+            "name": "ACME USA Ohio FFC",
+            "address": {
+                "addressType": "Shipping",
+                "city": "Reverton",
+                "countryCode": "USA",
+                "countryName": "United States of America",
+                "line1": "1284 Maple Hollow Drive",
+                "postalCode": "43055",
+                "regionCode": "OH",
+                "regionName": "Ohio",
+                "email": "usa_riverton_ph_ffc@acme.com",
+                "phone": "(740) 559-6704"
+            }
+        },
+        {
+            "id": "ffc-acme-usa-morrisville-nc",
+            "name": "ACME USA North Carolina FFC",
+            "address": {
+                "addressType": "Shipping",
+                "city": "Morrisville",
+                "countryCode": "USA",
+                "countryName": "United States of America",
+                "line1": "1593 Patton Lane",
+                "postalCode": "27560",
+                "regionCode": "NC",
+                "regionName": "North Carolina",
+                "email": "usa_morrisville_nc_ffc@acme.com",
+                "phone": "(919) 264-8323"
+            }
+        },
+        {
+            "id": "ffc-acme-eur-berlin-de",
+            "name": "ACME Europe Berlin FFC",
+            "address": {
+                "addressType": "Shipping",
+                "city": "Berlin",
+                "countryCode": "DEU",
+                "countryName": "Germany",
+                "line1": "Alexanderplatz 7",
+                "postalCode": "10178",
+                "regionCode": "BE",
+                "regionName": "Berlin",
+                "email": "eur_berlin_de_ffc@acme.com",
+                "phone": "+49 30 555-0198"
+            }
+        },
+        {
+            "id": "ffc-acme-eur-billund-dk",
+            "name": "ACME Europe Billund FFC",
+            "address": {
+                "addressType": "Shipping",
+                "city": "Billund",
+                "countryCode": "DNK",
+                "countryName": "Denmark",
+                "line1": "Ole Kirk's Plads 1",
+                "postalCode": "7190",
+                "regionCode": "83",
+                "regionName": "Southern Denmark",
+                "email": "eur_billund_dk_ffc@acme.com",
+                "phone": "+45 75 33 1333"
+            }
+        }
+    ]
+}

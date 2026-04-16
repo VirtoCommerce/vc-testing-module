@@ -1,0 +1,15 @@
+fragment ShipmentFragment on ShipmentType {
+  id
+  shipmentMethodCode
+  shipmentMethodOption
+  fulfillmentCenterId
+  price {
+    ...MoneyFragment
+  }
+  currency {
+    ...CurrencyFragment
+  }
+  deliveryAddress {
+    ...CartAddressFragment
+  }
+}

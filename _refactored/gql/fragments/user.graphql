@@ -1,0 +1,12 @@
+fragment UserFragment on UserType {
+  id
+  userName
+  email
+  emailConfirmed
+  isAdministrator
+  memberId
+  storeId
+  roles {
+    ...RoleFragment
+  }
+}

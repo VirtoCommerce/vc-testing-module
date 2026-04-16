@@ -1,0 +1,12 @@
+fragment WhiteLabelingSettingsFragment on WhiteLabelingSettingsType {
+  logoUrl
+  secondaryLogoUrl
+  faviconUrl
+  themePresetName
+  footerLinks {
+    ...MenuLinkFragment
+  }
+  mainMenuLinks {
+    ...MenuLinkFragment
+  }
+}

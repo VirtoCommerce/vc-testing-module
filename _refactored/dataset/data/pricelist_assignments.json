@@ -1,0 +1,20 @@
+{
+    "method": "POST",
+    "endpoint": "/api/pricing/assignments",
+    "payload_type": "single",
+    "priority": 7,
+    "data": [
+        {
+            "id": "pricelist-assignment-acme-usd",
+            "catalogId": "catalog-acme",
+            "pricelistId": "pricelist-acme-usd",
+            "name": "ACME Pricelist Assignment USD"
+        },
+        {
+            "id": "pricelist-assignment-acme-eur",
+            "catalogId": "catalog-acme",
+            "pricelistId": "pricelist-acme-eur",
+            "name": "ACME Pricelist Assignment EUR"
+        }
+    ]
+}

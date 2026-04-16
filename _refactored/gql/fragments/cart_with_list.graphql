@@ -1,0 +1,8 @@
+fragment CartWithListFragment on CartWithListType {
+  cart {
+    ...CartFragment
+  }
+  list {
+    ...CartFragment
+  }
+}

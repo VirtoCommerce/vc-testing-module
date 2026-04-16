@@ -1,0 +1,1951 @@
+{
+    "method": "PUT",
+    "endpoint": "/api/products/{PAYLOAD_ITEM:productId}/prices",
+    "payload_type": "single",
+    "priority": 17,
+    "data": [
+        {
+            "productId": "product-acme-laptop-acer-aspire-16-ai",
+            "product": {
+                "id": "product-acme-laptop-acer-aspire-16-ai",
+                "name": "Acer Aspire 16 AI"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 799.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-laptop-acer-aspire-16-ai"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 735.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-laptop-acer-aspire-16-ai"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-laptop-asus-zenbook-a14-ux3407",
+            "product": {
+                "id": "product-acme-laptop-asus-zenbook-a14-ux3407",
+                "name": "ASUS Zenbook A14 (UX3407)"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 1199.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-laptop-asus-zenbook-a14-ux3407"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 1103.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-laptop-asus-zenbook-a14-ux3407"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-laptop-asus-vivobook-16-x1607qa",
+            "product": {
+                "id": "product-acme-laptop-asus-vivobook-16-x1607qa",
+                "name": "ASUS Vivobook 16 (X1607QA)"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 799.99,
+                    "sale": 749.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-laptop-asus-vivobook-16-x1607qa"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 735.99,
+                    "sale": 689.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-laptop-asus-vivobook-16-x1607qa"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-laptop-asus-v16-v3607vu",
+            "product": {
+                "id": "product-acme-laptop-asus-v16-v3607vu",
+                "name": "ASUS V16 (V3607VU)"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 1049.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-laptop-asus-v16-v3607vu"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 965.08,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-laptop-asus-v16-v3607vu"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-laptop-hp-pavilion-16-ag0087nr",
+            "product": {
+                "id": "product-acme-laptop-hp-pavilion-16-ag0087nr",
+                "name": "HP Pavilion 16 (AG0087NR)"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 959.99,
+                    "sale": 599.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-laptop-hp-pavilion-16-ag0087nr"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 874.99,
+                    "sale": 569.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-laptop-hp-pavilion-16-ag0087nr"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-laptop-hp-omnibook-5-ai-16-af1037nr",
+            "product": {
+                "id": "product-acme-laptop-hp-omnibook-5-ai-16-af1037nr",
+                "name": "HP OmniBook 5 AI 16 (AF1037NR)"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 1199.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-laptop-hp-omnibook-5-ai-16-af1037nr"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 1099.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-laptop-hp-omnibook-5-ai-16-af1037nr"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-laptop-lenovo-thinkpad-t14-gen-6",
+            "product": {
+                "id": "product-acme-laptop-lenovo-thinkpad-t14-gen-6",
+                "name": "Lenovo ThinkPad T14 Gen 6"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 1077.12,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-laptop-lenovo-thinkpad-t14-gen-6"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 989.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-laptop-lenovo-thinkpad-t14-gen-6"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-laptop-lenovo-ideapad-5i",
+            "product": {
+                "id": "product-acme-laptop-lenovo-ideapad-5i",
+                "name": "Lenovo Ideapad 5i"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 649.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-laptop-lenovo-ideapad-5i"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 599.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-laptop-lenovo-ideapad-5i"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-laptop-lenovo-loq-15-ahp9",
+            "product": {
+                "id": "product-acme-laptop-lenovo-loq-15-ahp9",
+                "name": "Lenovo Loq 15 (AHP9)"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 1169.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-laptop-lenovo-loq-15-ahp9"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 1072.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-laptop-lenovo-loq-15-ahp9"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-laptop-lenovo-legion-5-gen-10",
+            "product": {
+                "id": "product-acme-laptop-lenovo-legion-5-gen-10",
+                "name": "Lenovo Legion 5 Gen 10"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 1384.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-laptop-lenovo-legion-5-gen-10"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 1266.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-laptop-lenovo-legion-5-gen-10"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-laptop-lenovo-legion-9i-gen-10",
+            "product": {
+                "id": "product-acme-laptop-lenovo-legion-9i-gen-10",
+                "name": "Lenovo Legion 9i Gen 10"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 4854.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-laptop-lenovo-legion-9i-gen-10"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 4449.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-laptop-lenovo-legion-9i-gen-10"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-laptop-acer-predator-helios-18-ai",
+            "product": {
+                "id": "product-acme-laptop-acer-predator-helios-18-ai",
+                "name": "Acer Predator Helios 18 AI"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 2999.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-laptop-acer-predator-helios-18-ai"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 2749.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-laptop-acer-predator-helios-18-ai"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-laptop-acer-nitro-v16",
+            "product": {
+                "id": "product-acme-laptop-acer-nitro-v16",
+                "name": "Acer Nitro V16"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 1299.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-laptop-acer-nitro-v16"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 1189.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-laptop-acer-nitro-v16"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-laptop-asus-tuf-gaming-a14",
+            "product": {
+                "id": "product-acme-laptop-asus-tuf-gaming-a14",
+                "name": "Asus Tuf Gaming A14"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 1699.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-laptop-asus-tuf-gaming-a14"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 1550.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-laptop-asus-tuf-gaming-a14"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-laptop-asus-rog-strix-g16",
+            "product": {
+                "id": "product-acme-laptop-asus-rog-strix-g16",
+                "name": "Asus Rog Strix G16"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 1399.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-laptop-asus-rog-strix-g16"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 1279.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-laptop-asus-rog-strix-g16"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-laptop-asus-rog-strix-scar-18",
+            "product": {
+                "id": "product-acme-laptop-asus-rog-strix-scar-18",
+                "name": "Asus Rog Strix Scar 18"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 4499.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-laptop-asus-rog-strix-scar-18"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 4119.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-laptop-asus-rog-strix-scar-18"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-laptop-hp-omen-17",
+            "product": {
+                "id": "product-acme-laptop-hp-omen-17",
+                "name": "HP Omen 17"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 1799.99,
+                    "sale": 1499.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-laptop-hp-omen-17"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 1649.99,
+                    "sale": 1399.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-laptop-hp-omen-17"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-laptop-hp-omen-transcend-14",
+            "product": {
+                "id": "product-acme-laptop-hp-omen-transcend-14",
+                "name": "HP Omen Transcend 14"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 2249.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-laptop-hp-omen-transcend-14"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 2069.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-laptop-hp-omen-transcend-14"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-laptop-lenovo-thinkpad-x1-carbon-gen-13-aura",
+            "product": {
+                "id": "product-acme-laptop-lenovo-thinkpad-x1-carbon-gen-13-aura",
+                "name": "Lenovo ThinkPad X1 Carbon Gen 13 Aura Edition"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 1870.00,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-laptop-lenovo-thinkpad-x1-carbon-gen-13-aura"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 1713.00,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-laptop-lenovo-thinkpad-x1-carbon-gen-13-aura"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-laptop-lenovo-thinkpad-p1-gen-7-mobile-workstation",
+            "product": {
+                "id": "product-acme-laptop-lenovo-thinkpad-p1-gen-7-mobile-workstation",
+                "name": "Lenovo ThinkPad P1 Gen 7 Mobile Workstation"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 3369.00,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-laptop-lenovo-thinkpad-p1-gen-7-mobile-workstation"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 3089.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-laptop-lenovo-thinkpad-p1-gen-7-mobile-workstation"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-laptop-acer-travelmate-p16-14-ai",
+            "product": {
+                "id": "product-acme-laptop-acer-travelmate-p16-14-ai",
+                "name": "Acer Travelmate P16 14 AI"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 2049.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-laptop-acer-travelmate-p16-14-ai"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 1874.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-laptop-acer-travelmate-p16-14-ai"
+                }
+            ]
+        },
+        {
+            "productId": "var-1-lenovo-thinkPad-x1-carbon-gen-13-aura-edition-variations",
+            "product": {
+                "id": "var-1-lenovo-thinkPad-x1-carbon-gen-13-aura-edition-variations",
+                "name": "Var 1 Lenovo ThinkPad X1 Carbon Gen 13 Aura Edition Variations"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 1200.00,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "var-1-lenovo-thinkPad-x1-carbon-gen-13-aura-edition-variations"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 1355.00,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "var-1-lenovo-thinkPad-x1-carbon-gen-13-aura-edition-variations"
+                }
+            ]
+        },
+        {
+            "productId": "var-2-lenovo-thinkPad-x1-carbon-gen-13-aura-edition-variations",
+            "product": {
+                "id": "var-2-lenovo-thinkPad-x1-carbon-gen-13-aura-edition-variations",
+                "name": "Var 2 Lenovo ThinkPad X1 Carbon Gen 13 Aura Edition Variations"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 1999.00,
+                    "sale": 899.00,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "var-2-lenovo-thinkPad-x1-carbon-gen-13-aura-edition-variations"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 1454.00,
+                    "sale": 1354.00,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "var-2-lenovo-thinkPad-x1-carbon-gen-13-aura-edition-variations"
+                }
+            ]
+        },
+        {
+            "productId": "var-3-lenovo-thinkPad-x1-carbon-gen-13-aura-edition-variations",
+            "product": {
+                "id": "var-3-lenovo-thinkPad-x1-carbon-gen-13-aura-edition-variations",
+                "name": "Var 3 Lenovo ThinkPad X1 Carbon Gen 13 Aura Edition Variations"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 1566.00,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "var-3-lenovo-thinkPad-x1-carbon-gen-13-aura-edition-variations"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 1422.00,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "var-3-lenovo-thinkPad-x1-carbon-gen-13-aura-edition-variations"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-laptop-asus-expertbook-b5-b5605",
+            "product": {
+                "id": "product-acme-laptop-asus-expertbook-b5-b5605",
+                "name": "Asus ExpertBook B5 (B5605)"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 1579.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-laptop-asus-expertbook-b5-b5605"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 1441.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-laptop-asus-expertbook-b5-b5605"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-laptop-hp-omnibook-x-flip-16",
+            "product": {
+                "id": "product-acme-laptop-hp-omnibook-x-flip-16",
+                "name": "HP OmniBook X Flip 16"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 1399.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-laptop-hp-omnibook-x-flip-16"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 1279.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-laptop-hp-omnibook-x-flip-16"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-ram-kingston-valueram-kvr64v52bs6-8",
+            "product": {
+                "id": "product-acme-ram-kingston-valueram-kvr64v52bs6-8",
+                "name": "Kingston ValueRAM KVR64V52BS6-8"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 34.99,
+                    "sale": 32.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-ram-kingston-valueram-kvr64v52bs6-8"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 29.84,
+                    "sale": 28.13,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-ram-kingston-valueram-kvr64v52bs6-8"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-ram-kingston-valueram-kvr64v52bs6-16",
+            "product": {
+                "id": "product-acme-ram-kingston-valueram-kvr64v52bs6-16",
+                "name": "Kingston ValueRAM KVR64V52BS6-16"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 61.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-ram-kingston-valueram-kvr64v52bs6-16"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 52.87,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-ram-kingston-valueram-kvr64v52bs6-16"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-ram-kingston-valueram-kvr64v52bs6-32",
+            "product": {
+                "id": "product-acme-ram-kingston-valueram-kvr64v52bs6-32",
+                "name": "Kingston ValueRAM KVR64V52BS6-32"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 119.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-ram-kingston-valueram-kvr64v52bs6-32"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 102.33,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-ram-kingston-valueram-kvr64v52bs6-32"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-ram-kingston-fury-impact-8",
+            "product": {
+                "id": "product-acme-ram-kingston-fury-impact-8",
+                "name": "Kingston FURY Impact (8 GB)"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 55.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-ram-kingston-fury-impact-8"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 47.75,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-ram-kingston-fury-impact-8"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-ram-kingston-fury-impact-16",
+            "product": {
+                "id": "product-acme-ram-kingston-fury-impact-16",
+                "name": "Kingston FURY Impact (16 GB)"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 60.21,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-ram-kingston-fury-impact-16"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 51.35,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-ram-kingston-fury-impact-16"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-ram-kingston-fury-impact-32",
+            "product": {
+                "id": "product-acme-ram-kingston-fury-impact-32",
+                "name": "Kingston FURY Impact (32 GB)"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 77.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-ram-kingston-fury-impact-32"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 66.51,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-ram-kingston-fury-impact-32"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-ssd-kingston-nv3-500",
+            "product": {
+                "id": "product-acme-ssd-kingston-nv3-500",
+                "name": "Kingston NV3 (500 GB)"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 53.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-ssd-kingston-nv3-500"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 46.04,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-ssd-kingston-nv3-500"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-ssd-kingston-nv3-1000",
+            "product": {
+                "id": "product-acme-ssd-kingston-nv3-1000",
+                "name": "Kingston NV3 (1000 GB)"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 79.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-ssd-kingston-nv3-1000"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 68.22,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-ssd-kingston-nv3-1000"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-ssd-kingston-nv3-2000",
+            "product": {
+                "id": "product-acme-ssd-kingston-nv3-2000",
+                "name": "Kingston NV3 (2000 GB)"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 157.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-ssd-kingston-nv3-2000"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 134.73,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-ssd-kingston-nv3-2000"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-ssd-kingston-nv3-4000",
+            "product": {
+                "id": "product-acme-ssd-kingston-nv3-4000",
+                "name": "Kingston NV3 (4000 GB)"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 319.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-ssd-kingston-nv3-4000"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 272.89,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-ssd-kingston-nv3-4000"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-ssd-kingston-fury-renegade-g5-1000",
+            "product": {
+                "id": "product-acme-ssd-kingston-fury-renegade-g5-1000",
+                "name": "Kingston FURY Renegade G5 (1000 GB)"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 196.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-ssd-kingston-fury-renegade-g5-1000"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 167.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-ssd-kingston-fury-renegade-g5-1000"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-ssd-kingston-fury-renegade-g5-2000",
+            "product": {
+                "id": "product-acme-ssd-kingston-fury-renegade-g5-2000",
+                "name": "Kingston FURY Renegade G5 (2000 GB)"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 320.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-ssd-kingston-fury-renegade-g5-2000"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 273.74,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-ssd-kingston-fury-renegade-g5-2000"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-ssd-kingston-fury-renegade-g5-4000",
+            "product": {
+                "id": "product-acme-ssd-kingston-fury-renegade-g5-4000",
+                "name": "Kingston FURY Renegade G5 (4000 GB)"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 608.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-ssd-kingston-fury-renegade-g5-4000"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 519.35,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-ssd-kingston-fury-renegade-g5-4000"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-product1-track-inventory-false",
+            "product": {
+                "id": "product-acme-product1-track-inventory-false",
+                "name": "Product1 - Track inventory = false"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 999.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-product1-track-inventory-false"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 919.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-product1-track-inventory-false"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-product2-main1-stock",
+            "product": {
+                "id": "product-acme-product2-main1-stock",
+                "name": "Product2 - Main_1 stock"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 1099.99,
+                    "sale": 999.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-product2-main1-stock"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 1011.99,
+                    "sale": 919.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-product2-main1-stock"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-product2-main12-stock",
+            "product": {
+                "id": "product-acme-product2-main12-stock",
+                "name": "Product2 - Main_1_2 stock"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 1149.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-product2-main12-stock"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 1057.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-product2-main12-stock"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-product2-main2-stock",
+            "product": {
+                "id": "product-acme-product2-main2-stock",
+                "name": "Product2 - Main_2 stock"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 1199.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-product2-main2-stock"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 1103.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-product2-main2-stock"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-product3-transfer",
+            "product": {
+                "id": "product-acme-product3-transfer",
+                "name": "Product3 - Transfer_3"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 849.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-product3-transfer"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 781.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-product3-transfer"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-product4-main-transfer",
+            "product": {
+                "id": "product-acme-product4-main-transfer",
+                "name": "Product4 - Main_1 + transfer_1"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 599.99,
+                    "sale": 549.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-product4-main-transfer"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 551.99,
+                    "sale": 505.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-product4-main-transfer"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-product4-main2-transfer1",
+            "product": {
+                "id": "product-acme-product4-main2-transfer1",
+                "name": "Product4 - Main_2 + transfer_1"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 649.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-product4-main2-transfer1"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 597.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-product4-main2-transfer1"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-product5-transfer-b2b",
+            "product": {
+                "id": "product-acme-product5-transfer-b2b",
+                "name": "Product5 - Transfer_1"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 279.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-product5-transfer-b2b"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 257.59,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-product5-transfer-b2b"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-product5-transfer12",
+            "product": {
+                "id": "product-acme-product5-transfer12",
+                "name": "Product5 - Transfer_1_2"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 299.99,
+                    "sale": 269.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-product5-transfer12"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 275.99,
+                    "sale": 248.39,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-product5-transfer12"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-product5-transfer123",
+            "product": {
+                "id": "product-acme-product5-transfer123",
+                "name": "Product5 - Transfer_1_2_3"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 319.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-product5-transfer123"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 294.39,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-product5-transfer123"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-product6-track-inventory-true-stock-0",
+            "product": {
+                "id": "product-acme-product6-track-inventory-true-stock-0",
+                "name": "Product6 - Track inventory = true; Stock = 0"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 57.00,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-product6-track-inventory-true-stock-0"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 52.44,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-product6-track-inventory-true-stock-0"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-product7-berlin",
+            "product": {
+                "id": "product-acme-product7-berlin",
+                "name": "Product7- Berlin+Berlin Branch (Billund, Lego House) - via transfer"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 1299.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-product7-berlin"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 1195.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-product7-berlin"
+                }
+            ]
+        },
+        {
+            "productId": "product-acme-product8-mfc-stock",
+            "product": {
+                "id": "product-acme-product8-mfc-stock",
+                "name": "Product8 - MFC stock ( Illinois + Ohio)"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 1499.99,
+                    "sale": 1399.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-acme-product8-mfc-stock"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 1379.99,
+                    "sale": 1287.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-acme-product8-mfc-stock"
+                }
+            ]
+        },
+        {
+            "productId": "product-b2c-test-sport-band",
+            "product": {
+                "id": "product-b2c-test-sport-band",
+                "name": "Sport Band"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 49.00,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-b2c-test-sport-band"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 45.00,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-b2c-test-sport-band"
+                }
+            ]
+        },
+        {
+            "productId": "B2C-SPORT-BAND-MIDNIGHT-42-SM",
+            "product": {
+                "id": "B2C-SPORT-BAND-MIDNIGHT-42-SM",
+                "name": "Sport Band - Midnight Black - 42mm - S/M"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 39.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2C-SPORT-BAND-MIDNIGHT-42-SM"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 36.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2C-SPORT-BAND-MIDNIGHT-42-SM"
+                }
+            ]
+        },
+        {
+            "productId": "B2C-SPORT-BAND-MIDNIGHT-42-ML",
+            "product": {
+                "id": "B2C-SPORT-BAND-MIDNIGHT-42-ML",
+                "name": "Sport Band - Midnight Black - 42mm - M/L"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 39.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2C-SPORT-BAND-MIDNIGHT-42-ML"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 36.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2C-SPORT-BAND-MIDNIGHT-42-ML"
+                }
+            ]
+        },
+        {
+            "productId": "B2C-SPORT-BAND-MIDNIGHT-45-SM",
+            "product": {
+                "id": "B2C-SPORT-BAND-MIDNIGHT-45-SM",
+                "name": "Sport Band - Midnight Black - 45mm - S/M"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 44.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2C-SPORT-BAND-MIDNIGHT-45-SM"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 41.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2C-SPORT-BAND-MIDNIGHT-45-SM"
+                }
+            ]
+        },
+        {
+            "productId": "B2C-SPORT-BAND-MIDNIGHT-45-ML",
+            "product": {
+                "id": "B2C-SPORT-BAND-MIDNIGHT-45-ML",
+                "name": "Sport Band - Midnight Black - 45mm - M/L"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 44.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2C-SPORT-BAND-MIDNIGHT-45-ML"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 41.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2C-SPORT-BAND-MIDNIGHT-45-ML"
+                }
+            ]
+        },
+        {
+            "productId": "B2C-SPORT-BAND-MIDNIGHT-49-ML",
+            "product": {
+                "id": "B2C-SPORT-BAND-MIDNIGHT-49-ML",
+                "name": "Sport Band - Midnight Black - 49mm - M/L"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 49.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2C-SPORT-BAND-MIDNIGHT-49-ML"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 46.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2C-SPORT-BAND-MIDNIGHT-49-ML"
+                }
+            ]
+        },
+        {
+            "productId": "B2C-SPORT-BAND-STARLIGHT-42-SM",
+            "product": {
+                "id": "B2C-SPORT-BAND-STARLIGHT-42-SM",
+                "name": "Sport Band - Starlight - 42mm - S/M"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 42.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2C-SPORT-BAND-STARLIGHT-42-SM"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 39.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2C-SPORT-BAND-STARLIGHT-42-SM"
+                }
+            ]
+        },
+        {
+            "productId": "B2C-SPORT-BAND-STARLIGHT-45-ML",
+            "product": {
+                "id": "B2C-SPORT-BAND-STARLIGHT-45-ML",
+                "name": "Sport Band - Starlight - 45mm - M/L"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 47.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2C-SPORT-BAND-STARLIGHT-45-ML"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 44.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2C-SPORT-BAND-STARLIGHT-45-ML"
+                }
+            ]
+        },
+        {
+            "productId": "B2C-SPORT-BAND-LIGHTBLUSH-45-SM",
+            "product": {
+                "id": "B2C-SPORT-BAND-LIGHTBLUSH-45-SM",
+                "name": "Sport Band - Light Blush - 45mm - S/M"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 46.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2C-SPORT-BAND-LIGHTBLUSH-45-SM"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 43.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2C-SPORT-BAND-LIGHTBLUSH-45-SM"
+                }
+            ]
+        },
+        {
+            "productId": "B2C-SPORT-BAND-LIGHTBLUSH-45-ML",
+            "product": {
+                "id": "B2C-SPORT-BAND-LIGHTBLUSH-45-ML",
+                "name": "Sport Band - Light Blush - 45mm - M/L"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 46.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2C-SPORT-BAND-LIGHTBLUSH-45-ML"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 43.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2C-SPORT-BAND-LIGHTBLUSH-45-ML"
+                }
+            ]
+        },
+        {
+            "productId": "B2C-SPORT-BAND-ANCHORBLUE-42-ML",
+            "product": {
+                "id": "B2C-SPORT-BAND-ANCHORBLUE-42-ML",
+                "name": "Sport Band - Anchor Blue - 42mm - M/L"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 44.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2C-SPORT-BAND-ANCHORBLUE-42-ML"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 41.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2C-SPORT-BAND-ANCHORBLUE-42-ML"
+                }
+            ]
+        },
+        {
+            "productId": "B2C-SPORT-BAND-ANCHORBLUE-45-ML",
+            "product": {
+                "id": "B2C-SPORT-BAND-ANCHORBLUE-45-ML",
+                "name": "Sport Band - Anchor Blue - 45mm - M/L"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 49.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2C-SPORT-BAND-ANCHORBLUE-45-ML"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 46.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2C-SPORT-BAND-ANCHORBLUE-45-ML"
+                }
+            ]
+        },
+        {
+            "productId": "B2C-SPORT-BAND-STONEGRAY-45-SM",
+            "product": {
+                "id": "B2C-SPORT-BAND-STONEGRAY-45-SM",
+                "name": "Sport Band - Stone Gray - 45mm - S/M"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 45.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2C-SPORT-BAND-STONEGRAY-45-SM"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 42.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2C-SPORT-BAND-STONEGRAY-45-SM"
+                }
+            ]
+        },
+        {
+            "productId": "B2C-SPORT-BAND-STONEGRAY-49-ML",
+            "product": {
+                "id": "B2C-SPORT-BAND-STONEGRAY-49-ML",
+                "name": "Sport Band - Stone Gray - 49mm - M/L"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 52.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2C-SPORT-BAND-STONEGRAY-49-ML"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 48.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2C-SPORT-BAND-STONEGRAY-49-ML"
+                }
+            ]
+        },
+        {
+            "productId": "B2C-SPORT-BAND-PURPLEFOG-42-SM",
+            "product": {
+                "id": "B2C-SPORT-BAND-PURPLEFOG-42-SM",
+                "name": "Sport Band - Purple Fog - 42mm - S/M"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 47.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2C-SPORT-BAND-PURPLEFOG-42-SM"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 44.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2C-SPORT-BAND-PURPLEFOG-42-SM"
+                }
+            ]
+        },
+        {
+            "productId": "B2C-SPORT-BAND-PURPLEFOG-45-ML",
+            "product": {
+                "id": "B2C-SPORT-BAND-PURPLEFOG-45-ML",
+                "name": "Sport Band - Purple Fog - 45mm - M/L"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 52.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2C-SPORT-BAND-PURPLEFOG-45-ML"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 48.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2C-SPORT-BAND-PURPLEFOG-45-ML"
+                }
+            ]
+        },
+        {
+            "productId": "B2C-SPORT-BAND-NEONYELLOW-45-SM",
+            "product": {
+                "id": "B2C-SPORT-BAND-NEONYELLOW-45-SM",
+                "name": "Sport Band - Neon Yellow - 45mm - S/M"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 54.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2C-SPORT-BAND-NEONYELLOW-45-SM"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 50.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2C-SPORT-BAND-NEONYELLOW-45-SM"
+                }
+            ]
+        },
+        {
+            "productId": "B2C-SPORT-BAND-NEONYELLOW-49-ML",
+            "product": {
+                "id": "B2C-SPORT-BAND-NEONYELLOW-49-ML",
+                "name": "Sport Band - Neon Yellow - 49mm - M/L"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 59.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2C-SPORT-BAND-NEONYELLOW-49-ML"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 55.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2C-SPORT-BAND-NEONYELLOW-49-ML"
+                }
+            ]
+        },
+        {
+            "productId": "product-b2c-test-simple",
+            "product": {
+                "id": "product-b2c-test-simple",
+                "name": "B2C Simple Product No Variations"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 19.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-b2c-test-simple"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 17.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-b2c-test-simple"
+                }
+            ]
+        },
+        {
+            "productId": "B2B-SIMPLE-001-RED",
+            "product": {
+                "id": "B2B-SIMPLE-001-RED",
+                "name": "B2B Simple Product - Red"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 22.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2B-SIMPLE-001-RED"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 20.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2B-SIMPLE-001-RED"
+                }
+            ]
+        },
+        {
+            "productId": "B2B-SIMPLE-001-BLUE",
+            "product": {
+                "id": "B2B-SIMPLE-001-BLUE",
+                "name": "B2B Simple Product - Blue"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 24.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2B-SIMPLE-001-BLUE"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 22.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2B-SIMPLE-001-BLUE"
+                }
+            ]
+        },
+        {
+            "productId": "product-b2c-test-single-option",
+            "product": {
+                "id": "product-b2c-test-single-option",
+                "name": "B2C Product Single Available Option"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 24.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "product-b2c-test-single-option"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 22.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "product-b2c-test-single-option"
+                }
+            ]
+        },
+        {
+            "productId": "B2C-SINGLE-001-BLACK",
+            "product": {
+                "id": "B2C-SINGLE-001-BLACK",
+                "name": "B2C Single Option - Black"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 24.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2C-SINGLE-001-BLACK"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 22.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2C-SINGLE-001-BLACK"
+                }
+            ]
+        },
+        {
+            "productId": "B2B-LAPTOP-001-8GB",
+            "product": {
+                "id": "B2B-LAPTOP-001-8GB",
+                "name": "B2B Test Laptop - 8GB RAM"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 799.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2B-LAPTOP-001-8GB"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 749.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2B-LAPTOP-001-8GB"
+                }
+            ]
+        },
+        {
+            "productId": "B2B-LAPTOP-001-16GB",
+            "product": {
+                "id": "B2B-LAPTOP-001-16GB",
+                "name": "B2B Test Laptop - 16GB RAM"
+            },
+            "prices": [
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "USD",
+                    "list": 999.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-usd",
+                    "productId": "B2B-LAPTOP-001-16GB"
+                },
+                {
+                    "catalog": "catalog-acme",
+                    "currency": "EUR",
+                    "list": 949.99,
+                    "minQuantity": 1,
+                    "pricelistId": "pricelist-acme-eur",
+                    "productId": "B2B-LAPTOP-001-16GB"
+                }
+            ]
+        }
+    ]
+}

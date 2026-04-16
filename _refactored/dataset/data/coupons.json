@@ -1,0 +1,14 @@
+{
+    "method": "POST",
+    "endpoint": "/api/marketing/promotions/coupons/add",
+    "payload_type": "array",
+    "priority": 19,
+    "data": [
+        {
+            "code": "COUPON-100-OFF",
+            "maxUsesNumber": 1000000,
+            "maxUsesPerUser": 1000000,
+            "promotionId": "promotion-acme-100-off-for-cart-subtotal-by-coupon"
+        }
+    ]
+}
