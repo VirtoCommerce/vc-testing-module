@@ -42,6 +42,7 @@ pytest-metadata==3.1.1
 pytest-playwright==0.7.1
 pytest-playwright-visual==2.1.2
 pytest-retry==1.6.3
+pytest-xdist==3.6.1
 python-dotenv==1.0.1
 python-slugify==8.0.4
 PyYAML==6.0.2

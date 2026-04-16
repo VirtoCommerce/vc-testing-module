@@ -180,6 +180,10 @@ snapshot_tests_failures/
 
 allure-results/
 allure-report/
+webapi-junit.xml
+webapi-report.html
+har-output/
+report/
 screenshots/
 .serena/
 .claude/settings.local.json
