@@ -80,7 +80,13 @@ def test_user_lock_api_key_inactive(make_user, user_ops: UserOperations, api_key
     api_key_ops_instance: ApiKeyOperations = api_key_ops
 
     with allure.step("Create API key then deactivate"):
-        key = api_key_ops_instance.create(user_id=full_user["id"], name=f"QAKey_{uuid.uuid4().hex[:6]}")
+        # POST returns empty body; diff before/after to find the new key
+        before_ids = {k["id"] for k in (api_key_ops_instance.get_by_user_id(full_user["id"]) or [])}
+        api_key_ops_instance.create(user_id=full_user["id"], name=f"QAKey_{uuid.uuid4().hex[:6]}")
+        after = api_key_ops_instance.get_by_user_id(full_user["id"]) or []
+        new_keys = [k for k in after if k["id"] not in before_ids]
+        assert len(new_keys) == 1, f"Expected 1 new key, got {len(new_keys)}"
+        key = new_keys[0]
         api_key_ops_instance.update(key, isActive=False)
 
     with allure.step("Verify deactivated key"):

@@ -16,6 +16,7 @@ import allure
 import pytest
 import requests
 
+from core.auth import AuthProvider
 from core.clients.rest import RestClient
 from core.global_settings import GlobalSettings
 
@@ -57,7 +58,9 @@ def test_asset_upload_url_image(rest_client: RestClient, backend_base_url: str):
 @pytest.mark.restapi
 @allure.feature("Platform / Assets (REST API)")
 @allure.title("Upload local file")
-def test_asset_upload_local(rest_client: RestClient, backend_base_url: str, global_settings: GlobalSettings):
+def test_asset_upload_local(
+    rest_client: RestClient, backend_base_url: str, global_settings: GlobalSettings, admin_auth: AuthProvider
+):
     folder = f"qa-local-{uuid.uuid4().hex[:6]}"
 
     with allure.step("POST /api/assets?folderUrl=... — multipart upload"):
@@ -65,6 +68,7 @@ def test_asset_upload_local(rest_client: RestClient, backend_base_url: str, glob
             f"{backend_base_url}/api/assets",
             params={"folderUrl": folder},
             files={"file": ("qa-test-local.txt", b"QA test content", "text/plain")},
+            headers={"Authorization": admin_auth.headers.get("Authorization", "")},
             timeout=global_settings.requests_timeout,
             verify=global_settings.verify_ssl,
         )
@@ -76,11 +80,14 @@ def test_asset_upload_local(rest_client: RestClient, backend_base_url: str, glob
 @pytest.mark.restapi
 @allure.feature("Platform / Assets (REST API)")
 @allure.title("Upload local file to storage")
-def test_asset_upload_local_storage(rest_client: RestClient, backend_base_url: str, global_settings: GlobalSettings):
+def test_asset_upload_local_storage(
+    rest_client: RestClient, backend_base_url: str, global_settings: GlobalSettings, admin_auth: AuthProvider
+):
     with allure.step("POST /api/assets/localstorage — multipart upload"):
         response = rest_client._session.post(
             f"{backend_base_url}/api/assets/localstorage",
             files={"file": ("qa-storage-test.txt", b"QA storage test", "text/plain")},
+            headers={"Authorization": admin_auth.headers.get("Authorization", "")},
             timeout=global_settings.requests_timeout,
             verify=global_settings.verify_ssl,
         )

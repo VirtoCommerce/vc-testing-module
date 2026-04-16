@@ -4,6 +4,7 @@ import uuid
 
 import allure
 import pytest
+import requests
 from pydantic import SecretStr
 
 from core.auth import AuthProvider
@@ -94,11 +95,10 @@ def test_user_send_verification_email(make_user, user_ops: UserOperations):
 def test_user_password_reset_on_login(make_user, user_ops: UserOperations, global_settings: GlobalSettings):
     """Simulates the forgot-password flow: request reset, then set new password via admin."""
     user = make_user()
-    full_user = user_ops.get_by_name(user["user_name"])
     new_password = f"ResetPwd!{uuid.uuid4().hex[:8]}"
 
-    with allure.step("Reset password via admin endpoint"):
-        result = user_ops.reset_password(full_user["id"], new_password)
+    with allure.step(f"Reset password via admin endpoint — {user['user_name']}"):
+        result = user_ops.reset_password(user["user_name"], new_password)
         assert result.get("succeeded") is True
 
     with allure.step("Verify old password no longer works"):
