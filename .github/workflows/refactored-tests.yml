@@ -371,7 +371,16 @@ jobs:
         run: |
           source .venv/bin/activate
           pytest tests/restapi -m "restapi and serial and not ignore" -v -s --color=yes \
-            --junitxml=restapi-serial-junit.xml
+            --junitxml=restapi-serial-junit.xml \
+            --deselect tests/restapi/platform/test_misc.py::test_restart_platform
+
+      - name: Run REST API test — restart platform (last)
+        if: success() || failure()
+        working-directory: vc-testing-module/_refactored
+        run: |
+          source .venv/bin/activate
+          pytest tests/restapi/platform/test_misc.py::test_restart_platform -v -s --color=yes \
+            --junitxml=restapi-restart-junit.xml
 
       # ──────────────────────────────────────────────
       # 8. Collect results
@@ -420,6 +429,7 @@ jobs:
           [ -f graphql-junit.xml ] && mv graphql-junit.xml report/ || echo "no graphql-junit.xml"
           [ -f restapi-junit.xml ] && mv restapi-junit.xml report/ || echo "no restapi-junit.xml"
           [ -f restapi-serial-junit.xml ] && mv restapi-serial-junit.xml report/ || echo "no restapi-serial-junit.xml"
+          [ -f restapi-restart-junit.xml ] && mv restapi-restart-junit.xml report/ || echo "no restapi-restart-junit.xml"
           [ -f e2e-junit.xml ] && mv e2e-junit.xml report/ || echo "no e2e-junit.xml"
 
           cat > report/index.html << 'HTML'
@@ -478,6 +488,7 @@ jobs:
             vc-testing-module/_refactored/report/graphql-junit.xml
             vc-testing-module/_refactored/report/restapi-junit.xml
             vc-testing-module/_refactored/report/restapi-serial-junit.xml
+            vc-testing-module/_refactored/report/restapi-restart-junit.xml
             vc-testing-module/_refactored/report/e2e-junit.xml
           check_name: Test Results (Refactored)
           comment_mode: always
@@ -497,7 +508,7 @@ jobs:
               lambda: {"total": 0, "passed": 0, "failed": 0, "errored": 0, "skipped": 0, "time": 0.0}
           )
 
-          for xml_name in ["report/graphql-junit.xml", "report/restapi-junit.xml", "report/restapi-serial-junit.xml", "report/e2e-junit.xml"]:
+          for xml_name in ["report/graphql-junit.xml", "report/restapi-junit.xml", "report/restapi-serial-junit.xml", "report/restapi-restart-junit.xml", "report/e2e-junit.xml"]:
               xml_path = Path(xml_name)
               if not xml_path.exists():
                   continue
