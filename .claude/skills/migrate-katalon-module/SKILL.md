@@ -185,7 +185,7 @@ Print it out. Verify:
 1. Commit all files
 2. Push branch
 3. Create PR with mapping table in description
-4. Dispatch `refactored-tests.yml` on the branch
+4. Dispatch `restapi-tests-docker.yml`
 5. Verify REST API steps pass (parallel-safe + serial + restart)
 6. Merge
 
