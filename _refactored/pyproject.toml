@@ -3,13 +3,15 @@ name = "vc-auto-tests"
 version = "0.1.0"
 requires-python = ">=3.13"
 dependencies = [
+    "allure-pytest==2.13.5",
+    "allure-python-commons==2.13.5",
     "playwright==1.58.0",
     "pydantic==2.12.5",
     "pydantic-settings==2.13.1",
     "pytest==9.0.2",
     "pytest-playwright==0.7.2",
     "requests==2.32.5",
-    "rich==14.3.3"
+    "rich==14.3.3",
 ]
 
 [tool.pytest.ini_options]
@@ -18,6 +20,7 @@ pythonpath = ["."]
 markers = [
     "graphql: GraphQL API tests",
     "e2e: end-to-end UI tests using Playwright (require a running frontend)",
+    "restapi: REST API admin endpoint tests",
     "with_user(username): sign in as the given user for this test",
     "with_cart(items): seed a cart with the given list of (productId, quantity) pairs",
     "delete_cart_after: delete the user's cart at teardown (reads localStorage for e2e tests)",

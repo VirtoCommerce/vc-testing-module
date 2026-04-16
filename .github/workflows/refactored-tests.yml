@@ -299,7 +299,6 @@ jobs:
           source .venv/bin/activate
           python -m pip install --upgrade pip
           pip install -e .
-          pip install allure-pytest allure-python-commons
           playwright install --with-deps chromium
 
       # ──────────────────────────────────────────────
