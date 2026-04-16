@@ -18,5 +18,6 @@ def test_vendor_search(vendor_ops: VendorOperations):
         search = vendor_ops.search()
 
     with allure.step("Verify response"):
-        assert search is not None
-        assert "totalCount" in search or "results" in search
+        assert "totalCount" in search, "Response missing 'totalCount'"
+        assert search["totalCount"] >= 0
+        assert "results" in search, "Response missing 'results'"

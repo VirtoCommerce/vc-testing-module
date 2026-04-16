@@ -84,9 +84,8 @@ def test_contact_delete(make_contact, contact_ops: ContactOperations):
         contact_ops.delete(contact["id"])
 
     with allure.step("Verify deleted"):
-        search = contact_ops.search(keyword=contact["firstName"])
-        ids = [r["id"] for r in search.get("results", [])]
-        assert contact["id"] not in ids
+        search = contact_ops.search(objectIds=[contact["id"]])
+        assert search.get("totalCount", 0) == 0
 
 
 @pytest.mark.restapi
@@ -96,20 +95,16 @@ def test_contact_create_bulk(contact_ops: ContactOperations):
     suffix = uuid.uuid4().hex[:6]
     contacts = [
         {
-            **{
-                "memberType": "Contact",
-                "firstName": f"QABulk1_{suffix}",
-                "lastName": "Bulk",
-                "name": f"QABulk1_{suffix} Bulk",
-            }
+            "memberType": "Contact",
+            "firstName": f"QABulk1_{suffix}",
+            "lastName": "Bulk",
+            "name": f"QABulk1_{suffix} Bulk",
         },
         {
-            **{
-                "memberType": "Contact",
-                "firstName": f"QABulk2_{suffix}",
-                "lastName": "Bulk",
-                "name": f"QABulk2_{suffix} Bulk",
-            }
+            "memberType": "Contact",
+            "firstName": f"QABulk2_{suffix}",
+            "lastName": "Bulk",
+            "name": f"QABulk2_{suffix} Bulk",
         },
     ]
 
@@ -117,8 +112,9 @@ def test_contact_create_bulk(contact_ops: ContactOperations):
         result = contact_ops.create_bulk(contacts)
 
     with allure.step("Verify bulk create"):
-        assert result is not None
-        created_ids = [c["id"] for c in result] if isinstance(result, list) else []
+        assert isinstance(result, list), f"Expected list, got {type(result)}"
+        created_ids = [c["id"] for c in result]
+        assert len(created_ids) == 2
 
     with allure.step("Cleanup"):
         for cid in created_ids:
@@ -180,10 +176,8 @@ def test_contact_delete_bulk(contact_ops: ContactOperations):
         contact_ops.delete(c1["id"], c2["id"])
 
     with allure.step("Verify deleted"):
-        search = contact_ops.search(keyword=f"QADel")
-        ids = [r["id"] for r in search.get("results", [])]
-        assert c1["id"] not in ids
-        assert c2["id"] not in ids
+        search = contact_ops.search(objectIds=[c1["id"], c2["id"]])
+        assert search.get("totalCount", 0) == 0
 
 
 @pytest.mark.restapi

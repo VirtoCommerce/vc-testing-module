@@ -20,7 +20,7 @@ import uuid
 import allure
 import pytest
 
-from restapi.operations import MemberOperations, OrganizationOperations
+from restapi.operations import MemberOperations
 
 
 @pytest.mark.restapi
@@ -63,15 +63,14 @@ def test_member_create_bulk(member_ops: MemberOperations):
 @pytest.mark.restapi
 @allure.feature("Contacts / Members (REST API)")
 @allure.title("Create member in organization with account")
-def test_member_create_in_org(make_organization, member_ops: MemberOperations):
+def test_member_create_in_org(make_organization, make_member):
     org = make_organization()
     suffix = uuid.uuid4().hex[:8]
-    member_name = f"QAMemberInOrg_{suffix}"
 
     with allure.step("POST /api/members — with organizationsIds"):
-        member = member_ops.create(
+        member = make_member(
             member_type="Contact",
-            name=member_name,
+            name=f"QAMemberInOrg_{suffix}",
             firstName=f"First_{suffix}",
             lastName=f"Last_{suffix}",
             organizationsIds=[org["id"]],
@@ -79,12 +78,6 @@ def test_member_create_in_org(make_organization, member_ops: MemberOperations):
 
     with allure.step("Verify member created with org"):
         assert member["id"]
-
-    with allure.step("Cleanup"):
-        try:
-            member_ops.delete(member["id"])
-        except Exception:
-            pass
 
 
 @pytest.mark.restapi
@@ -182,9 +175,8 @@ def test_member_delete(member_ops: MemberOperations):
         member_ops.delete(member["id"])
 
     with allure.step("Verify deleted"):
-        search = member_ops.search(keyword=name)
-        ids = [r["id"] for r in search.get("results", [])]
-        assert member["id"] not in ids
+        search = member_ops.search(objectIds=[member["id"]])
+        assert search.get("totalCount", 0) == 0
 
 
 @pytest.mark.restapi
@@ -199,14 +191,12 @@ def test_member_delete_bulk(member_ops: MemberOperations):
         try:
             member_ops.delete_bulk([m1["id"], m2["id"]])
         except Exception:
-            # Fallback: some platform versions return 500 on bulk delete
+            # Platform bug: POST /api/members/delete returns 500 on some versions
             member_ops.delete(m1["id"], m2["id"])
 
     with allure.step("Verify deleted"):
-        search = member_ops.search(keyword="QADelBulk")
-        ids = [r["id"] for r in search.get("results", [])]
-        assert m1["id"] not in ids
-        assert m2["id"] not in ids
+        search = member_ops.search(objectIds=[m1["id"], m2["id"]])
+        assert search.get("totalCount", 0) == 0
 
 
 @pytest.mark.restapi
@@ -214,7 +204,7 @@ def test_member_delete_bulk(member_ops: MemberOperations):
 @allure.title("Get all members in organization")
 def test_member_get_all_in_org(make_organization, make_member, member_ops: MemberOperations):
     org = make_organization()
-    member = member_ops.create(
+    member = make_member(
         member_type="Contact",
         name=f"QAInOrg_{uuid.uuid4().hex[:6]}",
         firstName="InOrg",
@@ -226,13 +216,7 @@ def test_member_get_all_in_org(make_organization, make_member, member_ops: Membe
         result = member_ops.get_all_in_organization(org["id"], member["id"])
 
     with allure.step("Verify response"):
-        assert result is not None
-
-    with allure.step("Cleanup"):
-        try:
-            member_ops.delete(member["id"])
-        except Exception:
-            pass
+        assert isinstance(result, (dict, list)), f"Expected dict or list, got {type(result)}"
 
 
 @pytest.mark.restapi
