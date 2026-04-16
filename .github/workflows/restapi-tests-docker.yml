@@ -268,12 +268,12 @@ jobs:
           done
 
       # ──────────────────────────────────────────────
-      # 3. Prepare platform — reset admin password to match .env
+      # 3. Prepare platform
       # ──────────────────────────────────────────────
       - name: Reset admin password
         shell: pwsh
         env:
-          SECRET_ENV_FILE: ${{ secrets.VC_TESTING_MODULE_ENV_FILE }}
+          SECRET_ENV_FILE: ${{ secrets.VC_TESTING_MODULE_ENV_FILE_NEW }}
         run: |
           if ($env:SECRET_ENV_FILE -match 'ADMIN_PASSWORD=(\S+)') {
             $newAdminPassword = $matches[1]
@@ -289,45 +289,95 @@ jobs:
           Write-Host "Admin password reset successfully"
 
       # ──────────────────────────────────────────────
-      # 4. Set up Python & install dependencies
+      # 4. Set up Python & dependencies (refactored project)
       # ──────────────────────────────────────────────
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.13.7"
+          python-version: "3.13"
 
       - name: Create .env and install dependencies
-        working-directory: vc-testing-module
+        working-directory: vc-testing-module/_refactored
         env:
-          SECRET_ENV_FILE: ${{ secrets.VC_TESTING_MODULE_ENV_FILE }}
+          SECRET_ENV_FILE: ${{ secrets.VC_TESTING_MODULE_ENV_FILE_NEW }}
         run: |
           echo "$SECRET_ENV_FILE" > .env
           chmod 600 .env
           sed -i 's|^BACKEND_BASE_URL=.*|BACKEND_BASE_URL=http://localhost:8090|g' .env
           sed -i 's|^FRONTEND_BASE_URL=.*|FRONTEND_BASE_URL=http://localhost|g' .env
+          python -m venv .venv
+          source .venv/bin/activate
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -e .
 
       # ──────────────────────────────────────────────
-      # 5. Seed reference test data
-      # (Most RestAPI tests create their own entities via factory fixtures, but
-      # tests that mutate seeded entities — e.g. test_contacts_organizations —
-      # still need the dataset present.)
+      # 5. Seed data & trigger indexing
       # ──────────────────────────────────────────────
       - name: Seed test data
-        working-directory: vc-testing-module
+        working-directory: vc-testing-module/_refactored
         run: |
-          python -m dataset.dataset_manager --seed
+          source .venv/bin/activate
+          python -m dataset.manager --seed --mode ci
+
+      - name: Trigger search indexing
+        shell: pwsh
+        env:
+          SECRET_ENV_FILE: ${{ secrets.VC_TESTING_MODULE_ENV_FILE_NEW }}
+        run: |
+          $platformUrl = "http://localhost:8090"
+          if ($env:SECRET_ENV_FILE -match 'ADMIN_PASSWORD=(\S+)') { $adminPassword = $matches[1] } else { $adminPassword = 'store' }
+          $headers = @{ "Content-Type" = "application/x-www-form-urlencoded" }
+          $token = ((Invoke-WebRequest -Uri "$platformUrl/connect/token" -Body "grant_type=password&username=admin&password=$adminPassword" -Headers $headers -Method POST).Content | ConvertFrom-Json).access_token
+          $authHeaders = @{ "Content-Type" = "application/json-patch+json"; "Authorization" = "Bearer $token" }
+          $indexBody = @(
+            @{ "DocumentType" = "Member"; "DeleteExistingIndex" = $true },
+            @{ "DocumentType" = "Product"; "DeleteExistingIndex" = $true },
+            @{ "DocumentType" = "Category"; "DeleteExistingIndex" = $true },
+            @{ "DocumentType" = "CustomerOrder"; "DeleteExistingIndex" = $true },
+            @{ "DocumentType" = "PickupLocation"; "DeleteExistingIndex" = $true }
+          )
+          $result = Invoke-WebRequest -Uri "$platformUrl/api/search/indexes/index" -Body ($indexBody | ConvertTo-Json) -Headers $authHeaders -Method POST | ConvertFrom-Json
+          do {
+            $job = Invoke-WebRequest -Uri "$platformUrl/api/platform/jobs/$($result.JobId)" -Headers $authHeaders -Method GET | ConvertFrom-Json
+            Write-Host "Indexing completed: $($job.completed)"
+            if (-not $job.completed) { Start-Sleep -Seconds 5 }
+          } while (-not $job.completed)
+          Write-Host "Indexing finished."
 
       # ──────────────────────────────────────────────
       # 6. Run tests
       # ──────────────────────────────────────────────
-      - name: Run RestAPI tests
-        working-directory: vc-testing-module
-        run: |
-          pytest tests_webapi/ -v -s -m "webapi and not ignore" \
-            --junitxml=webapi-junit.xml
+      - name: Clean allure-results
+        working-directory: vc-testing-module/_refactored
+        run: rm -rf allure-results
 
+      - name: Run REST API tests (parallel-safe)
+        working-directory: vc-testing-module/_refactored
+        run: |
+          source .venv/bin/activate
+          pytest tests/restapi -m "restapi and not ignore and not serial" -v -s --color=yes \
+            --junitxml=restapi-junit.xml
+
+      - name: Run REST API tests (serial)
+        if: success() || failure()
+        working-directory: vc-testing-module/_refactored
+        run: |
+          source .venv/bin/activate
+          pytest tests/restapi -m "restapi and serial and not ignore" -v -s --color=yes \
+            --junitxml=restapi-serial-junit.xml \
+            --deselect tests/restapi/platform/test_misc.py::test_restart_platform
+
+      - name: Run REST API test — restart platform (last)
+        if: success() || failure()
+        working-directory: vc-testing-module/_refactored
+        run: |
+          source .venv/bin/activate
+          pytest tests/restapi/platform/test_misc.py::test_restart_platform -v -s --color=yes \
+            --junitxml=restapi-restart-junit.xml
+
+      # ──────────────────────────────────────────────
+      # 7. Collect results
+      # ──────────────────────────────────────────────
       - name: Install Allure CLI
         if: always()
         run: |
@@ -340,7 +390,7 @@ jobs:
 
       - name: Generate Allure HTML report
         if: always()
-        working-directory: vc-testing-module
+        working-directory: vc-testing-module/_refactored
         run: |
           if [ -d allure-results ] && [ -n "$(ls -A allure-results 2>/dev/null)" ]; then
             allure generate allure-results --clean -o allure-report
@@ -350,7 +400,7 @@ jobs:
 
       - name: Bundle Allure into single HTML
         if: always()
-        working-directory: vc-testing-module
+        working-directory: vc-testing-module/_refactored
         run: |
           if [ -d allure-report ]; then
             pip install allure-combine
@@ -362,13 +412,14 @@ jobs:
 
       - name: Stage consolidated report
         if: always()
-        working-directory: vc-testing-module
+        working-directory: vc-testing-module/_refactored
         run: |
           mkdir -p report
           [ -d allure-report ] && mv allure-report report/ || echo "no allure-report"
           [ -d har-output ] && mv har-output report/ || echo "no har-output"
-          [ -f webapi-junit.xml ] && mv webapi-junit.xml report/ || echo "no junit.xml"
-          [ -f dataset/dataset_manager.log ] && cp dataset/dataset_manager.log report/ || echo "no dataset log"
+          [ -f restapi-junit.xml ] && mv restapi-junit.xml report/ || echo "no restapi-junit.xml"
+          [ -f restapi-serial-junit.xml ] && mv restapi-serial-junit.xml report/ || echo "no restapi-serial-junit.xml"
+          [ -f restapi-restart-junit.xml ] && mv restapi-restart-junit.xml report/ || echo "no restapi-restart-junit.xml"
 
           cat > report/index.html << 'HTML'
           <!DOCTYPE html>
@@ -376,7 +427,7 @@ jobs:
           <head>
             <meta charset="utf-8">
             <meta http-equiv="refresh" content="0; url=allure-report/complete.html">
-            <title>WebAPI Test Results</title>
+            <title>REST API Test Results</title>
           </head>
           <body>
             <p>Redirecting to the <a href="allure-report/complete.html">Allure report</a>.
@@ -386,7 +437,7 @@ jobs:
           HTML
 
           cat > report/README.md << 'EOF'
-          # RestAPI Test Results
+          # REST API Test Results
 
           Run: ${{ github.run_number }} (attempt ${{ github.run_attempt }})
           Commit: ${{ github.sha }}
@@ -397,21 +448,19 @@ jobs:
           | Path | Use it for |
           |---|---|
           | `index.html` | Landing page — double-click to open the standalone Allure report. |
-          | `allure-report/complete.html` | Standalone single-file Allure report with all JS/CSS/JSON inlined. Works from a local `file://` path — no HTTP server needed. |
-          | `allure-report/` (the rest) | Original multi-file Allure report. Needs an HTTP server (`python -m http.server` from this folder, or `allure open allure-report/`). |
-          | `har-output/<module>/<test>.har` | Per-test HTTP traces (HAR 1.2) grouped by module. Import into Chrome DevTools → Network → "Import HAR file…". Auth headers and cookies are redacted. |
-          | `webapi-junit.xml` | JUnit XML — for programmatic consumption (IDE integrations, other dashboards). |
-          | `dataset_manager.log` | Output from the seed step. Check here first if a test fails because seed data is missing. |
-
-          The same JUnit results drive the per-test PR comment and the per-module breakdown on the run's Summary tab.
+          | `allure-report/complete.html` | Standalone single-file Allure report. Works from `file://` — no server needed. |
+          | `har-output/<module>/<test>.har` | Per-test HTTP traces (HAR 1.2) grouped by module. Auth headers redacted. |
+          | `restapi-junit.xml` | JUnit XML for parallel-safe REST API tests. |
+          | `restapi-serial-junit.xml` | JUnit XML for serial REST API tests. |
+          | `restapi-restart-junit.xml` | JUnit XML for restart platform test. |
           EOF
 
       - name: Upload consolidated test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: webapi-test-results-${{ github.run_number }}-${{ github.run_attempt }}
-          path: vc-testing-module/report/
+          name: restapi-test-results-${{ github.run_number }}-${{ github.run_attempt }}
+          path: vc-testing-module/_refactored/report/
           if-no-files-found: warn
           retention-days: 30
 
@@ -419,64 +468,68 @@ jobs:
         if: always()
         uses: EnricoMi/publish-unit-test-result-action@v2
         with:
-          files: vc-testing-module/report/webapi-junit.xml
-          check_name: RestAPI Test Results
+          files: |
+            vc-testing-module/_refactored/report/restapi-junit.xml
+            vc-testing-module/_refactored/report/restapi-serial-junit.xml
+            vc-testing-module/_refactored/report/restapi-restart-junit.xml
+          check_name: REST API Test Results
           comment_mode: always
           report_individual_runs: true
 
       - name: Per-module test summary
         if: always()
-        working-directory: vc-testing-module
+        working-directory: vc-testing-module/_refactored
         run: |
           python <<'PYEOF'
           import os
-          import re
           import xml.etree.ElementTree as ET
           from collections import defaultdict
           from pathlib import Path
 
-          xml_path = Path("report/webapi-junit.xml")
-          if not xml_path.exists():
-              print("report/webapi-junit.xml not found — skipping module summary")
-              raise SystemExit(0)
-
-          tree = ET.parse(xml_path)
           stats = defaultdict(
               lambda: {"total": 0, "passed": 0, "failed": 0, "errored": 0, "skipped": 0, "time": 0.0}
           )
 
-          for tc in tree.iter("testcase"):
-              classname = tc.attrib.get("classname", "")
-              m = re.match(r"tests_webapi\.([^.]+)\.", classname)
-              module = m.group(1) if m else "(other)"
-              s = stats[module]
-              s["total"] += 1
-              try:
-                  s["time"] += float(tc.attrib.get("time") or 0)
-              except ValueError:
-                  pass
-              if tc.find("failure") is not None:
-                  s["failed"] += 1
-              elif tc.find("error") is not None:
-                  s["errored"] += 1
-              elif tc.find("skipped") is not None:
-                  s["skipped"] += 1
-              else:
-                  s["passed"] += 1
+          for xml_name in ["report/restapi-junit.xml", "report/restapi-serial-junit.xml", "report/restapi-restart-junit.xml"]:
+              xml_path = Path(xml_name)
+              if not xml_path.exists():
+                  continue
+              tree = ET.parse(xml_path)
+              for tc in tree.iter("testcase"):
+                  classname = tc.attrib.get("classname", "")
+                  bucket = classname.rsplit(".", 1)[-1] if classname else "(unknown)"
+                  s = stats[bucket]
+                  s["total"] += 1
+                  try:
+                      s["time"] += float(tc.attrib.get("time") or 0)
+                  except ValueError:
+                      pass
+                  if tc.find("failure") is not None:
+                      s["failed"] += 1
+                  elif tc.find("error") is not None:
+                      s["errored"] += 1
+                  elif tc.find("skipped") is not None:
+                      s["skipped"] += 1
+                  else:
+                      s["passed"] += 1
+
+          if not stats:
+              print("No JUnit XML found — skipping summary")
+              raise SystemExit(0)
 
           lines = [
-              "## RestAPI tests — per-module breakdown",
+              "## REST API tests — per-file breakdown",
               "",
-              "| Module | Total | Passed | Failed | Errored | Skipped | Time |",
+              "| Test file | Total | Passed | Failed | Errored | Skipped | Time |",
               "|---|---:|---:|---:|---:|---:|---:|",
           ]
           totals = {"total": 0, "passed": 0, "failed": 0, "errored": 0, "skipped": 0, "time": 0.0}
-          for module in sorted(stats):
-              s = stats[module]
+          for bucket in sorted(stats):
+              s = stats[bucket]
               for k in totals:
                   totals[k] += s[k]
               lines.append(
-                  f"| `{module}` | {s['total']} | {s['passed']} | {s['failed']} | "
+                  f"| `{bucket}` | {s['total']} | {s['passed']} | {s['failed']} | "
                   f"{s['errored']} | {s['skipped']} | {s['time']:.1f}s |"
               )
           lines.append(
@@ -495,7 +548,7 @@ jobs:
           PYEOF
 
       # ──────────────────────────────────────────────
-      # 7. Diagnostics on failure
+      # 8. Diagnostics on failure
       # ──────────────────────────────────────────────
       - name: Print container logs on failure
         if: failure()
