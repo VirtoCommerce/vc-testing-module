@@ -2,6 +2,7 @@ from restapi.operations.api_key_operations import ApiKeyOperations
 from restapi.operations.base import RestBaseOperations
 from restapi.operations.catalog_operations import CatalogOperations
 from restapi.operations.category_operations import CategoryOperations
+from restapi.operations.cms_content_operations import CmsContentOperations, MenuLinkOperations
 from restapi.operations.contact_operations import ContactOperations
 from restapi.operations.dynamic_content_operations import (
     ContentFolderOperations,
@@ -30,6 +31,7 @@ __all__ = [
     "ApiKeyOperations",
     "CatalogOperations",
     "CategoryOperations",
+    "CmsContentOperations",
     "ContentFolderOperations",
     "ContentItemOperations",
     "ContentPlaceOperations",
@@ -38,6 +40,7 @@ __all__ = [
     "CouponOperations",
     "EmployeeOperations",
     "MemberOperations",
+    "MenuLinkOperations",
     "NotificationsOperations",
     "OAuthOperations",
     "OrderOperations",
