@@ -19,6 +19,7 @@ from restapi.operations.pricelist_assignment_operations import PricelistAssignme
 from restapi.operations.pricelist_operations import PricelistOperations
 from restapi.operations.product_operations import ProductOperations
 from restapi.operations.promotion_operations import CouponOperations, PromotionOperations
+from restapi.operations.store_operations import StoreOperations
 from restapi.operations.role_operations import RoleOperations
 from restapi.operations.settings_operations import SettingsOperations
 from restapi.operations.user_operations import UserOperations
@@ -47,6 +48,7 @@ __all__ = [
     "RestBaseOperations",
     "RoleOperations",
     "SettingsOperations",
+    "StoreOperations",
     "UserOperations",
     "VendorOperations",
 ]
