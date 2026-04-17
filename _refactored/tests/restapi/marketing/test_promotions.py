@@ -109,6 +109,54 @@ def test_promo_delete(promo_ops: PromotionOperations) -> None:
 
 @pytest.mark.restapi
 @allure.feature("Marketing / Coupons (REST API)")
+@allure.title("Coupon full lifecycle: create → search → update → get-by-id → delete → verify gone")
+def test_coupon_create_update_delete(make_promotion, coupon_ops: CouponOperations) -> None:
+    promo = make_promotion()
+    code = f"QA-COUPON-{uuid.uuid4().hex[:6].upper()}"
+
+    with allure.step("POST /api/marketing/promotions/coupons/add — create coupon"):
+        coupon_ops.add([{"promotionId": promo["id"], "code": code, "maxUsesNumber": 15, "maxUsesPerUser": 10}])
+
+    with allure.step("POST /api/marketing/promotions/coupons/search — locate by code"):
+        search = coupon_ops.search(promotion_id=promo["id"])
+        results = search.get("results", []) if isinstance(search, dict) else search or []
+        found = next((c for c in results if c.get("code") == code), None)
+        assert found is not None, f"Coupon {code} not found after create"
+        assert found["maxUsesNumber"] == 15
+        assert found["maxUsesPerUser"] == 10
+        coupon_id = found["id"]
+
+    updated_code = f"{code}-UPD"
+    with allure.step("POST /coupons/add — update fields (same id, new code + counts)"):
+        coupon_ops.add(
+            [
+                {
+                    "id": coupon_id,
+                    "promotionId": promo["id"],
+                    "code": updated_code,
+                    "maxUsesNumber": 17,
+                    "maxUsesPerUser": 12,
+                }
+            ]
+        )
+
+    with allure.step(f"GET /coupons/{coupon_id} — verify update persisted"):
+        reloaded = coupon_ops.get_by_id(coupon_id)
+        assert reloaded["code"] == updated_code
+        assert reloaded["maxUsesNumber"] == 17
+        assert reloaded["maxUsesPerUser"] == 12
+
+    with allure.step(f"DELETE /coupons/delete?ids={coupon_id}"):
+        coupon_ops.delete(coupon_id)
+
+    with allure.step("POST /coupons/search — verify coupon is gone"):
+        post = coupon_ops.search(promotion_id=promo["id"])
+        post_results = post.get("results", []) if isinstance(post, dict) else post or []
+        assert not any(c.get("id") == coupon_id for c in post_results), "Deleted coupon still visible in search"
+
+
+@pytest.mark.restapi
+@allure.feature("Marketing / Coupons (REST API)")
 @allure.title("Create, search, and delete coupon")
 def test_coupon_create_search_delete(make_promotion, coupon_ops: CouponOperations) -> None:
     promo = make_promotion()

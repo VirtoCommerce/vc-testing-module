@@ -256,6 +256,57 @@ def test_pub_delete(content_pub_ops: ContentPublicationOperations) -> None:
 
 @pytest.mark.restapi
 @allure.feature("Marketing / Content Publications (REST API)")
+@allure.title("Publication condition: add → update value → verify persisted via GET")
+def test_pub_condition_add_update(make_content_publication, content_pub_ops: ContentPublicationOperations) -> None:
+    pub = make_content_publication()
+
+    # Minimal dynamicExpression tree with one ConditionAgeIs leaf.
+    def condition_tree(age_value: int) -> dict:
+        return {
+            "all": True,
+            "not": False,
+            "id": "DynamicContentConditionTree",
+            "availableChildren": [],
+            "children": [
+                {
+                    "all": False,
+                    "not": False,
+                    "id": "BlockContentCondition",
+                    "availableChildren": [],
+                    "children": [
+                        {
+                            "id": "ConditionAgeIs",
+                            "compareCondition": "AtLeast",
+                            "value": age_value,
+                            "secondValue": 0,
+                            "availableChildren": [],
+                            "children": [],
+                        }
+                    ],
+                }
+            ],
+        }
+
+    with allure.step("PUT /contentpublications — attach ConditionAgeIs (value=21)"):
+        content_pub_ops.update(pub, dynamicExpression=condition_tree(21))
+
+    with allure.step("GET — verify initial value persisted"):
+        after_add = content_pub_ops.get_by_id(pub["id"])
+        leaf = after_add["dynamicExpression"]["children"][0]["children"][0]
+        assert leaf["id"] == "ConditionAgeIs"
+        assert leaf["value"] == 21
+
+    with allure.step("PUT /contentpublications — update value to 31"):
+        content_pub_ops.update(after_add, dynamicExpression=condition_tree(31))
+
+    with allure.step("GET — verify updated value persisted"):
+        after_update = content_pub_ops.get_by_id(pub["id"])
+        leaf2 = after_update["dynamicExpression"]["children"][0]["children"][0]
+        assert leaf2["value"] == 31, f"Expected 31, got {leaf2['value']}"
+
+
+@pytest.mark.restapi
+@allure.feature("Marketing / Content Publications (REST API)")
 @allure.title("Delete content publications in bulk")
 def test_pub_delete_bulk(content_pub_ops: ContentPublicationOperations) -> None:
     suffix = uuid.uuid4().hex[:6]
