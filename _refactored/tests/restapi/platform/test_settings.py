@@ -9,7 +9,7 @@ from restapi.operations import SettingsOperations
 @pytest.mark.restapi
 @allure.feature("Platform / Settings (REST API)")
 @allure.title("Get all settings")
-def test_settings_get_all(settings_ops: SettingsOperations):
+def test_settings_get_all(settings_ops: SettingsOperations) -> None:
     with allure.step("GET /api/platform/settings"):
         settings = settings_ops.get_all()
 
@@ -23,7 +23,7 @@ def test_settings_get_all(settings_ops: SettingsOperations):
 @pytest.mark.restapi
 @allure.feature("Platform / Settings (REST API)")
 @allure.title("Get setting by name")
-def test_settings_get_by_name(settings_ops: SettingsOperations):
+def test_settings_get_by_name(settings_ops: SettingsOperations) -> None:
     setting_name = "VirtoCommerce.Search.IndexingJobs.Enable"
 
     with allure.step(f"GET /api/platform/settings/{setting_name}"):
@@ -36,7 +36,7 @@ def test_settings_get_by_name(settings_ops: SettingsOperations):
 @pytest.mark.restapi
 @allure.feature("Platform / Settings (REST API)")
 @allure.title("Get settings by module id")
-def test_settings_get_by_module_id(settings_ops: SettingsOperations):
+def test_settings_get_by_module_id(settings_ops: SettingsOperations) -> None:
     module_id = "VirtoCommerce.Catalog"
 
     with allure.step(f"GET /api/platform/settings/modules/{module_id}"):
@@ -51,7 +51,7 @@ def test_settings_get_by_module_id(settings_ops: SettingsOperations):
 @pytest.mark.restapi
 @allure.feature("Platform / Settings (REST API)")
 @allure.title("Get UI customization settings")
-def test_settings_get_ui_customization(settings_ops: SettingsOperations):
+def test_settings_get_ui_customization(settings_ops: SettingsOperations) -> None:
     with allure.step("GET /api/platform/settings/ui/customization"):
         setting = settings_ops.get_ui_customization()
 
@@ -63,7 +63,7 @@ def test_settings_get_ui_customization(settings_ops: SettingsOperations):
 @pytest.mark.serial
 @allure.feature("Platform / Settings (REST API)")
 @allure.title("Update boolean setting")
-def test_settings_update_boolean(settings_ops: SettingsOperations):
+def test_settings_update_boolean(settings_ops: SettingsOperations) -> None:
     setting_name = "VirtoCommerce.Search.IndexingJobs.Enable"
 
     with allure.step("Read current value"):
@@ -88,7 +88,7 @@ def test_settings_update_boolean(settings_ops: SettingsOperations):
 @pytest.mark.serial
 @allure.feature("Platform / Settings (REST API)")
 @allure.title("Update blacklist setting — add file extension")
-def test_settings_update_blacklist(settings_ops: SettingsOperations):
+def test_settings_update_blacklist(settings_ops: SettingsOperations) -> None:
     setting_name = "VirtoCommerce.Platform.Security.FileExtensionsBlackList"
 
     with allure.step("Read current blacklist"):

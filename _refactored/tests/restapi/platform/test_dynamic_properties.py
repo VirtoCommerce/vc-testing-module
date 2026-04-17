@@ -41,7 +41,7 @@ def _short_type(object_type: str) -> str:
 @pytest.mark.restapi
 @allure.feature("Platform / Dynamic Properties (REST API)")
 @allure.title("Get registered object types for dynamic properties")
-def test_dynamic_properties_get_types(rest_client: RestClient, backend_base_url: str):
+def test_dynamic_properties_get_types(rest_client: RestClient, backend_base_url: str) -> None:
     with allure.step("GET /api/platform/dynamic/types"):
         types = rest_client.get(f"{backend_base_url}/api/platform/dynamic/types")
 
@@ -57,7 +57,9 @@ def test_dynamic_properties_get_types(rest_client: RestClient, backend_base_url:
     "object_type", DYNAMIC_PROPERTY_OBJECT_TYPES, ids=[_short_type(t) for t in DYNAMIC_PROPERTY_OBJECT_TYPES]
 )
 @allure.feature("Platform / Dynamic Properties (REST API)")
-def test_dynamic_property_create_verify_delete(rest_client: RestClient, backend_base_url: str, object_type: str):
+def test_dynamic_property_create_verify_delete(
+    rest_client: RestClient, backend_base_url: str, object_type: str
+) -> None:
     allure.dynamic.title(f"Create + delete dynamic property — {_short_type(object_type)}")
     base = f"{backend_base_url}/api/platform/dynamic"
     prop_name = f"QAProp_{uuid.uuid4().hex[:8]}"
@@ -91,7 +93,7 @@ def test_dynamic_property_create_verify_delete(rest_client: RestClient, backend_
 @pytest.mark.serial
 @allure.feature("Platform / Dynamic Properties (REST API)")
 @allure.title("Create dictionary dynamic property on Contact")
-def test_dynamic_property_create_dictionary(rest_client: RestClient, backend_base_url: str):
+def test_dynamic_property_create_dictionary(rest_client: RestClient, backend_base_url: str) -> None:
     base = f"{backend_base_url}/api/platform/dynamic"
     object_type = "VirtoCommerce.CustomerModule.Core.Model.Contact"
     prop_name = f"QADictProp_{uuid.uuid4().hex[:8]}"
@@ -135,7 +137,7 @@ def test_dynamic_property_create_dictionary(rest_client: RestClient, backend_bas
 @allure.feature("Platform / Dynamic Properties (REST API)")
 def test_dynamic_property_value_types(
     rest_client: RestClient, backend_base_url: str, value_type: str, is_array: bool, is_multilingual: bool
-):
+) -> None:
     allure.dynamic.title(f"Create property — {value_type} array={is_array} multilingual={is_multilingual}")
     base = f"{backend_base_url}/api/platform/dynamic"
     object_type = "VirtoCommerce.CustomerModule.Core.Model.Contact"
@@ -171,7 +173,7 @@ def test_dynamic_property_value_types(
 @pytest.mark.restapi
 @allure.feature("Platform / Dynamic Properties (REST API)")
 @allure.title("Search dynamic properties for Contact type")
-def test_dynamic_properties_search(rest_client: RestClient, backend_base_url: str):
+def test_dynamic_properties_search(rest_client: RestClient, backend_base_url: str) -> None:
     object_type = "VirtoCommerce.CustomerModule.Core.Model.Contact"
 
     with allure.step("POST /api/platform/dynamic/properties/search"):

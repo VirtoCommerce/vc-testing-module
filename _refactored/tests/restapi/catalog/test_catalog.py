@@ -11,7 +11,7 @@ from restapi.operations import CatalogOperations, CategoryOperations
 @pytest.mark.restapi
 @allure.feature("Catalog / Catalogs (REST API)")
 @allure.title("Create catalog — physical with default language")
-def test_catalog_create(make_catalog):
+def test_catalog_create(make_catalog) -> None:
     with allure.step("POST /api/catalog/catalogs"):
         catalog = make_catalog()
 
@@ -28,7 +28,7 @@ def test_catalog_create(make_catalog):
 @pytest.mark.restapi
 @allure.feature("Catalog / Catalogs (REST API)")
 @allure.title("Create catalog — virtual")
-def test_catalog_create_virtual(make_catalog, catalog_ops: CatalogOperations):
+def test_catalog_create_virtual(make_catalog, catalog_ops: CatalogOperations) -> None:
     name = f"QACatalog_Virtual_{uuid.uuid4().hex[:8]}"
 
     with allure.step(f"POST /api/catalog/catalogs — isVirtual=True, name={name}"):
@@ -47,7 +47,7 @@ def test_catalog_create_virtual(make_catalog, catalog_ops: CatalogOperations):
 @pytest.mark.restapi
 @allure.feature("Catalog / Catalogs (REST API)")
 @allure.title("Update catalog — rename")
-def test_catalog_update(make_catalog, catalog_ops: CatalogOperations):
+def test_catalog_update(make_catalog, catalog_ops: CatalogOperations) -> None:
     catalog = make_catalog()
     new_name = f"{catalog['name']}_UPD_{uuid.uuid4().hex[:4]}"
 
@@ -63,7 +63,7 @@ def test_catalog_update(make_catalog, catalog_ops: CatalogOperations):
 @pytest.mark.restapi
 @allure.feature("Catalog / Catalogs (REST API)")
 @allure.title("Search catalog by keyword")
-def test_catalog_search(make_catalog, catalog_ops: CatalogOperations):
+def test_catalog_search(make_catalog, catalog_ops: CatalogOperations) -> None:
     catalog = make_catalog()
 
     with allure.step(f"POST /api/catalog/catalogs/search keyword={catalog['name']}"):
@@ -78,7 +78,7 @@ def test_catalog_search(make_catalog, catalog_ops: CatalogOperations):
 @pytest.mark.restapi
 @allure.feature("Catalog / Catalogs (REST API)")
 @allure.title("Delete catalog")
-def test_catalog_delete(make_catalog, catalog_ops: CatalogOperations):
+def test_catalog_delete(make_catalog, catalog_ops: CatalogOperations) -> None:
     catalog = make_catalog()
 
     with allure.step(f"DELETE /api/catalog/catalogs/{catalog['id']}"):
@@ -93,7 +93,7 @@ def test_catalog_delete(make_catalog, catalog_ops: CatalogOperations):
 @pytest.mark.restapi
 @allure.feature("Catalog / Catalogs (REST API)")
 @allure.title("Search listentries within catalog")
-def test_catalog_listentries_search(make_product, category_ops: CategoryOperations):
+def test_catalog_listentries_search(make_product, category_ops: CategoryOperations) -> None:
     product = make_product()
 
     with allure.step(

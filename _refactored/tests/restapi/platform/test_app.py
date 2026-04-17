@@ -9,7 +9,7 @@ from core.clients.rest import RestClient
 @pytest.mark.restapi
 @allure.feature("Platform / Apps (REST API)")
 @allure.title("List installed platform apps")
-def test_platform_apps(rest_client: RestClient, backend_base_url: str):
+def test_platform_apps(rest_client: RestClient, backend_base_url: str) -> None:
     with allure.step("GET /api/platform/apps"):
         apps = rest_client.get(f"{backend_base_url}/api/platform/apps")
 

@@ -16,7 +16,9 @@ from core.global_settings import GlobalSettings
 @pytest.mark.restapi
 @allure.feature("Orders (REST API)")
 @allure.title("Create order")
-def test_order_create(rest_client: RestClient, backend_base_url: str, global_settings: GlobalSettings, dataset: dict):
+def test_order_create(
+    rest_client: RestClient, backend_base_url: str, global_settings: GlobalSettings, dataset: dict
+) -> None:
     order_number = f"QA-{uuid.uuid4().hex[:8].upper()}"
     users = dataset.get("users", [])
     customer_id = users[0]["id"] if users else "unknown-user"
@@ -51,7 +53,7 @@ def test_order_create(rest_client: RestClient, backend_base_url: str, global_set
 @pytest.mark.restapi
 @allure.feature("Orders (REST API)")
 @allure.title("Search orders")
-def test_order_search(rest_client: RestClient, backend_base_url: str):
+def test_order_search(rest_client: RestClient, backend_base_url: str) -> None:
     with allure.step("POST /api/order/customerOrders/search"):
         result = rest_client.post(
             f"{backend_base_url}/api/order/customerOrders/search",
@@ -65,7 +67,7 @@ def test_order_search(rest_client: RestClient, backend_base_url: str):
 @pytest.mark.restapi
 @allure.feature("Orders (REST API)")
 @allure.title("Check indexed search enabled")
-def test_order_indexed_search_enabled(rest_client: RestClient, backend_base_url: str):
+def test_order_indexed_search_enabled(rest_client: RestClient, backend_base_url: str) -> None:
     with allure.step("GET /api/order/customerOrders/indexed/searchEnabled"):
         result = rest_client.get(f"{backend_base_url}/api/order/customerOrders/indexed/searchEnabled")
 

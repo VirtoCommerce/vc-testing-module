@@ -9,6 +9,8 @@ Katalon scripts:
   indexationRunAndVerify → test_indexation_run_and_verify (serial)
 """
 
+import time
+
 import allure
 import pytest
 
@@ -18,7 +20,7 @@ from core.clients.rest import RestClient
 @pytest.mark.restapi
 @allure.feature("Search / Indexes (REST API)")
 @allure.title("Get all indexes")
-def test_index_get(rest_client: RestClient, backend_base_url: str):
+def test_index_get(rest_client: RestClient, backend_base_url: str) -> None:
     with allure.step("GET /api/search/indexes"):
         result = rest_client.get(f"{backend_base_url}/api/search/indexes")
 
@@ -30,7 +32,7 @@ def test_index_get(rest_client: RestClient, backend_base_url: str):
 @pytest.mark.restapi
 @allure.feature("Search / Indexes (REST API)")
 @allure.title("Get index for specific document type")
-def test_index_get_for_product(rest_client: RestClient, backend_base_url: str, dataset: dict):
+def test_index_get_for_product(rest_client: RestClient, backend_base_url: str, dataset: dict) -> None:
     products = dataset.get("products", [])
     if not products:
         pytest.skip("No products in dataset")
@@ -47,7 +49,7 @@ def test_index_get_for_product(rest_client: RestClient, backend_base_url: str, d
 @pytest.mark.serial
 @allure.feature("Search / Indexes (REST API)")
 @allure.title("Build index")
-def test_index_build(rest_client: RestClient, backend_base_url: str):
+def test_index_build(rest_client: RestClient, backend_base_url: str) -> None:
     with allure.step("POST /api/search/indexes/index"):
         result = rest_client.post(
             f"{backend_base_url}/api/search/indexes/index",
@@ -63,7 +65,7 @@ def test_index_build(rest_client: RestClient, backend_base_url: str):
 @pytest.mark.destructive
 @allure.feature("Search / Indexes (REST API)")
 @allure.title("Drop and rebuild index")
-def test_index_drop(rest_client: RestClient, backend_base_url: str):
+def test_index_drop(rest_client: RestClient, backend_base_url: str) -> None:
     with allure.step("POST /api/search/indexes/index — with DeleteExistingIndex"):
         result = rest_client.post(
             f"{backend_base_url}/api/search/indexes/index",
@@ -77,7 +79,7 @@ def test_index_drop(rest_client: RestClient, backend_base_url: str):
 @pytest.mark.restapi
 @allure.feature("Search / Indexes (REST API)")
 @allure.title("Cancel indexation")
-def test_index_cancel(rest_client: RestClient, backend_base_url: str):
+def test_index_cancel(rest_client: RestClient, backend_base_url: str) -> None:
     with allure.step("Start an index job"):
         result = rest_client.post(
             f"{backend_base_url}/api/search/indexes/index",
@@ -94,9 +96,7 @@ def test_index_cancel(rest_client: RestClient, backend_base_url: str):
 @pytest.mark.serial
 @allure.feature("Search / Indexes (REST API)")
 @allure.title("Run indexation and verify completion")
-def test_indexation_run_and_verify(rest_client: RestClient, backend_base_url: str):
-    import time
-
+def test_indexation_run_and_verify(rest_client: RestClient, backend_base_url: str) -> None:
     with allure.step("POST /api/search/indexes/index"):
         result = rest_client.post(
             f"{backend_base_url}/api/search/indexes/index",

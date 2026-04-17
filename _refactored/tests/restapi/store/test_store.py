@@ -24,7 +24,7 @@ from restapi.operations import StoreOperations
 @pytest.mark.restapi
 @allure.feature("Store (REST API)")
 @allure.title("Create store")
-def test_store_create(make_store):
+def test_store_create(make_store) -> None:
     with allure.step("POST /api/stores"):
         store = make_store()
 
@@ -36,7 +36,7 @@ def test_store_create(make_store):
 @pytest.mark.restapi
 @allure.feature("Store (REST API)")
 @allure.title("Create store — name validation (empty name)")
-def test_store_create_name_validation(store_ops: StoreOperations):
+def test_store_create_name_validation(store_ops: StoreOperations) -> None:
     with allure.step("POST /api/stores — empty name"):
         try:
             store = store_ops.create(name="")
@@ -50,7 +50,7 @@ def test_store_create_name_validation(store_ops: StoreOperations):
 @pytest.mark.restapi
 @allure.feature("Store (REST API)")
 @allure.title("Get store by id")
-def test_store_get_by_id(make_store, store_ops: StoreOperations):
+def test_store_get_by_id(make_store, store_ops: StoreOperations) -> None:
     store = make_store()
 
     with allure.step(f"GET /api/stores/{store['id']}"):
@@ -64,7 +64,7 @@ def test_store_get_by_id(make_store, store_ops: StoreOperations):
 @pytest.mark.restapi
 @allure.feature("Store (REST API)")
 @allure.title("Get all stores")
-def test_store_get_all(store_ops: StoreOperations):
+def test_store_get_all(store_ops: StoreOperations) -> None:
     with allure.step("GET /api/stores"):
         stores = store_ops.get_all()
 
@@ -76,7 +76,7 @@ def test_store_get_all(store_ops: StoreOperations):
 @pytest.mark.restapi
 @allure.feature("Store (REST API)")
 @allure.title("Search stores")
-def test_store_search(make_store, store_ops: StoreOperations):
+def test_store_search(make_store, store_ops: StoreOperations) -> None:
     store = make_store()
 
     with allure.step("POST /api/stores/search"):
@@ -91,7 +91,7 @@ def test_store_search(make_store, store_ops: StoreOperations):
 @pytest.mark.restapi
 @allure.feature("Store (REST API)")
 @allure.title("Update store — rename")
-def test_store_update(make_store, store_ops: StoreOperations):
+def test_store_update(make_store, store_ops: StoreOperations) -> None:
     store = make_store()
     new_name = f"{store['name']}_UPD_{uuid.uuid4().hex[:4]}"
 
@@ -106,7 +106,7 @@ def test_store_update(make_store, store_ops: StoreOperations):
 @pytest.mark.restapi
 @allure.feature("Store (REST API)")
 @allure.title("Store full cycle — create→get→update→search→delete")
-def test_store_full_cycle(store_ops: StoreOperations):
+def test_store_full_cycle(store_ops: StoreOperations) -> None:
     name = f"QACycle_{uuid.uuid4().hex[:8]}"
 
     with allure.step("Create"):
@@ -136,7 +136,7 @@ def test_store_full_cycle(store_ops: StoreOperations):
 @pytest.mark.restapi
 @allure.feature("Store (REST API)")
 @allure.title("Delete store")
-def test_store_delete(store_ops: StoreOperations):
+def test_store_delete(store_ops: StoreOperations) -> None:
     store = store_ops.create(name=f"QADelStore_{uuid.uuid4().hex[:8]}")
 
     with allure.step(f"DELETE /api/stores?ids={store['id']}"):
@@ -146,7 +146,7 @@ def test_store_delete(store_ops: StoreOperations):
 @pytest.mark.restapi
 @allure.feature("Store (REST API)")
 @allure.title("Get user accessible stores")
-def test_store_user_access(store_ops: StoreOperations, dataset: dict):
+def test_store_user_access(store_ops: StoreOperations, dataset: dict) -> None:
     users = dataset.get("users", [])
     if not users:
         pytest.skip("No users in dataset")
@@ -162,7 +162,7 @@ def test_store_user_access(store_ops: StoreOperations, dataset: dict):
 @pytest.mark.restapi
 @allure.feature("Store (REST API)")
 @allure.title("Store assets — verify store has asset configuration")
-def test_store_assets(store_ops: StoreOperations, dataset: dict):
+def test_store_assets(store_ops: StoreOperations, dataset: dict) -> None:
     stores = dataset.get("stores", [])
     if not stores:
         pytest.skip("No stores in dataset")

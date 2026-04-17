@@ -10,7 +10,7 @@ from core.global_settings import GlobalSettings
 @pytest.mark.restapi
 @allure.feature("Platform / Authorization (REST API)")
 @allure.title("Get token with valid credentials")
-def test_auth_back_token(global_settings: GlobalSettings):
+def test_auth_back_token(global_settings: GlobalSettings) -> None:
     with allure.step("POST /connect/token — valid admin credentials"):
         response = requests.post(
             f"{global_settings.backend_base_url}/connect/token",
@@ -34,7 +34,7 @@ def test_auth_back_token(global_settings: GlobalSettings):
 @pytest.mark.restapi
 @allure.feature("Platform / Authorization (REST API)")
 @allure.title("Auth validation — empty username returns 400")
-def test_auth_validation_empty_username(global_settings: GlobalSettings):
+def test_auth_validation_empty_username(global_settings: GlobalSettings) -> None:
     with allure.step("POST /connect/token — empty username"):
         response = requests.post(
             f"{global_settings.backend_base_url}/connect/token",
@@ -57,7 +57,7 @@ def test_auth_validation_empty_username(global_settings: GlobalSettings):
 @pytest.mark.restapi
 @allure.feature("Platform / Authorization (REST API)")
 @allure.title("Auth validation — wrong credentials returns 400")
-def test_auth_validation_wrong_credentials(global_settings: GlobalSettings):
+def test_auth_validation_wrong_credentials(global_settings: GlobalSettings) -> None:
     with allure.step("POST /connect/token — wrong password"):
         response = requests.post(
             f"{global_settings.backend_base_url}/connect/token",
@@ -78,7 +78,7 @@ def test_auth_validation_wrong_credentials(global_settings: GlobalSettings):
 @pytest.mark.restapi
 @allure.feature("Platform / Authorization (REST API)")
 @allure.title("Get external sign-in providers")
-def test_auth_external_sign_in_providers(rest_client, backend_base_url: str):
+def test_auth_external_sign_in_providers(rest_client, backend_base_url: str) -> None:
     with allure.step("GET /api/platform/security/externalsigninproviders"):
         try:
             result = rest_client.get(f"{backend_base_url}/api/platform/security/externalsigninproviders")

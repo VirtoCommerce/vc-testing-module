@@ -24,7 +24,7 @@ from restapi.operations import OrganizationOperations
 @pytest.mark.restapi
 @allure.feature("Contacts / Organizations (REST API)")
 @allure.title("Create organization")
-def test_organization_create(make_organization):
+def test_organization_create(make_organization) -> None:
     with allure.step("POST /api/organizations"):
         org = make_organization()
 
@@ -37,7 +37,7 @@ def test_organization_create(make_organization):
 @pytest.mark.restapi
 @allure.feature("Contacts / Organizations (REST API)")
 @allure.title("Create organizations in bulk")
-def test_organization_create_bulk(organization_ops: OrganizationOperations):
+def test_organization_create_bulk(organization_ops: OrganizationOperations) -> None:
     suffix = uuid.uuid4().hex[:6]
     orgs = [
         {"memberType": "Organization", "name": f"QABulkOrg1_{suffix}"},
@@ -66,7 +66,7 @@ def test_organization_create_bulk(organization_ops: OrganizationOperations):
 @pytest.mark.restapi
 @allure.feature("Contacts / Organizations (REST API)")
 @allure.title("Get organization by id")
-def test_organization_get(make_organization, organization_ops: OrganizationOperations):
+def test_organization_get(make_organization, organization_ops: OrganizationOperations) -> None:
     org = make_organization()
 
     with allure.step(f"GET /api/organizations/{org['id']}"):
@@ -80,7 +80,7 @@ def test_organization_get(make_organization, organization_ops: OrganizationOpera
 @pytest.mark.restapi
 @allure.feature("Contacts / Organizations (REST API)")
 @allure.title("Get organizations by ids (bulk)")
-def test_organization_get_bulk(make_organization, organization_ops: OrganizationOperations):
+def test_organization_get_bulk(make_organization, organization_ops: OrganizationOperations) -> None:
     o1 = make_organization()
     o2 = make_organization()
 
@@ -97,7 +97,7 @@ def test_organization_get_bulk(make_organization, organization_ops: Organization
 @pytest.mark.restapi
 @allure.feature("Contacts / Organizations (REST API)")
 @allure.title("Search organizations")
-def test_organization_search(make_organization, organization_ops: OrganizationOperations):
+def test_organization_search(make_organization, organization_ops: OrganizationOperations) -> None:
     org = make_organization()
 
     with allure.step("POST /api/organizations/search — objectIds"):
@@ -112,7 +112,7 @@ def test_organization_search(make_organization, organization_ops: OrganizationOp
 @pytest.mark.restapi
 @allure.feature("Contacts / Organizations (REST API)")
 @allure.title("Update organization — rename")
-def test_organization_update(make_organization, organization_ops: OrganizationOperations):
+def test_organization_update(make_organization, organization_ops: OrganizationOperations) -> None:
     org = make_organization()
     new_name = f"{org['name']}_UPD_{uuid.uuid4().hex[:4]}"
 
@@ -127,7 +127,7 @@ def test_organization_update(make_organization, organization_ops: OrganizationOp
 @pytest.mark.restapi
 @allure.feature("Contacts / Organizations (REST API)")
 @allure.title("Update organizations in bulk")
-def test_organization_update_bulk(make_organization, organization_ops: OrganizationOperations):
+def test_organization_update_bulk(make_organization, organization_ops: OrganizationOperations) -> None:
     o1 = make_organization()
     o2 = make_organization()
     suffix = uuid.uuid4().hex[:4]
@@ -150,7 +150,7 @@ def test_organization_update_bulk(make_organization, organization_ops: Organizat
 @pytest.mark.restapi
 @allure.feature("Contacts / Organizations (REST API)")
 @allure.title("Organization full cycle — create→get→update→delete")
-def test_organization_cycle(organization_ops: OrganizationOperations):
+def test_organization_cycle(organization_ops: OrganizationOperations) -> None:
     name = f"QACycle_{uuid.uuid4().hex[:8]}"
 
     with allure.step("Create"):
@@ -176,7 +176,7 @@ def test_organization_cycle(organization_ops: OrganizationOperations):
 @pytest.mark.restapi
 @allure.feature("Contacts / Organizations (REST API)")
 @allure.title("Organization bulk cycle — create→get→update→delete bulk")
-def test_organization_cycle_bulk(organization_ops: OrganizationOperations):
+def test_organization_cycle_bulk(organization_ops: OrganizationOperations) -> None:
     suffix = uuid.uuid4().hex[:6]
     orgs_data = [
         {"memberType": "Organization", "name": f"QACycleBulk1_{suffix}"},
@@ -214,7 +214,7 @@ def test_organization_cycle_bulk(organization_ops: OrganizationOperations):
 @pytest.mark.restapi
 @allure.feature("Contacts / Organizations (REST API)")
 @allure.title("Delete organizations in bulk")
-def test_organization_delete_bulk(organization_ops: OrganizationOperations):
+def test_organization_delete_bulk(organization_ops: OrganizationOperations) -> None:
     suffix = uuid.uuid4().hex[:6]
     o1 = organization_ops.create(name=f"QADelBulk1_{suffix}")
     o2 = organization_ops.create(name=f"QADelBulk2_{suffix}")

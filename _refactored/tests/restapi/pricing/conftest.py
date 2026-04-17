@@ -47,16 +47,17 @@ def make_pricelist(pricelist_ops: PricelistOperations) -> Generator[Callable[...
 def make_assignment(
     assignment_ops: PricelistAssignmentOperations,
     make_pricelist: Callable[..., dict],
+    seed_catalog_id: str,
 ) -> Generator[Callable[..., dict], None, None]:
     created_ids: list[str] = []
 
-    def _make(*, pricelist: dict | None = None, catalog_id: str = "catalog-acme", **overrides: Any) -> dict:
+    def _make(*, pricelist: dict | None = None, catalog_id: str | None = None, **overrides: Any) -> dict:
         if pricelist is None:
             pricelist = make_pricelist()
         name = overrides.pop("name", f"QAAssign_{uuid.uuid4().hex[:8]}")
         assignment = assignment_ops.create(
             pricelist_id=pricelist["id"],
-            catalog_id=catalog_id,
+            catalog_id=catalog_id or seed_catalog_id,
             name=name,
             **overrides,
         )

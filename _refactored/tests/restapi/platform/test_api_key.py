@@ -26,7 +26,7 @@ def _create_key_and_find(api_key_ops: ApiKeyOperations, user_id: str, key_name: 
 @pytest.mark.restapi
 @allure.feature("Platform / API Keys (REST API)")
 @allure.title("Create API key for user")
-def test_api_key_create(make_user, user_ops: UserOperations, api_key_ops: ApiKeyOperations):
+def test_api_key_create(make_user, user_ops: UserOperations, api_key_ops: ApiKeyOperations) -> None:
     user = make_user()
     full_user = user_ops.get_by_name(user["user_name"])
 
@@ -44,7 +44,7 @@ def test_api_key_create(make_user, user_ops: UserOperations, api_key_ops: ApiKey
 @pytest.mark.restapi
 @allure.feature("Platform / API Keys (REST API)")
 @allure.title("Get API keys by user id")
-def test_api_key_get_by_user(make_user, user_ops: UserOperations, api_key_ops: ApiKeyOperations):
+def test_api_key_get_by_user(make_user, user_ops: UserOperations, api_key_ops: ApiKeyOperations) -> None:
     user = make_user()
     full_user = user_ops.get_by_name(user["user_name"])
     key = _create_key_and_find(api_key_ops, full_user["id"], f"QAKey_{uuid.uuid4().hex[:8]}")
@@ -63,7 +63,7 @@ def test_api_key_get_by_user(make_user, user_ops: UserOperations, api_key_ops: A
 @pytest.mark.restapi
 @allure.feature("Platform / API Keys (REST API)")
 @allure.title("Update API key — deactivate")
-def test_api_key_update(make_user, user_ops: UserOperations, api_key_ops: ApiKeyOperations):
+def test_api_key_update(make_user, user_ops: UserOperations, api_key_ops: ApiKeyOperations) -> None:
     user = make_user()
     full_user = user_ops.get_by_name(user["user_name"])
     key = _create_key_and_find(api_key_ops, full_user["id"], f"QAKey_{uuid.uuid4().hex[:8]}")
@@ -84,7 +84,7 @@ def test_api_key_update(make_user, user_ops: UserOperations, api_key_ops: ApiKey
 @pytest.mark.restapi
 @allure.feature("Platform / API Keys (REST API)")
 @allure.title("Delete API key")
-def test_api_key_delete(make_user, user_ops: UserOperations, api_key_ops: ApiKeyOperations):
+def test_api_key_delete(make_user, user_ops: UserOperations, api_key_ops: ApiKeyOperations) -> None:
     user = make_user()
     full_user = user_ops.get_by_name(user["user_name"])
     key = _create_key_and_find(api_key_ops, full_user["id"], f"QAKey_{uuid.uuid4().hex[:8]}")

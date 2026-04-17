@@ -15,7 +15,7 @@ from restapi.operations import UserOperations
 @pytest.mark.restapi
 @allure.feature("Platform / User Password (REST API)")
 @allure.title("Reset password — admin path")
-def test_user_password_reset_admin(make_user, user_ops: UserOperations, global_settings: GlobalSettings):
+def test_user_password_reset_admin(make_user, user_ops: UserOperations, global_settings: GlobalSettings) -> None:
     user = make_user()
     new_password = f"NewPwd!{uuid.uuid4().hex[:8]}"
 
@@ -35,7 +35,7 @@ def test_user_password_reset_admin(make_user, user_ops: UserOperations, global_s
 @pytest.mark.restapi
 @allure.feature("Platform / User Password (REST API)")
 @allure.title("Change password — current user path")
-def test_user_password_change(make_user, user_ops: UserOperations, global_settings: GlobalSettings):
+def test_user_password_change(make_user, user_ops: UserOperations, global_settings: GlobalSettings) -> None:
     user = make_user()
     new_password = f"Changed!{uuid.uuid4().hex[:8]}"
 
@@ -55,7 +55,7 @@ def test_user_password_change(make_user, user_ops: UserOperations, global_settin
 @pytest.mark.restapi
 @allure.feature("Platform / User Password (REST API)")
 @allure.title("Validate password — weak password rejected")
-def test_user_password_validate_weak(user_ops: UserOperations):
+def test_user_password_validate_weak(user_ops: UserOperations) -> None:
     with allure.step("POST /api/platform/security/validatepassword — '123'"):
         result = user_ops.validate_password("123")
 
@@ -66,7 +66,7 @@ def test_user_password_validate_weak(user_ops: UserOperations):
 @pytest.mark.restapi
 @allure.feature("Platform / User Password (REST API)")
 @allure.title("Validate password — strong password accepted")
-def test_user_password_validate_strong(user_ops: UserOperations):
+def test_user_password_validate_strong(user_ops: UserOperations) -> None:
     strong = f"StrongPwd!{uuid.uuid4().hex[:8]}"
 
     with allure.step(f"POST /api/platform/security/validatepassword — '{strong}'"):
@@ -79,7 +79,7 @@ def test_user_password_validate_strong(user_ops: UserOperations):
 @pytest.mark.restapi
 @allure.feature("Platform / User Password (REST API)")
 @allure.title("Send verification email")
-def test_user_send_verification_email(make_user, user_ops: UserOperations):
+def test_user_send_verification_email(make_user, user_ops: UserOperations) -> None:
     user = make_user()
     full_user = user_ops.get_by_name(user["user_name"])
 
@@ -92,7 +92,7 @@ def test_user_send_verification_email(make_user, user_ops: UserOperations):
 @pytest.mark.restapi
 @allure.feature("Platform / User Password (REST API)")
 @allure.title("Reset password on login page flow")
-def test_user_password_reset_on_login(make_user, user_ops: UserOperations, global_settings: GlobalSettings):
+def test_user_password_reset_on_login(make_user, user_ops: UserOperations, global_settings: GlobalSettings) -> None:
     """Simulates the forgot-password flow: request reset, then set new password via admin."""
     user = make_user()
     new_password = f"ResetPwd!{uuid.uuid4().hex[:8]}"

@@ -11,7 +11,7 @@ from restapi.operations import RoleOperations
 @pytest.mark.restapi
 @allure.feature("Platform / Roles (REST API)")
 @allure.title("Create role")
-def test_role_create(make_role, role_ops: RoleOperations):
+def test_role_create(make_role, role_ops: RoleOperations) -> None:
     with allure.step("POST /api/platform/security/roles"):
         role = make_role(permissions=[{"name": "security:call_api"}])
 
@@ -23,7 +23,7 @@ def test_role_create(make_role, role_ops: RoleOperations):
 @pytest.mark.restapi
 @allure.feature("Platform / Roles (REST API)")
 @allure.title("Get role by name")
-def test_role_get_by_name(make_role, role_ops: RoleOperations):
+def test_role_get_by_name(make_role, role_ops: RoleOperations) -> None:
     role = make_role(permissions=[{"name": "security:call_api"}])
 
     with allure.step(f"GET /api/platform/security/roles/{role['name']}"):
@@ -37,7 +37,7 @@ def test_role_get_by_name(make_role, role_ops: RoleOperations):
 @pytest.mark.restapi
 @allure.feature("Platform / Roles (REST API)")
 @allure.title("Search roles")
-def test_role_search(make_role, role_ops: RoleOperations):
+def test_role_search(make_role, role_ops: RoleOperations) -> None:
     role = make_role()
 
     with allure.step("POST /api/platform/security/roles/search"):
@@ -52,7 +52,7 @@ def test_role_search(make_role, role_ops: RoleOperations):
 @pytest.mark.restapi
 @allure.feature("Platform / Roles (REST API)")
 @allure.title("Update role — change description")
-def test_role_update(make_role, role_ops: RoleOperations):
+def test_role_update(make_role, role_ops: RoleOperations) -> None:
     role = make_role()
     new_desc = f"Updated_{uuid.uuid4().hex[:6]}"
 
@@ -67,7 +67,7 @@ def test_role_update(make_role, role_ops: RoleOperations):
 @pytest.mark.restapi
 @allure.feature("Platform / Roles (REST API)")
 @allure.title("Delete role")
-def test_role_delete(make_role, role_ops: RoleOperations):
+def test_role_delete(make_role, role_ops: RoleOperations) -> None:
     role = make_role()
 
     with allure.step(f"DELETE /api/platform/security/roles?ids={role['id']}"):
@@ -82,7 +82,7 @@ def test_role_delete(make_role, role_ops: RoleOperations):
 @pytest.mark.restapi
 @allure.feature("Platform / Roles (REST API)")
 @allure.title("Remove permission from role")
-def test_role_remove_permission(make_role, role_ops: RoleOperations):
+def test_role_remove_permission(make_role, role_ops: RoleOperations) -> None:
     role = make_role(permissions=[{"name": "security:call_api"}, {"name": "cache:reset"}])
 
     with allure.step("Remove one permission"):
@@ -98,7 +98,7 @@ def test_role_remove_permission(make_role, role_ops: RoleOperations):
 @pytest.mark.restapi
 @allure.feature("Platform / Roles (REST API)")
 @allure.title("Get all permissions")
-def test_role_get_all_permissions(role_ops: RoleOperations):
+def test_role_get_all_permissions(role_ops: RoleOperations) -> None:
     with allure.step("GET /api/platform/security/permissions"):
         permissions = role_ops.get_all_permissions()
 

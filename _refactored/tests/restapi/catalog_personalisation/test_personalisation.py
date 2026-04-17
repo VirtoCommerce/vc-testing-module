@@ -26,7 +26,7 @@ from core.clients.rest import RestClient
 @pytest.mark.restapi
 @allure.feature("Catalog Personalisation / Tags (REST API)")
 @allure.title("Get tags from settings dictionary")
-def test_tag_get(rest_client: RestClient, backend_base_url: str):
+def test_tag_get(rest_client: RestClient, backend_base_url: str) -> None:
     with allure.step("GET /api/platform/settings/values/Customer.MemberGroups"):
         result = rest_client.get(f"{backend_base_url}/api/platform/settings/values/Customer.MemberGroups")
 
@@ -37,7 +37,7 @@ def test_tag_get(rest_client: RestClient, backend_base_url: str):
 @pytest.mark.restapi
 @allure.feature("Catalog Personalisation / Tags (REST API)")
 @allure.title("Search personalisation tags")
-def test_tag_search(rest_client: RestClient, backend_base_url: str):
+def test_tag_search(rest_client: RestClient, backend_base_url: str) -> None:
     with allure.step("POST /api/personalization/search"):
         result = rest_client.post(f"{backend_base_url}/api/personalization/search", json={"skip": 0, "take": 20})
 
@@ -49,7 +49,7 @@ def test_tag_search(rest_client: RestClient, backend_base_url: str):
 @pytest.mark.restapi
 @allure.feature("Catalog Personalisation / Tags (REST API)")
 @allure.title("PUT assign tag to product — response contains entityId")
-def test_tag_put_assign_product(rest_client: RestClient, backend_base_url: str, dataset: dict):
+def test_tag_put_assign_product(rest_client: RestClient, backend_base_url: str, dataset: dict) -> None:
     products = dataset.get("products", [])
     if not products:
         pytest.skip("No products in dataset")
@@ -71,7 +71,7 @@ def test_tag_put_assign_product(rest_client: RestClient, backend_base_url: str, 
 @pytest.mark.restapi
 @allure.feature("Catalog Personalisation / Tags (REST API)")
 @allure.title("PUT assign tag to category — response contains entityId")
-def test_tag_put_assign_category(rest_client: RestClient, backend_base_url: str, dataset: dict):
+def test_tag_put_assign_category(rest_client: RestClient, backend_base_url: str, dataset: dict) -> None:
     categories = dataset.get("categories", [])
     if not categories:
         pytest.skip("No categories in dataset")
@@ -93,7 +93,7 @@ def test_tag_put_assign_category(rest_client: RestClient, backend_base_url: str,
 @pytest.mark.restapi
 @allure.feature("Catalog Personalisation / Tags (REST API)")
 @allure.title("PUT unassign tag from product — empty tags succeeds")
-def test_tag_put_unassign_product(rest_client: RestClient, backend_base_url: str, dataset: dict):
+def test_tag_put_unassign_product(rest_client: RestClient, backend_base_url: str, dataset: dict) -> None:
     products = dataset.get("products", [])
     if not products:
         pytest.skip("No products in dataset")
@@ -116,7 +116,7 @@ def test_tag_put_unassign_product(rest_client: RestClient, backend_base_url: str
 @pytest.mark.serial
 @allure.feature("Catalog Personalisation / Outlines (REST API)")
 @allure.title("Synchronize outlines — job accepted")
-def test_tag_outlines_sync(rest_client: RestClient, backend_base_url: str):
+def test_tag_outlines_sync(rest_client: RestClient, backend_base_url: str) -> None:
     with allure.step("POST /api/personalization/outlines/synchronize"):
         try:
             result = rest_client.post(f"{backend_base_url}/api/personalization/outlines/synchronize", json={})
@@ -130,7 +130,7 @@ def test_tag_outlines_sync(rest_client: RestClient, backend_base_url: str):
 @pytest.mark.restapi
 @allure.feature("Catalog Personalisation / Tags (REST API)")
 @allure.title("Get settings tags — Customer.MemberGroups")
-def test_tag_settings_get(rest_client: RestClient, backend_base_url: str):
+def test_tag_settings_get(rest_client: RestClient, backend_base_url: str) -> None:
     with allure.step("GET /api/platform/settings/values/Customer.MemberGroups"):
         result = rest_client.get(f"{backend_base_url}/api/platform/settings/values/Customer.MemberGroups")
 

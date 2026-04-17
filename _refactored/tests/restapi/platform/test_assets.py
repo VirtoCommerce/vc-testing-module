@@ -33,7 +33,7 @@ def _delete_folder_safe(rest_client: RestClient, backend_base_url: str, folder: 
 @pytest.mark.restapi
 @allure.feature("Platform / Assets (REST API)")
 @allure.title("Upload asset file from URL")
-def test_asset_upload_url(rest_client: RestClient, backend_base_url: str):
+def test_asset_upload_url(rest_client: RestClient, backend_base_url: str) -> None:
     folder = f"qa-test-{uuid.uuid4().hex[:6]}"
 
     try:
@@ -52,7 +52,7 @@ def test_asset_upload_url(rest_client: RestClient, backend_base_url: str):
 @pytest.mark.restapi
 @allure.feature("Platform / Assets (REST API)")
 @allure.title("Upload image file from URL")
-def test_asset_upload_url_image(rest_client: RestClient, backend_base_url: str):
+def test_asset_upload_url_image(rest_client: RestClient, backend_base_url: str) -> None:
     folder = f"qa-img-{uuid.uuid4().hex[:6]}"
 
     try:
@@ -71,7 +71,7 @@ def test_asset_upload_url_image(rest_client: RestClient, backend_base_url: str):
 @pytest.mark.restapi
 @allure.feature("Platform / Assets (REST API)")
 @allure.title("Upload local file")
-def test_asset_upload_local(rest_client: RestClient, backend_base_url: str):
+def test_asset_upload_local(rest_client: RestClient, backend_base_url: str) -> None:
     folder = f"qa-local-{uuid.uuid4().hex[:6]}"
 
     try:
@@ -88,7 +88,7 @@ def test_asset_upload_local(rest_client: RestClient, backend_base_url: str):
 @pytest.mark.restapi
 @allure.feature("Platform / Assets (REST API)")
 @allure.title("Upload local file to storage")
-def test_asset_upload_local_storage(rest_client: RestClient, backend_base_url: str):
+def test_asset_upload_local_storage(rest_client: RestClient, backend_base_url: str) -> None:
     with allure.step("POST /api/assets/localstorage — multipart upload"):
         rest_client.post_multipart(
             f"{backend_base_url}/api/assets/localstorage",
@@ -99,7 +99,7 @@ def test_asset_upload_local_storage(rest_client: RestClient, backend_base_url: s
 @pytest.mark.restapi
 @allure.feature("Platform / Assets (REST API)")
 @allure.title("Access uploaded asset file")
-def test_asset_file_access(rest_client: RestClient, backend_base_url: str, global_settings: GlobalSettings):
+def test_asset_file_access(rest_client: RestClient, backend_base_url: str, global_settings: GlobalSettings) -> None:
     folder = f"qa-access-{uuid.uuid4().hex[:6]}"
 
     try:
@@ -128,7 +128,7 @@ def test_asset_file_access(rest_client: RestClient, backend_base_url: str, globa
 @pytest.mark.restapi
 @allure.feature("Platform / Assets (REST API)")
 @allure.title("Access asset file after delete — expect 404")
-def test_asset_file_access_after_delete(rest_client: RestClient, backend_base_url: str):
+def test_asset_file_access_after_delete(rest_client: RestClient, backend_base_url: str) -> None:
     folder = f"qa-del-{uuid.uuid4().hex[:6]}"
 
     try:
@@ -155,7 +155,7 @@ def test_asset_file_access_after_delete(rest_client: RestClient, backend_base_ur
 @pytest.mark.restapi
 @allure.feature("Platform / Assets (REST API)")
 @allure.title("Create asset folder")
-def test_asset_folder_create(rest_client: RestClient, backend_base_url: str):
+def test_asset_folder_create(rest_client: RestClient, backend_base_url: str) -> None:
     folder_name = f"qa-folder-{uuid.uuid4().hex[:6]}"
 
     try:
@@ -171,7 +171,7 @@ def test_asset_folder_create(rest_client: RestClient, backend_base_url: str):
 @pytest.mark.restapi
 @allure.feature("Platform / Assets (REST API)")
 @allure.title("List assets in folder")
-def test_asset_folder_list(rest_client: RestClient, backend_base_url: str):
+def test_asset_folder_list(rest_client: RestClient, backend_base_url: str) -> None:
     with allure.step("GET /api/assets"):
         result = rest_client.get(f"{backend_base_url}/api/assets")
 
@@ -182,7 +182,7 @@ def test_asset_folder_list(rest_client: RestClient, backend_base_url: str):
 @pytest.mark.restapi
 @allure.feature("Platform / Assets (REST API)")
 @allure.title("Delete asset folder")
-def test_asset_folder_delete(rest_client: RestClient, backend_base_url: str):
+def test_asset_folder_delete(rest_client: RestClient, backend_base_url: str) -> None:
     folder_name = f"qa-delfolder-{uuid.uuid4().hex[:6]}"
 
     try:
@@ -198,7 +198,7 @@ def test_asset_folder_delete(rest_client: RestClient, backend_base_url: str):
 @pytest.mark.restapi
 @allure.feature("Platform / Assets (REST API)")
 @allure.title("Create and delete folders in bulk")
-def test_asset_folder_create_delete_bulk(rest_client: RestClient, backend_base_url: str):
+def test_asset_folder_create_delete_bulk(rest_client: RestClient, backend_base_url: str) -> None:
     suffix = uuid.uuid4().hex[:6]
     folders = [f"qa-bulk-{suffix}-{i}" for i in range(3)]
 
@@ -219,7 +219,7 @@ def test_asset_folder_create_delete_bulk(rest_client: RestClient, backend_base_u
 @pytest.mark.restapi
 @allure.feature("Platform / Assets (REST API)")
 @allure.title("Create folder — error validation (empty name)")
-def test_asset_folder_create_error_validation(rest_client: RestClient, backend_base_url: str):
+def test_asset_folder_create_error_validation(rest_client: RestClient, backend_base_url: str) -> None:
     with allure.step("POST /api/assets/folder — empty name"):
         try:
             rest_client.post(f"{backend_base_url}/api/assets/folder", json={"name": "", "parentUrl": ""})

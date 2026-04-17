@@ -12,7 +12,7 @@ from restapi.operations import ProductOperations, SettingsOperations
 @pytest.mark.restapi
 @allure.feature("Catalog / Products (REST API)")
 @allure.title("Create product")
-def test_product_create(make_product):
+def test_product_create(make_product) -> None:
     with allure.step("POST /api/catalog/products"):
         product = make_product()
 
@@ -27,7 +27,7 @@ def test_product_create(make_product):
 @pytest.mark.restapi
 @allure.feature("Catalog / Products (REST API)")
 @allure.title("Update product — rename and change dimensions")
-def test_product_update(make_product, product_ops: ProductOperations):
+def test_product_update(make_product, product_ops: ProductOperations) -> None:
     product = make_product()
     new_name = f"{product['name']}_UPD_{uuid.uuid4().hex[:4]}"
 
@@ -43,7 +43,7 @@ def test_product_update(make_product, product_ops: ProductOperations):
 @pytest.mark.restapi
 @allure.feature("Catalog / Products (REST API)")
 @allure.title("Get product by id")
-def test_product_get_by_id(make_product, product_ops: ProductOperations):
+def test_product_get_by_id(make_product, product_ops: ProductOperations) -> None:
     product = make_product()
 
     with allure.step(f"GET /api/catalog/products?ids={product['id']}"):
@@ -58,7 +58,7 @@ def test_product_get_by_id(make_product, product_ops: ProductOperations):
 @pytest.mark.restapi
 @allure.feature("Catalog / Products (REST API)")
 @allure.title("Delete product")
-def test_product_delete(make_product, product_ops: ProductOperations):
+def test_product_delete(make_product, product_ops: ProductOperations) -> None:
     product = make_product()
 
     with allure.step(f"POST /api/catalog/listentries/delete — objectIds=[{product['id']}]"):
@@ -77,7 +77,7 @@ def test_product_delete(make_product, product_ops: ProductOperations):
 @pytest.mark.restapi
 @allure.feature("Catalog / Products (REST API)")
 @allure.title("Update product images")
-def test_product_update_image(make_product, product_ops: ProductOperations):
+def test_product_update_image(make_product, product_ops: ProductOperations) -> None:
     product = make_product()
     image = {
         "name": "qa-image.svg",
@@ -104,7 +104,7 @@ def test_product_update_image(make_product, product_ops: ProductOperations):
 @pytest.mark.restapi
 @allure.feature("Catalog / Products (REST API)")
 @allure.title("Create/update product via raw body (clone flow)")
-def test_product_create_update_with_body(make_product, product_ops: ProductOperations):
+def test_product_create_update_with_body(make_product, product_ops: ProductOperations) -> None:
     product = make_product()
 
     with allure.step(f"GET /api/catalog/products/{product['id']}/clone"):
@@ -132,7 +132,7 @@ def test_product_create_update_with_body(make_product, product_ops: ProductOpera
 @pytest.mark.restapi
 @allure.feature("Catalog / Products (REST API)")
 @allure.title("Get product by non-existent id — expect empty result or 404")
-def test_product_get_not_found(product_ops: ProductOperations):
+def test_product_get_not_found(product_ops: ProductOperations) -> None:
     bogus_id = f"qa-missing-{uuid.uuid4().hex}"
 
     with allure.step(f"GET /api/catalog/products?ids={bogus_id}"):
@@ -148,7 +148,7 @@ def test_product_get_not_found(product_ops: ProductOperations):
 @pytest.mark.restapi
 @allure.feature("Catalog / Products (REST API)")
 @allure.title("Get product clone body")
-def test_product_get_clone_body(make_product, product_ops: ProductOperations):
+def test_product_get_clone_body(make_product, product_ops: ProductOperations) -> None:
     product = make_product()
 
     with allure.step(f"GET /api/catalog/products/{product['id']}/clone"):
@@ -162,7 +162,7 @@ def test_product_get_clone_body(make_product, product_ops: ProductOperations):
 @pytest.mark.restapi
 @allure.feature("Catalog / Products (REST API)")
 @allure.title("Move product to another catalog")
-def test_product_move_to_catalog(make_product, make_catalog, product_ops: ProductOperations):
+def test_product_move_to_catalog(make_product, make_catalog, product_ops: ProductOperations) -> None:
     product = make_product()
     target_catalog = make_catalog()
 
@@ -190,7 +190,7 @@ def test_product_move_to_catalog(make_product, make_catalog, product_ops: Produc
 @pytest.mark.serial
 @allure.feature("Catalog / Products (REST API)")
 @allure.title("Editorial review types — add, rename, remove")
-def test_product_description_types(rest_client, backend_base_url):
+def test_product_description_types(rest_client, backend_base_url) -> None:
     setting_name = "Catalog.EditorialReviewTypes"
     settings_ops = SettingsOperations(rest_client, backend_base_url)
 

@@ -9,7 +9,7 @@ from core.clients.rest import RestClient
 @pytest.mark.restapi
 @allure.feature("Platform / Modules (REST API)")
 @allure.title("Get installed modules")
-def test_modules_get_installed(rest_client: RestClient, backend_base_url: str):
+def test_modules_get_installed(rest_client: RestClient, backend_base_url: str) -> None:
     with allure.step("GET /api/platform/modules"):
         modules = rest_client.get(f"{backend_base_url}/api/platform/modules")
 
@@ -24,7 +24,7 @@ def test_modules_get_installed(rest_client: RestClient, backend_base_url: str):
 @allure.feature("Platform / Modules (REST API)")
 @allure.title("Reload modules")
 @pytest.mark.serial
-def test_modules_reload(rest_client: RestClient, backend_base_url: str):
+def test_modules_reload(rest_client: RestClient, backend_base_url: str) -> None:
     with allure.step("POST /api/platform/modules/reload"):
         rest_client.post(f"{backend_base_url}/api/platform/modules/reload", json={})
 
