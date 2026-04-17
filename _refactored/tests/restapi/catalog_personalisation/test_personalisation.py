@@ -15,10 +15,11 @@ Katalon scripts:
   tagOutlinesSync            → test_tag_outlines_sync (serial)
 """
 
-from requests.exceptions import HTTPError
+import uuid
 
 import allure
 import pytest
+from requests.exceptions import HTTPError
 
 from core.clients.rest import RestClient
 
@@ -136,3 +137,33 @@ def test_tag_settings_get(rest_client: RestClient, backend_base_url: str) -> Non
 
     with allure.step("Verify list of tags"):
         assert isinstance(result, list)
+
+
+@pytest.mark.restapi
+@pytest.mark.serial
+@allure.feature("Catalog Personalisation / Tags (REST API)")
+@allure.title("Add tag to Customer.MemberGroups dictionary and verify round-trip")
+def test_tag_add_to_member_groups(rest_client: RestClient, backend_base_url: str) -> None:
+    setting_name = "Customer.MemberGroups"
+    tag_value = f"QA_TAG_{uuid.uuid4().hex[:6]}"
+
+    with allure.step(f"Read current {setting_name}"):
+        current = rest_client.get(f"{backend_base_url}/api/platform/settings/{setting_name}")
+        assert isinstance(current, dict)
+        original_values = list(current.get("allowedValues") or [])
+
+    try:
+        with allure.step(f"PUT — add {tag_value}"):
+            updated = {**current, "allowedValues": original_values + [tag_value]}
+            rest_client.post(f"{backend_base_url}/api/platform/settings", json=[updated])
+
+        with allure.step("Verify tag present in GET"):
+            reloaded = rest_client.get(f"{backend_base_url}/api/platform/settings/{setting_name}")
+            assert tag_value in (reloaded.get("allowedValues") or [])
+    finally:
+        with allure.step("Restore original tag list"):
+            try:
+                restore = {**current, "allowedValues": original_values}
+                rest_client.post(f"{backend_base_url}/api/platform/settings", json=[restore])
+            except Exception:
+                pass
