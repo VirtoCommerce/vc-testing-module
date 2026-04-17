@@ -68,3 +68,34 @@ PRODUCT_TEMPLATE = {
         }
     ],
 }
+
+# Reference line item used by the Katalon-migrated order lifecycle tests —
+# matches a product seeded into the dataset (orders.json).
+ORDER_LINE_ITEM_TEMPLATE = {
+    "currency": "USD",
+    "price": 995.99,
+    "quantity": 1,
+    "productId": "product-acme-laptop-lenovo-ideapad-5i",
+    "sku": "product-acme-laptop-lenovo-ideapad-5i",
+    "productType": "Physical",
+    "catalogId": "catalog-acme",
+    "categoryId": "category-acme-laptops",
+    "name": "Lenovo Ideapad 5i",
+    "isGift": False,
+    "isCancelled": False,
+    "objectType": "VirtoCommerce.OrdersModule.Core.Model.LineItem",
+}
+
+ORDER_TEMPLATE = {
+    "isPrototype": False,
+    "objectType": "VirtoCommerce.OrdersModule.Core.Model.CustomerOrder",
+    "addresses": [],
+    "inPayments": [],
+    "shipments": [],
+    "discounts": [],
+    "status": "New",
+    "currency": "USD",
+    "childrenOperations": [],
+    "isCancelled": False,
+    "dynamicProperties": [],
+}
