@@ -22,7 +22,7 @@ from core.global_settings import GlobalSettings
 @pytest.mark.restapi
 @allure.feature("Content / Pages (REST API)")
 @allure.title("Verify content search endpoint works")
-def test_content_create_page(rest_client: RestClient, backend_base_url: str, global_settings: GlobalSettings):
+def test_content_create_page(rest_client: RestClient, backend_base_url: str, global_settings: GlobalSettings) -> None:
     """Original create-page test required multipart upload (not JSON body).
     Replaced with a search-based smoke test that verifies the content API is reachable.
     """
@@ -38,7 +38,7 @@ def test_content_create_page(rest_client: RestClient, backend_base_url: str, glo
 @pytest.mark.restapi
 @allure.feature("Content / Pages (REST API)")
 @allure.title("Search content pages")
-def test_content_search_pages(rest_client: RestClient, backend_base_url: str, global_settings: GlobalSettings):
+def test_content_search_pages(rest_client: RestClient, backend_base_url: str, global_settings: GlobalSettings) -> None:
     store_id = global_settings.store_id
 
     with allure.step(f"GET /api/content/pages/{store_id}/search"):
@@ -51,7 +51,7 @@ def test_content_search_pages(rest_client: RestClient, backend_base_url: str, gl
 @pytest.mark.restapi
 @allure.feature("Content / Pages (REST API)")
 @allure.title("Get content stats for store")
-def test_content_stats(rest_client: RestClient, backend_base_url: str, global_settings: GlobalSettings):
+def test_content_stats(rest_client: RestClient, backend_base_url: str, global_settings: GlobalSettings) -> None:
     store_id = global_settings.store_id
 
     with allure.step(f"GET /api/content/{store_id}/stats"):
@@ -64,7 +64,7 @@ def test_content_stats(rest_client: RestClient, backend_base_url: str, global_se
 @pytest.mark.restapi
 @allure.feature("Content / Menu (REST API)")
 @allure.title("Create menu link list")
-def test_content_menu_create(rest_client: RestClient, backend_base_url: str, global_settings: GlobalSettings):
+def test_content_menu_create(rest_client: RestClient, backend_base_url: str, global_settings: GlobalSettings) -> None:
     store_id = global_settings.store_id
     menu_name = f"QAMenu_{uuid.uuid4().hex[:6]}"
 
@@ -74,8 +74,8 @@ def test_content_menu_create(rest_client: RestClient, backend_base_url: str, glo
             json={"name": menu_name, "storeId": store_id, "language": "en-US", "menuLinks": []},
         )
 
-    with allure.step("Verify"):
-        assert result is not None or True  # may return 204
+    with allure.step("Verify response shape"):
+        assert result is None or isinstance(result, (dict, list))
 
     with allure.step("Cleanup"):
         try:
@@ -91,7 +91,7 @@ def test_content_menu_create(rest_client: RestClient, backend_base_url: str, glo
 @pytest.mark.restapi
 @allure.feature("Content / Menu (REST API)")
 @allure.title("Get menu link lists")
-def test_content_menu_get(rest_client: RestClient, backend_base_url: str, global_settings: GlobalSettings):
+def test_content_menu_get(rest_client: RestClient, backend_base_url: str, global_settings: GlobalSettings) -> None:
     store_id = global_settings.store_id
 
     with allure.step(f"GET /api/cms/{store_id}/menu"):
@@ -104,7 +104,9 @@ def test_content_menu_get(rest_client: RestClient, backend_base_url: str, global
 @pytest.mark.restapi
 @allure.feature("Content / Menu (REST API)")
 @allure.title("Check menu name")
-def test_content_menu_checkname(rest_client: RestClient, backend_base_url: str, global_settings: GlobalSettings):
+def test_content_menu_checkname(
+    rest_client: RestClient, backend_base_url: str, global_settings: GlobalSettings
+) -> None:
     store_id = global_settings.store_id
 
     with allure.step(f"GET /api/cms/{store_id}/menu/checkname"):
@@ -120,7 +122,7 @@ def test_content_menu_checkname(rest_client: RestClient, backend_base_url: str, 
 @pytest.mark.restapi
 @allure.feature("Content / Themes (REST API)")
 @allure.title("Search content themes")
-def test_content_search_theme(rest_client: RestClient, backend_base_url: str, global_settings: GlobalSettings):
+def test_content_search_theme(rest_client: RestClient, backend_base_url: str, global_settings: GlobalSettings) -> None:
     store_id = global_settings.store_id
 
     with allure.step(f"GET /api/content/themes/{store_id}/search"):

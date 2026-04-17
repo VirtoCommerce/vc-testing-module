@@ -16,11 +16,13 @@ import pytest
 from core.clients.rest import RestClient
 from restapi.operations import ProductOperations
 
+_GITHUB_SAMPLE_URL = "https://raw.githubusercontent.com/VirtoCommerce/vc-testing-module/dev/README.md"
+
 
 @pytest.mark.restapi
 @allure.feature("Catalog / Assets (REST API)")
 @allure.title("Create asset blob folder")
-def test_asset_create_blob_folder(rest_client: RestClient, backend_base_url: str):
+def test_asset_create_blob_folder(rest_client: RestClient, backend_base_url: str) -> None:
     folder_name = f"qa-cat-folder-{uuid.uuid4().hex[:6]}"
 
     with allure.step(f"POST /api/assets/folder — {folder_name}"):
@@ -39,9 +41,9 @@ def test_asset_create_blob_folder(rest_client: RestClient, backend_base_url: str
 @pytest.mark.restapi
 @allure.feature("Catalog / Assets (REST API)")
 @allure.title("Upload asset file from URL into product folder")
-def test_asset_file_upload(rest_client: RestClient, backend_base_url: str):
+def test_asset_file_upload(rest_client: RestClient, backend_base_url: str) -> None:
     folder = f"catalog-{uuid.uuid4().hex[:6]}"
-    source_url = "https://raw.githubusercontent.com/VirtoCommerce/vc-testing-module/dev/README.md"
+    source_url = _GITHUB_SAMPLE_URL
 
     with allure.step(f"POST /api/assets?folderUrl={folder}&url=..."):
         result = rest_client.post(
@@ -57,7 +59,7 @@ def test_asset_file_upload(rest_client: RestClient, backend_base_url: str):
 @pytest.mark.restapi
 @allure.feature("Catalog / Assets (REST API)")
 @allure.title("Get assets list in folder")
-def test_asset_get_list(rest_client: RestClient, backend_base_url: str):
+def test_asset_get_list(rest_client: RestClient, backend_base_url: str) -> None:
     with allure.step("GET /api/assets"):
         listing = rest_client.get(f"{backend_base_url}/api/assets", params={"folderUrl": ""})
 
@@ -74,7 +76,7 @@ def test_asset_add_to_product(
     product_ops: ProductOperations,
     rest_client: RestClient,
     backend_base_url: str,
-):
+) -> None:
     product = make_product()
     folder = f"catalog-{product['code']}"
     asset_url = ""
@@ -119,7 +121,7 @@ def test_asset_add_to_product(
 @pytest.mark.restapi
 @allure.feature("Catalog / Assets (REST API)")
 @allure.title("Remove asset from product")
-def test_asset_remove_from_product(make_product, product_ops: ProductOperations):
+def test_asset_remove_from_product(make_product, product_ops: ProductOperations) -> None:
     asset_entry = {
         "name": "qa-stub.txt",
         "url": "/qa-stub/qa-stub.txt",
@@ -146,9 +148,9 @@ def test_asset_remove_from_product(make_product, product_ops: ProductOperations)
 @pytest.mark.restapi
 @allure.feature("Catalog / Assets (REST API)")
 @allure.title("Delete uploaded asset from folder")
-def test_asset_delete(rest_client: RestClient, backend_base_url: str):
+def test_asset_delete(rest_client: RestClient, backend_base_url: str) -> None:
     folder = f"qa-catdel-{uuid.uuid4().hex[:6]}"
-    source_url = "https://raw.githubusercontent.com/VirtoCommerce/vc-testing-module/dev/README.md"
+    source_url = _GITHUB_SAMPLE_URL
 
     with allure.step(f"POST /api/assets?folderUrl={folder}&url=... — upload"):
         uploaded = rest_client.post(

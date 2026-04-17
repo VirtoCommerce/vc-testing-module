@@ -26,7 +26,7 @@ from restapi.operations import MemberOperations
 @pytest.mark.restapi
 @allure.feature("Contacts / Members (REST API)")
 @allure.title("Create member via generic endpoint")
-def test_member_create(make_member):
+def test_member_create(make_member) -> None:
     with allure.step("POST /api/members"):
         member = make_member(member_type="Organization")
 
@@ -38,7 +38,7 @@ def test_member_create(make_member):
 @pytest.mark.restapi
 @allure.feature("Contacts / Members (REST API)")
 @allure.title("Create members in bulk")
-def test_member_create_bulk(member_ops: MemberOperations):
+def test_member_create_bulk(member_ops: MemberOperations) -> None:
     suffix = uuid.uuid4().hex[:6]
     members = [
         {"memberType": "Organization", "name": f"QABulkMember1_{suffix}"},
@@ -63,7 +63,7 @@ def test_member_create_bulk(member_ops: MemberOperations):
 @pytest.mark.restapi
 @allure.feature("Contacts / Members (REST API)")
 @allure.title("Create member in organization with account")
-def test_member_create_in_org(make_organization, make_member):
+def test_member_create_in_org(make_organization, make_member) -> None:
     org = make_organization()
     suffix = uuid.uuid4().hex[:8]
 
@@ -83,7 +83,7 @@ def test_member_create_in_org(make_organization, make_member):
 @pytest.mark.restapi
 @allure.feature("Contacts / Members (REST API)")
 @allure.title("Get member by id")
-def test_member_get_by_id(make_member, member_ops: MemberOperations):
+def test_member_get_by_id(make_member, member_ops: MemberOperations) -> None:
     member = make_member()
 
     with allure.step(f"GET /api/members/{member['id']}"):
@@ -97,7 +97,7 @@ def test_member_get_by_id(make_member, member_ops: MemberOperations):
 @pytest.mark.restapi
 @allure.feature("Contacts / Members (REST API)")
 @allure.title("Get members by ids with response group")
-def test_member_get_by_ids_group(make_member, member_ops: MemberOperations):
+def test_member_get_by_ids_group(make_member, member_ops: MemberOperations) -> None:
     m1 = make_member()
     m2 = make_member()
 
@@ -114,7 +114,7 @@ def test_member_get_by_ids_group(make_member, member_ops: MemberOperations):
 @pytest.mark.restapi
 @allure.feature("Contacts / Members (REST API)")
 @allure.title("Search members")
-def test_member_search(make_member, member_ops: MemberOperations):
+def test_member_search(make_member, member_ops: MemberOperations) -> None:
     member = make_member()
 
     with allure.step("POST /api/members/search — objectIds"):
@@ -129,7 +129,7 @@ def test_member_search(make_member, member_ops: MemberOperations):
 @pytest.mark.restapi
 @allure.feature("Contacts / Members (REST API)")
 @allure.title("Update member")
-def test_member_update(make_member, member_ops: MemberOperations):
+def test_member_update(make_member, member_ops: MemberOperations) -> None:
     member = make_member()
     new_name = f"{member['name']}_UPD_{uuid.uuid4().hex[:4]}"
 
@@ -144,7 +144,7 @@ def test_member_update(make_member, member_ops: MemberOperations):
 @pytest.mark.restapi
 @allure.feature("Contacts / Members (REST API)")
 @allure.title("Update members in bulk")
-def test_member_update_bulk(make_member, member_ops: MemberOperations):
+def test_member_update_bulk(make_member, member_ops: MemberOperations) -> None:
     m1 = make_member()
     m2 = make_member()
     suffix = uuid.uuid4().hex[:4]
@@ -167,7 +167,7 @@ def test_member_update_bulk(make_member, member_ops: MemberOperations):
 @pytest.mark.restapi
 @allure.feature("Contacts / Members (REST API)")
 @allure.title("Delete member")
-def test_member_delete(member_ops: MemberOperations):
+def test_member_delete(member_ops: MemberOperations) -> None:
     name = f"QADelMember_{uuid.uuid4().hex[:8]}"
     member = member_ops.create(member_type="Organization", name=name)
 
@@ -182,7 +182,7 @@ def test_member_delete(member_ops: MemberOperations):
 @pytest.mark.restapi
 @allure.feature("Contacts / Members (REST API)")
 @allure.title("Delete members in bulk")
-def test_member_delete_bulk(member_ops: MemberOperations):
+def test_member_delete_bulk(member_ops: MemberOperations) -> None:
     suffix = uuid.uuid4().hex[:6]
     m1 = member_ops.create(member_type="Organization", name=f"QADelBulk1_{suffix}")
     m2 = member_ops.create(member_type="Organization", name=f"QADelBulk2_{suffix}")
@@ -202,7 +202,7 @@ def test_member_delete_bulk(member_ops: MemberOperations):
 @pytest.mark.restapi
 @allure.feature("Contacts / Members (REST API)")
 @allure.title("Get all members in organization")
-def test_member_get_all_in_org(make_organization, make_member, member_ops: MemberOperations):
+def test_member_get_all_in_org(make_organization, make_member, member_ops: MemberOperations) -> None:
     org = make_organization()
     member = make_member(
         member_type="Contact",
@@ -222,7 +222,7 @@ def test_member_get_all_in_org(make_organization, make_member, member_ops: Membe
 @pytest.mark.restapi
 @allure.feature("Contacts / Members (REST API)")
 @allure.title("Get organizations list")
-def test_member_get_organizations(member_ops: MemberOperations):
+def test_member_get_organizations(member_ops: MemberOperations) -> None:
     with allure.step("GET /api/members/organizations"):
         result = member_ops.get_organizations()
 

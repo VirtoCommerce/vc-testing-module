@@ -6,7 +6,6 @@ from typing import Any, Callable, Generator
 import pytest
 
 from core.clients.rest import RestClient
-from restapi.constants import ADDRESS_TEMPLATE, CONTACT_TEMPLATE, ORGANIZATION_TEMPLATE
 from restapi.operations import (
     ContactOperations,
     EmployeeOperations,

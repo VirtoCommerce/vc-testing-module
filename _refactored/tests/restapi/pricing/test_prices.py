@@ -34,7 +34,7 @@ def _catalog_id(dataset: dict) -> str:
 @pytest.mark.restapi
 @allure.feature("Pricing / Prices (REST API)")
 @allure.title("Add price to product")
-def test_price_add_to_product(make_pricelist, price_ops: PriceOperations, dataset: dict):
+def test_price_add_to_product(make_pricelist, price_ops: PriceOperations, dataset: dict) -> None:
     pricelist = make_pricelist()
     pid = _product_id(dataset)
 
@@ -58,7 +58,7 @@ def test_price_add_to_product(make_pricelist, price_ops: PriceOperations, datase
 @pytest.mark.restapi
 @allure.feature("Pricing / Prices (REST API)")
 @allure.title("Update price via product endpoint")
-def test_price_update(make_pricelist, price_ops: PriceOperations, dataset: dict):
+def test_price_update(make_pricelist, price_ops: PriceOperations, dataset: dict) -> None:
     pricelist = make_pricelist()
     pid = _product_id(dataset)
 
@@ -95,7 +95,7 @@ def test_price_update(make_pricelist, price_ops: PriceOperations, dataset: dict)
 @pytest.mark.restapi
 @allure.feature("Pricing / Prices (REST API)")
 @allure.title("Search prices — GET")
-def test_price_search_get(make_pricelist, price_ops: PriceOperations):
+def test_price_search_get(make_pricelist, price_ops: PriceOperations) -> None:
     pricelist = make_pricelist()
 
     with allure.step(f"GET /api/catalog/products/prices/search?pricelistId={pricelist['id']}"):
@@ -108,7 +108,7 @@ def test_price_search_get(make_pricelist, price_ops: PriceOperations):
 @pytest.mark.restapi
 @allure.feature("Pricing / Prices (REST API)")
 @allure.title("Search prices — POST")
-def test_price_search_post(make_pricelist, price_ops: PriceOperations):
+def test_price_search_post(make_pricelist, price_ops: PriceOperations) -> None:
     pricelist = make_pricelist()
 
     with allure.step("POST /api/catalog/products/prices/search"):
@@ -121,7 +121,7 @@ def test_price_search_post(make_pricelist, price_ops: PriceOperations):
 @pytest.mark.restapi
 @allure.feature("Pricing / Prices (REST API)")
 @allure.title("Delete price by price id")
-def test_price_delete_by_id(make_pricelist, price_ops: PriceOperations, dataset: dict):
+def test_price_delete_by_id(make_pricelist, price_ops: PriceOperations, dataset: dict) -> None:
     pricelist = make_pricelist()
     pid = _product_id(dataset)
 
@@ -150,7 +150,7 @@ def test_price_delete_by_id(make_pricelist, price_ops: PriceOperations, dataset:
 @pytest.mark.restapi
 @allure.feature("Pricing / Prices (REST API)")
 @allure.title("Delete prices by pricelist and product id")
-def test_price_delete_by_product(make_pricelist, price_ops: PriceOperations, dataset: dict):
+def test_price_delete_by_product(make_pricelist, price_ops: PriceOperations, dataset: dict) -> None:
     pricelist = make_pricelist()
     pid = _product_id(dataset)
 
@@ -174,7 +174,7 @@ def test_price_delete_by_product(make_pricelist, price_ops: PriceOperations, dat
 @pytest.mark.restapi
 @allure.feature("Pricing / Prices (REST API)")
 @allure.title("Add and delete prices in bulk")
-def test_price_add_delete_bulk(make_pricelist, price_ops: PriceOperations, dataset: dict):
+def test_price_add_delete_bulk(make_pricelist, price_ops: PriceOperations, dataset: dict) -> None:
     pricelist = make_pricelist()
     products = dataset.get("products", [])
     if len(products) < 2:
@@ -197,7 +197,7 @@ def test_price_add_delete_bulk(make_pricelist, price_ops: PriceOperations, datas
 @pytest.mark.restapi
 @allure.feature("Pricing / Prices (REST API)")
 @allure.title("Get prices widget")
-def test_price_widget(price_ops: PriceOperations, dataset: dict):
+def test_price_widget(price_ops: PriceOperations, dataset: dict) -> None:
     pid = _product_id(dataset)
     cat_id = _catalog_id(dataset)
 

@@ -9,7 +9,7 @@ from core.clients.rest import RestClient
 @pytest.mark.restapi
 @allure.feature("Platform / Diagnostics (REST API)")
 @allure.title("Get system info")
-def test_diagnostics_system_info(rest_client: RestClient, backend_base_url: str):
+def test_diagnostics_system_info(rest_client: RestClient, backend_base_url: str) -> None:
     with allure.step("GET /api/platform/diagnostics/systeminfo"):
         info = rest_client.get(f"{backend_base_url}/api/platform/diagnostics/systeminfo")
 
@@ -21,7 +21,7 @@ def test_diagnostics_system_info(rest_client: RestClient, backend_base_url: str)
 @pytest.mark.restapi
 @allure.feature("Platform / Diagnostics (REST API)")
 @allure.title("Get modules with errors")
-def test_diagnostics_modules_with_errors(rest_client: RestClient, backend_base_url: str):
+def test_diagnostics_modules_with_errors(rest_client: RestClient, backend_base_url: str) -> None:
     with allure.step("GET /api/platform/diagnostics/errors"):
         errors = rest_client.get(f"{backend_base_url}/api/platform/diagnostics/errors")
 

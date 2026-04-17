@@ -9,7 +9,7 @@ from restapi.operations import NotificationsOperations
 @pytest.mark.restapi
 @allure.feature("Platform / Notifications (REST API)")
 @allure.title("Search push notifications")
-def test_push_notifications_search(notifications_ops: NotificationsOperations):
+def test_push_notifications_search(notifications_ops: NotificationsOperations) -> None:
     with allure.step("GET /api/platform/pushnotifications"):
         result = notifications_ops.search()
 
@@ -21,7 +21,7 @@ def test_push_notifications_search(notifications_ops: NotificationsOperations):
 @pytest.mark.restapi
 @allure.feature("Platform / Notifications (REST API)")
 @allure.title("Mark all notifications as read")
-def test_push_notifications_mark_as_read(notifications_ops: NotificationsOperations):
+def test_push_notifications_mark_as_read(notifications_ops: NotificationsOperations) -> None:
     with allure.step("POST /api/platform/pushnotifications/markallasread"):
         notifications_ops.mark_all_as_read()
 

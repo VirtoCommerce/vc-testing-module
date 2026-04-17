@@ -9,7 +9,7 @@ from restapi.operations import OAuthOperations
 @pytest.mark.restapi
 @allure.feature("Platform / OAuth (REST API)")
 @allure.title("Create OAuth client")
-def test_oauth_client_create(make_oauth_client):
+def test_oauth_client_create(make_oauth_client) -> None:
     with allure.step("POST /api/platform/security/oauth/clients"):
         result = make_oauth_client()
 
@@ -20,7 +20,7 @@ def test_oauth_client_create(make_oauth_client):
 @pytest.mark.restapi
 @allure.feature("Platform / OAuth (REST API)")
 @allure.title("Search OAuth clients")
-def test_oauth_client_search(make_oauth_client, oauth_ops: OAuthOperations):
+def test_oauth_client_search(make_oauth_client, oauth_ops: OAuthOperations) -> None:
     client = make_oauth_client()
 
     with allure.step("POST /api/platform/security/oauth/clients/search"):
@@ -36,7 +36,7 @@ def test_oauth_client_search(make_oauth_client, oauth_ops: OAuthOperations):
 @pytest.mark.restapi
 @allure.feature("Platform / OAuth (REST API)")
 @allure.title("Delete OAuth client")
-def test_oauth_client_delete(make_oauth_client, oauth_ops: OAuthOperations):
+def test_oauth_client_delete(make_oauth_client, oauth_ops: OAuthOperations) -> None:
     client = make_oauth_client()
 
     with allure.step(f"DELETE /api/platform/security/oauth/clients/{client['_client_id']}"):

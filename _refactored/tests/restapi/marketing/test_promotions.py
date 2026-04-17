@@ -20,7 +20,7 @@ from restapi.operations import CouponOperations, PromotionOperations
 @pytest.mark.restapi
 @allure.feature("Marketing / Promotions (REST API)")
 @allure.title("Create promotion")
-def test_promo_create(make_promotion):
+def test_promo_create(make_promotion) -> None:
     with allure.step("POST /api/marketing/promotions"):
         promo = make_promotion()
 
@@ -32,7 +32,7 @@ def test_promo_create(make_promotion):
 @pytest.mark.restapi
 @allure.feature("Marketing / Promotions (REST API)")
 @allure.title("Get new promotion template")
-def test_promo_get_new(promo_ops: PromotionOperations):
+def test_promo_get_new(promo_ops: PromotionOperations) -> None:
     with allure.step("GET /api/marketing/promotions/new"):
         template = promo_ops.get_new()
 
@@ -43,7 +43,7 @@ def test_promo_get_new(promo_ops: PromotionOperations):
 @pytest.mark.restapi
 @allure.feature("Marketing / Promotions (REST API)")
 @allure.title("Get promotion by id")
-def test_promo_get_by_id(make_promotion, promo_ops: PromotionOperations):
+def test_promo_get_by_id(make_promotion, promo_ops: PromotionOperations) -> None:
     promo = make_promotion()
 
     with allure.step(f"GET /api/marketing/promotions/{promo['id']}"):
@@ -55,7 +55,7 @@ def test_promo_get_by_id(make_promotion, promo_ops: PromotionOperations):
 @pytest.mark.restapi
 @allure.feature("Marketing / Promotions (REST API)")
 @allure.title("Search promotions")
-def test_promo_search(make_promotion, promo_ops: PromotionOperations):
+def test_promo_search(make_promotion, promo_ops: PromotionOperations) -> None:
     promo = make_promotion()
 
     with allure.step("POST /api/marketing/promotions/search"):
@@ -70,7 +70,7 @@ def test_promo_search(make_promotion, promo_ops: PromotionOperations):
 @pytest.mark.restapi
 @allure.feature("Marketing / Promotions (REST API)")
 @allure.title("Update promotion — rename")
-def test_promo_update(make_promotion, promo_ops: PromotionOperations):
+def test_promo_update(make_promotion, promo_ops: PromotionOperations) -> None:
     promo = make_promotion()
     new_name = f"{promo['name']}_UPD_{uuid.uuid4().hex[:4]}"
 
@@ -85,7 +85,7 @@ def test_promo_update(make_promotion, promo_ops: PromotionOperations):
 @pytest.mark.restapi
 @allure.feature("Marketing / Promotions (REST API)")
 @allure.title("Update promotion — alternative way (description)")
-def test_promo_update_alt(make_promotion, promo_ops: PromotionOperations):
+def test_promo_update_alt(make_promotion, promo_ops: PromotionOperations) -> None:
     promo = make_promotion()
     desc = f"Updated desc {uuid.uuid4().hex[:6]}"
 
@@ -100,7 +100,7 @@ def test_promo_update_alt(make_promotion, promo_ops: PromotionOperations):
 @pytest.mark.restapi
 @allure.feature("Marketing / Promotions (REST API)")
 @allure.title("Delete promotion")
-def test_promo_delete(promo_ops: PromotionOperations):
+def test_promo_delete(promo_ops: PromotionOperations) -> None:
     promo = promo_ops.create(name=f"QADelPromo_{uuid.uuid4().hex[:8]}")
 
     with allure.step(f"DELETE /api/marketing/promotions?ids={promo['id']}"):
@@ -110,7 +110,7 @@ def test_promo_delete(promo_ops: PromotionOperations):
 @pytest.mark.restapi
 @allure.feature("Marketing / Coupons (REST API)")
 @allure.title("Create, search, and delete coupon")
-def test_coupon_create_search_delete(make_promotion, coupon_ops: CouponOperations):
+def test_coupon_create_search_delete(make_promotion, coupon_ops: CouponOperations) -> None:
     promo = make_promotion()
     coupon_code = f"QA-COUPON-{uuid.uuid4().hex[:6].upper()}"
 
@@ -130,7 +130,7 @@ def test_coupon_create_search_delete(make_promotion, coupon_ops: CouponOperation
 @pytest.mark.restapi
 @allure.feature("Marketing / Promotions (REST API)")
 @allure.title("Create promotion with coupon (test data flow)")
-def test_promo_create_test_data(make_promotion, coupon_ops: CouponOperations, promo_ops: PromotionOperations):
+def test_promo_create_test_data(make_promotion, coupon_ops: CouponOperations, promo_ops: PromotionOperations) -> None:
     promo = make_promotion()
     coupon_code = f"QA-DATA-{uuid.uuid4().hex[:6].upper()}"
 

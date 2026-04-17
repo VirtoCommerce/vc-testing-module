@@ -19,7 +19,7 @@ from restapi.operations import EmployeeOperations
 @pytest.mark.restapi
 @allure.feature("Contacts / Employees (REST API)")
 @allure.title("Create employee")
-def test_employee_create(make_employee):
+def test_employee_create(make_employee) -> None:
     with allure.step("POST /api/employees"):
         emp = make_employee()
 
@@ -32,7 +32,7 @@ def test_employee_create(make_employee):
 @pytest.mark.restapi
 @allure.feature("Contacts / Employees (REST API)")
 @allure.title("Get employee by id")
-def test_employee_get(make_employee, employee_ops: EmployeeOperations):
+def test_employee_get(make_employee, employee_ops: EmployeeOperations) -> None:
     emp = make_employee()
 
     with allure.step(f"GET /api/employees?ids={emp['id']}"):
@@ -47,7 +47,7 @@ def test_employee_get(make_employee, employee_ops: EmployeeOperations):
 @pytest.mark.restapi
 @allure.feature("Contacts / Employees (REST API)")
 @allure.title("Search employees")
-def test_employee_search(make_employee, employee_ops: EmployeeOperations):
+def test_employee_search(make_employee, employee_ops: EmployeeOperations) -> None:
     emp = make_employee()
 
     with allure.step("POST /api/members/search — memberType=Employee, objectIds"):
@@ -62,7 +62,7 @@ def test_employee_search(make_employee, employee_ops: EmployeeOperations):
 @pytest.mark.restapi
 @allure.feature("Contacts / Employees (REST API)")
 @allure.title("Update employees in bulk")
-def test_employee_update_bulk(make_employee, employee_ops: EmployeeOperations):
+def test_employee_update_bulk(make_employee, employee_ops: EmployeeOperations) -> None:
     e1 = make_employee()
     e2 = make_employee()
     suffix = uuid.uuid4().hex[:4]
@@ -85,7 +85,7 @@ def test_employee_update_bulk(make_employee, employee_ops: EmployeeOperations):
 @pytest.mark.restapi
 @allure.feature("Contacts / Employees (REST API)")
 @allure.title("Delete employees in bulk")
-def test_employee_delete_bulk(employee_ops: EmployeeOperations):
+def test_employee_delete_bulk(employee_ops: EmployeeOperations) -> None:
     suffix = uuid.uuid4().hex[:6]
     e1 = employee_ops.create(first_name=f"QADelEmp1_{suffix}", last_name="Del")
     e2 = employee_ops.create(first_name=f"QADelEmp2_{suffix}", last_name="Del")

@@ -15,7 +15,7 @@ from restapi.operations import ApiKeyOperations, UserOperations
 @pytest.mark.restapi
 @allure.feature("Platform / User Lock (REST API)")
 @allure.title("Lock user — login blocked, unlock restores access")
-def test_user_lock_unlock(make_user, user_ops: UserOperations, global_settings: GlobalSettings):
+def test_user_lock_unlock(make_user, user_ops: UserOperations, global_settings: GlobalSettings) -> None:
     user = make_user()
     full_user = user_ops.get_by_name(user["user_name"])
 
@@ -48,7 +48,7 @@ def test_user_lock_unlock(make_user, user_ops: UserOperations, global_settings: 
 @pytest.mark.restapi
 @allure.feature("Platform / User Lock (REST API)")
 @allure.title("Deleted user — login returns error")
-def test_user_deleted_login_blocked(make_user, user_ops: UserOperations, global_settings: GlobalSettings):
+def test_user_deleted_login_blocked(make_user, user_ops: UserOperations, global_settings: GlobalSettings) -> None:
     user = make_user()
 
     with allure.step("Delete user"):
@@ -71,9 +71,9 @@ def test_user_deleted_login_blocked(make_user, user_ops: UserOperations, global_
 @pytest.mark.restapi
 @allure.feature("Platform / User Lock (REST API)")
 @allure.title("Lock user — API key with isActive=false returns 401")
-def test_user_lock_api_key_inactive(make_user, user_ops: UserOperations, api_key_ops, global_settings: GlobalSettings):
-    from restapi.operations import ApiKeyOperations
-
+def test_user_lock_api_key_inactive(
+    make_user, user_ops: UserOperations, api_key_ops: ApiKeyOperations, global_settings: GlobalSettings
+) -> None:
     user = make_user()
     full_user = user_ops.get_by_name(user["user_name"])
 

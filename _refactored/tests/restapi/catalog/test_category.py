@@ -12,7 +12,7 @@ from restapi.operations import CategoryOperations
 @pytest.mark.restapi
 @allure.feature("Catalog / Categories (REST API)")
 @allure.title("Create category")
-def test_category_create(make_category):
+def test_category_create(make_category) -> None:
     with allure.step("POST /api/catalog/categories"):
         category = make_category()
 
@@ -25,7 +25,7 @@ def test_category_create(make_category):
 @pytest.mark.restapi
 @allure.feature("Catalog / Categories (REST API)")
 @allure.title("Update category — rename")
-def test_category_update(make_category, category_ops: CategoryOperations):
+def test_category_update(make_category, category_ops: CategoryOperations) -> None:
     category = make_category()
     new_name = f"{category['name']}_UPD_{uuid.uuid4().hex[:4]}"
 
@@ -40,7 +40,7 @@ def test_category_update(make_category, category_ops: CategoryOperations):
 @pytest.mark.restapi
 @allure.feature("Catalog / Categories (REST API)")
 @allure.title("Get category by id")
-def test_category_get_by_id(make_category, category_ops: CategoryOperations):
+def test_category_get_by_id(make_category, category_ops: CategoryOperations) -> None:
     category = make_category()
 
     with allure.step(f"GET /api/catalog/categories/{category['id']}"):
@@ -56,7 +56,7 @@ def test_category_get_by_id(make_category, category_ops: CategoryOperations):
 @pytest.mark.restapi
 @allure.feature("Catalog / Categories (REST API)")
 @allure.title("Search category — list entries within catalog")
-def test_category_search(make_category, category_ops: CategoryOperations):
+def test_category_search(make_category, category_ops: CategoryOperations) -> None:
     category = make_category()
 
     with allure.step(f"POST /api/catalog/listentries — catalogId={category['catalogId']}"):
@@ -72,7 +72,7 @@ def test_category_search(make_category, category_ops: CategoryOperations):
 @pytest.mark.restapi
 @allure.feature("Catalog / Categories (REST API)")
 @allure.title("Get new category template for catalog")
-def test_category_get_template(make_catalog, category_ops: CategoryOperations):
+def test_category_get_template(make_catalog, category_ops: CategoryOperations) -> None:
     catalog = make_catalog()
 
     with allure.step(f"GET /api/catalog/{catalog['id']}/categories/newcategory"):
@@ -85,7 +85,7 @@ def test_category_get_template(make_catalog, category_ops: CategoryOperations):
 @pytest.mark.restapi
 @allure.feature("Catalog / Categories (REST API)")
 @allure.title("Create nested subcategory — parentId wired correctly")
-def test_category_nested(make_category, category_ops: CategoryOperations):
+def test_category_nested(make_category, category_ops: CategoryOperations) -> None:
     parent = make_category()
 
     with allure.step(f"POST /api/catalog/categories — child under parent {parent['id']}"):
@@ -103,7 +103,7 @@ def test_category_nested(make_category, category_ops: CategoryOperations):
 @pytest.mark.restapi
 @allure.feature("Catalog / Categories (REST API)")
 @allure.title("Get category by non-existent id — expect 404")
-def test_category_get_not_found(category_ops: CategoryOperations):
+def test_category_get_not_found(category_ops: CategoryOperations) -> None:
     bogus_id = f"qa-missing-{uuid.uuid4().hex}"
 
     with allure.step(f"GET /api/catalog/categories/{bogus_id}"):
@@ -115,7 +115,7 @@ def test_category_get_not_found(category_ops: CategoryOperations):
 @pytest.mark.restapi
 @allure.feature("Catalog / Categories (REST API)")
 @allure.title("Delete category")
-def test_category_delete(make_category, category_ops: CategoryOperations):
+def test_category_delete(make_category, category_ops: CategoryOperations) -> None:
     category = make_category()
 
     with allure.step(f"POST /api/catalog/listentries/delete — objectIds=[{category['id']}]"):

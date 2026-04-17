@@ -22,7 +22,7 @@ from restapi.operations import PricelistAssignmentOperations
 @pytest.mark.restapi
 @allure.feature("Pricing / Assignments (REST API)")
 @allure.title("Create pricelist assignment")
-def test_assignment_create(make_assignment):
+def test_assignment_create(make_assignment) -> None:
     with allure.step("POST /api/pricing/assignments"):
         assignment = make_assignment()
 
@@ -34,7 +34,7 @@ def test_assignment_create(make_assignment):
 @pytest.mark.restapi
 @allure.feature("Pricing / Assignments (REST API)")
 @allure.title("Update pricelist assignment")
-def test_assignment_update(make_assignment, assignment_ops: PricelistAssignmentOperations):
+def test_assignment_update(make_assignment, assignment_ops: PricelistAssignmentOperations) -> None:
     assignment = make_assignment()
     new_name = f"{assignment['name']}_UPD_{uuid.uuid4().hex[:4]}"
 
@@ -49,7 +49,7 @@ def test_assignment_update(make_assignment, assignment_ops: PricelistAssignmentO
 @pytest.mark.restapi
 @allure.feature("Pricing / Assignments (REST API)")
 @allure.title("Update pricelist assignment — alternative way")
-def test_assignment_update_alt(make_assignment, assignment_ops: PricelistAssignmentOperations):
+def test_assignment_update_alt(make_assignment, assignment_ops: PricelistAssignmentOperations) -> None:
     assignment = make_assignment()
     new_desc = f"Updated description {uuid.uuid4().hex[:6]}"
 
@@ -64,7 +64,7 @@ def test_assignment_update_alt(make_assignment, assignment_ops: PricelistAssignm
 @pytest.mark.restapi
 @allure.feature("Pricing / Assignments (REST API)")
 @allure.title("Get new assignment template")
-def test_assignment_get_new(assignment_ops: PricelistAssignmentOperations):
+def test_assignment_get_new(assignment_ops: PricelistAssignmentOperations) -> None:
     with allure.step("GET /api/pricing/assignments/new"):
         template = assignment_ops.get_new()
 
@@ -75,7 +75,7 @@ def test_assignment_get_new(assignment_ops: PricelistAssignmentOperations):
 @pytest.mark.restapi
 @allure.feature("Pricing / Assignments (REST API)")
 @allure.title("Get assignment by id")
-def test_assignment_get_by_id(make_assignment, assignment_ops: PricelistAssignmentOperations):
+def test_assignment_get_by_id(make_assignment, assignment_ops: PricelistAssignmentOperations) -> None:
     assignment = make_assignment()
 
     with allure.step(f"GET /api/pricing/assignments/{assignment['id']}"):
@@ -89,7 +89,7 @@ def test_assignment_get_by_id(make_assignment, assignment_ops: PricelistAssignme
 @pytest.mark.restapi
 @allure.feature("Pricing / Assignments (REST API)")
 @allure.title("Search assignments by pricelist")
-def test_assignment_search(make_pricelist, make_assignment, assignment_ops: PricelistAssignmentOperations):
+def test_assignment_search(make_pricelist, make_assignment, assignment_ops: PricelistAssignmentOperations) -> None:
     pricelist = make_pricelist()
     assignment = make_assignment(pricelist=pricelist)
 
@@ -105,10 +105,10 @@ def test_assignment_search(make_pricelist, make_assignment, assignment_ops: Pric
 @pytest.mark.restapi
 @allure.feature("Pricing / Assignments (REST API)")
 @allure.title("Delete pricelist assignment")
-def test_assignment_delete(assignment_ops: PricelistAssignmentOperations, make_pricelist):
+def test_assignment_delete(assignment_ops: PricelistAssignmentOperations, make_pricelist, seed_catalog_id: str) -> None:
     pricelist = make_pricelist()
     name = f"QADelAssign_{uuid.uuid4().hex[:8]}"
-    assignment = assignment_ops.create(pricelist_id=pricelist["id"], catalog_id="catalog-acme", name=name)
+    assignment = assignment_ops.create(pricelist_id=pricelist["id"], catalog_id=seed_catalog_id, name=name)
 
     with allure.step(f"DELETE /api/pricing/assignments?ids={assignment['id']}"):
         assignment_ops.delete(assignment["id"])
@@ -117,10 +117,12 @@ def test_assignment_delete(assignment_ops: PricelistAssignmentOperations, make_p
 @pytest.mark.restapi
 @allure.feature("Pricing / Assignments (REST API)")
 @allure.title("Delete assignments filtered by search phrase")
-def test_assignment_delete_filtered(assignment_ops: PricelistAssignmentOperations, make_pricelist):
+def test_assignment_delete_filtered(
+    assignment_ops: PricelistAssignmentOperations, make_pricelist, seed_catalog_id: str
+) -> None:
     pricelist = make_pricelist()
     unique = f"QAFiltered_{uuid.uuid4().hex[:8]}"
-    assignment_ops.create(pricelist_id=pricelist["id"], catalog_id="catalog-acme", name=unique)
+    assignment_ops.create(pricelist_id=pricelist["id"], catalog_id=seed_catalog_id, name=unique)
 
     with allure.step(f"DELETE /api/pricing/filteredAssignments?SearchPhrase={unique}"):
         assignment_ops.delete_filtered(unique)

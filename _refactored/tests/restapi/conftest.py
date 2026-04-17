@@ -35,3 +35,17 @@ def rest_client(global_settings: GlobalSettings, admin_auth: AuthProvider) -> Ge
 @pytest.fixture(scope="session")
 def backend_base_url(global_settings: GlobalSettings) -> str:
     return global_settings.backend_base_url
+
+
+@pytest.fixture(scope="session")
+def seed_catalog(dataset: dict) -> dict:
+    """The first seeded physical catalog from dataset; use `seed_catalog['id']` / `seed_catalog['name']`."""
+    catalogs = dataset.get("catalogs") or []
+    if not catalogs:
+        pytest.skip("No seeded catalogs in dataset")
+    return catalogs[0]
+
+
+@pytest.fixture(scope="session")
+def seed_catalog_id(seed_catalog: dict) -> str:
+    return seed_catalog["id"]

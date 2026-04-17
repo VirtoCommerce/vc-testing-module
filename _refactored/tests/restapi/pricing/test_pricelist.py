@@ -21,7 +21,7 @@ from restapi.operations import PricelistOperations, PriceOperations
 @pytest.mark.restapi
 @allure.feature("Pricing / Pricelists (REST API)")
 @allure.title("Create pricelist")
-def test_pricelist_create(make_pricelist):
+def test_pricelist_create(make_pricelist) -> None:
     with allure.step("POST /api/pricing/pricelists"):
         pricelist = make_pricelist()
 
@@ -34,7 +34,7 @@ def test_pricelist_create(make_pricelist):
 @pytest.mark.restapi
 @allure.feature("Pricing / Pricelists (REST API)")
 @allure.title("Update pricelist — rename")
-def test_pricelist_update(make_pricelist, pricelist_ops: PricelistOperations):
+def test_pricelist_update(make_pricelist, pricelist_ops: PricelistOperations) -> None:
     pricelist = make_pricelist()
     new_name = f"{pricelist['name']}_UPD_{uuid.uuid4().hex[:4]}"
 
@@ -49,7 +49,7 @@ def test_pricelist_update(make_pricelist, pricelist_ops: PricelistOperations):
 @pytest.mark.restapi
 @allure.feature("Pricing / Pricelists (REST API)")
 @allure.title("Search pricelists by keyword")
-def test_pricelist_search(make_pricelist, pricelist_ops: PricelistOperations):
+def test_pricelist_search(make_pricelist, pricelist_ops: PricelistOperations) -> None:
     pricelist = make_pricelist()
 
     with allure.step(f"GET /api/pricing/pricelists?keyword={pricelist['name']}"):
@@ -64,7 +64,7 @@ def test_pricelist_search(make_pricelist, pricelist_ops: PricelistOperations):
 @pytest.mark.restapi
 @allure.feature("Pricing / Pricelists (REST API)")
 @allure.title("Get pricelist by id")
-def test_pricelist_get_by_id(make_pricelist, pricelist_ops: PricelistOperations):
+def test_pricelist_get_by_id(make_pricelist, pricelist_ops: PricelistOperations) -> None:
     pricelist = make_pricelist()
 
     with allure.step(f"GET /api/pricing/pricelists/{pricelist['id']}"):
@@ -78,19 +78,19 @@ def test_pricelist_get_by_id(make_pricelist, pricelist_ops: PricelistOperations)
 @pytest.mark.restapi
 @allure.feature("Pricing / Pricelists (REST API)")
 @allure.title("Get all pricelists")
-def test_pricelist_get_all(pricelist_ops: PricelistOperations):
+def test_pricelist_get_all(pricelist_ops: PricelistOperations) -> None:
     with allure.step("GET /api/pricing/pricelists"):
         result = pricelist_ops.search()
 
-    with allure.step("Verify non-empty"):
+    with allure.step("Verify response shape"):
         items = result if isinstance(result, list) else result.get("results", [])
-        assert len(items) >= 0  # may be empty on fresh env
+        assert isinstance(items, list)
 
 
 @pytest.mark.restapi
 @allure.feature("Pricing / Pricelists (REST API)")
 @allure.title("Delete pricelist")
-def test_pricelist_delete(pricelist_ops: PricelistOperations):
+def test_pricelist_delete(pricelist_ops: PricelistOperations) -> None:
     name = f"QADelPL_{uuid.uuid4().hex[:8]}"
     pricelist = pricelist_ops.create(name=name)
 
@@ -107,7 +107,7 @@ def test_pricelist_delete(pricelist_ops: PricelistOperations):
 @pytest.mark.restapi
 @allure.feature("Pricing / Pricelists (REST API)")
 @allure.title("Add products to pricelist")
-def test_pricelist_add_products(make_pricelist, price_ops: PriceOperations, dataset: dict):
+def test_pricelist_add_products(make_pricelist, price_ops: PriceOperations, dataset: dict) -> None:
     pricelist = make_pricelist()
     products = dataset.get("products", [])
     if not products:

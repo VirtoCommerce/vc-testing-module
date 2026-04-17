@@ -100,7 +100,7 @@ def make_role(
 
     yield _make
 
-    for rid in created_ids:
+    for rid in reversed(created_ids):
         try:
             role_ops.delete(rid)
         except Exception:
@@ -126,7 +126,7 @@ def make_oauth_client(
 
     yield _make
 
-    for cid in created_client_ids:
+    for cid in reversed(created_client_ids):
         try:
             oauth_ops.delete(cid)
         except Exception:

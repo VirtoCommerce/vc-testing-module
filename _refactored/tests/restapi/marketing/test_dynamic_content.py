@@ -26,7 +26,7 @@ from restapi.operations import (
 @pytest.mark.restapi
 @allure.feature("Marketing / Content Folders (REST API)")
 @allure.title("Create content folder")
-def test_folder_create(make_content_folder):
+def test_folder_create(make_content_folder) -> None:
     with allure.step("POST /api/marketing/contentfolders"):
         folder = make_content_folder()
     assert folder["id"]
@@ -36,7 +36,7 @@ def test_folder_create(make_content_folder):
 @pytest.mark.restapi
 @allure.feature("Marketing / Content Folders (REST API)")
 @allure.title("Get content folder by id")
-def test_folder_get(make_content_folder, content_folder_ops: ContentFolderOperations):
+def test_folder_get(make_content_folder, content_folder_ops: ContentFolderOperations) -> None:
     folder = make_content_folder()
     with allure.step(f"GET /api/marketing/contentfolders/{folder['id']}"):
         reloaded = content_folder_ops.get_by_id(folder["id"])
@@ -46,7 +46,7 @@ def test_folder_get(make_content_folder, content_folder_ops: ContentFolderOperat
 @pytest.mark.restapi
 @allure.feature("Marketing / Content Folders (REST API)")
 @allure.title("Update content folder")
-def test_folder_update(make_content_folder, content_folder_ops: ContentFolderOperations):
+def test_folder_update(make_content_folder, content_folder_ops: ContentFolderOperations) -> None:
     folder = make_content_folder()
     new_name = f"{folder['name']}_UPD"
     with allure.step("PUT /api/marketing/contentfolders"):
@@ -58,7 +58,7 @@ def test_folder_update(make_content_folder, content_folder_ops: ContentFolderOpe
 @pytest.mark.restapi
 @allure.feature("Marketing / Content Folders (REST API)")
 @allure.title("Delete content folder")
-def test_folder_delete(content_folder_ops: ContentFolderOperations):
+def test_folder_delete(content_folder_ops: ContentFolderOperations) -> None:
     folder = content_folder_ops.create(name=f"QADelFolder_{uuid.uuid4().hex[:8]}")
     with allure.step(f"DELETE /api/marketing/contentfolders?ids={folder['id']}"):
         content_folder_ops.delete(folder["id"])
@@ -70,7 +70,7 @@ def test_folder_delete(content_folder_ops: ContentFolderOperations):
 @pytest.mark.restapi
 @allure.feature("Marketing / Content Items (REST API)")
 @allure.title("Create content item")
-def test_item_create(make_content_item):
+def test_item_create(make_content_item) -> None:
     with allure.step("POST /api/marketing/contentitems"):
         item = make_content_item()
     assert item["id"]
@@ -79,7 +79,7 @@ def test_item_create(make_content_item):
 @pytest.mark.restapi
 @allure.feature("Marketing / Content Items (REST API)")
 @allure.title("Get content item by id")
-def test_item_get(make_content_item, content_item_ops: ContentItemOperations):
+def test_item_get(make_content_item, content_item_ops: ContentItemOperations) -> None:
     item = make_content_item()
     with allure.step(f"GET /api/marketing/contentitems/{item['id']}"):
         reloaded = content_item_ops.get_by_id(item["id"])
@@ -89,7 +89,7 @@ def test_item_get(make_content_item, content_item_ops: ContentItemOperations):
 @pytest.mark.restapi
 @allure.feature("Marketing / Content Items (REST API)")
 @allure.title("Update content item")
-def test_item_update(make_content_item, content_item_ops: ContentItemOperations):
+def test_item_update(make_content_item, content_item_ops: ContentItemOperations) -> None:
     item = make_content_item()
     with allure.step("PUT /api/marketing/contentitems"):
         content_item_ops.update(item, isActive=True)
@@ -101,7 +101,7 @@ def test_item_update(make_content_item, content_item_ops: ContentItemOperations)
 @pytest.mark.restapi
 @allure.feature("Marketing / Content Items (REST API)")
 @allure.title("Search content items")
-def test_item_search(make_content_item, content_item_ops: ContentItemOperations):
+def test_item_search(make_content_item, content_item_ops: ContentItemOperations) -> None:
     item = make_content_item()
     with allure.step("POST /api/marketing/contentitems/search"):
         result = content_item_ops.search()
@@ -111,7 +111,7 @@ def test_item_search(make_content_item, content_item_ops: ContentItemOperations)
 @pytest.mark.restapi
 @allure.feature("Marketing / Content Items (REST API)")
 @allure.title("Delete content item")
-def test_item_delete(content_item_ops: ContentItemOperations):
+def test_item_delete(content_item_ops: ContentItemOperations) -> None:
     item = content_item_ops.create(name=f"QADelItem_{uuid.uuid4().hex[:8]}")
     with allure.step(f"DELETE /api/marketing/contentitems?ids={item['id']}"):
         content_item_ops.delete(item["id"])
@@ -120,7 +120,7 @@ def test_item_delete(content_item_ops: ContentItemOperations):
 @pytest.mark.restapi
 @allure.feature("Marketing / Content Items (REST API)")
 @allure.title("Delete content items in bulk")
-def test_item_delete_bulk(content_item_ops: ContentItemOperations):
+def test_item_delete_bulk(content_item_ops: ContentItemOperations) -> None:
     suffix = uuid.uuid4().hex[:6]
     i1 = content_item_ops.create(name=f"QABulk1_{suffix}")
     i2 = content_item_ops.create(name=f"QABulk2_{suffix}")
@@ -134,7 +134,7 @@ def test_item_delete_bulk(content_item_ops: ContentItemOperations):
 @pytest.mark.restapi
 @allure.feature("Marketing / Content Places (REST API)")
 @allure.title("Create content place")
-def test_place_create(make_content_place):
+def test_place_create(make_content_place) -> None:
     with allure.step("POST /api/marketing/contentplaces"):
         place = make_content_place()
     assert place["id"]
@@ -143,7 +143,7 @@ def test_place_create(make_content_place):
 @pytest.mark.restapi
 @allure.feature("Marketing / Content Places (REST API)")
 @allure.title("Get content place by id")
-def test_place_get(make_content_place, content_place_ops: ContentPlaceOperations):
+def test_place_get(make_content_place, content_place_ops: ContentPlaceOperations) -> None:
     place = make_content_place()
     with allure.step(f"GET /api/marketing/contentplaces/{place['id']}"):
         reloaded = content_place_ops.get_by_id(place["id"])
@@ -153,7 +153,7 @@ def test_place_get(make_content_place, content_place_ops: ContentPlaceOperations
 @pytest.mark.restapi
 @allure.feature("Marketing / Content Places (REST API)")
 @allure.title("Update content place")
-def test_place_update(make_content_place, content_place_ops: ContentPlaceOperations):
+def test_place_update(make_content_place, content_place_ops: ContentPlaceOperations) -> None:
     place = make_content_place()
     new_name = f"{place['name']}_UPD"
     with allure.step("PUT /api/marketing/contentplaces"):
@@ -165,7 +165,7 @@ def test_place_update(make_content_place, content_place_ops: ContentPlaceOperati
 @pytest.mark.restapi
 @allure.feature("Marketing / Content Places (REST API)")
 @allure.title("Search content places")
-def test_place_search(make_content_place, content_place_ops: ContentPlaceOperations):
+def test_place_search(make_content_place, content_place_ops: ContentPlaceOperations) -> None:
     place = make_content_place()
     with allure.step("POST /api/marketing/contentplaces/search"):
         result = content_place_ops.search()
@@ -175,7 +175,7 @@ def test_place_search(make_content_place, content_place_ops: ContentPlaceOperati
 @pytest.mark.restapi
 @allure.feature("Marketing / Content Places (REST API)")
 @allure.title("Delete content place")
-def test_place_delete(content_place_ops: ContentPlaceOperations):
+def test_place_delete(content_place_ops: ContentPlaceOperations) -> None:
     place = content_place_ops.create(name=f"QADelPlace_{uuid.uuid4().hex[:8]}")
     with allure.step(f"DELETE /api/marketing/contentplaces?ids={place['id']}"):
         content_place_ops.delete(place["id"])
@@ -184,7 +184,7 @@ def test_place_delete(content_place_ops: ContentPlaceOperations):
 @pytest.mark.restapi
 @allure.feature("Marketing / Content Places (REST API)")
 @allure.title("Delete content places in bulk")
-def test_place_delete_bulk(content_place_ops: ContentPlaceOperations):
+def test_place_delete_bulk(content_place_ops: ContentPlaceOperations) -> None:
     suffix = uuid.uuid4().hex[:6]
     p1 = content_place_ops.create(name=f"QABulkPlace1_{suffix}")
     p2 = content_place_ops.create(name=f"QABulkPlace2_{suffix}")
@@ -198,7 +198,7 @@ def test_place_delete_bulk(content_place_ops: ContentPlaceOperations):
 @pytest.mark.restapi
 @allure.feature("Marketing / Content Publications (REST API)")
 @allure.title("Create content publication")
-def test_pub_create(make_content_publication):
+def test_pub_create(make_content_publication) -> None:
     with allure.step("POST /api/marketing/contentpublications"):
         pub = make_content_publication()
     assert pub["id"]
@@ -207,7 +207,7 @@ def test_pub_create(make_content_publication):
 @pytest.mark.restapi
 @allure.feature("Marketing / Content Publications (REST API)")
 @allure.title("Get new publication template")
-def test_pub_get_new(content_pub_ops: ContentPublicationOperations):
+def test_pub_get_new(content_pub_ops: ContentPublicationOperations) -> None:
     with allure.step("GET /api/marketing/contentpublications/new"):
         template = content_pub_ops.get_new()
     assert template is not None
@@ -216,7 +216,7 @@ def test_pub_get_new(content_pub_ops: ContentPublicationOperations):
 @pytest.mark.restapi
 @allure.feature("Marketing / Content Publications (REST API)")
 @allure.title("Get content publication by id")
-def test_pub_get(make_content_publication, content_pub_ops: ContentPublicationOperations):
+def test_pub_get(make_content_publication, content_pub_ops: ContentPublicationOperations) -> None:
     pub = make_content_publication()
     with allure.step(f"GET /api/marketing/contentpublications/{pub['id']}"):
         reloaded = content_pub_ops.get_by_id(pub["id"])
@@ -226,7 +226,7 @@ def test_pub_get(make_content_publication, content_pub_ops: ContentPublicationOp
 @pytest.mark.restapi
 @allure.feature("Marketing / Content Publications (REST API)")
 @allure.title("Update content publication")
-def test_pub_update(make_content_publication, content_pub_ops: ContentPublicationOperations):
+def test_pub_update(make_content_publication, content_pub_ops: ContentPublicationOperations) -> None:
     pub = make_content_publication()
     new_name = f"{pub['name']}_UPD"
     with allure.step("PUT /api/marketing/contentpublications"):
@@ -238,7 +238,7 @@ def test_pub_update(make_content_publication, content_pub_ops: ContentPublicatio
 @pytest.mark.restapi
 @allure.feature("Marketing / Content Publications (REST API)")
 @allure.title("Search content publications")
-def test_pub_search(make_content_publication, content_pub_ops: ContentPublicationOperations):
+def test_pub_search(make_content_publication, content_pub_ops: ContentPublicationOperations) -> None:
     pub = make_content_publication()
     with allure.step("POST /api/marketing/contentpublications/search"):
         result = content_pub_ops.search()
@@ -248,7 +248,7 @@ def test_pub_search(make_content_publication, content_pub_ops: ContentPublicatio
 @pytest.mark.restapi
 @allure.feature("Marketing / Content Publications (REST API)")
 @allure.title("Delete content publication")
-def test_pub_delete(content_pub_ops: ContentPublicationOperations):
+def test_pub_delete(content_pub_ops: ContentPublicationOperations) -> None:
     pub = content_pub_ops.create(name=f"QADelPub_{uuid.uuid4().hex[:8]}")
     with allure.step(f"DELETE /api/marketing/contentpublications?ids={pub['id']}"):
         content_pub_ops.delete(pub["id"])
@@ -257,7 +257,7 @@ def test_pub_delete(content_pub_ops: ContentPublicationOperations):
 @pytest.mark.restapi
 @allure.feature("Marketing / Content Publications (REST API)")
 @allure.title("Delete content publications in bulk")
-def test_pub_delete_bulk(content_pub_ops: ContentPublicationOperations):
+def test_pub_delete_bulk(content_pub_ops: ContentPublicationOperations) -> None:
     suffix = uuid.uuid4().hex[:6]
     p1 = content_pub_ops.create(name=f"QABulkPub1_{suffix}")
     p2 = content_pub_ops.create(name=f"QABulkPub2_{suffix}")

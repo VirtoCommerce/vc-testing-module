@@ -19,7 +19,7 @@ from restapi.operations import ContactOperations
 @pytest.mark.restapi
 @allure.feature("Contacts / Contacts (REST API)")
 @allure.title("Create contact")
-def test_contact_create(make_contact):
+def test_contact_create(make_contact) -> None:
     with allure.step("POST /api/contacts"):
         contact = make_contact()
 
@@ -32,7 +32,7 @@ def test_contact_create(make_contact):
 @pytest.mark.restapi
 @allure.feature("Contacts / Contacts (REST API)")
 @allure.title("Get contact by id")
-def test_contact_get(make_contact, contact_ops: ContactOperations):
+def test_contact_get(make_contact, contact_ops: ContactOperations) -> None:
     contact = make_contact()
 
     with allure.step(f"GET /api/contacts/{contact['id']}"):
@@ -47,7 +47,7 @@ def test_contact_get(make_contact, contact_ops: ContactOperations):
 @pytest.mark.restapi
 @allure.feature("Contacts / Contacts (REST API)")
 @allure.title("Update contact — change name")
-def test_contact_update(make_contact, contact_ops: ContactOperations):
+def test_contact_update(make_contact, contact_ops: ContactOperations) -> None:
     contact = make_contact()
     new_first = f"Updated_{uuid.uuid4().hex[:6]}"
 
@@ -62,7 +62,7 @@ def test_contact_update(make_contact, contact_ops: ContactOperations):
 @pytest.mark.restapi
 @allure.feature("Contacts / Contacts (REST API)")
 @allure.title("Search contacts")
-def test_contact_search(make_contact, contact_ops: ContactOperations):
+def test_contact_search(make_contact, contact_ops: ContactOperations) -> None:
     contact = make_contact()
 
     with allure.step("POST /api/contacts/search — objectIds"):
@@ -77,7 +77,7 @@ def test_contact_search(make_contact, contact_ops: ContactOperations):
 @pytest.mark.restapi
 @allure.feature("Contacts / Contacts (REST API)")
 @allure.title("Delete contact")
-def test_contact_delete(make_contact, contact_ops: ContactOperations):
+def test_contact_delete(make_contact, contact_ops: ContactOperations) -> None:
     contact = make_contact()
 
     with allure.step(f"DELETE /api/contacts?ids={contact['id']}"):
@@ -91,7 +91,7 @@ def test_contact_delete(make_contact, contact_ops: ContactOperations):
 @pytest.mark.restapi
 @allure.feature("Contacts / Contacts (REST API)")
 @allure.title("Create contacts in bulk")
-def test_contact_create_bulk(contact_ops: ContactOperations):
+def test_contact_create_bulk(contact_ops: ContactOperations) -> None:
     suffix = uuid.uuid4().hex[:6]
     contacts = [
         {
@@ -127,7 +127,7 @@ def test_contact_create_bulk(contact_ops: ContactOperations):
 @pytest.mark.restapi
 @allure.feature("Contacts / Contacts (REST API)")
 @allure.title("Get contacts by ids (bulk)")
-def test_contact_get_bulk(make_contact, contact_ops: ContactOperations):
+def test_contact_get_bulk(make_contact, contact_ops: ContactOperations) -> None:
     c1 = make_contact()
     c2 = make_contact()
 
@@ -144,7 +144,7 @@ def test_contact_get_bulk(make_contact, contact_ops: ContactOperations):
 @pytest.mark.restapi
 @allure.feature("Contacts / Contacts (REST API)")
 @allure.title("Update contacts in bulk")
-def test_contact_update_bulk(make_contact, contact_ops: ContactOperations):
+def test_contact_update_bulk(make_contact, contact_ops: ContactOperations) -> None:
     c1 = make_contact()
     c2 = make_contact()
     suffix = uuid.uuid4().hex[:4]
@@ -167,7 +167,7 @@ def test_contact_update_bulk(make_contact, contact_ops: ContactOperations):
 @pytest.mark.restapi
 @allure.feature("Contacts / Contacts (REST API)")
 @allure.title("Delete contacts in bulk")
-def test_contact_delete_bulk(contact_ops: ContactOperations):
+def test_contact_delete_bulk(contact_ops: ContactOperations) -> None:
     suffix = uuid.uuid4().hex[:6]
     c1 = contact_ops.create(first_name=f"QADel1_{suffix}", last_name="Del")
     c2 = contact_ops.create(first_name=f"QADel2_{suffix}", last_name="Del")
@@ -183,7 +183,7 @@ def test_contact_delete_bulk(contact_ops: ContactOperations):
 @pytest.mark.restapi
 @allure.feature("Contacts / Contacts (REST API)")
 @allure.title("Add address to contact")
-def test_contact_add_address(make_contact, contact_ops: ContactOperations):
+def test_contact_add_address(make_contact, contact_ops: ContactOperations) -> None:
     contact = make_contact()
 
     with allure.step("PUT /api/addresses?memberId=..."):
