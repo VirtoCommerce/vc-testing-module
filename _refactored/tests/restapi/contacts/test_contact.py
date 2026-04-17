@@ -208,4 +208,4 @@ def test_contact_get_not_found(contact_ops: ContactOperations) -> None:
         except HTTPError as exc:
             assert exc.response.status_code == 404
         else:
-            assert result is None or result.get("id") != bogus_id
+            assert result is None, f"Expected None for missing id, got: {result!r}"

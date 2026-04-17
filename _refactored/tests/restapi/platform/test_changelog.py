@@ -6,13 +6,10 @@ Real endpoints (from Katalon Object Repository):
   - POST /api/platform/changelog/search
 """
 
-import uuid
-
 import allure
 import pytest
 
 from core.clients.rest import RestClient
-from restapi.operations import CatalogOperations
 
 
 @pytest.mark.restapi
@@ -23,7 +20,9 @@ def test_changelog_get_last_modified_date(rest_client: RestClient, backend_base_
         result = rest_client.get(f"{backend_base_url}/api/changes/lastmodifieddate")
 
     with allure.step("Verify date returned"):
-        assert result is not None
+        assert isinstance(result, dict)
+        assert "lastModifiedDate" in result
+        assert isinstance(result["lastModifiedDate"], str) and len(result["lastModifiedDate"]) > 0
 
 
 @pytest.mark.restapi
@@ -37,7 +36,8 @@ def test_changelog_force_cache(rest_client: RestClient, backend_base_url: str) -
         updated = rest_client.get(f"{backend_base_url}/api/changes/lastmodifieddate")
 
     with allure.step("Verify date returned"):
-        assert updated is not None
+        assert isinstance(updated, dict)
+        assert "lastModifiedDate" in updated
 
 
 @pytest.mark.restapi
@@ -50,31 +50,30 @@ def test_changelog_search(rest_client: RestClient, backend_base_url: str) -> Non
             json={"skip": 0, "take": 10},
         )
 
-    with allure.step("Verify response structure"):
-        assert result is not None
+    with allure.step("Verify response shape"):
+        assert isinstance(result, list)
 
 
 @pytest.mark.restapi
 @allure.feature("Platform / ChangeLog (REST API)")
-@allure.title("Verify changelog after entity creation")
+@allure.title("Verify changelog search returns objectType-filtered entries")
 def test_changelog_verify_log_after_entity_change(rest_client: RestClient, backend_base_url: str) -> None:
-    catalog_ops = CatalogOperations(rest_client, backend_base_url)
-    cat_name = f"QAChangeLog_{uuid.uuid4().hex[:8]}"
+    """The backend changelog only tracks a subset of entity types (e.g. MenuLinkList, ApplicationUser).
+    Catalog is not tracked on this backend, so we verify the search respects the objectType filter
+    against any type that exists — ApplicationUser, which is always tracked.
+    """
+    with allure.step("POST /api/changes/force — flush cache"):
+        rest_client.post(f"{backend_base_url}/api/changes/force", json={})
 
-    with allure.step(f"Create catalog: {cat_name}"):
-        catalog = catalog_ops.create(name=cat_name)
-        assert catalog["id"]
+    with allure.step("Search changelog filtered by objectType=ApplicationUser"):
+        entries = rest_client.post(
+            f"{backend_base_url}/api/platform/changelog/search",
+            json={"objectType": "ApplicationUser", "skip": 0, "take": 20},
+        )
 
-    try:
-        with allure.step("Search changelog for the new entity"):
-            result = rest_client.post(
-                f"{backend_base_url}/api/platform/changelog/search",
-                json={"skip": 0, "take": 20},
-            )
-            assert result is not None
-    finally:
-        with allure.step("Cleanup — delete catalog"):
-            try:
-                catalog_ops.delete(catalog["id"])
-            except Exception:
-                pass
+    with allure.step("Verify filter restricts results to requested type"):
+        assert isinstance(entries, list)
+        if entries:
+            assert all(
+                e.get("objectType") == "ApplicationUser" for e in entries
+            ), f"Filter did not restrict to ApplicationUser: {[e.get('objectType') for e in entries]}"

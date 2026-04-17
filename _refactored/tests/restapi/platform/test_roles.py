@@ -4,8 +4,11 @@ import uuid
 
 import allure
 import pytest
+from pydantic import SecretStr
 
-from restapi.operations import RoleOperations
+from core.auth import AuthProvider
+from core.global_settings import GlobalSettings
+from restapi.operations import RoleOperations, UserOperations
 
 
 @pytest.mark.restapi
@@ -107,3 +110,39 @@ def test_role_get_all_permissions(role_ops: RoleOperations) -> None:
         assert len(permissions) > 0
         names = [p.get("id", p.get("name", "")) for p in permissions]
         assert any("cache:reset" in n for n in names), f"Expected 'cache:reset' permission, got: {names[:10]}..."
+
+
+@pytest.mark.restapi
+@allure.feature("Platform / Roles (REST API)")
+@allure.title("Assign role to user — user inherits role on reload")
+def test_role_assign_to_user(
+    make_user,
+    make_role,
+    user_ops: UserOperations,
+    global_settings: GlobalSettings,
+) -> None:
+    role = make_role(permissions=[{"name": "security:call_api"}])
+    user = make_user()
+
+    with allure.step("Verify user signs in with starting credentials"):
+        provider = AuthProvider(global_settings)
+        provider.sign_in(user["user_name"], SecretStr(user["password"]))
+        assert provider.is_authenticated
+        provider.sign_out()
+
+    with allure.step(f"PUT /api/platform/security/users — assign role '{role['name']}' to user"):
+        full_user = user_ops.get_by_name(user["user_name"])
+        user_ops.update(full_user, roles=[{"id": role["id"], "name": role["name"]}])
+
+    with allure.step("GET user — verify role present"):
+        reloaded = user_ops.get_by_name(user["user_name"])
+        role_ids = [r.get("id") for r in reloaded.get("roles", [])]
+        assert role["id"] in role_ids, f"Role {role['id']} not in {role_ids}"
+
+    with allure.step("Revoke role — update user with empty roles"):
+        user_ops.update(reloaded, roles=[])
+
+    with allure.step("GET user — verify role removed"):
+        final = user_ops.get_by_name(user["user_name"])
+        final_role_ids = [r.get("id") for r in final.get("roles", [])]
+        assert role["id"] not in final_role_ids

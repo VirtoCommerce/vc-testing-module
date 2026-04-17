@@ -5,7 +5,8 @@ Katalon scripts:
 """
 
 import uuid
-from collections.abc import Generator
+from collections.abc import Callable, Generator
+from typing import Any
 
 import allure
 import pytest
@@ -18,14 +19,16 @@ from core.global_settings import GlobalSettings
 @pytest.fixture
 def make_order(
     rest_client: RestClient, backend_base_url: str, global_settings: GlobalSettings, dataset: dict
-) -> Generator[callable, None, None]:
+) -> Generator[Callable[..., dict], None, None]:
     """Factory: create a customer order; deletes all created orders at teardown."""
+    users = dataset.get("users") or []
+    if not users:
+        pytest.skip("No seeded users in dataset")
+    customer_id = users[0]["id"]
+    customer_name = users[0].get("userName", "QA User")
     created_ids: list[str] = []
 
-    def _make(**overrides: dict) -> dict:
-        users = dataset.get("users", [])
-        customer_id = users[0]["id"] if users else "unknown-user"
-        customer_name = users[0].get("userName", "QA User") if users else "QA User"
+    def _make(**overrides: Any) -> dict:
         payload = {
             "number": f"QA-{uuid.uuid4().hex[:8].upper()}",
             "storeId": global_settings.store_id,
@@ -42,9 +45,11 @@ def make_order(
 
     yield _make
 
-    for oid in reversed(created_ids):
+    if created_ids:
         try:
-            rest_client.delete(f"{backend_base_url}/api/order/customerOrders", params={"ids": [oid]})
+            rest_client.delete(
+                f"{backend_base_url}/api/order/customerOrders", params={"ids": list(reversed(created_ids))}
+            )
         except Exception:
             pass
 
@@ -72,8 +77,9 @@ def test_order_search(rest_client: RestClient, backend_base_url: str) -> None:
             json={"skip": 0, "take": 5},
         )
 
-    with allure.step("Verify"):
-        assert result is not None
+    with allure.step("Verify response shape"):
+        assert isinstance(result, dict)
+        assert "totalCount" in result or "results" in result
 
 
 @pytest.mark.restapi
@@ -83,8 +89,10 @@ def test_order_indexed_search_enabled(rest_client: RestClient, backend_base_url:
     with allure.step("GET /api/order/customerOrders/indexed/searchEnabled"):
         result = rest_client.get(f"{backend_base_url}/api/order/customerOrders/indexed/searchEnabled")
 
-    with allure.step("Verify"):
-        assert result is not None
+    with allure.step("Verify response contains result flag"):
+        assert isinstance(result, dict)
+        assert "result" in result
+        assert isinstance(result["result"], bool)
 
 
 @pytest.mark.restapi
@@ -131,4 +139,4 @@ def test_order_get_not_found(rest_client: RestClient, backend_base_url: str) -> 
         except HTTPError as exc:
             assert exc.response.status_code in (404, 204)
         else:
-            assert result is None or result.get("id") != bogus_id
+            assert result is None or not result, f"Expected empty body for missing id, got: {result!r}"

@@ -129,17 +129,6 @@ def test_tag_outlines_sync(rest_client: RestClient, backend_base_url: str) -> No
 
 
 @pytest.mark.restapi
-@allure.feature("Catalog Personalisation / Tags (REST API)")
-@allure.title("Get settings tags — Customer.MemberGroups")
-def test_tag_settings_get(rest_client: RestClient, backend_base_url: str) -> None:
-    with allure.step("GET /api/platform/settings/values/Customer.MemberGroups"):
-        result = rest_client.get(f"{backend_base_url}/api/platform/settings/values/Customer.MemberGroups")
-
-    with allure.step("Verify list of tags"):
-        assert isinstance(result, list)
-
-
-@pytest.mark.restapi
 @pytest.mark.serial
 @allure.feature("Catalog Personalisation / Tags (REST API)")
 @allure.title("Add tag to Customer.MemberGroups dictionary and verify round-trip")
