@@ -355,7 +355,7 @@ jobs:
         working-directory: vc-testing-module/_refactored
         run: |
           source .venv/bin/activate
-          pytest tests/restapi -m "restapi and not ignore and not serial and not destructive" -n auto -v --color=yes \
+          pytest tests/restapi -m "restapi and not ignore and not serial and not destructive" -v -s --color=yes \
             --junitxml=restapi-junit.xml
 
       - name: Run REST API tests (serial)

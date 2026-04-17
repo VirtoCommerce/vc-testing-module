@@ -11,7 +11,6 @@ dependencies = [
     "pytest==9.0.2",
     "pytest-playwright==0.7.2",
     "pytest-retry==1.6.3",
-    "pytest-xdist==3.5.0",
     "requests==2.32.5",
     "rich==14.3.3",
 ]
