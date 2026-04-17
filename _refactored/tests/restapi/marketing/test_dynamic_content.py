@@ -91,11 +91,12 @@ def test_item_get(make_content_item, content_item_ops: ContentItemOperations):
 @allure.title("Update content item")
 def test_item_update(make_content_item, content_item_ops: ContentItemOperations):
     item = make_content_item()
-    new_name = f"{item['name']}_UPD"
-    with allure.step("PUT /api/marketing/contentitems"):
-        content_item_ops.update(item, name=new_name)
-    reloaded = content_item_ops.get_by_id(item["id"])
-    assert reloaded["name"] == new_name
+    new_desc = f"Updated_{uuid.uuid4().hex[:6]}"
+    with allure.step("PUT /api/marketing/contentitems — description"):
+        content_item_ops.update(item, description=new_desc)
+    with allure.step("Verify update"):
+        reloaded = content_item_ops.get_by_id(item["id"])
+        assert reloaded.get("description") == new_desc
 
 
 @pytest.mark.restapi
