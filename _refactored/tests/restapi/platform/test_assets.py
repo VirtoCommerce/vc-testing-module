@@ -16,9 +16,7 @@ import allure
 import pytest
 import requests
 
-from core.auth import AuthProvider
 from core.clients.rest import RestClient
-from core.global_settings import GlobalSettings
 
 
 @pytest.mark.restapi
@@ -58,42 +56,26 @@ def test_asset_upload_url_image(rest_client: RestClient, backend_base_url: str):
 @pytest.mark.restapi
 @allure.feature("Platform / Assets (REST API)")
 @allure.title("Upload local file")
-def test_asset_upload_local(
-    rest_client: RestClient, backend_base_url: str, global_settings: GlobalSettings, admin_auth: AuthProvider
-):
+def test_asset_upload_local(rest_client: RestClient, backend_base_url: str):
     folder = f"qa-local-{uuid.uuid4().hex[:6]}"
 
     with allure.step("POST /api/assets?folderUrl=... — multipart upload"):
-        response = rest_client._session.post(
+        rest_client.post_multipart(
             f"{backend_base_url}/api/assets",
             params={"folderUrl": folder},
             files={"file": ("qa-test-local.txt", b"QA test content", "text/plain")},
-            headers={"Authorization": admin_auth.headers.get("Authorization", "")},
-            timeout=global_settings.requests_timeout,
-            verify=global_settings.verify_ssl,
         )
-
-    with allure.step("Verify upload response"):
-        assert response.status_code in (200, 204)
 
 
 @pytest.mark.restapi
 @allure.feature("Platform / Assets (REST API)")
 @allure.title("Upload local file to storage")
-def test_asset_upload_local_storage(
-    rest_client: RestClient, backend_base_url: str, global_settings: GlobalSettings, admin_auth: AuthProvider
-):
+def test_asset_upload_local_storage(rest_client: RestClient, backend_base_url: str):
     with allure.step("POST /api/assets/localstorage — multipart upload"):
-        response = rest_client._session.post(
+        rest_client.post_multipart(
             f"{backend_base_url}/api/assets/localstorage",
             files={"file": ("qa-storage-test.txt", b"QA storage test", "text/plain")},
-            headers={"Authorization": admin_auth.headers.get("Authorization", "")},
-            timeout=global_settings.requests_timeout,
-            verify=global_settings.verify_ssl,
         )
-
-    with allure.step("Verify"):
-        assert response.status_code in (200, 204)
 
 
 @pytest.mark.restapi

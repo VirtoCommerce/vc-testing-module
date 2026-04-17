@@ -84,6 +84,36 @@ def test_category_get_template(make_catalog, category_ops: CategoryOperations):
 
 @pytest.mark.restapi
 @allure.feature("Catalog / Categories (REST API)")
+@allure.title("Create nested subcategory — parentId wired correctly")
+def test_category_nested(make_category, category_ops: CategoryOperations):
+    parent = make_category()
+
+    with allure.step(f"POST /api/catalog/categories — child under parent {parent['id']}"):
+        child = make_category(
+            catalog={"id": parent["catalogId"]},
+            parentId=parent["id"],
+        )
+
+    with allure.step("Verify child has parentId and shares catalogId"):
+        reloaded = category_ops.get_by_id(child["id"])
+        assert reloaded["parentId"] == parent["id"]
+        assert reloaded["catalogId"] == parent["catalogId"]
+
+
+@pytest.mark.restapi
+@allure.feature("Catalog / Categories (REST API)")
+@allure.title("Get category by non-existent id — expect 404")
+def test_category_get_not_found(category_ops: CategoryOperations):
+    bogus_id = f"qa-missing-{uuid.uuid4().hex}"
+
+    with allure.step(f"GET /api/catalog/categories/{bogus_id}"):
+        with pytest.raises(HTTPError) as exc_info:
+            category_ops.get_by_id(bogus_id)
+        assert exc_info.value.response.status_code == 404
+
+
+@pytest.mark.restapi
+@allure.feature("Catalog / Categories (REST API)")
 @allure.title("Delete category")
 def test_category_delete(make_category, category_ops: CategoryOperations):
     category = make_category()
