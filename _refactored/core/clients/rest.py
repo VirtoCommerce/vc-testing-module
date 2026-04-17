@@ -28,14 +28,18 @@ class RestClient:
         json: Any | None = None,
         params: dict[str, Any] | None = None,
         headers: dict[str, str] | None = None,
+        files: dict[str, Any] | None = None,
     ) -> requests.Response:
         merged_headers = {**self._auth.headers, **(headers or {})}
+        if files is not None:
+            merged_headers = {k: v for k, v in merged_headers.items() if k.lower() != "content-type"}
         response = self._session.request(
             method=method,
             url=url,
             json=json,
             params=params,
             headers=merged_headers,
+            files=files,
             timeout=self._global_settings.requests_timeout,
             verify=self._global_settings.verify_ssl,
         )
@@ -59,9 +63,7 @@ class RestClient:
         try:
             return response.json()
         except requests.exceptions.JSONDecodeError as exc:
-            raise ValueError(
-                f"Response has Content-Type: application/json but body is not valid JSON: {exc}"
-            ) from exc
+            raise ValueError(f"Response has Content-Type: application/json but body is not valid JSON: {exc}") from exc
 
     def get(
         self,
@@ -79,9 +81,7 @@ class RestClient:
         params: dict[str, Any] | None = None,
         headers: dict[str, str] | None = None,
     ) -> _ResponseBody | None:
-        response = self._request(
-            method="POST", url=url, json=json, params=params, headers=headers
-        )
+        response = self._request(method="POST", url=url, json=json, params=params, headers=headers)
         return self._parse_response(response=response)
 
     def put(
@@ -91,9 +91,7 @@ class RestClient:
         params: dict[str, Any] | None = None,
         headers: dict[str, str] | None = None,
     ) -> _ResponseBody | None:
-        response = self._request(
-            method="PUT", url=url, json=json, params=params, headers=headers
-        )
+        response = self._request(method="PUT", url=url, json=json, params=params, headers=headers)
         return self._parse_response(response=response)
 
     def patch(
@@ -103,9 +101,22 @@ class RestClient:
         params: dict[str, Any] | None = None,
         headers: dict[str, str] | None = None,
     ) -> _ResponseBody | None:
-        response = self._request(
-            method="PATCH", url=url, json=json, params=params, headers=headers
-        )
+        response = self._request(method="PATCH", url=url, json=json, params=params, headers=headers)
+        return self._parse_response(response=response)
+
+    def post_multipart(
+        self,
+        url: str,
+        files: dict[str, Any],
+        params: dict[str, Any] | None = None,
+        headers: dict[str, str] | None = None,
+    ) -> _ResponseBody | None:
+        response = self._request(method="POST", url=url, params=params, headers=headers, files=files)
+        if not response.content:
+            return None
+        content_type = response.headers.get("Content-Type", "")
+        if "application/json" not in content_type:
+            return None
         return self._parse_response(response=response)
 
     def delete(
@@ -114,9 +125,7 @@ class RestClient:
         params: dict[str, Any] | None = None,
         headers: dict[str, str] | None = None,
     ) -> _ResponseBody | None:
-        response = self._request(
-            method="DELETE", url=url, params=params, headers=headers
-        )
+        response = self._request(method="DELETE", url=url, params=params, headers=headers)
         return self._parse_response(response=response)
 
     def close(self) -> None:

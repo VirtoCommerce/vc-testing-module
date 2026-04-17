@@ -37,7 +37,7 @@ def make_catalog(catalog_ops: CatalogOperations) -> Generator[Callable[..., dict
 
     yield _make
 
-    for cid in created_ids:
+    for cid in reversed(created_ids):
         try:
             catalog_ops.delete(cid)
         except Exception:
@@ -63,7 +63,7 @@ def make_category(
 
     yield _make
 
-    for cid in created_ids:
+    for cid in reversed(created_ids):
         try:
             category_ops.delete(cid)
         except Exception:
@@ -95,7 +95,7 @@ def make_product(
 
     yield _make
 
-    for pid in created_ids:
+    for pid in reversed(created_ids):
         try:
             product_ops.delete(pid)
         except Exception:

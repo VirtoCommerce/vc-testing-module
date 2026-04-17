@@ -117,15 +117,32 @@ def test_product_create_update_with_body(make_product, product_ops: ProductOpera
     with allure.step("POST /api/catalog/products — persist clone"):
         created = product_ops.create_or_update_with_body(clone_body)
 
-    with allure.step("Verify cloned product id"):
-        assert created.get("id")
-        assert created.get("id") != product["id"]
+    try:
+        with allure.step("Verify cloned product id"):
+            assert created.get("id")
+            assert created.get("id") != product["id"]
+    finally:
+        with allure.step("Cleanup cloned product"):
+            try:
+                product_ops.delete(created["id"])
+            except Exception:
+                pass
 
-    with allure.step("Cleanup cloned product"):
+
+@pytest.mark.restapi
+@allure.feature("Catalog / Products (REST API)")
+@allure.title("Get product by non-existent id — expect empty result or 404")
+def test_product_get_not_found(product_ops: ProductOperations):
+    bogus_id = f"qa-missing-{uuid.uuid4().hex}"
+
+    with allure.step(f"GET /api/catalog/products?ids={bogus_id}"):
         try:
-            product_ops.delete(created["id"])
-        except Exception:
-            pass
+            results = product_ops.get_by_ids([bogus_id])
+        except HTTPError as exc:
+            assert exc.response.status_code == 404
+        else:
+            ids = [r.get("id") for r in (results or [])]
+            assert bogus_id not in ids
 
 
 @pytest.mark.restapi
