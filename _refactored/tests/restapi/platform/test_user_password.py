@@ -91,6 +91,27 @@ def test_user_send_verification_email(make_user, user_ops: UserOperations) -> No
 
 @pytest.mark.restapi
 @allure.feature("Platform / User Password (REST API)")
+@allure.title("Change password — wrong current password returns succeeded=false")
+def test_user_password_change_wrong_old(make_user, user_ops: UserOperations, global_settings: GlobalSettings) -> None:
+    user = make_user()
+    new_password = f"Changed!{uuid.uuid4().hex[:8]}"
+    wrong_old = f"WrongPwd_{uuid.uuid4().hex[:8]}"
+
+    with allure.step("POST changepassword with wrong old password"):
+        result = user_ops.change_password(user["user_name"], wrong_old, new_password)
+
+    with allure.step("Verify failure returned (succeeded=false or errors present)"):
+        assert result.get("succeeded") is False or result.get("errors")
+
+    with allure.step("Verify original password still works"):
+        provider = AuthProvider(global_settings)
+        provider.sign_in(user["user_name"], SecretStr(user["password"]))
+        assert provider.is_authenticated
+        provider.sign_out()
+
+
+@pytest.mark.restapi
+@allure.feature("Platform / User Password (REST API)")
 @allure.title("Reset password on login page flow")
 def test_user_password_reset_on_login(make_user, user_ops: UserOperations, global_settings: GlobalSettings) -> None:
     """Simulates the forgot-password flow: request reset, then set new password via admin."""

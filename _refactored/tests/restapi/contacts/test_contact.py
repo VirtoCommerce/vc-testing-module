@@ -11,6 +11,7 @@ import uuid
 
 import allure
 import pytest
+from requests.exceptions import HTTPError
 
 from restapi.constants import ADDRESS_TEMPLATE
 from restapi.operations import ContactOperations
@@ -193,3 +194,18 @@ def test_contact_add_address(make_contact, contact_ops: ContactOperations) -> No
         reloaded = contact_ops.get_by_id(contact["id"])
         addresses = reloaded.get("addresses", [])
         assert len(addresses) >= 1
+
+
+@pytest.mark.restapi
+@allure.feature("Contacts / Contacts (REST API)")
+@allure.title("Get contact by non-existent id — expect 404 or empty")
+def test_contact_get_not_found(contact_ops: ContactOperations) -> None:
+    bogus_id = f"qa-missing-{uuid.uuid4().hex}"
+
+    with allure.step(f"GET /api/contacts/{bogus_id}"):
+        try:
+            result = contact_ops.get_by_id(bogus_id)
+        except HTTPError as exc:
+            assert exc.response.status_code == 404
+        else:
+            assert result is None or result.get("id") != bogus_id
