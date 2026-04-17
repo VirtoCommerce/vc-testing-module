@@ -17,6 +17,17 @@ import pytest
 import requests
 
 from core.clients.rest import RestClient
+from core.global_settings import GlobalSettings
+
+_GITHUB_SAMPLE_URL = "https://raw.githubusercontent.com/VirtoCommerce/vc-testing-module/dev/README.md"
+_GITHUB_SAMPLE_URL_IMAGE = "https://raw.githubusercontent.com/VirtoCommerce/vc-testing-module/dev/.gitignore"
+
+
+def _delete_folder_safe(rest_client: RestClient, backend_base_url: str, folder: str) -> None:
+    try:
+        rest_client.delete(f"{backend_base_url}/api/assets", params={"urls": [folder]})
+    except Exception:
+        pass
 
 
 @pytest.mark.restapi
@@ -24,16 +35,18 @@ from core.clients.rest import RestClient
 @allure.title("Upload asset file from URL")
 def test_asset_upload_url(rest_client: RestClient, backend_base_url: str):
     folder = f"qa-test-{uuid.uuid4().hex[:6]}"
-    source_url = "https://raw.githubusercontent.com/VirtoCommerce/vc-testing-module/dev/README.md"
 
-    with allure.step("GET /api/assets?folderUrl=...&url=..."):
-        result = rest_client.get(
-            f"{backend_base_url}/api/assets",
-            params={"folderUrl": folder, "url": source_url},
-        )
+    try:
+        with allure.step("GET /api/assets?folderUrl=...&url=..."):
+            result = rest_client.get(
+                f"{backend_base_url}/api/assets",
+                params={"folderUrl": folder, "url": _GITHUB_SAMPLE_URL},
+            )
 
-    with allure.step("Verify upload response"):
-        assert result is not None
+        with allure.step("Verify upload response"):
+            assert result is not None
+    finally:
+        _delete_folder_safe(rest_client, backend_base_url, folder)
 
 
 @pytest.mark.restapi
@@ -41,16 +54,18 @@ def test_asset_upload_url(rest_client: RestClient, backend_base_url: str):
 @allure.title("Upload image file from URL")
 def test_asset_upload_url_image(rest_client: RestClient, backend_base_url: str):
     folder = f"qa-img-{uuid.uuid4().hex[:6]}"
-    source_url = "https://raw.githubusercontent.com/VirtoCommerce/vc-testing-module/dev/.gitignore"
 
-    with allure.step("GET /api/assets?folderUrl=...&url=..."):
-        result = rest_client.get(
-            f"{backend_base_url}/api/assets",
-            params={"folderUrl": folder, "url": source_url},
-        )
+    try:
+        with allure.step("GET /api/assets?folderUrl=...&url=..."):
+            result = rest_client.get(
+                f"{backend_base_url}/api/assets",
+                params={"folderUrl": folder, "url": _GITHUB_SAMPLE_URL_IMAGE},
+            )
 
-    with allure.step("Verify upload"):
-        assert result is not None
+        with allure.step("Verify upload"):
+            assert result is not None
+    finally:
+        _delete_folder_safe(rest_client, backend_base_url, folder)
 
 
 @pytest.mark.restapi
@@ -59,12 +74,15 @@ def test_asset_upload_url_image(rest_client: RestClient, backend_base_url: str):
 def test_asset_upload_local(rest_client: RestClient, backend_base_url: str):
     folder = f"qa-local-{uuid.uuid4().hex[:6]}"
 
-    with allure.step("POST /api/assets?folderUrl=... — multipart upload"):
-        rest_client.post_multipart(
-            f"{backend_base_url}/api/assets",
-            params={"folderUrl": folder},
-            files={"file": ("qa-test-local.txt", b"QA test content", "text/plain")},
-        )
+    try:
+        with allure.step("POST /api/assets?folderUrl=... — multipart upload"):
+            rest_client.post_multipart(
+                f"{backend_base_url}/api/assets",
+                params={"folderUrl": folder},
+                files={"file": ("qa-test-local.txt", b"QA test content", "text/plain")},
+            )
+    finally:
+        _delete_folder_safe(rest_client, backend_base_url, folder)
 
 
 @pytest.mark.restapi
@@ -81,28 +99,30 @@ def test_asset_upload_local_storage(rest_client: RestClient, backend_base_url: s
 @pytest.mark.restapi
 @allure.feature("Platform / Assets (REST API)")
 @allure.title("Access uploaded asset file")
-def test_asset_file_access(rest_client: RestClient, backend_base_url: str):
+def test_asset_file_access(rest_client: RestClient, backend_base_url: str, global_settings: GlobalSettings):
     folder = f"qa-access-{uuid.uuid4().hex[:6]}"
-    source_url = "https://raw.githubusercontent.com/VirtoCommerce/vc-testing-module/dev/README.md"
 
-    with allure.step("Upload file"):
-        uploaded = rest_client.get(
-            f"{backend_base_url}/api/assets",
-            params={"folderUrl": folder, "url": source_url},
-        )
+    try:
+        with allure.step("Upload file"):
+            uploaded = rest_client.get(
+                f"{backend_base_url}/api/assets",
+                params={"folderUrl": folder, "url": _GITHUB_SAMPLE_URL},
+            )
 
-    with allure.step("GET the uploaded file"):
-        if uploaded and isinstance(uploaded, list) and len(uploaded) > 0:
-            file_url = uploaded[0].get("url") or uploaded[0].get("relativeUrl", "")
-        elif uploaded and isinstance(uploaded, dict):
-            file_url = uploaded.get("url") or uploaded.get("relativeUrl", "")
-        else:
-            file_url = ""
+        with allure.step("GET the uploaded file"):
+            if uploaded and isinstance(uploaded, list) and len(uploaded) > 0:
+                file_url = uploaded[0].get("url") or uploaded[0].get("relativeUrl", "")
+            elif uploaded and isinstance(uploaded, dict):
+                file_url = uploaded.get("url") or uploaded.get("relativeUrl", "")
+            else:
+                file_url = ""
 
-        if file_url:
-            full = file_url if file_url.startswith("http") else f"{backend_base_url}/{file_url.lstrip('/')}"
-            response = requests.get(full, timeout=30, verify=False)
-            assert response.status_code == 200
+            if file_url:
+                full = file_url if file_url.startswith("http") else f"{backend_base_url}/{file_url.lstrip('/')}"
+                response = requests.get(full, timeout=30, verify=global_settings.verify_ssl)
+                assert response.status_code == 200
+    finally:
+        _delete_folder_safe(rest_client, backend_base_url, folder)
 
 
 @pytest.mark.restapi
@@ -110,24 +130,26 @@ def test_asset_file_access(rest_client: RestClient, backend_base_url: str):
 @allure.title("Access asset file after delete — expect 404")
 def test_asset_file_access_after_delete(rest_client: RestClient, backend_base_url: str):
     folder = f"qa-del-{uuid.uuid4().hex[:6]}"
-    source_url = "https://raw.githubusercontent.com/VirtoCommerce/vc-testing-module/dev/README.md"
 
-    with allure.step("Upload file"):
-        uploaded = rest_client.get(
-            f"{backend_base_url}/api/assets",
-            params={"folderUrl": folder, "url": source_url},
-        )
+    try:
+        with allure.step("Upload file"):
+            uploaded = rest_client.get(
+                f"{backend_base_url}/api/assets",
+                params={"folderUrl": folder, "url": _GITHUB_SAMPLE_URL},
+            )
 
-    with allure.step("Delete the asset"):
-        if uploaded and isinstance(uploaded, list) and len(uploaded) > 0:
-            file_url = uploaded[0].get("url") or uploaded[0].get("relativeUrl", "")
-        elif uploaded and isinstance(uploaded, dict):
-            file_url = uploaded.get("url") or uploaded.get("relativeUrl", "")
-        else:
-            file_url = ""
+        with allure.step("Delete the asset"):
+            if uploaded and isinstance(uploaded, list) and len(uploaded) > 0:
+                file_url = uploaded[0].get("url") or uploaded[0].get("relativeUrl", "")
+            elif uploaded and isinstance(uploaded, dict):
+                file_url = uploaded.get("url") or uploaded.get("relativeUrl", "")
+            else:
+                file_url = ""
 
-        if file_url:
-            rest_client.delete(f"{backend_base_url}/api/assets", params={"urls": [file_url]})
+            if file_url:
+                rest_client.delete(f"{backend_base_url}/api/assets", params={"urls": [file_url]})
+    finally:
+        _delete_folder_safe(rest_client, backend_base_url, folder)
 
 
 @pytest.mark.restapi
@@ -136,11 +158,14 @@ def test_asset_file_access_after_delete(rest_client: RestClient, backend_base_ur
 def test_asset_folder_create(rest_client: RestClient, backend_base_url: str):
     folder_name = f"qa-folder-{uuid.uuid4().hex[:6]}"
 
-    with allure.step(f"POST /api/assets/folder — name={folder_name}"):
-        rest_client.post(
-            f"{backend_base_url}/api/assets/folder",
-            json={"name": folder_name, "parentUrl": ""},
-        )
+    try:
+        with allure.step(f"POST /api/assets/folder — name={folder_name}"):
+            rest_client.post(
+                f"{backend_base_url}/api/assets/folder",
+                json={"name": folder_name, "parentUrl": ""},
+            )
+    finally:
+        _delete_folder_safe(rest_client, backend_base_url, folder_name)
 
 
 @pytest.mark.restapi
@@ -160,11 +185,14 @@ def test_asset_folder_list(rest_client: RestClient, backend_base_url: str):
 def test_asset_folder_delete(rest_client: RestClient, backend_base_url: str):
     folder_name = f"qa-delfolder-{uuid.uuid4().hex[:6]}"
 
-    with allure.step("Create folder"):
-        rest_client.post(f"{backend_base_url}/api/assets/folder", json={"name": folder_name, "parentUrl": ""})
+    try:
+        with allure.step("Create folder"):
+            rest_client.post(f"{backend_base_url}/api/assets/folder", json={"name": folder_name, "parentUrl": ""})
 
-    with allure.step("DELETE /api/assets?urls=..."):
-        rest_client.delete(f"{backend_base_url}/api/assets", params={"urls": [folder_name]})
+        with allure.step("DELETE /api/assets?urls=..."):
+            rest_client.delete(f"{backend_base_url}/api/assets", params={"urls": [folder_name]})
+    finally:
+        _delete_folder_safe(rest_client, backend_base_url, folder_name)
 
 
 @pytest.mark.restapi
@@ -174,12 +202,18 @@ def test_asset_folder_create_delete_bulk(rest_client: RestClient, backend_base_u
     suffix = uuid.uuid4().hex[:6]
     folders = [f"qa-bulk-{suffix}-{i}" for i in range(3)]
 
-    with allure.step(f"Create {len(folders)} folders"):
-        for name in folders:
-            rest_client.post(f"{backend_base_url}/api/assets/folder", json={"name": name, "parentUrl": ""})
+    try:
+        with allure.step(f"Create {len(folders)} folders"):
+            for name in folders:
+                rest_client.post(f"{backend_base_url}/api/assets/folder", json={"name": name, "parentUrl": ""})
 
-    with allure.step("DELETE all folders in bulk"):
-        rest_client.delete(f"{backend_base_url}/api/assets", params={"urls": folders})
+        with allure.step("DELETE all folders in bulk"):
+            rest_client.delete(f"{backend_base_url}/api/assets", params={"urls": folders})
+    finally:
+        try:
+            rest_client.delete(f"{backend_base_url}/api/assets", params={"urls": folders})
+        except Exception:
+            pass
 
 
 @pytest.mark.restapi

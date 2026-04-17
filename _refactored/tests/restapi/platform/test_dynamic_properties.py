@@ -71,16 +71,20 @@ def test_dynamic_property_create_verify_delete(rest_client: RestClient, backend_
         assert result.get("name") == prop_name
         prop_id = result["id"]
 
-    with allure.step("Verify property in search"):
-        search = rest_client.post(
-            f"{base}/properties/search",
-            json={"objectType": object_type, "skip": 0, "take": 100},
-        )
-        names = [p.get("name") for p in search.get("results", [])]
-        assert prop_name in names, f"Property {prop_name} not found: {names[:10]}..."
-
-    with allure.step("Delete property"):
-        rest_client.delete(f"{base}/properties", params={"propertyIds": [prop_id]})
+    try:
+        with allure.step("Verify property in search"):
+            search = rest_client.post(
+                f"{base}/properties/search",
+                json={"objectType": object_type, "skip": 0, "take": 100},
+            )
+            names = [p.get("name") for p in search.get("results", [])]
+            assert prop_name in names, f"Property {prop_name} not found: {names[:10]}..."
+    finally:
+        with allure.step("Delete property"):
+            try:
+                rest_client.delete(f"{base}/properties", params={"propertyIds": [prop_id]})
+            except Exception:
+                pass
 
 
 @pytest.mark.restapi
@@ -100,11 +104,15 @@ def test_dynamic_property_create_dictionary(rest_client: RestClient, backend_bas
         assert result is not None
         prop_id = result["id"]
 
-    with allure.step("Verify isDictionary flag"):
-        assert result.get("isDictionary") is True
-
-    with allure.step("Cleanup"):
-        rest_client.delete(f"{base}/properties", params={"propertyIds": [prop_id]})
+    try:
+        with allure.step("Verify isDictionary flag"):
+            assert result.get("isDictionary") is True
+    finally:
+        with allure.step("Cleanup"):
+            try:
+                rest_client.delete(f"{base}/properties", params={"propertyIds": [prop_id]})
+            except Exception:
+                pass
 
 
 @pytest.mark.restapi
@@ -149,8 +157,15 @@ def test_dynamic_property_value_types(
         assert result.get("name") == prop_name
         prop_id = result["id"]
 
-    with allure.step("Cleanup"):
-        rest_client.delete(f"{base}/properties", params={"propertyIds": [prop_id]})
+    try:
+        with allure.step("Verify value type"):
+            assert result.get("valueType") == value_type
+    finally:
+        with allure.step("Cleanup"):
+            try:
+                rest_client.delete(f"{base}/properties", params={"propertyIds": [prop_id]})
+            except Exception:
+                pass
 
 
 @pytest.mark.restapi

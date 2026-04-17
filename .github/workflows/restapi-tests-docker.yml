@@ -355,7 +355,7 @@ jobs:
         working-directory: vc-testing-module/_refactored
         run: |
           source .venv/bin/activate
-          pytest tests/restapi -m "restapi and not ignore and not serial" -v -s --color=yes \
+          pytest tests/restapi -m "restapi and not ignore and not serial and not destructive" -v -s --color=yes \
             --junitxml=restapi-junit.xml
 
       - name: Run REST API tests (serial)
@@ -363,9 +363,8 @@ jobs:
         working-directory: vc-testing-module/_refactored
         run: |
           source .venv/bin/activate
-          pytest tests/restapi -m "restapi and serial and not ignore" -v -s --color=yes \
-            --junitxml=restapi-serial-junit.xml \
-            --deselect tests/restapi/platform/test_misc.py::test_restart_platform
+          pytest tests/restapi -m "restapi and serial and not ignore and not destructive" -v -s --color=yes \
+            --junitxml=restapi-serial-junit.xml
 
       - name: Run REST API test — restart platform (last)
         if: success() || failure()

@@ -60,6 +60,7 @@ def test_index_build(rest_client: RestClient, backend_base_url: str):
 
 @pytest.mark.restapi
 @pytest.mark.serial
+@pytest.mark.destructive
 @allure.feature("Search / Indexes (REST API)")
 @allure.title("Drop and rebuild index")
 def test_index_drop(rest_client: RestClient, backend_base_url: str):
