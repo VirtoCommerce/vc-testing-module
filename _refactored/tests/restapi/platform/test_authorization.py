@@ -77,13 +77,15 @@ def test_auth_validation_wrong_credentials(global_settings: GlobalSettings) -> N
 
 @pytest.mark.restapi
 @allure.feature("Platform / Authorization (REST API)")
-@allure.title("Get external sign-in providers")
-def test_auth_external_sign_in_providers(rest_client, backend_base_url: str) -> None:
-    with allure.step("GET /api/platform/security/externalsigninproviders"):
-        try:
-            result = rest_client.get(f"{backend_base_url}/api/platform/security/externalsigninproviders")
-        except Exception as exc:
-            pytest.skip(f"External sign-in providers endpoint not available on this platform version: {exc}")
+@allure.title("Get current user — admin is administrator")
+def test_auth_current_user(rest_client, backend_base_url: str) -> None:
+    """Replaces the externalsigninproviders test which is absent on this platform version.
+    currentuser is the stable admin-identity endpoint and verifies the auth header round-trips.
+    """
+    with allure.step("GET /api/platform/security/currentuser"):
+        result = rest_client.get(f"{backend_base_url}/api/platform/security/currentuser")
 
-    with allure.step("Verify response"):
-        assert result is not None
+    with allure.step("Verify admin identity"):
+        assert isinstance(result, dict)
+        assert result.get("userName") == "admin"
+        assert result.get("isAdministrator") is True

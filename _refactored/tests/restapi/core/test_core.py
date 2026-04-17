@@ -11,7 +11,6 @@ import uuid
 
 import allure
 import pytest
-from requests.exceptions import HTTPError
 
 from core.clients.rest import RestClient
 
@@ -140,17 +139,16 @@ def test_package_delete(rest_client: RestClient, backend_base_url: str) -> None:
 
 @pytest.mark.restapi
 @allure.feature("Core / SEO (REST API)")
-@allure.title("Get SEO info by slug")
-def test_seo_info_get(rest_client: RestClient, backend_base_url: str) -> None:
-    """Slug lookup may return 500 ('Store with ID not found') if the slug doesn't
-    resolve to a known store entity.  Use the batch endpoint with an empty list
-    to verify the SEO API is reachable without depending on specific store data.
+@allure.title("Check SEO duplicates for seeded catalog — endpoint reachable")
+def test_seo_info_get(rest_client: RestClient, backend_base_url: str, seed_catalog_id: str) -> None:
+    """The batchresolve endpoint is POST-rejected on this backend (405). `/duplicates` is the
+    stable GET read: requires objectType + objectId and returns a list (empty if no duplicates).
     """
-    with allure.step("POST /api/seoinfos/batchresolve"):
-        try:
-            result = rest_client.post(f"{backend_base_url}/api/seoinfos/batchresolve", json=[])
-        except HTTPError as exc:
-            pytest.skip(f"SEO batch-resolve endpoint not available: {exc.response.status_code}")
+    with allure.step(f"GET /api/seoinfos/duplicates?objectType=Catalog&objectId={seed_catalog_id}"):
+        result = rest_client.get(
+            f"{backend_base_url}/api/seoinfos/duplicates",
+            params={"objectType": "Catalog", "objectId": seed_catalog_id},
+        )
 
     with allure.step("Verify response shape"):
-        assert result is None or isinstance(result, list)
+        assert isinstance(result, list)

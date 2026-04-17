@@ -366,6 +366,14 @@ jobs:
           pytest tests/restapi -m "restapi and serial and not ignore and not destructive" -v -s --color=yes \
             --junitxml=restapi-serial-junit.xml
 
+      - name: Run REST API test — drop search index (destructive, before restart)
+        if: success() || failure()
+        working-directory: vc-testing-module/_refactored
+        run: |
+          source .venv/bin/activate
+          pytest tests/restapi/search/test_search.py::test_index_drop -v -s --color=yes \
+            --junitxml=restapi-index-drop-junit.xml
+
       - name: Run REST API test — restart platform (last)
         if: success() || failure()
         working-directory: vc-testing-module/_refactored
@@ -418,6 +426,7 @@ jobs:
           [ -d har-output ] && mv har-output report/ || echo "no har-output"
           [ -f restapi-junit.xml ] && mv restapi-junit.xml report/ || echo "no restapi-junit.xml"
           [ -f restapi-serial-junit.xml ] && mv restapi-serial-junit.xml report/ || echo "no restapi-serial-junit.xml"
+          [ -f restapi-index-drop-junit.xml ] && mv restapi-index-drop-junit.xml report/ || echo "no restapi-index-drop-junit.xml"
           [ -f restapi-restart-junit.xml ] && mv restapi-restart-junit.xml report/ || echo "no restapi-restart-junit.xml"
 
           cat > report/index.html << 'HTML'
@@ -451,6 +460,7 @@ jobs:
           | `har-output/<module>/<test>.har` | Per-test HTTP traces (HAR 1.2) grouped by module. Auth headers redacted. |
           | `restapi-junit.xml` | JUnit XML for parallel-safe REST API tests. |
           | `restapi-serial-junit.xml` | JUnit XML for serial REST API tests. |
+          | `restapi-index-drop-junit.xml` | JUnit XML for destructive drop-index test. |
           | `restapi-restart-junit.xml` | JUnit XML for restart platform test. |
           EOF
 
@@ -470,6 +480,7 @@ jobs:
           files: |
             vc-testing-module/_refactored/report/restapi-junit.xml
             vc-testing-module/_refactored/report/restapi-serial-junit.xml
+            vc-testing-module/_refactored/report/restapi-index-drop-junit.xml
             vc-testing-module/_refactored/report/restapi-restart-junit.xml
           check_name: REST API Test Results
           comment_mode: always
@@ -489,7 +500,7 @@ jobs:
               lambda: {"total": 0, "passed": 0, "failed": 0, "errored": 0, "skipped": 0, "time": 0.0}
           )
 
-          for xml_name in ["report/restapi-junit.xml", "report/restapi-serial-junit.xml", "report/restapi-restart-junit.xml"]:
+          for xml_name in ["report/restapi-junit.xml", "report/restapi-serial-junit.xml", "report/restapi-index-drop-junit.xml", "report/restapi-restart-junit.xml"]:
               xml_path = Path(xml_name)
               if not xml_path.exists():
                   continue

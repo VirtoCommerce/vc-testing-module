@@ -19,11 +19,12 @@ from core.global_settings import GlobalSettings
 
 
 @pytest.fixture(scope="session")
-def admin_auth(global_settings: GlobalSettings) -> AuthProvider:
+def admin_auth(global_settings: GlobalSettings) -> Generator[AuthProvider, None, None]:
     """Session-scoped admin auth — signed in once, reused across all REST tests."""
     provider = AuthProvider(global_settings)
     provider.sign_in(global_settings.admin_username, global_settings.admin_password)
-    return provider
+    yield provider
+    provider.sign_out()
 
 
 @pytest.fixture
@@ -34,6 +35,7 @@ def rest_client(global_settings: GlobalSettings, admin_auth: AuthProvider) -> Ge
 
 @pytest.fixture(scope="session")
 def backend_base_url(global_settings: GlobalSettings) -> str:
+    """Base URL for REST API operations constructors."""
     return global_settings.backend_base_url
 
 

@@ -24,6 +24,27 @@ from requests.exceptions import HTTPError
 from core.clients.rest import RestClient
 
 
+def _find_tagged_item(rest_client: RestClient, backend_base_url: str, entity_id: str) -> dict | None:
+    """Return the existing TaggedItem row for the given entityId, or None."""
+    search = rest_client.post(
+        f"{backend_base_url}/api/personalization/search",
+        json={"entityIds": [entity_id], "skip": 0, "take": 5},
+    )
+    results = search.get("results") if isinstance(search, dict) else None
+    return results[0] if results else None
+
+
+def _put_tagged_item(
+    rest_client: RestClient, backend_base_url: str, entity_id: str, entity_type: str, label: str, tags: list[str]
+) -> None:
+    """PUT /api/personalization/taggeditem — idempotent: uses existing row id if present, else creates."""
+    existing = _find_tagged_item(rest_client, backend_base_url, entity_id)
+    payload: dict = {"entityId": entity_id, "entityType": entity_type, "label": label, "tags": tags}
+    if existing:
+        payload["id"] = existing["id"]
+    rest_client.put(f"{backend_base_url}/api/personalization/taggeditem", json=payload)
+
+
 @pytest.mark.restapi
 @allure.feature("Catalog Personalisation / Tags (REST API)")
 @allure.title("Get tags from settings dictionary")
@@ -48,69 +69,80 @@ def test_tag_search(rest_client: RestClient, backend_base_url: str) -> None:
 
 
 @pytest.mark.restapi
+@pytest.mark.serial
 @allure.feature("Catalog Personalisation / Tags (REST API)")
-@allure.title("PUT assign tag to product — response contains entityId")
+@allure.title("PUT assign tag to product — returns 204 and is searchable")
 def test_tag_put_assign_product(rest_client: RestClient, backend_base_url: str, dataset: dict) -> None:
     products = dataset.get("products", [])
     if not products:
         pytest.skip("No products in dataset")
     product_id = products[0]["id"]
+    tag_label = f"QA-{uuid.uuid4().hex[:6]}"
 
-    with allure.step("PUT /api/personalization/taggeditem"):
-        try:
-            result = rest_client.put(
-                f"{backend_base_url}/api/personalization/taggeditem",
-                json={"entityId": product_id, "entityType": "Product", "tags": ["QA-TAG"]},
-            )
-        except HTTPError as exc:
-            pytest.skip(f"Personalisation module not configured: {exc.response.status_code}")
+    try:
+        with allure.step(f"PUT /api/personalization/taggeditem — label={tag_label}"):
+            _put_tagged_item(rest_client, backend_base_url, product_id, "Product", tag_label, [tag_label])
 
-    with allure.step("Verify assignment echoed back"):
-        assert result is None or isinstance(result, (dict, list))
+        with allure.step("Verify tag appears on the product's tagged item row"):
+            item = _find_tagged_item(rest_client, backend_base_url, product_id)
+            assert item is not None
+            assert tag_label in item.get("tags", []), f"Expected {tag_label} in {item.get('tags')}"
+    finally:
+        with allure.step("Cleanup — clear tags on the tagged item row"):
+            try:
+                _put_tagged_item(rest_client, backend_base_url, product_id, "Product", tag_label, [])
+            except Exception:
+                pass
 
 
 @pytest.mark.restapi
+@pytest.mark.serial
 @allure.feature("Catalog Personalisation / Tags (REST API)")
-@allure.title("PUT assign tag to category — response contains entityId")
+@allure.title("PUT assign tag to category — returns 204 and is searchable")
 def test_tag_put_assign_category(rest_client: RestClient, backend_base_url: str, dataset: dict) -> None:
     categories = dataset.get("categories", [])
     if not categories:
         pytest.skip("No categories in dataset")
     category_id = categories[0]["id"]
+    tag_label = f"QA-{uuid.uuid4().hex[:6]}"
 
-    with allure.step("PUT /api/personalization/taggeditem"):
-        try:
-            result = rest_client.put(
-                f"{backend_base_url}/api/personalization/taggeditem",
-                json={"entityId": category_id, "entityType": "Category", "tags": ["QA-TAG"]},
-            )
-        except HTTPError as exc:
-            pytest.skip(f"Personalisation module not configured: {exc.response.status_code}")
+    try:
+        with allure.step(f"PUT /api/personalization/taggeditem — label={tag_label}"):
+            _put_tagged_item(rest_client, backend_base_url, category_id, "Category", tag_label, [tag_label])
 
-    with allure.step("Verify assignment echoed back"):
-        assert result is None or isinstance(result, (dict, list))
+        with allure.step("Verify tag appears on the category's tagged item row"):
+            item = _find_tagged_item(rest_client, backend_base_url, category_id)
+            assert item is not None
+            assert tag_label in item.get("tags", []), f"Expected {tag_label} in {item.get('tags')}"
+    finally:
+        with allure.step("Cleanup — clear tags on the tagged item row"):
+            try:
+                _put_tagged_item(rest_client, backend_base_url, category_id, "Category", tag_label, [])
+            except Exception:
+                pass
 
 
 @pytest.mark.restapi
+@pytest.mark.serial
 @allure.feature("Catalog Personalisation / Tags (REST API)")
-@allure.title("PUT unassign tag from product — empty tags succeeds")
+@allure.title("PUT unassign tag from product — tags=[] clears assignment")
 def test_tag_put_unassign_product(rest_client: RestClient, backend_base_url: str, dataset: dict) -> None:
     products = dataset.get("products", [])
     if not products:
         pytest.skip("No products in dataset")
     product_id = products[0]["id"]
+    tag_label = f"QA-{uuid.uuid4().hex[:6]}"
 
-    with allure.step("PUT /api/personalization/taggeditem — empty tags"):
-        try:
-            result = rest_client.put(
-                f"{backend_base_url}/api/personalization/taggeditem",
-                json={"entityId": product_id, "entityType": "Product", "tags": []},
-            )
-        except HTTPError as exc:
-            pytest.skip(f"Personalisation module not configured: {exc.response.status_code}")
+    with allure.step(f"Assign {tag_label} so there is something to unassign"):
+        _put_tagged_item(rest_client, backend_base_url, product_id, "Product", tag_label, [tag_label])
 
-    with allure.step("Verify response shape"):
-        assert result is None or isinstance(result, (dict, list))
+    with allure.step("Unassign via tags=[]"):
+        _put_tagged_item(rest_client, backend_base_url, product_id, "Product", tag_label, [])
+
+    with allure.step("Verify tags cleared"):
+        item = _find_tagged_item(rest_client, backend_base_url, product_id)
+        assert item is not None
+        assert item.get("tags") == [], f"Expected empty tags, got {item.get('tags')}"
 
 
 @pytest.mark.restapi
@@ -126,17 +158,6 @@ def test_tag_outlines_sync(rest_client: RestClient, backend_base_url: str) -> No
 
     with allure.step("Verify response shape"):
         assert result is None or isinstance(result, (dict, list))
-
-
-@pytest.mark.restapi
-@allure.feature("Catalog Personalisation / Tags (REST API)")
-@allure.title("Get settings tags — Customer.MemberGroups")
-def test_tag_settings_get(rest_client: RestClient, backend_base_url: str) -> None:
-    with allure.step("GET /api/platform/settings/values/Customer.MemberGroups"):
-        result = rest_client.get(f"{backend_base_url}/api/platform/settings/values/Customer.MemberGroups")
-
-    with allure.step("Verify list of tags"):
-        assert isinstance(result, list)
 
 
 @pytest.mark.restapi

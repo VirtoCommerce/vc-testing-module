@@ -182,6 +182,6 @@ def test_dynamic_properties_search(rest_client: RestClient, backend_base_url: st
             json={"objectType": object_type, "skip": 0, "take": 20},
         )
 
-    with allure.step("Verify response"):
-        assert result is not None
+    with allure.step("Verify response shape"):
+        assert isinstance(result, dict)
         assert "results" in result or "totalCount" in result

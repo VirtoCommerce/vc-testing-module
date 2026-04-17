@@ -31,8 +31,8 @@ def test_content_create_page(rest_client: RestClient, backend_base_url: str, glo
     with allure.step(f"GET /api/content/pages/{store_id}/search"):
         result = rest_client.get(f"{backend_base_url}/api/content/pages/{store_id}/search")
 
-    with allure.step("Verify response"):
-        assert result is not None
+    with allure.step("Verify response shape"):
+        assert isinstance(result, list)
 
 
 @pytest.mark.restapi
@@ -44,8 +44,8 @@ def test_content_search_pages(rest_client: RestClient, backend_base_url: str, gl
     with allure.step(f"GET /api/content/pages/{store_id}/search"):
         result = rest_client.get(f"{backend_base_url}/api/content/pages/{store_id}/search")
 
-    with allure.step("Verify response"):
-        assert result is not None
+    with allure.step("Verify response shape"):
+        assert isinstance(result, list)
 
 
 @pytest.mark.restapi
@@ -57,8 +57,8 @@ def test_content_stats(rest_client: RestClient, backend_base_url: str, global_se
     with allure.step(f"GET /api/content/{store_id}/stats"):
         result = rest_client.get(f"{backend_base_url}/api/content/{store_id}/stats")
 
-    with allure.step("Verify response"):
-        assert result is not None
+    with allure.step("Verify response shape"):
+        assert isinstance(result, dict)
 
 
 @pytest.mark.restapi
@@ -97,8 +97,8 @@ def test_content_menu_get(rest_client: RestClient, backend_base_url: str, global
     with allure.step(f"GET /api/cms/{store_id}/menu"):
         result = rest_client.get(f"{backend_base_url}/api/cms/{store_id}/menu")
 
-    with allure.step("Verify response"):
-        assert result is not None
+    with allure.step("Verify response shape"):
+        assert isinstance(result, list)
 
 
 @pytest.mark.restapi
@@ -115,8 +115,8 @@ def test_content_menu_checkname(
             params={"language": "en-US", "name": "Header"},
         )
 
-    with allure.step("Verify response"):
-        assert result is not None
+    with allure.step("Verify response shape"):
+        assert result is None or isinstance(result, (dict, bool, str))
 
 
 @pytest.mark.restapi
@@ -128,5 +128,5 @@ def test_content_search_theme(rest_client: RestClient, backend_base_url: str, gl
     with allure.step(f"GET /api/content/themes/{store_id}/search"):
         result = rest_client.get(f"{backend_base_url}/api/content/themes/{store_id}/search")
 
-    with allure.step("Verify response"):
-        assert result is not None
+    with allure.step("Verify response shape"):
+        assert isinstance(result, list)
