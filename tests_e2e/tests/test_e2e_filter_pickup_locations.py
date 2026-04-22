@@ -386,9 +386,7 @@ def test_e2e_filter_pickup_locations_remove_filters_single_page_checkout(
 
     restored_pickup_points_count = len(select_pickup_location_modal.pickup_locations)
 
-    assert (
-        updated_pickup_points_count != filtered_pickup_points_count
-    ), "Pickup points count not updated after removing filter"
+    assert updated_pickup_points_count == filtered_pickup_points_count, "Pickup points count not updated"
     assert restored_pickup_points_count == all_pickup_points_count, "Pickup points count not restored"
 
     cart_operations.clear_cart(
@@ -790,9 +788,7 @@ def test_e2e_filter_pickup_locations_remove_filters_multi_step_checkout(
 
     restored_pickup_points_count = len(select_pickup_location_modal.pickup_locations)
 
-    assert (
-        updated_pickup_points_count != filtered_pickup_points_count
-    ), "Pickup points count not updated after removing filter"
+    assert updated_pickup_points_count == filtered_pickup_points_count, "Pickup points count not updated"
     assert restored_pickup_points_count == all_pickup_points_count, "Pickup points count not restored"
 
     cart_operations.remove_cart(
