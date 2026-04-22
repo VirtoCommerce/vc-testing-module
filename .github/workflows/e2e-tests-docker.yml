@@ -11,11 +11,10 @@ on:
 
 jobs:
   e2e-tests:
-    uses: VirtoCommerce/.github/.github/workflows/e2e-autotests.yml@v3.800.23
+    uses: VirtoCommerce/.github/.github/workflows/pytest-tests.yml@VCST-4958
     with:
       installModules: 'false'
       installCustomModule: 'false'
-      runTests: 'true'
       vctestingRepoBranch: '${{ github.ref_name }}'
       frontendZipUrl: '${{ inputs.frontendZipUrl }}'
       customPackagesJsonUrl: 'https://github.com/${{ github.repository }}/raw/${{ github.ref_name }}/backend-packages.json'
