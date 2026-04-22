@@ -374,12 +374,12 @@ def test_e2e_filter_pickup_locations_remove_filters_single_page_checkout(
 
     select_pickup_location_modal.get_applied_filter_chip_by_name(region_to_filter).close_chip()
     page.wait_for_load_state("networkidle")
+    page.locator(f"[data-test-id='filter-region-{region_to_filter}']").wait_for(state="detached", timeout=10_000)
 
     updated_pickup_points_count = len(select_pickup_location_modal.pickup_locations)
 
     select_pickup_location_modal.reset_filters_chip.click()
     page.wait_for_load_state("networkidle")
-    # Wait for the pickup locations list to be fully re-populated after reset
     select_pickup_location_modal.pickup_locations_list.locator(
         f"[data-address-id^='pickup-location-']:nth-child({all_pickup_points_count})"
     ).wait_for(state="visible", timeout=10_000)
@@ -775,6 +775,8 @@ def test_e2e_filter_pickup_locations_remove_filters_multi_step_checkout(
     filtered_pickup_points_count = len(select_pickup_location_modal.pickup_locations)
 
     select_pickup_location_modal.get_applied_filter_chip_by_name(region_to_filter).close_chip()
+    page.wait_for_load_state("networkidle")
+    page.locator(f"[data-test-id='filter-region-{region_to_filter}']").wait_for(state="detached", timeout=10_000)
 
     updated_pickup_points_count = len(select_pickup_location_modal.pickup_locations)
 
