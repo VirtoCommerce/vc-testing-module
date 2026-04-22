@@ -106,7 +106,8 @@ class DatasetSeeder:
     ) -> None:
         base_url = self._global_settings.backend_base_url
         if entry.payload_type == "array":
-            url = f"{base_url}{entry.endpoint}"
+            endpoint = self._resolve_env_in_endpoint(entry.endpoint, entry.name)
+            url = f"{base_url}{endpoint}"
             self._call(
                 method=entry.method,
                 url=url,
@@ -139,6 +140,21 @@ class DatasetSeeder:
                     log_prefix=prefix,
                 )
 
+    def _resolve_env_in_endpoint(self, endpoint: str, entity_name: str) -> str:
+        env_vars = self._global_settings.env_vars
+
+        def replace(m: re.Match[str]) -> str:
+            var_name = m.group(1)
+            value = env_vars.get(var_name)
+            if value is None:
+                self._logger.warning(
+                    f"\\[{entity_name}] ENV variable not set: {var_name}"
+                )
+                return m.group(0)
+            return value
+
+        return _ENV_PATTERN.sub(replace, endpoint)
+
     def _resolve_endpoint(
         self, endpoint: str, item: dict[str, Any], entity_name: str
     ) -> str:
@@ -152,6 +168,7 @@ class DatasetSeeder:
                 return m.group(0)
             return str(value)
 
+        endpoint = self._resolve_env_in_endpoint(endpoint, entity_name)
         return _PAYLOAD_ITEM_PATTERN.sub(replace, endpoint)
 
     def _call(

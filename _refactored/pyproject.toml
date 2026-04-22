@@ -3,8 +3,8 @@ name = "vc-auto-tests"
 version = "0.1.0"
 requires-python = ">=3.13"
 dependencies = [
-    "allure-pytest==2.13.5",
-    "allure-python-commons==2.13.5",
+    "allure-pytest==2.15.3",
+    "allure-python-commons==2.15.3",
     "inflection==0.5.1",
     "playwright==1.58.0",
     "pydantic==2.12.5",

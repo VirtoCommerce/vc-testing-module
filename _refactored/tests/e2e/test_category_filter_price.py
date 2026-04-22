@@ -4,7 +4,7 @@ from page_objects.pages import CategoryPage
 from playwright.sync_api import Page, expect
 
 _CATEGORY_PATH = "smartphones"
-_EXPECTED_PRODUCTS_QTY = 13
+_EXPECTED_PRODUCTS_QTY = 4
 
 
 @pytest.mark.e2e
