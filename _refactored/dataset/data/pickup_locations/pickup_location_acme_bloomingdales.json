@@ -1,0 +1,25 @@
+{
+    "id": "pickup-location-acme-bloomingdales",
+    "name": "Bloomingdale's",
+    "description": "Attraction",
+    "storeId": "store-acme-electronics",
+    "geoLocation": "40.763641,-73.967879",
+    "workingHours": "* **Mon - Sun**: 9 - 18",
+    "contactPhone": "+10000000004",
+    "contactEmail": "pickup4@example.com",
+    "isActive": true,
+    "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+    "transferFulfillmentCenterIds": [
+        "ffc-acme-usa-morrisville-nc"
+    ],
+    "address": {
+        "addressType": "Shipping",
+        "city": "New York",
+        "countryCode": "USA",
+        "countryName": "United States of America",
+        "line1": "11000 3rd Ave",
+        "postalCode": "10004",
+        "regionId": "NY",
+        "regionName": "New York"
+    }
+}

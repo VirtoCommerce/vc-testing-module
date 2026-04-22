@@ -1,0 +1,28 @@
+{
+    "id": "organization-forward-slash",
+    "name": "Test/Slash Forward Slash",
+    "description": "Organization with forward slash",
+    "memberType": "Organization",
+    "status": "Approved",
+    "emails": [
+        "slash@specialchars.com"
+    ],
+    "phones": [
+        "+1-555-000-0004"
+    ],
+    "addresses": [
+        {
+            "id": "address-forward-slash",
+            "addressType": "BillingAndShipping",
+            "city": "Atlanta",
+            "countryCode": "USA",
+            "countryName": "United States of America",
+            "email": "slash@specialchars.com",
+            "line1": "103 Special St",
+            "phone": "+1-555-000-0004",
+            "postalCode": "30301",
+            "regionId": "GA",
+            "regionName": "Georgia"
+        }
+    ]
+}

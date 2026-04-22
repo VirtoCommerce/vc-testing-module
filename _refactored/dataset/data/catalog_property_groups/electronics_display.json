@@ -1,0 +1,16 @@
+{
+    "id": "catalog-property-group-electronics-display",
+    "name": "ElectronicsDisplay",
+    "catalogId": "catalog-acme-electronics",
+    "displayOrder": 2,
+    "localizedName": {
+        "values": {
+            "en-US": "Display"
+        }
+    },
+    "localizedDescription": {
+        "values": {
+            "en-US": "Display characteristics such as size, resolution, refresh rate, and panel type"
+        }
+    }
+}

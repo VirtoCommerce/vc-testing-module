@@ -1,0 +1,27 @@
+{
+    "productId": "smartphone-apple-iphone-17-pro-256gb-cosmic-orange",
+    "product": {
+        "id": "smartphone-apple-iphone-17-pro-256gb-cosmic-orange",
+        "name": "Apple iPhone 17 Pro 256 Gb Cosmic Orange"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 1099.99,
+            "sale": 894.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "smartphone-apple-iphone-17-pro-256gb-cosmic-orange"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 1022.99,
+            "sale": 831.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "smartphone-apple-iphone-17-pro-256gb-cosmic-orange"
+        }
+    ]
+}

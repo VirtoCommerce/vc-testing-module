@@ -1,14 +1,13 @@
 import pytest
-
 from core.clients import GraphQLClient
 from core.global_settings import GlobalSettings
 from gql.operations import ProductOperations
 from tests.context import Context
 
-_CATEGORY_ID = "category-acme-laptops"
-_PRODUCT_VENDOR = "Asus"
-_PRODUCT_NAME = "Asus Zenbook A14 (UX3407)"
-_PRODUCT_CODE = "product-acme-laptop-asus-zenbook-a14-ux3407"
+_CATEGORY_ID = "category-acme-electronics-smartphones"
+_PRODUCT_VENDOR = "Google"
+_PRODUCT_NAME = "Google Pixel 10 Pro Jade"
+_PRODUCT_CODE = "smartphone-google-pixel-10-pro-jade"
 
 
 @pytest.mark.graphql

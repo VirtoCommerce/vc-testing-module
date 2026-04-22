@@ -1,11 +1,10 @@
 import pytest
-from playwright.sync_api import Page, expect
-
 from core.global_settings import GlobalSettings
 from page_objects.components import ClearCartModal
 from page_objects.pages import CartPage
+from playwright.sync_api import Page, expect
 
-_PRODUCT_ID = "product-acme-laptop-asus-zenbook-a14-ux3407"
+_PRODUCT_ID = "smartphone-samsung-galaxy-a57-5g"
 _QUANTITY = 3
 
 

@@ -1,0 +1,26 @@
+{
+    "id": "pickup-location-acme-dekalb-market-hall",
+    "name": "Decalb Market Hall",
+    "description": "Local market",
+    "storeId": "store-acme-electronics",
+    "geoLocation": "40.694500,-73.987100",
+    "workingHours": "* **Mon - Sun**: 9 - 18",
+    "contactPhone": "+10000000014",
+    "contactEmail": "pickup14@example.com",
+    "isActive": true,
+    "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+    "transferFulfillmentCenterIds": [
+        "ffc-acme-usa-riverton-oh",
+        "ffc-acme-usa-morrisville-nc"
+    ],
+    "address": {
+        "addressType": "Shipping",
+        "city": "New York",
+        "countryCode": "USA",
+        "countryName": "United States of America",
+        "line1": "445 Albee Sq W",
+        "postalCode": "10014",
+        "regionId": "NY",
+        "regionName": "New York"
+    }
+}

@@ -1,5 +1,4 @@
 import pytest
-
 from core.clients import GraphQLClient
 from gql.operations import ShoppingListOperations
 from gql.types.cart_item_input import CartItemInput
@@ -7,7 +6,7 @@ from tests.context import Context
 
 _USERNAME = "acme_store_employee_1@acme.com"
 _LIST_NAME = "Test Remove Item List"
-_PRODUCT_ID = "product-acme-laptop-asus-zenbook-a14-ux3407"
+_PRODUCT_ID = "smartphone-apple-iphone-17-256gb-black"
 _QTY = 1
 
 

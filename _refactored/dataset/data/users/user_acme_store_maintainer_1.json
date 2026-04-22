@@ -1,0 +1,18 @@
+{
+    "id": "user-acme-store-maintainer-1",
+    "userName": "acme_store_maintainer_1@acme.com",
+    "password": "{ENV:USERS_PASSWORD}",
+    "email": "acme_store_maintainer_1@acme.com",
+    "status": "Approved",
+    "userType": "Manager",
+    "emailConfirmed": true,
+    "memberId": "contact-acme-store-maintainer-1",
+    "storeId": "store-acme-electronics",
+    "roles": [
+        {
+            "id": "org-maintainer",
+            "name": "Organization maintainer",
+            "normalizedName": "ORGANIZATION MAINTAINER"
+        }
+    ]
+}

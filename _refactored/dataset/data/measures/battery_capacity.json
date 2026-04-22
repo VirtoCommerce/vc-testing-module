@@ -1,0 +1,30 @@
+{
+    "id": "measure-battery-capacity",
+    "name": "Battery Capacity",
+    "code": "BatteryCapacity",
+    "localizedName": {
+        "values": {
+            "en-US": "Battery Capacity"
+        }
+    },
+    "units": [
+        {
+            "id": "measure-unit-battery-mah",
+            "code": "MilliampHour",
+            "name": "Milliamp-hour",
+            "conversionFactor": 1,
+            "symbol": "mAh",
+            "isDefault": true,
+            "localizedName": {
+                "values": {
+                    "en-US": "Milliamp-hour"
+                }
+            },
+            "localizedSymbol": {
+                "values": {
+                    "en-US": "mAh"
+                }
+            }
+        }
+    ]
+}

@@ -9,7 +9,7 @@ from page_objects.pages import CartPage, SignInPage
 from playwright.sync_api import Page, expect
 from tests.context import Context
 
-_PRODUCT_ID = "product-acme-laptop-asus-zenbook-a14-ux3407"
+_PRODUCT_ID = "smartphone-samsung-galaxy-a57-5g"
 _QUANTITY = 3
 _USERNAME = "acme_store_employee_1@acme.com"
 
@@ -95,6 +95,8 @@ def test_cart_merge_button(
         cart_page.navigate()
         line_item = cart_page.find_line_item(sku=_PRODUCT_ID)
         expect(line_item.root).to_be_visible()
-        expect(line_item.add_to_cart_button.quantity_input).to_have_value(str(_QUANTITY))
+        expect(line_item.add_to_cart_button.quantity_input).to_have_value(
+            str(_QUANTITY)
+        )
     finally:
         _cleanup_user_cart(global_settings, dataset, ctx)

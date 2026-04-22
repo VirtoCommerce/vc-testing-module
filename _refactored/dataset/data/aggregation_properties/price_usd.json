@@ -1,0 +1,8 @@
+{
+    "name": "Price USD",
+    "type": "PriceRange",
+    "isSelected": true,
+    "currency": "USD",
+    "valuesCount": 5,
+    "values": ["1000", "1300", "1500", "2000", "5000"]
+}

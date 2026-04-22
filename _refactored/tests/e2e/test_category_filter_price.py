@@ -1,10 +1,9 @@
 import pytest
-from playwright.sync_api import Page, expect
-
 from core.global_settings import GlobalSettings
 from page_objects.pages import CategoryPage
+from playwright.sync_api import Page, expect
 
-_CATEGORY_PATH = "laptops"
+_CATEGORY_PATH = "smartphones"
 _EXPECTED_PRODUCTS_QTY = 13
 
 

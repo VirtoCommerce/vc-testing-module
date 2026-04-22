@@ -1,0 +1,25 @@
+{
+    "productId": "smartphone-google-pixel-10-pro-porcelain",
+    "product": {
+        "id": "smartphone-google-pixel-10-pro-porcelain",
+        "name": "Google Pixel 10 Pro Porcelain"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 999.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "smartphone-google-pixel-10-pro-porcelain"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 929.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "smartphone-google-pixel-10-pro-porcelain"
+        }
+    ]
+}

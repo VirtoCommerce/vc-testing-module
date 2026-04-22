@@ -1,0 +1,34 @@
+{
+    "id": "store-admin",
+    "name": "Store administrator",
+    "description": "Store Administrator",
+    "permissions": [
+        {
+            "name": "storefront:order:changestatus"
+        },
+        {
+            "name": "storefront:order:view"
+        },
+        {
+            "name": "storefront:organization:edit"
+        },
+        {
+            "name": "storefront:organization:view"
+        },
+        {
+            "name": "storefront:user:create"
+        },
+        {
+            "name": "storefront:user:delete"
+        },
+        {
+            "name": "storefront:user:edit"
+        },
+        {
+            "name": "storefront:user:invite"
+        },
+        {
+            "name": "storefront:user:view"
+        }
+    ]
+}

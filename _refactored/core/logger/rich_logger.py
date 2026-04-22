@@ -1,14 +1,19 @@
 import logging
 from pathlib import Path
 
+from core.logger.base import TRACE, Logger
 from rich.console import Console
 from rich.logging import RichHandler
 
-from core.logger.base import TRACE, Logger
-
 _default_console = Console(stderr=True, width=200, force_terminal=True)
-
 logging.addLevelName(TRACE, "TRACE")
+
+
+class _PlainFormatter(logging.Formatter):
+    def format(self, record: logging.LogRecord) -> str:
+        from rich.text import Text
+
+        return Text.from_markup(super().format(record)).plain
 
 
 class RichLogger(Logger):
@@ -30,6 +35,7 @@ class RichLogger(Logger):
             rich_tracebacks=True,
             show_path=show_path,
             omit_repeated_times=False,
+            markup=True,
         )
         console_handler.setLevel(console_level)
         self._logger.addHandler(console_handler)
@@ -37,7 +43,7 @@ class RichLogger(Logger):
         if log_file is not None:
             file_handler = logging.FileHandler(log_file, mode="w", encoding="utf-8")
             file_handler.setFormatter(
-                logging.Formatter("%(asctime)s [%(levelname)s] %(name)s: %(message)s")
+                _PlainFormatter("%(asctime)s [%(levelname)s] %(name)s: %(message)s")
             )
             file_handler.setLevel(TRACE)
             self._logger.addHandler(file_handler)

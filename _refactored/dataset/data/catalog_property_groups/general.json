@@ -1,0 +1,16 @@
+{
+    "id": "catalog-property-group-general",
+    "name": "General",
+    "catalogId": "catalog-acme-electronics",
+    "displayOrder": 1,
+    "localizedName": {
+        "values": {
+            "en-US": "General"
+        }
+    },
+    "localizedDescription": {
+        "values": {
+            "en-US": "Basic product information such as brand, model, etc."
+        }
+    }
+}

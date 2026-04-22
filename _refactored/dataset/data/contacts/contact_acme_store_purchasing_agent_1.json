@@ -1,0 +1,14 @@
+{
+    "id": "contact-acme-store-purchasing-agent-1",
+    "firstName": "ACME",
+    "lastName": "Purchasing Agent 1",
+    "memberType": "Contact",
+    "status": "Approved",
+    "defaultOrganizationId": "organization-acme-store",
+    "organizations": [
+        "organization-acme-store"
+    ],
+    "emails": [
+        "acme_store_purchasing_agent_1@acme.com"
+    ]
+}

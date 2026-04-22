@@ -1,13 +1,10 @@
 from datetime import datetime, timedelta
 
 import pytest
-
 from core.clients import GraphQLClient
 from gql.operations import OrderOperations
 from tests.context import Context
 
-# Maintainer has access to all organization orders.
-# "Processing" has no seeded orders and is intentionally omitted.
 _MAINTAINER = "acme_store_maintainer_1@acme.com"
 
 _STATUS_NEW = "New"
@@ -84,9 +81,7 @@ def test_orders_filter_by_status_ready_for_pickup(
 
 @pytest.mark.graphql
 @pytest.mark.with_user(_MAINTAINER)
-def test_orders_filter_by_date(
-    graphql_client: GraphQLClient, ctx: Context
-) -> None:
+def test_orders_filter_by_date(graphql_client: GraphQLClient, ctx: Context) -> None:
     order_ops = OrderOperations(client=graphql_client)
 
     # Fetch all orders to anchor the date range on actual backend-assigned dates.

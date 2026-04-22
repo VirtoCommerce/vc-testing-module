@@ -1,0 +1,24 @@
+{
+    "id": "pickup-location-acme-euroalpine-distribution-hub",
+    "name": "EuroAlpine Distribution Hub",
+    "description": "Distribution hub",
+    "storeId": "store-acme-electronics",
+    "geoLocation": "48.208174,16.373819",
+    "workingHours": "* **Mon - Sun**: 9 - 18",
+    "contactPhone": "+43 1 720 4411",
+    "contactEmail": "office@euroalpine-hub.at",
+    "isActive": true,
+    "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+    "transferFulfillmentCenterIds": [
+        "ffc-acme-usa-springfield-il",
+        "ffc-acme-usa-morrisville-nc"
+    ],
+    "address": {
+        "addressType": "Shipping",
+        "city": "Vienna",
+        "countryCode": "AUT",
+        "countryName": "Austria",
+        "line1": "Stephansplatz 3",
+        "postalCode": "1010"
+    }
+}

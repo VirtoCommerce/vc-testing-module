@@ -1,8 +1,7 @@
 import pytest
-
 from gql.types import Cart
 
-_PRODUCT_ID = "product-acme-laptop-asus-vivobook-16-x1607qa"
+_PRODUCT_ID = "smartphone-samsung-galaxy-a17-5g-black"
 _QUANTITY = 20
 
 

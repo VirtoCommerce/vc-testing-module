@@ -1,18 +1,18 @@
 from typing import Any
 
 import pytest
-
 from core.auth import AuthProvider
 from core.clients import GraphQLClient
 from core.global_settings import GlobalSettings
 from gql.operations import CartOperations
 from gql.types.cart import Cart
 from tests.context import Context
+
 from utils.line_item_utils import has_line_item
 
 _USER = "acme_store_employee_1@acme.com"
-_PRODUCT_ID_1 = "product-acme-laptop-asus-zenbook-a14-ux3407"
-_PRODUCT_ID_2 = "product-acme-laptop-lenovo-legion-9i-gen-10"
+_PRODUCT_ID_1 = "smartphone-apple-iphone-17-256gb-black"
+_PRODUCT_ID_2 = "smartphone-apple-iphone-17-256gb-mist-blue"
 _QTY_1 = 2
 _QTY_2 = 1
 

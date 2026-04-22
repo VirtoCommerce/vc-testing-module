@@ -1,0 +1,28 @@
+{
+    "id": "organization-sunrise-bazaar",
+    "name": "Test #123 Sunrise Bazaar",
+    "description": "ACME Sunrise Bazaar",
+    "memberType": "Organization",
+    "status": "Approved",
+    "emails": [
+        "info@sunrisebazaar.com"
+    ],
+    "phones": [
+        "+1-480-555-0164"
+    ],
+    "addresses": [
+        {
+            "id": "address-sunrise-bazaar",
+            "addressType": "BillingAndShipping",
+            "city": "Phoenix",
+            "countryCode": "USA",
+            "countryName": "United States of America",
+            "email": "info@sunrisebazaar.com",
+            "line1": "2200 E Camelback Rd",
+            "phone": "+1-480-555-0164",
+            "postalCode": "85016",
+            "regionId": "AZ",
+            "regionName": "Arizona"
+        }
+    ]
+}

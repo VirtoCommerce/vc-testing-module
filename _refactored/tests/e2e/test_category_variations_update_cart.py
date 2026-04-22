@@ -1,13 +1,12 @@
 import pytest
-from playwright.sync_api import Page, expect
-
 from core.global_settings import GlobalSettings
 from page_objects.pages.category import CategoryPage
+from playwright.sync_api import Page, expect
 
-_CATEGORY_PATH = "laptops"
-_PRODUCT_SKU = "product-acme-laptop-lenovo-thinkpad-x1-carbon-gen-13-aura"
-_VARIATION_1_SKU = "product-acme-laptop-lenovo-thinkpad-x1-carbon-gen-13-aura-var1"
-_VARIATION_2_SKU = "product-acme-laptop-lenovo-thinkpad-x1-carbon-gen-13-aura-var2"
+_CATEGORY_PATH = "smartphones"
+_PRODUCT_SKU = "smartphone-google-pixel-10-frost"
+_VARIATION_1_SKU = "smartphone-google-pixel-10-indigo"
+_VARIATION_2_SKU = "smartphone-google-pixel-10-lemongrass"
 
 
 @pytest.mark.e2e

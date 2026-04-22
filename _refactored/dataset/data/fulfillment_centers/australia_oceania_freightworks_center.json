@@ -1,0 +1,17 @@
+{
+    "id": "ffc-australia-oceania-freightworks-center",
+    "name": "Oceania FreightWorks Center - Australia",
+    "shortDescription": "A major Oceania distribution hub supporting national retail networks, container deconsolidation, and cross-state freight routing.",
+    "description": "FreightWorks’ Sydney facility includes container deconsolidation zones, automated pallet handling, and dedicated cross-dock lanes for interstate freight. Its location provides direct access to Sydney’s motorway network, enabling efficient routing to NSW, VIC, and QLD. Strong compliance and scalable storage make it ideal for national retail and high-volume e-commerce operations.\n\nWorking Hours (AEST):\nMon-Fri: 06:00-18:00\nSat: 07:00-15:00\nSun: Closed",
+    "geoLocation": "-33.85041, 150.90972",
+    "address": {
+        "addressType": "Shipping",
+        "countryCode": "AUS",
+        "countryName": "Australia",
+        "city": "Sydney",
+        "line1": "14-22 Logistics Avenue",
+        "postalCode": "2164",
+        "email": "contact@freightworks.au",
+        "phone": "+61 2 9725 4100"
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "id": "catalog-property-electronics-display-refresh-rate",
+    "catalogId": "catalog-acme-electronics",
+    "propertyGroupId": "catalog-property-group-electronics-display",
+    "categoryId": null,
+    "name": "DisplayRefreshRate",
+    "required": false,
+    "dictionary": false,
+    "multivalue": false,
+    "valueType": "Measure",
+    "measureId": "measure-display-refresh-rate",
+    "type": "Product",
+    "displayOrder": 8,
+    "values": [],
+    "displayNames": [
+        {
+            "name": "Display refresh rate",
+            "languageCode": "en-US"
+        }
+    ]
+}

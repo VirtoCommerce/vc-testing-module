@@ -1,0 +1,153 @@
+{
+    "id": "smartphone-apple-iphone-17e-512gb-soft-pink",
+    "code": "smartphone-apple-iphone-17e-512gb-soft-pink",
+    "catalogId": "catalog-acme-electronics",
+    "categoryId": "category-acme-electronics-smartphones",
+    "mainProductId": "smartphone-apple-iphone-17e-512gb-black",
+    "name": "Apple iPhone 17e 512 Gb Soft Pink",
+    "vendor": "Apple",
+    "productType": "Physical",
+    "seoObjectType": "Product",
+    "seoInfos": [
+        {
+            "id": "seo-info-smartphone-apple-iphone-17e-512gb-soft-pink",
+            "isActive": true,
+            "languageCode": "en-US",
+            "pageTitle": "Apple iPhone 17e 512 Gb Soft Pink",
+            "semanticUrl": "apple-iphone-17e-512gb-soft-pink",
+            "storeId": "store-acme-electronics"
+        }
+    ],
+    "properties": [
+        {
+            "id": "catalog-property-general-brand",
+            "name": "Brand",
+            "valueType": "ShortText",
+            "values": [
+                {
+                    "value": "Apple"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-general-release-year",
+            "name": "ReleaseYear",
+            "valueType": "ShortText",
+            "values": [
+                {
+                    "value": 2026
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-general-color",
+            "name": "Color",
+            "valueType": "ShortText",
+            "values": [
+                {
+                    "value": "Soft Pink"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-display-size",
+            "name": "DisplaySize",
+            "valueType": "Measure",
+            "measureId": "measure-display-size",
+            "values": [
+                {
+                    "value": 6.1,
+                    "unitOfMeasureId": "measure-unit-display-size-inch"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-display-resolution",
+            "name": "DisplayResolution",
+            "valueType": "ShortText",
+            "values": [
+                {
+                    "value": "2532x1170"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-display-panel-technology",
+            "name": "DisplayPanelTechnology",
+            "valueType": "ShortText",
+            "values": [
+                {
+                    "value": "Super Retina XDR"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-display-brightness",
+            "name": "DisplayBrightness",
+            "valueType": "Measure",
+            "measureId": "measure-display-brightness",
+            "values": [
+                {
+                    "value": 1200,
+                    "unitOfMeasureId": "measure-unit-display-brightness-nit"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-processor-model",
+            "name": "ProcessorModel",
+            "valueType": "ShortText",
+            "values": [
+                {
+                    "value": "Apple A19"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-processor-total-cores",
+            "name": "ProcessorTotalCores",
+            "valueType": "Integer",
+            "values": [
+                {
+                    "value": 6
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-memory-installed-size",
+            "name": "MemoryInstalledSize",
+            "valueType": "Measure",
+            "measureId": "measure-memory-size",
+            "values": [
+                {
+                    "value": 8,
+                    "unitOfMeasureId": "measure-unit-memory-gb"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-storage-installed-size",
+            "name": "StorageInstalledSize",
+            "valueType": "Measure",
+            "measureId": "measure-memory-size",
+            "values": [
+                {
+                    "value": 512,
+                    "unitOfMeasureId": "measure-unit-memory-gb"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-general-weight",
+            "name": "Weight",
+            "valueType": "Measure",
+            "measureId": "measure-weight",
+            "values": [
+                {
+                    "value": 169,
+                    "unitOfMeasureId": "measure-unit-weight-g"
+                }
+            ]
+        }
+    ]
+}

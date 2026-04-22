@@ -1,13 +1,13 @@
 import pytest
-
 from core.clients import GraphQLClient
 from gql.operations import CartOperations
 from gql.types import PaymentInput
 from tests.constants import TEST_CART_ADDRESS
 from tests.context import Context
+
 from utils.address_utils import addresses_equal
 
-_PRODUCT_ID = "product-acme-laptop-asus-zenbook-a14-ux3407"
+_PRODUCT_ID = "smartphone-apple-iphone-17-256gb-black"
 _QUANTITY = 3
 _DEFAULT_PAYMENT_METHOD = "DefaultManualPaymentMethod"
 _AUTHORIZE_NET_PAYMENT_METHOD = "AuthorizeNetPaymentMethod"

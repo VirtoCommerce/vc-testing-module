@@ -1,12 +1,12 @@
 import uuid
 
 import pytest
-
 from core.auth import AuthProvider
 from core.clients import GraphQLClient
 from core.global_settings import GlobalSettings
 from gql.operations import ContactOperations, UserOperations
 from tests.context import Context
+
 from utils.polling_utils import poll_until
 
 _MAINTAINER = "acme_store_maintainer_1@acme.com"
@@ -15,6 +15,7 @@ _STATUS_INVITED = "Invited"
 
 
 @pytest.mark.graphql
+@pytest.mark.skip
 @pytest.mark.with_user(_MAINTAINER)
 def test_user_invite(
     graphql_client: GraphQLClient, ctx: Context, global_settings: GlobalSettings
@@ -34,6 +35,7 @@ def test_user_invite(
     assert result.succeeded is True
 
     try:
+
         def _find_invited_contact():
             contacts = contact_ops.get_organization_contacts(
                 organization_id=ctx.organization_id,

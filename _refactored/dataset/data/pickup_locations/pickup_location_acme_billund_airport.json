@@ -1,0 +1,27 @@
+{
+    "id": "pickup-location-acme-billund-airport",
+    "name": "Billund Airport Store",
+    "description": "Airport",
+    "storeId": "store-acme-electronics",
+    "geoLocation": "55.740278,9.151944",
+    "workingHours": "* **Mon - Sun**: 6 - 22",
+    "contactPhone": "+45 75 33 1003",
+    "contactEmail": "pickup-billund3@acme.com",
+    "isActive": true,
+    "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+    "transferFulfillmentCenterIds": [
+        "ffc-acme-eur-berlin-de",
+        "ffc-acme-usa-morrisville-nc",
+        "ffc-acme-eur-billund-dk"
+    ],
+    "address": {
+        "addressType": "Shipping",
+        "city": "Billund",
+        "countryCode": "DNK",
+        "countryName": "Denmark",
+        "line1": "Passagerterminalen 10",
+        "postalCode": "7190",
+        "regionId": "83",
+        "regionName": "Southern Denmark"
+    }
+}

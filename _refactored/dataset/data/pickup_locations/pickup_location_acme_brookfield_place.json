@@ -1,0 +1,25 @@
+{
+    "id": "pickup-location-acme-brookfield-place",
+    "name": "Brookfield Place",
+    "description": "Local market",
+    "storeId": "store-acme-electronics",
+    "geoLocation": "40.716310,-74.016839",
+    "workingHours": "* **Mon - Sun**: 9 - 18",
+    "contactPhone": "+10000000007",
+    "contactEmail": "pickup7@example.com",
+    "isActive": true,
+    "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+    "transferFulfillmentCenterIds": [
+        "ffc-acme-usa-morrisville-nc"
+    ],
+    "address": {
+        "addressType": "Shipping",
+        "city": "New York",
+        "countryCode": "USA",
+        "countryName": "United States of America",
+        "line1": "230 Vesey St",
+        "postalCode": "10007",
+        "regionId": "NY",
+        "regionName": "New York"
+    }
+}

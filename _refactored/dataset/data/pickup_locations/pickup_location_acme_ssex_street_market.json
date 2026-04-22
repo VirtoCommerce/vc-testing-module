@@ -1,0 +1,28 @@
+{
+    "id": "pickup-location-acme-ssex-street-market",
+    "name": "Ssex Street Market",
+    "description": "Local market",
+    "storeId": "store-acme-electronics",
+    "geoLocation": "40.718987,-73.988213",
+    "workingHours": "* **Mon - Sun**: 9 - 18",
+    "contactPhone": "+10000000008",
+    "contactEmail": "pickup8@example.com",
+    "isActive": true,
+    "fulfillmentCenterId": null,
+    "transferFulfillmentCenterIds": [
+        "ffc-acme-usa-riverton-oh",
+        "ffc-acme-usa-morrisville-nc",
+        "ffc-acme-eur-berlin-de",
+        "ffc-acme-eur-billund-dk"
+    ],
+    "address": {
+        "addressType": "Shipping",
+        "city": "New York",
+        "countryCode": "USA",
+        "countryName": "United States of America",
+        "line1": "88 Essex St",
+        "postalCode": "10008",
+        "regionId": "NY",
+        "regionName": "New York"
+    }
+}

@@ -1,12 +1,11 @@
 import pytest
-
 from core.clients import GraphQLClient
 from gql.operations import CartOperations
 from gql.types.cart import Cart
 from gql.types.shipment_input import ShipmentInput
 from tests.context import Context
 
-_PRODUCT_ID = "product-acme-laptop-asus-zenbook-a14-ux3407"
+_PRODUCT_ID = "smartphone-apple-iphone-17-256gb-black"
 _USERNAME = "acme_store_employee_1@acme.com"
 
 _SHIPMENT_CASES = [

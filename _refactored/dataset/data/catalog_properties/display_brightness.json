@@ -1,0 +1,21 @@
+{
+    "id": "catalog-property-electronics-display-brightness",
+    "catalogId": "catalog-acme-electronics",
+    "propertyGroupId": "catalog-property-group-electronics-display",
+    "categoryId": null,
+    "name": "DisplayBrightness",
+    "required": false,
+    "dictionary": false,
+    "multivalue": false,
+    "valueType": "Measure",
+    "measureId": "measure-display-brightness",
+    "type": "Product",
+    "displayOrder": 7,
+    "values": [],
+    "displayNames": [
+        {
+            "name": "Display brightness",
+            "languageCode": "en-US"
+        }
+    ]
+}

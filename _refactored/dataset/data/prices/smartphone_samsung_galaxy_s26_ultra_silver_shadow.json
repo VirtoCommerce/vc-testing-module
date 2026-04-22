@@ -1,0 +1,25 @@
+{
+    "productId": "smartphone-samsung-galaxy-s26-ultra-silver-shadow",
+    "product": {
+        "id": "smartphone-samsung-galaxy-s26-ultra-silver-shadow",
+        "name": "Samsung Galaxy S26 Ultra Silver Shadow"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 1299.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "smartphone-samsung-galaxy-s26-ultra-silver-shadow"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 1208.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "smartphone-samsung-galaxy-s26-ultra-silver-shadow"
+        }
+    ]
+}

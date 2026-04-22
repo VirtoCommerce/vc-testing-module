@@ -1,0 +1,28 @@
+{
+    "id": "organization-backslash",
+    "name": "Test\\Backslash Backslash",
+    "description": "Organization with backslash",
+    "memberType": "Organization",
+    "status": "Approved",
+    "emails": [
+        "backslash@specialchars.com"
+    ],
+    "phones": [
+        "+1-555-000-0005"
+    ],
+    "addresses": [
+        {
+            "id": "address-backslash",
+            "addressType": "BillingAndShipping",
+            "city": "Houston",
+            "countryCode": "USA",
+            "countryName": "United States of America",
+            "email": "backslash@specialchars.com",
+            "line1": "104 Special St",
+            "phone": "+1-555-000-0005",
+            "postalCode": "77001",
+            "regionId": "TX",
+            "regionName": "Texas"
+        }
+    ]
+}

@@ -1,0 +1,30 @@
+{
+    "id": "measure-display-size",
+    "name": "Display Size",
+    "code": "DisplaySize",
+    "localizedName": {
+        "values": {
+            "en-US": "Display Size"
+        }
+    },
+    "units": [
+        {
+            "id": "measure-unit-display-size-inch",
+            "code": "Inch",
+            "name": "Inch",
+            "conversionFactor": 1,
+            "symbol": "\"",
+            "isDefault": true,
+            "localizedName": {
+                "values": {
+                    "en-US": "Inch"
+                }
+            },
+            "localizedSymbol": {
+                "values": {
+                    "en-US": "\""
+                }
+            }
+        }
+    ]
+}

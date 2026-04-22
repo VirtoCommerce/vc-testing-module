@@ -1,0 +1,26 @@
+{
+    "id": "pickup-location-acme-fifth-avenue-midtown-hub",
+    "name": "Fifth Avenue Midtown Hub",
+    "description": "Distribution hub",
+    "storeId": "store-acme-electronics",
+    "geoLocation": "40.761640,–73.974890",
+    "workingHours": "* **Mon - Sun**: 9 - 18",
+    "contactPhone": "+12125557824",
+    "contactEmail": "contact@fifthave‑nyc.com",
+    "isActive": true,
+    "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+    "transferFulfillmentCenterIds": [
+        "ffc-acme-usa-riverton-oh",
+        "ffc-acme-usa-morrisville-nc"
+    ],
+    "address": {
+        "addressType": "Shipping",
+        "city": "Manhattan",
+        "countryCode": "USA",
+        "countryName": "United States of America",
+        "line1": "689 5th Ave",
+        "postalCode": "10022",
+        "regionId": "NY",
+        "regionName": "New York"
+    }
+}

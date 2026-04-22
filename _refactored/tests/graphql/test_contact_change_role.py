@@ -1,5 +1,4 @@
 import pytest
-
 from core.clients import GraphQLClient
 from gql.operations import ContactOperations
 from tests.context import Context

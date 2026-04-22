@@ -1,11 +1,10 @@
 import pytest
-
 from core.clients import GraphQLClient
 from core.global_settings import GlobalSettings
 from gql.operations import ProductOperations
 from tests.context import Context
 
-_PRODUCT_ID = "product-acme-laptop-lenovo-thinkpad-x1-carbon-gen-13-aura"
+_PRODUCT_ID = "smartphone-google-pixel-10-frost"
 
 
 def _base_filter(ctx: Context) -> str:

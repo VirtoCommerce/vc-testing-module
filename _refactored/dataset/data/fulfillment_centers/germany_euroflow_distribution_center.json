@@ -1,0 +1,17 @@
+{
+    "id": "ffc-germany-euroflow-distribution-center",
+    "name": "EuroFlow Distribution Center - Germany",
+    "shortDescription": "A modern European logistics node optimized for cross-border EU shipments, automated sorting, and high-density pallet storage.",
+    "description": "EuroFlow’s Stuttgart facility is engineered for seamless EU-wide distribution, leveraging Germany’s central location and transport infrastructure. The center includes automated sortation lines, robotics-assisted picking, and bonded-warehouse capabilities. High-density pallet systems support large SKU catalogs, while customs-ready processing lanes accelerate cross-border movement. With direct access to major autobahns and freight rail, EuroFlow ensures predictable transit times and reliable last-mile delivery across Central and Western Europe.\n\nWorking Hours (CET):\nMon-Fri: 07:00-20:00\nSat: 08:00-14:00\nSun: Closed",
+    "geoLocation": "48.81321,9.16844",
+    "address": {
+        "addressType": "Shipping",
+        "countryCode": "DEU",
+        "countryName": "Germany",
+        "city": "Stuttgart",
+        "line1": "Industriestraße 74",
+        "postalCode": "70469",
+        "email": "contact@euroflow-dc.de",
+        "phone": "+49 711 9824 330"
+    }
+}

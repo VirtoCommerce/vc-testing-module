@@ -1,0 +1,44 @@
+{
+    "id": "promotion-acme-gift-for-20-cart-items",
+    "name": "Gift for 20 cart items",
+    "type": "DynamicPromotion",
+    "isActive": true,
+    "storeIds": ["store-acme-electronics"],
+    "dynamicExpression": {
+        "all": true,
+        "not": false,
+        "id": "PromotionConditionAndRewardTree",
+        "children": [
+            {
+                "id": "BlockCustomerCondition",
+                "children": [
+                    {
+                        "id": "ConditionIsEveryone"
+                    }
+                ]
+            },
+            {
+                "id": "BlockCartCondition",
+                "children": [
+                    {
+                        "id": "ConditionAtNumItemsInCart",
+                        "numItem": 20,
+                        "compareCondition": "AtLeast"
+                    }
+                ]
+            },
+            {
+                "id": "BlockReward",
+                "children": [
+                    {
+                        "id": "RewardItemGiftNumItem",
+                        "productId": "smartphone-samsung-galaxy-a17-5g-black",
+                        "productCode": "smartphone-samsung-galaxy-a17-5g-black",
+                        "productName": "Samsung Galaxy A17 5G Black",
+                        "quantity": "1"
+                    }
+                ]
+            }
+        ]
+    }
+}

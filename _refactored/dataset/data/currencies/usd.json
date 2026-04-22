@@ -1,0 +1,7 @@
+{
+    "code": "USD",
+    "name": "US Dollar",
+    "symbol": "$",
+    "decimalDigits": 2,
+    "exchangeRate": 1.0
+}

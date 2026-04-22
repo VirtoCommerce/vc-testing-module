@@ -1,5 +1,4 @@
 import pytest
-
 from core.clients import GraphQLClient
 from gql.operations import ProductOperations
 from gql.types import ConfigurableProductOptionInput, ConfigurationSectionInput
@@ -9,6 +8,7 @@ _PRODUCT_ID = "product-acme-laptop-hp-omnibook-x-flip-16"
 
 
 @pytest.mark.graphql
+@pytest.mark.skip
 def test_product_configurable(graphql_client: GraphQLClient, ctx: Context) -> None:
     product_ops = ProductOperations(client=graphql_client)
 

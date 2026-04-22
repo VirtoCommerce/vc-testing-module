@@ -1,0 +1,16 @@
+{
+    "id": "catalog-property-group-electronics-battery_power",
+    "name": "ElectronicsBatteryPower",
+    "catalogId": "catalog-acme-electronics",
+    "displayOrder": 6,
+    "localizedName": {
+        "values": {
+            "en-US": "Battery & Power"
+        }
+    },
+    "localizedDescription": {
+        "values": {
+            "en-US": "Battery and power specifications such as capacity, battery life, charging speed, and power adapter wattage"
+        }
+    }
+}

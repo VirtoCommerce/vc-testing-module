@@ -1,0 +1,25 @@
+{
+    "productId": "smartphone-samsung-galaxy-a17-5g-black",
+    "product": {
+        "id": "smartphone-samsung-galaxy-a17-5g-black",
+        "name": "Samsung Galaxy A17 5G Black"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 249.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "smartphone-samsung-galaxy-a17-5g-black"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 231.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "smartphone-samsung-galaxy-a17-5g-black"
+        }
+    ]
+}

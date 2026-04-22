@@ -1,0 +1,27 @@
+{
+    "id": "pickup-location-acme-manhattan-mall",
+    "name": "Manhattan Mall",
+    "description": "Shopping mall",
+    "storeId": "store-acme-electronics",
+    "geoLocation": "40.749576,-73.986571",
+    "workingHours": "* **Mon - Sun**: 9 - 18",
+    "contactPhone": "+10000000003",
+    "contactEmail": "pickup3@example.com",
+    "isActive": true,
+    "fulfillmentCenterId": "ffc-acme-usa-morrisville-nc",
+    "transferFulfillmentCenterIds": [
+        "ffc-acme-usa-riverton-oh",
+        "ffc-acme-eur-berlin-de",
+        "ffc-acme-eur-billund-dk"
+    ],
+    "address": {
+        "addressType": "Shipping",
+        "city": "New York",
+        "countryCode": "USA",
+        "countryName": "United States of America",
+        "line1": "100 W 33rd St",
+        "postalCode": "10003",
+        "regionId": "NY",
+        "regionName": "New York"
+    }
+}

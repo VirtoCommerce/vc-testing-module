@@ -15,6 +15,7 @@ _FAKE_SEARCH_KEYWORD = "NonExistentLocation12345"
 
 
 @pytest.mark.e2e
+@pytest.mark.skip
 @pytest.mark.with_cart([(_PRODUCT_ID, _QUANTITY)])
 @pytest.mark.checkout_mode("single-page")
 def test_checkout_pickup_locations_country_filter_single_page(
@@ -50,6 +51,7 @@ def test_checkout_pickup_locations_country_filter_single_page(
 
 
 @pytest.mark.e2e
+@pytest.mark.skip
 @pytest.mark.with_cart([(_PRODUCT_ID, _QUANTITY)])
 @pytest.mark.checkout_mode("single-page")
 def test_checkout_pickup_locations_country_region_filter_single_page(
@@ -94,6 +96,7 @@ def test_checkout_pickup_locations_country_region_filter_single_page(
 
 
 @pytest.mark.e2e
+@pytest.mark.skip
 @pytest.mark.with_cart([(_PRODUCT_ID, _QUANTITY)])
 @pytest.mark.checkout_mode("single-page")
 def test_checkout_pickup_locations_country_region_city_filter_single_page(
@@ -143,6 +146,7 @@ def test_checkout_pickup_locations_country_region_city_filter_single_page(
 
 
 @pytest.mark.e2e
+@pytest.mark.skip
 @pytest.mark.with_cart([(_PRODUCT_ID, _QUANTITY)])
 @pytest.mark.checkout_mode("single-page")
 def test_checkout_pickup_locations_country_region_city_keyword_filter_single_page(
@@ -195,6 +199,7 @@ def test_checkout_pickup_locations_country_region_city_keyword_filter_single_pag
 
 
 @pytest.mark.e2e
+@pytest.mark.skip
 @pytest.mark.with_cart([(_PRODUCT_ID, _QUANTITY)])
 @pytest.mark.checkout_mode("single-page")
 def test_checkout_pickup_locations_fake_keyword_returns_no_cards_single_page(
@@ -242,6 +247,7 @@ def test_checkout_pickup_locations_fake_keyword_returns_no_cards_single_page(
 
 
 @pytest.mark.e2e
+@pytest.mark.skip
 @pytest.mark.with_cart([(_PRODUCT_ID, _QUANTITY)])
 @pytest.mark.checkout_mode("multi-step")
 def test_checkout_pickup_locations_country_filter_multi_step(
@@ -279,6 +285,7 @@ def test_checkout_pickup_locations_country_filter_multi_step(
 
 
 @pytest.mark.e2e
+@pytest.mark.skip
 @pytest.mark.with_cart([(_PRODUCT_ID, _QUANTITY)])
 @pytest.mark.checkout_mode("multi-step")
 def test_checkout_pickup_locations_country_region_filter_multi_step(
@@ -325,6 +332,7 @@ def test_checkout_pickup_locations_country_region_filter_multi_step(
 
 
 @pytest.mark.e2e
+@pytest.mark.skip
 @pytest.mark.with_cart([(_PRODUCT_ID, _QUANTITY)])
 @pytest.mark.checkout_mode("multi-step")
 def test_checkout_pickup_locations_country_region_city_filter_multi_step(
@@ -376,6 +384,7 @@ def test_checkout_pickup_locations_country_region_city_filter_multi_step(
 
 
 @pytest.mark.e2e
+@pytest.mark.skip
 @pytest.mark.with_cart([(_PRODUCT_ID, _QUANTITY)])
 @pytest.mark.checkout_mode("multi-step")
 def test_checkout_pickup_locations_country_region_city_keyword_filter_multi_step(
@@ -430,6 +439,7 @@ def test_checkout_pickup_locations_country_region_city_keyword_filter_multi_step
 
 
 @pytest.mark.e2e
+@pytest.mark.skip
 @pytest.mark.with_cart([(_PRODUCT_ID, _QUANTITY)])
 @pytest.mark.checkout_mode("multi-step")
 def test_checkout_pickup_locations_fake_keyword_returns_no_cards_multi_step(

@@ -1,0 +1,48 @@
+{
+    "id": "measure-length",
+    "name": "Length",
+    "code": "Length",
+    "localizedName": {
+        "values": {
+            "en-US": "Length"
+        }
+    },
+    "units": [
+        {
+            "id": "measure-unit-length-m",
+            "code": "Meter",
+            "name": "Meter",
+            "conversionFactor": 1,
+            "symbol": "m",
+            "isDefault": true,
+            "localizedName": {
+                "values": {
+                    "en-US": "Meter"
+                }
+            },
+            "localizedSymbol": {
+                "values": {
+                    "en-US": "m"
+                }
+            }
+        },
+        {
+            "id": "measure-unit-length-mm",
+            "code": "Millimeter",
+            "name": "Millimeter",
+            "conversionFactor": 1,
+            "symbol": "mm",
+            "isDefault": true,
+            "localizedName": {
+                "values": {
+                    "en-US": "Millimeter"
+                }
+            },
+            "localizedSymbol": {
+                "values": {
+                    "en-US": "mm"
+                }
+            }
+        }
+    ]
+}

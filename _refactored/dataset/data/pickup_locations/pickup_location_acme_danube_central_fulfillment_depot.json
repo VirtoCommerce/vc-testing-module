@@ -1,0 +1,24 @@
+{
+    "id": "pickup-location-acme-danube-central-fulfillment-depot",
+    "name": "Danube Central Fulfillment Depot",
+    "description": "Fulfillment depot",
+    "storeId": "store-acme-electronics",
+    "geoLocation": "47.514000,19.077000",
+    "workingHours": "* **Mon - Sun**: 9 - 18",
+    "contactPhone": "+36 1 880 4410",
+    "contactEmail": "admin@danube-fulfillment.hu",
+    "isActive": true,
+    "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+    "transferFulfillmentCenterIds": [
+        "ffc-acme-usa-springfield-il",
+        "ffc-acme-usa-morrisville-nc"
+    ],
+    "address": {
+        "addressType": "Shipping",
+        "city": "Budapest",
+        "countryCode": "HUN",
+        "countryName": "Hungary",
+        "line1": "Heroes' Square",
+        "postalCode": "1146"
+    }
+}

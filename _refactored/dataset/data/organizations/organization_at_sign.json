@@ -1,0 +1,28 @@
+{
+    "id": "organization-at-sign",
+    "name": "Test@Email At Sign",
+    "description": "Organization with at sign",
+    "memberType": "Organization",
+    "status": "Approved",
+    "emails": [
+        "atsign@specialchars.com"
+    ],
+    "phones": [
+        "+1-555-000-0007"
+    ],
+    "addresses": [
+        {
+            "id": "address-at-sign",
+            "addressType": "BillingAndShipping",
+            "city": "San Jose",
+            "countryCode": "USA",
+            "countryName": "United States of America",
+            "email": "atsign@specialchars.com",
+            "line1": "106 Special St",
+            "phone": "+1-555-000-0007",
+            "postalCode": "95101",
+            "regionId": "CA",
+            "regionName": "California"
+        }
+    ]
+}

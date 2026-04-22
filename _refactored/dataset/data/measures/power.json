@@ -1,0 +1,30 @@
+{
+    "id": "measure-power",
+    "name": "Power",
+    "code": "Power",
+    "localizedName": {
+        "values": {
+            "en-US": "Power"
+        }
+    },
+    "units": [
+        {
+            "id": "measure-unit-power-w",
+            "code": "Watt",
+            "name": "Watt",
+            "conversionFactor": 1,
+            "symbol": "W",
+            "isDefault": true,
+            "localizedName": {
+                "values": {
+                    "en-US": "Watt"
+                }
+            },
+            "localizedSymbol": {
+                "values": {
+                    "en-US": "W"
+                }
+            }
+        }
+    ]
+}

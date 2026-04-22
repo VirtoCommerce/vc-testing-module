@@ -1,10 +1,10 @@
 import pytest
-
 from core.auth import AuthProvider
 from core.clients import GraphQLClient
 from core.global_settings import GlobalSettings
 from gql.operations import ContactOperations, UserOperations
 from tests.context import Context
+
 from utils.polling_utils import poll_until
 
 _PERSONAL_FIRST_NAME = "John"
@@ -56,14 +56,18 @@ def test_register_personal_contact(
                 interval=global_settings.poll_interval,
             )
 
-            assert contact is not None, f"Contact '{contact_id}' not found after polling"
+            assert (
+                contact is not None
+            ), f"Contact '{contact_id}' not found after polling"
             assert contact.first_name == _PERSONAL_FIRST_NAME
             assert contact.last_name == _PERSONAL_LAST_NAME
             assert contact.status == _STATUS_APPROVED
             assert contact.organizations_ids == []
     finally:
         with _admin_client(global_settings) as admin_client:
-            UserOperations(client=admin_client).delete_users(user_names=[_PERSONAL_EMAIL])
+            UserOperations(client=admin_client).delete_users(
+                user_names=[_PERSONAL_EMAIL]
+            )
             ContactOperations(client=admin_client).delete_contact(contact_id=contact_id)
 
 
@@ -101,7 +105,9 @@ def test_register_organization_contact(
                 interval=global_settings.poll_interval,
             )
 
-            assert contact is not None, f"Contact '{contact_id}' not found after polling"
+            assert (
+                contact is not None
+            ), f"Contact '{contact_id}' not found after polling"
             assert contact.first_name == _ORG_FIRST_NAME
             assert contact.last_name == _ORG_LAST_NAME
             assert contact.status == _STATUS_APPROVED
@@ -110,4 +116,6 @@ def test_register_organization_contact(
         with _admin_client(global_settings) as admin_client:
             UserOperations(client=admin_client).delete_users(user_names=[_ORG_EMAIL])
             ContactOperations(client=admin_client).delete_contact(contact_id=contact_id)
-            ContactOperations(client=admin_client).delete_contact(contact_id=organization_id)
+            ContactOperations(client=admin_client).delete_contact(
+                contact_id=organization_id
+            )

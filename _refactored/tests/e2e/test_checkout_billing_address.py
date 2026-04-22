@@ -1,15 +1,13 @@
 import pytest
-from playwright.sync_api import Page, expect
-
 from core.global_settings import GlobalSettings
 from page_objects.components import EditAddressModal
 from page_objects.pages import CartPage, CheckoutPaymentPage, CheckoutShippingPage
+from playwright.sync_api import Page, expect
 from tests.constants import TEST_CART_ADDRESS
 
-_PRODUCT_ID = "product-acme-laptop-asus-zenbook-a14-ux3407"
+_PRODUCT_ID = "smartphone-google-pixel-10-lemongrass"
 _QUANTITY = 3
 _FIXED_RATE_GROUND = "FixedRate_Ground"
-_GROUND = "Ground"
 
 
 @pytest.mark.e2e

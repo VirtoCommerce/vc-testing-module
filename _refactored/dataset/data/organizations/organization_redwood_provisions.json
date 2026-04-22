@@ -1,0 +1,28 @@
+{
+    "id": "organization-redwood-provisions",
+    "name": "50% Off Redwood Provisions",
+    "description": "ACME Redwood Provisions",
+    "memberType": "Organization",
+    "status": "Approved",
+    "emails": [
+        "hello@redwoodprovisions.com"
+    ],
+    "phones": [
+        "+1-971-555-0188"
+    ],
+    "addresses": [
+        {
+            "id": "address-redwood-provisions",
+            "addressType": "BillingAndShipping",
+            "city": "Portland",
+            "countryCode": "USA",
+            "countryName": "United States of America",
+            "email": "hello@redwoodprovisions.com",
+            "line1": "411 SW Oak St",
+            "phone": "+1-971-555-0188",
+            "postalCode": "97204",
+            "regionId": "OR",
+            "regionName": "Oregon"
+        }
+    ]
+}

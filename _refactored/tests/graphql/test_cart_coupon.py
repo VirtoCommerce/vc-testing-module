@@ -1,10 +1,9 @@
 import pytest
-
 from core.clients import GraphQLClient
 from gql.operations import CartOperations
 from tests.context import Context
 
-_PRODUCT_ID = "product-acme-laptop-asus-vivobook-16-x1607qa"
+_PRODUCT_ID = "smartphone-apple-iphone-17-256gb-black"
 _QUANTITY = 3
 _COUPON_CODE = "COUPON-100-OFF"
 

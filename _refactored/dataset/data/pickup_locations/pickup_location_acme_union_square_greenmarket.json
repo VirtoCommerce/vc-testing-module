@@ -1,0 +1,23 @@
+{
+    "id": "pickup-location-acme-union-square-greenmarket",
+    "name": "Union Square Greenmarket",
+    "description": "Local market",
+    "storeId": "store-acme-electronics",
+    "geoLocation": "40.735863,-73.989549",
+    "workingHours": "* **Mon - Sun**: 9 - 18",
+    "contactPhone": "+10000000006",
+    "contactEmail": "pickup6@example.com",
+    "isActive": false,
+    "fulfillmentCenterId": "ffc-acme-usa-morrisville-nc",
+    "transferFulfillmentCenterIds": ["ffc-acme-usa-riverton-oh"],
+    "address": {
+        "addressType": "Shipping",
+        "city": "New York",
+        "countryCode": "USA",
+        "countryName": "United States of America",
+        "line1": "E 17th St & Union Square E",
+        "postalCode": "10006",
+        "regionId": "NY",
+        "regionName": "New York"
+    }
+}

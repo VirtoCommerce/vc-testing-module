@@ -1,13 +1,11 @@
 import pytest
-from playwright.sync_api import Page, expect
-
 from core.global_settings import GlobalSettings
-from dataset.manager import DatasetManager
 from page_objects.components import EditAddressModal
 from page_objects.pages import CartPage, CheckoutPaymentPage, CheckoutShippingPage
+from playwright.sync_api import Page, expect
 from tests.constants import TEST_CART_ADDRESS
 
-_PRODUCT_ID = "product-acme-laptop-asus-zenbook-a14-ux3407"
+_PRODUCT_ID = "smartphone-google-pixel-10-lemongrass"
 _QUANTITY = 3
 _FIXED_RATE_GROUND = f"FixedRate_Ground"
 _MANUAL_PAYMENT_METHOD = "DefaultManualPaymentMethod"
@@ -17,7 +15,7 @@ _MANUAL_PAYMENT_METHOD = "DefaultManualPaymentMethod"
 @pytest.mark.with_cart([(_PRODUCT_ID, _QUANTITY)])
 @pytest.mark.checkout_mode("single-page")
 def test_checkout_payment_method_single_page(
-    global_settings: GlobalSettings, page: Page, dataset_manager: DatasetManager
+    global_settings: GlobalSettings, page: Page
 ) -> None:
     cart_page = CartPage(global_settings=global_settings, page=page)
     cart_page.navigate()
@@ -36,7 +34,7 @@ def test_checkout_payment_method_single_page(
 @pytest.mark.with_cart([(_PRODUCT_ID, _QUANTITY)])
 @pytest.mark.checkout_mode("multi-step")
 def test_checkout_payment_method_multi_step(
-    global_settings: GlobalSettings, page: Page, dataset_manager: DatasetManager
+    global_settings: GlobalSettings, page: Page
 ) -> None:
     cart_page = CartPage(global_settings=global_settings, page=page)
     cart_page.navigate()

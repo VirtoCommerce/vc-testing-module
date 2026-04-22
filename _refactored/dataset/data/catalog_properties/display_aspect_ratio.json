@@ -1,0 +1,20 @@
+{
+    "id": "catalog-property-electronics-display-aspect-ratio",
+    "catalogId": "catalog-acme-electronics",
+    "propertyGroupId": "catalog-property-group-electronics-display",
+    "categoryId": null,
+    "name": "DisplayAspectRatio",
+    "required": false,
+    "dictionary": false,
+    "multivalue": false,
+    "valueType": "ShortText",
+    "type": "Product",
+    "displayOrder": 9,
+    "values": [],
+    "displayNames": [
+        {
+            "name": "Display aspect ratio",
+            "languageCode": "en-US"
+        }
+    ]
+}

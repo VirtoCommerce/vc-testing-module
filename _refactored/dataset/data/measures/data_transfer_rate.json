@@ -1,0 +1,30 @@
+{
+    "id": "measure-data-transfer-rate",
+    "name": "Data Transfer Rate",
+    "code": "DataTransferRate",
+    "localizedName": {
+        "values": {
+            "en-US": "Data Transfer Rate"
+        }
+    },
+    "units": [
+        {
+            "id": "measure-unit-data-transfer-rate-mbps",
+            "code": "MegabytePerSecond",
+            "name": "Megabyte per second",
+            "conversionFactor": 1,
+            "symbol": "MB/s",
+            "isDefault": true,
+            "localizedName": {
+                "values": {
+                    "en-US": "Megabyte per second"
+                }
+            },
+            "localizedSymbol": {
+                "values": {
+                    "en-US": "MB/s"
+                }
+            }
+        }
+    ]
+}

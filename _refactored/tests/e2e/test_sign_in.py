@@ -1,8 +1,7 @@
 import pytest
-from playwright.sync_api import Page, expect
-
 from core.global_settings import GlobalSettings
 from page_objects.pages import HomePage, SignInPage
+from playwright.sync_api import Page, expect
 from tests.context import Context
 
 _USERNAME = "acme_store_employee_1@acme.com"

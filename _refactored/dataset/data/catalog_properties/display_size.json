@@ -1,0 +1,21 @@
+{
+    "id": "catalog-property-electronics-display-size",
+    "catalogId": "catalog-acme-electronics",
+    "propertyGroupId": "catalog-property-group-electronics-display",
+    "categoryId": null,
+    "name": "DisplaySize",
+    "required": false,
+    "dictionary": false,
+    "multivalue": false,
+    "valueType": "Measure",
+    "measureId": "measure-display-size",
+    "type": "Product",
+    "displayOrder": 4,
+    "values": [],
+    "displayNames": [
+        {
+            "name": "Display size",
+            "languageCode": "en-US"
+        }
+    ]
+}

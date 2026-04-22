@@ -1,0 +1,16 @@
+{
+    "id": "catalog-property-group-electronics-processor",
+    "name": "ElectronicsProcessor",
+    "catalogId": "catalog-acme-electronics",
+    "displayOrder": 5,
+    "localizedName": {
+        "values": {
+            "en-US": "Processor"
+        }
+    },
+    "localizedDescription": {
+        "values": {
+            "en-US": "Processor specifications such as brand, model, cores, threads, clock speed, and cache"
+        }
+    }
+}

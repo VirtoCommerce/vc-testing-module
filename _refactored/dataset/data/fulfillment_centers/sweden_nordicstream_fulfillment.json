@@ -1,0 +1,17 @@
+{
+    "id": "ffc-sweden-nordicstream-fulfillment",
+    "name": "NordicStream Fulfillment - Sweden",
+    "shortDescription": "A sustainability-focused Nordic hub featuring automated storage systems and optimized last-mile distribution across Scandinavia.",
+    "description": "NordicStream Fulfillment is built around Scandinavian sustainability standards, featuring energy-efficient climate systems, solar integration, and EV-ready loading bays. Automated storage and retrieval systems maximize vertical capacity and reduce manual handling. Routing algorithms optimize last-mile delivery across Sweden, Norway, and Finland. The facility is ideal for brands prioritizing eco-friendly logistics and reliable cross-Nordic distribution.\n\nWorking Hours (CET):\nMon-Fri: 07:00-18:00\nSat: 09:00-13:00\nSun: Closed",
+    "geoLocation": "59.29872,18.01144",
+    "address": {
+        "addressType": "Shipping",
+        "countryCode": "SWE",
+        "countryName": "Sweden",
+        "city": "Stockholm",
+        "line1": "Västberga Allé 19",
+        "postalCode": "126 30",
+        "email": "info@nordicstream.se",
+        "phone": "+46 8 5510 7720"
+    }
+}

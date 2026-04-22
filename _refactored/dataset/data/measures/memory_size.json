@@ -1,0 +1,102 @@
+{
+    "id": "measure-memory-size",
+    "name": "Memory Size",
+    "code": "MemorySize",
+    "localizedName": {
+        "values": {
+            "en-US": "Memory Size"
+        }
+    },
+    "units": [
+        {
+            "id": "measure-unit-memory-size-b",
+            "code": "Byte",
+            "name": "Byte",
+            "conversionFactor": 1,
+            "symbol": "B",
+            "isDefault": true,
+            "localizedName": {
+                "values": {
+                    "en-US": "Byte"
+                }
+            },
+            "localizedSymbol": {
+                "values": {
+                    "en-US": "B"
+                }
+            }
+        },
+        {
+            "id": "measure-unit-memory-size-kb",
+            "code": "Kilobyte",
+            "name": "Kilobyte",
+            "conversionFactor": 1000,
+            "symbol": "KB",
+            "isDefault": false,
+            "localizedName": {
+                "values": {
+                    "en-US": "Kilobyte"
+                }
+            },
+            "localizedSymbol": {
+                "values": {
+                    "en-US": "KB"
+                }
+            }
+        },
+        {
+            "id": "measure-unit-memory-size-mb",
+            "code": "Megabyte",
+            "name": "Megabyte",
+            "conversionFactor": 1000000,
+            "symbol": "MB",
+            "isDefault": false,
+            "localizedName": {
+                "values": {
+                    "en-US": "Megabyte"
+                }
+            },
+            "localizedSymbol": {
+                "values": {
+                    "en-US": "MB"
+                }
+            }
+        },
+        {
+            "id": "measure-unit-memory-gb",
+            "code": "Gigabyte",
+            "name": "Gigabyte",
+            "conversionFactor": 1000000000,
+            "symbol": "GB",
+            "isDefault": false,
+            "localizedName": {
+                "values": {
+                    "en-US": "Gigabyte"
+                }
+            },
+            "localizedSymbol": {
+                "values": {
+                    "en-US": "GB"
+                }
+            }
+        },
+        {
+            "id": "measure-unit-memory-tb",
+            "code": "Terabyte",
+            "name": "Terabyte",
+            "conversionFactor": 1000000000000,
+            "symbol": "TB",
+            "isDefault": false,
+            "localizedName": {
+                "values": {
+                    "en-US": "Terabyte"
+                }
+            },
+            "localizedSymbol": {
+                "values": {
+                    "en-US": "TB"
+                }
+            }
+        }
+    ]
+}

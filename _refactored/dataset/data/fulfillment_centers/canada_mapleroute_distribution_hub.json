@@ -1,0 +1,18 @@
+{
+    "id": "ffc-canada-mapleroute-distribution-hub",
+    "name": "MapleRoute Distribution Hub - Canada",
+    "shortDescription": "A major Canadian distribution center positioned near Pearson Airport for rapid air-cargo integration and national ground transport.",
+    "description": "MapleRoute supports multi-channel fulfillment, including retail replenishment, e-commerce, and B2B distribution. With cold-chain capabilities, bilingual operations, and integrated customs brokerage, the center handles domestic and international freight efficiently. Its scalable infrastructure accommodates peak-season surges and large SKU assortments, making it a key logistics node for Canadian operations.\n\nWorking Hours (EST):\nMon-Fri: 06:00-20:00\nSat: 08:00-16:00\nSun: Closed",
+    "geoLocation": "43.68912,-79.61477",
+    "address": {
+        "addressType": "Shipping",
+        "countryCode": "CAN",
+        "countryName": "Canada",
+        "city": "Mississauga",
+        "line1": "7200 Airport Road",
+        "line2": "Building C",
+        "postalCode": "L4V 1E8",
+        "email": "warehouse@mapleroute.ca",
+        "phone": "+1 905-555-7200"
+    }
+}

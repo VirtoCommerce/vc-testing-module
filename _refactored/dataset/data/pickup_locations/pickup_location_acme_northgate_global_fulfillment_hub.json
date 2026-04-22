@@ -1,0 +1,24 @@
+{
+    "id": "pickup-location-acme-northgate-global-fulfillment-hub",
+    "name": "Northgate Global Fulfillment Hub",
+    "storeId": "store-acme-electronics",
+    "description": "Fulfillment hub",
+    "geoLocation": "51.503363,-0.127625",
+    "workingHours": "* **Mon - Sun**: 9 - 18",
+    "contactPhone": "+44 20 3984 1122",
+    "contactEmail": "contact@northgate-globalhub.com",
+    "isActive": true,
+    "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+    "transferFulfillmentCenterIds": [
+        "ffc-acme-usa-riverton-oh",
+        "ffc-acme-usa-morrisville-nc"
+    ],
+    "address": {
+        "addressType": "Shipping",
+        "city": "London",
+        "countryCode": "GBR",
+        "countryName": "United Kingdom",
+        "line1": "10 Downing Street",
+        "postalCode": "SW1A 2AA"
+    }
+}

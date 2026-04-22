@@ -1,0 +1,26 @@
+{
+    "id": "pickup-location-acme-kurfurstendamm-berlin",
+    "name": "Kurfürstendamm Store Berlin",
+    "description": "Shopping mall",
+    "storeId": "store-acme-electronics",
+    "geoLocation": "52.502580,13.329340",
+    "workingHours": "* **Mon - Sun**: 10 - 20",
+    "contactPhone": "+49 30 555-1002",
+    "contactEmail": "pickup-berlin2@acme.com",
+    "isActive": true,
+    "fulfillmentCenterId": null,
+    "transferFulfillmentCenterIds": [
+        "ffc-acme-eur-berlin-de",
+        "ffc-acme-eur-billund-dk"
+    ],
+    "address": {
+        "addressType": "Shipping",
+        "city": "Berlin",
+        "countryCode": "DEU",
+        "countryName": "Germany",
+        "line1": "Kurfürstendamm 231",
+        "postalCode": "10719",
+        "regionId": "BE",
+        "regionName": "Berlin"
+    }
+}

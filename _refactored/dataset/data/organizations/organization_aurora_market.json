@@ -1,0 +1,28 @@
+{
+    "id": "organization-aurora-market",
+    "name": "[e2e] Aurora Market",
+    "description": "ACME Aurora Market",
+    "memberType": "Organization",
+    "status": "Approved",
+    "emails": [
+        "hello@auroramarket.com"
+    ],
+    "phones": [
+        "+1-303-555-0142"
+    ],
+    "addresses": [
+        {
+            "id": "address-aurora-market",
+            "addressType": "BillingAndShipping",
+            "city": "Denver",
+            "countryCode": "USA",
+            "countryName": "United States of America",
+            "email": "hello@auroramarket.com",
+            "line1": "980 Market Street",
+            "phone": "+1-303-555-0142",
+            "postalCode": "80202",
+            "regionId": "CO",
+            "regionName": "Colorado"
+        }
+    ]
+}

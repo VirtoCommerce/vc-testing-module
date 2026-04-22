@@ -1,0 +1,25 @@
+{
+    "id": "pickup-location-acme-rockefeller-center-shops",
+    "name": "Rockefeller Center Shops",
+    "description": "Shopping mall",
+    "storeId": "store-acme-electronics",
+    "geoLocation": "40.758740,-73.978674",
+    "workingHours": "* **Mon - Sun**: 9 - 18",
+    "contactPhone": "+10000000010",
+    "contactEmail": "pickup10@example.com",
+    "isActive": true,
+    "fulfillmentCenterId": null,
+    "transferFulfillmentCenterIds": [
+        "ffc-acme-eur-billund-dk"
+    ],
+    "address": {
+        "addressType": "Shipping",
+        "city": "New York",
+        "countryCode": "USA",
+        "countryName": "United States of America",
+        "line1": "45 Rockefeller Plaza",
+        "postalCode": "10010",
+        "regionId": "NY",
+        "regionName": "New York"
+    }
+}

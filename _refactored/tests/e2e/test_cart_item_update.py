@@ -3,7 +3,7 @@ from core.global_settings import GlobalSettings
 from page_objects.pages import CartPage
 from playwright.sync_api import Page, expect
 
-_PRODUCT_ID = "product-acme-laptop-asus-zenbook-a14-ux3407"
+_PRODUCT_ID = "smartphone-samsung-galaxy-a57-5g"
 _ORIGINAL_QUANTITY = 3
 _UPDATED_QUANTITY = 4
 _USERNAME = "acme_store_employee_1@acme.com"

@@ -1,0 +1,142 @@
+{
+    "id": "store-acme-electronics",
+    "name": "ACME Electronics Store",
+    "catalog": "catalog-acme-electronics",
+    "storeState": "Open",
+    "defaultCurrency": "USD",
+    "defaultLanguage": "en-US",
+    "mainFulfillmentCenterId": "ffc-usa-northgate-logistics-hub",
+    "adminEmail": "store_administrator@acme-electronics.com",
+    "adminEmailName": "ACME Electronics Store Administrator",
+    "email": "contact@acme-electronics.com",
+    "emailName": "ACME Electronics Store",
+    "url": "{ENV:FRONTEND_BASE_URL}",
+    "languages": [
+        "en-US",
+        "pl-PL",
+        "zh-CN",
+        "es-ES",
+        "pt-PT",
+        "ja-JP",
+        "it-IT",
+        "fr-FR",
+        "ru-RU",
+        "de-DE"
+    ],
+    "additionalLanguages": [
+        "de-DE",
+        "fr-FR",
+        "it-IT",
+        "es-ES",
+        "ja-JP",
+        "pl-PL",
+        "pt-PT",
+        "ru-RU",
+        "zh-CN"
+    ],
+    "currencies": ["USD", "EUR"],
+    "additionalCurrencies": ["EUR"],
+    "additionalFulfillmentCenterIds": [
+        "ffc-australia-oceania-freightworks-center",
+        "ffc-canada-mapleroute-distribution-hub",
+        "ffc-chile-andes-supply-node",
+        "ffc-germany-euroflow-distribution-center",
+        "ffc-india-bharatflow-distribution-hub",
+        "ffc-japan-pacificbridge-fulfillment",
+        "ffc-south-africa-transafrica-fulfillment-park",
+        "ffc-sweden-nordicstream-fulfillment",
+        "ffc-uae-gulflink-logistics-center"
+    ],
+    "settings": [
+        {
+            "objectId": "store-acme-electronics",
+            "objectType": "Store",
+            "moduleId": "VirtoCommerce.Store",
+            "name": "Stores.AllowAnonymousUsers",
+            "groupName": "Store|General",
+            "value": true,
+            "valueType": "Boolean"
+        },
+        {
+            "objectId": "store-acme-electronics",
+            "objectType": "Store",
+            "moduleId": "VirtoCommerce.Store",
+            "name": "Stores.SeoLinksType",
+            "groupName": "SEO",
+            "value": "Long",
+            "valueType": "ShortText"
+        },
+        {
+            "objectId": "store-acme-electronics",
+            "objectType": "Store",
+            "moduleId": "VirtoCommerce.Customer",
+            "name": "Customer.OrganizationDefaultStatus",
+            "groupName": "Customer|Statuses",
+            "value": "Approved",
+            "valueType": "ShortText"
+        },
+        {
+            "objectId": "store-acme-electronics",
+            "objectType": "Store",
+            "moduleId": "VirtoCommerce.Customer",
+            "name": "Customer.ContactDefaultStatus",
+            "groupName": "Customer|Statuses",
+            "value": "Approved",
+            "valueType": "ShortText"
+        },
+        {
+            "objectId": "store-acme-electronics",
+            "objectType": "Store",
+            "moduleId": "VirtoCommerce.Shipping",
+            "name": "Shipping.Bopis.GoogleMaps.Enabled",
+            "groupName": "BOPIS",
+            "value": true,
+            "valueType": "Boolean"
+        },
+        {
+            "objectId": "store-acme-electronics",
+            "objectType": "Store",
+            "moduleId": "VirtoCommerce.XPickup",
+            "name": "Shipping.Bopis.GoogleMaps.ApiKey",
+            "groupName": "BOPIS",
+            "value": "{ENV:GOOGLE_MAPS_API_KEY}",
+            "valueType": "ShortText"
+        },
+        {
+            "objectId": "store-acme-electronics",
+            "objectType": "Store",
+            "moduleId": "VirtoCommerce.XPickup",
+            "name": "XPickup.Enabled",
+            "groupName": "BOPIS",
+            "value": true,
+            "valueType": "Boolean"
+        },
+        {
+            "objectId": "store-acme-electronics",
+            "objectType": "Store",
+            "moduleId": "VirtoCommerce.XPickup",
+            "name": "XPickup.GlobalTransferEnabled",
+            "groupName": "BOPIS",
+            "value": true,
+            "valueType": "Boolean"
+        },
+        {
+            "objectId": "store-acme-electronics",
+            "objectType": "Store",
+            "moduleId": "VirtoCommerce.Quote",
+            "name": "Quotes.EnableQuotes",
+            "groupName": "General",
+            "value": true,
+            "valueType": "Boolean"
+        },
+        {
+            "objectId": "store-acme-electronics",
+            "objectType": "Store",
+            "moduleId": "VirtoCommerce.XRecommend",
+            "name": "XRecommend.RecommendationsEnabled",
+            "groupName": "General",
+            "value": true,
+            "valueType": "Boolean"
+        }
+    ]
+}

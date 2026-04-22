@@ -1,0 +1,25 @@
+{
+    "id": "pickup-location-acme-grand-central-market",
+    "name": "Grand Central Market",
+    "description": "Local market",
+    "storeId": "store-acme-electronics",
+    "geoLocation": "40.751620,-73.976500",
+    "workingHours": "* **Mon - Sun**: 9 - 18",
+    "contactPhone": "+10000000009",
+    "contactEmail": "pickup9@example.com",
+    "isActive": true,
+    "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+    "transferFulfillmentCenterIds": [
+        "ffc-acme-usa-morrisville-nc"
+    ],
+    "address": {
+        "addressType": "Shipping",
+        "city": "New York",
+        "countryCode": "USA",
+        "countryName": "United States of America",
+        "line1": "89 E 42nd St",
+        "postalCode": "10009",
+        "regionId": "NY",
+        "regionName": "New York"
+    }
+}

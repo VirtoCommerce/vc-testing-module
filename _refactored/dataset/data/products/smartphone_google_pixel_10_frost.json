@@ -1,0 +1,174 @@
+{
+    "id": "smartphone-google-pixel-10-frost",
+    "code": "smartphone-google-pixel-10-frost",
+    "catalogId": "catalog-acme-electronics",
+    "categoryId": "category-acme-electronics-smartphones",
+    "name": "Google Pixel 10 Frost",
+    "vendor": "Google",
+    "productType": "Physical",
+    "seoObjectType": "Product",
+    "seoInfos": [
+        {
+            "id": "seo-info-smartphone-google-pixel-10-frost",
+            "isActive": true,
+            "languageCode": "en-US",
+            "pageTitle": "Google Pixel 10 Frost",
+            "semanticUrl": "google-pixel-10-frost",
+            "storeId": "store-acme-electronics"
+        }
+    ],
+    "properties": [
+        {
+            "id": "catalog-property-general-brand",
+            "name": "Brand",
+            "valueType": "ShortText",
+            "values": [
+                {
+                    "value": "Google"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-general-release-year",
+            "name": "ReleaseYear",
+            "valueType": "ShortText",
+            "values": [
+                {
+                    "value": 2025
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-general-color",
+            "name": "Color",
+            "valueType": "ShortText",
+            "values": [
+                {
+                    "value": "Frost"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-display-size",
+            "name": "DisplaySize",
+            "valueType": "Measure",
+            "measureId": "measure-display-size",
+            "values": [
+                {
+                    "value": 6.3,
+                    "unitOfMeasureId": "measure-unit-display-size-inch"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-display-resolution",
+            "name": "DisplayResolution",
+            "valueType": "ShortText",
+            "values": [
+                {
+                    "value": "2424x1080"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-display-panel-technology",
+            "name": "DisplayPanelTechnology",
+            "valueType": "ShortText",
+            "values": [
+                {
+                    "value": "OLED"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-display-brightness",
+            "name": "DisplayBrightness",
+            "valueType": "Measure",
+            "measureId": "measure-display-brightness",
+            "values": [
+                {
+                    "value": 2000,
+                    "unitOfMeasureId": "measure-unit-display-brightness-nit"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-display-refresh-rate",
+            "name": "DisplayRefreshRate",
+            "valueType": "Measure",
+            "measureId": "measure-display-refresh-rate",
+            "values": [
+                {
+                    "value": 120,
+                    "unitOfMeasureId": "measure-unit-refresh-rate-hertz"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-display-aspect-ratio",
+            "name": "DisplayAspectRatio",
+            "valueType": "ShortText",
+            "values": [
+                {
+                    "value": "20:9"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-processor-model",
+            "name": "ProcessorModel",
+            "valueType": "ShortText",
+            "values": [
+                {
+                    "value": "Google Tensor G5"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-processor-total-cores",
+            "name": "ProcessorTotalCores",
+            "valueType": "Integer",
+            "values": [
+                {
+                    "value": 8
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-memory-installed-size",
+            "name": "MemoryInstalledSize",
+            "valueType": "Measure",
+            "measureId": "measure-memory-size",
+            "values": [
+                {
+                    "value": 12,
+                    "unitOfMeasureId": "measure-unit-memory-gb"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-storage-installed-size",
+            "name": "StorageInstalledSize",
+            "valueType": "Measure",
+            "measureId": "measure-memory-size",
+            "values": [
+                {
+                    "value": 128,
+                    "unitOfMeasureId": "measure-unit-memory-gb"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-general-weight",
+            "name": "Weight",
+            "valueType": "Measure",
+            "measureId": "measure-weight",
+            "values": [
+                {
+                    "value": 204,
+                    "unitOfMeasureId": "measure-unit-weight-g"
+                }
+            ]
+        }
+    ]
+}

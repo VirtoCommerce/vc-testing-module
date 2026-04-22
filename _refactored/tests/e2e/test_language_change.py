@@ -1,8 +1,7 @@
 import pytest
-from playwright.sync_api import Page, expect
-
 from core.global_settings import GlobalSettings
 from page_objects.pages import HomePage
+from playwright.sync_api import Page, expect
 
 _TARGET_CULTURE_NAME_FULL = "de-DE"
 _TARGET_CULTURE_NAME_SHORT = "de"

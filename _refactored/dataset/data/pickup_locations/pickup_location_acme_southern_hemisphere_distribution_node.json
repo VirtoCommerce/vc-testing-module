@@ -1,0 +1,24 @@
+{
+    "id": "pickup-location-acme-southern-hemisphere-distribution-node",
+    "name": "Southern Hemisphere Distribution Node",
+    "description": "Distribution node",
+    "storeId": "store-acme-electronics",
+    "geoLocation": "-37.817979,144.969098",
+    "workingHours": "* **Mon - Sun**: 9 - 18",
+    "contactPhone": "+61 3 7010 5522",
+    "contactEmail": "hello@southernhemi-distribution.au",
+    "isActive": true,
+    "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+    "transferFulfillmentCenterIds": [
+        "ffc-acme-usa-springfield-il",
+        "ffc-acme-usa-morrisville-nc"
+    ],
+    "address": {
+        "addressType": "Shipping",
+        "city": "Melbourne",
+        "countryCode": "AUS",
+        "countryName": "Australia",
+        "line1": "Federation Square",
+        "postalCode": "3000"
+    }
+}

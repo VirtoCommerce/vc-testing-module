@@ -1,0 +1,48 @@
+{
+    "inviteUrl": null,
+    "message": null,
+    "kind": "EmailNotification",
+    "from": null,
+    "to": null,
+    "replyTo": null,
+    "cc": [],
+    "bcc": [],
+    "attachments": [],
+    "tenantIdentity": {
+        "id": "store-acme-electronics",
+        "type": "Store",
+        "isEmpty": false,
+        "isValid": true
+    },
+    "isActive": true,
+    "languageCode": null,
+    "alias": "RegistrationInvitationNotification",
+    "type": "RegistrationInvitationEmailNotification",
+    "outerId": null,
+    "templates": [
+        {
+            "kind": "EmailNotification",
+            "subject": "Registration by invite",
+            "body": "<p>{{ message }}</p>\nPlease to register by invite clicking <a href=\"{{ invite_url }}\">here</a>",
+            "sample": null,
+            "notificationLayoutId": null,
+            "languageCode": null,
+            "type": "EmailNotificationTemplate",
+            "isReadonly": false,
+            "outerId": null,
+            "isPredefined": false
+        },
+        {
+            "kind": "EmailNotification",
+            "subject": "Registration by invite",
+            "body": "<p>{{ message }}</p>\nPlease to register by invite clicking <a href=\"{{ invite_url }}\">here</a>",
+            "sample": null,
+            "notificationLayoutId": null,
+            "languageCode": "en-US",
+            "type": "EmailNotificationTemplate",
+            "isReadonly": false,
+            "outerId": null,
+            "isPredefined": false
+        }
+    ]
+}

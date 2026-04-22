@@ -1,0 +1,17 @@
+{
+    "id": "ffc-chile-andes-supply-node",
+    "name": "Andes Supply Node - Chile",
+    "shortDescription": "A strategically located facility serving as a gateway for Andean region distribution and temperature-controlled product handling.",
+    "description": "Andes Supply Node includes temperature-controlled chambers for perishables and pharmaceuticals, along with bulk storage for industrial shipments. The layout supports efficient cross-docking, enabling rapid movement between inbound containers and outbound regional trucks. With advanced inventory tracking and compliance with Chilean customs regulations, the facility is optimized for domestic distribution and export flows through Santiago’s airport and seaport networks.\n\nWorking Hours (CLT):\nMon-Fri: 07:00-19:00\nSat: 08:00-14:00\nSun: Closed",
+    "geoLocation": "33.48211,-70.72533",
+    "address": {
+        "addressType": "Shipping",
+        "countryCode": "CHL",
+        "countryName": "Chile",
+        "city": "Santiago",
+        "line1": "Avenida Las Industrias 10450",
+        "postalCode": "9020000",
+        "email": "logistics@andes-supply.cl",
+        "phone": "+56 2 2598 4400"
+    }
+}

@@ -33,4 +33,17 @@ fragment CartFragment on CartType {
   gifts {
     ...GiftItemFragment
   }
+  addresses {
+    ...CartAddressFragment
+  }
+  validationErrors {
+    errorCode
+    errorMessage
+    errorParameters {
+      key
+      value
+    }
+    objectType
+    objectId
+  }
 }

@@ -33,3 +33,5 @@ exclude = ["tests*", ".venv*"]
 pythonVersion = "3.13"
 venvPath = "."
 venv = ".venv"
+include = ["core", "dataset", "gql", "page_objects", "tests", "utils"]
+extraPaths = ["."]

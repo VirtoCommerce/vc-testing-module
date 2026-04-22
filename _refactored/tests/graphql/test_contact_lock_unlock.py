@@ -1,5 +1,4 @@
 import pytest
-
 from core.clients import GraphQLClient
 from gql.operations import ContactOperations
 
@@ -19,7 +18,9 @@ def test_contact_lock_unlock(graphql_client: GraphQLClient) -> None:
         locked = contact_ops.lock_organization_contact(contact_id=_TARGET_CONTACT_ID)
         assert locked.status == _STATUS_LOCKED
 
-        unlocked = contact_ops.unlock_organization_contact(contact_id=_TARGET_CONTACT_ID)
+        unlocked = contact_ops.unlock_organization_contact(
+            contact_id=_TARGET_CONTACT_ID
+        )
         assert unlocked.status == _STATUS_APPROVED
     finally:
         contact_ops.unlock_organization_contact(contact_id=_TARGET_CONTACT_ID)

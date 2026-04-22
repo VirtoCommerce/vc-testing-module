@@ -1,0 +1,25 @@
+{
+    "productId": "smartphone-samsung-galaxy-a57-5g",
+    "product": {
+        "id": "smartphone-samsung-galaxy-a57-5g",
+        "name": "Samsung Galaxy A57 5G"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 499.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "smartphone-samsung-galaxy-a57-5g"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 464.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "smartphone-samsung-galaxy-a57-5g"
+        }
+    ]
+}

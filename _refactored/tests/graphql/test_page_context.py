@@ -1,11 +1,10 @@
 import pytest
-
 from core.clients import GraphQLClient
 from gql.operations import PageContextOperations
 from tests.context import Context
 
 _REGISTERED_USER = "acme_store_maintainer_1@acme.com"
-_CATEGORY_PERMALINK = "laptops"
+_CATEGORY_PERMALINK = "smartphones"
 _CATEGORY_OBJECT_TYPE = "Category"
 
 

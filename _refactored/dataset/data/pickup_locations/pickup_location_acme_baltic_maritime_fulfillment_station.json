@@ -1,0 +1,24 @@
+{
+    "id": "pickup-location-acme-baltic-maritime-fulfillment-station",
+    "name": "Baltic Maritime Fulfillment Station",
+    "description": "Fulfillment station",
+    "storeId": "store-acme-electronics",
+    "geoLocation": "59.437000,24.753600",
+    "workingHours": "* **Mon - Sun**: 9 - 18",
+    "contactPhone": "+372 660 9120",
+    "contactEmail": "support@baltic-maritime.ee",
+    "isActive": true,
+    "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+    "transferFulfillmentCenterIds": [
+        "ffc-acme-usa-springfield-il",
+        "ffc-acme-usa-morrisville-nc"
+    ],
+    "address": {
+        "addressType": "Shipping",
+        "city": "Tallinn",
+        "countryCode": "EST",
+        "countryName": "Estonia",
+        "line1": "Town Hall Square",
+        "postalCode": "10146"
+    }
+}

@@ -1,13 +1,13 @@
 import pytest
-
 from core.clients import GraphQLClient
 from gql.operations import ShoppingListOperations
 from gql.types import CartItemInput, ShoppingList
 from tests.context import Context
+
 from utils.line_item_utils import has_line_item
 
 _USERNAME = "acme_store_employee_1@acme.com"
-_PRODUCT_ID = "product-acme-laptop-asus-zenbook-a14-ux3407"
+_PRODUCT_ID = "smartphone-apple-iphone-17-256gb-black"
 _QUANTITY = 3
 
 

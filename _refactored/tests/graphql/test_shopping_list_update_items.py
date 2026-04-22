@@ -1,5 +1,4 @@
 import pytest
-
 from core.clients import GraphQLClient
 from gql.operations import ShoppingListOperations
 from gql.types.cart_item_input import CartItemInput
@@ -7,14 +6,16 @@ from tests.context import Context
 
 _USERNAME = "acme_store_employee_1@acme.com"
 _LIST_NAME = "Test Update Items List"
-_PRODUCT_ID = "product-acme-laptop-asus-zenbook-a14-ux3407"
+_PRODUCT_ID = "smartphone-apple-iphone-17-256gb-black"
 _INITIAL_QTY = 1
 _UPDATED_QTY = 3
 
 
 @pytest.mark.graphql
 @pytest.mark.with_user(_USERNAME)
-def test_shopping_list_update_items(graphql_client: GraphQLClient, ctx: Context) -> None:
+def test_shopping_list_update_items(
+    graphql_client: GraphQLClient, ctx: Context
+) -> None:
     ops = ShoppingListOperations(client=graphql_client)
     shopping_list = None
 

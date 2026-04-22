@@ -1,3 +1,4 @@
+import json
 from typing import Any, Final
 
 import requests
@@ -33,8 +34,8 @@ class GraphQLClient:
             ) from e
         body: dict[str, Any] = response.json()
         if errors := body.get("errors"):
-            messages = "; ".join(e.get("message", str(e)) for e in errors)
-            raise ValueError(f"GraphQL errors: {messages}")
+            formatted = json.dumps(errors, indent=2, ensure_ascii=False)
+            raise ValueError(f"GraphQL errors:\n{formatted}")
         return body
 
     def __enter__(self) -> "GraphQLClient":

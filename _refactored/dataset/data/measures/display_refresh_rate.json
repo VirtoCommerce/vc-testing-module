@@ -1,0 +1,30 @@
+{
+    "id": "measure-display-refresh-rate",
+    "name": "Display Refresh Rate",
+    "code": "DisplayRefreshRate",
+    "localizedName": {
+        "values": {
+            "en-US": "Display Refresh Rate"
+        }
+    },
+    "units": [
+        {
+            "id": "measure-unit-refresh-rate-hertz",
+            "code": "Hertz",
+            "name": "Hertz",
+            "conversionFactor": 1,
+            "symbol": "Hz",
+            "isDefault": true,
+            "localizedName": {
+                "values": {
+                    "en-US": "Hertz"
+                }
+            },
+            "localizedSymbol": {
+                "values": {
+                    "en-US": "Hz"
+                }
+            }
+        }
+    ]
+}

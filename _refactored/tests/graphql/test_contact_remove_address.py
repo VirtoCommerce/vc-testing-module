@@ -1,10 +1,10 @@
 import pytest
-
 from core.clients import GraphQLClient
 from gql.operations import ContactOperations
 from gql.types import MemberAddress
 from tests.constants import TEST_ADDRESS
 from tests.context import Context
+
 from utils.address_utils import addresses_equal
 
 _USERNAME = "acme_store_employee_1@acme.com"

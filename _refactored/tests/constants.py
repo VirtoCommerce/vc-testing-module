@@ -6,14 +6,14 @@ TEST_ADDRESS = MemberAddress(
     last_name="Doe",
     line1="1 Test Street",
     city="Test City",
-    country_code="US",
+    country_code="USA",
     country_name="United States of America",
     postal_code="10001",
-    region_id="US-NY",
+    region_id="NY",
     region_name="New York",
     phone="+1 (555) 000-0000",
     email="john.doe@test.com",
-    address_type=0,
+    address_type=3,
 )
 
 TEST_CART_ADDRESS = CartAddress.model_validate(TEST_ADDRESS.model_dump())

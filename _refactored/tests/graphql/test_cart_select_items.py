@@ -1,12 +1,11 @@
 import pytest
-
 from core.clients import GraphQLClient
 from gql.operations import CartOperations
 from gql.types.cart import Cart
 from tests.context import Context
 
-_PRODUCT_ID_1 = "product-acme-laptop-asus-zenbook-a14-ux3407"
-_PRODUCT_ID_2 = "product-acme-product2-main1-stock"
+_PRODUCT_ID_1 = "smartphone-apple-iphone-17-256gb-black"
+_PRODUCT_ID_2 = "smartphone-apple-iphone-17-256gb-mist-blue"
 
 
 @pytest.mark.graphql

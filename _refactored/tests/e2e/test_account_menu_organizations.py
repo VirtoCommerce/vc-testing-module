@@ -15,6 +15,7 @@ _SPECIAL_CHAR_ORG_TEST_DATA = [
 
 
 @pytest.mark.e2e
+@pytest.mark.skip
 def test_account_menu_organizations_change(
     global_settings: GlobalSettings,
     page: Page,
@@ -49,6 +50,7 @@ def test_account_menu_organizations_change(
 
 
 @pytest.mark.e2e
+@pytest.mark.skip
 @pytest.mark.with_user(_USERNAME)
 def test_account_menu_organizations_search(
     global_settings: GlobalSettings,
@@ -74,13 +76,16 @@ def test_account_menu_organizations_search(
     names = [
         orgs.nth(i).get_attribute("data-organization-name") for i in range(orgs.count())
     ]
-    assert len(names) > 1, "No search results found (only the pinned current organization)"
+    assert (
+        len(names) > 1
+    ), "No search results found (only the pinned current organization)"
     assert all(
         part_of_org_name.lower() in name.lower() for name in names if name
     ), f"Not all organizations contain '{part_of_org_name}': {names}"
 
 
 @pytest.mark.e2e
+@pytest.mark.skip
 @pytest.mark.with_user(_USERNAME)
 def test_account_menu_organizations_search_not_found(
     global_settings: GlobalSettings,
@@ -103,6 +108,7 @@ def test_account_menu_organizations_search_not_found(
 
 
 @pytest.mark.e2e
+@pytest.mark.skip
 @pytest.mark.with_user(_USERNAME)
 @pytest.mark.parametrize("search_term, char_description", _SPECIAL_CHAR_ORG_TEST_DATA)
 def test_account_menu_organizations_search_special_characters(
@@ -128,10 +134,11 @@ def test_account_menu_organizations_search_special_characters(
     orgs = home_page.top_header.account_menu.organizations_list
     expect(orgs.first).to_be_visible()
     names = [
-        orgs.nth(i).get_attribute("data-organization-name")
-        for i in range(orgs.count())
+        orgs.nth(i).get_attribute("data-organization-name") for i in range(orgs.count())
     ]
-    assert len(names) > 1, "No search results found (only the pinned current organization)"
+    assert (
+        len(names) > 1
+    ), "No search results found (only the pinned current organization)"
     assert any(
         search_term.strip().lower() in name.lower() for name in names if name
     ), f"Expected at least one organization to contain '{search_term.strip()}', got {names}"

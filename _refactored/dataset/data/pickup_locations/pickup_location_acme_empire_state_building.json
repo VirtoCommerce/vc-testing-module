@@ -1,0 +1,26 @@
+{
+    "id": "pickup-location-acme-empire-state-building",
+    "name": "Empire State Building",
+    "description": "Attraction",
+    "storeId": "store-acme-electronics",
+    "geoLocation": "40.748817,–73.985428",
+    "workingHours": "* **Mon - Sun**: 9 - 18",
+    "contactPhone": "+12125553470",
+    "contactEmail": "info@esb‑nyc.com",
+    "isActive": true,
+    "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+    "transferFulfillmentCenterIds": [
+        "ffc-acme-usa-riverton-oh",
+        "ffc-acme-usa-morrisville-nc"
+    ],
+    "address": {
+        "addressType": "Shipping",
+        "city": "New York",
+        "countryCode": "USA",
+        "countryName": "United States of America",
+        "line1": "20 W 34th St",
+        "postalCode": "10001",
+        "regionId": "NY",
+        "regionName": "New York"
+    }
+}

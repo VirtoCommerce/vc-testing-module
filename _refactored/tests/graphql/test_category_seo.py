@@ -1,10 +1,9 @@
 import pytest
-
 from core.clients import GraphQLClient
 from gql.operations import SeoOperations
 from tests.context import Context
 
-_CATEGORY_SLUG = "laptops"
+_CATEGORY_SLUG = "smartphones"
 
 
 @pytest.mark.graphql

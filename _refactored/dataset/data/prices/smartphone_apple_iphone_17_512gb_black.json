@@ -1,0 +1,25 @@
+{
+    "productId": "smartphone-apple-iphone-17-512gb-black",
+    "product": {
+        "id": "smartphone-apple-iphone-17-512gb-black",
+        "name": "Apple iPhone 17 512 Gb Black"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 999.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "smartphone-apple-iphone-17-512gb-black"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 929.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "smartphone-apple-iphone-17-512gb-black"
+        }
+    ]
+}

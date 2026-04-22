@@ -1,12 +1,11 @@
 import pytest
-
 from core.clients import GraphQLClient
 from gql.operations import SeoOperations
 from tests.context import Context
 
-_PRODUCT_ID = "product-acme-laptop-asus-zenbook-a14-ux3407"
-_PRODUCT_PERMALINK = "laptops/asus-zenbook-a14-ux3407"
-_PRODUCT_SEMANTIC_URL = "asus-zenbook-a14-ux3407"
+_PRODUCT_ID = "smartphone-apple-iphone-17-256gb-black"
+_PRODUCT_PERMALINK = "smartphones/apple-iphone-17-256gb-black"
+_PRODUCT_SEMANTIC_URL = "apple-iphone-17-256gb-black"
 _OBJECT_TYPE = "CatalogProduct"
 
 

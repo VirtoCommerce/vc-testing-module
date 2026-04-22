@@ -1,0 +1,28 @@
+{
+    "id": "organization-question-mark",
+    "name": "Test? Question Mark",
+    "description": "Organization with question mark",
+    "memberType": "Organization",
+    "status": "Approved",
+    "emails": [
+        "question@specialchars.com"
+    ],
+    "phones": [
+        "+1-555-000-0001"
+    ],
+    "addresses": [
+        {
+            "id": "address-question-mark",
+            "addressType": "BillingAndShipping",
+            "city": "Boston",
+            "countryCode": "USA",
+            "countryName": "United States of America",
+            "email": "question@specialchars.com",
+            "line1": "100 Special St",
+            "phone": "+1-555-000-0001",
+            "postalCode": "02101",
+            "regionId": "MA",
+            "regionName": "Massachusetts"
+        }
+    ]
+}

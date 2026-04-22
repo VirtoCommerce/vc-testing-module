@@ -1,17 +1,18 @@
 from typing import Any, Generator
 
 import pytest
-
 from core.auth import AuthProvider
 from core.clients import GraphQLClient
 from core.global_settings import GlobalSettings
 from core.global_settings import global_settings as _global_settings
-from dataset.manager import DatasetManager
+from core.logger import NullLogger
 from gql.operations.cart_operations import CartOperations
 from gql.types.cart import Cart
 from gql.types.cart_item_input import CartItemInput
 from page_objects.browser_storage import BrowserStorage
 from tests.context import Context
+
+from dataset.dataset_manager import DatasetManager
 
 _FEATURE_MARKERS = ["quantity_control", "range_filter_type", "checkout_mode"]
 
@@ -43,7 +44,7 @@ def auth(global_settings: GlobalSettings) -> AuthProvider:
 
 @pytest.fixture(scope="session")
 def dataset_manager(global_settings: GlobalSettings) -> DatasetManager:
-    return DatasetManager.create(global_settings)
+    return DatasetManager.create(global_settings, logger=NullLogger())
 
 
 @pytest.fixture(scope="session")

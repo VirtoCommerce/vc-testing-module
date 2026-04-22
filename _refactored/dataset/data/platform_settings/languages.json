@@ -1,0 +1,22 @@
+{
+    "id": "platform-settings-languages",
+    "name": "VirtoCommerce.Core.General.Languages",
+    "groupName": "Platform|General",
+    "defaultValue": "en-US",
+    "moduleId": "Platform",
+    "isDictionary": true,
+    "isHasValues": true,
+    "valueType": "ShortText",
+    "allowedValues": [
+        "en-US",
+        "de-DE",
+        "fr-FR",
+        "it-IT",
+        "es-ES",
+        "ja-JP",
+        "pl-PL",
+        "pt-PT",
+        "ru-RU",
+        "zh-CN"
+    ]
+}

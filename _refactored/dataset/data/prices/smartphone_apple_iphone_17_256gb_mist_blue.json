@@ -1,0 +1,27 @@
+{
+    "productId": "smartphone-apple-iphone-17-256gb-mist-blue",
+    "product": {
+        "id": "smartphone-apple-iphone-17-256gb-mist-blue",
+        "name": "Apple iPhone 17 256 Gb Mist Blue"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 799.99,
+            "sale": 590.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "smartphone-apple-iphone-17-256gb-mist-blue"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 743.99,
+            "sale": 549.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "smartphone-apple-iphone-17-256gb-mist-blue"
+        }
+    ]
+}

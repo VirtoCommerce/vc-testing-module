@@ -1,0 +1,17 @@
+{
+    "id": "category-acme-electronics-smartphones",
+    "code": "category-acme-electronics-smartphones",
+    "catalogId": "catalog-acme-electronics",
+    "name": "Smartphones",
+    "seoObjectType": "Category",
+    "seoInfos": [
+        {
+            "id": "seo-info-acme-electronics-category-smartphones-en",
+            "storeId": "store-acme-electronics",
+            "isActive": true,
+            "languageCode": "en-US",
+            "pageTitle": "Smartphones",
+            "semanticUrl": "smartphones"
+        }
+    ]
+}

@@ -1,0 +1,16 @@
+{
+    "id": "catalog-property-group-electronics-storage",
+    "name": "ElectronicsStorage",
+    "catalogId": "catalog-acme-electronics",
+    "displayOrder": 4,
+    "localizedName": {
+        "values": {
+            "en-US": "Storage"
+        }
+    },
+    "localizedDescription": {
+        "values": {
+            "en-US": "Storage specifications such as capacity, type, interface, and form factor"
+        }
+    }
+}

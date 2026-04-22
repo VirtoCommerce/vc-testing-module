@@ -1,0 +1,7 @@
+{
+    "code": "EUR",
+    "name": "Euro",
+    "symbol": "€",
+    "decimalDigits": 2,
+    "exchangeRate": 1.0
+}

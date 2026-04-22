@@ -1,0 +1,24 @@
+{
+    "id": "pickup-location-acme-clifton-down-shopping-centre",
+    "name": "Clifton Down Shopping Centre",
+    "description": "Shopping centre",
+    "storeId": "store-acme-electronics",
+    "geoLocation": "51.464253913566544, -2.610967267714162",
+    "contactPhone": "+10000000014",
+    "contactEmail": "pickup14@example.com",
+    "workingHours": "* **Mon - Sun**: 9 - 18",
+    "isActive": true,
+    "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+    "transferFulfillmentCenterIds": [
+        "ffc-acme-usa-riverton-oh",
+        "ffc-acme-usa-morrisville-nc"
+    ],
+    "address": {
+        "addressType": "Shipping",
+        "city": "Bristol",
+        "countryCode": "GBR",
+        "countryName": "United Kingdom",
+        "line1": "Whiteladies Rd",
+        "postalCode": "BS8 2NN"
+    }
+}

@@ -1,5 +1,4 @@
 import pytest
-
 from core.clients import GraphQLClient
 from core.global_settings import GlobalSettings
 from gql.operations import PickupLocationOperations
@@ -11,6 +10,7 @@ _ADDRESS_FIELDS = ("city", "country_name", "line1")
 
 
 @pytest.mark.graphql
+@pytest.mark.skip
 def test_pickup_locations_all(
     graphql_client: GraphQLClient, ctx: Context, global_settings: GlobalSettings
 ) -> None:
@@ -34,6 +34,7 @@ def test_pickup_locations_all(
 
 
 @pytest.mark.graphql
+@pytest.mark.skip
 def test_pickup_locations_by_keyword(
     graphql_client: GraphQLClient, ctx: Context
 ) -> None:

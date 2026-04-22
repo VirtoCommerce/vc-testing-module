@@ -1,9 +1,8 @@
 import pytest
-
 from gql.types import Cart
 
-_PRODUCT_ITEM_DISCOUNT_ID = "product-acme-laptop-hp-omen-transcend-14"
-_PRODUCT_SUBTOTAL_DISCOUNT_ID = "product-acme-laptop-lenovo-legion-9i-gen-10"
+_PRODUCT_ITEM_DISCOUNT_ID = "smartphone-samsung-galaxy-a57-5g"
+_PRODUCT_SUBTOTAL_DISCOUNT_ID = "smartphone-samsung-galaxy-s26-black"
 
 
 @pytest.mark.graphql
@@ -20,7 +19,7 @@ def test_cart_item_discount(with_cart: Cart) -> None:
 
 
 @pytest.mark.graphql
-@pytest.mark.with_cart([(_PRODUCT_SUBTOTAL_DISCOUNT_ID, 1)])
+@pytest.mark.with_cart([(_PRODUCT_SUBTOTAL_DISCOUNT_ID, 5)])
 def test_cart_subtotal_discount(with_cart: Cart) -> None:
     cart = with_cart
 

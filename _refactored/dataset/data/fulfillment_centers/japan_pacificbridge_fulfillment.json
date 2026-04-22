@@ -1,0 +1,17 @@
+{
+    "id": "ffc-japan-pacificbridge-fulfillment",
+    "name": "PacificBridge Fulfillment - Japan",
+    "shortDescription": "A precision-engineered fulfillment center supporting high-volume domestic shipments and premium export packaging for APAC markets.",
+    "description": "PacificBridge Fulfillment integrates advanced Japanese automation, including robotic shuttles, AGVs, and high-precision scanning systems. The facility supports domestic B2C fulfillment and export-grade packaging for APAC markets requiring strict quality control. Optimized for electronics, cosmetics, and small consumer goods, the center excels in low-defect, high-velocity operations. Its proximity to Haneda Airport enables rapid international dispatch and predictable lead times.\n\nWorking Hours (JST):\nMon-Fri: 08:00-21:00\nSat: 09:00-17:00\nSun: Closed",
+    "geoLocation": "35.61792,139.74941",
+    "address": {
+        "addressType": "Shipping",
+        "countryCode": "JPN",
+        "countryName": "Japan",
+        "city": "Tokyo",
+        "line1": "2-15-8 Higashi-Shinagawa",
+        "postalCode": "140-0002",
+        "email": "support@pacificbridge.jp",
+        "phone": "+81 3-6712-5580"
+    }
+}

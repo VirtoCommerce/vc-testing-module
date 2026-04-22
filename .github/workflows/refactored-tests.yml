@@ -302,7 +302,7 @@ jobs:
         working-directory: vc-testing-module/_refactored
         run: |
           source .venv/bin/activate
-          python -m dataset.manager --seed --mode ci
+          python -m dataset.dataset_manager --seed --mode ci
 
       - name: Trigger search indexing
         shell: pwsh

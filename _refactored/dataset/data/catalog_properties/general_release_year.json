@@ -1,0 +1,20 @@
+{
+    "id": "catalog-property-general-release-year",
+    "catalogId": "catalog-acme-electronics",
+    "propertyGroupId": "catalog-property-group-general",
+    "categoryId": null,
+    "name": "ReleaseYear",
+    "required": false,
+    "dictionary": false,
+    "multivalue": false,
+    "valueType": "Integer",
+    "type": "Product",
+    "displayOrder": 2,
+    "values": [],
+    "displayNames": [
+        {
+            "name": "Release year",
+            "languageCode": "en-US"
+        }
+    ]
+}

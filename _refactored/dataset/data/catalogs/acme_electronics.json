@@ -1,0 +1,12 @@
+{
+    "id": "catalog-acme-electronics",
+    "name": "ACME Catalog Electronics",
+    "isVirtual": false,
+    "languages": [
+        {
+            "languageCode": "en-US",
+            "isActive": true,
+            "isDefault": true
+        }
+    ]
+}
