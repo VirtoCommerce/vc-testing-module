@@ -1,5 +1,5 @@
 {
-    "storeId": "store-acme-electronics",
+    "storeId": "store-acme",
     "code": "AuthorizeNetPaymentMethod",
     "name": "AuthorizeNetPaymentMethod",
     "displayName": "Authorize.Net",

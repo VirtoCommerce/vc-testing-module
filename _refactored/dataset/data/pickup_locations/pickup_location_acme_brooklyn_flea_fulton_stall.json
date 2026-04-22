@@ -2,7 +2,7 @@
     "id": "pickup-location-acme-brooklyn-flea-fulton-stall",
     "name": "Brooklyn Flea (Fulton Stall)",
     "description": "Attraction",
-    "storeId": "store-acme-electronics",
+    "storeId": "store-acme",
     "geoLocation": "40.702900,-73.989300",
     "workingHours": "* **Mon - Sun**: 9 - 18",
     "contactPhone": "+10000000015",

@@ -2,7 +2,7 @@
     "id": "pickup-location-acme-euroalpine-distribution-hub",
     "name": "EuroAlpine Distribution Hub",
     "description": "Distribution hub",
-    "storeId": "store-acme-electronics",
+    "storeId": "store-acme",
     "geoLocation": "48.208174,16.373819",
     "workingHours": "* **Mon - Sun**: 9 - 18",
     "contactPhone": "+43 1 720 4411",

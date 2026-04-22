@@ -2,7 +2,7 @@
     "id": "pickup-location-acme-alexanderplatz-berlin",
     "name": "Alexanderplatz Store Berlin",
     "description": "Shopping mall",
-    "storeId": "store-acme-electronics",
+    "storeId": "store-acme",
     "geoLocation": "52.521992,13.413244",
     "workingHours": "* **Mon - Sun**: 10 - 20",
     "contactPhone": "+49 30 555-1001",

@@ -2,7 +2,7 @@
     "id": "pickup-location-acme-empire-state-building",
     "name": "Empire State Building",
     "description": "Attraction",
-    "storeId": "store-acme-electronics",
+    "storeId": "store-acme",
     "geoLocation": "40.748817,–73.985428",
     "workingHours": "* **Mon - Sun**: 9 - 18",
     "contactPhone": "+12125553470",

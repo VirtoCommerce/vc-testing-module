@@ -3,7 +3,7 @@
     "name": "$50 off for Samsung Galaxy A57 5G",
     "type": "DynamicPromotion",
     "isActive": true,
-    "storeIds": ["store-acme-electronics"],
+    "storeIds": ["store-acme"],
     "dynamicExpression": {
         "all": true,
         "not": false,

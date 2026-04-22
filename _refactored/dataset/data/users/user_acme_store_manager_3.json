@@ -7,7 +7,7 @@
     "userType": "Manager",
     "emailConfirmed": true,
     "memberId": "contact-acme-store-manager-3",
-    "storeId": "store-acme-electronics",
+    "storeId": "store-acme",
     "roles": [
         {
             "id": "store-manager",

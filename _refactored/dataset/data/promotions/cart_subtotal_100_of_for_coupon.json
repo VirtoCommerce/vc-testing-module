@@ -3,7 +3,7 @@
     "name": "$100 off for cart subtotal by coupon",
     "type": "DynamicPromotion",
     "isActive": true,
-    "storeIds": ["store-acme-electronics"],
+    "storeIds": ["store-acme"],
     "dynamicExpression": {
         "all": true,
         "not": false,

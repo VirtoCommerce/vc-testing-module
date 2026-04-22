@@ -2,7 +2,7 @@
     "id": "pickup-location-acme-danube-central-fulfillment-depot",
     "name": "Danube Central Fulfillment Depot",
     "description": "Fulfillment depot",
-    "storeId": "store-acme-electronics",
+    "storeId": "store-acme",
     "geoLocation": "47.514000,19.077000",
     "workingHours": "* **Mon - Sun**: 9 - 18",
     "contactPhone": "+36 1 880 4410",

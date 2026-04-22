@@ -2,7 +2,7 @@
     "id": "pickup-location-acme-bristol",
     "name": "Westfield World Trade Center",
     "description": "World Trade Center",
-    "storeId": "store-acme-electronics",
+    "storeId": "store-acme",
     "geoLocation": "51.41899668167562, -2.5887099717970674",
     "isActive": true,
     "fulfillmentCenterId": "ffc-acme-usa-springfield-il",

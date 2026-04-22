@@ -2,7 +2,7 @@
     "id": "pickup-location-acme-city-point",
     "name": "City Point",
     "description": "Attraction",
-    "storeId": "store-acme-electronics",
+    "storeId": "store-acme",
     "geoLocation": "40.694800,-73.986600",
     "workingHours": "* **Mon - Sun**: 9 - 18",
     "contactPhone": "+10000000011",

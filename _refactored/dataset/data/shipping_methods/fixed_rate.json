@@ -1,5 +1,5 @@
 {
-    "storeId": "store-acme-electronics",
+    "storeId": "store-acme",
     "code": "FixedRate",
     "name": "Fixed shipping rate",
     "displayName": "Fixed shipping rate",

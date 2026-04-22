@@ -3,7 +3,7 @@
     "customerId": "user-acme-store-manager-4",
     "customerName": "ACME Store Manager 4",
     "channelId": null,
-    "storeId": "store-acme-electronics",
+    "storeId": "store-acme",
     "storeName": null,
     "organizationId": "organization-acme-store",
     "organizationName": "ACME Store",
@@ -85,7 +85,7 @@
                 "totalWithTax": 0.0,
                 "discountAmount": 0.0,
                 "discountAmountWithTax": 0.0,
-                "storeId": "store-acme-electronics",
+                "storeId": "store-acme",
                 "description": null,
                 "typeName": "DefaultManualPaymentMethod",
                 "settings": [
@@ -359,7 +359,7 @@
                 "isActive": true,
                 "priority": 0,
                 "taxType": null,
-                "storeId": "store-acme-electronics",
+                "storeId": "store-acme",
                 "settings": null,
                 "typeName": "BuyOnlinePickupInStoreShippingMethod",
                 "id": "9734fcb4-29a7-4ea3-afe3-bcdb87b1196c"
@@ -511,7 +511,7 @@
                 "totalWithTax": 0.0,
                 "discountAmount": 0.0,
                 "discountAmountWithTax": 0.0,
-                "storeId": "store-acme-electronics",
+                "storeId": "store-acme",
                 "description": null,
                 "typeName": "DefaultManualPaymentMethod",
                 "settings": [
@@ -635,7 +635,7 @@
                 "isActive": true,
                 "priority": 0,
                 "taxType": null,
-                "storeId": "store-acme-electronics",
+                "storeId": "store-acme",
                 "settings": null,
                 "typeName": "BuyOnlinePickupInStoreShippingMethod",
                 "id": "9734fcb4-29a7-4ea3-afe3-bcdb87b1196c"

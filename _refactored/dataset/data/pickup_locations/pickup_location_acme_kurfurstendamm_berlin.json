@@ -2,7 +2,7 @@
     "id": "pickup-location-acme-kurfurstendamm-berlin",
     "name": "Kurfürstendamm Store Berlin",
     "description": "Shopping mall",
-    "storeId": "store-acme-electronics",
+    "storeId": "store-acme",
     "geoLocation": "52.502580,13.329340",
     "workingHours": "* **Mon - Sun**: 10 - 20",
     "contactPhone": "+49 30 555-1002",

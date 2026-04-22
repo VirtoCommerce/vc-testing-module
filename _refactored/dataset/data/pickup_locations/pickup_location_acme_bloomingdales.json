@@ -2,7 +2,7 @@
     "id": "pickup-location-acme-bloomingdales",
     "name": "Bloomingdale's",
     "description": "Attraction",
-    "storeId": "store-acme-electronics",
+    "storeId": "store-acme",
     "geoLocation": "40.763641,-73.967879",
     "workingHours": "* **Mon - Sun**: 9 - 18",
     "contactPhone": "+10000000004",

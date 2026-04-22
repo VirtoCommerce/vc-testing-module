@@ -2,7 +2,7 @@
     "id": "pickup-location-acme-baltic-maritime-fulfillment-station",
     "name": "Baltic Maritime Fulfillment Station",
     "description": "Fulfillment station",
-    "storeId": "store-acme-electronics",
+    "storeId": "store-acme",
     "geoLocation": "59.437000,24.753600",
     "workingHours": "* **Mon - Sun**: 9 - 18",
     "contactPhone": "+372 660 9120",

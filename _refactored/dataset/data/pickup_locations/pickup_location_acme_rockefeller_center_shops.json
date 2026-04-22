@@ -2,7 +2,7 @@
     "id": "pickup-location-acme-rockefeller-center-shops",
     "name": "Rockefeller Center Shops",
     "description": "Shopping mall",
-    "storeId": "store-acme-electronics",
+    "storeId": "store-acme",
     "geoLocation": "40.758740,-73.978674",
     "workingHours": "* **Mon - Sun**: 9 - 18",
     "contactPhone": "+10000000010",

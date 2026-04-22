@@ -2,7 +2,7 @@
     "id": "pickup-location-acme-clifton-down-shopping-centre",
     "name": "Clifton Down Shopping Centre",
     "description": "Shopping centre",
-    "storeId": "store-acme-electronics",
+    "storeId": "store-acme",
     "geoLocation": "51.464253913566544, -2.610967267714162",
     "contactPhone": "+10000000014",
     "contactEmail": "pickup14@example.com",

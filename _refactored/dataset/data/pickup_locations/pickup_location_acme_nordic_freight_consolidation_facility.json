@@ -2,7 +2,7 @@
     "id": "pickup-location-acme-nordic-freight-consolidation-facility",
     "name": "Nordic Freight Consolidation Facility",
     "description": "Freight consolidation facility",
-    "storeId": "store-acme-electronics",
+    "storeId": "store-acme",
     "geoLocation": "59.332580,18.064900",
     "workingHours": "* **Mon - Sun**: 9 - 18",
     "contactPhone": "+46 8 5510 7722",

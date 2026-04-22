@@ -2,7 +2,7 @@
     "id": "pickup-location-acme-grand-central-market",
     "name": "Grand Central Market",
     "description": "Local market",
-    "storeId": "store-acme-electronics",
+    "storeId": "store-acme",
     "geoLocation": "40.751620,-73.976500",
     "workingHours": "* **Mon - Sun**: 9 - 18",
     "contactPhone": "+10000000009",

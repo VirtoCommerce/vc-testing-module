@@ -2,7 +2,7 @@
     "id": "pickup-location-acme-chelsea-market",
     "name": "Chelsea Market",
     "description": "Local market",
-    "storeId": "store-acme-electronics",
+    "storeId": "store-acme",
     "geoLocation": "40.742438,-74.005897",
     "workingHours": "* **Mon - Sun**: 9 - 18",
     "contactPhone": "+10000000005",

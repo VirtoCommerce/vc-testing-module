@@ -2,7 +2,7 @@
     "id": "pickup-location-acme-sahara-continental-logistics-center",
     "name": "Sahara Continental Logistics Center",
     "description": "Logistics center",
-    "storeId": "store-acme-electronics",
+    "storeId": "store-acme",
     "geoLocation": "31.629472,-7.981084",
     "workingHours": "* **Mon - Sun**: 9 - 18",
     "contactPhone": "+212 5 2430 7711",

@@ -3,7 +3,7 @@
     "customerId": "user-acme-store-employee-6",
     "customerName": "ACME Employee 6",
     "channelId": null,
-    "storeId": "store-acme-electronics",
+    "storeId": "store-acme",
     "storeName": null,
     "organizationId": "organization-acme-store",
     "organizationName": "ACME Store",
@@ -85,7 +85,7 @@
                 "totalWithTax": 0.0,
                 "discountAmount": 0.0,
                 "discountAmountWithTax": 0.0,
-                "storeId": "store-acme-electronics",
+                "storeId": "store-acme",
                 "description": null,
                 "typeName": "AuthorizeNetPaymentMethod",
                 "settings": [
@@ -522,7 +522,7 @@
                 "isActive": true,
                 "priority": 0,
                 "taxType": null,
-                "storeId": "store-acme-electronics",
+                "storeId": "store-acme",
                 "settings": [
                     {
                         "itHasValues": true,
@@ -717,7 +717,7 @@
                 "totalWithTax": 0.0,
                 "discountAmount": 0.0,
                 "discountAmountWithTax": 0.0,
-                "storeId": "store-acme-electronics",
+                "storeId": "store-acme",
                 "description": null,
                 "typeName": "AuthorizeNetPaymentMethod",
                 "settings": [
@@ -931,7 +931,7 @@
                 "isActive": true,
                 "priority": 0,
                 "taxType": null,
-                "storeId": "store-acme-electronics",
+                "storeId": "store-acme",
                 "settings": [
                     {
                         "itHasValues": true,

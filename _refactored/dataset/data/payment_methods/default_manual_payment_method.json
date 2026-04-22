@@ -1,5 +1,5 @@
 {
-    "storeId": "store-acme-electronics",
+    "storeId": "store-acme",
     "code": "DefaultManualPaymentMethod",
     "name": "Test payment method",
     "displayName": "Manual test payment method",

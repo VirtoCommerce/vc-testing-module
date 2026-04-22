@@ -2,7 +2,7 @@
     "id": "pickup-location-acme-potsdamer-platz-berlin",
     "name": "Potsdamer Platz Arkaden",
     "description": "Shopping mall",
-    "storeId": "store-acme-electronics",
+    "storeId": "store-acme",
     "geoLocation": "52.509430,13.376110",
     "workingHours": "* **Mon - Sun**: 10 - 21",
     "contactPhone": "+49 30 555-1003",

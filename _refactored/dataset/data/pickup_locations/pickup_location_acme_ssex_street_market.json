@@ -2,7 +2,7 @@
     "id": "pickup-location-acme-ssex-street-market",
     "name": "Ssex Street Market",
     "description": "Local market",
-    "storeId": "store-acme-electronics",
+    "storeId": "store-acme",
     "geoLocation": "40.718987,-73.988213",
     "workingHours": "* **Mon - Sun**: 9 - 18",
     "contactPhone": "+10000000008",

@@ -2,7 +2,7 @@
     "id": "pickup-location-acme-fifth-avenue-midtown-hub",
     "name": "Fifth Avenue Midtown Hub",
     "description": "Distribution hub",
-    "storeId": "store-acme-electronics",
+    "storeId": "store-acme",
     "geoLocation": "40.761640,–73.974890",
     "workingHours": "* **Mon - Sun**: 9 - 18",
     "contactPhone": "+12125557824",

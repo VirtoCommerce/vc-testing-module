@@ -2,7 +2,7 @@
     "id": "pickup-location-acme-andes-cross-border-fulfillment-terminal",
     "name": "Andes Cross‑Border Fulfillment Terminal",
     "description": "Fulfillment terminal",
-    "storeId": "store-acme-electronics",
+    "storeId": "store-acme",
     "geoLocation": "-33.437200,-70.650600",
     "workingHours": "* **Mon - Sun**: 9 - 18",
     "contactPhone": "+56 2 3210 9988",

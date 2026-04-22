@@ -2,7 +2,7 @@
     "id": "pickup-location-acme-atlantic-terminal-mall",
     "name": "Atlantic Terminal Mall",
     "description": "Shopping mall",
-    "storeId": "store-acme-electronics",
+    "storeId": "store-acme",
     "geoLocation": "40.688700,-73.975700",
     "workingHours": "* **Mon - Sun**: 9 - 18",
     "contactPhone": "+10000000012",

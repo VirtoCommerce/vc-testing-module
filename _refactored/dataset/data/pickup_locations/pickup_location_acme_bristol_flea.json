@@ -2,7 +2,7 @@
     "id": "pickup-location-acme-bristol-flea",
     "name": "Bristol Flea (Fulton Stall)",
     "description": "Flea market",
-    "storeId": "store-acme-electronics",
+    "storeId": "store-acme",
     "geoLocation": "51.458966612204144, -2.5852711411573495",
     "contactPhone": "+10000000015",
     "contactEmail": "pickup15@example.com",

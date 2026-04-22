@@ -2,7 +2,7 @@
     "id": "pickup-location-acme-dekalb-market-hall",
     "name": "Decalb Market Hall",
     "description": "Local market",
-    "storeId": "store-acme-electronics",
+    "storeId": "store-acme",
     "geoLocation": "40.694500,-73.987100",
     "workingHours": "* **Mon - Sun**: 9 - 18",
     "contactPhone": "+10000000014",

@@ -1,7 +1,7 @@
 {
     "id": "pickup-location-acme-northgate-global-fulfillment-hub",
     "name": "Northgate Global Fulfillment Hub",
-    "storeId": "store-acme-electronics",
+    "storeId": "store-acme",
     "description": "Fulfillment hub",
     "geoLocation": "51.503363,-0.127625",
     "workingHours": "* **Mon - Sun**: 9 - 18",

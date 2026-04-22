@@ -2,7 +2,7 @@
     "id": "pickup-location-acme-kings-plaza",
     "name": "Kings Plaza",
     "description": "Attraction",
-    "storeId": "store-acme-electronics",
+    "storeId": "store-acme",
     "geoLocation": "40.607800,-73.945000",
     "workingHours": "* **Mon - Sun**: 9 - 18",
     "contactPhone": "+10000000013",

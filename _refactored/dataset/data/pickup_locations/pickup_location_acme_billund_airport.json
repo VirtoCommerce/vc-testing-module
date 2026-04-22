@@ -2,7 +2,7 @@
     "id": "pickup-location-acme-billund-airport",
     "name": "Billund Airport Store",
     "description": "Airport",
-    "storeId": "store-acme-electronics",
+    "storeId": "store-acme",
     "geoLocation": "55.740278,9.151944",
     "workingHours": "* **Mon - Sun**: 6 - 22",
     "contactPhone": "+45 75 33 1003",

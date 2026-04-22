@@ -7,7 +7,7 @@
     "userType": "Customer",
     "emailConfirmed": true,
     "memberId": "contact-acme-store-employee-4",
-    "storeId": "store-acme-electronics",
+    "storeId": "store-acme",
     "roles": [
         {
             "id": "org-employee",

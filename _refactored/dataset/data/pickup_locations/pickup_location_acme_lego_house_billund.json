@@ -2,7 +2,7 @@
     "id": "pickup-location-acme-lego-house-billund",
     "name": "LEGO House Billund",
     "description": "Attraction",
-    "storeId": "store-acme-electronics",
+    "storeId": "store-acme",
     "geoLocation": "55.731550,9.126540",
     "workingHours": "* **Mon - Sun**: 10 - 18",
     "contactPhone": "+45 75 33 1001",

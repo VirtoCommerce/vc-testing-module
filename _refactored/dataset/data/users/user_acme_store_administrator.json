@@ -8,7 +8,7 @@
     "isAdministrator": true,
     "emailConfirmed": true,
     "memberId": "contact-acme-store-administrator",
-    "storeId": "store-acme-electronics",
+    "storeId": "store-acme",
     "roles": [
         {
             "id": "store-admin",

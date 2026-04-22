@@ -1,5 +1,5 @@
 {
-    "id": "store-acme-electronics",
+    "id": "store-acme",
     "name": "ACME Electronics Store",
     "catalog": "catalog-acme-electronics",
     "storeState": "Open",
@@ -49,7 +49,7 @@
     ],
     "settings": [
         {
-            "objectId": "store-acme-electronics",
+            "objectId": "store-acme",
             "objectType": "Store",
             "moduleId": "VirtoCommerce.Store",
             "name": "Stores.AllowAnonymousUsers",
@@ -58,7 +58,7 @@
             "valueType": "Boolean"
         },
         {
-            "objectId": "store-acme-electronics",
+            "objectId": "store-acme",
             "objectType": "Store",
             "moduleId": "VirtoCommerce.Store",
             "name": "Stores.SeoLinksType",
@@ -67,7 +67,7 @@
             "valueType": "ShortText"
         },
         {
-            "objectId": "store-acme-electronics",
+            "objectId": "store-acme",
             "objectType": "Store",
             "moduleId": "VirtoCommerce.Customer",
             "name": "Customer.OrganizationDefaultStatus",
@@ -76,7 +76,7 @@
             "valueType": "ShortText"
         },
         {
-            "objectId": "store-acme-electronics",
+            "objectId": "store-acme",
             "objectType": "Store",
             "moduleId": "VirtoCommerce.Customer",
             "name": "Customer.ContactDefaultStatus",
@@ -85,7 +85,7 @@
             "valueType": "ShortText"
         },
         {
-            "objectId": "store-acme-electronics",
+            "objectId": "store-acme",
             "objectType": "Store",
             "moduleId": "VirtoCommerce.Shipping",
             "name": "Shipping.Bopis.GoogleMaps.Enabled",
@@ -94,7 +94,7 @@
             "valueType": "Boolean"
         },
         {
-            "objectId": "store-acme-electronics",
+            "objectId": "store-acme",
             "objectType": "Store",
             "moduleId": "VirtoCommerce.XPickup",
             "name": "Shipping.Bopis.GoogleMaps.ApiKey",
@@ -103,7 +103,7 @@
             "valueType": "ShortText"
         },
         {
-            "objectId": "store-acme-electronics",
+            "objectId": "store-acme",
             "objectType": "Store",
             "moduleId": "VirtoCommerce.XPickup",
             "name": "XPickup.Enabled",
@@ -112,7 +112,7 @@
             "valueType": "Boolean"
         },
         {
-            "objectId": "store-acme-electronics",
+            "objectId": "store-acme",
             "objectType": "Store",
             "moduleId": "VirtoCommerce.XPickup",
             "name": "XPickup.GlobalTransferEnabled",
@@ -121,7 +121,7 @@
             "valueType": "Boolean"
         },
         {
-            "objectId": "store-acme-electronics",
+            "objectId": "store-acme",
             "objectType": "Store",
             "moduleId": "VirtoCommerce.Quote",
             "name": "Quotes.EnableQuotes",
@@ -130,7 +130,7 @@
             "valueType": "Boolean"
         },
         {
-            "objectId": "store-acme-electronics",
+            "objectId": "store-acme",
             "objectType": "Store",
             "moduleId": "VirtoCommerce.XRecommend",
             "name": "XRecommend.RecommendationsEnabled",

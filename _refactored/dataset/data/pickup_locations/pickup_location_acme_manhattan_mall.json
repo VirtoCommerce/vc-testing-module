@@ -2,7 +2,7 @@
     "id": "pickup-location-acme-manhattan-mall",
     "name": "Manhattan Mall",
     "description": "Shopping mall",
-    "storeId": "store-acme-electronics",
+    "storeId": "store-acme",
     "geoLocation": "40.749576,-73.986571",
     "workingHours": "* **Mon - Sun**: 9 - 18",
     "contactPhone": "+10000000003",

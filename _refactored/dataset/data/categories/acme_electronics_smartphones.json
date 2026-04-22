@@ -7,7 +7,7 @@
     "seoInfos": [
         {
             "id": "seo-info-acme-electronics-category-smartphones-en",
-            "storeId": "store-acme-electronics",
+            "storeId": "store-acme",
             "isActive": true,
             "languageCode": "en-US",
             "pageTitle": "Smartphones",

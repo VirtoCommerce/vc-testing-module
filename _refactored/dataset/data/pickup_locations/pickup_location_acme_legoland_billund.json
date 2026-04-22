@@ -2,7 +2,7 @@
     "id": "pickup-location-acme-legoland-billund",
     "name": "LEGOLAND Billund Resort",
     "description": "Attraction",
-    "storeId": "store-acme-electronics",
+    "storeId": "store-acme",
     "geoLocation": "55.735320,9.127890",
     "workingHours": "* **Mon - Sun**: 10 - 18",
     "contactPhone": "+45 75 33 1002",

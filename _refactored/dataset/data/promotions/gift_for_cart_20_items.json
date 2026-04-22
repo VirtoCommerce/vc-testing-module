@@ -3,7 +3,7 @@
     "name": "Gift for 20 cart items",
     "type": "DynamicPromotion",
     "isActive": true,
-    "storeIds": ["store-acme-electronics"],
+    "storeIds": ["store-acme"],
     "dynamicExpression": {
         "all": true,
         "not": false,

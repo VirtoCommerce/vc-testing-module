@@ -2,7 +2,7 @@
     "id": "pickup-location-acme-union-square-greenmarket",
     "name": "Union Square Greenmarket",
     "description": "Local market",
-    "storeId": "store-acme-electronics",
+    "storeId": "store-acme",
     "geoLocation": "40.735863,-73.989549",
     "workingHours": "* **Mon - Sun**: 9 - 18",
     "contactPhone": "+10000000006",

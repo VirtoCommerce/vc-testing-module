@@ -2,7 +2,7 @@
     "id": "pickup-location-acme-pacific-rim-distribution-center",
     "name": "Pacific Rim Distribution Center",
     "description": "Distribution center",
-    "storeId": "store-acme-electronics",
+    "storeId": "store-acme",
     "geoLocation": "35.710063,139.810700",
     "workingHours": "* **Mon - Sun**: 9 - 18",
     "contactPhone": "+81 3 4520 8891",
