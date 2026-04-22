@@ -1,0 +1,23 @@
+name: GraphQL Tests Docker
+
+on:
+  workflow_dispatch:
+    inputs:
+      frontendZipUrl:
+        description: 'Frontend zip url'
+        required: true
+        type: string
+        default: 'latest'
+
+jobs:
+  graphql-tests:
+    uses: VirtoCommerce/.github/.github/workflows/ui-autotests.yml@v3.800.23
+    with:
+      installModules: 'true'
+      installCustomModule: 'false'
+      platformDockerTag: 'linux-latest'
+      frontendZipUrl: '${{ inputs.frontendZipUrl }}'
+    secrets:
+      envPAT: ${{ secrets.REPO_TOKEN }}
+      testSecretEnvFile: ${{ secrets.VC_TESTING_MODULE_ENV_FILE }}
+      sendgridApiKey: ${{ secrets.SENDGRID_APIKEY_4E2E_AUTOTESTS }}
