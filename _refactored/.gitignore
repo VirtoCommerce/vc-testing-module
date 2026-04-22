@@ -1,9 +1,0 @@
-.env
-.venv/
-.vscode/
-__pycache__/
-*.log
-*.pyc
-*.pyo
-.pytest_cache/
-.ruff_cache/
