@@ -63,23 +63,37 @@ class Auth:
         self.lock = Lock()
 
     def get_token(self, payload: TokenPayload) -> TokenData:
+        """Obtain a token via the password grant.
+
+        Retries on transient 5xx responses (typically caused by concurrent cold-start
+        calls to /connect/token under pytest-xdist). 4xx responses are treated as
+        permanent (bad credentials) and raised immediately.
+        """
+        import time
+
         url = f"{self.config['BACKEND_BASE_URL']}/connect/token"
 
         headers = {
             "Content-Type": "application/x-www-form-urlencoded",
         }
 
-        response = requests.post(
-            url,
-            data=payload.__dict__ | {"storeId": self.config["STORE_ID"]},
-            headers=headers,
-        )
+        last_error: Exception | None = None
+        for attempt in range(3):
+            response = requests.post(
+                url,
+                data=payload.__dict__ | {"storeId": self.config["STORE_ID"]},
+                headers=headers,
+            )
+            if response.status_code < 500:
+                response.raise_for_status()
+                return TokenData(**response.json())
+            last_error = requests.exceptions.HTTPError(
+                f"{response.status_code} {response.reason} for {url}", response=response
+            )
+            time.sleep(0.3 * (2**attempt))  # 0.3s, 0.6s, 1.2s
 
-        response.raise_for_status()
-
-        response_data = response.json()
-
-        return TokenData(**response_data)
+        assert last_error is not None
+        raise last_error
 
     def set_local_storage_user_id(self, page: Page, user_id: str) -> None:
         page.add_init_script(f"localStorage.setItem('user-id', '{user_id}')")

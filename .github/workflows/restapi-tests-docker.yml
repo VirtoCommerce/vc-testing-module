@@ -1,0 +1,569 @@
+name: RestAPI Tests Docker
+
+on:
+  workflow_dispatch:
+    inputs:
+      platformDockerTag:
+        description: "Platform Docker image tag"
+        required: false
+        type: string
+        default: "linux-latest"
+      frontendZipUrl:
+        description: "Frontend zip URL ('latest' for latest vc-frontend release)"
+        required: false
+        type: string
+        default: "latest"
+
+jobs:
+  RestAPI-tests:
+    timeout-minutes: 60
+    runs-on: ubuntu-22.04
+
+    # Needed for the publish-unit-test-result-action step below:
+    # - checks: write  — create the Checks status with the test-result summary
+    # - pull-requests: write — post a sticky comment on the PR (when the
+    #   dispatched ref has an open PR)
+    permissions:
+      contents: read
+      checks: write
+      pull-requests: write
+      issues: read
+
+    env:
+      GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
+
+    steps:
+      # ──────────────────────────────────────────────
+      # 1. Checkout & install modules
+      # ──────────────────────────────────────────────
+      - name: Checkout testing repo
+        uses: actions/checkout@v4
+        with:
+          repository: VirtoCommerce/vc-testing-module
+          ref: ${{ github.ref_name }}
+          path: vc-testing-module
+          token: ${{ secrets.REPO_TOKEN }}
+
+      - name: Install VirtoCommerce.GlobalTool
+        uses: VirtoCommerce/vc-github-actions/setup-vcbuild@master
+
+      - name: Install modules and pull platform image
+        run: |
+          mkdir modules && cd modules
+          vc-build install --package-manifest-path $GITHUB_WORKSPACE/vc-testing-module/backend-packages.json --skip-dependency-solving
+          docker pull ghcr.io/virtocommerce/platform:${{ inputs.platformDockerTag }}
+          docker tag ghcr.io/virtocommerce/platform:${{ inputs.platformDockerTag }} platform:local-latest
+
+      # ──────────────────────────────────────────────
+      # 2. Build frontend Docker image
+      # ──────────────────────────────────────────────
+      - name: Build frontend Docker image
+        shell: pwsh
+        run: |
+          if ("${{ inputs.frontendZipUrl }}" -eq "latest") {
+            $releaseInfo = Invoke-RestMethod -Uri "https://api.github.com/repos/VirtoCommerce/vc-frontend/releases/latest"
+            $zipUrl = $releaseInfo.assets.browser_download_url
+            Write-Host "Using latest frontend release: $zipUrl"
+          } else {
+            $zipUrl = "${{ inputs.frontendZipUrl }}"
+            Write-Host "Using provided frontend zip: $zipUrl"
+          }
+          $fileName = Split-Path $zipUrl -Leaf
+          Invoke-WebRequest -Uri $zipUrl -OutFile $fileName -UseBasicParsing -OperationTimeoutSeconds 15 -RetryIntervalSec 1 -MaximumRetryCount 3
+          mkdir -p frontend
+          unzip -o $fileName -d ./frontend
+
+          @'
+          server {
+              listen 80;
+              server_name localhost;
+              root /usr/share/nginx/html;
+              index index.html;
+
+              location / {
+                  try_files $uri $uri/ /index.html;
+                  add_header 'Access-Control-Allow-Origin' '*';
+              }
+
+              location ~* \.(json|png|ico|gif|jpg|jpeg|css|js|xml|txt)$ {
+                  try_files $uri /assets/stores/B2B-store$uri /Themes/B2B-store/default$uri =404;
+                  root /usr/share/nginx/html;
+                  add_header Cache-Control "no-cache, must-revalidate, proxy-revalidate";
+                  error_page 404 = @static_404;
+              }
+
+              location @static_404 {
+                  add_header Cache-Control "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0" always;
+                  return 404;
+              }
+
+              error_page 500 502 503 504 /50x.html;
+              location = /50x.html { root /usr/share/nginx/html; }
+
+              proxy_buffer_size 128k;
+              proxy_buffers 4 256k;
+              proxy_busy_buffers_size 256k;
+              proxy_connect_timeout 600;
+              proxy_send_timeout 600;
+              proxy_read_timeout 600;
+
+              location /files { proxy_pass http://vc-platform-web; }
+              location /connect/token { proxy_pass http://vc-platform-web; }
+              location /graphql { proxy_pass http://vc-platform-web; }
+              location /revoke/token { proxy_pass http://vc-platform-web; }
+              location /api/files { proxy_pass http://vc-platform-web; }
+              location /cms-content { proxy_pass http://vc-platform-web; }
+              location /hub/ {
+                  proxy_pass http://vc-platform-web;
+                  proxy_http_version 1.1;
+                  proxy_set_header Upgrade $http_upgrade;
+                  proxy_set_header Connection "upgrade";
+              }
+          }
+          '@ | Set-Content -Path nginx.conf
+
+          @'
+          FROM nginx:alpine
+          COPY nginx.conf /etc/nginx/conf.d/default.conf
+          COPY ./frontend/default/ /usr/share/nginx/html
+          EXPOSE 80
+          '@ | Set-Content -Path Dockerfile.frontend
+
+          docker build -f Dockerfile.frontend -t nginx_frontend:local-latest .
+
+      # ──────────────────────────────────────────────
+      # 3. Start Docker infrastructure
+      # ──────────────────────────────────────────────
+      - name: Create docker-compose.yml
+        run: |
+          cat > docker-compose.yml << 'COMPOSE'
+          services:
+            vc-db:
+              image: mcr.microsoft.com/mssql/server:2017-latest
+              ports:
+                - "1433:1433"
+              environment:
+                - ACCEPT_EULA=Y
+                - MSSQL_PID=Express
+                - SA_PASSWORD=v!rto_Labs!
+              networks:
+                - virto
+
+            es:
+              image: docker.elastic.co/elasticsearch/elasticsearch:8.18.0
+              volumes:
+                - esdata01:/usr/share/elasticsearch/data
+              ports:
+                - "9200:9200"
+              networks:
+                - virto
+              environment:
+                - node.name=es
+                - cluster.name=elasticsearch
+                - cluster.initial_master_nodes=es
+                - ELASTIC_PASSWORD=v!rto_Labs!
+                - bootstrap.memory_lock=true
+                - xpack.security.enabled=false
+                - xpack.security.http.ssl.enabled=false
+                - xpack.security.transport.ssl.enabled=false
+                - xpack.license.self_generated.type=basic
+                - xpack.ml.use_auto_machine_memory_percent=true
+              mem_limit: 1g
+              ulimits:
+                memlock:
+                  soft: -1
+                  hard: -1
+              healthcheck:
+                test: ["CMD-SHELL", "curl -s http://localhost:9200"]
+                interval: 10s
+                timeout: 10s
+                retries: 120
+
+            nginx_frontend:
+              depends_on:
+                - vc-platform-web
+              image: nginx_frontend:local-latest
+              ports:
+                - "80:80"
+              networks:
+                - virto
+
+            vc-platform-web:
+              image: platform:local-latest
+              ports:
+                - "8090:80"
+              environment:
+                - ASPNETCORE_URLS=http://+
+                - VirtoCommerce__AllowInsecureHttp=true
+                - VirtoCommerce__Hangfire__JobStorageType=Memory
+                - ConnectionStrings__VirtoCommerce=Data Source=vc-db;Initial Catalog=VirtoCommerce3docker;Persist Security Info=True;User ID=sa;Password=v!rto_Labs!;MultipleActiveResultSets=False;Connect Timeout=360;TrustServerCertificate=True;
+                - Assets__FileSystem__PublicUrl=http://localhost:8090/assets/
+                - Content__FileSystem__PublicUrl=http://localhost:8090/cms-content/
+                - Search__Provider=ElasticSearch8
+                - Search__ElasticSearch8__Server=http://es:9200
+                - Search__ElasticSearch8__User=elastic
+                - Search__ElasticSearch8__Key=v!rto_Labs!
+                - Search__ElasticSearch8__EnableCompatibilityMode=true
+                - Search__PickupLocationFullTextSearchEnabled=true
+                - IdentityOptions__User__MaxPasswordAge=0
+                - Notifications__DefaultSender=virto.start@virtoway.com
+                - Notifications__Gateway=SendGrid
+                - Notifications__SendGrid__ApiKey=${SENDGRID_API_KEY}
+              depends_on:
+                - vc-db
+                - es
+              entrypoint: ["/wait-for-it.sh", "vc-db:1433", "-t", "120", "--", "dotnet", "VirtoCommerce.Platform.Web.dll"]
+              volumes:
+                - ./modules/modules:/opt/virtocommerce/platform/modules
+                - ./modules/app_data:/opt/virtocommerce/platform/app_data
+              networks:
+                - virto
+              restart: unless-stopped
+
+          volumes:
+            esdata01:
+              driver: local
+
+          networks:
+            virto:
+          COMPOSE
+
+      - name: Start database and Elasticsearch
+        env:
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_APIKEY_4E2E_AUTOTESTS }}
+        run: |
+          docker compose --project-name virtocommerce up -d vc-db es
+          sleep 15
+
+      - name: Start platform and frontend
+        env:
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_APIKEY_4E2E_AUTOTESTS }}
+        shell: bash
+        run: |
+          docker compose --project-name virtocommerce up -d
+          echo "Waiting for platform to start..."
+          for i in $(seq 1 30); do
+            http_code=$(curl -s --connect-timeout 3 --max-time 5 \
+              -o /dev/null -w '%{http_code}' \
+              http://localhost:8090/api/platform/diagnostics/systeminfo || true)
+            if [[ "$http_code" =~ ^[1-5][0-9][0-9]$ ]]; then
+              echo "Platform is ready! (HTTP $http_code after $i attempt(s))"
+              break
+            fi
+            echo "Attempt $i/30 (http_code=$http_code)..."
+            sleep 10
+          done
+          if [[ ! "$http_code" =~ ^[1-5][0-9][0-9]$ ]]; then
+            echo "::error::Platform did not respond within 5 minutes (last http_code=$http_code)"
+            exit 1
+          fi
+          echo "Checking frontend..."
+          for i in $(seq 1 10); do
+            HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost 2>/dev/null) || true
+            if [ "$HTTP_CODE" = "200" ]; then
+              echo "Frontend is ready!"
+              break
+            fi
+            sleep 5
+          done
+
+      # ──────────────────────────────────────────────
+      # 3. Prepare platform
+      # ──────────────────────────────────────────────
+      - name: Reset admin password
+        shell: pwsh
+        env:
+          SECRET_ENV_FILE: ${{ secrets.VC_TESTING_MODULE_ENV_FILE_NEW }}
+        run: |
+          if ($env:SECRET_ENV_FILE -match 'ADMIN_PASSWORD=(\S+)') {
+            $newAdminPassword = $matches[1]
+          } else {
+            $newAdminPassword = 'store'
+          }
+          $body = "grant_type=password&username=admin&password=store"
+          $headers = @{ "Content-Type" = "application/x-www-form-urlencoded" }
+          $token = ((Invoke-WebRequest -Uri "http://localhost:8090/connect/token" -Body $body -Headers $headers -Method POST).Content | ConvertFrom-Json).access_token
+          $authHeaders = @{ "Content-Type" = "application/json-patch+json"; "Authorization" = "Bearer $token" }
+          $resetBody = @{ "newPassword" = $newAdminPassword; "forcePasswordChangeOnNextSignIn" = $false } | ConvertTo-Json
+          Invoke-WebRequest -Uri "http://localhost:8090/api/platform/security/users/admin/resetpassword" -Body $resetBody -Headers $authHeaders -Method POST
+          Write-Host "Admin password reset successfully"
+
+      # ──────────────────────────────────────────────
+      # 4. Set up Python & dependencies (refactored project)
+      # ──────────────────────────────────────────────
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Create .env and install dependencies
+        working-directory: vc-testing-module/_refactored
+        env:
+          SECRET_ENV_FILE: ${{ secrets.VC_TESTING_MODULE_ENV_FILE_NEW }}
+        run: |
+          echo "$SECRET_ENV_FILE" > .env
+          chmod 600 .env
+          sed -i 's|^BACKEND_BASE_URL=.*|BACKEND_BASE_URL=http://localhost:8090|g' .env
+          sed -i 's|^FRONTEND_BASE_URL=.*|FRONTEND_BASE_URL=http://localhost|g' .env
+          python -m venv .venv
+          source .venv/bin/activate
+          python -m pip install --upgrade pip
+          pip install -e .
+
+      # ──────────────────────────────────────────────
+      # 5. Seed data & trigger indexing
+      # ──────────────────────────────────────────────
+      - name: Seed test data
+        working-directory: vc-testing-module/_refactored
+        run: |
+          source .venv/bin/activate
+          python -m dataset.manager --seed --mode ci
+
+      - name: Trigger search indexing
+        shell: pwsh
+        env:
+          SECRET_ENV_FILE: ${{ secrets.VC_TESTING_MODULE_ENV_FILE_NEW }}
+        run: |
+          $platformUrl = "http://localhost:8090"
+          if ($env:SECRET_ENV_FILE -match 'ADMIN_PASSWORD=(\S+)') { $adminPassword = $matches[1] } else { $adminPassword = 'store' }
+          $headers = @{ "Content-Type" = "application/x-www-form-urlencoded" }
+          $token = ((Invoke-WebRequest -Uri "$platformUrl/connect/token" -Body "grant_type=password&username=admin&password=$adminPassword" -Headers $headers -Method POST).Content | ConvertFrom-Json).access_token
+          $authHeaders = @{ "Content-Type" = "application/json-patch+json"; "Authorization" = "Bearer $token" }
+          $indexBody = @(
+            @{ "DocumentType" = "Member"; "DeleteExistingIndex" = $true },
+            @{ "DocumentType" = "Product"; "DeleteExistingIndex" = $true },
+            @{ "DocumentType" = "Category"; "DeleteExistingIndex" = $true },
+            @{ "DocumentType" = "CustomerOrder"; "DeleteExistingIndex" = $true },
+            @{ "DocumentType" = "PickupLocation"; "DeleteExistingIndex" = $true }
+          )
+          $result = Invoke-WebRequest -Uri "$platformUrl/api/search/indexes/index" -Body ($indexBody | ConvertTo-Json) -Headers $authHeaders -Method POST | ConvertFrom-Json
+          do {
+            $job = Invoke-WebRequest -Uri "$platformUrl/api/platform/jobs/$($result.JobId)" -Headers $authHeaders -Method GET | ConvertFrom-Json
+            Write-Host "Indexing completed: $($job.completed)"
+            if (-not $job.completed) { Start-Sleep -Seconds 5 }
+          } while (-not $job.completed)
+          Write-Host "Indexing finished."
+
+      # ──────────────────────────────────────────────
+      # 6. Run tests
+      # ──────────────────────────────────────────────
+      - name: Clean allure-results
+        working-directory: vc-testing-module/_refactored
+        run: rm -rf allure-results
+
+      - name: Run REST API tests (parallel-safe)
+        working-directory: vc-testing-module/_refactored
+        run: |
+          source .venv/bin/activate
+          pytest tests/restapi -m "restapi and not ignore and not serial and not destructive" -v -s --color=yes \
+            --junitxml=restapi-junit.xml
+
+      - name: Run REST API tests (serial)
+        if: success() || failure()
+        working-directory: vc-testing-module/_refactored
+        run: |
+          source .venv/bin/activate
+          pytest tests/restapi -m "restapi and serial and not ignore and not destructive" -v -s --color=yes \
+            --junitxml=restapi-serial-junit.xml
+
+      - name: Run REST API test — drop search index (destructive, before restart)
+        if: success() || failure()
+        working-directory: vc-testing-module/_refactored
+        run: |
+          source .venv/bin/activate
+          pytest tests/restapi/search/test_search.py::test_index_drop -v -s --color=yes \
+            --junitxml=restapi-index-drop-junit.xml
+
+      - name: Run REST API test — restart platform (last)
+        if: success() || failure()
+        working-directory: vc-testing-module/_refactored
+        run: |
+          source .venv/bin/activate
+          pytest tests/restapi/platform/test_misc.py::test_restart_platform -v -s --color=yes \
+            --junitxml=restapi-restart-junit.xml
+
+      # ──────────────────────────────────────────────
+      # 7. Collect results
+      # ──────────────────────────────────────────────
+      - name: Install Allure CLI
+        if: always()
+        run: |
+          ALLURE_VERSION=2.29.0
+          wget -q -O allure.tgz \
+            "https://github.com/allure-framework/allure2/releases/download/${ALLURE_VERSION}/allure-${ALLURE_VERSION}.tgz"
+          sudo tar -xzf allure.tgz -C /opt
+          sudo ln -sf "/opt/allure-${ALLURE_VERSION}/bin/allure" /usr/local/bin/allure
+          allure --version
+
+      - name: Generate Allure HTML report
+        if: always()
+        working-directory: vc-testing-module/_refactored
+        run: |
+          if [ -d allure-results ] && [ -n "$(ls -A allure-results 2>/dev/null)" ]; then
+            allure generate allure-results --clean -o allure-report
+          else
+            echo "::warning::allure-results is empty — skipping report render"
+          fi
+
+      - name: Bundle Allure into single HTML
+        if: always()
+        working-directory: vc-testing-module/_refactored
+        run: |
+          if [ -d allure-report ]; then
+            pip install allure-combine
+            allure-combine allure-report
+            ls -la allure-report/complete.html
+          else
+            echo "::warning::allure-report missing — skipping allure-combine"
+          fi
+
+      - name: Stage consolidated report
+        if: always()
+        working-directory: vc-testing-module/_refactored
+        run: |
+          mkdir -p report
+          [ -d allure-report ] && mv allure-report report/ || echo "no allure-report"
+          [ -d har-output ] && mv har-output report/ || echo "no har-output"
+          [ -f restapi-junit.xml ] && mv restapi-junit.xml report/ || echo "no restapi-junit.xml"
+          [ -f restapi-serial-junit.xml ] && mv restapi-serial-junit.xml report/ || echo "no restapi-serial-junit.xml"
+          [ -f restapi-index-drop-junit.xml ] && mv restapi-index-drop-junit.xml report/ || echo "no restapi-index-drop-junit.xml"
+          [ -f restapi-restart-junit.xml ] && mv restapi-restart-junit.xml report/ || echo "no restapi-restart-junit.xml"
+
+          cat > report/index.html << 'HTML'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="utf-8">
+            <meta http-equiv="refresh" content="0; url=allure-report/complete.html">
+            <title>REST API Test Results</title>
+          </head>
+          <body>
+            <p>Redirecting to the <a href="allure-report/complete.html">Allure report</a>.
+            If nothing happens, open <code>allure-report/complete.html</code> manually.</p>
+          </body>
+          </html>
+          HTML
+
+          cat > report/README.md << 'EOF'
+          # REST API Test Results
+
+          Run: ${{ github.run_number }} (attempt ${{ github.run_attempt }})
+          Commit: ${{ github.sha }}
+          Branch: ${{ github.ref_name }}
+
+          ## What's in this bundle
+
+          | Path | Use it for |
+          |---|---|
+          | `index.html` | Landing page — double-click to open the standalone Allure report. |
+          | `allure-report/complete.html` | Standalone single-file Allure report. Works from `file://` — no server needed. |
+          | `har-output/<module>/<test>.har` | Per-test HTTP traces (HAR 1.2) grouped by module. Auth headers redacted. |
+          | `restapi-junit.xml` | JUnit XML for parallel-safe REST API tests. |
+          | `restapi-serial-junit.xml` | JUnit XML for serial REST API tests. |
+          | `restapi-index-drop-junit.xml` | JUnit XML for destructive drop-index test. |
+          | `restapi-restart-junit.xml` | JUnit XML for restart platform test. |
+          EOF
+
+      - name: Upload consolidated test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: restapi-test-results-${{ github.run_number }}-${{ github.run_attempt }}
+          path: vc-testing-module/_refactored/report/
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Publish test results summary
+        if: always()
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        with:
+          files: |
+            vc-testing-module/_refactored/report/restapi-junit.xml
+            vc-testing-module/_refactored/report/restapi-serial-junit.xml
+            vc-testing-module/_refactored/report/restapi-index-drop-junit.xml
+            vc-testing-module/_refactored/report/restapi-restart-junit.xml
+          check_name: REST API Test Results
+          comment_mode: always
+          report_individual_runs: true
+
+      - name: Per-module test summary
+        if: always()
+        working-directory: vc-testing-module/_refactored
+        run: |
+          python <<'PYEOF'
+          import os
+          import xml.etree.ElementTree as ET
+          from collections import defaultdict
+          from pathlib import Path
+
+          stats = defaultdict(
+              lambda: {"total": 0, "passed": 0, "failed": 0, "errored": 0, "skipped": 0, "time": 0.0}
+          )
+
+          for xml_name in ["report/restapi-junit.xml", "report/restapi-serial-junit.xml", "report/restapi-index-drop-junit.xml", "report/restapi-restart-junit.xml"]:
+              xml_path = Path(xml_name)
+              if not xml_path.exists():
+                  continue
+              tree = ET.parse(xml_path)
+              for tc in tree.iter("testcase"):
+                  classname = tc.attrib.get("classname", "")
+                  bucket = classname.rsplit(".", 1)[-1] if classname else "(unknown)"
+                  s = stats[bucket]
+                  s["total"] += 1
+                  try:
+                      s["time"] += float(tc.attrib.get("time") or 0)
+                  except ValueError:
+                      pass
+                  if tc.find("failure") is not None:
+                      s["failed"] += 1
+                  elif tc.find("error") is not None:
+                      s["errored"] += 1
+                  elif tc.find("skipped") is not None:
+                      s["skipped"] += 1
+                  else:
+                      s["passed"] += 1
+
+          if not stats:
+              print("No JUnit XML found — skipping summary")
+              raise SystemExit(0)
+
+          lines = [
+              "## REST API tests — per-file breakdown",
+              "",
+              "| Test file | Total | Passed | Failed | Errored | Skipped | Time |",
+              "|---|---:|---:|---:|---:|---:|---:|",
+          ]
+          totals = {"total": 0, "passed": 0, "failed": 0, "errored": 0, "skipped": 0, "time": 0.0}
+          for bucket in sorted(stats):
+              s = stats[bucket]
+              for k in totals:
+                  totals[k] += s[k]
+              lines.append(
+                  f"| `{bucket}` | {s['total']} | {s['passed']} | {s['failed']} | "
+                  f"{s['errored']} | {s['skipped']} | {s['time']:.1f}s |"
+              )
+          lines.append(
+              f"| **Total** | **{totals['total']}** | **{totals['passed']}** | "
+              f"**{totals['failed']}** | **{totals['errored']}** | "
+              f"**{totals['skipped']}** | **{totals['time']:.1f}s** |"
+          )
+          lines.append("")
+
+          output = "\n".join(lines)
+          summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
+          if summary_path:
+              with open(summary_path, "a", encoding="utf-8") as f:
+                  f.write(output + "\n")
+          print(output)
+          PYEOF
+
+      # ──────────────────────────────────────────────
+      # 8. Diagnostics on failure
+      # ──────────────────────────────────────────────
+      - name: Print container logs on failure
+        if: failure()
+        run: |
+          echo "=== Platform logs ==="
+          docker logs virtocommerce-vc-platform-web-1 --tail 100
+          echo "=== Elasticsearch logs ==="
+          docker logs virtocommerce-es-1 --tail 50

@@ -1,5 +1,9 @@
+import os
+import re
+from pathlib import Path
 from typing import Any, Generator
 
+import allure
 import pytest
 from core.auth import AuthProvider
 from core.clients import GraphQLClient
@@ -10,11 +14,14 @@ from gql.operations.cart_operations import CartOperations
 from gql.types.cart import Cart
 from gql.types.cart_item_input import CartItemInput
 from page_objects.browser_storage import BrowserStorage
+from playwright.sync_api import Page
 from tests.context import Context
 
 from dataset.dataset_manager import DatasetManager
+from utils.har_recorder import HARRecorder
 
 _FEATURE_MARKERS = ["quantity_control", "range_filter_type", "checkout_mode"]
+_INVALID_FILENAME_CHARS = re.compile(r'[<>:"/\\|?*]')
 
 
 def pytest_runtest_setup(item: pytest.Item) -> None:
@@ -25,6 +32,110 @@ def pytest_runtest_setup(item: pytest.Item) -> None:
                 f"Requires {marker_name}='{marker.args[0]}', "
                 f"current config has '{getattr(_global_settings, marker_name)}'"
             )
+
+
+@pytest.hookimpl(tryfirst=True, hookwrapper=True)
+def pytest_runtest_makereport(item: pytest.Item, call: pytest.CallInfo) -> Generator:
+    """Capture test outcome so fixtures can react to failures."""
+    outcome = yield
+    rep = outcome.get_result()
+    setattr(item, f"rep_{rep.when}", rep)
+
+
+@pytest.fixture
+def _page_for_failure(request: pytest.FixtureRequest) -> Page | None:
+    """Grab the Playwright page before it closes, only for tests that use it."""
+    if "page" not in request.fixturenames:
+        return None
+    return request.getfixturevalue("page")
+
+
+@pytest.fixture(autouse=True)
+def screenshot_on_failure(
+    request: pytest.FixtureRequest, _page_for_failure: Page | None
+) -> Generator:
+    """Take a full-page screenshot when an E2E test fails and attach to Allure."""
+    yield
+
+    rep_call = getattr(request.node, "rep_call", None)
+    if not rep_call or not rep_call.failed or _page_for_failure is None:
+        return
+
+    screenshots_dir = os.path.join("screenshots", "failures")
+    os.makedirs(screenshots_dir, exist_ok=True)
+
+    safe_name = _INVALID_FILENAME_CHARS.sub("_", request.node.name)
+    screenshot_path = os.path.join(screenshots_dir, f"{safe_name}.png")
+    _page_for_failure.screenshot(path=screenshot_path, full_page=True)
+
+    allure.attach.file(
+        screenshot_path,
+        name=request.node.name,
+        attachment_type=allure.attachment_type.PNG,
+    )
+
+
+def _har_module(node_path: Path) -> str:
+    """Derive a HAR subfolder from the test file path.
+
+    tests/graphql/test_cart.py         → graphql
+    tests/restapi/catalog/test_foo.py  → restapi/catalog
+    tests/e2e/test_checkout.py         → e2e
+    """
+    parts = node_path.parts
+    try:
+        idx = parts.index("tests")
+        remaining = parts[idx + 1 : -1]  # between "tests/" and the filename
+        return "/".join(remaining) if remaining else "_root"
+    except ValueError:
+        return node_path.parent.name or "_unknown"
+
+
+@pytest.fixture(autouse=True)
+def har_recorder(request: pytest.FixtureRequest) -> Generator[HARRecorder, None, None]:
+    """Record HTTP calls from graphql_client and/or rest_client and write a
+    per-test HAR file to har-output/<suite>/<test_name>.har.
+
+    Hooks are installed only for clients that the test actually uses
+    (checked via ``request.fixturenames``), so a GraphQL-only test won't
+    force a RestClient to be created and vice versa.
+    """
+    recorder = HARRecorder()
+    hooked_sessions = []
+
+    for fixture_name in ("graphql_client", "rest_client"):
+        if fixture_name in request.fixturenames:
+            client = request.getfixturevalue(fixture_name)
+            client._session.hooks["response"].append(recorder.hook)
+            hooked_sessions.append(client._session)
+
+    yield recorder
+
+    for session in hooked_sessions:
+        try:
+            session.hooks["response"].remove(recorder.hook)
+        except ValueError:
+            pass
+
+    if recorder.has_entries():
+        har_json = recorder.serialize()
+
+        # Write to disk (har-output/<suite>/<test>.har) for the workflow artifact
+        root_dir = Path(request.config.rootpath)
+        module = _har_module(Path(request.node.path))
+        out_dir = root_dir / "har-output" / module
+        out_dir.mkdir(parents=True, exist_ok=True)
+        safe_name = _INVALID_FILENAME_CHARS.sub("_", request.node.name)
+        (out_dir / f"{safe_name}.har").write_text(har_json, encoding="utf-8")
+
+        # Attach to Allure so users can download directly from the test report.
+        # Raw MIME string (not the enum) lets the explicit extension="har" stick.
+        allure.attach(
+            har_json,
+            name=f"{request.node.name}.har",
+            attachment_type="application/json",
+            extension="har",
+        )
 
 
 @pytest.fixture(scope="session")
