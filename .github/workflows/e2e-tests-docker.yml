@@ -13,11 +13,11 @@ jobs:
   e2e-tests:
     uses: VirtoCommerce/.github/.github/workflows/pytest-tests.yml@VCST-4958
     with:
-      installModules: 'true' #'false'
+      installModules: 'false'
       installCustomModule: 'false'
       vctestingRepoBranch: '${{ github.ref_name }}'
       frontendZipUrl: '${{ inputs.frontendZipUrl }}'
-      # customPackagesJsonUrl: 'https://github.com/${{ github.repository }}/raw/${{ github.ref_name }}/backend-packages.json'
+      customPackagesJsonUrl: 'https://github.com/${{ github.repository }}/raw/${{ github.ref_name }}/backend-packages.json'
     secrets:
       envPAT: ${{ secrets.REPO_TOKEN }}
       testSecretEnvFile: ${{ secrets.VC_TESTING_MODULE_ENV_FILE }}
