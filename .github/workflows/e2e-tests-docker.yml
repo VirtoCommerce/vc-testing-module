@@ -13,7 +13,7 @@ jobs:
   e2e-tests:
     uses: VirtoCommerce/.github/.github/workflows/pytest-tests.yml@VCST-4958
     with:
-      installModules: 'false'
+      installModules: 'true' #'false'
       installCustomModule: 'false'
       vctestingRepoBranch: '${{ github.ref_name }}'
       frontendZipUrl: '${{ inputs.frontendZipUrl }}'
