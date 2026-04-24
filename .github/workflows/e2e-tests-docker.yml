@@ -8,6 +8,16 @@ on:
         required: true
         type: string
         default: 'latest'
+      testSuites:
+        description: 'Test suites to run'
+        required: true
+        type: choice
+        default: 'all'
+        options:
+          - all
+          - graphql
+          - restapi
+          - e2e
 
 jobs:
   e2e-tests:
@@ -18,7 +28,7 @@ jobs:
       vctestingRepoBranch: '${{ github.ref_name }}'
       frontendZipUrl: '${{ inputs.frontendZipUrl }}'
       customPackagesJsonUrl: 'https://github.com/${{ github.repository }}/raw/${{ github.ref_name }}/backend-packages.json'
-      testSuites: 'restapi,e2e'
+      testSuites: ${{ inputs.testSuites == 'all' && 'graphql,restapi,e2e' || inputs.testSuites }}
     secrets:
       envPAT: ${{ secrets.REPO_TOKEN }}
       testSecretEnvFile: ${{ secrets.VC_TESTING_MODULE_ENV_FILE_NEW }} #${{ secrets.VC_TESTING_MODULE_ENV_FILE }} #
