@@ -7,12 +7,15 @@ Katalon scripts:
   coreUnitSettingsCreateUpdateDelete → test_unit_settings (serial)
 """
 
+import logging
 import uuid
 
 import allure
 import pytest
 
 from core.clients.rest import RestClient
+
+logger = logging.getLogger(__name__)
 
 
 @pytest.mark.restapi
@@ -54,8 +57,8 @@ def test_currency_update(rest_client: RestClient, backend_base_url: str) -> None
         with allure.step("Cleanup"):
             try:
                 rest_client.delete(f"{backend_base_url}/api/currencies", params={"codes": [code]})
-            except Exception:
-                pass
+            except Exception as e:
+                logger.warning("Cleanup failed: %s", e)
 
 
 @pytest.mark.restapi
@@ -117,8 +120,8 @@ def test_package_update(rest_client: RestClient, backend_base_url: str) -> None:
         with allure.step("Cleanup"):
             try:
                 rest_client.delete(f"{backend_base_url}/api/packageTypes", params={"ids": [pkg_id]})
-            except Exception:
-                pass
+            except Exception as e:
+                logger.warning("Cleanup failed: %s", e)
 
 
 @pytest.mark.restapi

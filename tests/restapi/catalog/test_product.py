@@ -1,5 +1,6 @@
 """Product CRUD — migrated from Katalon `API Coverage/ModuleCatalog/product*`."""
 
+import logging
 import uuid
 
 import allure
@@ -7,6 +8,8 @@ import pytest
 from requests.exceptions import HTTPError
 
 from restapi.operations import ProductOperations, SettingsOperations
+
+logger = logging.getLogger(__name__)
 
 
 @pytest.mark.restapi
@@ -125,8 +128,8 @@ def test_product_create_update_with_body(make_product, product_ops: ProductOpera
         with allure.step("Cleanup cloned product"):
             try:
                 product_ops.delete(created["id"])
-            except Exception:
-                pass
+            except Exception as e:
+                logger.warning("Cleanup failed: %s", e)
 
 
 @pytest.mark.restapi

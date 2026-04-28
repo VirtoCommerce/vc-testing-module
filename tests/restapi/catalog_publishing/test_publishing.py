@@ -10,6 +10,7 @@ Katalon scripts:
   completenessChannelEvaluate        → test_completeness_channel_evaluate
 """
 
+import logging
 import uuid
 
 import allure
@@ -17,6 +18,8 @@ import pytest
 from requests.exceptions import HTTPError
 
 from core.clients.rest import RestClient
+
+logger = logging.getLogger(__name__)
 
 
 def _create_channel(rest_client: RestClient, backend_base_url: str, name: str, catalog: dict) -> dict:
@@ -51,8 +54,8 @@ def test_channel_create(rest_client: RestClient, backend_base_url: str, seed_cat
         if channel_id:
             try:
                 rest_client.delete(f"{backend_base_url}/api/completeness/channels", params={"ids": [channel_id]})
-            except Exception:
-                pass
+            except Exception as e:
+                logger.warning("Cleanup failed: %s", e)
 
 
 @pytest.mark.restapi
@@ -73,8 +76,8 @@ def test_channel_update(rest_client: RestClient, backend_base_url: str, seed_cat
     finally:
         try:
             rest_client.delete(f"{backend_base_url}/api/completeness/channels", params={"ids": [channel_id]})
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning("Cleanup failed: %s", e)
 
 
 @pytest.mark.restapi
@@ -93,8 +96,8 @@ def test_channel_get(rest_client: RestClient, backend_base_url: str, seed_catalo
     finally:
         try:
             rest_client.delete(f"{backend_base_url}/api/completeness/channels", params={"ids": [channel["id"]]})
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning("Cleanup failed: %s", e)
 
 
 @pytest.mark.restapi
@@ -152,5 +155,5 @@ def test_completeness_channel_evaluate(rest_client: RestClient, backend_base_url
     finally:
         try:
             rest_client.delete(f"{backend_base_url}/api/completeness/channels", params={"ids": [channel["id"]]})
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning("Cleanup failed: %s", e)

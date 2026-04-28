@@ -10,6 +10,7 @@ Real endpoints (from Katalon Object Repository):
   - DELETE /api/assets?urls={u1}&urls={u2}               (delete bulk)
 """
 
+import logging
 import uuid
 
 import allure
@@ -19,6 +20,8 @@ import requests
 from core.clients.rest import RestClient
 from core.global_settings import GlobalSettings
 
+logger = logging.getLogger(__name__)
+
 _GITHUB_SAMPLE_URL = "https://raw.githubusercontent.com/VirtoCommerce/vc-testing-module/dev/README.md"
 _GITHUB_SAMPLE_URL_IMAGE = "https://raw.githubusercontent.com/VirtoCommerce/vc-testing-module/dev/.gitignore"
 
@@ -26,8 +29,8 @@ _GITHUB_SAMPLE_URL_IMAGE = "https://raw.githubusercontent.com/VirtoCommerce/vc-t
 def _delete_folder_safe(rest_client: RestClient, backend_base_url: str, folder: str) -> None:
     try:
         rest_client.delete(f"{backend_base_url}/api/assets", params={"urls": [folder]})
-    except Exception:
-        pass
+    except Exception as e:
+        logger.warning("Cleanup failed for folder %s: %s", folder, e)
 
 
 @pytest.mark.restapi
@@ -212,8 +215,8 @@ def test_asset_folder_create_delete_bulk(rest_client: RestClient, backend_base_u
     finally:
         try:
             rest_client.delete(f"{backend_base_url}/api/assets", params={"urls": folders})
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning("Cleanup failed for folders %s: %s", folders, e)
 
 
 @pytest.mark.restapi

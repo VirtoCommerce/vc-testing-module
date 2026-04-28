@@ -20,6 +20,7 @@ Plus endpoint-coverage tests not in the Katalon flow:
   test_tag_count_get          — GET /api/personalization/taggeditem/{id}/tags/count
 """
 
+import logging
 import uuid
 
 import allure
@@ -28,6 +29,7 @@ from requests.exceptions import HTTPError
 
 from core.clients.rest import RestClient
 
+logger = logging.getLogger(__name__)
 
 _TAGS_INHERITANCE_POLICY_SETTING = "CatalogPersonalization.TagsInheritancePolicy"
 
@@ -99,8 +101,8 @@ def test_tag_put_assign_product(rest_client: RestClient, backend_base_url: str, 
         with allure.step("Cleanup — clear tags on the tagged item row"):
             try:
                 _put_tagged_item(rest_client, backend_base_url, product_id, "Product", tag_label, [])
-            except Exception:
-                pass
+            except Exception as e:
+                logger.warning("Cleanup failed: %s", e)
 
 
 @pytest.mark.restapi
@@ -126,8 +128,8 @@ def test_tag_put_assign_category(rest_client: RestClient, backend_base_url: str,
         with allure.step("Cleanup — clear tags on the tagged item row"):
             try:
                 _put_tagged_item(rest_client, backend_base_url, category_id, "Category", tag_label, [])
-            except Exception:
-                pass
+            except Exception as e:
+                logger.warning("Cleanup failed: %s", e)
 
 
 @pytest.mark.restapi
@@ -230,8 +232,8 @@ def test_tag_count_get(rest_client: RestClient, backend_base_url: str, dataset: 
         with allure.step("Cleanup: restore original tags on the row"):
             try:
                 _put_tagged_item(rest_client, backend_base_url, product_id, "Product", tag_label, existing_tags)
-            except Exception:
-                pass
+            except Exception as e:
+                logger.warning("Cleanup failed: %s", e)
 
 
 @pytest.mark.restapi
@@ -272,14 +274,14 @@ def test_tag_propagation_down_tree(rest_client: RestClient, backend_base_url: st
         with allure.step("Cleanup: restore original tags on category"):
             try:
                 _put_tagged_item(rest_client, backend_base_url, category_id, "Category", tag_label, existing_tags)
-            except Exception:
-                pass
+            except Exception as e:
+                logger.warning("Cleanup failed: %s", e)
         if original_policy is not None:
             with allure.step("Restore original TagsInheritancePolicy"):
                 try:
                     rest_client.post(f"{backend_base_url}/api/platform/settings", json=[original_policy])
-                except Exception:
-                    pass
+                except Exception as e:
+                    logger.warning("Cleanup failed: %s", e)
 
 
 @pytest.mark.restapi
@@ -333,14 +335,14 @@ def test_tag_propagation_up_tree(rest_client: RestClient, backend_base_url: str,
         with allure.step("Cleanup: restore original tags on category"):
             try:
                 _put_tagged_item(rest_client, backend_base_url, category_id, "Category", tag_label, existing_tags)
-            except Exception:
-                pass
+            except Exception as e:
+                logger.warning("Cleanup failed: %s", e)
         if original_policy is not None:
             with allure.step("Restore original TagsInheritancePolicy"):
                 try:
                     rest_client.post(f"{backend_base_url}/api/platform/settings", json=[original_policy])
-                except Exception:
-                    pass
+                except Exception as e:
+                    logger.warning("Cleanup failed: %s", e)
 
 
 @pytest.mark.restapi
@@ -369,5 +371,5 @@ def test_tag_add_to_member_groups(rest_client: RestClient, backend_base_url: str
             try:
                 restore = {**current, "allowedValues": original_values}
                 rest_client.post(f"{backend_base_url}/api/platform/settings", json=[restore])
-            except Exception:
-                pass
+            except Exception as e:
+                logger.warning("Cleanup failed: %s", e)

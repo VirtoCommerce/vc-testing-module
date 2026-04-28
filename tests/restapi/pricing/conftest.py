@@ -1,5 +1,6 @@
 """Pricing module fixtures — operations + factory fixtures for pricelists, prices, assignments."""
 
+import logging
 import uuid
 from typing import Any, Callable, Generator
 
@@ -7,6 +8,8 @@ import pytest
 
 from core.clients.rest import RestClient
 from restapi.operations import PricelistAssignmentOperations, PricelistOperations, PriceOperations
+
+logger = logging.getLogger(__name__)
 
 
 @pytest.fixture
@@ -39,8 +42,8 @@ def make_pricelist(pricelist_ops: PricelistOperations) -> Generator[Callable[...
     for pid in reversed(created_ids):
         try:
             pricelist_ops.delete(pid)
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning("Cleanup failed for pricelist %s: %s", pid, e)
 
 
 @pytest.fixture
@@ -69,5 +72,5 @@ def make_assignment(
     for aid in reversed(created_ids):
         try:
             assignment_ops.delete(aid)
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning("Cleanup failed for pricelist assignment %s: %s", aid, e)
