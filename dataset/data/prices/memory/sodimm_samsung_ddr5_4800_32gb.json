@@ -1,0 +1,25 @@
+{
+    "productId": "sodimm-samsung-ddr5-4800-32gb",
+    "product": {
+        "id": "sodimm-samsung-ddr5-4800-32gb",
+        "name": "Samsung DDR5-4800 32GB"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 133.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "sodimm-samsung-ddr5-4800-32gb"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 124.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "sodimm-samsung-ddr5-4800-32gb"
+        }
+    ]
+}

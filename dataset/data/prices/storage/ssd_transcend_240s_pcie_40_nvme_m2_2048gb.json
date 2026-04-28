@@ -1,0 +1,25 @@
+{
+    "productId": "ssd-transcend-240s-pcie-40-nvme-m2-2048gb",
+    "product": {
+        "id": "ssd-transcend-240s-pcie-40-nvme-m2-2048gb",
+        "name": "Transcend 240S PCIe 4.0 NVMe M.2 SSD 2048GB"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 142.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "ssd-transcend-240s-pcie-40-nvme-m2-2048gb"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 132.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "ssd-transcend-240s-pcie-40-nvme-m2-2048gb"
+        }
+    ]
+}

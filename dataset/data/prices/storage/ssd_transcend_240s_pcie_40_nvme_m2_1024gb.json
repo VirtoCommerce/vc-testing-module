@@ -1,0 +1,25 @@
+{
+    "productId": "ssd-transcend-240s-pcie-40-nvme-m2-1024gb",
+    "product": {
+        "id": "ssd-transcend-240s-pcie-40-nvme-m2-1024gb",
+        "name": "Transcend 240S PCIe 4.0 NVMe M.2 SSD 1024GB"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 71.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "ssd-transcend-240s-pcie-40-nvme-m2-1024gb"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 66.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "ssd-transcend-240s-pcie-40-nvme-m2-1024gb"
+        }
+    ]
+}

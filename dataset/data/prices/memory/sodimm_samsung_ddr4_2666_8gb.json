@@ -1,0 +1,25 @@
+{
+    "productId": "sodimm-samsung-ddr4-2666-8gb",
+    "product": {
+        "id": "sodimm-samsung-ddr4-2666-8gb",
+        "name": "Samsung DDR4-2666 8GB"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 21.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "sodimm-samsung-ddr4-2666-8gb"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 20.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "sodimm-samsung-ddr4-2666-8gb"
+        }
+    ]
+}

@@ -1,0 +1,25 @@
+{
+    "productId": "sodimm-corsair-vengeance-ddr4-2666-16gb",
+    "product": {
+        "id": "sodimm-corsair-vengeance-ddr4-2666-16gb",
+        "name": "Corsair Vengeance DDR4-2666 16GB"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 63.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "sodimm-corsair-vengeance-ddr4-2666-16gb"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 59.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "sodimm-corsair-vengeance-ddr4-2666-16gb"
+        }
+    ]
+}

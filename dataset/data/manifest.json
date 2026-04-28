@@ -67,7 +67,8 @@
         "module_id": "VirtoCommerce.Catalog",
         "method": "POST",
         "endpoint": "/api/catalog/categories",
-        "payload_type": "single"
+        "payload_type": "single",
+        "parent_ref_field": "parentId"
     },
     {
         "name": "catalog_properties",
@@ -81,7 +82,8 @@
         "module_id": "VirtoCommerce.Catalog",
         "method": "POST",
         "endpoint": "/api/catalog/products",
-        "payload_type": "single"
+        "payload_type": "single",
+        "parent_ref_field": "mainProductId"
     },
     {
         "name": "aggregation_properties",

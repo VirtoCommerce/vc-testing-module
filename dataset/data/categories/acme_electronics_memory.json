@@ -1,0 +1,18 @@
+{
+    "id": "category-acme-electronics-memory",
+    "code": "category-acme-electronics-memory",
+    "catalogId": "catalog-acme-electronics",
+    "parentId": "category-acme-electronics-components",
+    "name": "Memory",
+    "seoObjectType": "Category",
+    "seoInfos": [
+        {
+            "id": "seo-info-acme-electronics-category-memory-en",
+            "storeId": "store-acme",
+            "isActive": true,
+            "languageCode": "en-US",
+            "pageTitle": "Memory",
+            "semanticUrl": "memory"
+        }
+    ]
+}

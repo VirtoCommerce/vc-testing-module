@@ -1,0 +1,25 @@
+{
+    "productId": "sodimm-crucial-ddr5-5600-8gb",
+    "product": {
+        "id": "sodimm-crucial-ddr5-5600-8gb",
+        "name": "Crucial DDR5-5600 8GB"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 33.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "sodimm-crucial-ddr5-5600-8gb"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 30.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "sodimm-crucial-ddr5-5600-8gb"
+        }
+    ]
+}

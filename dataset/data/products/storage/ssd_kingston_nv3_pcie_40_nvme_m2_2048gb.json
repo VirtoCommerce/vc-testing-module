@@ -1,0 +1,89 @@
+{
+    "id": "ssd-kingston-nv3-pcie-40-nvme-m2-2048gb",
+    "code": "ssd-kingston-nv3-pcie-40-nvme-m2-2048gb",
+    "catalogId": "catalog-acme-electronics",
+    "categoryId": "category-acme-electronics-storage",
+    "mainProductId": "ssd-kingston-nv3-pcie-40-nvme-m2-512gb",
+    "name": "Kingston NV3 PCIe 4.0 NVMe M.2 SSD 2048GB",
+    "vendor": "Kingston",
+    "productType": "Physical",
+    "seoObjectType": "Product",
+    "seoInfos": [
+        {
+            "id": "seo-info-ssd-kingston-nv3-pcie-40-nvme-m2-2048gb",
+            "isActive": true,
+            "languageCode": "en-US",
+            "pageTitle": "Kingston NV3 PCIe 4.0 NVMe M.2 SSD 2048GB",
+            "semanticUrl": "kingston-nv3-pcie-40-nvme-m2-ssd-2048gb",
+            "storeId": "store-acme"
+        }
+    ],
+    "properties": [
+        {
+            "id": "catalog-property-general-brand",
+            "name": "Brand",
+            "valueType": "ShortText",
+            "values": [
+                {
+                    "value": "Kingston"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-storage-form-factor",
+            "name": "StorageFormFactor",
+            "valueType": "ShortText",
+            "values": [
+                {
+                    "value": "M.2 2280"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-storage-interface",
+            "name": "StorageInterface",
+            "valueType": "ShortText",
+            "values": [
+                {
+                    "value": "PCIe 4.0 x4 NVMe"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-storage-capacity",
+            "name": "StorageCapacity",
+            "valueType": "Measure",
+            "measureId": "measure-memory-size",
+            "values": [
+                {
+                    "value": 2048,
+                    "unitOfMeasureId": "measure-unit-memory-gb"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-storage-max-sequental-read",
+            "name": "StorageMaxSequentalRead",
+            "valueType": "Measure",
+            "measureId": "measure-data-transfer-rate",
+            "values": [
+                {
+                    "value": 6000,
+                    "unitOfMeasureId": "measure-unit-data-transfer-rate-mbps"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-storage-max-sequental-write",
+            "name": "StorageMaxSequentalWrite",
+            "valueType": "Measure",
+            "measureId": "measure-data-transfer-rate",
+            "values": [
+                {
+                    "value": 5000,
+                    "unitOfMeasureId": "measure-unit-data-transfer-rate-mbps"
+                }
+            ]
+        }
+    ]
+}

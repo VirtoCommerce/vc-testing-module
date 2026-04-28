@@ -1,0 +1,25 @@
+{
+    "productId": "sodimm-kingston-fury-impact-ddr4-3200-8gb",
+    "product": {
+        "id": "sodimm-kingston-fury-impact-ddr4-3200-8gb",
+        "name": "Kingston FURY Impact DDR4-3200 8GB"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 31.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "sodimm-kingston-fury-impact-ddr4-3200-8gb"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 29.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "sodimm-kingston-fury-impact-ddr4-3200-8gb"
+        }
+    ]
+}

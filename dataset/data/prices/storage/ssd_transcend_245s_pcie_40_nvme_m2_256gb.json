@@ -1,0 +1,25 @@
+{
+    "productId": "ssd-transcend-245s-pcie-40-nvme-m2-256gb",
+    "product": {
+        "id": "ssd-transcend-245s-pcie-40-nvme-m2-256gb",
+        "name": "Transcend 245S PCIe 4.0 NVMe M.2 SSD 256GB"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 39.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "ssd-transcend-245s-pcie-40-nvme-m2-256gb"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 36.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "ssd-transcend-245s-pcie-40-nvme-m2-256gb"
+        }
+    ]
+}

@@ -1,0 +1,76 @@
+{
+    "id": "sodimm-crucial-ddr5-4800-16gb",
+    "code": "sodimm-crucial-ddr5-4800-16gb",
+    "catalogId": "catalog-acme-electronics",
+    "categoryId": "category-acme-electronics-memory",
+    "name": "Crucial DDR5-4800 16GB",
+    "vendor": "Crucial",
+    "productType": "Physical",
+    "seoObjectType": "Product",
+    "seoInfos": [
+        {
+            "id": "seo-info-sodimm-crucial-ddr5-4800-16gb",
+            "isActive": true,
+            "languageCode": "en-US",
+            "pageTitle": "Crucial DDR5-4800 16GB",
+            "semanticUrl": "crucial-ddr5-4800-16gb",
+            "storeId": "store-acme"
+        }
+    ],
+    "properties": [
+        {
+            "id": "catalog-property-general-brand",
+            "name": "Brand",
+            "valueType": "ShortText",
+            "values": [
+                {
+                    "value": "Crucial"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-memory-type",
+            "name": "MemoryType",
+            "valueType": "ShortText",
+            "values": [
+                {
+                    "value": "DDR5"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-memory-form-factor",
+            "name": "MemoryFormFactor",
+            "valueType": "ShortText",
+            "values": [
+                {
+                    "value": "SODIMM"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-memory-data-transfer-rate",
+            "name": "MemoryDataTransferRate",
+            "valueType": "Measure",
+            "measureId": "measure-data-transfer-rate",
+            "values": [
+                {
+                    "value": 4800,
+                    "unitOfMeasureId": "measure-unit-data-transfer-rate-mts"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-memory-capacity",
+            "name": "MemoryCapacity",
+            "valueType": "Measure",
+            "measureId": "measure-memory-size",
+            "values": [
+                {
+                    "value": 16,
+                    "unitOfMeasureId": "measure-unit-memory-gb"
+                }
+            ]
+        }
+    ]
+}

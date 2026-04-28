@@ -1,0 +1,25 @@
+{
+    "productId": "sodimm-kingston-fury-impact-ddr5-6400-16gb",
+    "product": {
+        "id": "sodimm-kingston-fury-impact-ddr5-6400-16gb",
+        "name": "Kingston FURY Impact DDR5-6400 16GB"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 87.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "sodimm-kingston-fury-impact-ddr5-6400-16gb"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 81.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "sodimm-kingston-fury-impact-ddr5-6400-16gb"
+        }
+    ]
+}

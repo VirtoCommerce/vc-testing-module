@@ -1,0 +1,27 @@
+{
+    "productId": "sodimm-kingston-value-ram-ddr5-6400-32gb",
+    "product": {
+        "id": "sodimm-kingston-value-ram-ddr5-6400-32gb",
+        "name": "Kingston ValueRAM DDR5-6400 32GB"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 133.99,
+            "sale": 93.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "sodimm-kingston-value-ram-ddr5-6400-32gb"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 124.99,
+            "sale": 87.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "sodimm-kingston-value-ram-ddr5-6400-32gb"
+        }
+    ]
+}

@@ -1,46 +1,47 @@
-import argparse
-import logging
+import copy
 from pathlib import Path
 from typing import Any, cast
 
+import inflection
 from core.auth.provider import AuthProvider
 from core.clients.rest import RestClient
-from core.global_settings import GlobalSettings, global_settings
-from core.logger import Logger, NullLogger, RichLogger
-from rich.console import Console
+from core.global_settings import GlobalSettings
+from core.logger import Logger
 
-from dataset.dataset_seeder import DatasetSeeder
-from dataset.json_resolver import JsonResolver
+from dataset.dataset_seeder import DatasetSeeder, fetch_installed_modules
+from dataset.json_loader import load_entity_files
+from dataset.manifest import ManifestEntry, load_manifest
+from dataset.request_builder import build_requests, substitute_env
+from dataset.topological_sorter import topological_sort
 
-_CURRENT_DIR = Path(__file__).parent
-_DATA_DIR = _CURRENT_DIR / "data"
-_LOG_FILE = _CURRENT_DIR / "dataset_manager.log"
+_DATA_DIR = Path(__file__).parent / "data"
+_MANIFEST_PATH = _DATA_DIR / "manifest.json"
 
 
 class DatasetManager:
-    def __init__(
-        self,
-        global_settings: GlobalSettings,
-        json_resolver: JsonResolver,
-        logger: Logger,
-    ) -> None:
+    def __init__(self, global_settings: GlobalSettings, logger: Logger) -> None:
         self._global_settings = global_settings
-        self._json_resolver = json_resolver
-        self._dataset = json_resolver.resolve()
         self._logger = logger
+        self._manifest = load_manifest(_MANIFEST_PATH)
+        self._items_by_entry = self._load_items()
+        self._dataset = {
+            inflection.camelize(name, uppercase_first_letter=False): copy.deepcopy(items)
+            for name, items in self._items_by_entry.items()
+        }
+
+    @classmethod
+    def create(cls, global_settings: GlobalSettings, logger: Logger) -> "DatasetManager":
+        return cls(global_settings=global_settings, logger=logger)
 
     @property
     def dataset(self) -> dict[str, list[dict[str, Any]]]:
         return self._dataset
 
-    def find_shipping_method(
-        self, code: str, option: str
-    ) -> dict[str, Any] | None:
+    def find_shipping_method(self, code: str, option: str) -> dict[str, Any] | None:
         methods = self._dataset.get("shippingMethods", [])
         method = next((m for m in methods if m.get("code") == code), None)
         if method is None:
             return None
-
         type_name = method.get("typeName", "")
         rate_suffix = f".{type_name}.{option}.Rate"
         settings = cast(list[dict[str, Any]], method.get("settings") or [])
@@ -50,7 +51,6 @@ class DatasetManager:
         )
         if setting is None:
             return None
-
         return {
             "code": code,
             "option": {
@@ -59,73 +59,92 @@ class DatasetManager:
             },
         }
 
-    @classmethod
-    def create(
-        cls, global_settings: GlobalSettings, logger: Logger
-    ) -> "DatasetManager":
-        json_resolver = JsonResolver(
-            data_dir=_DATA_DIR, env_vars=global_settings.env_vars, logger=logger
-        )
-        _logger = logger or NullLogger()
+    def seed(self, names: list[str] | None = None) -> int:
+        """Seed the dataset and return the number of failed entities.
 
-        return cls(
-            global_settings=global_settings, json_resolver=json_resolver, logger=_logger
-        )
+        An entity is considered failed if any of: building its requests raises,
+        a request returns an HTTP error, or any other exception bubbles up from
+        the seeder. Other entities continue to be processed regardless.
+        """
+        entries = self._select_entries(names)
+        if not entries:
+            return 0
 
-    def seed(self, names: list[str] | None = None) -> None:
         auth = AuthProvider(self._global_settings)
         auth.sign_in(
             username=self._global_settings.admin_username,
             password=self._global_settings.admin_password,
         )
         try:
-            with RestClient(
-                global_settings=self._global_settings, auth=auth
-            ) as rest_client:
-                seeder = DatasetSeeder(
-                    global_settings=self._global_settings,
-                    rest_client=rest_client,
-                    manifest=self._json_resolver.manifest,
-                    dataset=self._json_resolver.raw_data,
-                    logger=self._logger,
-                )
-                seeder.seed(names=names)
+            with RestClient(global_settings=self._global_settings, auth=auth) as rest_client:
+                base_url = self._global_settings.backend_base_url
+                installed_modules = fetch_installed_modules(rest_client, base_url, self._logger)
+                seeder = DatasetSeeder(rest_client=rest_client, logger=self._logger)
+                failures = 0
+                for entry in entries:
+                    if not self._seed_entry(entry, installed_modules, base_url, seeder):
+                        failures += 1
+                return failures
         finally:
             auth.sign_out()
 
+    def _load_items(self) -> dict[str, list[dict[str, Any]]]:
+        env_vars = self._global_settings.env_vars
+        result: dict[str, list[dict[str, Any]]] = {}
+        for entry in self._manifest:
+            raw = load_entity_files(_DATA_DIR / entry.name)
+            if not raw:
+                continue
+            resolved = [substitute_env(item, env_vars) for item in raw]
+            if entry.parent_ref_field:
+                resolved = topological_sort(resolved, entry.parent_ref_field)
+            result[entry.name] = resolved
+        return result
 
-def _parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Seed the dataset via WebAPI")
-    parser.add_argument(
-        "--seed",
-        nargs="*",
-        metavar="ENTITY",
-        help="Entity names in snake_case to seed, e.g. 'platform_settings currencies' (omit to seed all)",
-    )
-    parser.add_argument(
-        "--mode",
-        choices=["dev", "ci"],
-        default="dev",
-        help="Logging mode: dev shows per-item details, ci shows summary only (default: dev)",
-    )
-    return parser.parse_args()
+    def _select_entries(self, names: list[str] | None) -> list[ManifestEntry]:
+        if names is None:
+            return list(self._manifest)
+        known = {e.name for e in self._manifest}
+        unknown = [n for n in names if n not in known]
+        if unknown:
+            raise ValueError(f"Unknown entity name(s): {unknown}")
+        return [e for e in self._manifest if e.name in names]
 
-
-def _main() -> None:
-    args = _parse_args()
-    console_level = logging.INFO if args.mode == "ci" else logging.DEBUG
-    console_width = 200 if args.mode == "ci" else 150
-    console = Console(stderr=True, width=console_width, force_terminal=True)
-    logger = RichLogger(
-        "dataset.manager",
-        console_level=console_level,
-        log_file=_LOG_FILE,
-        console=console,
-    )
-    manager = DatasetManager.create(global_settings=global_settings, logger=logger)
-    if args.seed is not None:
-        manager.seed(names=args.seed or None)
+    def _seed_entry(
+        self,
+        entry: ManifestEntry,
+        installed_modules: set[str],
+        base_url: str,
+        seeder: DatasetSeeder,
+    ) -> bool:
+        if installed_modules and entry.module_id not in installed_modules:
+            self._logger.warning(
+                f"[yellow]Skipping {entry.name}:[/yellow] module {entry.module_id} is not installed"
+            )
+            return True
+        items = self._items_by_entry.get(entry.name)
+        if not items:
+            self._logger.warning(f"[yellow]No data for entity:[/yellow] {entry.name}")
+            return True
+        try:
+            requests = build_requests(
+                entry=entry,
+                items=items,
+                env_vars=self._global_settings.env_vars,
+                base_url=base_url,
+                installed_modules=installed_modules or None,
+                logger=self._logger,
+            )
+            seeder.seed(requests)
+        except Exception as e:
+            self._logger.error(
+                f"[red]\\[{entry.name}] Aborted:[/red] {type(e).__name__}: {e}"
+            )
+            return False
+        return True
 
 
 if __name__ == "__main__":
-    _main()
+    from dataset.cli import main
+
+    main()

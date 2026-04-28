@@ -1,0 +1,17 @@
+{
+  "id": "category-acme-electronics-components",
+  "code": "category-acme-electronics-components",
+  "catalogId": "catalog-acme-electronics",
+  "name": "Components",
+  "seoObjectType": "Category",
+  "seoInfos": [
+    {
+      "id": "seo-info-acme-electronics-category-components-en",
+      "storeId": "store-acme",
+      "isActive": true,
+      "languageCode": "en-US",
+      "pageTitle": "Components",
+      "semanticUrl": "components"
+    }
+  ]
+}

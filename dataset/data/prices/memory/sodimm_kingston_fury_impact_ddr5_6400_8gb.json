@@ -1,0 +1,25 @@
+{
+    "productId": "sodimm-kingston-fury-impact-ddr5-6400-8gb",
+    "product": {
+        "id": "sodimm-kingston-fury-impact-ddr5-6400-8gb",
+        "name": "Kingston FURY Impact DDR5-6400 8GB"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 44.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "sodimm-kingston-fury-impact-ddr5-6400-8gb"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 41.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "sodimm-kingston-fury-impact-ddr5-6400-8gb"
+        }
+    ]
+}

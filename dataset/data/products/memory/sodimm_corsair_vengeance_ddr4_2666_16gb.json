@@ -1,0 +1,77 @@
+{
+    "id": "sodimm-corsair-vengeance-ddr4-2666-16gb",
+    "code": "sodimm-corsair-vengeance-ddr4-2666-16gb",
+    "catalogId": "catalog-acme-electronics",
+    "categoryId": "category-acme-electronics-memory",
+    "mainProductId": "sodimm-corsair-vengeance-ddr4-2666-8gb",
+    "name": "Corsair Vengeance DDR4-2666 16GB",
+    "vendor": "Corsair",
+    "productType": "Physical",
+    "seoObjectType": "Product",
+    "seoInfos": [
+        {
+            "id": "seo-info-sodimm-corsair-vengeance-ddr4-2666-16gb",
+            "isActive": true,
+            "languageCode": "en-US",
+            "pageTitle": "Corsair Vengeance DDR4-2666 16GB",
+            "semanticUrl": "corsair-vengeance-ddr4-2666-16gb",
+            "storeId": "store-acme"
+        }
+    ],
+    "properties": [
+        {
+            "id": "catalog-property-general-brand",
+            "name": "Brand",
+            "valueType": "ShortText",
+            "values": [
+                {
+                    "value": "Corsair"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-memory-type",
+            "name": "MemoryType",
+            "valueType": "ShortText",
+            "values": [
+                {
+                    "value": "DDR4"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-memory-form-factor",
+            "name": "MemoryFormFactor",
+            "valueType": "ShortText",
+            "values": [
+                {
+                    "value": "SODIMM"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-memory-data-transfer-rate",
+            "name": "MemoryDataTransferRate",
+            "valueType": "Measure",
+            "measureId": "measure-data-transfer-rate",
+            "values": [
+                {
+                    "value": 2666,
+                    "unitOfMeasureId": "measure-unit-data-transfer-rate-mts"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-memory-capacity",
+            "name": "MemoryCapacity",
+            "valueType": "Measure",
+            "measureId": "measure-memory-size",
+            "values": [
+                {
+                    "value": 16,
+                    "unitOfMeasureId": "measure-unit-memory-gb"
+                }
+            ]
+        }
+    ]
+}

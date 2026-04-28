@@ -1,0 +1,25 @@
+{
+    "productId": "sodimm-crucial-ddr4-2400-8gb",
+    "product": {
+        "id": "sodimm-crucial-ddr4-2400-8gb",
+        "name": "Crucial DDR4-2400 8GB"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 21.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "sodimm-crucial-ddr4-2400-8gb"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 20.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "sodimm-crucial-ddr4-2400-8gb"
+        }
+    ]
+}

@@ -1,0 +1,25 @@
+{
+    "productId": "ssd-kingston-nv3-pcie-40-nvme-m2-4096gb",
+    "product": {
+        "id": "ssd-kingston-nv3-pcie-40-nvme-m2-4096gb",
+        "name": "Kingston NV3 PCIe 4.0 NVMe M.2 SSD 4096GB"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 286.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "ssd-kingston-nv3-pcie-40-nvme-m2-4096gb"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 266.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "ssd-kingston-nv3-pcie-40-nvme-m2-4096gb"
+        }
+    ]
+}
