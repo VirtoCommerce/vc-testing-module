@@ -1,5 +1,6 @@
 """Content module fixtures — operations + factory fixtures + blacklist setup."""
 
+import logging
 import uuid
 from collections.abc import Callable, Generator
 from typing import Any
@@ -9,6 +10,8 @@ import pytest
 from core.clients.rest import RestClient
 from core.global_settings import GlobalSettings
 from restapi.operations import CmsContentOperations, MenuLinkOperations, SettingsOperations
+
+logger = logging.getLogger(__name__)
 
 
 _FILE_EXTENSIONS_BLACKLIST_SETTING = "VirtoCommerce.Platform.Security.FileExtensionsBlackList"
@@ -48,8 +51,10 @@ def make_content_folder(
     for content_type, folder_name in reversed(created):
         try:
             cms_content_ops.delete(content_type=content_type, store_id=store_id, urls=folder_name)
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning(
+                "Cleanup failed for content folder %s/%s: %s", content_type, folder_name, e
+            )
 
 
 @pytest.fixture
@@ -75,8 +80,8 @@ def make_menu_link_list(menu_ops: MenuLinkOperations, store_id: str) -> Generato
     for lid in reversed(created_ids):
         try:
             menu_ops.delete(store_id=store_id, list_ids=lid)
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning("Cleanup failed for menu link list %s: %s", lid, e)
 
 
 @pytest.fixture(scope="session")

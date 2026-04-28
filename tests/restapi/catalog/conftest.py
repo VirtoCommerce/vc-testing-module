@@ -1,5 +1,6 @@
 """Catalog module fixtures — factory fixtures for catalogs, categories, products."""
 
+import logging
 import uuid
 from typing import Any, Callable, Generator
 
@@ -7,6 +8,8 @@ import pytest
 
 from core.clients.rest import RestClient
 from restapi.operations import CatalogOperations, CategoryOperations, ProductOperations
+
+logger = logging.getLogger(__name__)
 
 
 @pytest.fixture
@@ -40,8 +43,8 @@ def make_catalog(catalog_ops: CatalogOperations) -> Generator[Callable[..., dict
     for cid in reversed(created_ids):
         try:
             catalog_ops.delete(cid)
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning("Cleanup failed for catalog %s: %s", cid, e)
 
 
 @pytest.fixture
@@ -66,8 +69,8 @@ def make_category(
     for cid in reversed(created_ids):
         try:
             category_ops.delete(cid)
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning("Cleanup failed for category %s: %s", cid, e)
 
 
 @pytest.fixture
@@ -98,5 +101,5 @@ def make_product(
     for pid in reversed(created_ids):
         try:
             product_ops.delete(pid)
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning("Cleanup failed for product %s: %s", pid, e)
