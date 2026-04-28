@@ -9,4 +9,5 @@ __pycache__/
 .ruff_cache/
 allure-results/
 allure-report/
+screenshots/
 *.egg-info/
