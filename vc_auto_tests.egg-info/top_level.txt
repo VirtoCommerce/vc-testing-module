@@ -1,0 +1,10 @@
+_BACKUP
+allure-results
+core
+dataset
+gql
+har-output
+page_objects
+restapi
+screenshots
+utils

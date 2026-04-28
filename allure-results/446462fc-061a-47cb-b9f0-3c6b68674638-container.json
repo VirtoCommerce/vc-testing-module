@@ -1,0 +1,1 @@
+{"uuid": "5ea17a99-30c2-4f0b-93a1-51a1b8cd043e", "children": ["74c71e37-193a-4303-a47c-7cc0fd357166"], "befores": [{"name": "graphql_client", "status": "passed", "start": 1776877163811, "stop": 1776877163811}], "afters": [{"name": "graphql_client::0", "status": "passed", "start": 1776877164573, "stop": 1776877164573}], "start": 1776877163811, "stop": 1776877164573}
