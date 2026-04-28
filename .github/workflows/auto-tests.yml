@@ -25,7 +25,7 @@ jobs:
     with:
       installModules: 'false'
       installCustomModule: 'false'
-      vctestingRepoBranch: 'vcst-4773' #'${{ github.ref_name }}'
+      vctestingRepoBranch: '${{ github.ref_name }}'
       frontendZipUrl: '${{ inputs.frontendZipUrl }}'
       customPackagesJsonUrl: 'https://github.com/${{ github.repository }}/raw/${{ github.ref_name }}/backend-packages.json'
       testSuites: ${{ inputs.testSuites == 'all' && 'graphql,restapi,e2e' || inputs.testSuites }}
