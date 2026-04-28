@@ -1,0 +1,18 @@
+{
+    "id": "user-acme-store-manager-4",
+    "userName": "acme_store_manager_4@acme.com",
+    "password": "{ENV:USERS_PASSWORD}",
+    "email": "acme_store_manager_4@acme.com",
+    "status": "Approved",
+    "userType": "Manager",
+    "emailConfirmed": true,
+    "memberId": "contact-acme-store-manager-4",
+    "storeId": "store-acme",
+    "roles": [
+        {
+            "id": "store-manager",
+            "name": "Store manager",
+            "normalizedName": "STORE MANAGER"
+        }
+    ]
+}

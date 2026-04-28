@@ -1,0 +1,24 @@
+{
+    "id": "pickup-location-acme-sahara-continental-logistics-center",
+    "name": "Sahara Continental Logistics Center",
+    "description": "Logistics center",
+    "storeId": "store-acme",
+    "geoLocation": "31.629472,-7.981084",
+    "workingHours": "* **Mon - Sun**: 9 - 18",
+    "contactPhone": "+212 5 2430 7711",
+    "contactEmail": "contact@sahara-logistics.ma",
+    "isActive": true,
+    "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+    "transferFulfillmentCenterIds": [
+        "ffc-acme-usa-springfield-il",
+        "ffc-acme-usa-morrisville-nc"
+    ],
+    "address": {
+        "addressType": "Shipping",
+        "city": "Casablanca",
+        "countryCode": "MAR",
+        "countryName": "Morocco",
+        "line1": "Avenue Mohammed V",
+        "postalCode": "40000"
+    }
+}

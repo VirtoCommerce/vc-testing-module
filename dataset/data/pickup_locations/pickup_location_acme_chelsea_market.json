@@ -1,0 +1,26 @@
+{
+    "id": "pickup-location-acme-chelsea-market",
+    "name": "Chelsea Market",
+    "description": "Local market",
+    "storeId": "store-acme",
+    "geoLocation": "40.742438,-74.005897",
+    "workingHours": "* **Mon - Sun**: 9 - 18",
+    "contactPhone": "+10000000005",
+    "contactEmail": "pickup5@example.com",
+    "isActive": true,
+    "fulfillmentCenterId": null,
+    "transferFulfillmentCenterIds": [
+        "ffc-acme-usa-riverton-oh",
+        "ffc-acme-usa-morrisville-nc"
+    ],
+    "address": {
+        "addressType": "Shipping",
+        "city": "New York",
+        "countryCode": "USA",
+        "countryName": "United States of America",
+        "line1": "75 9th Ave",
+        "postalCode": "10005",
+        "regionId": "NY",
+        "regionName": "New York"
+    }
+}

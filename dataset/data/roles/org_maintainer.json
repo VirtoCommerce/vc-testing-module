@@ -1,0 +1,31 @@
+{
+    "id": "org-maintainer",
+    "name": "Organization maintainer",
+    "description": "Organization maintainer",
+    "permissions": [
+        {
+            "name": "storefront:organization:edit"
+        },
+        {
+            "name": "storefront:user:organization:view"
+        },
+        {
+            "name": "storefront:user:create"
+        },
+        {
+            "name": "storefront:user:delete"
+        },
+        {
+            "name": "storefront:user:edit"
+        },
+        {
+            "name": "storefront:user:invite"
+        },
+        {
+            "name": "storefront:user:view"
+        },
+        {
+            "name": "xapi:my_organization:edit"
+        }
+    ]
+}

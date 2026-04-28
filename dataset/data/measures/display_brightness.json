@@ -1,0 +1,30 @@
+{
+    "id": "measure-display-brightness",
+    "name": "Display Brightness",
+    "code": "DisplayBrightness",
+    "localizedName": {
+        "values": {
+            "en-US": "Display Brightness"
+        }
+    },
+    "units": [
+        {
+            "id": "measure-unit-display-brightness-nit",
+            "code": "Nit",
+            "name": "Nit",
+            "conversionFactor": 1,
+            "symbol": "nit",
+            "isDefault": true,
+            "localizedName": {
+                "values": {
+                    "en-US": "Nit"
+                }
+            },
+            "localizedSymbol": {
+                "values": {
+                    "en-US": "nit"
+                }
+            }
+        }
+    ]
+}

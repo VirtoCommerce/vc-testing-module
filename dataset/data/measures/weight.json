@@ -1,0 +1,48 @@
+{
+    "id": "measure-weight",
+    "name": "Weight",
+    "code": "Weight",
+    "localizedName": {
+        "values": {
+            "en-US": "Weight"
+        }
+    },
+    "units": [
+        {
+            "id": "measure-unit-weight-kg",
+            "code": "Kilogram",
+            "name": "Kilogram",
+            "conversionFactor": 1,
+            "symbol": "kg",
+            "isDefault": true,
+            "localizedName": {
+                "values": {
+                    "en-US": "Kilogram"
+                }
+            },
+            "localizedSymbol": {
+                "values": {
+                    "en-US": "kg"
+                }
+            }
+        },
+        {
+            "id": "measure-unit-weight-g",
+            "code": "Gram",
+            "name": "Gram",
+            "conversionFactor": 0.001,
+            "symbol": "g",
+            "isDefault": false,
+            "localizedName": {
+                "values": {
+                    "en-US": "Gram"
+                }
+            },
+            "localizedSymbol": {
+                "values": {
+                    "en-US": "g"
+                }
+            }
+        }
+    ]
+}

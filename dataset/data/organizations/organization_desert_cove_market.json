@@ -1,0 +1,28 @@
+{
+    "id": "organization-desert-cove-market",
+    "name": "Test* Desert Cove Market",
+    "description": "ACME Desert Cove Market",
+    "memberType": "Organization",
+    "status": "Approved",
+    "emails": [
+        "info@desertcovemarket.com"
+    ],
+    "phones": [
+        "+1-702-555-0124"
+    ],
+    "addresses": [
+        {
+            "id": "address-desert-cove-market",
+            "addressType": "BillingAndShipping",
+            "city": "Las Vegas",
+            "countryCode": "USA",
+            "countryName": "United States of America",
+            "email": "info@desertcovemarket.com",
+            "line1": "2100 S Las Vegas Blvd",
+            "phone": "+1-702-555-0124",
+            "postalCode": "89104",
+            "regionId": "NV",
+            "regionName": "Nevada"
+        }
+    ]
+}

@@ -1,0 +1,25 @@
+{
+    "productId": "smartphone-google-pixel-10a-obsidian",
+    "product": {
+        "id": "smartphone-google-pixel-10a-obsidian",
+        "name": "Google Pixel 10a Obsidian"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 499.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "smartphone-google-pixel-10a-obsidian"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 464.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "smartphone-google-pixel-10a-obsidian"
+        }
+    ]
+}

@@ -1,0 +1,25 @@
+{
+    "productId": "smartphone-google-pixel-10-indigo",
+    "product": {
+        "id": "smartphone-google-pixel-10-indigo",
+        "name": "Google Pixel 10 Indigo"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 799.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "smartphone-google-pixel-10-indigo"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 743.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "smartphone-google-pixel-10-indigo"
+        }
+    ]
+}

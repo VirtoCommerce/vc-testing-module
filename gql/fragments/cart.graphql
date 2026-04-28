@@ -1,0 +1,49 @@
+fragment CartFragment on CartType {
+  id
+  storeId
+  isAnonymous
+  hasPhysicalProducts
+  customerId
+  itemsCount
+  itemsQuantity
+  total {
+    ...MoneyFragment
+  }
+  subTotal {
+    ...MoneyFragment
+  }
+  subTotalDiscount {
+    ...MoneyFragment
+  }
+  shippingTotal {
+    ...MoneyFragment
+  }
+  items {
+    ...LineItemFragment
+  }
+  payments {
+    ...PaymentFragment
+  }
+  shipments {
+    ...ShipmentFragment
+  }
+  coupons {
+    ...CouponFragment
+  }
+  gifts {
+    ...GiftItemFragment
+  }
+  addresses {
+    ...CartAddressFragment
+  }
+  validationErrors {
+    errorCode
+    errorMessage
+    errorParameters {
+      key
+      value
+    }
+    objectType
+    objectId
+  }
+}

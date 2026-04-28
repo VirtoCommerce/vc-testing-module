@@ -1,0 +1,30 @@
+{
+    "id": "measure-camera-resolution",
+    "name": "Camera Resolution",
+    "code": "CameraResolution",
+    "localizedName": {
+        "values": {
+            "en-US": "Camera Resolution"
+        }
+    },
+    "units": [
+        {
+            "id": "measure-unit-camera-megapixel",
+            "code": "Megapixel",
+            "name": "Megapixel",
+            "conversionFactor": 1,
+            "symbol": "MP",
+            "isDefault": true,
+            "localizedName": {
+                "values": {
+                    "en-US": "Megapixel"
+                }
+            },
+            "localizedSymbol": {
+                "values": {
+                    "en-US": "MP"
+                }
+            }
+        }
+    ]
+}

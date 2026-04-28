@@ -1,0 +1,28 @@
+{
+    "id": "organization-harbor-supplies",
+    "name": "]test[ Harbor Supplies",
+    "description": "ACME Harbor Supplies",
+    "memberType": "Organization",
+    "status": "Approved",
+    "emails": [
+        "contact@harborsupplies.com"
+    ],
+    "phones": [
+        "+1-206-555-0175"
+    ],
+    "addresses": [
+        {
+            "id": "address-harbor-supplies",
+            "addressType": "BillingAndShipping",
+            "city": "Seattle",
+            "countryCode": "USA",
+            "countryName": "United States of America",
+            "email": "contact@harborsupplies.com",
+            "line1": "1500 Alaskan Way",
+            "phone": "+1-206-555-0175",
+            "postalCode": "98101",
+            "regionId": "WA",
+            "regionName": "Washington"
+        }
+    ]
+}

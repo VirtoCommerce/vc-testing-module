@@ -1,0 +1,25 @@
+{
+    "productId": "smartphone-google-pixel-10-pro-jade",
+    "product": {
+        "id": "smartphone-google-pixel-10-pro-jade",
+        "name": "Google Pixel 10 Pro Jade"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 999.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "smartphone-google-pixel-10-pro-jade"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 929.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "smartphone-google-pixel-10-pro-jade"
+        }
+    ]
+}

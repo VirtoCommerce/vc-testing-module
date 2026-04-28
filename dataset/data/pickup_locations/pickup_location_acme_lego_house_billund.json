@@ -1,0 +1,27 @@
+{
+    "id": "pickup-location-acme-lego-house-billund",
+    "name": "LEGO House Billund",
+    "description": "Attraction",
+    "storeId": "store-acme",
+    "geoLocation": "55.731550,9.126540",
+    "workingHours": "* **Mon - Sun**: 10 - 18",
+    "contactPhone": "+45 75 33 1001",
+    "contactEmail": "pickup-billund1@acme.com",
+    "isActive": true,
+    "fulfillmentCenterId": null,
+    "transferFulfillmentCenterIds": [
+        "ffc-acme-usa-morrisville-nc",
+        "ffc-acme-eur-berlin-de",
+        "ffc-acme-eur-billund-dk"
+    ],
+    "address": {
+        "addressType": "Shipping",
+        "city": "Billund",
+        "countryCode": "DNK",
+        "countryName": "Denmark",
+        "line1": "Ole Kirk's Plads 1",
+        "postalCode": "7190",
+        "regionId": "83",
+        "regionName": "Southern Denmark"
+    }
+}

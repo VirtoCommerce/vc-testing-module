@@ -1,0 +1,20 @@
+{
+    "id": "ffc-usa-northgate-logistics-hub",
+    "name": "NorthGate Logistics Hub - USA",
+    "shortDescription": "A high-capacity West Coast distribution hub specializing in fast-turnaround e-commerce fulfillment and regional freight consolidation.",
+    "description": "NorthGate Logistics Hub is a major West Coast distribution center positioned near Sacramento’s interstate corridors and air-cargo routes. The facility features automated conveyors, high-density pallet racking, and dedicated zones for parcel, LTL, and FTL processing. Climate-controlled storage, integrated WMS/OMS systems, and 24/7 dock operations support rapid order turnaround and seasonal scalability. Its proximity to ports and rail terminals enables efficient inbound container handling and multi-modal outbound routing across the western United States.\n\nWorking Hours (Pacific Time):\nMon-Fri: 06:00-22:00\nSat: 08:00-18:00\nSun: Closed",
+    "geoLocation": "38.65052,-121.51898",
+    "address": {
+        "addressType": "Shipping",
+        "countryCode": "USA",
+        "countryName": "United States of America",
+        "regionId": "CA",
+        "regionName": "California",
+        "city": "Sacramento",
+        "line1": "4821 Northgate Industrial Pkwy",
+        "line2": "Suite 210",
+        "postalCode": "95834",
+        "email": "ops@northgate-fc.com",
+        "phone": "+1 916-555-4821"
+    }
+}

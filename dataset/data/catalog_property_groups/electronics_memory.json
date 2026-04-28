@@ -1,0 +1,16 @@
+{
+    "id": "catalog-property-group-electronics-memory",
+    "name": "ElectronicsMemory",
+    "catalogId": "catalog-acme-electronics",
+    "displayOrder": 3,
+    "localizedName": {
+        "values": {
+            "en-US": "Memory"
+        }
+    },
+    "localizedDescription": {
+        "values": {
+            "en-US": "Memory specifications such as capacity, type, speed, etc."
+        }
+    }
+}

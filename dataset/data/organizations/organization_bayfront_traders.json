@@ -1,0 +1,28 @@
+{
+    "id": "organization-bayfront-traders",
+    "name": "C++ Corp Bayfront Traders",
+    "description": "ACME Bayfront Traders",
+    "memberType": "Organization",
+    "status": "Approved",
+    "emails": [
+        "team@bayfronttraders.com"
+    ],
+    "phones": [
+        "+1-415-555-0157"
+    ],
+    "addresses": [
+        {
+            "id": "address-bayfront-traders",
+            "addressType": "BillingAndShipping",
+            "city": "San Francisco",
+            "countryCode": "USA",
+            "countryName": "United States of America",
+            "email": "team@bayfronttraders.com",
+            "line1": "575 Market St",
+            "phone": "+1-415-555-0157",
+            "postalCode": "94105",
+            "regionId": "CA",
+            "regionName": "California"
+        }
+    ]
+}

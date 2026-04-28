@@ -1,0 +1,31 @@
+{
+    "id": "promotion-acme-100-off-for-cart-subtotal-by-coupon",
+    "name": "$100 off for cart subtotal by coupon",
+    "type": "DynamicPromotion",
+    "isActive": true,
+    "storeIds": ["store-acme"],
+    "dynamicExpression": {
+        "all": true,
+        "not": false,
+        "id": "PromotionConditionAndRewardTree",
+        "children": [
+            {
+                "id": "BlockCustomerCondition",
+                "children": [
+                    {
+                        "id": "ConditionIsEveryone"
+                    }
+                ]
+            },
+            {
+                "id": "BlockReward",
+                "children": [
+                    {
+                        "id": "RewardCartGetOfAbsSubtotal",
+                        "amount": 100
+                    }
+                ]
+            }
+        ]
+    }
+}

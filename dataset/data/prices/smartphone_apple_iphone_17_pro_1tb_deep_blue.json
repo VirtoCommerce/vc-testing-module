@@ -1,0 +1,25 @@
+{
+    "productId": "smartphone-apple-iphone-17-pro-1tb-deep-blue",
+    "product": {
+        "id": "smartphone-apple-iphone-17-pro-1tb-deep-blue",
+        "name": "Apple iPhone 17 Pro 1 Tb Deep Blue"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 1499.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "smartphone-apple-iphone-17-pro-1tb-deep-blue"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 1394.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "smartphone-apple-iphone-17-pro-1tb-deep-blue"
+        }
+    ]
+}

@@ -1,0 +1,48 @@
+{
+    "id": "measure-clock-speed",
+    "name": "Clock Speed",
+    "code": "ClockSpeed",
+    "localizedName": {
+        "values": {
+            "en-US": "Clock Speed"
+        }
+    },
+    "units": [
+        {
+            "id": "measure-unit-clock-speed-ghz",
+            "code": "Gigahertz",
+            "name": "Gigahertz",
+            "conversionFactor": 1,
+            "symbol": "GHz",
+            "isDefault": true,
+            "localizedName": {
+                "values": {
+                    "en-US": "Gigahertz"
+                }
+            },
+            "localizedSymbol": {
+                "values": {
+                    "en-US": "GHz"
+                }
+            }
+        },
+        {
+            "id": "measure-unit-clock-speed-mhz",
+            "code": "Megahertz",
+            "name": "Megahertz",
+            "conversionFactor": 0.001,
+            "symbol": "MHz",
+            "isDefault": false,
+            "localizedName": {
+                "values": {
+                    "en-US": "Megahertz"
+                }
+            },
+            "localizedSymbol": {
+                "values": {
+                    "en-US": "MHz"
+                }
+            }
+        }
+    ]
+}

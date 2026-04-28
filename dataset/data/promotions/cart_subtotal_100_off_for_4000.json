@@ -1,0 +1,41 @@
+{
+    "id": "promotion-acme-100-off-for-cart-subtotal",
+    "name": "$100 off for cart subtotal",
+    "type": "DynamicPromotion",
+    "isActive": true,
+    "storeIds": ["store-acme"],
+    "dynamicExpression": {
+        "all": true,
+        "not": false,
+        "id": "PromotionConditionAndRewardTree",
+        "children": [
+            {
+                "id": "BlockCustomerCondition",
+                "children": [
+                    {
+                        "id": "ConditionIsEveryone"
+                    }
+                ]
+            },
+            {
+                "id": "BlockCartCondition",
+                "children": [
+                    {
+                        "id": "ConditionCartSubtotalLeast",
+                        "subTotal": 4000.0,
+                        "compareCondition": "AtLeast"
+                    }
+                ]
+            },
+            {
+                "id": "BlockReward",
+                "children": [
+                    {
+                        "id": "RewardItemGetOfAbs",
+                        "amount": 100
+                    }
+                ]
+            }
+        ]
+    }
+}

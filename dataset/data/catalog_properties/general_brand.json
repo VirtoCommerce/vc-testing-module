@@ -1,0 +1,20 @@
+{
+    "id": "catalog-property-general-brand",
+    "catalogId": "catalog-acme-electronics",
+    "propertyGroupId": "catalog-property-group-general",
+    "categoryId": null,
+    "name": "Brand",
+    "required": true,
+    "dictionary": false,
+    "multivalue": false,
+    "valueType": "ShortText",
+    "type": "Product",
+    "displayOrder": 1,
+    "values": [],
+    "displayNames": [
+        {
+            "name": "Brand",
+            "languageCode": "en-US"
+        }
+    ]
+}

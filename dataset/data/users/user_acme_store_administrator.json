@@ -1,0 +1,19 @@
+{
+    "id": "user-acme-store-administrator",
+    "userName": "acme_store_administrator@acme.com",
+    "password": "{ENV:USERS_PASSWORD}",
+    "email": "acme_store_administrator@acme.com",
+    "status": "Approved",
+    "userType": "Administrator",
+    "isAdministrator": true,
+    "emailConfirmed": true,
+    "memberId": "contact-acme-store-administrator",
+    "storeId": "store-acme",
+    "roles": [
+        {
+            "id": "store-admin",
+            "name": "Store administrator",
+            "normalizedName": "STORE ADMINISTRATOR"
+        }
+    ]
+}

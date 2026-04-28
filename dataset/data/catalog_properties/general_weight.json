@@ -1,0 +1,21 @@
+{
+    "id": "catalog-property-general-weight",
+    "catalogId": "catalog-acme-electronics",
+    "propertyGroupId": "catalog-property-group-general",
+    "categoryId": null,
+    "name": "Weight",
+    "required": false,
+    "dictionary": false,
+    "multivalue": false,
+    "valueType": "Measure",
+    "measureId": "measure-weight",
+    "type": "Product",
+    "displayOrder": 2,
+    "values": [],
+    "displayNames": [
+        {
+            "name": "Weight",
+            "languageCode": "en-US"
+        }
+    ]
+}

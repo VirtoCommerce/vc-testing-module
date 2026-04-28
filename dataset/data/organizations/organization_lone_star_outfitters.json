@@ -1,0 +1,28 @@
+{
+    "id": "organization-lone-star-outfitters",
+    "name": "(parentheses) Lone Star Outfitters",
+    "description": "ACME Lone Star Outfitters",
+    "memberType": "Organization",
+    "status": "Approved",
+    "emails": [
+        "team@lonestaroutfitters.com"
+    ],
+    "phones": [
+        "+1-512-555-0139"
+    ],
+    "addresses": [
+        {
+            "id": "address-lone-star-outfitters",
+            "addressType": "BillingAndShipping",
+            "city": "Austin",
+            "countryCode": "USA",
+            "countryName": "United States of America",
+            "email": "team@lonestaroutfitters.com",
+            "line1": "210 Congress Ave",
+            "phone": "+1-512-555-0139",
+            "postalCode": "78701",
+            "regionId": "TX",
+            "regionName": "Texas"
+        }
+    ]
+}

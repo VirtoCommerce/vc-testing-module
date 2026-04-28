@@ -1,0 +1,25 @@
+{
+    "productId": "smartphone-samsung-galaxy-z-fold7-jetblack",
+    "product": {
+        "id": "smartphone-samsung-galaxy-z-fold7-jetblack",
+        "name": "Samsung Galaxy Z Fold7 Jetblack"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 1899.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "smartphone-samsung-galaxy-z-fold7-jetblack"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 1766.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "smartphone-samsung-galaxy-z-fold7-jetblack"
+        }
+    ]
+}

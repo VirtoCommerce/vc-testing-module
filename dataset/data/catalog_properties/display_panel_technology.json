@@ -1,0 +1,20 @@
+{
+    "id": "catalog-property-electronics-display-panel-technology",
+    "catalogId": "catalog-acme-electronics",
+    "propertyGroupId": "catalog-property-group-electronics-display",
+    "categoryId": null,
+    "name": "DisplayPanelTechnology",
+    "required": false,
+    "dictionary": false,
+    "multivalue": false,
+    "valueType": "ShortText",
+    "type": "Product",
+    "displayOrder": 6,
+    "values": [],
+    "displayNames": [
+        {
+            "name": "Display panel technology",
+            "languageCode": "en-US"
+        }
+    ]
+}

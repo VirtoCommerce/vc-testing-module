@@ -1,0 +1,174 @@
+{
+    "id": "smartphone-samsung-galaxy-s26-black",
+    "code": "smartphone-samsung-galaxy-s26-black",
+    "catalogId": "catalog-acme-electronics",
+    "categoryId": "category-acme-electronics-smartphones",
+    "name": "Samsung Galaxy S26 Black",
+    "vendor": "Samsung",
+    "productType": "Physical",
+    "seoObjectType": "Product",
+    "seoInfos": [
+        {
+            "id": "seo-info-smartphone-samsung-galaxy-s26-black",
+            "isActive": true,
+            "languageCode": "en-US",
+            "pageTitle": "Samsung Galaxy S26 Black",
+            "semanticUrl": "samsung-galaxy-s26-black",
+            "storeId": "store-acme"
+        }
+    ],
+    "properties": [
+        {
+            "id": "catalog-property-general-brand",
+            "name": "Brand",
+            "valueType": "ShortText",
+            "values": [
+                {
+                    "value": "Samsung"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-general-release-year",
+            "name": "ReleaseYear",
+            "valueType": "ShortText",
+            "values": [
+                {
+                    "value": 2026
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-general-color",
+            "name": "Color",
+            "valueType": "ShortText",
+            "values": [
+                {
+                    "value": "Black"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-display-size",
+            "name": "DisplaySize",
+            "valueType": "Measure",
+            "measureId": "measure-display-size",
+            "values": [
+                {
+                    "value": 6.3,
+                    "unitOfMeasureId": "measure-unit-display-size-inch"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-display-resolution",
+            "name": "DisplayResolution",
+            "valueType": "ShortText",
+            "values": [
+                {
+                    "value": "2340x1080"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-display-panel-technology",
+            "name": "DisplayPanelTechnology",
+            "valueType": "ShortText",
+            "values": [
+                {
+                    "value": "AMOLED"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-display-brightness",
+            "name": "DisplayBrightness",
+            "valueType": "Measure",
+            "measureId": "measure-display-brightness",
+            "values": [
+                {
+                    "value": 2600,
+                    "unitOfMeasureId": "measure-unit-display-brightness-nit"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-display-refresh-rate",
+            "name": "DisplayRefreshRate",
+            "valueType": "Measure",
+            "measureId": "measure-display-refresh-rate",
+            "values": [
+                {
+                    "value": 120,
+                    "unitOfMeasureId": "measure-unit-refresh-rate-hertz"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-display-aspect-ratio",
+            "name": "DisplayAspectRatio",
+            "valueType": "ShortText",
+            "values": [
+                {
+                    "value": "19.5:9"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-processor-model",
+            "name": "ProcessorModel",
+            "valueType": "ShortText",
+            "values": [
+                {
+                    "value": "Samsung Exynos 2600"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-processor-total-cores",
+            "name": "ProcessorTotalCores",
+            "valueType": "Integer",
+            "values": [
+                {
+                    "value": 10
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-memory-installed-size",
+            "name": "MemoryInstalledSize",
+            "valueType": "Measure",
+            "measureId": "measure-memory-size",
+            "values": [
+                {
+                    "value": 12,
+                    "unitOfMeasureId": "measure-unit-memory-gb"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-storage-installed-size",
+            "name": "StorageInstalledSize",
+            "valueType": "Measure",
+            "measureId": "measure-memory-size",
+            "values": [
+                {
+                    "value": 256,
+                    "unitOfMeasureId": "measure-unit-memory-gb"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-general-weight",
+            "name": "Weight",
+            "valueType": "Measure",
+            "measureId": "measure-weight",
+            "values": [
+                {
+                    "value": 167,
+                    "unitOfMeasureId": "measure-unit-weight-g"
+                }
+            ]
+        }
+    ]
+}

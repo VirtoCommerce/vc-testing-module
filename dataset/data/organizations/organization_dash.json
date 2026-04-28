@@ -1,0 +1,28 @@
+{
+    "id": "organization-dash",
+    "name": "Test-Dash Dash",
+    "description": "Organization with dash/hyphen",
+    "memberType": "Organization",
+    "status": "Approved",
+    "emails": [
+        "dash@specialchars.com"
+    ],
+    "phones": [
+        "+1-555-000-0011"
+    ],
+    "addresses": [
+        {
+            "id": "address-dash",
+            "addressType": "BillingAndShipping",
+            "city": "Charlotte",
+            "countryCode": "USA",
+            "countryName": "United States of America",
+            "email": "dash@specialchars.com",
+            "line1": "110 Special St",
+            "phone": "+1-555-000-0011",
+            "postalCode": "28201",
+            "regionId": "NC",
+            "regionName": "North Carolina"
+        }
+    ]
+}

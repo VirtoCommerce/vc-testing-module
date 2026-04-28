@@ -1,0 +1,14 @@
+{
+    "id": "contact-acme-store-employee-7",
+    "firstName": "ACME",
+    "lastName": "Employee 7",
+    "memberType": "Contact",
+    "status": "Approved",
+    "defaultOrganizationId": "organization-acme-store",
+    "organizations": [
+        "organization-acme-store"
+    ],
+    "emails": [
+        "acme_store_employee_7@acme.com"
+    ]
+}

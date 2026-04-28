@@ -1,0 +1,28 @@
+{
+    "id": "organization-underscore",
+    "name": "Test_Underscore Underscore",
+    "description": "Organization with underscore",
+    "memberType": "Organization",
+    "status": "Approved",
+    "emails": [
+        "underscore@specialchars.com"
+    ],
+    "phones": [
+        "+1-555-000-0012"
+    ],
+    "addresses": [
+        {
+            "id": "address-underscore",
+            "addressType": "BillingAndShipping",
+            "city": "Fort Worth",
+            "countryCode": "USA",
+            "countryName": "United States of America",
+            "email": "underscore@specialchars.com",
+            "line1": "111 Special St",
+            "phone": "+1-555-000-0012",
+            "postalCode": "76101",
+            "regionId": "TX",
+            "regionName": "Texas"
+        }
+    ]
+}

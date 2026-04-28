@@ -1,0 +1,26 @@
+{
+    "id": "pickup-location-acme-potsdamer-platz-berlin",
+    "name": "Potsdamer Platz Arkaden",
+    "description": "Shopping mall",
+    "storeId": "store-acme",
+    "geoLocation": "52.509430,13.376110",
+    "workingHours": "* **Mon - Sun**: 10 - 21",
+    "contactPhone": "+49 30 555-1003",
+    "contactEmail": "pickup-berlin3@acme.com",
+    "isActive": true,
+    "fulfillmentCenterId": null,
+    "transferFulfillmentCenterIds": [
+        "ffc-acme-eur-billund-dk",
+        "ffc-acme-eur-berlin-de"
+    ],
+    "address": {
+        "addressType": "Shipping",
+        "city": "Berlin",
+        "countryCode": "DEU",
+        "countryName": "Germany",
+        "line1": "Alte Potsdamer Str. 7",
+        "postalCode": "10785",
+        "regionId": "BE",
+        "regionName": "Berlin"
+    }
+}

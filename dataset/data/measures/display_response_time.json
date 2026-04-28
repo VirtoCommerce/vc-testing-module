@@ -1,0 +1,30 @@
+{
+    "id": "measure-display-response-time",
+    "name": "Display Response Time",
+    "code": "DisplayResponseTime",
+    "localizedName": {
+        "values": {
+            "en-US": "Display Response Time"
+        }
+    },
+    "units": [
+        {
+            "id": "measure-unit-response-time-ms",
+            "code": "Hertz",
+            "name": "Hertz",
+            "conversionFactor": 1,
+            "symbol": "ms",
+            "isDefault": true,
+            "localizedName": {
+                "values": {
+                    "en-US": "Milliseconds"
+                }
+            },
+            "localizedSymbol": {
+                "values": {
+                    "en-US": "ms"
+                }
+            }
+        }
+    ]
+}

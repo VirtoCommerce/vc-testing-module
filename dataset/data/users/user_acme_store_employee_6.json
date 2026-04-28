@@ -1,0 +1,18 @@
+{
+    "id": "user-acme-store-employee-6",
+    "userName": "acme_store_employee_6@acme.com",
+    "password": "{ENV:USERS_PASSWORD}",
+    "email": "acme_store_employee_6@acme.com",
+    "status": "Approved",
+    "userType": "Customer",
+    "emailConfirmed": true,
+    "memberId": "contact-acme-store-employee-6",
+    "storeId": "store-acme",
+    "roles": [
+        {
+            "id": "org-employee",
+            "name": "Organization employee",
+            "normalizedName": "ORGANIZATION EMPLOYEE"
+        }
+    ]
+}

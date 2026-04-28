@@ -1,0 +1,17 @@
+{
+    "id": "ffc-india-bharatflow-distribution-hub",
+    "name": "BharatFlow Distribution Hub - India",
+    "shortDescription": "A fast-scaling Indian fulfillment center optimized for tech-sector supply chains and high-density SKU management.",
+    "description": "BharatFlow’s Pune facility features high-density shelving, mezzanine picking floors, and automated scanning systems for large SKU catalogs. It supports domestic marketplace fulfillment and B2B distribution for electronics and consumer goods. Strong connectivity to Mumbai’s ports and Pune’s industrial corridors ensures predictable lead times and scalable throughput.\n\nWorking Hours (IST):\nMon-Sat: 08:00-20:00\nSun: 09:00-14:00",
+    "geoLocation": "18.59132,73.73891",
+    "address": {
+        "addressType": "Shipping",
+        "countryCode": "IND",
+        "countryName": "India",
+        "city": "Pune",
+        "line1": "Plot 22, Hinjewadi Phase II Road",
+        "postalCode": "411057",
+        "email": "support@bharatflow.in",
+        "phone": "+91 20 6734 8800"
+    }
+}

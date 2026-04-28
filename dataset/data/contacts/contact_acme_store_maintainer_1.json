@@ -1,0 +1,32 @@
+{
+    "id": "contact-acme-store-maintainer-1",
+    "firstName": "ACME",
+    "lastName": "Store Maintainer 1",
+    "memberType": "Contact",
+    "status": "Approved",
+    "defaultOrganizationId": "organization-acme-store",
+    "organizations": [
+        "organization-acme-store",
+        "organization-acme-store-2",
+        "organization-acme-store-3",
+        "organization-aurora-market",
+        "organization-harbor-supplies",
+        "organization-lone-star-outfitters",
+        "organization-lakeview-goods",
+        "organization-sunrise-bazaar",
+        "organization-redwood-provisions",
+        "organization-desert-cove-market",
+        "organization-bayfront-traders",
+        "organization-question-mark",
+        "organization-double-quotes",
+        "organization-single-quotes",
+        "organization-at-sign",
+        "organization-exclaim",
+        "organization-underscore",
+        "organization-forward-slash",
+        "organization-dash"
+    ],
+    "emails": [
+        "acme_store_maintainer_1@acme.com"
+    ]
+}

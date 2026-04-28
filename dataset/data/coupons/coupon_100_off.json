@@ -1,0 +1,7 @@
+{
+    "code": "COUPON-100-OFF",
+    "maxUsesNumber": 1000000,
+    "maxUsesPerUser": 1000000,
+    "expirationDate": "2030-01-01T00:00:00Z",
+    "promotionId": "promotion-acme-100-off-for-cart-subtotal-by-coupon"
+}

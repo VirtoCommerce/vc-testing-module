@@ -1,0 +1,17 @@
+{
+    "id": "ffc-uae-gulflink-logistics-center",
+    "name": "GulfLink Logistics Center - UAE",
+    "shortDescription": "A high-throughput GCC logistics hub with bonded-warehouse capabilities and direct access to Jebel Ali Port.",
+    "description": "GulfLink offers bonded-warehouse services, duty-deferred storage, and rapid re-export across GCC markets. High-throughput sorting lines, climate-controlled zones, and 24/7 customs processing support fast-moving consumer goods and electronics. Direct access to Jebel Ali Port and major highways ensures efficient multi-modal connectivity across the Gulf region.\n\nWorking Hours (GST):\nMon-Fri: 08:00-22:00\nSat: 09:00-17:00\nSun: 10:00-16:00",
+    "geoLocation": "25.00241,55.06572",
+    "address": {
+        "addressType": "Shipping",
+        "countryCode": "ARE",
+        "countryName": "United Arab Emirates",
+        "city": "Dubai",
+        "line1": "18th Street, Jebel Ali Industrial Area 1",
+        "postalCode": "00000",
+        "email": "operations@gulflink.ae",
+        "phone": "+971 4 887 3200"
+    }
+}

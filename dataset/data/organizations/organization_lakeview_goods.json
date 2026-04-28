@@ -1,0 +1,28 @@
+{
+    "id": "organization-lakeview-goods",
+    "name": "Company & Sons Lakeview Goods",
+    "description": "ACME Lakeview Goods",
+    "memberType": "Organization",
+    "status": "Approved",
+    "emails": [
+        "support@lakeviewgoods.com"
+    ],
+    "phones": [
+        "+1-312-555-0193"
+    ],
+    "addresses": [
+        {
+            "id": "address-lakeview-goods",
+            "addressType": "BillingAndShipping",
+            "city": "Chicago",
+            "countryCode": "USA",
+            "countryName": "United States of America",
+            "email": "support@lakeviewgoods.com",
+            "line1": "455 N Lakeshore Dr",
+            "phone": "+1-312-555-0193",
+            "postalCode": "60611",
+            "regionId": "IL",
+            "regionName": "Illinois"
+        }
+    ]
+}

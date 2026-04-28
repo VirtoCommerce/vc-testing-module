@@ -1,0 +1,25 @@
+{
+    "productId": "smartphone-samsung-galaxy-z-fold7-mint",
+    "product": {
+        "id": "smartphone-samsung-galaxy-z-fold7-mint",
+        "name": "Samsung Galaxy Z Fold7 Mint"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 1899.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "smartphone-samsung-galaxy-z-fold7-mint"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 1766.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "smartphone-samsung-galaxy-z-fold7-mint"
+        }
+    ]
+}

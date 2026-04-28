@@ -1,0 +1,28 @@
+{
+    "id": "organization-double-quotes",
+    "name": "\"Quoted\" Double Quotes",
+    "description": "Organization with double quotes",
+    "memberType": "Organization",
+    "status": "Approved",
+    "emails": [
+        "quoted@specialchars.com"
+    ],
+    "phones": [
+        "+1-555-000-0002"
+    ],
+    "addresses": [
+        {
+            "id": "address-double-quotes",
+            "addressType": "BillingAndShipping",
+            "city": "Philadelphia",
+            "countryCode": "USA",
+            "countryName": "United States of America",
+            "email": "quoted@specialchars.com",
+            "line1": "101 Special St",
+            "phone": "+1-555-000-0002",
+            "postalCode": "19101",
+            "regionId": "PA",
+            "regionName": "Pennsylvania"
+        }
+    ]
+}

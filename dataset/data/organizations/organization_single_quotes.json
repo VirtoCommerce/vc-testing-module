@@ -1,0 +1,28 @@
+{
+    "id": "organization-single-quotes",
+    "name": "'Single' Single Quotes",
+    "description": "Organization with single quotes",
+    "memberType": "Organization",
+    "status": "Approved",
+    "emails": [
+        "single@specialchars.com"
+    ],
+    "phones": [
+        "+1-555-000-0003"
+    ],
+    "addresses": [
+        {
+            "id": "address-single-quotes",
+            "addressType": "BillingAndShipping",
+            "city": "Miami",
+            "countryCode": "USA",
+            "countryName": "United States of America",
+            "email": "single@specialchars.com",
+            "line1": "102 Special St",
+            "phone": "+1-555-000-0003",
+            "postalCode": "33101",
+            "regionId": "FL",
+            "regionName": "Florida"
+        }
+    ]
+}

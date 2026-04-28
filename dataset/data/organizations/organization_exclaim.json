@@ -1,0 +1,28 @@
+{
+    "id": "organization-exclaim",
+    "name": "Test!Exclaim Exclaim",
+    "description": "Organization with exclamation mark",
+    "memberType": "Organization",
+    "status": "Approved",
+    "emails": [
+        "exclaim@specialchars.com"
+    ],
+    "phones": [
+        "+1-555-000-0010"
+    ],
+    "addresses": [
+        {
+            "id": "address-exclaim",
+            "addressType": "BillingAndShipping",
+            "city": "Indianapolis",
+            "countryCode": "USA",
+            "countryName": "United States of America",
+            "email": "exclaim@specialchars.com",
+            "line1": "109 Special St",
+            "phone": "+1-555-000-0010",
+            "postalCode": "46201",
+            "regionId": "IN",
+            "regionName": "Indiana"
+        }
+    ]
+}

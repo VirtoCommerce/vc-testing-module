@@ -1,0 +1,42 @@
+{
+    "id": "promotion-acme-50-off-smartphone-samsung-galaxy-a57-5g",
+    "name": "$50 off for Samsung Galaxy A57 5G",
+    "type": "DynamicPromotion",
+    "isActive": true,
+    "storeIds": ["store-acme"],
+    "dynamicExpression": {
+        "all": true,
+        "not": false,
+        "id": "PromotionConditionAndRewardTree",
+        "children": [
+            {
+                "id": "BlockCustomerCondition",
+                "children": [
+                    {
+                        "id": "ConditionIsEveryone"
+                    }
+                ]
+            },
+            {
+                "id": "BlockCatalogCondition",
+                "children": [
+                    {
+                        "id": "ConditionEntryIs",
+                        "productIds": ["smartphone-samsung-galaxy-a57-5g"],
+                        "productNames": ["Samsung Galaxy A57 5G"],
+                        "productCodes": ["smartphone-samsung-galaxy-a57-5g"]
+                    }
+                ]
+            },
+            {
+                "id": "BlockReward",
+                "children": [
+                    {
+                        "id": "RewardItemGetOfAbs",
+                        "amount": 50
+                    }
+                ]
+            }
+        ]
+    }
+}

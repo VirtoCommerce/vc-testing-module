@@ -1,0 +1,20 @@
+{
+    "id": "catalog-property-electronics-processor-total-cores",
+    "catalogId": "catalog-acme-electronics",
+    "propertyGroupId": "catalog-property-group-electronics-processor",
+    "categoryId": null,
+    "name": "ProcessorTotalCores",
+    "required": false,
+    "dictionary": false,
+    "multivalue": false,
+    "valueType": "Integer",
+    "type": "Product",
+    "displayOrder": 10,
+    "values": [],
+    "displayNames": [
+        {
+            "name": "Processor total cores",
+            "languageCode": "en-US"
+        }
+    ]
+}

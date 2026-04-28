@@ -1,0 +1,13 @@
+{
+    "id": "org-employee",
+    "name": "Organization employee",
+    "description": "Organization Employee",
+    "permissions": [
+        {
+            "name": "storefront:organization:view"
+        },
+        {
+            "name": "storefront:user:view"
+        }
+    ]
+}

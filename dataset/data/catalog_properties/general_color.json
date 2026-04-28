@@ -1,0 +1,20 @@
+{
+    "id": "catalog-property-general-color",
+    "catalogId": "catalog-acme-electronics",
+    "propertyGroupId": "catalog-property-group-general",
+    "categoryId": null,
+    "name": "Color",
+    "required": false,
+    "dictionary": false,
+    "multivalue": false,
+    "valueType": "ShortText",
+    "type": "Variation",
+    "displayOrder": 3,
+    "values": [],
+    "displayNames": [
+        {
+            "name": "Color",
+            "languageCode": "en-US"
+        }
+    ]
+}

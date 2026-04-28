@@ -1,0 +1,27 @@
+{
+    "id": "pickup-location-acme-alexanderplatz-berlin",
+    "name": "Alexanderplatz Store Berlin",
+    "description": "Shopping mall",
+    "storeId": "store-acme",
+    "geoLocation": "52.521992,13.413244",
+    "workingHours": "* **Mon - Sun**: 10 - 20",
+    "contactPhone": "+49 30 555-1001",
+    "contactEmail": "pickup-berlin1@acme.com",
+    "isActive": true,
+    "fulfillmentCenterId": null,
+    "transferFulfillmentCenterIds": [
+        "ffc-acme-eur-billund-dk",
+        "ffc-acme-usa-riverton-oh",
+        "ffc-acme-usa-morrisville-nc"
+    ],
+    "address": {
+        "addressType": "Shipping",
+        "city": "Berlin",
+        "countryCode": "DEU",
+        "countryName": "Germany",
+        "line1": "Alexanderplatz 9",
+        "postalCode": "10178",
+        "regionId": "BE",
+        "regionName": "Berlin"
+    }
+}

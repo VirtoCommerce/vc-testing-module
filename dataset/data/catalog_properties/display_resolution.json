@@ -1,0 +1,20 @@
+{
+    "id": "catalog-property-electronics-display-resolution",
+    "catalogId": "catalog-acme-electronics",
+    "propertyGroupId": "catalog-property-group-electronics-display",
+    "categoryId": null,
+    "name": "DisplayResolution",
+    "required": false,
+    "dictionary": false,
+    "multivalue": false,
+    "valueType": "ShortText",
+    "type": "Product",
+    "displayOrder": 5,
+    "values": [],
+    "displayNames": [
+        {
+            "name": "Display resolution",
+            "languageCode": "en-US"
+        }
+    ]
+}

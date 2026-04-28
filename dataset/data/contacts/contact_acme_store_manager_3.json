@@ -1,0 +1,14 @@
+{
+    "id": "contact-acme-store-manager-3",
+    "firstName": "ACME",
+    "lastName": "Store Manager 3",
+    "memberType": "Contact",
+    "status": "Approved",
+    "defaultOrganizationId": "organization-acme-store",
+    "organizations": [
+        "organization-acme-store"
+    ],
+    "emails": [
+        "acme_store_manager_3@acme.com"
+    ]
+}

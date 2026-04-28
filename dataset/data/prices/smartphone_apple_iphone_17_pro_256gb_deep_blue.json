@@ -1,0 +1,27 @@
+{
+    "productId": "smartphone-apple-iphone-17-pro-256gb-deep-blue",
+    "product": {
+        "id": "smartphone-apple-iphone-17-pro-256gb-deep-blue",
+        "name": "Apple iPhone 17 Pro 256 Gb Deep Blue"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 1099.99,
+            "sale": 894.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "smartphone-apple-iphone-17-pro-256gb-deep-blue"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 1022.99,
+            "sale": 831.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "smartphone-apple-iphone-17-pro-256gb-deep-blue"
+        }
+    ]
+}

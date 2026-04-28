@@ -1,0 +1,25 @@
+{
+    "id": "pickup-location-acme-kings-plaza",
+    "name": "Kings Plaza",
+    "description": "Attraction",
+    "storeId": "store-acme",
+    "geoLocation": "40.607800,-73.945000",
+    "workingHours": "* **Mon - Sun**: 9 - 18",
+    "contactPhone": "+10000000013",
+    "contactEmail": "pickup13@example.com",
+    "isActive": true,
+    "fulfillmentCenterId": "ffc-acme-usa-riverton-oh",
+    "transferFulfillmentCenterIds": [
+        "ffc-acme-usa-morrisville-nc"
+    ],
+    "address": {
+        "addressType": "Shipping",
+        "city": "New York",
+        "countryCode": "USA",
+        "countryName": "United States of America",
+        "line1": "5100 Kings Plaza",
+        "postalCode": "10013",
+        "regionId": "NY",
+        "regionName": "New York"
+    }
+}

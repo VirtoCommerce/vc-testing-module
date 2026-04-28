@@ -1,0 +1,175 @@
+{
+    "id": "smartphone-samsung-galaxy-a17-5g-blue",
+    "code": "smartphone-samsung-galaxy-a17-5g-blue",
+    "catalogId": "catalog-acme-electronics",
+    "categoryId": "category-acme-electronics-smartphones",
+    "mainProductId": "smartphone-samsung-galaxy-a17-5g-black",
+    "name": "Samsung Galaxy A17 5G Blue",
+    "vendor": "Samsung",
+    "productType": "Physical",
+    "seoObjectType": "Product",
+    "seoInfos": [
+        {
+            "id": "seo-info-smartphone-samsung-galaxy-a17-5g-blue",
+            "isActive": true,
+            "languageCode": "en-US",
+            "pageTitle": "Samsung Galaxy A17 5G Blue",
+            "semanticUrl": "samsung-galaxy-a17-5g-blue",
+            "storeId": "store-acme"
+        }
+    ],
+    "properties": [
+        {
+            "id": "catalog-property-general-brand",
+            "name": "Brand",
+            "valueType": "ShortText",
+            "values": [
+                {
+                    "value": "Samsung"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-general-release-year",
+            "name": "ReleaseYear",
+            "valueType": "ShortText",
+            "values": [
+                {
+                    "value": 2025
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-general-color",
+            "name": "Color",
+            "valueType": "ShortText",
+            "values": [
+                {
+                    "value": "Blue"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-display-size",
+            "name": "DisplaySize",
+            "valueType": "Measure",
+            "measureId": "measure-display-size",
+            "values": [
+                {
+                    "value": 6.7,
+                    "unitOfMeasureId": "measure-unit-display-size-inch"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-display-resolution",
+            "name": "DisplayResolution",
+            "valueType": "ShortText",
+            "values": [
+                {
+                    "value": "2340x1080"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-display-panel-technology",
+            "name": "DisplayPanelTechnology",
+            "valueType": "ShortText",
+            "values": [
+                {
+                    "value": "AMOLED"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-display-brightness",
+            "name": "DisplayBrightness",
+            "valueType": "Measure",
+            "measureId": "measure-display-brightness",
+            "values": [
+                {
+                    "value": 1100,
+                    "unitOfMeasureId": "measure-unit-display-brightness-nit"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-display-refresh-rate",
+            "name": "DisplayRefreshRate",
+            "valueType": "Measure",
+            "measureId": "measure-display-refresh-rate",
+            "values": [
+                {
+                    "value": 90,
+                    "unitOfMeasureId": "measure-unit-refresh-rate-hertz"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-display-aspect-ratio",
+            "name": "DisplayAspectRatio",
+            "valueType": "ShortText",
+            "values": [
+                {
+                    "value": "20:9"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-processor-model",
+            "name": "ProcessorModel",
+            "valueType": "ShortText",
+            "values": [
+                {
+                    "value": "MediaTek Helio G99"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-processor-total-cores",
+            "name": "ProcessorTotalCores",
+            "valueType": "Integer",
+            "values": [
+                {
+                    "value": 8
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-memory-installed-size",
+            "name": "MemoryInstalledSize",
+            "valueType": "Measure",
+            "measureId": "measure-memory-size",
+            "values": [
+                {
+                    "value": 8,
+                    "unitOfMeasureId": "measure-unit-memory-gb"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-storage-installed-size",
+            "name": "StorageInstalledSize",
+            "valueType": "Measure",
+            "measureId": "measure-memory-size",
+            "values": [
+                {
+                    "value": 256,
+                    "unitOfMeasureId": "measure-unit-memory-gb"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-general-weight",
+            "name": "Weight",
+            "valueType": "Measure",
+            "measureId": "measure-weight",
+            "values": [
+                {
+                    "value": 275,
+                    "unitOfMeasureId": "measure-unit-weight-g"
+                }
+            ]
+        }
+    ]
+}

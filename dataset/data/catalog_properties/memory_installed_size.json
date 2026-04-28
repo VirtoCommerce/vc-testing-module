@@ -1,0 +1,21 @@
+{
+    "id": "catalog-property-electronics-memory-installed-size",
+    "catalogId": "catalog-acme-electronics",
+    "propertyGroupId": "catalog-property-group-electronics-memory",
+    "categoryId": null,
+    "name": "MemoryInstalledSize",
+    "required": false,
+    "dictionary": false,
+    "multivalue": false,
+    "valueType": "Measure",
+    "measureId": "measure-memory-size",
+    "type": "Product",
+    "displayOrder": 11,
+    "values": [],
+    "displayNames": [
+        {
+            "name": "Memory installed size",
+            "languageCode": "en-US"
+        }
+    ]
+}

@@ -1,0 +1,36 @@
+{
+    "storeId": "store-acme",
+    "code": "FixedRate",
+    "name": "Fixed shipping rate",
+    "displayName": "Fixed shipping rate",
+    "typeName": "FixedRateShippingMethod",
+    "isActive": true,
+    "settings": [
+        {
+            "moduleId": "VirtoCommerce.Shipping",
+            "name": "VirtoCommerce.Shipping.FixedRateShippingMethod.Ground.Rate",
+            "groupName": "General",
+            "objectType": "FixedRateShippingMethod",
+            "value": 15.0,
+            "valueType": "Decimal",
+            "values": [
+                {
+                    "value": 15.0
+                }
+            ]
+        },
+        {
+            "moduleId": "VirtoCommerce.Shipping",
+            "name": "VirtoCommerce.Shipping.FixedRateShippingMethod.Air.Rate",
+            "groupName": "General",
+            "objectType": "FixedRateShippingMethod",
+            "value": 25.0,
+            "valueType": "Decimal",
+            "values": [
+                {
+                    "value": 25.0
+                }
+            ]
+        }
+    ]
+}

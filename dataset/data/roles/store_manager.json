@@ -1,0 +1,16 @@
+{
+    "id": "store-manager",
+    "name": "Store manager",
+    "description": "Store manager",
+    "permissions": [
+        {
+            "name": "storefront:order:changestatus"
+        },
+        {
+            "name": "storefront:order:view"
+        },
+        {
+            "name": "storefront:organaization:view"
+        }
+    ]
+}

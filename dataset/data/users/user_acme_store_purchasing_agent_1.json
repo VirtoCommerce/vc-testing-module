@@ -1,0 +1,18 @@
+{
+    "id": "user-acme-store-purchasing-agent-1",
+    "userName": "acme_store_purchasing_agent_1@acme.com",
+    "password": "{ENV:USERS_PASSWORD}",
+    "email": "acme_store_purchasing_agent_1@acme.com",
+    "status": "Approved",
+    "userType": "Manager",
+    "emailConfirmed": true,
+    "memberId": "contact-acme-store-purchasing-agent-1",
+    "storeId": "store-acme",
+    "roles": [
+        {
+            "id": "purchasing-agent",
+            "name": "Purchasing agent",
+            "normalizedName": "PURCHASING AGENT"
+        }
+    ]
+}

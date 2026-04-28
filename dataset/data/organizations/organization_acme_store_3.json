@@ -1,0 +1,28 @@
+{
+    "id": "organization-acme-store-3",
+    "name": "ACME Store 3",
+    "description": "ACME Store 3",
+    "memberType": "Organization",
+    "status": "Approved",
+    "emails": [
+        "store3@acme.com"
+    ],
+    "phones": [
+        "+1-217-555-0200"
+    ],
+    "addresses": [
+        {
+            "id": "address-acme-organization-3",
+            "addressType": "BillingAndShipping",
+            "city": "Detroit",
+            "countryCode": "USA",
+            "countryName": "United States of America",
+            "email": "store3@acme.com",
+            "line1": "220 W Congress St, Floors 2-4",
+            "phone": "+1-217-555-0200",
+            "postalCode": "48226",
+            "regionId": "MI",
+            "regionName": "Michigan"
+        }
+    ]
+}

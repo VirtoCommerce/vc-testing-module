@@ -1,0 +1,17 @@
+{
+    "id": "ffc-south-africa-transafrica-fulfillment-park",
+    "name": "TransAfrica Fulfillment Park - South Africa",
+    "shortDescription": "A central African distribution point designed for multi-modal freight, high-volume picking, and regional retail replenishment.",
+    "description": "TransAfrica Fulfillment Park supports road, rail, and air transport through OR Tambo International Airport. The warehouse layout is optimized for high-volume picking, carton flow, and palletized goods. With strong security infrastructure and compliance with regional trade standards, it is ideal for pan-African distribution strategies and long-haul retail replenishment.\n\nWorking Hours (SAST):\nMon-Fri: 07:00-19:00\nSat: 08:00-15:00\nSun: Closed",
+    "geoLocation": "26.00391,28.12644",
+    "address": {
+        "addressType": "Shipping",
+        "countryCode": "ZAF",
+        "countryName": "South Africa",
+        "city": "Johannesburg",
+        "line1": "55 Logistics Drive",
+        "postalCode": "1685",
+        "email": "admin@transafrica-fp.co.za",
+        "phone": "+27 11 320 8450"
+    }
+}

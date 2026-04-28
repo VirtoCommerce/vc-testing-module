@@ -1,0 +1,27 @@
+{
+    "id": "pickup-location-acme-atlantic-terminal-mall",
+    "name": "Atlantic Terminal Mall",
+    "description": "Shopping mall",
+    "storeId": "store-acme",
+    "geoLocation": "40.688700,-73.975700",
+    "workingHours": "* **Mon - Sun**: 9 - 18",
+    "contactPhone": "+10000000012",
+    "contactEmail": "pickup12@example.com",
+    "isActive": true,
+    "fulfillmentCenterId": "ffc-acme-usa-springfield-il",
+    "transferFulfillmentCenterIds": [
+        "ffc-acme-usa-riverton-oh",
+        "ffc-acme-usa-morrisville-nc",
+        "ffc-acme-eur-berlin-de"
+    ],
+    "address": {
+        "addressType": "Shipping",
+        "city": "New York",
+        "countryCode": "USA",
+        "countryName": "United States of America",
+        "line1": "139 Flatbush Ave",
+        "postalCode": "10012",
+        "regionId": "NY",
+        "regionName": "New York"
+    }
+}

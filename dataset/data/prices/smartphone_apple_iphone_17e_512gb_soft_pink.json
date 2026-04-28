@@ -1,0 +1,25 @@
+{
+    "productId": "smartphone-apple-iphone-17e-512gb-soft-pink",
+    "product": {
+        "id": "smartphone-apple-iphone-17e-512gb-soft-pink",
+        "name": "Apple iPhone 17e 512 Gb Soft Pink"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 699.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "smartphone-apple-iphone-17e-512gb-soft-pink"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 650.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "smartphone-apple-iphone-17e-512gb-soft-pink"
+        }
+    ]
+}
