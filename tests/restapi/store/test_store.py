@@ -29,8 +29,8 @@ def test_store_create(make_store) -> None:
         store = make_store()
 
     with allure.step("Verify response"):
-        assert store["id"]
-        assert store["name"].startswith("QAStore_")
+        assert store.id
+        assert store.name.startswith("QAStore_")
 
 
 @pytest.mark.restapi
@@ -41,8 +41,8 @@ def test_store_create_name_validation(store_ops: StoreOperations) -> None:
         try:
             store = store_ops.create(name="")
             # If it succeeds, clean up
-            if store and store.get("id"):
-                store_ops.delete(store["id"])
+            if store and store.id:
+                store_ops.delete(store.id)
         except Exception:
             pass  # Expected: validation error or 400
 
@@ -53,12 +53,12 @@ def test_store_create_name_validation(store_ops: StoreOperations) -> None:
 def test_store_get_by_id(make_store, store_ops: StoreOperations) -> None:
     store = make_store()
 
-    with allure.step(f"GET /api/stores/{store['id']}"):
-        reloaded = store_ops.get_by_id(store["id"])
+    with allure.step(f"GET /api/stores/{store.id}"):
+        reloaded = store_ops.get_by_id(store.id)
 
     with allure.step("Verify fields"):
-        assert reloaded["id"] == store["id"]
-        assert reloaded["name"] == store["name"]
+        assert reloaded.id == store.id
+        assert reloaded.name == store.name
 
 
 @pytest.mark.restapi
@@ -80,11 +80,11 @@ def test_store_search(make_store, store_ops: StoreOperations) -> None:
     store = make_store()
 
     with allure.step("POST /api/stores/search"):
-        result = store_ops.search(keyword=store["name"])
+        result = store_ops.search(keyword=store.name)
 
     with allure.step("Verify in results"):
         items = result.get("results", []) if isinstance(result, dict) else result or []
-        found = next((s for s in items if s["id"] == store["id"]), None)
+        found = next((s for s in items if s["id"] == store.id), None)
         assert found is not None
 
 
@@ -93,14 +93,14 @@ def test_store_search(make_store, store_ops: StoreOperations) -> None:
 @allure.title("Update store — rename")
 def test_store_update(make_store, store_ops: StoreOperations) -> None:
     store = make_store()
-    new_name = f"{store['name']}_UPD_{uuid.uuid4().hex[:4]}"
+    new_name = f"{store.name}_UPD_{uuid.uuid4().hex[:4]}"
 
     with allure.step(f"PUT /api/stores — name={new_name}"):
         store_ops.update(store, name=new_name)
 
     with allure.step("Verify update"):
-        reloaded = store_ops.get_by_id(store["id"])
-        assert reloaded["name"] == new_name
+        reloaded = store_ops.get_by_id(store.id)
+        assert reloaded.name == new_name
 
 
 @pytest.mark.restapi
@@ -111,26 +111,26 @@ def test_store_full_cycle(store_ops: StoreOperations) -> None:
 
     with allure.step("Create"):
         store = store_ops.create(name=name)
-        assert store["id"]
+        assert store.id
 
     with allure.step("Get"):
-        fetched = store_ops.get_by_id(store["id"])
-        assert fetched["name"] == name
+        fetched = store_ops.get_by_id(store.id)
+        assert fetched.name == name
 
     with allure.step("Update"):
         new_name = f"{name}_updated"
         store_ops.update(fetched, name=new_name)
-        updated = store_ops.get_by_id(store["id"])
-        assert updated["name"] == new_name
+        updated = store_ops.get_by_id(store.id)
+        assert updated.name == new_name
 
     with allure.step("Search"):
         result = store_ops.search(keyword=new_name)
         items = result.get("results", []) if isinstance(result, dict) else result or []
-        found = next((s for s in items if s["id"] == store["id"]), None)
+        found = next((s for s in items if s["id"] == store.id), None)
         assert found is not None
 
     with allure.step("Delete"):
-        store_ops.delete(store["id"])
+        store_ops.delete(store.id)
 
 
 @pytest.mark.restapi
@@ -139,8 +139,8 @@ def test_store_full_cycle(store_ops: StoreOperations) -> None:
 def test_store_delete(store_ops: StoreOperations) -> None:
     store = store_ops.create(name=f"QADelStore_{uuid.uuid4().hex[:8]}")
 
-    with allure.step(f"DELETE /api/stores?ids={store['id']}"):
-        store_ops.delete(store["id"])
+    with allure.step(f"DELETE /api/stores?ids={store.id}"):
+        store_ops.delete(store.id)
 
 
 @pytest.mark.restapi
@@ -173,4 +173,4 @@ def test_store_assets(store_ops: StoreOperations, dataset: dict) -> None:
 
     with allure.step("Verify store returned"):
         assert store is not None
-        assert store["id"] == store_id
+        assert store.id == store_id

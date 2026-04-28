@@ -25,8 +25,8 @@ def test_promo_create(make_promotion) -> None:
         promo = make_promotion()
 
     with allure.step("Verify"):
-        assert promo["id"]
-        assert promo["name"].startswith("QAPromo_")
+        assert promo.id
+        assert promo.name.startswith("QAPromo_")
 
 
 @pytest.mark.restapi
@@ -46,10 +46,10 @@ def test_promo_get_new(promo_ops: PromotionOperations) -> None:
 def test_promo_get_by_id(make_promotion, promo_ops: PromotionOperations) -> None:
     promo = make_promotion()
 
-    with allure.step(f"GET /api/marketing/promotions/{promo['id']}"):
-        reloaded = promo_ops.get_by_id(promo["id"])
+    with allure.step(f"GET /api/marketing/promotions/{promo.id}"):
+        reloaded = promo_ops.get_by_id(promo.id)
 
-    assert reloaded["id"] == promo["id"]
+    assert reloaded.id == promo.id
 
 
 @pytest.mark.restapi
@@ -72,14 +72,14 @@ def test_promo_search(make_promotion, promo_ops: PromotionOperations) -> None:
 @allure.title("Update promotion — rename")
 def test_promo_update(make_promotion, promo_ops: PromotionOperations) -> None:
     promo = make_promotion()
-    new_name = f"{promo['name']}_UPD_{uuid.uuid4().hex[:4]}"
+    new_name = f"{promo.name}_UPD_{uuid.uuid4().hex[:4]}"
 
     with allure.step(f"PUT /api/marketing/promotions — name={new_name}"):
         promo_ops.update(promo, name=new_name)
 
     with allure.step("Verify"):
-        reloaded = promo_ops.get_by_id(promo["id"])
-        assert reloaded["name"] == new_name
+        reloaded = promo_ops.get_by_id(promo.id)
+        assert reloaded.name == new_name
 
 
 @pytest.mark.restapi
@@ -93,8 +93,8 @@ def test_promo_update_alt(make_promotion, promo_ops: PromotionOperations) -> Non
         promo_ops.update(promo, description=desc)
 
     with allure.step("Verify"):
-        reloaded = promo_ops.get_by_id(promo["id"])
-        assert reloaded.get("description") == desc
+        reloaded = promo_ops.get_by_id(promo.id)
+        assert (reloaded.model_extra or {}).get("description") == desc
 
 
 @pytest.mark.restapi
@@ -103,8 +103,8 @@ def test_promo_update_alt(make_promotion, promo_ops: PromotionOperations) -> Non
 def test_promo_delete(promo_ops: PromotionOperations) -> None:
     promo = promo_ops.create(name=f"QADelPromo_{uuid.uuid4().hex[:8]}")
 
-    with allure.step(f"DELETE /api/marketing/promotions?ids={promo['id']}"):
-        promo_ops.delete(promo["id"])
+    with allure.step(f"DELETE /api/marketing/promotions?ids={promo.id}"):
+        promo_ops.delete(promo.id)
 
 
 @pytest.mark.restapi
@@ -115,10 +115,10 @@ def test_coupon_create_update_delete(make_promotion, coupon_ops: CouponOperation
     code = f"QA-COUPON-{uuid.uuid4().hex[:6].upper()}"
 
     with allure.step("POST /api/marketing/promotions/coupons/add — create coupon"):
-        coupon_ops.add([{"promotionId": promo["id"], "code": code, "maxUsesNumber": 15, "maxUsesPerUser": 10}])
+        coupon_ops.add([{"promotionId": promo.id, "code": code, "maxUsesNumber": 15, "maxUsesPerUser": 10}])
 
     with allure.step("POST /api/marketing/promotions/coupons/search — locate by code"):
-        search = coupon_ops.search(promotion_id=promo["id"])
+        search = coupon_ops.search(promotion_id=promo.id)
         results = search.get("results", []) if isinstance(search, dict) else search or []
         found = next((c for c in results if c.get("code") == code), None)
         assert found is not None, f"Coupon {code} not found after create"
@@ -132,7 +132,7 @@ def test_coupon_create_update_delete(make_promotion, coupon_ops: CouponOperation
             [
                 {
                     "id": coupon_id,
-                    "promotionId": promo["id"],
+                    "promotionId": promo.id,
                     "code": updated_code,
                     "maxUsesNumber": 17,
                     "maxUsesPerUser": 12,
@@ -150,7 +150,7 @@ def test_coupon_create_update_delete(make_promotion, coupon_ops: CouponOperation
         coupon_ops.delete(coupon_id)
 
     with allure.step("POST /coupons/search — verify coupon is gone"):
-        post = coupon_ops.search(promotion_id=promo["id"])
+        post = coupon_ops.search(promotion_id=promo.id)
         post_results = post.get("results", []) if isinstance(post, dict) else post or []
         assert not any(c.get("id") == coupon_id for c in post_results), "Deleted coupon still visible in search"
 
@@ -163,10 +163,10 @@ def test_coupon_create_search_delete(make_promotion, coupon_ops: CouponOperation
     coupon_code = f"QA-COUPON-{uuid.uuid4().hex[:6].upper()}"
 
     with allure.step("POST /api/marketing/promotions/coupons/add"):
-        coupon_ops.add([{"promotionId": promo["id"], "code": coupon_code, "maxUsesNumber": 10}])
+        coupon_ops.add([{"promotionId": promo.id, "code": coupon_code, "maxUsesNumber": 10}])
 
     with allure.step("POST /api/marketing/promotions/coupons/search"):
-        search = coupon_ops.search(promotion_id=promo["id"])
+        search = coupon_ops.search(promotion_id=promo.id)
         coupons = search.get("results", []) if isinstance(search, dict) else search or []
         found = next((c for c in coupons if c.get("code") == coupon_code), None)
         assert found is not None, f"Coupon {coupon_code} not found"
@@ -183,10 +183,10 @@ def test_promo_create_test_data(make_promotion, coupon_ops: CouponOperations, pr
     coupon_code = f"QA-DATA-{uuid.uuid4().hex[:6].upper()}"
 
     with allure.step("Add coupon to promotion"):
-        coupon_ops.add([{"promotionId": promo["id"], "code": coupon_code, "maxUsesNumber": 5}])
+        coupon_ops.add([{"promotionId": promo.id, "code": coupon_code, "maxUsesNumber": 5}])
 
     with allure.step("Verify promotion has coupon"):
-        search = coupon_ops.search(promotion_id=promo["id"])
+        search = coupon_ops.search(promotion_id=promo.id)
         coupons = search.get("results", []) if isinstance(search, dict) else search or []
         assert len(coupons) >= 1
 

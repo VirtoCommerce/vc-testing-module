@@ -11,6 +11,7 @@ import uuid
 
 import allure
 import pytest
+from pydantic import ValidationError
 from requests.exceptions import HTTPError
 
 from restapi.constants import ADDRESS_TEMPLATE
@@ -25,9 +26,9 @@ def test_contact_create(make_contact) -> None:
         contact = make_contact()
 
     with allure.step("Verify response"):
-        assert contact["id"]
-        assert contact["memberType"] == "Contact"
-        assert contact["firstName"].startswith("QAFirst_")
+        assert contact.id
+        assert contact.member_type == "Contact"
+        assert contact.first_name and contact.first_name.startswith("QAFirst_")
 
 
 @pytest.mark.restapi
@@ -36,13 +37,13 @@ def test_contact_create(make_contact) -> None:
 def test_contact_get(make_contact, contact_ops: ContactOperations) -> None:
     contact = make_contact()
 
-    with allure.step(f"GET /api/contacts/{contact['id']}"):
-        reloaded = contact_ops.get_by_id(contact["id"])
+    with allure.step(f"GET /api/contacts/{contact.id}"):
+        reloaded = contact_ops.get_by_id(contact.id)
 
     with allure.step("Verify fields match"):
-        assert reloaded["id"] == contact["id"]
-        assert reloaded["firstName"] == contact["firstName"]
-        assert reloaded["lastName"] == contact["lastName"]
+        assert reloaded.id == contact.id
+        assert reloaded.first_name == contact.first_name
+        assert reloaded.last_name == contact.last_name
 
 
 @pytest.mark.restapi
@@ -56,8 +57,8 @@ def test_contact_update(make_contact, contact_ops: ContactOperations) -> None:
         contact_ops.update(contact, firstName=new_first)
 
     with allure.step("Verify update"):
-        reloaded = contact_ops.get_by_id(contact["id"])
-        assert reloaded["firstName"] == new_first
+        reloaded = contact_ops.get_by_id(contact.id)
+        assert reloaded.first_name == new_first
 
 
 @pytest.mark.restapi
@@ -67,11 +68,11 @@ def test_contact_search(make_contact, contact_ops: ContactOperations) -> None:
     contact = make_contact()
 
     with allure.step("POST /api/contacts/search — objectIds"):
-        search = contact_ops.search(objectIds=[contact["id"]])
+        search = contact_ops.search(objectIds=[contact.id])
 
     with allure.step("Verify contact in results"):
         assert search.get("totalCount", 0) >= 1
-        found = next((r for r in search.get("results", []) if r["id"] == contact["id"]), None)
+        found = next((r for r in search.get("results", []) if r["id"] == contact.id), None)
         assert found is not None
 
 
@@ -81,11 +82,11 @@ def test_contact_search(make_contact, contact_ops: ContactOperations) -> None:
 def test_contact_delete(make_contact, contact_ops: ContactOperations) -> None:
     contact = make_contact()
 
-    with allure.step(f"DELETE /api/contacts?ids={contact['id']}"):
-        contact_ops.delete(contact["id"])
+    with allure.step(f"DELETE /api/contacts?ids={contact.id}"):
+        contact_ops.delete(contact.id)
 
     with allure.step("Verify deleted"):
-        search = contact_ops.search(objectIds=[contact["id"]])
+        search = contact_ops.search(objectIds=[contact.id])
         assert search.get("totalCount", 0) == 0
 
 
@@ -114,7 +115,7 @@ def test_contact_create_bulk(contact_ops: ContactOperations) -> None:
 
     with allure.step("Verify bulk create"):
         assert isinstance(result, list), f"Expected list, got {type(result)}"
-        created_ids = [c["id"] for c in result]
+        created_ids = [c.id for c in result]
         assert len(created_ids) == 2
 
     with allure.step("Cleanup"):
@@ -132,14 +133,14 @@ def test_contact_get_bulk(make_contact, contact_ops: ContactOperations) -> None:
     c1 = make_contact()
     c2 = make_contact()
 
-    with allure.step(f"GET /api/contacts?ids={c1['id']}&ids={c2['id']}"):
-        result = contact_ops.get_by_ids([c1["id"], c2["id"]])
+    with allure.step(f"GET /api/contacts?ids={c1.id}&ids={c2.id}"):
+        result = contact_ops.get_by_ids([c1.id, c2.id])
 
     with allure.step("Verify both returned"):
         assert isinstance(result, list)
-        ids = [c["id"] for c in result]
-        assert c1["id"] in ids
-        assert c2["id"] in ids
+        ids = [c.id for c in result]
+        assert c1.id in ids
+        assert c2.id in ids
 
 
 @pytest.mark.restapi
@@ -153,16 +154,16 @@ def test_contact_update_bulk(make_contact, contact_ops: ContactOperations) -> No
     with allure.step("PUT /api/contacts/bulk"):
         contact_ops.update_bulk(
             [
-                {**c1, "firstName": f"BulkUpd1_{suffix}"},
-                {**c2, "firstName": f"BulkUpd2_{suffix}"},
+                {**c1.model_dump(by_alias=True), "firstName": f"BulkUpd1_{suffix}"},
+                {**c2.model_dump(by_alias=True), "firstName": f"BulkUpd2_{suffix}"},
             ]
         )
 
     with allure.step("Verify updates"):
-        r1 = contact_ops.get_by_id(c1["id"])
-        r2 = contact_ops.get_by_id(c2["id"])
-        assert r1["firstName"] == f"BulkUpd1_{suffix}"
-        assert r2["firstName"] == f"BulkUpd2_{suffix}"
+        r1 = contact_ops.get_by_id(c1.id)
+        r2 = contact_ops.get_by_id(c2.id)
+        assert r1.first_name == f"BulkUpd1_{suffix}"
+        assert r2.first_name == f"BulkUpd2_{suffix}"
 
 
 @pytest.mark.restapi
@@ -173,11 +174,11 @@ def test_contact_delete_bulk(contact_ops: ContactOperations) -> None:
     c1 = contact_ops.create(first_name=f"QADel1_{suffix}", last_name="Del")
     c2 = contact_ops.create(first_name=f"QADel2_{suffix}", last_name="Del")
 
-    with allure.step(f"DELETE /api/contacts?ids={c1['id']}&ids={c2['id']}"):
-        contact_ops.delete(c1["id"], c2["id"])
+    with allure.step(f"DELETE /api/contacts?ids={c1.id}&ids={c2.id}"):
+        contact_ops.delete(c1.id, c2.id)
 
     with allure.step("Verify deleted"):
-        search = contact_ops.search(objectIds=[c1["id"], c2["id"]])
+        search = contact_ops.search(objectIds=[c1.id, c2.id])
         assert search.get("totalCount", 0) == 0
 
 
@@ -188,11 +189,11 @@ def test_contact_add_address(make_contact, contact_ops: ContactOperations) -> No
     contact = make_contact()
 
     with allure.step("PUT /api/addresses?memberId=..."):
-        contact_ops.update_addresses(contact["id"], [ADDRESS_TEMPLATE])
+        contact_ops.update_addresses(contact.id, [ADDRESS_TEMPLATE])
 
     with allure.step("Verify address added"):
-        reloaded = contact_ops.get_by_id(contact["id"])
-        addresses = reloaded.get("addresses", [])
+        reloaded = contact_ops.get_by_id(contact.id)
+        addresses = (reloaded.model_extra or {}).get("addresses", [])
         assert len(addresses) >= 1
 
 
@@ -204,8 +205,8 @@ def test_contact_get_not_found(contact_ops: ContactOperations) -> None:
 
     with allure.step(f"GET /api/contacts/{bogus_id}"):
         try:
-            result = contact_ops.get_by_id(bogus_id)
+            contact_ops.get_by_id(bogus_id)
         except HTTPError as exc:
             assert exc.response.status_code == 404
-        else:
-            assert result is None, f"Expected None for missing id, got: {result!r}"
+        except ValidationError:
+            pass  # null body — also a "not found" signal

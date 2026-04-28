@@ -7,6 +7,7 @@ import pytest
 
 from core.clients.rest import RestClient
 from restapi.operations import PricelistAssignmentOperations, PricelistOperations, PriceOperations
+from restapi.types import Pricelist, PricelistAssignment
 
 
 @pytest.fixture
@@ -25,13 +26,13 @@ def assignment_ops(rest_client: RestClient, backend_base_url: str) -> PricelistA
 
 
 @pytest.fixture
-def make_pricelist(pricelist_ops: PricelistOperations) -> Generator[Callable[..., dict], None, None]:
+def make_pricelist(pricelist_ops: PricelistOperations) -> Generator[Callable[..., Pricelist], None, None]:
     created_ids: list[str] = []
 
-    def _make(**overrides: Any) -> dict:
+    def _make(**overrides: Any) -> Pricelist:
         name = overrides.pop("name", f"QAPricelist_{uuid.uuid4().hex[:8]}")
         pricelist = pricelist_ops.create(name=name, **overrides)
-        created_ids.append(pricelist["id"])
+        created_ids.append(pricelist.id)
         return pricelist
 
     yield _make
@@ -46,22 +47,24 @@ def make_pricelist(pricelist_ops: PricelistOperations) -> Generator[Callable[...
 @pytest.fixture
 def make_assignment(
     assignment_ops: PricelistAssignmentOperations,
-    make_pricelist: Callable[..., dict],
+    make_pricelist: Callable[..., Pricelist],
     seed_catalog_id: str,
-) -> Generator[Callable[..., dict], None, None]:
+) -> Generator[Callable[..., PricelistAssignment], None, None]:
     created_ids: list[str] = []
 
-    def _make(*, pricelist: dict | None = None, catalog_id: str | None = None, **overrides: Any) -> dict:
+    def _make(
+        *, pricelist: Pricelist | None = None, catalog_id: str | None = None, **overrides: Any
+    ) -> PricelistAssignment:
         if pricelist is None:
             pricelist = make_pricelist()
         name = overrides.pop("name", f"QAAssign_{uuid.uuid4().hex[:8]}")
         assignment = assignment_ops.create(
-            pricelist_id=pricelist["id"],
+            pricelist_id=pricelist.id,
             catalog_id=catalog_id or seed_catalog_id,
             name=name,
             **overrides,
         )
-        created_ids.append(assignment["id"])
+        created_ids.append(assignment.id)
         return assignment
 
     yield _make

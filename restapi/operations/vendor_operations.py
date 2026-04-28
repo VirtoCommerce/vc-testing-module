@@ -9,16 +9,19 @@ Endpoints verified from Katalon Object Repository:
 from typing import Any
 
 from restapi.operations.base import RestBaseOperations
+from restapi.types import Vendor
 
 
 class VendorOperations(RestBaseOperations):
     PATH = "/api/vendors"
 
-    def get_by_id(self, vendor_id: str) -> dict:
-        return self._client.get(self._url(f"{self.PATH}/{vendor_id}"))
+    def get_by_id(self, vendor_id: str) -> Vendor:
+        response = self._client.get(self._url(f"{self.PATH}/{vendor_id}"))
+        return Vendor.model_validate(response)
 
-    def get_by_ids(self, vendor_ids: list[str]) -> list[dict]:
-        return self._client.get(self._url(self.PATH), params={"ids": vendor_ids})
+    def get_by_ids(self, vendor_ids: list[str]) -> list[Vendor]:
+        response = self._client.get(self._url(self.PATH), params={"ids": vendor_ids})
+        return [Vendor.model_validate(v) for v in response or []]
 
     def search(self, *, keyword: str | None = None, skip: int = 0, take: int = 20, **extra: Any) -> dict:
         payload: dict[str, Any] = {"deepSearch": True, "sort": "name:asc", "skip": skip, "take": take, **extra}

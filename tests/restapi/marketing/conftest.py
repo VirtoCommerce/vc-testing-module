@@ -14,6 +14,7 @@ from restapi.operations import (
     CouponOperations,
     PromotionOperations,
 )
+from restapi.types import Promotion
 
 
 @pytest.fixture
@@ -121,13 +122,13 @@ def make_content_publication(
 
 
 @pytest.fixture
-def make_promotion(promo_ops: PromotionOperations) -> Generator[Callable[..., dict], None, None]:
+def make_promotion(promo_ops: PromotionOperations) -> Generator[Callable[..., Promotion], None, None]:
     created_ids: list[str] = []
 
-    def _make(**overrides: Any) -> dict:
+    def _make(**overrides: Any) -> Promotion:
         name = overrides.pop("name", f"QAPromo_{uuid.uuid4().hex[:8]}")
         promo = promo_ops.create(name=name, **overrides)
-        created_ids.append(promo["id"])
+        created_ids.append(promo.id)
         return promo
 
     yield _make

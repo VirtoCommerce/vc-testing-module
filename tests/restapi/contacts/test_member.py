@@ -31,8 +31,8 @@ def test_member_create(make_member) -> None:
         member = make_member(member_type="Organization")
 
     with allure.step("Verify response"):
-        assert member["id"]
-        assert member["name"].startswith("QAMember_")
+        assert member.id
+        assert member.name.startswith("QAMember_")
 
 
 @pytest.mark.restapi
@@ -50,7 +50,7 @@ def test_member_create_bulk(member_ops: MemberOperations) -> None:
 
     with allure.step("Verify bulk create"):
         assert result is not None
-        created_ids = [m["id"] for m in result] if isinstance(result, list) else []
+        created_ids = [m.id for m in result] if result else []
 
     with allure.step("Cleanup"):
         for mid in created_ids:
@@ -73,11 +73,11 @@ def test_member_create_in_org(make_organization, make_member) -> None:
             name=f"QAMemberInOrg_{suffix}",
             firstName=f"First_{suffix}",
             lastName=f"Last_{suffix}",
-            organizationsIds=[org["id"]],
+            organizationsIds=[org.id],
         )
 
     with allure.step("Verify member created with org"):
-        assert member["id"]
+        assert member.id
 
 
 @pytest.mark.restapi
@@ -86,12 +86,12 @@ def test_member_create_in_org(make_organization, make_member) -> None:
 def test_member_get_by_id(make_member, member_ops: MemberOperations) -> None:
     member = make_member()
 
-    with allure.step(f"GET /api/members/{member['id']}"):
-        reloaded = member_ops.get_by_id(member["id"])
+    with allure.step(f"GET /api/members/{member.id}"):
+        reloaded = member_ops.get_by_id(member.id)
 
     with allure.step("Verify fields"):
-        assert reloaded["id"] == member["id"]
-        assert reloaded["name"] == member["name"]
+        assert reloaded.id == member.id
+        assert reloaded.name == member.name
 
 
 @pytest.mark.restapi
@@ -102,13 +102,13 @@ def test_member_get_by_ids_group(make_member, member_ops: MemberOperations) -> N
     m2 = make_member()
 
     with allure.step("GET /api/members?ids=&responseGroup=&memberTypes="):
-        result = member_ops.get_by_ids([m1["id"], m2["id"]])
+        result = member_ops.get_by_ids([m1.id, m2.id])
 
     with allure.step("Verify both returned"):
         assert isinstance(result, list)
-        ids = [m["id"] for m in result]
-        assert m1["id"] in ids
-        assert m2["id"] in ids
+        ids = [m.id for m in result]
+        assert m1.id in ids
+        assert m2.id in ids
 
 
 @pytest.mark.restapi
@@ -118,11 +118,11 @@ def test_member_search(make_member, member_ops: MemberOperations) -> None:
     member = make_member()
 
     with allure.step("POST /api/members/search — objectIds"):
-        search = member_ops.search(objectIds=[member["id"]])
+        search = member_ops.search(objectIds=[member.id])
 
     with allure.step("Verify in results"):
         assert search.get("totalCount", 0) >= 1
-        found = next((r for r in search.get("results", []) if r["id"] == member["id"]), None)
+        found = next((r for r in search.get("results", []) if r["id"] == member.id), None)
         assert found is not None
 
 
@@ -131,14 +131,14 @@ def test_member_search(make_member, member_ops: MemberOperations) -> None:
 @allure.title("Update member")
 def test_member_update(make_member, member_ops: MemberOperations) -> None:
     member = make_member()
-    new_name = f"{member['name']}_UPD_{uuid.uuid4().hex[:4]}"
+    new_name = f"{member.name}_UPD_{uuid.uuid4().hex[:4]}"
 
     with allure.step(f"PUT /api/members — name={new_name}"):
         member_ops.update(member, name=new_name)
 
     with allure.step("Verify update"):
-        reloaded = member_ops.get_by_id(member["id"])
-        assert reloaded["name"] == new_name
+        reloaded = member_ops.get_by_id(member.id)
+        assert reloaded.name == new_name
 
 
 @pytest.mark.restapi
@@ -152,16 +152,16 @@ def test_member_update_bulk(make_member, member_ops: MemberOperations) -> None:
     with allure.step("PUT /api/members/bulk"):
         member_ops.update_bulk(
             [
-                {**m1, "name": f"BulkUpd1_{suffix}"},
-                {**m2, "name": f"BulkUpd2_{suffix}"},
+                {**m1.model_dump(by_alias=True), "name": f"BulkUpd1_{suffix}"},
+                {**m2.model_dump(by_alias=True), "name": f"BulkUpd2_{suffix}"},
             ]
         )
 
     with allure.step("Verify updates"):
-        r1 = member_ops.get_by_id(m1["id"])
-        r2 = member_ops.get_by_id(m2["id"])
-        assert r1["name"] == f"BulkUpd1_{suffix}"
-        assert r2["name"] == f"BulkUpd2_{suffix}"
+        r1 = member_ops.get_by_id(m1.id)
+        r2 = member_ops.get_by_id(m2.id)
+        assert r1.name == f"BulkUpd1_{suffix}"
+        assert r2.name == f"BulkUpd2_{suffix}"
 
 
 @pytest.mark.restapi
@@ -171,11 +171,11 @@ def test_member_delete(member_ops: MemberOperations) -> None:
     name = f"QADelMember_{uuid.uuid4().hex[:8]}"
     member = member_ops.create(member_type="Organization", name=name)
 
-    with allure.step(f"DELETE /api/members?ids={member['id']}"):
-        member_ops.delete(member["id"])
+    with allure.step(f"DELETE /api/members?ids={member.id}"):
+        member_ops.delete(member.id)
 
     with allure.step("Verify deleted"):
-        search = member_ops.search(objectIds=[member["id"]])
+        search = member_ops.search(objectIds=[member.id])
         assert search.get("totalCount", 0) == 0
 
 
@@ -189,13 +189,13 @@ def test_member_delete_bulk(member_ops: MemberOperations) -> None:
 
     with allure.step("POST /api/members/delete"):
         try:
-            member_ops.delete_bulk([m1["id"], m2["id"]])
+            member_ops.delete_bulk([m1.id, m2.id])
         except Exception:
             # Platform bug: POST /api/members/delete returns 500 on some versions
-            member_ops.delete(m1["id"], m2["id"])
+            member_ops.delete(m1.id, m2.id)
 
     with allure.step("Verify deleted"):
-        search = member_ops.search(objectIds=[m1["id"], m2["id"]])
+        search = member_ops.search(objectIds=[m1.id, m2.id])
         assert search.get("totalCount", 0) == 0
 
 
@@ -209,11 +209,11 @@ def test_member_get_all_in_org(make_organization, make_member, member_ops: Membe
         name=f"QAInOrg_{uuid.uuid4().hex[:6]}",
         firstName="InOrg",
         lastName="Test",
-        organizationsIds=[org["id"]],
+        organizationsIds=[org.id],
     )
 
-    with allure.step(f"GET /api/members/{org['id']}/organizations"):
-        result = member_ops.get_all_in_organization(org["id"], member["id"])
+    with allure.step(f"GET /api/members/{org.id}/organizations"):
+        result = member_ops.get_all_in_organization(org.id, member.id)
 
     with allure.step("Verify response"):
         assert isinstance(result, (dict, list)), f"Expected dict or list, got {type(result)}"

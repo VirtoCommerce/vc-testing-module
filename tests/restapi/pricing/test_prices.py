@@ -42,7 +42,7 @@ def test_price_add_to_product(make_pricelist, price_ops: PriceOperations, datase
         price_ops.add_prices(
             [
                 {
-                    "priceListId": pricelist["id"],
+                    "priceListId": pricelist.id,
                     "productId": pid,
                     "list": 49.99,
                     "minQuantity": 1,
@@ -52,7 +52,7 @@ def test_price_add_to_product(make_pricelist, price_ops: PriceOperations, datase
         )
 
     with allure.step("Cleanup"):
-        price_ops.delete_by_pricelist_and_product(pricelist["id"], pid)
+        price_ops.delete_by_pricelist_and_product(pricelist.id, pid)
 
 
 @pytest.mark.restapi
@@ -66,7 +66,7 @@ def test_price_update(make_pricelist, price_ops: PriceOperations, dataset: dict)
         price_ops.add_prices(
             [
                 {
-                    "priceListId": pricelist["id"],
+                    "priceListId": pricelist.id,
                     "productId": pid,
                     "list": 10.00,
                     "minQuantity": 1,
@@ -79,7 +79,7 @@ def test_price_update(make_pricelist, price_ops: PriceOperations, dataset: dict)
         price_ops.add_prices(
             [
                 {
-                    "priceListId": pricelist["id"],
+                    "priceListId": pricelist.id,
                     "productId": pid,
                     "list": 25.00,
                     "minQuantity": 1,
@@ -89,7 +89,7 @@ def test_price_update(make_pricelist, price_ops: PriceOperations, dataset: dict)
         )
 
     with allure.step("Cleanup"):
-        price_ops.delete_by_pricelist_and_product(pricelist["id"], pid)
+        price_ops.delete_by_pricelist_and_product(pricelist.id, pid)
 
 
 @pytest.mark.restapi
@@ -98,8 +98,8 @@ def test_price_update(make_pricelist, price_ops: PriceOperations, dataset: dict)
 def test_price_search_get(make_pricelist, price_ops: PriceOperations) -> None:
     pricelist = make_pricelist()
 
-    with allure.step(f"GET /api/catalog/products/prices/search?pricelistId={pricelist['id']}"):
-        result = price_ops.search_get(pricelist_id=pricelist["id"])
+    with allure.step(f"GET /api/catalog/products/prices/search?pricelistId={pricelist.id}"):
+        result = price_ops.search_get(pricelist_id=pricelist.id)
 
     with allure.step("Verify response"):
         assert result is not None
@@ -112,7 +112,7 @@ def test_price_search_post(make_pricelist, price_ops: PriceOperations) -> None:
     pricelist = make_pricelist()
 
     with allure.step("POST /api/catalog/products/prices/search"):
-        result = price_ops.search_post(pricelist_ids=[pricelist["id"]])
+        result = price_ops.search_post(pricelist_ids=[pricelist.id])
 
     with allure.step("Verify response"):
         assert result is not None
@@ -129,7 +129,7 @@ def test_price_delete_by_id(make_pricelist, price_ops: PriceOperations, dataset:
         price_ops.add_prices(
             [
                 {
-                    "priceListId": pricelist["id"],
+                    "priceListId": pricelist.id,
                     "productId": pid,
                     "list": 5.00,
                     "minQuantity": 1,
@@ -139,7 +139,7 @@ def test_price_delete_by_id(make_pricelist, price_ops: PriceOperations, dataset:
         )
 
     with allure.step("Find price id via search"):
-        result = price_ops.search_post(pricelist_ids=[pricelist["id"]])
+        result = price_ops.search_post(pricelist_ids=[pricelist.id])
         prices = result.get("results", []) if isinstance(result, dict) else result or []
         price_ids = [p["id"] for p in prices if p.get("id")]
         if price_ids:
@@ -158,7 +158,7 @@ def test_price_delete_by_product(make_pricelist, price_ops: PriceOperations, dat
         price_ops.add_prices(
             [
                 {
-                    "priceListId": pricelist["id"],
+                    "priceListId": pricelist.id,
                     "productId": pid,
                     "list": 7.50,
                     "minQuantity": 1,
@@ -167,8 +167,8 @@ def test_price_delete_by_product(make_pricelist, price_ops: PriceOperations, dat
             ]
         )
 
-    with allure.step(f"DELETE /api/pricing/pricelists/{pricelist['id']}/products/prices?productIds={pid}"):
-        price_ops.delete_by_pricelist_and_product(pricelist["id"], pid)
+    with allure.step(f"DELETE /api/pricing/pricelists/{pricelist.id}/products/prices?productIds={pid}"):
+        price_ops.delete_by_pricelist_and_product(pricelist.id, pid)
 
 
 @pytest.mark.restapi
@@ -185,13 +185,13 @@ def test_price_add_delete_bulk(make_pricelist, price_ops: PriceOperations, datas
     with allure.step("Add bulk prices"):
         price_ops.add_prices(
             [
-                {"priceListId": pricelist["id"], "productId": pid1, "list": 1.00, "minQuantity": 1, "currency": "USD"},
-                {"priceListId": pricelist["id"], "productId": pid2, "list": 2.00, "minQuantity": 1, "currency": "USD"},
+                {"priceListId": pricelist.id, "productId": pid1, "list": 1.00, "minQuantity": 1, "currency": "USD"},
+                {"priceListId": pricelist.id, "productId": pid2, "list": 2.00, "minQuantity": 1, "currency": "USD"},
             ]
         )
 
     with allure.step("Delete by pricelist+product"):
-        price_ops.delete_by_pricelist_and_product(pricelist["id"], pid1, pid2)
+        price_ops.delete_by_pricelist_and_product(pricelist.id, pid1, pid2)
 
 
 @pytest.mark.restapi

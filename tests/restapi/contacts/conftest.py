@@ -13,6 +13,7 @@ from restapi.operations import (
     OrganizationOperations,
     VendorOperations,
 )
+from restapi.types import Contact, Employee, Member, Organization
 
 
 # ---------------------------------------------------------------- ops fixtures
@@ -47,16 +48,16 @@ def vendor_ops(rest_client: RestClient, backend_base_url: str) -> VendorOperatio
 
 
 @pytest.fixture
-def make_contact(contact_ops: ContactOperations) -> Generator[Callable[..., dict], None, None]:
+def make_contact(contact_ops: ContactOperations) -> Generator[Callable[..., Contact], None, None]:
     """Factory: creates a fresh contact per call, cleans up at teardown."""
     created_ids: list[str] = []
 
-    def _make(**overrides: Any) -> dict:
+    def _make(**overrides: Any) -> Contact:
         suffix = uuid.uuid4().hex[:8]
         first_name = overrides.pop("first_name", f"QAFirst_{suffix}")
         last_name = overrides.pop("last_name", f"QALast_{suffix}")
         contact = contact_ops.create(first_name=first_name, last_name=last_name, **overrides)
-        created_ids.append(contact["id"])
+        created_ids.append(contact.id)
         return contact
 
     yield _make
@@ -69,14 +70,16 @@ def make_contact(contact_ops: ContactOperations) -> Generator[Callable[..., dict
 
 
 @pytest.fixture
-def make_organization(organization_ops: OrganizationOperations) -> Generator[Callable[..., dict], None, None]:
+def make_organization(
+    organization_ops: OrganizationOperations,
+) -> Generator[Callable[..., Organization], None, None]:
     """Factory: creates a fresh organization per call, cleans up at teardown."""
     created_ids: list[str] = []
 
-    def _make(**overrides: Any) -> dict:
+    def _make(**overrides: Any) -> Organization:
         name = overrides.pop("name", f"QAOrg_{uuid.uuid4().hex[:8]}")
         org = organization_ops.create(name=name, **overrides)
-        created_ids.append(org["id"])
+        created_ids.append(org.id)
         return org
 
     yield _make
@@ -89,16 +92,16 @@ def make_organization(organization_ops: OrganizationOperations) -> Generator[Cal
 
 
 @pytest.fixture
-def make_employee(employee_ops: EmployeeOperations) -> Generator[Callable[..., dict], None, None]:
+def make_employee(employee_ops: EmployeeOperations) -> Generator[Callable[..., Employee], None, None]:
     """Factory: creates a fresh employee per call, cleans up at teardown."""
     created_ids: list[str] = []
 
-    def _make(**overrides: Any) -> dict:
+    def _make(**overrides: Any) -> Employee:
         suffix = uuid.uuid4().hex[:8]
         first_name = overrides.pop("first_name", f"QAEmp_{suffix}")
         last_name = overrides.pop("last_name", f"QAEmpLast_{suffix}")
         emp = employee_ops.create(first_name=first_name, last_name=last_name, **overrides)
-        created_ids.append(emp["id"])
+        created_ids.append(emp.id)
         return emp
 
     yield _make
@@ -111,14 +114,14 @@ def make_employee(employee_ops: EmployeeOperations) -> Generator[Callable[..., d
 
 
 @pytest.fixture
-def make_member(member_ops: MemberOperations) -> Generator[Callable[..., dict], None, None]:
+def make_member(member_ops: MemberOperations) -> Generator[Callable[..., Member], None, None]:
     """Factory: creates a fresh member via generic endpoint, cleans up at teardown."""
     created_ids: list[str] = []
 
-    def _make(*, member_type: str = "Organization", **overrides: Any) -> dict:
+    def _make(*, member_type: str = "Organization", **overrides: Any) -> Member:
         name = overrides.pop("name", f"QAMember_{uuid.uuid4().hex[:8]}")
         member = member_ops.create(member_type=member_type, name=name, **overrides)
-        created_ids.append(member["id"])
+        created_ids.append(member.id)
         return member
 
     yield _make
