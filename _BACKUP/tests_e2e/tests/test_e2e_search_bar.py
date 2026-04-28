@@ -42,17 +42,19 @@ def test_e2e_search_bar_user_search_history_multiple_items(config: Config, page:
     expect(page).to_have_url(f"{config['FRONTEND_BASE_URL']}/search?q=acer")
     page.wait_for_load_state("networkidle")
 
+    home_page.navigate()
     home_page.search_bar.search_input.fill("asus")
     home_page.search_bar.search_button.click()
+    page.wait_for_load_state("networkidle")
 
     expect(page).to_have_url(f"{config['FRONTEND_BASE_URL']}/search?q=asus")
-    page.wait_for_load_state("networkidle")
 
+    home_page.navigate()
     home_page.search_bar.search_input.fill("lenovo")
     home_page.search_bar.search_button.click()
+    page.wait_for_load_state("networkidle")
 
     expect(page).to_have_url(f"{config['FRONTEND_BASE_URL']}/search?q=lenovo")
-    page.wait_for_load_state("networkidle")
 
     home_page.navigate()
 
