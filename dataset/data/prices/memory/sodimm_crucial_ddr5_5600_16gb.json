@@ -1,0 +1,25 @@
+{
+    "productId": "sodimm-crucial-ddr5-5600-16gb",
+    "product": {
+        "id": "sodimm-crucial-ddr5-5600-16gb",
+        "name": "Crucial DDR5-5600 16GB"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 66.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "sodimm-crucial-ddr5-5600-16gb"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 61.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "sodimm-crucial-ddr5-5600-16gb"
+        }
+    ]
+}

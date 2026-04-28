@@ -1,0 +1,27 @@
+{
+    "productId": "ssd-kingston-kc3000-pcie-40-nvme-m2-4096gb",
+    "product": {
+        "id": "ssd-kingston-kc3000-pcie-40-nvme-m2-4096gb",
+        "name": "Kingston KC3000 PCIe 4.0 NVMe M.2 SSD 4096GB"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 286.99,
+            "sale": 243.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "ssd-kingston-kc3000-pcie-40-nvme-m2-4096gb"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 266.99,
+            "sale": 226.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "ssd-kingston-kc3000-pcie-40-nvme-m2-4096gb"
+        }
+    ]
+}

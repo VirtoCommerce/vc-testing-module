@@ -1,0 +1,89 @@
+{
+    "id": "ssd-samsung-9100-pro-pcie-50-nvme-m2-8192gb",
+    "code": "ssd-samsung-9100-pro-pcie-50-nvme-m2-8192gb",
+    "catalogId": "catalog-acme-electronics",
+    "categoryId": "category-acme-electronics-storage",
+    "mainProductId": "ssd-samsung-9100-pro-pcie-50-nvme-m2-1024gb",
+    "name": "Samsung 9100 PRO PCIe 5.0 NVMe M.2 SSD 8192GB",
+    "vendor": "Samsung",
+    "productType": "Physical",
+    "seoObjectType": "Product",
+    "seoInfos": [
+        {
+            "id": "seo-info-ssd-samsung-9100-pro-pcie-50-nvme-m2-8192gb",
+            "isActive": true,
+            "languageCode": "en-US",
+            "pageTitle": "Samsung 9100 PRO PCIe 5.0 NVMe M.2 SSD 8192GB",
+            "semanticUrl": "samsung-9100-pro-pcie-50-nvme-m2-ssd-8192gb",
+            "storeId": "store-acme"
+        }
+    ],
+    "properties": [
+        {
+            "id": "catalog-property-general-brand",
+            "name": "Brand",
+            "valueType": "ShortText",
+            "values": [
+                {
+                    "value": "Samsung"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-storage-form-factor",
+            "name": "StorageFormFactor",
+            "valueType": "ShortText",
+            "values": [
+                {
+                    "value": "M.2 2280"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-storage-interface",
+            "name": "StorageInterface",
+            "valueType": "ShortText",
+            "values": [
+                {
+                    "value": "PCIe 5.0 x4 NVMe"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-storage-capacity",
+            "name": "StorageCapacity",
+            "valueType": "Measure",
+            "measureId": "measure-memory-size",
+            "values": [
+                {
+                    "value": 8192,
+                    "unitOfMeasureId": "measure-unit-memory-gb"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-storage-max-sequental-read",
+            "name": "StorageMaxSequentalRead",
+            "valueType": "Measure",
+            "measureId": "measure-data-transfer-rate",
+            "values": [
+                {
+                    "value": 14800,
+                    "unitOfMeasureId": "measure-unit-data-transfer-rate-mbps"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-storage-max-sequental-write",
+            "name": "StorageMaxSequentalWrite",
+            "valueType": "Measure",
+            "measureId": "measure-data-transfer-rate",
+            "values": [
+                {
+                    "value": 13400,
+                    "unitOfMeasureId": "measure-unit-data-transfer-rate-mbps"
+                }
+            ]
+        }
+    ]
+}

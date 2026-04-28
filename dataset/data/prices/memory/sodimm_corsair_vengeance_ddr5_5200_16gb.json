@@ -1,0 +1,27 @@
+{
+    "productId": "sodimm-corsair-vengeance-ddr5-5200-16gb",
+    "product": {
+        "id": "sodimm-corsair-vengeance-ddr5-5200-16gb",
+        "name": "Corsair Vengeance DDR5-5200 16GB"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 87.99,
+            "sale": 71.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "sodimm-corsair-vengeance-ddr5-5200-16gb"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 81.99,
+            "sale": 66.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "sodimm-corsair-vengeance-ddr5-5200-16gb"
+        }
+    ]
+}

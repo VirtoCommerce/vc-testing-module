@@ -1,0 +1,88 @@
+{
+    "id": "ssd-transcend-245s-pcie-40-nvme-m2-256gb",
+    "code": "ssd-transcend-245s-pcie-40-nvme-m2-256gb",
+    "catalogId": "catalog-acme-electronics",
+    "categoryId": "category-acme-electronics-storage",
+    "name": "Transcend 245S PCIe 4.0 NVMe M.2 SSD 256GB",
+    "vendor": "Transcend",
+    "productType": "Physical",
+    "seoObjectType": "Product",
+    "seoInfos": [
+        {
+            "id": "seo-info-ssd-transcend-245S-pcie-40-nvme-m2-256gb",
+            "isActive": true,
+            "languageCode": "en-US",
+            "pageTitle": "Transcend 245s PCIe 4.0 NVMe M.2 SSD 256GB",
+            "semanticUrl": "transcend-245s-pcie-40-nvme-m2-ssd-256gb",
+            "storeId": "store-acme"
+        }
+    ],
+    "properties": [
+        {
+            "id": "catalog-property-general-brand",
+            "name": "Brand",
+            "valueType": "ShortText",
+            "values": [
+                {
+                    "value": "Transcend"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-storage-form-factor",
+            "name": "StorageFormFactor",
+            "valueType": "ShortText",
+            "values": [
+                {
+                    "value": "M.2 2280"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-storage-interface",
+            "name": "StorageInterface",
+            "valueType": "ShortText",
+            "values": [
+                {
+                    "value": "PCIe 4.0 x4 NVMe"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-storage-capacity",
+            "name": "StorageCapacity",
+            "valueType": "Measure",
+            "measureId": "measure-memory-size",
+            "values": [
+                {
+                    "value": 256,
+                    "unitOfMeasureId": "measure-unit-memory-gb"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-storage-max-sequental-read",
+            "name": "StorageMaxSequentalRead",
+            "valueType": "Measure",
+            "measureId": "measure-data-transfer-rate",
+            "values": [
+                {
+                    "value": 5300,
+                    "unitOfMeasureId": "measure-unit-data-transfer-rate-mbps"
+                }
+            ]
+        },
+        {
+            "id": "catalog-property-electronics-storage-max-sequental-write",
+            "name": "StorageMaxSequentalWrite",
+            "valueType": "Measure",
+            "measureId": "measure-data-transfer-rate",
+            "values": [
+                {
+                    "value": 4600,
+                    "unitOfMeasureId": "measure-unit-data-transfer-rate-mbps"
+                }
+            ]
+        }
+    ]
+}

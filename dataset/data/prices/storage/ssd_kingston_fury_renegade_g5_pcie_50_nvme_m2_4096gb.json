@@ -1,0 +1,25 @@
+{
+    "productId": "ssd-kingston-fury-renegade-g5-pcie-50-nvme-m2-4096gb",
+    "product": {
+        "id": "ssd-kingston-fury-renegade-g5-pcie-50-nvme-m2-4096gb",
+        "name": "Kingston FURY Renegade G5 PCIe 5.0 NVMe M.2 SSD 4096GB"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 736.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "ssd-kingston-fury-renegade-g5-pcie-50-nvme-m2-4096gb"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 685.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "ssd-kingston-fury-renegade-g5-pcie-50-nvme-m2-4096gb"
+        }
+    ]
+}

@@ -1,0 +1,25 @@
+{
+    "productId": "sodimm-samsung-ddr4-2666-16gb",
+    "product": {
+        "id": "sodimm-samsung-ddr4-2666-16gb",
+        "name": "Samsung DDR4-2666 16GB"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 44.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "sodimm-samsung-ddr4-2666-16gb"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 41.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "sodimm-samsung-ddr4-2666-16gb"
+        }
+    ]
+}

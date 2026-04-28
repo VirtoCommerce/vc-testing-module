@@ -1,0 +1,25 @@
+{
+    "productId": "ssd-samsung-990-pro-pcie-40-nvme-m2-1024gb",
+    "product": {
+        "id": "ssd-samsung-990-pro-pcie-40-nvme-m2-1024gb",
+        "name": "Samsung 990 PRO PCIe 4.0 NVMe M.2 SSD 1024GB"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 101.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "ssd-samsung-990-pro-pcie-40-nvme-m2-1024gb"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 94.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "ssd-samsung-990-pro-pcie-40-nvme-m2-1024gb"
+        }
+    ]
+}

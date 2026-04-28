@@ -1,0 +1,25 @@
+{
+    "productId": "sodimm-corsair-vengeance-ddr5-4800-24gb",
+    "product": {
+        "id": "sodimm-corsair-vengeance-ddr5-4800-24gb",
+        "name": "Corsair Vengeance DDR5-4800 24GB"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 131.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "sodimm-corsair-vengeance-ddr5-4800-24gb"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 122.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "sodimm-corsair-vengeance-ddr5-4800-24gb"
+        }
+    ]
+}

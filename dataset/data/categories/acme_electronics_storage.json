@@ -1,0 +1,18 @@
+{
+    "id": "category-acme-electronics-storage",
+    "code": "category-acme-electronics-storage",
+    "catalogId": "catalog-acme-electronics",
+    "parentId": "category-acme-electronics-components",
+    "name": "Storage",
+    "seoObjectType": "Category",
+    "seoInfos": [
+        {
+            "id": "seo-info-acme-electronics-category-storage-en",
+            "storeId": "store-acme",
+            "isActive": true,
+            "languageCode": "en-US",
+            "pageTitle": "Storage",
+            "semanticUrl": "storage"
+        }
+    ]
+}

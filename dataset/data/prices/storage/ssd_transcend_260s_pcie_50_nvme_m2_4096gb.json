@@ -1,0 +1,25 @@
+{
+    "productId": "ssd-transcend-260s-pcie-50-nvme-m2-4096gb",
+    "product": {
+        "id": "ssd-transcend-260s-pcie-50-nvme-m2-4096gb",
+        "name": "Transcend 260S PCIe 5.0 NVMe M.2 SSD 4096GB"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 572.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "ssd-transcend-260s-pcie-50-nvme-m2-4096gb"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 532.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "ssd-transcend-260s-pcie-50-nvme-m2-4096gb"
+        }
+    ]
+}

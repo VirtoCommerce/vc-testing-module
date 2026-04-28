@@ -1,0 +1,25 @@
+{
+    "productId": "sodimm-crucial-ddr4-3200-16gb",
+    "product": {
+        "id": "sodimm-crucial-ddr4-3200-16gb",
+        "name": "Crucial DDR4-3200 16GB"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 44.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "sodimm-crucial-ddr4-3200-16gb"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 41.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "sodimm-crucial-ddr4-3200-16gb"
+        }
+    ]
+}

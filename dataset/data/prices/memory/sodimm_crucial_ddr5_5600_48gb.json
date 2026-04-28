@@ -1,0 +1,25 @@
+{
+    "productId": "sodimm-crucial-ddr5-5600-48gb",
+    "product": {
+        "id": "sodimm-crucial-ddr5-5600-48gb",
+        "name": "Crucial DDR5-5600 48GB"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 201.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "sodimm-crucial-ddr5-5600-48gb"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 186.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "sodimm-crucial-ddr5-5600-48gb"
+        }
+    ]
+}

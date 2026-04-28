@@ -1,0 +1,25 @@
+{
+    "productId": "ssd-kingston-kc3000-pcie-40-nvme-m2-512gb",
+    "product": {
+        "id": "ssd-kingston-kc3000-pcie-40-nvme-m2-512gb",
+        "name": "Kingston KC3000 PCIe 4.0 NVMe M.2 SSD 512GB"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 39.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "ssd-kingston-kc3000-pcie-40-nvme-m2-512gb"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 36.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "ssd-kingston-kc3000-pcie-40-nvme-m2-512gb"
+        }
+    ]
+}

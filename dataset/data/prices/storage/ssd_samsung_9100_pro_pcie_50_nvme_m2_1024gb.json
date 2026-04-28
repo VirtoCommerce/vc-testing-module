@@ -1,0 +1,25 @@
+{
+    "productId": "ssd-samsung-9100-pro-pcie-50-nvme-m2-1024gb",
+    "product": {
+        "id": "ssd-samsung-9100-pro-pcie-50-nvme-m2-1024gb",
+        "name": "Samsung 9100 PRO PCIe 5.0 NVMe M.2 SSD 1024GB"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 142.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "ssd-samsung-9100-pro-pcie-50-nvme-m2-1024gb"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 132.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "ssd-samsung-9100-pro-pcie-50-nvme-m2-1024gb"
+        }
+    ]
+}
