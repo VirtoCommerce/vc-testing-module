@@ -6,22 +6,28 @@ Endpoints verified from Katalon Object Repository.
 from typing import Any
 
 from restapi.operations.base import RestBaseOperations
+from restapi.types import Promotion
 
 
 class PromotionOperations(RestBaseOperations):
     PATH = "/api/marketing/promotions"
 
-    def create(self, *, name: str, **overrides: Any) -> dict:
+    def create(self, *, name: str, **overrides: Any) -> Promotion:
         payload: dict[str, Any] = {"name": name, "isActive": True, **overrides}
-        return self._client.post(self._url(self.PATH), json=payload)
+        response = self._client.post(self._url(self.PATH), json=payload)
+        return Promotion.model_validate(response)
 
-    def update(self, promo: dict, **overrides: Any) -> dict:
-        return self._client.put(self._url(self.PATH), json={**promo, **overrides})
+    def update(self, promo: Promotion, **overrides: Any) -> None:
+        """PUT returns 204 No Content; tests re-fetch via get_by_id to verify."""
+        existing = promo.model_dump(by_alias=True, exclude_none=True)
+        self._client.put(self._url(self.PATH), json={**existing, **overrides})
 
-    def get_by_id(self, promo_id: str) -> dict:
-        return self._client.get(self._url(f"{self.PATH}/{promo_id}"))
+    def get_by_id(self, promo_id: str) -> Promotion:
+        response = self._client.get(self._url(f"{self.PATH}/{promo_id}"))
+        return Promotion.model_validate(response)
 
     def get_new(self) -> dict:
+        """GET /api/marketing/promotions/new — partial template, dict."""
         return self._client.get(self._url(f"{self.PATH}/new"))
 
     def search(self, *, skip: int = 0, take: int = 20, **extra: Any) -> dict:

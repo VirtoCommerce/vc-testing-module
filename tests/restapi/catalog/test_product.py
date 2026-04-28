@@ -20,11 +20,11 @@ def test_product_create(make_product) -> None:
         product = make_product()
 
     with allure.step("Verify response"):
-        assert product["id"], "Product id missing"
-        assert product["name"].startswith("QAProduct_")
-        assert product["code"].startswith("QA-SKU-")
-        assert product["catalogId"]
-        assert product["categoryId"]
+        assert product.id, "Product id missing"
+        assert product.name.startswith("QAProduct_")
+        assert product.code.startswith("QA-SKU-")
+        assert product.catalog_id
+        assert product.category_id
 
 
 @pytest.mark.restapi
@@ -32,15 +32,16 @@ def test_product_create(make_product) -> None:
 @allure.title("Update product — rename and change dimensions")
 def test_product_update(make_product, product_ops: ProductOperations) -> None:
     product = make_product()
-    new_name = f"{product['name']}_UPD_{uuid.uuid4().hex[:4]}"
+    new_name = f"{product.name}_UPD_{uuid.uuid4().hex[:4]}"
 
     with allure.step(f"POST /api/catalog/products — rename to {new_name}, weight=2.5"):
         product_ops.update(product, name=new_name, weight="2.5")
 
     with allure.step("Verify update via GET"):
-        reloaded = product_ops.get_by_id(product["id"])
-        assert reloaded["name"] == new_name
-        assert reloaded["weight"] == 2.5 or reloaded["weight"] == "2.5"
+        reloaded = product_ops.get_by_id(product.id)
+        assert reloaded.name == new_name
+        weight = reloaded.model_extra.get("weight") if reloaded.model_extra else None
+        assert weight == 2.5 or weight == "2.5"
 
 
 @pytest.mark.restapi
@@ -49,13 +50,13 @@ def test_product_update(make_product, product_ops: ProductOperations) -> None:
 def test_product_get_by_id(make_product, product_ops: ProductOperations) -> None:
     product = make_product()
 
-    with allure.step(f"GET /api/catalog/products?ids={product['id']}"):
-        reloaded = product_ops.get_by_id(product["id"])
+    with allure.step(f"GET /api/catalog/products?ids={product.id}"):
+        reloaded = product_ops.get_by_id(product.id)
 
     with allure.step("Verify fields match"):
-        assert reloaded["id"] == product["id"]
-        assert reloaded["name"] == product["name"]
-        assert reloaded["code"] == product["code"]
+        assert reloaded.id == product.id
+        assert reloaded.name == product.name
+        assert reloaded.code == product.code
 
 
 @pytest.mark.restapi
@@ -64,17 +65,17 @@ def test_product_get_by_id(make_product, product_ops: ProductOperations) -> None
 def test_product_delete(make_product, product_ops: ProductOperations) -> None:
     product = make_product()
 
-    with allure.step(f"POST /api/catalog/listentries/delete — objectIds=[{product['id']}]"):
-        product_ops.delete(product["id"])
+    with allure.step(f"POST /api/catalog/listentries/delete — objectIds=[{product.id}]"):
+        product_ops.delete(product.id)
 
     with allure.step("Verify product no longer returned by GET"):
         try:
-            results = product_ops.get_by_ids([product["id"]])
+            results = product_ops.get_by_ids([product.id])
         except HTTPError as e:
             assert e.response.status_code in (404, 204)
         else:
-            ids = [r.get("id") for r in (results or [])]
-            assert product["id"] not in ids
+            ids = [r.id for r in (results or [])]
+            assert product.id not in ids
 
 
 @pytest.mark.restapi
@@ -99,8 +100,9 @@ def test_product_update_image(make_product, product_ops: ProductOperations) -> N
         product_ops.update(product, images=[image])
 
     with allure.step("Verify image persisted"):
-        reloaded = product_ops.get_by_id(product["id"])
-        urls = [img.get("url") or "" for img in reloaded.get("images", [])]
+        reloaded = product_ops.get_by_id(product.id)
+        images = (reloaded.model_extra or {}).get("images") or []
+        urls = [img.get("url") or "" for img in images]
         assert any(image["url"] in u for u in urls), f"Expected url ending with {image['url']}, got {urls}"
 
 
@@ -110,8 +112,8 @@ def test_product_update_image(make_product, product_ops: ProductOperations) -> N
 def test_product_create_update_with_body(make_product, product_ops: ProductOperations) -> None:
     product = make_product()
 
-    with allure.step(f"GET /api/catalog/products/{product['id']}/clone"):
-        clone_body = product_ops.get_clone(product["id"])
+    with allure.step(f"GET /api/catalog/products/{product.id}/clone"):
+        clone_body = product_ops.get_clone(product.id)
 
     cloned_code = f"{clone_body['code']}-C{uuid.uuid4().hex[:4]}"
     clone_body["code"] = cloned_code
@@ -122,12 +124,12 @@ def test_product_create_update_with_body(make_product, product_ops: ProductOpera
 
     try:
         with allure.step("Verify cloned product id"):
-            assert created.get("id")
-            assert created.get("id") != product["id"]
+            assert created.id
+            assert created.id != product.id
     finally:
         with allure.step("Cleanup cloned product"):
             try:
-                product_ops.delete(created["id"])
+                product_ops.delete(created.id)
             except Exception as e:
                 logger.warning("Cleanup failed: %s", e)
 
@@ -144,7 +146,7 @@ def test_product_get_not_found(product_ops: ProductOperations) -> None:
         except HTTPError as exc:
             assert exc.response.status_code == 404
         else:
-            ids = [r.get("id") for r in (results or [])]
+            ids = [r.id for r in (results or [])]
             assert bogus_id not in ids
 
 
@@ -154,12 +156,12 @@ def test_product_get_not_found(product_ops: ProductOperations) -> None:
 def test_product_get_clone_body(make_product, product_ops: ProductOperations) -> None:
     product = make_product()
 
-    with allure.step(f"GET /api/catalog/products/{product['id']}/clone"):
-        clone = product_ops.get_clone(product["id"])
+    with allure.step(f"GET /api/catalog/products/{product.id}/clone"):
+        clone = product_ops.get_clone(product.id)
 
     with allure.step("Verify clone shape"):
-        assert clone.get("name") == product["name"]
-        assert clone.get("catalogId") == product["catalogId"]
+        assert clone.get("name") == product.name
+        assert clone.get("catalogId") == product.catalog_id
 
 
 @pytest.mark.restapi
@@ -169,24 +171,24 @@ def test_product_move_to_catalog(make_product, make_catalog, product_ops: Produc
     product = make_product()
     target_catalog = make_catalog()
 
-    with allure.step(f"POST /api/catalog/listentries/move — to catalog {target_catalog['id']}"):
+    with allure.step(f"POST /api/catalog/listentries/move — to catalog {target_catalog.id}"):
         product_ops.move(
-            target_catalog_id=target_catalog["id"],
+            target_catalog_id=target_catalog.id,
             list_entries=[
                 {
-                    "id": product["id"],
+                    "id": product.id,
                     "type": "product",
-                    "name": product["name"],
-                    "code": product["code"],
-                    "catalogId": product["catalogId"],
+                    "name": product.name,
+                    "code": product.code,
+                    "catalogId": product.catalog_id,
                     "isActive": True,
                 }
             ],
         )
 
     with allure.step("Verify product now references target catalog"):
-        reloaded = product_ops.get_by_id(product["id"])
-        assert reloaded["catalogId"] == target_catalog["id"]
+        reloaded = product_ops.get_by_id(product.id)
+        assert reloaded.catalog_id == target_catalog.id
 
 
 @pytest.mark.restapi

@@ -10,9 +10,11 @@ Endpoints verified from Katalon Object Repository:
   GET    /api/stores/allowed/{userId} — get accessible stores
 """
 
+import uuid
 from typing import Any
 
 from restapi.operations.base import RestBaseOperations
+from restapi.types import Store
 
 
 class StoreOperations(RestBaseOperations):
@@ -20,26 +22,29 @@ class StoreOperations(RestBaseOperations):
 
     def create(
         self, *, name: str, store_id: str | None = None, catalog: str = "catalog-acme", **overrides: Any
-    ) -> dict:
-        import uuid as _uuid
-
+    ) -> Store:
         payload: dict[str, Any] = {
-            "id": store_id or f"qa-store-{_uuid.uuid4().hex[:8]}",
+            "id": store_id or f"qa-store-{uuid.uuid4().hex[:8]}",
             "name": name,
             "catalog": catalog,
             "storeState": "Open",
             **overrides,
         }
-        return self._client.post(self._url(self.PATH), json=payload)
+        response = self._client.post(self._url(self.PATH), json=payload)
+        return Store.model_validate(response)
 
-    def update(self, store: dict, **overrides: Any) -> dict:
-        return self._client.put(self._url(self.PATH), json={**store, **overrides})
+    def update(self, store: Store, **overrides: Any) -> None:
+        """PUT returns 204 No Content; tests re-fetch via get_by_id to verify."""
+        existing = store.model_dump(by_alias=True, exclude_none=True)
+        self._client.put(self._url(self.PATH), json={**existing, **overrides})
 
-    def get_all(self) -> list[dict]:
-        return self._client.get(self._url(self.PATH))
+    def get_all(self) -> list[Store]:
+        response = self._client.get(self._url(self.PATH))
+        return [Store.model_validate(s) for s in response or []]
 
-    def get_by_id(self, store_id: str) -> dict:
-        return self._client.get(self._url(f"{self.PATH}/{store_id}"))
+    def get_by_id(self, store_id: str) -> Store:
+        response = self._client.get(self._url(f"{self.PATH}/{store_id}"))
+        return Store.model_validate(response)
 
     def search(self, *, keyword: str | None = None, skip: int = 0, take: int = 20, **extra: Any) -> dict:
         payload: dict[str, Any] = {"skip": skip, "take": take, **extra}

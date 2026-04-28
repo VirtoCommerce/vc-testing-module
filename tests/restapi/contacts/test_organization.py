@@ -32,9 +32,9 @@ def test_organization_create(make_organization) -> None:
         org = make_organization()
 
     with allure.step("Verify response"):
-        assert org["id"]
-        assert org["name"].startswith("QAOrg_")
-        assert org["memberType"] == "Organization"
+        assert org.id
+        assert org.name.startswith("QAOrg_")
+        assert org.member_type == "Organization"
 
 
 @pytest.mark.restapi
@@ -51,11 +51,11 @@ def test_organization_create_bulk(organization_ops: OrganizationOperations) -> N
         result = organization_ops.create_bulk(orgs)
 
     with allure.step("Verify bulk create"):
-        # Platform returns 204 (None) instead of created list on some versions
-        if isinstance(result, list) and result:
-            created_ids = [o["id"] for o in result]
+        # Platform returns 204 (empty list) instead of created list on some versions
+        if result:
+            created_ids = [o.id for o in result]
         else:
-            created_ids = [organization_ops.create(name=o["name"])["id"] for o in orgs]
+            created_ids = [organization_ops.create(name=o["name"]).id for o in orgs]
         assert len(created_ids) >= 1
 
     with allure.step("Cleanup"):
@@ -72,12 +72,12 @@ def test_organization_create_bulk(organization_ops: OrganizationOperations) -> N
 def test_organization_get(make_organization, organization_ops: OrganizationOperations) -> None:
     org = make_organization()
 
-    with allure.step(f"GET /api/organizations/{org['id']}"):
-        reloaded = organization_ops.get_by_id(org["id"])
+    with allure.step(f"GET /api/organizations/{org.id}"):
+        reloaded = organization_ops.get_by_id(org.id)
 
     with allure.step("Verify fields"):
-        assert reloaded["id"] == org["id"]
-        assert reloaded["name"] == org["name"]
+        assert reloaded.id == org.id
+        assert reloaded.name == org.name
 
 
 @pytest.mark.restapi
@@ -87,14 +87,14 @@ def test_organization_get_bulk(make_organization, organization_ops: Organization
     o1 = make_organization()
     o2 = make_organization()
 
-    with allure.step(f"GET /api/organizations?ids={o1['id']}&ids={o2['id']}"):
-        result = organization_ops.get_by_ids([o1["id"], o2["id"]])
+    with allure.step(f"GET /api/organizations?ids={o1.id}&ids={o2.id}"):
+        result = organization_ops.get_by_ids([o1.id, o2.id])
 
     with allure.step("Verify both returned"):
         assert isinstance(result, list)
-        ids = [o["id"] for o in result]
-        assert o1["id"] in ids
-        assert o2["id"] in ids
+        ids = [o.id for o in result]
+        assert o1.id in ids
+        assert o2.id in ids
 
 
 @pytest.mark.restapi
@@ -104,11 +104,11 @@ def test_organization_search(make_organization, organization_ops: OrganizationOp
     org = make_organization()
 
     with allure.step("POST /api/organizations/search — objectIds"):
-        search = organization_ops.search(objectIds=[org["id"]])
+        search = organization_ops.search(objectIds=[org.id])
 
     with allure.step("Verify in results"):
         assert search.get("totalCount", 0) >= 1
-        found = next((r for r in search.get("results", []) if r["id"] == org["id"]), None)
+        found = next((r for r in search.get("results", []) if r["id"] == org.id), None)
         assert found is not None
 
 
@@ -117,14 +117,14 @@ def test_organization_search(make_organization, organization_ops: OrganizationOp
 @allure.title("Update organization — rename")
 def test_organization_update(make_organization, organization_ops: OrganizationOperations) -> None:
     org = make_organization()
-    new_name = f"{org['name']}_UPD_{uuid.uuid4().hex[:4]}"
+    new_name = f"{org.name}_UPD_{uuid.uuid4().hex[:4]}"
 
     with allure.step(f"PUT /api/organizations — name={new_name}"):
         organization_ops.update(org, name=new_name)
 
     with allure.step("Verify update"):
-        reloaded = organization_ops.get_by_id(org["id"])
-        assert reloaded["name"] == new_name
+        reloaded = organization_ops.get_by_id(org.id)
+        assert reloaded.name == new_name
 
 
 @pytest.mark.restapi
@@ -138,16 +138,16 @@ def test_organization_update_bulk(make_organization, organization_ops: Organizat
     with allure.step("PUT /api/organizations/bulk"):
         organization_ops.update_bulk(
             [
-                {**o1, "name": f"BulkUpd1_{suffix}"},
-                {**o2, "name": f"BulkUpd2_{suffix}"},
+                {**o1.model_dump(by_alias=True), "name": f"BulkUpd1_{suffix}"},
+                {**o2.model_dump(by_alias=True), "name": f"BulkUpd2_{suffix}"},
             ]
         )
 
     with allure.step("Verify updates"):
-        r1 = organization_ops.get_by_id(o1["id"])
-        r2 = organization_ops.get_by_id(o2["id"])
-        assert r1["name"] == f"BulkUpd1_{suffix}"
-        assert r2["name"] == f"BulkUpd2_{suffix}"
+        r1 = organization_ops.get_by_id(o1.id)
+        r2 = organization_ops.get_by_id(o2.id)
+        assert r1.name == f"BulkUpd1_{suffix}"
+        assert r2.name == f"BulkUpd2_{suffix}"
 
 
 @pytest.mark.restapi
@@ -158,21 +158,21 @@ def test_organization_cycle(organization_ops: OrganizationOperations) -> None:
 
     with allure.step("Create"):
         org = organization_ops.create(name=name)
-        assert org["id"]
+        assert org.id
 
     with allure.step("Get"):
-        fetched = organization_ops.get_by_id(org["id"])
-        assert fetched["name"] == name
+        fetched = organization_ops.get_by_id(org.id)
+        assert fetched.name == name
 
     with allure.step("Update"):
         new_name = f"{name}_updated"
         organization_ops.update(fetched, name=new_name)
-        updated = organization_ops.get_by_id(org["id"])
-        assert updated["name"] == new_name
+        updated = organization_ops.get_by_id(org.id)
+        assert updated.name == new_name
 
     with allure.step("Delete"):
-        organization_ops.delete(org["id"])
-        search = organization_ops.search(objectIds=[org["id"]])
+        organization_ops.delete(org.id)
+        search = organization_ops.search(objectIds=[org.id])
         assert search.get("totalCount", 0) == 0
 
 
@@ -188,11 +188,11 @@ def test_organization_cycle_bulk(organization_ops: OrganizationOperations) -> No
 
     with allure.step("Create bulk"):
         created = organization_ops.create_bulk(orgs_data)
-        # Platform returns 204 (None) instead of created list on some versions
-        if isinstance(created, list) and created:
-            ids = [o["id"] for o in created]
+        # Platform returns 204 (empty list) instead of created list on some versions
+        if created:
+            ids = [o.id for o in created]
         else:
-            ids = [organization_ops.create(name=o["name"])["id"] for o in orgs_data]
+            ids = [organization_ops.create(name=o["name"]).id for o in orgs_data]
         assert len(ids) >= 1
 
     try:
@@ -201,7 +201,9 @@ def test_organization_cycle_bulk(organization_ops: OrganizationOperations) -> No
             assert len(fetched) >= 1
 
         with allure.step("Update bulk"):
-            organization_ops.update_bulk([{**o, "name": o["name"] + "_upd"} for o in fetched])
+            organization_ops.update_bulk(
+                [{**o.model_dump(by_alias=True), "name": (o.name or "") + "_upd"} for o in fetched]
+            )
 
         with allure.step("Delete bulk"):
             organization_ops.delete(*ids)
@@ -222,9 +224,9 @@ def test_organization_delete_bulk(organization_ops: OrganizationOperations) -> N
     o1 = organization_ops.create(name=f"QADelBulk1_{suffix}")
     o2 = organization_ops.create(name=f"QADelBulk2_{suffix}")
 
-    with allure.step(f"DELETE /api/organizations?ids={o1['id']}&ids={o2['id']}"):
-        organization_ops.delete(o1["id"], o2["id"])
+    with allure.step(f"DELETE /api/organizations?ids={o1.id}&ids={o2.id}"):
+        organization_ops.delete(o1.id, o2.id)
 
     with allure.step("Verify deleted"):
-        search = organization_ops.search(objectIds=[o1["id"], o2["id"]])
+        search = organization_ops.search(objectIds=[o1.id, o2.id])
         assert search.get("totalCount", 0) == 0

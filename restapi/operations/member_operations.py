@@ -17,33 +17,40 @@ Endpoints verified from Katalon Object Repository:
 from typing import Any
 
 from restapi.operations.base import RestBaseOperations
+from restapi.types import Member
 
 
 class MemberOperations(RestBaseOperations):
     PATH = "/api/members"
 
-    def create(self, *, member_type: str, name: str, **overrides: Any) -> dict:
+    def create(self, *, member_type: str, name: str, **overrides: Any) -> Member:
         payload: dict[str, Any] = {"memberType": member_type, "name": name, **overrides}
-        return self._client.post(self._url(self.PATH), json=payload)
+        response = self._client.post(self._url(self.PATH), json=payload)
+        return Member.model_validate(response)
 
-    def create_bulk(self, members: list[dict]) -> list[dict]:
-        return self._client.post(self._url(f"{self.PATH}/bulk"), json=members)
+    def create_bulk(self, members: list[dict]) -> list[Member]:
+        response = self._client.post(self._url(f"{self.PATH}/bulk"), json=members)
+        return [Member.model_validate(m) for m in response or []]
 
-    def get_by_id(self, member_id: str) -> dict:
-        return self._client.get(self._url(f"{self.PATH}/{member_id}"))
+    def get_by_id(self, member_id: str) -> Member:
+        response = self._client.get(self._url(f"{self.PATH}/{member_id}"))
+        return Member.model_validate(response)
 
-    def get_by_ids(self, member_ids: list[str], response_group: str = "", member_types: str = "") -> list[dict]:
-        return self._client.get(
+    def get_by_ids(self, member_ids: list[str], response_group: str = "", member_types: str = "") -> list[Member]:
+        response = self._client.get(
             self._url(self.PATH),
             params={"ids": member_ids, "responseGroup": response_group, "memberTypes": member_types},
         )
+        return [Member.model_validate(m) for m in response or []]
 
-    def update(self, member: dict, **overrides: Any) -> dict:
-        payload = {**member, **overrides}
-        return self._client.put(self._url(self.PATH), json=payload)
+    def update(self, member: Member, **overrides: Any) -> None:
+        """PUT returns 204 No Content; tests re-fetch via get_by_id to verify."""
+        existing = member.model_dump(by_alias=True, exclude_none=True)
+        self._client.put(self._url(self.PATH), json={**existing, **overrides})
 
-    def update_bulk(self, members: list[dict]) -> list[dict]:
-        return self._client.put(self._url(f"{self.PATH}/bulk"), json=members)
+    def update_bulk(self, members: list[dict]) -> list[Member]:
+        response = self._client.put(self._url(f"{self.PATH}/bulk"), json=members)
+        return [Member.model_validate(m) for m in response or []]
 
     def search(
         self, *, keyword: str | None = None, member_type: str | None = None, skip: int = 0, take: int = 20, **extra: Any

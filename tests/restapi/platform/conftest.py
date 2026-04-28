@@ -16,6 +16,7 @@ from restapi.operations import (
     SettingsOperations,
     UserOperations,
 )
+from restapi.types import Role
 
 logger = logging.getLogger(__name__)
 
@@ -90,15 +91,15 @@ def make_user(
 @pytest.fixture
 def make_role(
     role_ops: RoleOperations,
-) -> Generator[Callable[..., dict], None, None]:
+) -> Generator[Callable[..., Role], None, None]:
     """Factory: creates a platform role, cleans up at teardown."""
     created_ids: list[str] = []
 
-    def _make(**overrides: Any) -> dict:
+    def _make(**overrides: Any) -> Role:
         suffix = uuid.uuid4().hex[:8]
         name = overrides.pop("name", f"QARole_{suffix}")
         role = role_ops.create(name=name, **overrides)
-        created_ids.append(role["id"])
+        created_ids.append(role.id)
         return role
 
     yield _make

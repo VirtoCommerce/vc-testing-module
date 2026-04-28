@@ -76,7 +76,7 @@ def test_user_update(make_user, user_ops: UserOperations) -> None:
 
     with allure.step("Verify email updated via GET"):
         reloaded = user_ops.get_by_name(user["user_name"])
-        assert reloaded["email"] == new_email
+        assert reloaded.email == new_email
 
 
 @pytest.mark.restapi
@@ -105,12 +105,12 @@ def test_user_get_by_id(make_user, user_ops: UserOperations) -> None:
 
     with allure.step(f"GET /api/platform/security/users/{user['user_name']}"):
         full_user = user_ops.get_by_name(user["user_name"])
-        user_id = full_user["id"]
+        user_id = full_user.id
 
     with allure.step("Verify fields"):
-        assert full_user["userName"] == user["user_name"]
-        assert full_user["email"] == user["email"]
-        assert full_user["id"] == user_id
+        assert full_user.user_name == user["user_name"]
+        assert full_user.email == user["email"]
+        assert full_user.id == user_id
 
 
 @pytest.mark.restapi
@@ -123,8 +123,8 @@ def test_user_get_by_name(make_user, user_ops: UserOperations) -> None:
         full_user = user_ops.get_by_name(user["user_name"])
 
     with allure.step("Verify user type and name"):
-        assert full_user["userName"] == user["user_name"]
-        assert full_user["userType"] == "Manager"
+        assert full_user.user_name == user["user_name"]
+        assert full_user.user_type == "Manager"
 
 
 @pytest.mark.restapi

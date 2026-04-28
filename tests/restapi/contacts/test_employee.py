@@ -24,9 +24,9 @@ def test_employee_create(make_employee) -> None:
         emp = make_employee()
 
     with allure.step("Verify response"):
-        assert emp["id"]
-        assert emp["memberType"] == "Employee"
-        assert emp["firstName"].startswith("QAEmp_")
+        assert emp.id
+        assert emp.member_type == "Employee"
+        assert emp.first_name and emp.first_name.startswith("QAEmp_")
 
 
 @pytest.mark.restapi
@@ -35,13 +35,13 @@ def test_employee_create(make_employee) -> None:
 def test_employee_get(make_employee, employee_ops: EmployeeOperations) -> None:
     emp = make_employee()
 
-    with allure.step(f"GET /api/employees?ids={emp['id']}"):
-        result = employee_ops.get_by_ids([emp["id"]])
+    with allure.step(f"GET /api/employees?ids={emp.id}"):
+        result = employee_ops.get_by_ids([emp.id])
 
     with allure.step("Verify returned"):
         assert isinstance(result, list)
         assert len(result) >= 1
-        assert result[0]["id"] == emp["id"]
+        assert result[0].id == emp.id
 
 
 @pytest.mark.restapi
@@ -51,11 +51,11 @@ def test_employee_search(make_employee, employee_ops: EmployeeOperations) -> Non
     emp = make_employee()
 
     with allure.step("POST /api/members/search — memberType=Employee, objectIds"):
-        search = employee_ops.search(objectIds=[emp["id"]])
+        search = employee_ops.search(objectIds=[emp.id])
 
     with allure.step("Verify employee in results"):
         assert search.get("totalCount", 0) >= 1
-        found = next((r for r in search.get("results", []) if r["id"] == emp["id"]), None)
+        found = next((r for r in search.get("results", []) if r["id"] == emp.id), None)
         assert found is not None
 
 
@@ -70,16 +70,16 @@ def test_employee_update_bulk(make_employee, employee_ops: EmployeeOperations) -
     with allure.step("POST /api/employees/bulk"):
         employee_ops.update_bulk(
             [
-                {**e1, "firstName": f"BulkEmp1_{suffix}"},
-                {**e2, "firstName": f"BulkEmp2_{suffix}"},
+                {**e1.model_dump(by_alias=True), "firstName": f"BulkEmp1_{suffix}"},
+                {**e2.model_dump(by_alias=True), "firstName": f"BulkEmp2_{suffix}"},
             ]
         )
 
     with allure.step("Verify updates"):
-        r1 = employee_ops.get_by_ids([e1["id"]])[0]
-        r2 = employee_ops.get_by_ids([e2["id"]])[0]
-        assert r1["firstName"] == f"BulkEmp1_{suffix}"
-        assert r2["firstName"] == f"BulkEmp2_{suffix}"
+        r1 = employee_ops.get_by_ids([e1.id])[0]
+        r2 = employee_ops.get_by_ids([e2.id])[0]
+        assert r1.first_name == f"BulkEmp1_{suffix}"
+        assert r2.first_name == f"BulkEmp2_{suffix}"
 
 
 @pytest.mark.restapi
@@ -91,8 +91,8 @@ def test_employee_delete_bulk(employee_ops: EmployeeOperations) -> None:
     e2 = employee_ops.create(first_name=f"QADelEmp2_{suffix}", last_name="Del")
 
     with allure.step("DELETE /api/members?ids=..."):
-        employee_ops.delete(e1["id"], e2["id"])
+        employee_ops.delete(e1.id, e2.id)
 
     with allure.step("Verify deleted"):
-        search = employee_ops.search(objectIds=[e1["id"], e2["id"]])
+        search = employee_ops.search(objectIds=[e1.id, e2.id])
         assert search.get("totalCount", 0) == 0

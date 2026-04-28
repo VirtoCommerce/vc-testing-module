@@ -4,23 +4,27 @@ from typing import Any
 
 from restapi.constants import CATALOG_TEMPLATE
 from restapi.operations.base import RestBaseOperations
+from restapi.types import Catalog
 
 
 class CatalogOperations(RestBaseOperations):
     PATH = "/api/catalog/catalogs"
 
-    def create(self, *, name: str, **overrides: Any) -> dict:
+    def create(self, *, name: str, **overrides: Any) -> Catalog:
         payload = {**CATALOG_TEMPLATE, "name": name, **overrides}
-        return self._client.post(self._url(self.PATH), json=payload)
+        response = self._client.post(self._url(self.PATH), json=payload)
+        return Catalog.model_validate(response)
 
-    def update(self, catalog: dict, **overrides: Any) -> dict:
+    def update(self, catalog: Catalog, **overrides: Any) -> Catalog:
+        existing = catalog.model_dump(by_alias=True, exclude_none=True)
         payload = {
             **CATALOG_TEMPLATE,
-            **catalog,
-            "properties": catalog.get("properties") or [],
+            **existing,
+            "properties": existing.get("properties") or [],
             **overrides,
         }
-        return self._client.put(self._url(self.PATH), json=payload)
+        response = self._client.put(self._url(self.PATH), json=payload)
+        return Catalog.model_validate(response)
 
     def search(self, *, keyword: str | None = None, skip: int = 0, take: int = 20, **extra: Any) -> dict:
         payload: dict[str, Any] = {"sort": "name:asc", "skip": skip, "take": take, **extra}

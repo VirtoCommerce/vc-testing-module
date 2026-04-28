@@ -11,6 +11,7 @@ from core.clients.rest import RestClient
 from core.global_settings import GlobalSettings
 from restapi.constants import ORDER_LINE_ITEM_TEMPLATE, ORDER_TEMPLATE
 from restapi.operations import OrderOperations
+from restapi.types import CustomerOrder
 
 logger = logging.getLogger(__name__)
 
@@ -34,7 +35,7 @@ def make_order(
     order_ops: OrderOperations,
     global_settings: GlobalSettings,
     seed_order_customer: dict,
-) -> Generator[Callable[..., dict], None, None]:
+) -> Generator[Callable[..., CustomerOrder], None, None]:
     """Factory: create a customer order; deletes everything created at teardown.
 
     Defaults produce an empty-items order suitable for basic CRUD/search tests.
@@ -43,7 +44,7 @@ def make_order(
     """
     created_ids: list[str] = []
 
-    def _make(*, with_item: bool = False, **overrides: Any) -> dict:
+    def _make(*, with_item: bool = False, **overrides: Any) -> CustomerOrder:
         items: list[dict] = []
         if with_item:
             line_item = {**copy.deepcopy(ORDER_LINE_ITEM_TEMPLATE), "id": str(uuid.uuid4())}
@@ -62,7 +63,7 @@ def make_order(
         payload.update(overrides)
 
         order = order_ops.create(payload)
-        created_ids.append(order["id"])
+        created_ids.append(order.id)
         return order
 
     yield _make
