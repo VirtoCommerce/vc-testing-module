@@ -75,8 +75,8 @@ def test_category_search(make_category, category_ops: CategoryOperations) -> Non
 def test_category_get_template(make_catalog, category_ops: CategoryOperations) -> None:
     catalog = make_catalog()
 
-    with allure.step(f"GET /api/catalog/{catalog['id']}/categories/newcategory"):
-        template = category_ops.get_new_template(catalog["id"])
+    with allure.step(f"GET /api/catalog/{catalog.id}/categories/newcategory"):
+        template = category_ops.get_new_template(catalog.id)
 
     with allure.step("Verify template has Category SEO type"):
         assert template.get("seoObjectType") == "Category"
@@ -90,7 +90,7 @@ def test_category_nested(make_category, category_ops: CategoryOperations) -> Non
 
     with allure.step(f"POST /api/catalog/categories — child under parent {parent['id']}"):
         child = make_category(
-            catalog={"id": parent["catalogId"]},
+            catalog_id=parent["catalogId"],
             parentId=parent["id"],
         )
 

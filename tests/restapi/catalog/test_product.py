@@ -166,9 +166,9 @@ def test_product_move_to_catalog(make_product, make_catalog, product_ops: Produc
     product = make_product()
     target_catalog = make_catalog()
 
-    with allure.step(f"POST /api/catalog/listentries/move — to catalog {target_catalog['id']}"):
+    with allure.step(f"POST /api/catalog/listentries/move — to catalog {target_catalog.id}"):
         product_ops.move(
-            target_catalog_id=target_catalog["id"],
+            target_catalog_id=target_catalog.id,
             list_entries=[
                 {
                     "id": product["id"],
@@ -183,7 +183,7 @@ def test_product_move_to_catalog(make_product, make_catalog, product_ops: Produc
 
     with allure.step("Verify product now references target catalog"):
         reloaded = product_ops.get_by_id(product["id"])
-        assert reloaded["catalogId"] == target_catalog["id"]
+        assert reloaded["catalogId"] == target_catalog.id
 
 
 @pytest.mark.restapi

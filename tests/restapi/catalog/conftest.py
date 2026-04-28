@@ -7,6 +7,7 @@ import pytest
 
 from core.clients.rest import RestClient
 from restapi.operations import CatalogOperations, CategoryOperations, ProductOperations
+from restapi.types import Catalog
 
 
 @pytest.fixture
@@ -25,14 +26,14 @@ def product_ops(rest_client: RestClient, backend_base_url: str) -> ProductOperat
 
 
 @pytest.fixture
-def make_catalog(catalog_ops: CatalogOperations) -> Generator[Callable[..., dict], None, None]:
+def make_catalog(catalog_ops: CatalogOperations) -> Generator[Callable[..., Catalog], None, None]:
     """Factory: creates a fresh catalog per call, cleans up at teardown."""
     created_ids: list[str] = []
 
-    def _make(**overrides: Any) -> dict:
+    def _make(**overrides: Any) -> Catalog:
         name = overrides.pop("name", f"QACatalog_{uuid.uuid4().hex[:8]}")
         catalog = catalog_ops.create(name=name, **overrides)
-        created_ids.append(catalog["id"])
+        created_ids.append(catalog.id)
         return catalog
 
     yield _make
@@ -47,17 +48,19 @@ def make_catalog(catalog_ops: CatalogOperations) -> Generator[Callable[..., dict
 @pytest.fixture
 def make_category(
     category_ops: CategoryOperations,
-    make_catalog: Callable[..., dict],
+    make_catalog: Callable[..., Catalog],
 ) -> Generator[Callable[..., dict], None, None]:
     """Factory: creates a category (and implicit catalog if needed), cleans up at teardown."""
     created_ids: list[str] = []
 
-    def _make(*, catalog: dict | None = None, **overrides: Any) -> dict:
-        if catalog is None:
-            catalog = make_catalog()
+    def _make(*, catalog: Catalog | None = None, catalog_id: str | None = None, **overrides: Any) -> dict:
+        if catalog_id is None:
+            if catalog is None:
+                catalog = make_catalog()
+            catalog_id = catalog.id
         name = overrides.pop("name", f"QACategory_{uuid.uuid4().hex[:8]}")
         code = overrides.pop("code", f"qa-cat-{uuid.uuid4().hex[:6]}")
-        category = category_ops.create(catalog_id=catalog["id"], name=name, code=code, **overrides)
+        category = category_ops.create(catalog_id=catalog_id, name=name, code=code, **overrides)
         created_ids.append(category["id"])
         return category
 
