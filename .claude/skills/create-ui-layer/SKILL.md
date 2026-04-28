@@ -107,10 +107,9 @@ class Component:
     @property
     def root(self) -> Locator:
         return self._root
-
-    def wait_for_results(self) -> None:
-        self._root.page.wait_for_load_state("networkidle")
 ```
+
+Do not add a `wait_for_results()` (or any `wait_for_load_state("networkidle")`) helper. `networkidle` is discouraged by Playwright and hangs on apps with WebSocket/polling traffic. Tests should wait via explicit `expect(locator).to_be_visible()` / `to_have_count(N)` assertions on the specific element they care about — Playwright's auto-wait covers the legitimate cases.
 
 ## Concrete Component Pattern
 
@@ -222,6 +221,6 @@ from page_objects.components.product_card import ProductCard
 7. Use `data-test-id` attributes — prefer over CSS selectors or XPath
 8. `navigate()` uses `wait_until="load"` (not `networkidle`)
 9. No assertions or test logic in page objects/components
-10. No `time.sleep()` — components can use `wait_for_results()` when needed
+10. No `time.sleep()` and no `networkidle` waits — wait via explicit `expect()` assertions on specific locators
 11. Add new pages/components to `__init__.py` exports
 12. Type annotations on all properties: `-> Locator`, `-> str | None`, `-> ChildComponent`
