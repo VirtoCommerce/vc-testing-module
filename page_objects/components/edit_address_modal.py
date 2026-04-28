@@ -16,3 +16,7 @@ class EditAddressModal(Component):
     @property
     def cancel_button(self) -> Locator:
         return self._root.locator("[data-test-id='cancel-button']")
+    
+    @property
+    def edit_address_modal(self) -> Locator:
+        return self._root.locator("[data-test-id='edit-address-modal']")

@@ -19,7 +19,23 @@ def test_checkout_payment_method_single_page(
 ) -> None:
     cart_page = CartPage(global_settings=global_settings, page=page)
     cart_page.navigate()
+    expect(cart_page.shipping_details_section.root).to_be_visible()
+
+    cart_page.shipping_details_section.shipping_switcher.click()
+    cart_page.shipping_details_section.shipping_address_section.select_address_button.click()
+
+    edit_address_modal = EditAddressModal(root=page.locator("body"))
+    expect(edit_address_modal.edit_address_modal).to_be_visible()
+    edit_address_modal.address_form.fill(address=TEST_CART_ADDRESS)
+    edit_address_modal.submit_button.click()
+    expect(
+        cart_page.shipping_details_section.shipping_address_section.current_address_label
+    ).to_be_visible()
+
+    cart_page.shipping_details_section.select_shipping_method(code=_FIXED_RATE_GROUND)
     expect(cart_page.payment_details_section.root).to_be_visible()
+    expect(cart_page.payment_details_section.selected_address_label).to_be_visible()
+    expect(cart_page.payment_details_section.payment_method_selector).to_be_visible()
 
     cart_page.payment_details_section.select_payment_method(code=_MANUAL_PAYMENT_METHOD)
     selected_payment_method = (
@@ -47,9 +63,8 @@ def test_checkout_payment_method_multi_step(
 
     shipping_page.shipping_details_section.shipping_switcher.click()
     shipping_page.shipping_details_section.shipping_address_section.select_address_button.click()
-    edit_address_modal = EditAddressModal(
-        root=page.locator("[data-test-id='edit-address-modal']")
-    )
+    edit_address_modal = EditAddressModal(root=page.locator("body"))
+    expect(edit_address_modal.edit_address_modal).to_be_visible()
     edit_address_modal.address_form.fill(address=TEST_CART_ADDRESS)
     edit_address_modal.submit_button.click()
     expect(
