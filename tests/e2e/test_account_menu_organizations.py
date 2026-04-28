@@ -30,23 +30,15 @@ def test_account_menu_organizations_change(
 
     expect(home_page.top_header.account_button.customer_name_label).to_be_visible()
     expect(home_page.top_header.account_button.organization_name_label).to_be_visible()
-    expect(home_page.top_header.account_button.organization_name_label).to_have_text(
-        _ORIGINAL_ORGANIZATION_NAME
-    )
+    expect(home_page.top_header.account_button.organization_name_label).to_have_text(_ORIGINAL_ORGANIZATION_NAME)
 
     home_page.top_header.account_button.root.click()
     expect(home_page.top_header.account_menu.root).to_be_visible()
 
-    home_page.top_header.account_menu.select_organization(
-        name=_TARGET_ORGANIZATION_NAME
-    )
-    expect(home_page.top_header.account_button.organization_name_label).to_have_text(
-        _TARGET_ORGANIZATION_NAME
-    )
+    home_page.top_header.account_menu.select_organization(name=_TARGET_ORGANIZATION_NAME)
+    expect(home_page.top_header.account_button.organization_name_label).to_have_text(_TARGET_ORGANIZATION_NAME)
     home_page.top_header.account_button.root.click()
-    home_page.top_header.account_menu.select_organization(
-        name=_ORIGINAL_ORGANIZATION_NAME
-    )
+    home_page.top_header.account_menu.select_organization(name=_ORIGINAL_ORGANIZATION_NAME)
 
 
 @pytest.mark.e2e
@@ -62,9 +54,7 @@ def test_account_menu_organizations_search(
     home_page.top_header.account_button.root.click()
     expect(home_page.top_header.account_menu.root).to_be_visible()
     expect(home_page.top_header.account_menu.search_organizations_input).to_be_visible()
-    expect(
-        home_page.top_header.account_menu.search_organizations_button
-    ).to_be_visible()
+    expect(home_page.top_header.account_menu.search_organizations_button).to_be_visible()
 
     part_of_org_name = "ACME Store"
     home_page.top_header.account_menu.search_organizations_input.fill(part_of_org_name)
@@ -73,12 +63,8 @@ def test_account_menu_organizations_search(
     expect(home_page.top_header.account_menu.organizations_list.first).to_be_visible()
 
     orgs = home_page.top_header.account_menu.organizations_list
-    names = [
-        orgs.nth(i).get_attribute("data-organization-name") for i in range(orgs.count())
-    ]
-    assert (
-        len(names) > 1
-    ), "No search results found (only the pinned current organization)"
+    names = [orgs.nth(i).get_attribute("data-organization-name") for i in range(orgs.count())]
+    assert len(names) > 1, "No search results found (only the pinned current organization)"
     assert all(
         part_of_org_name.lower() in name.lower() for name in names if name
     ), f"Not all organizations contain '{part_of_org_name}': {names}"
@@ -97,9 +83,7 @@ def test_account_menu_organizations_search_not_found(
     home_page.top_header.account_button.root.click()
     expect(home_page.top_header.account_menu.root).to_be_visible()
     expect(home_page.top_header.account_menu.search_organizations_input).to_be_visible()
-    expect(
-        home_page.top_header.account_menu.search_organizations_button
-    ).to_be_visible()
+    expect(home_page.top_header.account_menu.search_organizations_button).to_be_visible()
 
     home_page.top_header.account_menu.search_organizations_input.fill("NonExistentOrg")
     home_page.top_header.account_menu.search_organizations_button.click()
@@ -123,22 +107,15 @@ def test_account_menu_organizations_search_special_characters(
     home_page.top_header.account_button.root.click()
     expect(home_page.top_header.account_menu.root).to_be_visible()
     expect(home_page.top_header.account_menu.search_organizations_input).to_be_visible()
-    expect(
-        home_page.top_header.account_menu.search_organizations_button
-    ).to_be_visible()
+    expect(home_page.top_header.account_menu.search_organizations_button).to_be_visible()
 
     home_page.top_header.account_menu.search_organizations_input.fill(search_term)
     home_page.top_header.account_menu.search_organizations_button.click()
-    home_page.top_header.account_menu.wait_for_results()
 
     orgs = home_page.top_header.account_menu.organizations_list
     expect(orgs.first).to_be_visible()
-    names = [
-        orgs.nth(i).get_attribute("data-organization-name") for i in range(orgs.count())
-    ]
-    assert (
-        len(names) > 1
-    ), "No search results found (only the pinned current organization)"
+    names = [orgs.nth(i).get_attribute("data-organization-name") for i in range(orgs.count())]
+    assert len(names) > 1, "No search results found (only the pinned current organization)"
     assert any(
         search_term.strip().lower() in name.lower() for name in names if name
     ), f"Expected at least one organization to contain '{search_term.strip()}', got {names}"

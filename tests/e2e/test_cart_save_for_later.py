@@ -22,12 +22,9 @@ def test_cart_save_for_later(global_settings: GlobalSettings, page: Page) -> Non
     expect(line_item.save_for_later_desktop_button).to_be_visible()
 
     line_item.save_for_later_desktop_button.click()
-    line_item.wait_for_results()
     expect(cart_page.line_items).to_have_count(0)
 
-    account_saved_for_later_page = AccountSavedForLaterPage(
-        global_settings=global_settings, page=page
-    )
+    account_saved_for_later_page = AccountSavedForLaterPage(global_settings=global_settings, page=page)
     account_saved_for_later_page.navigate()
     expect(account_saved_for_later_page.line_items).to_have_count(1)
 
@@ -36,9 +33,7 @@ def test_cart_save_for_later(global_settings: GlobalSettings, page: Page) -> Non
 
     saved_item.remove_button.click()
 
-    remove_item_modal = RemoveShoppingListItemModal(
-        root=page.locator("[data-test-id='delete-wishlist-product-modal']")
-    )
+    remove_item_modal = RemoveShoppingListItemModal(root=page.locator("[data-test-id='delete-wishlist-product-modal']"))
     expect(remove_item_modal.root).to_be_visible()
 
     remove_item_modal.delete_button.click()
