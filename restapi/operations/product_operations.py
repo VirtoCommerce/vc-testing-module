@@ -4,6 +4,7 @@ from typing import Any
 
 from restapi.constants import PRODUCT_TEMPLATE
 from restapi.operations.base import RestBaseOperations
+from restapi.types import Product
 
 
 class ProductOperations(RestBaseOperations):
@@ -11,7 +12,7 @@ class ProductOperations(RestBaseOperations):
     LIST_ENTRIES_DELETE = "/api/catalog/listentries/delete"
     LIST_ENTRIES_MOVE = "/api/catalog/listentries/move"
 
-    def create(self, *, catalog_id: str, category_id: str, name: str, code: str, **overrides: Any) -> dict:
+    def create(self, *, catalog_id: str, category_id: str, name: str, code: str, **overrides: Any) -> Product:
         payload = {
             **PRODUCT_TEMPLATE,
             "catalogId": catalog_id,
@@ -20,23 +21,28 @@ class ProductOperations(RestBaseOperations):
             "code": code,
             **overrides,
         }
-        return self._client.post(self._url(self.PATH), json=payload)
+        response = self._client.post(self._url(self.PATH), json=payload)
+        return Product.model_validate(response)
 
-    def get_by_ids(self, product_ids: list[str]) -> list[dict]:
-        return self._client.get(self._url(self.PATH), params={"ids": product_ids})
+    def get_by_ids(self, product_ids: list[str]) -> list[Product]:
+        response = self._client.get(self._url(self.PATH), params={"ids": product_ids})
+        return [Product.model_validate(p) for p in response or []]
 
-    def get_by_id(self, product_id: str) -> dict:
+    def get_by_id(self, product_id: str) -> Product:
         result = self.get_by_ids([product_id])
         if not result:
             raise ValueError(f"Product {product_id} not found")
         return result[0]
 
-    def update(self, product: dict, **overrides: Any) -> dict:
-        payload = {**PRODUCT_TEMPLATE, **product, **overrides}
-        return self._client.post(self._url(self.PATH), json=payload)
+    def update(self, product: Product, **overrides: Any) -> Product:
+        existing = product.model_dump(by_alias=True, exclude_none=True)
+        payload = {**PRODUCT_TEMPLATE, **existing, **overrides}
+        response = self._client.post(self._url(self.PATH), json=payload)
+        return Product.model_validate(response)
 
-    def create_or_update_with_body(self, body: dict) -> dict:
-        return self._client.post(self._url(self.PATH), json=body)
+    def create_or_update_with_body(self, body: dict) -> Product:
+        response = self._client.post(self._url(self.PATH), json=body)
+        return Product.model_validate(response)
 
     def get_clone(self, product_id: str) -> dict:
         return self._client.get(self._url(f"{self.PATH}/{product_id}/clone"))

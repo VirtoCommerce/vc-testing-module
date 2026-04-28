@@ -3,6 +3,7 @@
 from typing import Any
 
 from restapi.operations.base import RestBaseOperations
+from restapi.types import Role
 
 
 class RoleOperations(RestBaseOperations):
@@ -10,7 +11,7 @@ class RoleOperations(RestBaseOperations):
 
     def create(
         self, *, name: str, description: str = "", permissions: list[dict] | None = None, **overrides: Any
-    ) -> dict:
+    ) -> Role:
         """PUT /api/platform/security/roles → returns {succeeded}, then GET by name for the full object."""
         payload: dict[str, Any] = {
             "name": name,
@@ -21,9 +22,10 @@ class RoleOperations(RestBaseOperations):
         self._client.put(self._url(self.PATH), json=payload)
         return self.get_by_name(name)
 
-    def get_by_name(self, role_name: str) -> dict:
+    def get_by_name(self, role_name: str) -> Role:
         """GET /api/platform/security/roles/{roleName}."""
-        return self._client.get(self._url(f"{self.PATH}/{role_name}"))
+        response = self._client.get(self._url(f"{self.PATH}/{role_name}"))
+        return Role.model_validate(response)
 
     def search(self, *, keyword: str | None = None, skip: int = 0, take: int = 20, **extra: Any) -> dict:
         """POST /api/platform/security/roles/search."""
@@ -32,9 +34,10 @@ class RoleOperations(RestBaseOperations):
             payload["keyword"] = keyword
         return self._client.post(self._url(f"{self.PATH}/search"), json=payload)
 
-    def update(self, role: dict, **overrides: Any) -> dict:
+    def update(self, role: Role, **overrides: Any) -> dict:
         """PUT /api/platform/security/roles."""
-        payload = {**role, **overrides}
+        existing = role.model_dump(by_alias=True, exclude_none=True)
+        payload = {**existing, **overrides}
         return self._client.put(self._url(self.PATH), json=payload)
 
     def delete(self, role_id: str) -> None:

@@ -96,11 +96,11 @@ def test_catalog_listentries_search(make_product, category_ops: CategoryOperatio
     product = make_product()
 
     with allure.step(
-        f"POST /api/catalog/listentries — catalogId={product['catalogId']} categoryId={product['categoryId']}"
+        f"POST /api/catalog/listentries — catalogId={product.catalog_id} categoryId={product.category_id}"
     ):
         result = category_ops.search(
-            catalog_id=product["catalogId"],
-            categoryId=product["categoryId"],
+            catalog_id=product.catalog_id,
+            categoryId=product.category_id,
             responseGroup="withCategories, withProducts",
             take=200,
         )
@@ -108,4 +108,4 @@ def test_catalog_listentries_search(make_product, category_ops: CategoryOperatio
     with allure.step("Verify product appears in listentries results"):
         entries = result.get("listEntries") or result.get("results") or []
         ids = [e.get("id") for e in entries]
-        assert product["id"] in ids, f"Product {product['id']} not in listentries: {ids}"
+        assert product.id in ids, f"Product {product.id} not in listentries: {ids}"

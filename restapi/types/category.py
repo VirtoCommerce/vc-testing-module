@@ -6,3 +6,4 @@ class Category(RestModel):
     name: str
     code: str
     catalog_id: str
+    parent_id: str | None = None

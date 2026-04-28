@@ -83,8 +83,8 @@ def test_user_send_verification_email(make_user, user_ops: UserOperations) -> No
     user = make_user()
     full_user = user_ops.get_by_name(user["user_name"])
 
-    with allure.step(f"POST /api/platform/security/users/{full_user['id']}/sendverificationemail"):
-        user_ops.send_verification_email(full_user["id"])
+    with allure.step(f"POST /api/platform/security/users/{full_user.id}/sendverificationemail"):
+        user_ops.send_verification_email(full_user.id)
     # No assertion on response body — endpoint returns 204/200 with no content.
     # The test verifies the endpoint doesn't error out.
 

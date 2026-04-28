@@ -16,30 +16,41 @@ Endpoints verified from Katalon Object Repository
   GET    /api/order/customerOrders/indexed/searchEnabled    — indexed search flag
   GET    /api/order/dashboardStatistics?start=&end=         — dashboard stats
   POST   /api/order/customerOrders/{id}/processPayment/{paymentId} — process payment
+
+Read paths (create/get_by_id/get_by_number) return `CustomerOrder`.
+Mutation/recalculate paths keep dict in/out so tests can round-trip the
+full server response with deep field-level edits (e.g. items[0].quantity)
+without paying the cost of dump/reconstruct on every step.
 """
 
 from typing import Any
 
 from restapi.operations.base import RestBaseOperations
+from restapi.types import CustomerOrder
 
 
 class OrderOperations(RestBaseOperations):
     PATH = "/api/order/customerOrders"
 
-    def create(self, payload: dict) -> dict:
-        return self._client.post(self._url(self.PATH), json=payload)
+    def create(self, payload: dict) -> CustomerOrder:
+        response = self._client.post(self._url(self.PATH), json=payload)
+        return CustomerOrder.model_validate(response)
 
-    def get_by_id(self, order_id: str) -> dict:
-        return self._client.get(self._url(f"{self.PATH}/{order_id}"))
+    def get_by_id(self, order_id: str) -> CustomerOrder:
+        response = self._client.get(self._url(f"{self.PATH}/{order_id}"))
+        return CustomerOrder.model_validate(response)
 
-    def get_by_number(self, order_number: str) -> dict:
-        return self._client.get(self._url(f"{self.PATH}/number/{order_number}"))
+    def get_by_number(self, order_number: str) -> CustomerOrder:
+        response = self._client.get(self._url(f"{self.PATH}/number/{order_number}"))
+        return CustomerOrder.model_validate(response)
 
-    def update(self, order: dict) -> None:
-        self._client.put(self._url(self.PATH), json=order)
+    def update(self, order: dict | CustomerOrder) -> None:
+        body = order.model_dump(by_alias=True) if isinstance(order, CustomerOrder) else order
+        self._client.put(self._url(self.PATH), json=body)
 
-    def recalculate(self, order: dict) -> dict:
-        return self._client.put(self._url(f"{self.PATH}/recalculate"), json=order)
+    def recalculate(self, order: dict | CustomerOrder) -> dict:
+        body = order.model_dump(by_alias=True) if isinstance(order, CustomerOrder) else order
+        return self._client.put(self._url(f"{self.PATH}/recalculate"), json=body)
 
     def delete(self, *order_ids: str) -> None:
         self._client.delete(self._url(self.PATH), params={"ids": list(order_ids)})

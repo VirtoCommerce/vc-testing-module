@@ -78,7 +78,7 @@ def test_asset_add_to_product(
     backend_base_url: str,
 ) -> None:
     product = make_product()
-    folder = f"catalog-{product['code']}"
+    folder = f"catalog-{product.code}"
     asset_url = ""
 
     with allure.step(f"POST /api/assets?folderUrl={folder} — multipart upload"):
@@ -105,8 +105,9 @@ def test_asset_add_to_product(
             product_ops.update(product, assets=[asset_entry])
 
         with allure.step("Verify asset attached to product"):
-            reloaded = product_ops.get_by_id(product["id"])
-            asset_names = [a.get("name") for a in reloaded.get("assets", [])]
+            reloaded = product_ops.get_by_id(product.id)
+            assets = (reloaded.model_extra or {}).get("assets") or []
+            asset_names = [a.get("name") for a in assets]
             assert asset_info.get("name") in asset_names
     finally:
         with allure.step("Cleanup uploaded asset and folder"):
@@ -134,15 +135,15 @@ def test_asset_remove_from_product(make_product, product_ops: ProductOperations)
     product = make_product(assets=[asset_entry])
 
     with allure.step("Verify setup — product has one asset"):
-        reloaded = product_ops.get_by_id(product["id"])
-        assert len(reloaded.get("assets", [])) == 1
+        reloaded = product_ops.get_by_id(product.id)
+        assert len((reloaded.model_extra or {}).get("assets") or []) == 1
 
     with allure.step("POST /api/catalog/products — clear assets"):
         product_ops.update(product, assets=[])
 
     with allure.step("Verify asset removed"):
-        reloaded = product_ops.get_by_id(product["id"])
-        assert reloaded.get("assets") in ([], None)
+        reloaded = product_ops.get_by_id(product.id)
+        assert (reloaded.model_extra or {}).get("assets") in ([], None)
 
 
 @pytest.mark.restapi

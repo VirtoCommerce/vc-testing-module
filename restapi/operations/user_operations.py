@@ -1,8 +1,14 @@
-"""REST API operations for VirtoCommerce platform users."""
+"""REST API operations for VirtoCommerce platform users.
+
+Note: `create()` and `delete()` return a status dict (`{succeeded, errors}`),
+not a user resource — that's the platform's own contract for those endpoints.
+The `User` typed model surfaces on `get_by_name()` and is accepted by `update()`.
+"""
 
 from typing import Any
 
 from restapi.operations.base import RestBaseOperations
+from restapi.types import User
 
 
 class UserOperations(RestBaseOperations):
@@ -44,11 +50,13 @@ class UserOperations(RestBaseOperations):
         }
         return self._client.post(self._url(f"{self.PATH}/search"), json=payload)
 
-    def get_by_name(self, user_name: str) -> dict:
-        return self._client.get(self._url(f"{self.PATH}/{user_name}"))
+    def get_by_name(self, user_name: str) -> User:
+        response = self._client.get(self._url(f"{self.PATH}/{user_name}"))
+        return User.model_validate(response)
 
-    def update(self, user: dict, **overrides: Any) -> dict:
-        payload = {**user, **overrides}
+    def update(self, user: User, **overrides: Any) -> dict:
+        existing = user.model_dump(by_alias=True, exclude_none=True)
+        payload = {**existing, **overrides}
         return self._client.put(self._url(self.PATH), json=payload)
 
     def delete(self, *user_names: str) -> dict:

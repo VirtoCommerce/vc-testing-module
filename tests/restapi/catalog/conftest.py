@@ -7,7 +7,7 @@ import pytest
 
 from core.clients.rest import RestClient
 from restapi.operations import CatalogOperations, CategoryOperations, ProductOperations
-from restapi.types import Catalog
+from restapi.types import Catalog, Category, Product
 
 
 @pytest.fixture
@@ -49,11 +49,11 @@ def make_catalog(catalog_ops: CatalogOperations) -> Generator[Callable[..., Cata
 def make_category(
     category_ops: CategoryOperations,
     make_catalog: Callable[..., Catalog],
-) -> Generator[Callable[..., dict], None, None]:
+) -> Generator[Callable[..., Category], None, None]:
     """Factory: creates a category (and implicit catalog if needed), cleans up at teardown."""
     created_ids: list[str] = []
 
-    def _make(*, catalog: Catalog | None = None, catalog_id: str | None = None, **overrides: Any) -> dict:
+    def _make(*, catalog: Catalog | None = None, catalog_id: str | None = None, **overrides: Any) -> Category:
         if catalog_id is None:
             if catalog is None:
                 catalog = make_catalog()
@@ -61,7 +61,7 @@ def make_category(
         name = overrides.pop("name", f"QACategory_{uuid.uuid4().hex[:8]}")
         code = overrides.pop("code", f"qa-cat-{uuid.uuid4().hex[:6]}")
         category = category_ops.create(catalog_id=catalog_id, name=name, code=code, **overrides)
-        created_ids.append(category["id"])
+        created_ids.append(category.id)
         return category
 
     yield _make
@@ -76,24 +76,24 @@ def make_category(
 @pytest.fixture
 def make_product(
     product_ops: ProductOperations,
-    make_category: Callable[..., dict],
-) -> Generator[Callable[..., dict], None, None]:
+    make_category: Callable[..., Category],
+) -> Generator[Callable[..., Product], None, None]:
     """Factory: creates a product (and implicit catalog+category if needed), cleans up at teardown."""
     created_ids: list[str] = []
 
-    def _make(*, category: dict | None = None, **overrides: Any) -> dict:
+    def _make(*, category: Category | None = None, **overrides: Any) -> Product:
         if category is None:
             category = make_category()
         name = overrides.pop("name", f"QAProduct_{uuid.uuid4().hex[:8]}")
         code = overrides.pop("code", f"QA-SKU-{uuid.uuid4().hex[:8].upper()}")
         product = product_ops.create(
-            catalog_id=category["catalogId"],
-            category_id=category["id"],
+            catalog_id=category.catalog_id,
+            category_id=category.id,
             name=name,
             code=code,
             **overrides,
         )
-        created_ids.append(product["id"])
+        created_ids.append(product.id)
         return product
 
     yield _make
