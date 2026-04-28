@@ -11,3 +11,9 @@ allure-results/
 allure-report/
 screenshots/
 *.egg-info/
+har-output/
+report/
+screenshots/
+.serena/
+.claude/settings.local.json
+*.local.md
