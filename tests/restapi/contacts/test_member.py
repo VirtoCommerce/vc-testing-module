@@ -15,12 +15,15 @@ Katalon scripts:
   MemberGetOrganizations      → test_member_get_organizations
 """
 
+import logging
 import uuid
 
 import allure
 import pytest
 
 from restapi.operations import MemberOperations
+
+logger = logging.getLogger(__name__)
 
 
 @pytest.mark.restapi
@@ -56,8 +59,8 @@ def test_member_create_bulk(member_ops: MemberOperations) -> None:
         for mid in created_ids:
             try:
                 member_ops.delete(mid)
-            except Exception:
-                pass
+            except Exception as e:
+                logger.warning("Cleanup failed: %s", e)
 
 
 @pytest.mark.restapi

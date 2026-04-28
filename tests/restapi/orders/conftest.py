@@ -1,6 +1,7 @@
 """Orders module fixtures — operations + factory fixtures."""
 
 import copy
+import logging
 import uuid
 from typing import Any, Callable, Generator
 
@@ -10,6 +11,8 @@ from core.clients.rest import RestClient
 from core.global_settings import GlobalSettings
 from restapi.constants import ORDER_LINE_ITEM_TEMPLATE, ORDER_TEMPLATE
 from restapi.operations import OrderOperations
+
+logger = logging.getLogger(__name__)
 
 
 @pytest.fixture
@@ -67,5 +70,5 @@ def make_order(
     for oid in reversed(created_ids):
         try:
             order_ops.delete(oid)
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning("Cleanup failed for order %s: %s", oid, e)

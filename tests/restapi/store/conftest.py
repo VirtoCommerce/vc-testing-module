@@ -1,5 +1,6 @@
 """Store module fixtures."""
 
+import logging
 import uuid
 from typing import Any, Callable, Generator
 
@@ -7,6 +8,8 @@ import pytest
 
 from core.clients.rest import RestClient
 from restapi.operations import StoreOperations
+
+logger = logging.getLogger(__name__)
 
 
 @pytest.fixture
@@ -29,5 +32,5 @@ def make_store(store_ops: StoreOperations) -> Generator[Callable[..., dict], Non
     for sid in reversed(created_ids):
         try:
             store_ops.delete(sid)
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning("Cleanup failed for store %s: %s", sid, e)

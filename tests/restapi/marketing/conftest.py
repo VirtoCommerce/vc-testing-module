@@ -1,5 +1,6 @@
 """Marketing module fixtures."""
 
+import logging
 import uuid
 from typing import Any, Callable, Generator
 
@@ -14,6 +15,8 @@ from restapi.operations import (
     CouponOperations,
     PromotionOperations,
 )
+
+logger = logging.getLogger(__name__)
 
 
 @pytest.fixture
@@ -60,8 +63,8 @@ def make_content_item(content_item_ops: ContentItemOperations) -> Generator[Call
     for iid in reversed(created_ids):
         try:
             content_item_ops.delete(iid)
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning("Cleanup failed for content item %s: %s", iid, e)
 
 
 @pytest.fixture
@@ -78,8 +81,8 @@ def make_content_folder(content_folder_ops: ContentFolderOperations) -> Generato
     for fid in reversed(created_ids):
         try:
             content_folder_ops.delete(fid)
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning("Cleanup failed for content folder %s: %s", fid, e)
 
 
 @pytest.fixture
@@ -96,8 +99,8 @@ def make_content_place(content_place_ops: ContentPlaceOperations) -> Generator[C
     for pid in reversed(created_ids):
         try:
             content_place_ops.delete(pid)
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning("Cleanup failed for content place %s: %s", pid, e)
 
 
 @pytest.fixture
@@ -116,8 +119,8 @@ def make_content_publication(
     for pid in reversed(created_ids):
         try:
             content_pub_ops.delete(pid)
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning("Cleanup failed for content publication %s: %s", pid, e)
 
 
 @pytest.fixture
@@ -134,5 +137,5 @@ def make_promotion(promo_ops: PromotionOperations) -> Generator[Callable[..., di
     for pid in reversed(created_ids):
         try:
             promo_ops.delete(pid)
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning("Cleanup failed for promotion %s: %s", pid, e)
