@@ -7,12 +7,15 @@ Katalon scripts:
   contactAddAddress     → test_contact_add_address
 """
 
+import logging
 import uuid
 
 import allure
 import pytest
 from pydantic import ValidationError
 from requests.exceptions import HTTPError
+
+logger = logging.getLogger(__name__)
 
 from restapi.constants import ADDRESS_TEMPLATE
 from restapi.operations import ContactOperations
@@ -122,8 +125,8 @@ def test_contact_create_bulk(contact_ops: ContactOperations) -> None:
         for cid in created_ids:
             try:
                 contact_ops.delete(cid)
-            except Exception:
-                pass
+            except Exception as e:
+                logger.warning("Cleanup failed: %s", e)
 
 
 @pytest.mark.restapi

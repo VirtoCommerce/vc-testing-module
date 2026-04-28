@@ -1,5 +1,6 @@
 """Platform module fixtures — operations + factory fixtures."""
 
+import logging
 import uuid
 from typing import Any, Callable, Generator
 
@@ -16,6 +17,8 @@ from restapi.operations import (
     UserOperations,
 )
 from restapi.types import Role
+
+logger = logging.getLogger(__name__)
 
 
 @pytest.fixture
@@ -81,8 +84,8 @@ def make_user(
     if created_user_names:
         try:
             user_ops.delete(*created_user_names)
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning("Cleanup failed for users %s: %s", created_user_names, e)
 
 
 @pytest.fixture
@@ -104,8 +107,8 @@ def make_role(
     for rid in reversed(created_ids):
         try:
             role_ops.delete(rid)
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning("Cleanup failed for role %s: %s", rid, e)
 
 
 @pytest.fixture
@@ -130,5 +133,5 @@ def make_oauth_client(
     for cid in reversed(created_client_ids):
         try:
             oauth_ops.delete(cid)
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning("Cleanup failed for OAuth client %s: %s", cid, e)

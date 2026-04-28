@@ -7,12 +7,15 @@ Real endpoints (from Katalon Object Repository):
   - DELETE /api/platform/dynamic/properties?propertyIds=...
 """
 
+import logging
 import uuid
 
 import allure
 import pytest
 
 from core.clients.rest import RestClient
+
+logger = logging.getLogger(__name__)
 
 DYNAMIC_PROPERTY_OBJECT_TYPES = [
     "VirtoCommerce.CartModule.Core.Model.LineItem",
@@ -85,8 +88,8 @@ def test_dynamic_property_create_verify_delete(
         with allure.step("Delete property"):
             try:
                 rest_client.delete(f"{base}/properties", params={"propertyIds": [prop_id]})
-            except Exception:
-                pass
+            except Exception as e:
+                logger.warning("Cleanup failed: %s", e)
 
 
 @pytest.mark.restapi
@@ -113,8 +116,8 @@ def test_dynamic_property_create_dictionary(rest_client: RestClient, backend_bas
         with allure.step("Cleanup"):
             try:
                 rest_client.delete(f"{base}/properties", params={"propertyIds": [prop_id]})
-            except Exception:
-                pass
+            except Exception as e:
+                logger.warning("Cleanup failed: %s", e)
 
 
 @pytest.mark.restapi
@@ -166,8 +169,8 @@ def test_dynamic_property_value_types(
         with allure.step("Cleanup"):
             try:
                 rest_client.delete(f"{base}/properties", params={"propertyIds": [prop_id]})
-            except Exception:
-                pass
+            except Exception as e:
+                logger.warning("Cleanup failed: %s", e)
 
 
 @pytest.mark.restapi

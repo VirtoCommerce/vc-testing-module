@@ -1,5 +1,6 @@
 """Contacts module fixtures — operations + factory fixtures for contacts, organizations, employees, members, vendors."""
 
+import logging
 import uuid
 from typing import Any, Callable, Generator
 
@@ -14,6 +15,8 @@ from restapi.operations import (
     VendorOperations,
 )
 from restapi.types import Contact, Employee, Member, Organization
+
+logger = logging.getLogger(__name__)
 
 
 # ---------------------------------------------------------------- ops fixtures
@@ -65,8 +68,8 @@ def make_contact(contact_ops: ContactOperations) -> Generator[Callable[..., Cont
     for cid in reversed(created_ids):
         try:
             contact_ops.delete(cid)
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning("Cleanup failed for contact %s: %s", cid, e)
 
 
 @pytest.fixture
@@ -87,8 +90,8 @@ def make_organization(
     for oid in reversed(created_ids):
         try:
             organization_ops.delete(oid)
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning("Cleanup failed for organization %s: %s", oid, e)
 
 
 @pytest.fixture
@@ -109,8 +112,8 @@ def make_employee(employee_ops: EmployeeOperations) -> Generator[Callable[..., E
     for eid in reversed(created_ids):
         try:
             employee_ops.delete(eid)
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning("Cleanup failed for employee %s: %s", eid, e)
 
 
 @pytest.fixture
@@ -129,5 +132,5 @@ def make_member(member_ops: MemberOperations) -> Generator[Callable[..., Member]
     for mid in reversed(created_ids):
         try:
             member_ops.delete(mid)
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning("Cleanup failed for member %s: %s", mid, e)

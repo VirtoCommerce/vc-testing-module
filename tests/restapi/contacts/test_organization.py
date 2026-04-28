@@ -13,10 +13,13 @@ Katalon scripts:
   OrganizationDeleteBulk    → test_organization_delete_bulk
 """
 
+import logging
 import uuid
 
 import allure
 import pytest
+
+logger = logging.getLogger(__name__)
 
 from restapi.operations import OrganizationOperations
 
@@ -59,8 +62,8 @@ def test_organization_create_bulk(organization_ops: OrganizationOperations) -> N
         for oid in created_ids:
             try:
                 organization_ops.delete(oid)
-            except Exception:
-                pass
+            except Exception as e:
+                logger.warning("Cleanup failed: %s", e)
 
 
 @pytest.mark.restapi
@@ -208,8 +211,8 @@ def test_organization_cycle_bulk(organization_ops: OrganizationOperations) -> No
         for oid in ids:
             try:
                 organization_ops.delete(oid)
-            except Exception:
-                pass
+            except Exception as e:
+                logger.warning("Cleanup failed: %s", e)
         raise
 
 

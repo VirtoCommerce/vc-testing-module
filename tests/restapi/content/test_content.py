@@ -10,6 +10,7 @@ Mapping (Katalon script → pytest tests):
   ContentUploadBlacklistCheck → test_upload_forbidden_extension_rejected (parametrized)
 """
 
+import logging
 import uuid
 
 import allure
@@ -17,6 +18,8 @@ import pytest
 import requests
 
 from restapi.operations import CmsContentOperations, MenuLinkOperations
+
+logger = logging.getLogger(__name__)
 
 
 _FEATURE_PAGES = "Content / Pages (REST API)"
@@ -329,8 +332,8 @@ def test_menu_lifecycle(menu_ops: MenuLinkOperations, store_id: str) -> None:
         with allure.step("DELETE — remove menu list"):
             try:
                 menu_ops.delete(store_id=store_id, list_ids=list_id)
-            except Exception:
-                pass
+            except Exception as e:
+                logger.warning("Cleanup failed: %s", e)
 
     # Note: GET /{listId} on this backend returns a shell object after DELETE
     # (menuLinks=None, name preserved) rather than the null body the Katalon script
@@ -373,8 +376,8 @@ def test_folder_create_invalid_name(cms_content_ops: CmsContentOperations, store
         # cleanup if accepted
         try:
             cms_content_ops.delete(content_type="pages", store_id=store_id, urls=folder_name)
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning("Cleanup failed: %s", e)
 
 
 # --------------------------------------------------------- blacklist check

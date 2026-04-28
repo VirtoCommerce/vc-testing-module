@@ -8,6 +8,7 @@ Endpoints (verified from Object Repository `.rs` files):
   - DELETE /api/assets?urls={url}                            (delete)
 """
 
+import logging
 import uuid
 
 import allure
@@ -15,6 +16,8 @@ import pytest
 
 from core.clients.rest import RestClient
 from restapi.operations import ProductOperations
+
+logger = logging.getLogger(__name__)
 
 _GITHUB_SAMPLE_URL = "https://raw.githubusercontent.com/VirtoCommerce/vc-testing-module/dev/README.md"
 
@@ -115,8 +118,8 @@ def test_asset_add_to_product(
                 if asset_url:
                     rest_client.delete(f"{backend_base_url}/api/assets", params={"urls": [asset_url]})
                 rest_client.delete(f"{backend_base_url}/api/assets", params={"urls": [folder]})
-            except Exception:
-                pass
+            except Exception as e:
+                logger.warning("Cleanup failed: %s", e)
 
 
 @pytest.mark.restapi
@@ -176,5 +179,5 @@ def test_asset_delete(rest_client: RestClient, backend_base_url: str) -> None:
     with allure.step("Cleanup folder"):
         try:
             rest_client.delete(f"{backend_base_url}/api/assets", params={"urls": [folder]})
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning("Cleanup failed: %s", e)

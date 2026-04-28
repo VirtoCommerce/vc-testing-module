@@ -9,12 +9,15 @@ Katalon scripts:
   promo_CreateTestData           → test_promo_create_test_data (create promo + add coupon)
 """
 
+import logging
 import uuid
 
 import allure
 import pytest
 
 from restapi.operations import CouponOperations, PromotionOperations
+
+logger = logging.getLogger(__name__)
 
 
 @pytest.mark.restapi
@@ -194,5 +197,5 @@ def test_promo_create_test_data(make_promotion, coupon_ops: CouponOperations, pr
         for c in coupons:
             try:
                 coupon_ops.delete(c["id"])
-            except Exception:
-                pass
+            except Exception as e:
+                logger.warning("Cleanup failed: %s", e)
