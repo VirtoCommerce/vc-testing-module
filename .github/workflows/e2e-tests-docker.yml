@@ -21,11 +21,11 @@ on:
 
 jobs:
   e2e-tests:
-    uses: VirtoCommerce/.github/.github/workflows/pytest-tests.yml@VCST-4958
+    uses: VirtoCommerce/.github/.github/workflows/pytest-tests.yml@v3.800.30
     with:
       installModules: 'false'
       installCustomModule: 'false'
-      vctestingRepoBranch: '${{ github.ref_name }}'
+      vctestingRepoBranch: 'dev-4773' #'${{ github.ref_name }}'
       frontendZipUrl: '${{ inputs.frontendZipUrl }}'
       customPackagesJsonUrl: 'https://github.com/${{ github.repository }}/raw/${{ github.ref_name }}/backend-packages.json'
       testSuites: ${{ inputs.testSuites == 'all' && 'graphql,restapi,e2e' || inputs.testSuites }}
