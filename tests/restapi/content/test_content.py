@@ -279,16 +279,6 @@ def test_menu_get_all(menu_ops: MenuLinkOperations, store_id: str) -> None:
 @allure.title(
     "Menu link list lifecycle: checkname-free → create → get-by-id → rename → checkname-taken → delete → gone"
 )
-@pytest.mark.xfail(
-    strict=False,
-    reason=(
-        "Menu DELETE silently no-ops on this demo backend. Verified empirically: "
-        "?ids=<guid> returns 204 but the menu remains in GET /menu; ?listIds=<guid> "
-        "(per the .rs file) returns 500 NullReferenceException; ?ids[]= same as ?ids=. "
-        "All other lifecycle steps (checkname, create, get-by-id, rename) succeed. "
-        "Remove xfail when the backend is fixed."
-    ),
-)
 def test_menu_lifecycle(menu_ops: MenuLinkOperations, store_id: str) -> None:
     initial = menu_ops.get_all(store_id) or []
     initial_count = len(initial)
@@ -335,15 +325,15 @@ def test_menu_lifecycle(menu_ops: MenuLinkOperations, store_id: str) -> None:
             except Exception as e:
                 logger.warning("Cleanup failed: %s", e)
 
-    # Note: GET /{listId} on this backend returns a shell object after DELETE
-    # (menuLinks=None, name preserved) rather than the null body the Katalon script
-    # expected. Authoritative check is the list-level count returning to baseline.
     with allure.step("Verify deleted list is no longer in the list endpoint"):
         final = menu_ops.get_all(store_id) or []
         assert not any(
             m.get("id") == list_id for m in final
         ), f"Deleted list {list_id} still appears in menu list response"
         assert len(final) == initial_count, f"Menu count drifted: {initial_count} → {len(final)}"
+
+    with allure.step("GET /{listId} — deleted list returns null body"):
+        assert menu_ops.get_by_id(store_id=store_id, list_id=list_id) is None
 
 
 # ----------------------------------------------------------- validation
