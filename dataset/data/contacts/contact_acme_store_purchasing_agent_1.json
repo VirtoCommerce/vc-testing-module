@@ -1,7 +1,7 @@
 {
     "id": "contact-acme-store-purchasing-agent-1",
     "firstName": "ACME",
-    "lastName": "Purchasing Agent 1",
+    "lastName": "Purchasing Agent A",
     "memberType": "Contact",
     "status": "Approved",
     "defaultOrganizationId": "organization-acme-store",
