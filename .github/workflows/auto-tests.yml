@@ -1,0 +1,35 @@
+name: Auto Tests Docker
+
+on:
+  workflow_dispatch:
+    inputs:
+      frontendZipUrl:
+        description: 'Frontend zip url'
+        required: true
+        type: string
+        default: 'latest'
+      testSuites:
+        description: 'Test suites to run'
+        required: true
+        type: choice
+        default: 'all'
+        options:
+          - all
+          - graphql
+          - restapi
+          - e2e
+
+jobs:
+  e2e-tests:
+    uses: VirtoCommerce/.github/.github/workflows/pytest-tests.yml@v3.800.30
+    with:
+      installModules: 'false'
+      installCustomModule: 'false'
+      vctestingRepoBranch: '${{ github.ref_name }}'
+      frontendZipUrl: '${{ inputs.frontendZipUrl }}'
+      customPackagesJsonUrl: 'https://github.com/${{ github.repository }}/raw/${{ github.ref_name }}/backend-packages.json'
+      testSuites: ${{ inputs.testSuites == 'all' && 'graphql,restapi,e2e' || inputs.testSuites }}
+    secrets:
+      envPAT: ${{ secrets.REPO_TOKEN }}
+      testSecretEnvFile: ${{ secrets.VC_TESTING_MODULE_ENV_FILE_NEW }} #${{ secrets.VC_TESTING_MODULE_ENV_FILE }} #
+      sendgridApiKey: ${{ secrets.SENDGRID_APIKEY_4E2E_AUTOTESTS }}
