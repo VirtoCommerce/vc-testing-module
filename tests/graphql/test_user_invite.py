@@ -1,5 +1,6 @@
 import uuid
 
+import allure
 import pytest
 from core.auth import AuthProvider
 from core.clients import GraphQLClient
@@ -17,6 +18,8 @@ _STATUS_INVITED = "Invited"
 @pytest.mark.graphql
 @pytest.mark.skip
 @pytest.mark.with_user(_MAINTAINER)
+@allure.feature("User (GraphQL)")
+@allure.title("Invite a new user to the organization")
 def test_user_invite(
     graphql_client: GraphQLClient, ctx: Context, global_settings: GlobalSettings
 ) -> None:
@@ -26,45 +29,55 @@ def test_user_invite(
     user_ops = UserOperations(client=graphql_client)
     contact_ops = ContactOperations(client=graphql_client)
 
-    result = user_ops.invite_user(
-        store_id=ctx.store_id,
-        emails=[email],
-        organization_id=ctx.organization_id,
-        role_ids=[_ROLE_EMPLOYEE],
-    )
-    assert result.succeeded is True
+    with allure.step(
+        f"Invite user '{email}' to organization {ctx.organization_id} with role '{_ROLE_EMPLOYEE}'"
+    ):
+        result = user_ops.invite_user(
+            store_id=ctx.store_id,
+            emails=[email],
+            organization_id=ctx.organization_id,
+            role_ids=[_ROLE_EMPLOYEE],
+        )
+        assert result.succeeded is True
 
     try:
+        with allure.step(
+            f"Poll for invited contact '{email}' with status '{_STATUS_INVITED}'"
+        ):
 
-        def _find_invited_contact():
-            contacts = contact_ops.get_organization_contacts(
-                organization_id=ctx.organization_id,
-                search_phrase=email,
+            def _find_invited_contact():
+                contacts = contact_ops.get_organization_contacts(
+                    organization_id=ctx.organization_id,
+                    search_phrase=email,
+                )
+                return next(
+                    (
+                        c
+                        for c in contacts
+                        if c.status == _STATUS_INVITED
+                        and any(a.user_name == email for a in c.security_accounts)
+                    ),
+                    None,
+                )
+
+            invited_contact = poll_until(
+                fetch=_find_invited_contact,
+                predicate=lambda _: True,
+                attempts=global_settings.poll_attempts,
+                interval=global_settings.poll_interval,
             )
-            return next(
-                (
-                    c
-                    for c in contacts
-                    if c.status == _STATUS_INVITED
-                    and any(a.user_name == email for a in c.security_accounts)
-                ),
-                None,
-            )
 
-        invited_contact = poll_until(
-            fetch=_find_invited_contact,
-            predicate=lambda _: True,
-            attempts=global_settings.poll_attempts,
-            interval=global_settings.poll_interval,
-        )
-
-        assert (
-            invited_contact is not None
-        ), f"Invited contact '{email}' not found after polling"
-        assert invited_contact.status == _STATUS_INVITED
-        assert any(a.user_name == email for a in invited_contact.security_accounts)
+        with allure.step(
+            f"Verify contact '{email}' is found with status '{_STATUS_INVITED}'"
+        ):
+            assert (
+                invited_contact is not None
+            ), f"Invited contact '{email}' not found after polling"
+            assert invited_contact.status == _STATUS_INVITED
+            assert any(a.user_name == email for a in invited_contact.security_accounts)
     finally:
-        admin = AuthProvider(global_settings)
-        admin.sign_in(global_settings.admin_username, global_settings.admin_password)
-        with GraphQLClient(auth=admin, global_settings=global_settings) as admin_client:
-            UserOperations(client=admin_client).delete_users(user_names=[email])
+        with allure.step(f"Teardown: delete invited user '{email}' as admin"):
+            admin = AuthProvider(global_settings)
+            admin.sign_in(global_settings.admin_username, global_settings.admin_password)
+            with GraphQLClient(auth=admin, global_settings=global_settings) as admin_client:
+                UserOperations(client=admin_client).delete_users(user_names=[email])

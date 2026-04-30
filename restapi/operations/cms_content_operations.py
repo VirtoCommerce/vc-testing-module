@@ -122,10 +122,8 @@ class MenuLinkOperations(RestBaseOperations):
         )
 
     def delete(self, *, store_id: str, list_ids: str | list[str]) -> None:
-        # NB: the .rs file documents `?listIds=` but the current platform expects `?ids=`;
-        # `listIds` triggers a 500 NullReferenceException in the controller.
         ids_param = list_ids if isinstance(list_ids, list) else [list_ids]
-        self._client.delete(self._base(store_id), params={"ids": ids_param})
+        self._client.delete(self._base(store_id), params={"listIds": ids_param})
 
     def checkname(self, *, store_id: str, name: str, language: str = "en-US") -> dict:
         return self._client.get(

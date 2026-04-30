@@ -1,13 +1,20 @@
 # vc-testing-module — Code Review
 
-Comprehensive review of the project as of 2026-04-28.
+Comprehensive review of the project as of 2026-04-30 (refreshed; original review 2026-04-28).
 
 ## Scope
 
-- 17.7k LOC of Python across 9 packages: `core`, `dataset`, `gql`, `restapi`, `page_objects`, `tests`, `utils`
-- 105 test files (`tests/e2e/`, `tests/graphql/`, `tests/restapi/`)
-- Build/CI: `pyproject.toml` + 6 GitHub workflows
+- ~17.7k LOC of Python across 9 packages: `core`, `dataset`, `gql`, `restapi`, `page_objects`, `tests`, `utils`
+- 105+ test files (`tests/e2e/`, `tests/graphql/`, `tests/restapi/`)
+- Build/CI: `pyproject.toml` + 7 GitHub workflows (was 6)
 - `_BACKUP/` excluded from review (legacy reference material)
+
+## Status legend (relative to the 2026-04-28 review)
+
+- ✅ **FIXED** — issue resolved.
+- ◐ **PARTIAL** — meaningful progress; remaining work scoped below.
+- ❌ **OPEN** — unchanged since the previous review.
+- ➕ **NEW** — surfaced in this pass.
 
 ## Severity legend
 
@@ -17,53 +24,69 @@ Comprehensive review of the project as of 2026-04-28.
 
 ---
 
-## CRITICAL issues
+## What changed since the last review
 
-### C1. `pytest --retries=1` masks every flake in CI
-
-**Where:** [pyproject.toml:22](pyproject.toml#L22)
-```toml
-addopts = "--retries=1 --alluredir=allure-results"
-```
-**Problem:** Every failed test silently retries once. There's no way to tell from output whether a test is reliable or barely passes. Hides flake rate from CI dashboards and skews historical reliability metrics.
-
-**Fix:**
-- Remove `--retries=1` from the global default.
-- Opt-in per test using `@pytest.mark.flaky(retries=1)` (via `pytest-rerunfailures`) for known-flaky tests, with a comment explaining why.
-- Or keep retries but emit a summary at end of run showing which tests required retries.
+| ID | Title | Status | Notes |
+|---|---|---|---|
+| C1 | Global `--retries=1` | ✅ Fixed | `addopts` in [pyproject.toml:21](pyproject.toml#L21) is now `--alluredir=allure-results`. |
+| C2 | `pyright` excludes `restapi/` | ✅ Fixed | `include` in [pyproject.toml:44](pyproject.toml#L44) now lists `restapi`. |
+| C3 | Untyped REST responses | ◐ Partial | `restapi/types/` exists with 14 hand-written `RestModel` classes; ~50% of operations return typed models. ~70 methods still return `dict`. `RestModel` uses `extra="allow"` (documented as follow-up). |
+| C4 | `Context.from_dataset` dead branch | ❌ Open | [tests/context.py:34](tests/context.py#L34) still uses `next()` without default — same `StopIteration` trap. |
+| C5 | Race in `AuthProvider._refresh` | ❌ Open | [core/auth/provider.py:42-68](core/auth/provider.py#L42) still releases the lock before the HTTP call. |
+| C6 | Swallowed teardown errors | ✅ Fixed | All `make_*` factory teardowns log via `logger.warning` — verified across [tests/restapi/platform/conftest.py](tests/restapi/platform/conftest.py), [catalog/conftest.py](tests/restapi/catalog/conftest.py), [contacts/conftest.py](tests/restapi/contacts/conftest.py), [marketing/conftest.py](tests/restapi/marketing/conftest.py), [orders/conftest.py](tests/restapi/orders/conftest.py). |
+| C7 | `time.sleep` polling | ❌ Open | Still in [tests/restapi/search/test_search.py:115](tests/restapi/search/test_search.py#L115) and [tests/restapi/platform/test_misc.py:37](tests/restapi/platform/test_misc.py#L37). |
+| C8 | `Component.wait_for_results` networkidle | ✅ Fixed | [page_objects/components/component.py](page_objects/components/component.py) is now an 11-line locator wrapper; no `networkidle` anywhere in `page_objects/`. |
+| C9 | `client._session` private access | ❌ Open | [tests/conftest.py:109](tests/conftest.py#L109) still mutates `client._session.hooks["response"]`. |
+| C10 | `serial` marker informational | ❌ Open | Marker still defined in [pyproject.toml:26](pyproject.toml#L26); no xdist grouping configured. |
+| S11 | `cart_operations.py` duplication | ❌ Open | Still 442 lines, still 12+ near-identical mutations. |
+| S12 | `BaseOperations` vs `RestBaseOperations` | ❌ Open | Naming and file-name split unchanged. |
+| S13 | Implicit `with_user` chain | ❌ Open | `graphql_client`/`with_cart`/`ctx` still depend on `with_user`. |
+| S14 | Multiple autouse fixtures | ❌ Open | `screenshot_on_failure`, `har_recorder`, `with_cart`, `delete_cart_after` all autouse. |
+| S15 | No `tests/e2e/conftest.py` | ❌ Open | E2E branches still gated by `if marker == "e2e"` in root conftest. |
+| S16 | Page-object children per-access | ❌ Open | [top_header.py](page_objects/components/top_header.py) still rebuilds children on every property. |
+| S17 | Positional marker payloads | ❌ Open | `marker.args[0]` access at [tests/conftest.py:30,181,206,270](tests/conftest.py#L30). |
+| S18 | Mutable `restapi/constants.py` | ❌ Open | [restapi/constants.py:10](restapi/constants.py#L10) lists/dicts unchanged. |
+| S19 | `ORDER_LINE_ITEM_TEMPLATE` coupling | ❌ Open | Hardcoded product IDs still in `restapi/constants.py`. |
+| S20 | `gql()` no-op | ❌ Open | Still in [gql/operations/base_operations.py:35](gql/operations/base_operations.py#L35). |
+| S21 | `GqlModel` not strict | ❌ Open | [gql/types/base.py](gql/types/base.py) still missing `extra="forbid"`. |
+| S22 | `# type: ignore[call-arg]` | ❌ Open | [core/global_settings.py:45](core/global_settings.py#L45). |
+| S23 | Allure decorator discipline | ❌ Open | No documented convention or enforcement hook. |
+| S24 | Inconsistent `__init__.py` | ❌ Open | `tests/restapi/` has them; `tests/e2e/`, `tests/graphql/`, `tests/` don't. |
+| S25 | `dataset_manager.log` location | ❌ Open | Still inside the package dir. |
+| S26 | GraphQL partial response handling | ❌ Open | [core/clients/graphql.py:36-38](core/clients/graphql.py#L36) still raises on any `errors`. |
+| S27 | `RestClient._parse_response` strictness | ❌ Open | Still raises `NotImplementedError` on non-JSON. |
+| S28 | `make_user` mutates server response | ❌ Open | [tests/restapi/platform/conftest.py:77-79](tests/restapi/platform/conftest.py#L77). |
+| M29–M40, M42–M45 | Various minor | ❌ Open | See per-item entries below. |
+| M30 | `_legacy/` vs `_BACKUP/` | ✅ Fixed | `dataset/_legacy/` no longer exists; only `_BACKUP/` remains. |
+| M37 | `HARRecorder.hook` swallow | ❌ Open | [utils/har_recorder.py:60-64](utils/har_recorder.py#L60) still has `except Exception: pass`. |
+| M41 | Thin `Component` base class | ◐ Partial | After C8, `Component` is a 4-line wrapper holding `_root` and exposing `.root`. The "delete or give real behaviour" decision still pending — the class adds little over a raw `Locator` today. |
+| N1 (➕) | REST typing coverage uneven | New | See N1 below. |
+| N2 (➕) | `RestModel` not strict | New | See N2 below. |
+| N3 (➕) | New `auto-tests.yml` workflow | New | See N3 below. |
+| N4 (➕) | `OrderOperations.update` accepts `dict \| CustomerOrder` | New | See N4 below. |
+| N5 (➕) | `tests/restapi/store/test_store.py:46` `except: pass` | New | See N5 below. |
+| N6 (➕) | `tests/restapi/search/test_search.py:113` `except: pass` inside polling loop | New | See N6 below. |
+| N7 (➕) | `RestClient` reaches into `auth.headers` | New | See N7 below. |
 
 ---
 
-### C2. `pyright` excludes `restapi/` from type checking
+## CRITICAL issues (still open)
 
-**Where:** [pyproject.toml:44](pyproject.toml#L44)
-```toml
-include = ["core", "dataset", "gql", "page_objects", "tests", "utils"]
-```
-**Problem:** `restapi/` (the largest typed-API surface, 28+ operation classes) is not type-checked. All REST tests run with no static check on argument shapes.
+### C3 (PARTIAL). Typed REST responses — coverage and strictness still incomplete
 
-**Fix:**
-```toml
-include = ["core", "dataset", "gql", "page_objects", "restapi", "tests", "utils"]
-```
-Address any errors that surface in a follow-up pass.
+**Where:** [restapi/types/](restapi/types/), [restapi/operations/](restapi/operations/)
 
----
+**What landed (PR #153, commit 26c629c):**
+- `restapi/types/` now contains 14 hand-written models: `Catalog`, `CatalogLanguage`, `Category`, `Contact`, `CustomerOrder`, `Employee`, `Member`, `OrderLineItem`, `Organization`, `Pricelist`, `PricelistAssignment`, `Product`, `Promotion`, `Role`, `Store`, `User`, `Vendor`.
+- Operations that consume these models: `CatalogOperations.create/update`, `CategoryOperations.create`, `ProductOperations.create`, `MemberOperations.create`, `ContactOperations.create`, `OrganizationOperations.create`, `EmployeeOperations.create`, `VendorOperations.create`, `RoleOperations.create`, `OrderOperations.create/get_by_id/get_by_number`, `UserOperations.get_by_name`, etc.
+- Each model is conservative — only fields touched by the test suite are typed.
 
-### C3. `restapi/types/` is empty — REST responses are untyped `dict`
+**What's left:**
+1. **~70 method signatures still return `dict`.** Search/list endpoints, `dynamic_content`, `oauth`, `settings`, `notifications`, `api_key`, `price`, `cms_content`, several `order` reads (`search`, `recalculate`, `dashboard_statistics`, etc.). Plan calls these out individually in Phase 2.3.
+2. **`RestModel` uses `extra="allow"` deliberately** to round-trip unknown fields on update calls (see [restapi/types/base.py:5-13](restapi/types/base.py#L5)). This means schema drift still passes silently — `extra="forbid"` is parked behind "first get coverage, then tighten." Tracked as N2 below.
+3. **`OrderOperations.update` accepts `dict | CustomerOrder`.** This is an escape hatch when round-tripping unknown fields, but it lets tests bypass the typed contract. Tracked as N4.
 
-**Where:** [restapi/types/](restapi/types/) (empty), every method in [restapi/operations/](restapi/operations/) returns `dict`
-
-**Problem:** Compare:
-- GraphQL: rich Pydantic models like [gql/types/cart.py](gql/types/cart.py) — `Cart`, `Money`, etc.
-- REST: every operation returns `dict` — e.g. [restapi/operations/catalog_operations.py:12](restapi/operations/catalog_operations.py#L12)
-
-Tests do `catalog["id"]`, `result["data"][...]` — runtime KeyErrors when API shape drifts.
-
-**Fix:**
-- Generate Pydantic models from the OpenAPI/Swagger schema (recommended — staying in sync automatically).
-- Or hand-write `TypedDict`s for the most-used responses (Catalog, Category, Product, User, Role, Order).
-- Update operation methods to return the typed model and `model_validate` server responses.
+**Severity:** Still CRITICAL because the gap between "the model says it accepts X" and "we actually validate X" remains. Type-safety asymmetry has narrowed but not closed.
 
 ---
 
@@ -75,7 +98,7 @@ user = next(u for u in dataset["users"] if u["userName"] == username)
 if user is None:
     raise ValueError(f"User '{username}' not found in dataset")
 ```
-**Problem:** `next()` on a generator without a default raises `StopIteration`, never returns `None`. The `if user is None` branch is unreachable. A genuine "user not found" produces a confusing `StopIteration` instead of the friendly `ValueError`.
+**Problem:** Unchanged. `next()` without a default raises `StopIteration`; the `if user is None` branch is unreachable.
 
 **Fix:**
 ```python
@@ -90,58 +113,9 @@ if user is None:
 
 **Where:** [core/auth/provider.py:42-68](core/auth/provider.py#L42)
 
-**Problem:** The lock is released between the `is_expired` check and the `requests.post` call. Two concurrent threads can both decide to refresh, both hit the token endpoint, and the second response overwrites the first.
+**Problem:** Still releases the lock between the `is_expired` check and `requests.post`. Two concurrent threads can double-refresh and the second response overwrites the first.
 
-**Fix:** Hold the lock through the HTTP call:
-```python
-def _refresh(self) -> None:
-    with self._lock:
-        if self._token_info is None:
-            raise RuntimeError("Not authenticated. Call sign_in() first.")
-        if not self._token_info.is_expired:
-            return
-        if self._token_info.refresh_token is None:
-            raise RuntimeError("Token expired and no refresh token available. Re-authenticate.")
-        refresh_token = self._token_info.refresh_token
-        # ... HTTP call still inside lock
-        response = requests.post(...)
-        # ... parse and assign
-```
-
-Refreshes are rare; lock contention isn't a real concern.
-
----
-
-### C6. Test factories silently swallow teardown errors
-
-**Where:** Every `make_*` fixture, e.g.:
-- [tests/restapi/platform/conftest.py:81-84](tests/restapi/platform/conftest.py#L81)
-- [tests/restapi/catalog/conftest.py:41-44](tests/restapi/catalog/conftest.py#L41)
-- [tests/restapi/contacts/conftest.py](tests/restapi/contacts/conftest.py)
-
-```python
-for cid in reversed(created_ids):
-    try:
-        catalog_ops.delete(cid)
-    except Exception:
-        pass
-```
-
-**Problem:** Cleanup failures emit zero signal — no log, no warning. Tests appear green while the test backend accumulates orphans, which can cascade into flakes in unrelated tests.
-
-**Fix:**
-```python
-import logging
-logger = logging.getLogger(__name__)
-
-for cid in reversed(created_ids):
-    try:
-        catalog_ops.delete(cid)
-    except Exception as e:
-        logger.warning("Cleanup failed for catalog %s: %s", cid, e)
-```
-
-For higher signal: collect all failures, raise an aggregate exception in a `request.addfinalizer` so cleanup failures fail the test run.
+**Fix:** Hold the lock through the HTTP call (refreshes are rare; contention isn't the concern).
 
 ---
 
@@ -151,764 +125,199 @@ For higher signal: collect all failures, raise an aggregate exception in a `requ
 - [tests/restapi/search/test_search.py:115](tests/restapi/search/test_search.py#L115)
 - [tests/restapi/platform/test_misc.py:37](tests/restapi/platform/test_misc.py#L37)
 
-**Problem:** Hand-rolled polling loops with `time.sleep(2)`/`sleep(5)`. [utils/polling_utils.py](utils/polling_utils.py) `poll_until` exists for this purpose and is unused.
+**Problem:** Same as before. [utils/polling_utils.py](utils/polling_utils.py) `poll_until` is unused at these sites.
 
-**Fix:** Replace the loops with `poll_until(...)`.
-
-```python
-from utils.polling_utils import poll_until
-
-job = poll_until(
-    fetch=lambda: rest_client.get(f"{backend_base_url}/api/platform/jobs/{job_id}"),
-    predicate=lambda j: isinstance(j, dict) and j.get("completed") is True,
-    attempts=20,
-    interval=2,
-)
-```
-
----
-
-### C8. `Component.wait_for_results` uses Playwright's discouraged `networkidle`
-
-**Where:** [page_objects/components/component.py:13](page_objects/components/component.py#L13)
-```python
-self._root.page.wait_for_load_state("networkidle")
-```
-
-**Problem:** Playwright's own docs label `networkidle` as **DISCOURAGED**. Project memory and [.claude/skills/create-ui-layer/SKILL.md:93](.claude/skills/create-ui-layer/SKILL.md#L93) say "use `wait_until='load'`, not `networkidle`". Yet the base class advertises it. Hangs on apps with WebSocket/polling traffic.
-
-**Fix:** Remove `wait_for_results` entirely. Replace usages with explicit Playwright assertions:
-```python
-expect(component.some_locator).to_be_visible()
-```
-This is what auto-waiting is for. If a specific component genuinely needs explicit waiting, do it inline with `wait_for_selector` or `expect(...).to_have_count(N)`.
+**Fix:** Replace the loops with `poll_until(...)` (see original review for example).
 
 ---
 
 ### C9. `tests/conftest.py` reaches into private `client._session`
 
 **Where:** [tests/conftest.py:109](tests/conftest.py#L109)
-```python
-client._session.hooks["response"].append(recorder.hook)
-```
 
-**Problem:** Both `RestClient` and `GraphQLClient` keep `_session` private; the conftest reaches in. Brittle — internal renames break tests.
+**Problem:** Conftest still mutates `client._session.hooks["response"]` directly.
 
-**Fix:** Add a public hook API to the clients:
-```python
-class RestClient:
-    def add_response_hook(self, hook: Callable[[requests.Response], None]) -> None:
-        self._session.hooks["response"].append(hook)
-
-    def remove_response_hook(self, hook: ...) -> None:
-        try:
-            self._session.hooks["response"].remove(hook)
-        except ValueError:
-            pass
-```
-
-Apply same in `GraphQLClient`. Then `har_recorder` fixture uses the public API.
+**Fix:** Add `add_response_hook` / `remove_response_hook` to `RestClient` and `GraphQLClient`; have the `har_recorder` fixture use the public API.
 
 ---
 
 ### C10. `serial` marker is informational only
 
-**Where:** [pyproject.toml:27](pyproject.toml#L27)
-```toml
-"serial: test mutates global platform state and must not run in parallel"
-```
+**Where:** [pyproject.toml:26](pyproject.toml#L26)
 
-**Problem:** Without `pytest-xdist` worker grouping or `pytest-ordering`, the marker does nothing. Tests marked `serial` will still run in parallel under `pytest -n auto`.
+**Problem:** Without `pytest-xdist` worker grouping or `pytest-ordering`, the marker still does nothing. CI does not currently run with `-n auto`, so the marker is purely aspirational.
 
 **Fix:**
-- If parallel runs are not used, remove the marker (false sense of safety).
-- If parallel runs are used (now or later): add `pytest-xdist` and use `@pytest.mark.xdist_group("serial")` so all serial-marked tests run on the same worker; document this in README and CI workflows.
+- If parallel runs aren't planned, remove the marker (false sense of safety).
+- If parallel runs are planned: add `pytest-xdist`, use `@pytest.mark.xdist_group("serial")` so all serial-marked tests run on the same worker; document in README and CI workflows.
 
 ---
 
-## SIGNIFICANT issues
+## SIGNIFICANT issues (still open)
 
-### S11. Massive duplication in `gql/operations/cart_operations.py`
+S11–S28 are unchanged from the previous review. Cross-references and fix sketches in the original document remain accurate. Highlights:
 
-**Where:** [gql/operations/cart_operations.py](gql/operations/cart_operations.py) — 443 lines
+- **S11. `cart_operations.py` duplication** — [gql/operations/cart_operations.py](gql/operations/cart_operations.py) is still 442 lines, still 12 near-identical mutations. Extract `_execute_command(operation_name, query, command)` on `BaseOperations`.
+- **S12 / S15 / S24. Naming and structure inconsistencies** — `BaseOperations` vs `RestBaseOperations`, `base.py` vs `base_operations.py`, missing `tests/e2e/conftest.py`, mixed `__init__.py` placement. None individually critical; together they fight new contributors.
+- **S13 / S14. Implicit autouse fixture chain** — every test transitively pulls `with_user`/`with_cart`/`delete_cart_after`/`screenshot_on_failure`/`har_recorder`. Test signatures hide what's running.
+- **S17. Positional marker payloads** — six call sites in [tests/conftest.py](tests/conftest.py) still read `marker.args[0]`.
+- **S18 / S19. `restapi/constants.py` mutability and dataset coupling** — lists and dicts are mutable; `ORDER_LINE_ITEM_TEMPLATE` hardcodes `product-acme-laptop-lenovo-ideapad-5i`.
+- **S21. `GqlModel` not strict** — still no `extra="forbid"`. Schema drift passes silently.
+- **S26 / S27. Client error handling** — `GraphQLClient.execute` raises whenever `errors` is non-empty, dropping partial data; `RestClient._parse_response` raises `NotImplementedError` on non-JSON content types.
+- **S28. `make_user` mutates the response dict** — credentials get mixed into the server response object.
 
-**Problem:** 12 mutation methods follow the identical shape: build query → build command dict → execute → `model_validate`. Boilerplate is ~70% of the file.
+Refer to the original review for full detail and fix sketches; they remain valid.
 
-**Fix:** Extract a helper in `BaseOperations`:
+---
+
+## MINOR issues (selected)
+
+Most M-series issues unchanged. Notable:
+
+- **M37. `HARRecorder.hook` still swallows everything** — [utils/har_recorder.py:60-64](utils/har_recorder.py#L60). Keeps the silent-failure pattern alive in a place where it'd be cheap to log.
+- **M41. `Component` base class is even thinner now** — after C8, [page_objects/components/component.py](page_objects/components/component.py) is just `__init__(self, root)` + `root` property. It doesn't yet justify its existence; either delete and have components hold a `Locator` directly, or give the base real shared behaviour (visibility helpers, common attribute accessors).
+- **M43. Workflow duplication has grown** — `auto-tests.yml` was added in addition to the existing six. Consolidating remains worthwhile.
+- **M30. `_legacy/` vs `_BACKUP/`** — Resolved. `dataset/_legacy/` is gone.
+
+Other M-items (M29, M31–M36, M38–M40, M42, M44–M45) are unchanged.
+
+---
+
+## NEW issues surfaced in this pass
+
+### N1. REST typing coverage is uneven by domain
+
+**Where:** [restapi/operations/](restapi/operations/)
+
+**Observation:** Among the 22 operation modules:
+- **Fully or mostly typed:** `catalog`, `category`, `product`, `member`, `contact`, `organization`, `employee`, `vendor`, `promotion`, `pricelist`, `pricelist_assignment`, `role`, `store`, `user (reads)`.
+- **Untyped or mixed:** `order` (write paths return `dict`), `dynamic_content` (18 dict returns), `cms_content`, `oauth`, `settings`, `notifications`, `api_key`, `price`, `user (writes)`.
+
+**Problem:** When a typed operation calls into an untyped helper or shares a schema with one (e.g. `OrderOperations.create` returns `CustomerOrder` but `OrderOperations.recalculate` returns `dict`), tests get inconsistent ergonomics in the same file.
+
+**Fix:** Continue Phase 2.3 — pick one untyped module per PR, type its responses, drop the `dict` annotations. Aim for a module-by-module rollout with pyright catching the call-site mismatches.
+
+---
+
+### N2. `RestModel` permissive `extra="allow"` parks schema drift
+
+**Where:** [restapi/types/base.py:5-13](restapi/types/base.py#L5)
+
+**Observation:** `RestModel` deliberately uses `extra="allow"` so that update flows (`update(catalog: Catalog)` → `model_dump()` → POST) round-trip server fields the model doesn't know about. The docstring acknowledges this and points to S21 as the follow-up.
+
+**Problem:** Schema drift cannot be detected by the test suite while `extra="allow"` is in effect — a renamed or added server field is silently accepted on read and re-sent unchanged on write. This is the same hole that S21 calls out for `GqlModel`.
+
+**Fix (when REST coverage is complete):**
+- Once a model has been validated against current server responses, flip to `extra="forbid"`.
+- For update flows that genuinely need round-tripping unknown fields, add an explicit `unknown_fields: dict[str, Any] = Field(default_factory=dict)` to capture them, instead of relying on `extra="allow"`.
+- Stage the flip module-by-module after Phase 2.3 finishes so it doesn't block coverage progress.
+
+---
+
+### N3. Workflow duplication has grown to seven files
+
+**Where:** [.github/workflows/](.github/workflows/) — `auto-tests.yml`, `e2e-tests.yml`, `e2e-tests-docker.yml`, `graphql-tests.yml`, `graphql-tests-docker.yml`, `restapi-tests-docker.yml`, `refactored-tests.yml`.
+
+**Problem:** Original M43 noted six; one more was added. The same setup steps (Python install, dependency install, Playwright install, Allure setup) are duplicated. Each rename or env-var change touches all of them.
+
+**Fix:** Consolidate via a reusable workflow + matrix strategy (see M43 fix sketch). Worth bundling with the PR that addresses M43.
+
+---
+
+### N4. `OrderOperations.update` accepts `dict | CustomerOrder`
+
+**Where:** [restapi/operations/order_operations.py:47-49](restapi/operations/order_operations.py#L47)
+
 ```python
-def _execute_command(
-    self,
-    operation_name: str,
-    query: str,
-    command: dict[str, Any],
-) -> dict[str, Any]:
-    result = self._client.execute(self._build_query(query), variables={"command": command})
-    return result["data"][operation_name]
+def update(self, order: dict | CustomerOrder) -> None:
+    body = order.model_dump(by_alias=True) if isinstance(order, CustomerOrder) else order
+    self._client.put(self._url(self.PATH), json=body)
 ```
 
-`add_coupon` becomes:
-```python
-def add_coupon(self, store_id, user_id, code, currency_code=None, culture_name=None) -> Cart:
-    command = self._build_cart_command(store_id, user_id, currency_code, culture_name, couponCode=code)
-    data = self._execute_command("addCoupon", _ADD_COUPON_MUTATION, command)
-    return Cart.model_validate(data)
-```
+**Problem:** The escape hatch (accepting either) lets tests bypass the typed contract — e.g. mutate `order["status"] = "Cancelled"` on a raw dict obtained elsewhere. The class docstring justifies this for "deep field-level edits without paying dump/reconstruct" but the cost is that pyright can't catch a typo'd field name in the dict path.
 
-Similar treatment for `remove_coupon`, `clear_cart`, `merge_cart`, etc.
+**Fix options:**
+- Keep `update(order: CustomerOrder)` only; add a low-level `update_raw(payload: dict)` for the round-trip case so test code is explicit about which mode it's in.
+- Or extend `CustomerOrder` to expose enough mutators (a `model_copy(update={...})` helper) that the dict path is unnecessary.
+
+Either way, surface the choice at the call site rather than letting it default into `dict`.
 
 ---
 
-### S12. Inconsistent base class naming and shape
+### N5. `try: ... except Exception: pass` regression in tests
 
-**Where:**
-- [gql/operations/base_operations.py](gql/operations/base_operations.py) — `BaseOperations`
-- [restapi/operations/base.py](restapi/operations/base.py) — `RestBaseOperations`
+**Where:** [tests/restapi/store/test_store.py:46-47](tests/restapi/store/test_store.py#L46) — comment says "Expected: validation error or 400" but no assertion verifies that.
 
-**Problem:** Two naming schemes (`Base*` vs `*BaseOperations`), two file names (`base_operations.py` vs `base.py`), two responsibility levels (`BaseOperations` has interesting query-building logic; `RestBaseOperations` only prepends a URL).
+**Problem:** This is the same pattern C6 fixed in conftest factories, but now living inside a test body. Bare `except Exception: pass` cannot distinguish "expected 400" from "connection refused" or "the entire backend is down."
 
-**Fix:** Pick one convention. Suggested:
-- Rename `RestBaseOperations` → `BaseOperations`, file `base.py` → `base_operations.py`.
-- Or rename `BaseOperations` → `GraphQLOperations` and `RestBaseOperations` → `RestOperations` (more descriptive of the API style).
+**Fix:** Use `pytest.raises(requests.HTTPError)` (or the project's wrapping exception) and assert on `response.status_code`.
 
 ---
 
-### S13. `with_user` is required by everything (implicit autouse chain)
+### N6. `time.sleep` loop also includes `except: pass`
 
-**Where:** [tests/conftest.py](tests/conftest.py)
+**Where:** [tests/restapi/search/test_search.py:108-115](tests/restapi/search/test_search.py#L108)
 
-**Problem:** `graphql_client`, `with_cart` (autouse), `delete_cart_after` (autouse), and `ctx` all depend on `with_user`. Every test that uses any of these implicitly signs in (or short-circuits on missing marker). The dependency chain is invisible from the test signature.
+**Problem:** Combines two anti-patterns from this review (C7 + silent-failure). The `try/except Exception: pass` inside the polling loop hides every failure mode — including the case where the backend has stopped serving job status entirely.
 
-**Fix:**
-- Make signing in explicit: rename `with_user` to `signed_in_user`, require tests to request it directly when they want auth.
-- Remove the autouse-via-fixture-dependency by inverting: have `ctx` accept an optional `auth_provider` param, only created when needed.
+**Fix:** Replace with `poll_until(...)`; if the test wants to tolerate transient failures, encode that in `predicate=` rather than via blanket `except`.
 
 ---
 
-### S14. Multiple autouse fixtures with no opt-out
+### N7. `RestClient._request` reads `auth.headers` on every call
 
-**Where:** [tests/conftest.py](tests/conftest.py) — `screenshot_on_failure`, `har_recorder`, `with_cart`, `delete_cart_after`
+**Where:** [core/clients/rest.py:33](core/clients/rest.py#L33)
 
-**Problem:** All four fire for every test. A 2-line REST test gets four wrappers, each doing `request` introspection and marker checks.
+**Observation:** Every request reads `self._auth.headers`, which acquires the auth lock and may trigger a refresh. That's correct, but combined with C5 (the race in `_refresh`), parallelism amplifies the bug. Worth keeping in mind when fixing C5: the contention pattern under `pytest-xdist` would be "every worker hits `headers` on every call."
 
-**Fix:**
-- Move `screenshot_on_failure` to `tests/e2e/conftest.py` (only e2e tests have a `page`).
-- Move `with_cart`, `delete_cart_after` to a `tests/cart/conftest.py` or scope them by marker via `pytest_collection_modifyitems`.
-- Keep `har_recorder` global since it covers REST + GraphQL, but consolidate.
+**Fix:** No standalone change; just verify that the C5 fix accounts for high-frequency callers.
 
 ---
 
-### S15. `tests/e2e/` lacks its own conftest
+## Cross-cutting themes (refresh)
 
-**Where:** No file at `tests/e2e/conftest.py`. E2E-specific fixtures live in [tests/conftest.py](tests/conftest.py)
+### T1. Type safety asymmetry — narrowing, not closed
 
-**Problem:** Project memory says e2e-only fixtures (those that depend on `page`) belong in `tests/e2e/conftest.py`. Currently `with_user` and `with_cart` reach `request.getfixturevalue("page")` only when an `e2e` marker is set — leaks e2e concerns into the global conftest.
+REST is no longer entirely `dict`-typed (down from 100% to ~50%), but the remaining `dict` returns are concentrated in search/dynamic-content/oauth modules. The intent is clear (continue rolling out); the risk is that "good enough" stalls progress before strictness (`extra="forbid"`) lands.
 
-**Fix:** Create `tests/e2e/conftest.py`. Move:
-- The `e2e`-specific branches of `with_user` (`BrowserStorage(page).set_auth(...)`)
-- The e2e branches of `with_cart` (the `BrowserStorage.set_user_id` part)
-- `screenshot_on_failure` (depends on `page`)
+### T2. Silent failure tolerance — partly addressed
 
-Keep cross-suite shared parts in root conftest.
+Factory teardowns now log (C6 ✅). HAR recorder hook (M37), GraphQL partial response handling (S26), in-test polling loops (N6), and one isolated test-body `except: pass` (N5) remain. The C1 retry-masking is gone.
 
----
+### T3. Pattern documentation drift — improving
 
-### S16. Page Object children created per-property-access
+`Component.wait_for_results` is gone (✅), so the docs and code now agree on no-`networkidle`. Cached children (S16), no-`time.sleep` (C7), and Allure decorator policy (S23) are still drifted. A ruff config with project-specific rules (banning `time.sleep`, `networkidle`, `except Exception: pass` outside specific paths) would close this gap mechanically.
 
-**Where:** [page_objects/components/top_header.py](page_objects/components/top_header.py) (and others)
+### T4. Naming inconsistency — unchanged
 
-**Problem:** Every property constructs a new wrapper:
-```python
-@property
-def language_selector(self) -> LanguageSelector:
-    return LanguageSelector(root=self._root.locator("[data-test-id='language-selector']"))
-```
-Project memory says: "Child components cached in `__init__`, not re-created per property access." This file violates the project's own pattern.
+`BaseOperations` vs `RestBaseOperations`, `base.py` vs `base_operations.py`, marker positional vs kwargs — all unchanged.
 
-**Fix:** Cache children in `__init__`:
-```python
-class TopHeader(Component):
-    def __init__(self, root: Locator) -> None:
-        super().__init__(root)
-        self.language_selector = LanguageSelector(root=root.locator("[data-test-id='language-selector']"))
-        self.currency_selector = CurrencySelector(root=root.locator("[data-test-id='currency-selector']"))
-        # ...
-```
+### T5. Implicit autouse chain — unchanged
 
-Apply across all components/pages with composite children.
+Test signature still hides what activates. Splitting `tests/e2e/conftest.py` and making `with_user` opt-in are both still pending.
 
 ---
 
-### S17. Marker payloads use positional args instead of kwargs
+## Recommended fix priority (refreshed)
 
-**Where:** [tests/conftest.py:198-203](tests/conftest.py#L198) and similar
-```python
-items = [
-    CartItemInput(product_id=product_id, quantity=quantity)
-    for product_id, quantity in marker.args[0]
-]
-```
+The original top-5 had C1, C2, C6, C8, C3. Three are done; one is partial. Updated top 5:
 
-**Problem:** Brittle — `marker.args[0]` extracts a positionally-defined list of tuples. If the marker signature evolves, every test breaks silently.
+1. **C5 (race in AuthProvider)** — single-file fix; correctness bug that gets worse the moment parallel runs land.
+2. **C9 (public hook API on clients)** — small but unblocks both T2 and removes private-attribute access. Touches two files.
+3. **Continue C3 — Phase 2.3 module rollout.** Pick one untyped module per PR; aim for full coverage before flipping `extra="forbid"`.
+4. **S11 (cart_operations dedup)** — biggest readability win; ~200 lines deleted; pattern then propagates to other large mutation files.
+5. **S21 + N2 (`extra="forbid"` on both base models)** — gate the strictness flip behind C3 finish, but hold the line that this is the next visible-quality milestone.
 
-**Fix:** Use kwargs:
-```python
-@pytest.mark.with_cart(items=[("product-id", 1)])
-```
-And read with `marker.kwargs["items"]`. Apply to `with_cart`, `with_user`, `quantity_control`, `range_filter_type`, `checkout_mode`.
-
----
-
-### S18. `restapi/constants.py` constants are mutable
-
-**Where:** [restapi/constants.py:10](restapi/constants.py#L10)
-```python
-MEMBER_TYPES = ["Contact", "Organization", "Employee", "Vendor"]
-ADDRESS_TEMPLATE = {...}
-ORGANIZATION_TEMPLATE = {...}
-```
-
-**Problem:** Lists and dicts. The docstring says "treat every value as read-only" but nothing **enforces** read-only. One bad test mutating a template silently corrupts every subsequent test in the session.
-
-**Fix:**
-```python
-from types import MappingProxyType
-
-MEMBER_TYPES = ("Contact", "Organization", "Employee", "Vendor")  # tuple, immutable
-
-ADDRESS_TEMPLATE = MappingProxyType({
-    "addressType": "BillingAndShipping",
-    # ...
-})
-```
-Tests will fail with `TypeError` if they mutate, surfacing the bug at test author time.
-
----
-
-### S19. `ORDER_LINE_ITEM_TEMPLATE` couples constants to dataset content
-
-**Where:** [restapi/constants.py:74-87](restapi/constants.py#L74)
-```python
-ORDER_LINE_ITEM_TEMPLATE = {
-    "productId": "product-acme-laptop-lenovo-ideapad-5i",
-    # ...
-}
-```
-
-**Problem:** Hardcodes a specific product ID. If dataset is renamed/removed, every order test breaks. Constants module shouldn't reach into runtime data.
-
-**Fix:**
-- Move this template to `tests/restapi/orders/conftest.py` as a fixture that reads the actual seeded product:
-  ```python
-  @pytest.fixture
-  def order_line_item_template(dataset: dict) -> dict:
-      product = dataset["products"][0]
-      return {
-          "productId": product["id"],
-          "sku": product["code"],
-          "name": product["name"],
-          "catalogId": product["catalogId"],
-          # ...
-      }
-  ```
-
----
-
-### S20. `gql.operations.base_operations.gql` function does nothing
-
-**Where:** [gql/operations/base_operations.py:35-36](gql/operations/base_operations.py#L35)
-```python
-def gql(operation: str) -> str:
-    return operation
-```
-
-**Problem:** Pure no-op, only there as a marker for IDE syntax-highlighting plugins (some plugins recognize `gql("...")` to highlight the GraphQL string). Adds an import to every operation file for nothing.
-
-**Fix:** Either:
-- Delete and use raw triple-quoted strings.
-- Keep but add a comment: `# Marker for IDE GraphQL syntax highlighting (e.g. apollographql.vscode-apollo).`
-
----
-
-### S21. Pydantic `model_config` not enforcing strictness
-
-**Where:** [gql/types/base.py](gql/types/base.py)
-```python
-class GqlModel(BaseModel):
-    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
-```
-
-**Problem:** No `extra="forbid"`. If GraphQL schema adds a new field and the Pydantic model doesn't have it, the field is silently dropped. Tests can't surface schema drift.
-
-**Fix:**
-```python
-model_config = ConfigDict(
-    alias_generator=to_camel,
-    populate_by_name=True,
-    extra="forbid",
-)
-```
-Address any failures — they reveal real schema drift.
-
----
-
-### S22. `global_settings.py` `# type: ignore[call-arg]`
-
-**Where:** [core/global_settings.py:45](core/global_settings.py#L45)
-```python
-global_settings = GlobalSettings()  # type: ignore[call-arg]
-```
-
-**Problem:** Pyright complains because `GlobalSettings` has required fields without defaults. The `ignore` mutes a real warning.
-
-**Fix:** Either:
-- Use `model_validate({})`/`model_validate_strings({})` which is typed to accept missing args.
-- Or define a small typed factory:
-  ```python
-  def _load_settings() -> GlobalSettings:
-      return GlobalSettings.model_validate({})
-  global_settings = _load_settings()
-  ```
-
----
-
-### S23. Inconsistent Allure decorator discipline
-
-**Where:** Across `tests/`
-
-**Problem:** Tests stack mixes of `@allure.feature`, `@allure.title`, `@pytest.mark.X` decorators. Some tests have ~6 decorators; others have none. No project-wide convention for what gets a title vs not.
-
-**Fix:**
-- Document a convention in `CLAUDE.md` (e.g. "Every restapi test has an `@allure.feature(suite-name)` and an `@allure.title(action)`").
-- Build a small `pytest_collection_modifyitems` hook that auto-adds `@allure.feature` from the path and warns on missing `@allure.title`.
-
----
-
-### S24. Tests have inconsistent `__init__.py` placement
-
-**Where:**
-- `tests/restapi/*/` — has `__init__.py`
-- `tests/e2e/`, `tests/graphql/` — no `__init__.py`
-- `tests/` — no `__init__.py` (relies on `pythonpath = ["."]`)
-
-**Problem:** Mixed approach is confusing and can lead to import collisions when two test files share a name across suites.
-
-**Fix:** Pick one:
-- **Option A (simpler):** No `__init__.py` anywhere in `tests/`. Delete the existing ones. Let pytest's rootdir discovery handle it.
-- **Option B (stricter):** Add `__init__.py` everywhere, including `tests/__init__.py`, `tests/e2e/__init__.py`, etc. Then test modules can be imported by name without rootdir tricks.
-
-Option A is most idiomatic for pytest suites.
-
----
-
-### S25. `dataset_manager.log` written under repo root
-
-**Where:** [dataset/cli.py:11](dataset/cli.py#L11)
-```python
-_LOG_FILE = Path(__file__).parent / "dataset_manager.log"
-```
-
-**Problem:** Log file lands inside the package directory. `.gitignore` covers `*.log` so it's not tracked, but writing inside source is unusual.
-
-**Fix:** Write to a top-level `logs/` directory (which is also gitignored), or to a system temp dir:
-```python
-_LOG_FILE = Path(__file__).parent.parent / "logs" / "dataset_manager.log"
-_LOG_FILE.parent.mkdir(exist_ok=True)
-```
-
----
-
-### S26. `GraphQLClient.execute` raises on errors, dropping data
-
-**Where:** [core/clients/graphql.py:36-38](core/clients/graphql.py#L36)
-```python
-if errors := body.get("errors"):
-    formatted = json.dumps(errors, indent=2, ensure_ascii=False)
-    raise ValueError(f"GraphQL errors:\n{formatted}")
-```
-
-**Problem:** GraphQL allows partial responses (data populated alongside errors). Always raising means tests can't assert on partial results.
-
-**Fix:** Only raise when `data` is null:
-```python
-data = body.get("data")
-errors = body.get("errors")
-if errors and data is None:
-    raise ValueError(f"GraphQL errors with no data:\n{json.dumps(errors, indent=2)}")
-if errors:
-    # log/attach but return partial data
-    ...
-return body
-```
-
-Or introduce a `GraphQLResponse(data, errors)` value object.
-
----
-
-### S27. `RestClient._parse_response` overly strict on content type
-
-**Where:** [core/clients/rest.py:60-62](core/clients/rest.py#L60)
-```python
-if "application/json" not in content_type:
-    raise NotImplementedError(...)
-```
-
-**Problem:** Real APIs return `text/plain` errors, `text/html` redirects, empty `application/octet-stream`. Hitting one of these crashes with `NotImplementedError` (a confusing exception type for library code).
-
-**Fix:**
-```python
-if not response.content:
-    return None
-content_type = response.headers.get("Content-Type", "")
-if "application/json" in content_type:
-    return response.json()
-return response.text  # or: return None if you want to silently ignore non-JSON
-```
-
-Adjust signature to `_ResponseBody | str | None`.
-
----
-
-### S28. `make_user` mutates the response dict to inject credentials
-
-**Where:** [tests/restapi/platform/conftest.py:73-75](tests/restapi/platform/conftest.py#L73)
-```python
-response["user_name"] = user_name
-response["email"] = email
-response["password"] = password
-return response
-```
-
-**Problem:** Mixes server response with test-side credentials. Tests then read `user["password"]` thinking it came from the server. Confusing and brittle (server may add a `password` field of its own).
-
-**Fix:** Return a small dataclass:
-```python
-@dataclass
-class CreatedUser:
-    response: dict
-    user_name: str
-    email: str
-    password: str
-```
-
-Or a tuple `(response_dict, credentials_dict)`. Tests destructure explicitly.
-
----
-
-## MINOR / cleanup
-
-### M29. Dataset `cheat_sheet.md` drifts silently
-
-**Where:** [dataset/cheat_sheet.md](dataset/cheat_sheet.md)
-
-**Problem:** Lists product IDs and locations as documentation. No CI check that these IDs still exist in `data/`. Manual maintenance burden.
-
-**Fix:** Either remove (the data files are authoritative) or add a small `pytest` marker test that validates each ID in the cheat sheet actually exists in the dataset.
-
----
-
-### M30. `_legacy/` (lowercase) vs `_BACKUP/` (uppercase)
-
-**Where:** Dataset's `_legacy/` (now removed); root's `_BACKUP/`
-
-**Problem:** Two different conventions for "soon to be deleted". Inconsistent.
-
-**Fix:** Align to one. Suggested: lowercase `_legacy/` since `_BACKUP` is destined for removal.
-
----
-
-### M31. `os.path.join` mixed with `Path` in conftest
-
-**Where:** [tests/conftest.py:64-68](tests/conftest.py#L64) (`os.path.join`), [tests/conftest.py:124](tests/conftest.py#L124) (`Path`)
-
-**Fix:** Use `Path` everywhere:
-```python
-screenshots_dir = Path("screenshots") / "failures"
-screenshots_dir.mkdir(parents=True, exist_ok=True)
-screenshot_path = screenshots_dir / f"{safe_name}.png"
-```
-
----
-
-### M32. `_INVALID_FILENAME_CHARS` in conftest
-
-**Where:** [tests/conftest.py:24](tests/conftest.py#L24)
-
-**Problem:** Used by both `screenshot_on_failure` and `har_recorder`. Belongs closer to its consumers (or in `utils/`).
-
-**Fix:** Move to `utils/safe_filename.py`:
-```python
-_INVALID = re.compile(r'[<>:"/\\|?*]')
-
-def safe_filename(name: str) -> str:
-    return _INVALID.sub("_", name)
-```
-
----
-
-### M33. `BrowserStorage.set_user_id` uses string concatenation
-
-**Where:** [page_objects/browser_storage.py:18-21](page_objects/browser_storage.py#L18)
-```python
-self._page.add_init_script(
-    f"localStorage.setItem('{self._USER_ID_KEY}', '{user_id}')"
-)
-```
-
-**Problem:** If `user_id` contains a single quote or backslash, the script breaks. `set_auth` (line 35) correctly uses `json.dumps`.
-
-**Fix:**
-```python
-self._page.add_init_script(
-    f"localStorage.setItem({json.dumps(self._USER_ID_KEY)}, {json.dumps(user_id)})"
-)
-```
-
----
-
-### M34. `RLock` usage in single-threaded context
-
-**Where:** [core/auth/provider.py:17](core/auth/provider.py#L17)
-
-**Problem:** `RLock` is reentrant; tests are single-threaded. Either justify with a comment or use `Lock`.
-
-**Fix:** If concurrent use is real, document it; if not, use `threading.Lock()`.
-
----
-
-### M35. `delete_cart` returns server data without validation
-
-**Where:** [gql/operations/cart_operations.py:426](gql/operations/cart_operations.py#L426)
-```python
-return result["data"]["removeCart"]
-```
-Annotated `-> bool` but no runtime check.
-
-**Fix:**
-```python
-result_value = result["data"]["removeCart"]
-if not isinstance(result_value, bool):
-    raise ValueError(f"Expected bool from removeCart, got {result_value!r}")
-return result_value
-```
-
----
-
-### M36. `_collect_fragments` silently drops unknown spreads
-
-**Where:** [gql/operations/base_operations.py:22-32](gql/operations/base_operations.py#L22)
-
-**Problem:** If an operation references `...UnknownFragment` and no fragment defines it, the query goes to the server with the unresolved spread. Server errors with an opaque message.
-
-**Fix:** Track misses:
-```python
-def _collect_fragments(operation, library):
-    collected, pending = {}, set(_SPREAD_RE.findall(operation))
-    while pending:
-        name = pending.pop()
-        if name in collected:
-            continue
-        if name not in library:
-            raise ValueError(f"Unknown GraphQL fragment: {name!r}")
-        ...
-```
-
----
-
-### M37. `HARRecorder.hook` swallows all exceptions
-
-**Where:** [utils/har_recorder.py:60-64](utils/har_recorder.py#L60)
-```python
-def hook(self, response, *args, **kwargs):
-    try:
-        self._entries.append(self._entry_from(response))
-    except Exception:
-        pass
-```
-
-**Fix:** Log:
-```python
-def hook(self, response, *args, **kwargs):
-    try:
-        self._entries.append(self._entry_from(response))
-    except Exception:
-        logger.exception("HAR entry construction failed for %s", response.url)
-```
-
----
-
-### M38. `requests` library used directly in `AuthProvider`
-
-**Where:** [core/auth/provider.py:54](core/auth/provider.py#L54), [line 79](core/auth/provider.py#L79)
-
-**Problem:** `requests.post(...)` directly, bypassing the configured `RestClient` and its session/hooks. HAR recording misses auth calls.
-
-**Fix:** Either:
-- Make `AuthProvider` accept a session: `AuthProvider(global_settings, session: requests.Session = None)`.
-- Or expose a hook so the same response interceptor sees auth requests.
-
----
-
-### M39. Module-level `_PRIVATE_LIKE_CONSTANT` style
-
-**Where:** Many test files: `_PRODUCT_ID = "..."`, `_FIXED_RATE_GROUND = "..."`
-
-**Problem:** Underscore-prefix-uppercase combo reads as private-constant — unusual. Module-level constants used inside the same module don't need the underscore (they're never imported anyway).
-
-**Fix:** Drop the underscore: `PRODUCT_ID = "..."`, `FIXED_RATE_GROUND = "..."`. Or document the convention in CLAUDE.md.
-
----
-
-### M40. `inflection` dependency for one operation
-
-**Where:** [dataset/dataset_manager.py:4](dataset/dataset_manager.py#L4)
-
-**Problem:** Only used to camelCase keys — a one-line operation.
-
-**Fix:** Either keep (tiny library, no harm) or inline:
-```python
-def _to_camel(snake: str) -> str:
-    head, *rest = snake.split("_")
-    return head + "".join(w.title() for w in rest)
-```
-
----
-
-### M41. `Component` base class is barely a base class
-
-**Where:** [page_objects/components/component.py](page_objects/components/component.py) — 13 lines
-
-**Problem:** After fixing C8 (remove `wait_for_results`), the class only stores a locator — duplicates `Locator` itself.
-
-**Fix:** Either:
-- Delete the abstraction; have components store `_root: Locator` directly.
-- Or give it real shared behavior: `wait_visible()`, common test-attribute lookups, etc.
-
----
-
-### M42. `MainLayout._page` accessed by subclasses
-
-**Where:** [page_objects/pages/cart.py:12](page_objects/pages/cart.py#L12), [line 50](page_objects/pages/cart.py#L50)
-
-**Problem:** Subclasses read `self._page`, `self._global_settings` — private members of parent.
-
-**Fix:** Promote to single-underscore "protected" (Python convention) and document, or expose via property:
-```python
-class MainLayout:
-    @property
-    def page(self) -> Page:
-        return self._page
-```
-
----
-
-### M43. Workflow filename duplication
-
-**Where:** [.github/workflows/](.github/workflows/) — `e2e-tests.yml`, `e2e-tests-docker.yml`, `graphql-tests.yml`, `graphql-tests-docker.yml`, `restapi-tests-docker.yml`, `refactored-tests.yml`
-
-**Problem:** 6 workflows with significant overlap in setup steps.
-
-**Fix:** Consolidate via reusable workflow + matrix strategy:
-```yaml
-# workflow_call.yml
-on: workflow_call: ...
-
-# main.yml
-jobs:
-  test:
-    strategy:
-      matrix:
-        suite: [e2e, graphql, restapi]
-        runtime: [native, docker]
-    uses: ./.github/workflows/workflow_call.yml
-    with: { suite: ${{ matrix.suite }}, runtime: ${{ matrix.runtime }} }
-```
-
----
-
-### M44. `restapi/operations/__init__.py` re-exports 28 classes flat
-
-**Where:** [restapi/operations/__init__.py](restapi/operations/__init__.py)
-
-**Problem:** Encourages flat-namespace imports. As the count grows, navigation degrades.
-
-**Fix:** Split into subpackages:
-```
-restapi/operations/
-├── catalog/
-│   ├── catalog.py
-│   ├── category.py
-│   └── product.py
-├── platform/
-│   ├── user.py
-│   ├── role.py
-│   └── ...
-└── orders/
-    └── order.py
-```
-
-Each subpackage exports its own surface; root `__init__.py` re-exports for convenience or stays minimal.
-
----
-
-### M45. `restapi/operations/base.py` filename inconsistency
-
-**Where:** [restapi/operations/base.py](restapi/operations/base.py)
-
-**Problem:** Other operation files end in `_operations.py` (e.g. `catalog_operations.py`). The base file is just `base.py`.
-
-**Fix:** Rename `base.py` → `base_operations.py` to match convention. Update imports.
-
----
-
-## Cross-cutting themes
-
-### T1. Type safety asymmetry
-
-GraphQL is fully typed via Pydantic models. REST is `dict[str, Any]` everywhere. Adding even minimal `restapi/types/` (Pydantic models for the most-used responses, or `TypedDict`s) would catch most schema-drift bugs at test author time, not in CI.
-
-### T2. Silent failure tolerance
-
-Multiple places swallow exceptions: factory teardowns (C6), `HARRecorder.hook` (M37), pytest retries (C1). Each silent except needs a justification or a `logger.warning` call.
-
-### T3. Pattern documentation drift
-
-`.claude/skills/` and project memory document conventions (cached child components, no `networkidle`, no `time.sleep`) that the actual code violates in places (S16, C7, C8). Either enforce via a lint rule (custom `ruff` rules or a pytest collection check) or accept the drift and update the docs.
-
-### T4. Naming inconsistency at boundaries
-
-- `BaseOperations` vs `RestBaseOperations`
-- `base.py` vs `base_operations.py`
-- `_legacy/` vs `_BACKUP/`
-- factories: mix of `**overrides` and `*, name=...` keyword-only patterns
-- marker payloads: positional vs kwargs
-
-None individually critical; together they make new contributors guess.
-
-### T5. Implicit autouse chain
-
-The global conftest's autouse fixtures + their internal `if marker:` short-circuits is hard to reason about. A test author seeing `def test_foo(rest_client):` doesn't realize that `with_cart`, `screenshot_on_failure`, `delete_cart_after`, `har_recorder` all activate. Reduces predictability.
-
----
-
-## Recommended fix priority
-
-If addressing in order, suggested top 5:
-
-1. **C1** Remove `--retries=1`. Single-line change, instantly improves CI signal.
-2. **C2** Add `restapi/` to pyright include. Single-line change, surfaces real type errors.
-3. **C6** Stop swallowing in test factories. Replace bare `except: pass` with `logger.warning`. Lets you see backend orphans.
-4. **C8** Replace `Component.wait_for_results` networkidle. High-value flake source.
-5. **C3** Hand-write or generate Pydantic models for top REST responses. Biggest single architectural improvement; catches schema drift.
-
-After these, work through SIGNIFICANT issues in approximate order (S11–S28). MINOR can be cleaned up opportunistically.
+After these, work S13–S15 (conftest split + opt-in `with_user`) and S17 (kwargs migration) opportunistically; pre-commit + ruff (Phase 4.4 in the plan) lands somewhere in the middle to start enforcing decisions automatically.
 
 ---
 
 ## Notes
 
-- The `dataset/` module was recently refactored; it is in good shape and not part of this review's findings.
-- `_BACKUP/` was excluded from review per project owner direction.
-- Counts and line numbers are accurate as of 2026-04-28.
+- The `dataset/` module remains reference-quality; not part of this review's findings.
+- `_BACKUP/` is still excluded per project owner direction.
+- Counts and line numbers are accurate as of 2026-04-30 commit `d3ad033`.
+- Three PRs since the previous review (#151, #152, #153) closed four CRITICAL items (C1, C2, C6, C8) and meaningfully advanced C3.
 
 ---
 
@@ -916,40 +325,25 @@ After these, work through SIGNIFICANT issues in approximate order (S11–S28). M
 
 ### Headline
 
-**A solid mid-to-late-stage refactor in progress.** Modern Python, clear layering, and real type discipline in places — but accumulated silent-failure tolerance and drift between documented patterns and actual code suggest growth outpaced enforcement.
+**Same shape, better posture.** The visibility-first sweep (C1, C2, C6, C8) and the start of typed REST responses (C3) have moved the project from "B/B+" to a tentative **B+/A−**. The remaining work is concentrated in two areas: (1) finishing what's started (REST typing coverage; C9 public hooks; C5 race), and (2) the autouse/conftest hygiene cluster (S13–S15) which has not been touched.
 
-### What's working
+### What's genuinely better
 
-**Architecture is fundamentally sound.** The package layout is one a senior engineer would recognize without explanation: `core/` is pure infrastructure (auth, clients, settings, logger), `gql/`+`restapi/` are API surfaces, `page_objects/` is UI, `tests/` is test logic, `dataset/` is an isolated mini-subsystem. Cross-cutting concerns (`utils/`) are separated. There's no "god module," no circular imports, no obvious layering violations.
+- **CI signal is honest now.** No `--retries=1`. Type checking covers `restapi/`. Cleanup failures log instead of vanishing. The cost of seeing "green" is now closer to the value of seeing green.
+- **Type asymmetry has shrunk.** ~50% of REST operations return Pydantic models instead of `dict`. The pattern is established and reproducible — Phase 2.3 is a rollout, not a design problem.
+- **The discouraged Playwright pattern is gone.** No `networkidle` in `page_objects/`. Project memory and the actual base class now agree.
 
-**Type discipline is real where it exists.** GraphQL responses go through Pydantic models with camelCase aliases. `core/` uses generics, `Literal` types, frozen dataclasses, and `Final` constants idiomatically. Pyright is configured (even if incomplete). `pydantic-settings` for config is the modern choice. This is well above average for a Python test framework.
+### What still needs attention
 
-**The marker-driven test pattern is good design.** `@pytest.mark.with_user(...)`, `@pytest.mark.with_cart(...)`, `@pytest.mark.checkout_mode(...)` keep test bodies focused on assertions while fixture machinery handles setup. Combined with autouse fixtures that short-circuit on missing markers, this scales well to 100+ tests.
-
-**Operations classes are a clean abstraction.** `CartOperations`, `CatalogOperations`, etc. wrap raw API calls into typed methods. New tests get a coherent vocabulary instead of crafting HTTP requests directly. This is Repository pattern done well for a test framework.
-
-**Recent dataset refactor demonstrates capability.** The `dataset/` module after the recent refactor is genuinely clean: small focused files, strict validation, deterministic ordering, proper failure semantics, exit codes. The team can do good work when given time.
-
-### What isn't
-
-**REST/GraphQL type asymmetry is the biggest architectural gap.** GraphQL responses are fully typed; REST returns `dict[str, Any]` everywhere. This isn't a stylistic preference — it directly causes schema-drift bugs to land in production tests instead of failing at compile time. The `restapi/types/` directory exists but is empty, suggesting the intent was there but the work stopped.
-
-**Silent failure tolerance is pervasive and dangerous.** Six places swallow exceptions: factory teardowns (`except Exception: pass`), HAR recorder hook, GraphQL partial responses (raises always), pytest `--retries=1` (hides flakes), and unresolved fragment spreads. Each in isolation is small. Combined, they create a CI environment where green doesn't actually mean "tests passing reliably."
-
-**Pattern documentation has drifted from reality.** `.claude/skills/create-ui-layer/SKILL.md` says "no `networkidle`, use `wait_until='load'`" — yet the base `Component` class exposes `wait_for_results` that calls `networkidle`. Memory says "child components cached in `__init__`" — yet `TopHeader` constructs them on every property access. The team wrote down the right answers but isn't enforcing them.
-
-**Naming and convention inconsistency at module boundaries.** `BaseOperations` vs `RestBaseOperations`, `base.py` vs `base_operations.py`, `_legacy/` vs `_BACKUP/`, mutable list constants in a "read-only" module, mixed `Path` and `os.path.join`. None individually critical; collectively they signal lack of automated enforcement (no `ruff`, no pre-commit, no style guide CI gate).
-
-**The autouse fixture chain is opaque.** A test author writing `def test_foo(rest_client):` doesn't see that `with_cart`, `screenshot_on_failure`, `har_recorder`, and `delete_cart_after` all activate. The fixtures short-circuit on missing markers, but the implicit dependencies make debugging fixture-time failures hard.
+- **The auth provider race (C5) is a latent bug.** It's invisible in single-threaded runs but every push toward parallelisation makes it more dangerous. Worth fixing before adding `pytest-xdist`.
+- **Two new silent-failure patterns surfaced.** `tests/restapi/store/test_store.py:46` and `tests/restapi/search/test_search.py:113` show the C6 lesson didn't fully propagate to test bodies. A ruff rule banning `except Exception: pass` outside whitelisted files would catch the next one.
+- **The autouse chain and conftest split (S13–S15) is the largest remaining structural cleanup.** It's been deferred twice now. Recommend bundling 5.1 + 5.2 + 5.4 from the improvement plan into one feature branch.
+- **Pattern enforcement is still manual.** No ruff, no pre-commit beyond `black`. Every convention from `.claude/skills/` survives by author discipline only.
 
 ### Trajectory
 
-The project is **net-improving**. Evidence: the `dataset/` refactor, the modern Python baseline (3.13, Pydantic 2, pytest 9), the `.claude/skills/` documentation, and the clear separation of `_BACKUP/` from active code all suggest awareness of what good looks like and willingness to invest in cleanup.
-
-The risk: technical debt is mostly invisible right now (because `--retries=1` masks flakes, type errors in `restapi/` aren't checked, and cleanup failures are silent). Without addressing the visibility gaps first, debt will keep accumulating because nobody can see it.
+Net-improving, faster than the previous cadence. Three meaningful PRs in two days closed one full visibility cluster and started the architectural one. The risk going forward is that the visible wins (typing coverage, `extra="forbid"` flip) crowd out the less glamorous but high-value cleanups (C5, autouse split, ruff). Pacing those in alongside C3 rollout would prevent that.
 
 ### Bottom line
 
-**Grade: B / B+.** Above average for a test automation framework. Architecture is the strongest dimension; correctness rigor and convention enforcement are the weakest. The bones are good enough that incremental fixes (top 5 from this report) would move it to solid A- territory within a sprint or two. The dataset module refactor proves the team can execute when given clear scope — the rest of the codebase needs the same treatment, area by area.
-
-The single highest-leverage change is **C2** (enable pyright on `restapi/`) followed by **C3** (Pydantic models for REST responses). These two together would convert most of the silent-drift class of bugs into compile-time errors, which is the foundation that makes everything else easier to fix.
+**Grade: B+ / A−.** The project is no longer hiding what's broken; what remains is the work of finishing started initiatives and closing the autouse hygiene gap. The single highest-leverage change now is **C5** (single-file race fix; gates safe parallelism) followed by **completing C3 + flipping N2/S21 to `extra="forbid"`** (the architectural win the project has been climbing toward).

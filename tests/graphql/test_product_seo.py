@@ -1,3 +1,4 @@
+import allure
 import pytest
 from core.clients import GraphQLClient
 from gql.operations import SeoOperations
@@ -10,21 +11,27 @@ _OBJECT_TYPE = "CatalogProduct"
 
 
 @pytest.mark.graphql
+@allure.feature("SEO (GraphQL)")
+@allure.title("Resolve product SEO info by permalink")
 def test_product_slug_info(graphql_client: GraphQLClient, ctx: Context) -> None:
-    slug_info = SeoOperations(client=graphql_client).get_slug_info(
-        store_id=ctx.store_id,
-        culture_name=ctx.culture_name,
-        permalink=_PRODUCT_PERMALINK,
-    )
+    with allure.step(f"Resolve permalink '{_PRODUCT_PERMALINK}'"):
+        slug_info = SeoOperations(client=graphql_client).get_slug_info(
+            store_id=ctx.store_id,
+            culture_name=ctx.culture_name,
+            permalink=_PRODUCT_PERMALINK,
+        )
 
-    assert slug_info is not None
-    assert slug_info.entity_info is not None
+    with allure.step(
+        f"Verify entity info matches product {_PRODUCT_ID} with type {_OBJECT_TYPE}"
+    ):
+        assert slug_info is not None
+        assert slug_info.entity_info is not None
 
-    entity = slug_info.entity_info
-    assert entity.object_id == _PRODUCT_ID
-    assert entity.object_type == _OBJECT_TYPE
-    assert entity.semantic_url == _PRODUCT_SEMANTIC_URL
-    assert entity.store_id == ctx.store_id
-    assert entity.is_active is True
-    assert entity.language_code == ctx.culture_name
-    assert entity.page_title is not None
+        entity = slug_info.entity_info
+        assert entity.object_id == _PRODUCT_ID
+        assert entity.object_type == _OBJECT_TYPE
+        assert entity.semantic_url == _PRODUCT_SEMANTIC_URL
+        assert entity.store_id == ctx.store_id
+        assert entity.is_active is True
+        assert entity.language_code == ctx.culture_name
+        assert entity.page_title is not None
