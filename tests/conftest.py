@@ -179,13 +179,15 @@ def with_user(
     marker = request.node.get_closest_marker("with_user")
     if marker:
         username: str = marker.args[0]
-        provider.sign_in(username, global_settings.users_password)
-        if request.node.get_closest_marker("e2e") and provider.token_info:
-            page = request.getfixturevalue("page")
-            BrowserStorage(page).set_auth(provider.token_info)
+        with allure.step(f"Sign in as {username}"):
+            provider.sign_in(username, global_settings.users_password)
+            if request.node.get_closest_marker("e2e") and provider.token_info:
+                page = request.getfixturevalue("page")
+                BrowserStorage(page).set_auth(provider.token_info)
     yield provider
     if provider.is_authenticated:
-        provider.sign_out()
+        with allure.step("Sign out"):
+            provider.sign_out()
 
 
 @pytest.fixture(autouse=True)
@@ -203,20 +205,23 @@ def with_cart(
         CartItemInput(product_id=product_id, quantity=quantity)
         for product_id, quantity in marker.args[0]
     ]
+    item_summary = ", ".join(f"{p}×{q}" for p, q in marker.args[0])
     with GraphQLClient(auth=with_user, global_settings=global_settings) as client:
         cart_ops = CartOperations(client)
-        cart = cart_ops.add_items_to_cart(
-            store_id=ctx.store_id,
-            user_id=ctx.user_id,
-            items=items,
-            currency_code=ctx.currency_code,
-            culture_name=ctx.culture_name,
-        )
-        if request.node.get_closest_marker("e2e"):
-            page = request.getfixturevalue("page")
-            BrowserStorage(page).set_user_id(ctx.user_id)
+        with allure.step(f"Seed cart with items: {item_summary}"):
+            cart = cart_ops.add_items_to_cart(
+                store_id=ctx.store_id,
+                user_id=ctx.user_id,
+                items=items,
+                currency_code=ctx.currency_code,
+                culture_name=ctx.culture_name,
+            )
+            if request.node.get_closest_marker("e2e"):
+                page = request.getfixturevalue("page")
+                BrowserStorage(page).set_user_id(ctx.user_id)
         yield cart
-        cart_ops.delete_cart(cart_id=cart.id, user_id=ctx.user_id)
+        with allure.step(f"Teardown: delete seeded cart {cart.id}"):
+            cart_ops.delete_cart(cart_id=cart.id, user_id=ctx.user_id)
 
 
 @pytest.fixture(autouse=True)
@@ -243,14 +248,16 @@ def delete_cart_after(
         return
     with GraphQLClient(auth=auth, global_settings=global_settings) as client:
         cart_ops = CartOperations(client)
-        cart = cart_ops.get_cart(
-            store_id=ctx.store_id,
-            user_id=user_id,
-            currency_code=ctx.currency_code,
-            culture_name=ctx.culture_name,
-        )
+        with allure.step(f"Teardown: lookup cart for user {user_id}"):
+            cart = cart_ops.get_cart(
+                store_id=ctx.store_id,
+                user_id=user_id,
+                currency_code=ctx.currency_code,
+                culture_name=ctx.culture_name,
+            )
         if cart:
-            cart_ops.delete_cart(cart_id=cart.id, user_id=user_id)
+            with allure.step(f"Teardown: delete cart {cart.id}"):
+                cart_ops.delete_cart(cart_id=cart.id, user_id=user_id)
 
 
 @pytest.fixture
