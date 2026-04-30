@@ -51,9 +51,7 @@ def _page_for_failure(request: pytest.FixtureRequest) -> Page | None:
 
 
 @pytest.fixture(autouse=True)
-def screenshot_on_failure(
-    request: pytest.FixtureRequest, _page_for_failure: Page | None
-) -> Generator:
+def screenshot_on_failure(request: pytest.FixtureRequest, _page_for_failure: Page | None) -> Generator:
     """Take a full-page screenshot when an E2E test fails and attach to Allure."""
     yield
 
@@ -138,9 +136,36 @@ def har_recorder(request: pytest.FixtureRequest) -> Generator[HARRecorder, None,
         )
 
 
-@pytest.fixture(scope="session")
-def browser_context_args(browser_context_args: dict[Any, Any]) -> dict[Any, Any]:
-    return {**browser_context_args, "viewport": {"width": 1920, "height": 1080}}
+@pytest.fixture
+def browser_context_args(browser_context_args: dict[Any, Any], request: pytest.FixtureRequest) -> dict[Any, Any]:
+    extra: dict[str, Any] = {"viewport": {"width": 1920, "height": 1080}}
+    if request.node.get_closest_marker("e2e"):
+        root_dir = Path(request.config.rootpath)
+        module = _har_module(Path(request.node.path))
+        out_dir = root_dir / "har-output" / module
+        out_dir.mkdir(parents=True, exist_ok=True)
+        safe_name = _INVALID_FILENAME_CHARS.sub("_", request.node.name)
+        har_path = out_dir / f"{safe_name}.har"
+        request.node._e2e_har_path = har_path
+        extra["record_har_path"] = str(har_path)
+        extra["record_har_omit_content"] = False
+    return {**browser_context_args, **extra}
+
+
+@pytest.fixture(autouse=True)
+def attach_e2e_har(request: pytest.FixtureRequest) -> Generator[None, None, None]:
+    """Attach the Playwright HAR file to Allure once the context has flushed it."""
+    yield
+    if not request.node.get_closest_marker("e2e"):
+        return
+    har_path: Path | None = getattr(request.node, "_e2e_har_path", None)
+    if har_path and har_path.exists():
+        allure.attach.file(
+            str(har_path),
+            name=f"{request.node.name}.har",
+            attachment_type="application/json",
+            extension="har",
+        )
 
 
 @pytest.fixture(scope="session")
@@ -164,17 +189,13 @@ def dataset(dataset_manager: DatasetManager) -> dict[str, list[dict[str, Any]]]:
 
 
 @pytest.fixture
-def graphql_client(
-    with_user: AuthProvider, global_settings: GlobalSettings
-) -> Generator[GraphQLClient, None, None]:
+def graphql_client(with_user: AuthProvider, global_settings: GlobalSettings) -> Generator[GraphQLClient, None, None]:
     with GraphQLClient(auth=with_user, global_settings=global_settings) as client:
         yield client
 
 
 @pytest.fixture
-def with_user(
-    request: pytest.FixtureRequest, global_settings: GlobalSettings
-) -> Generator[AuthProvider, None, None]:
+def with_user(request: pytest.FixtureRequest, global_settings: GlobalSettings) -> Generator[AuthProvider, None, None]:
     provider = AuthProvider(global_settings)
     marker = request.node.get_closest_marker("with_user")
     if marker:
@@ -199,10 +220,7 @@ def with_cart(
     if not marker:
         yield None
         return
-    items = [
-        CartItemInput(product_id=product_id, quantity=quantity)
-        for product_id, quantity in marker.args[0]
-    ]
+    items = [CartItemInput(product_id=product_id, quantity=quantity) for product_id, quantity in marker.args[0]]
     with GraphQLClient(auth=with_user, global_settings=global_settings) as client:
         cart_ops = CartOperations(client)
         cart = cart_ops.add_items_to_cart(
@@ -229,11 +247,7 @@ def delete_cart_after(
     if not request.node.get_closest_marker("delete_cart_after"):
         yield None
         return
-    page = (
-        request.getfixturevalue("page")
-        if request.node.get_closest_marker("e2e")
-        else None
-    )
+    page = request.getfixturevalue("page") if request.node.get_closest_marker("e2e") else None
     yield
     if page is not None:
         user_id: str | None = BrowserStorage(page).get_user_id()

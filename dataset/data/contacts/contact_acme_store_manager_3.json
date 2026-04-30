@@ -1,7 +1,7 @@
 {
     "id": "contact-acme-store-manager-3",
     "firstName": "ACME",
-    "lastName": "Store Manager 3",
+    "lastName": "Store Manager C",
     "memberType": "Contact",
     "status": "Approved",
     "defaultOrganizationId": "organization-acme-store",
