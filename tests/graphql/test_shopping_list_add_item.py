@@ -1,3 +1,4 @@
+import allure
 import pytest
 from core.clients import GraphQLClient
 from gql.operations import ShoppingListOperations
@@ -13,31 +14,37 @@ _QUANTITY = 3
 
 @pytest.mark.graphql
 @pytest.mark.with_user(_USERNAME)
+@allure.feature("Shopping Lists (GraphQL)")
+@allure.title("Add an item to a newly created shopping list")
 def test_shopping_list_add_item(graphql_client: GraphQLClient, ctx: Context) -> None:
     shopping_list_ops = ShoppingListOperations(client=graphql_client)
     shopping_list: ShoppingList | None = None
 
     try:
-        shopping_list = shopping_list_ops.create_shopping_list(
-            store_id=ctx.store_id,
-            user_id=ctx.user_id,
-            culture_name=ctx.culture_name,
-            currency_code=ctx.currency_code,
-            name="TEST SHOPPING LIST",
-            description="Test shopping list decription",
-        )
+        with allure.step("Create shopping list 'TEST SHOPPING LIST'"):
+            shopping_list = shopping_list_ops.create_shopping_list(
+                store_id=ctx.store_id,
+                user_id=ctx.user_id,
+                culture_name=ctx.culture_name,
+                currency_code=ctx.currency_code,
+                name="TEST SHOPPING LIST",
+                description="Test shopping list decription",
+            )
 
-        assert shopping_list is not None
-        assert shopping_list.id is not None
+            assert shopping_list is not None
+            assert shopping_list.id is not None
 
-        shopping_list = shopping_list_ops.add_items_to_shopping_list(
-            list_id=shopping_list.id,
-            items=[CartItemInput(product_id=_PRODUCT_ID, quantity=_QUANTITY)],
-        )
+        with allure.step(f"Add {_PRODUCT_ID}×{_QUANTITY} to shopping list"):
+            shopping_list = shopping_list_ops.add_items_to_shopping_list(
+                list_id=shopping_list.id,
+                items=[CartItemInput(product_id=_PRODUCT_ID, quantity=_QUANTITY)],
+            )
 
-        assert has_line_item(
-            shopping_list.items, product_id=_PRODUCT_ID, quantity=_QUANTITY
-        )
+        with allure.step(f"Verify shopping list contains {_PRODUCT_ID}×{_QUANTITY}"):
+            assert has_line_item(
+                shopping_list.items, product_id=_PRODUCT_ID, quantity=_QUANTITY
+            )
     finally:
         if shopping_list is not None:
-            shopping_list_ops.delete_shopping_list(list_id=shopping_list.id)
+            with allure.step(f"Teardown: delete shopping list {shopping_list.id}"):
+                shopping_list_ops.delete_shopping_list(list_id=shopping_list.id)

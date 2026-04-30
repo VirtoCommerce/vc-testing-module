@@ -31,7 +31,9 @@ class Context:
         organization_id: str | None = None
 
         if username is not None:
-            user = next(u for u in dataset["users"] if u["userName"] == username)
+            user = next(
+                (u for u in dataset["users"] if u["userName"] == username), None
+            )
             if user is None:
                 raise ValueError(f"User '{username}' not found in dataset")
             contact = next(

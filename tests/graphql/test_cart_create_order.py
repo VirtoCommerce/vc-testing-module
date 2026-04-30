@@ -1,3 +1,4 @@
+import allure
 import pytest
 from core.clients import GraphQLClient
 from gql.operations import CartOperations
@@ -16,48 +17,57 @@ _SHIPPING_PRICE = 15.00
 @pytest.mark.graphql
 @pytest.mark.skip
 @pytest.mark.with_cart([(_PRODUCT_ID, _QUANTITY)])
+@allure.feature("Cart / Order Creation (GraphQL)")
+@allure.title("Create order from cart with payment and shipment")
 def test_cart_create_order(graphql_client: GraphQLClient, ctx: Context) -> None:
     cart_ops = CartOperations(client=graphql_client)
 
-    cart = cart_ops.add_or_update_cart_payment(
-        store_id=ctx.store_id,
-        user_id=ctx.user_id,
-        payment=PaymentInput(
-            payment_gateway_code=_PAYMENT_METHOD,
-            billing_address=TEST_CART_ADDRESS,
-            price=0,
-        ),
-        currency_code=ctx.currency_code,
-        culture_name=ctx.culture_name,
-    )
-    cart = cart_ops.add_or_update_cart_shipment(
-        store_id=ctx.store_id,
-        user_id=ctx.user_id,
-        shipment=ShipmentInput(
-            shipment_method_code=_SHIPPING_METHOD,
-            shipment_method_option=_SHIPPING_OPTION,
-            price=_SHIPPING_PRICE,
-            delivery_address=TEST_CART_ADDRESS,
-        ),
-        currency_code=ctx.currency_code,
-        culture_name=ctx.culture_name,
-    )
+    with allure.step(f"Set payment method {_PAYMENT_METHOD} on cart"):
+        cart = cart_ops.add_or_update_cart_payment(
+            store_id=ctx.store_id,
+            user_id=ctx.user_id,
+            payment=PaymentInput(
+                payment_gateway_code=_PAYMENT_METHOD,
+                billing_address=TEST_CART_ADDRESS,
+                price=0,
+            ),
+            currency_code=ctx.currency_code,
+            culture_name=ctx.culture_name,
+        )
 
-    order = cart_ops.create_order_from_cart(cart_id=cart.id)
+    with allure.step(
+        f"Set shipment method {_SHIPPING_METHOD}/{_SHIPPING_OPTION} on cart"
+    ):
+        cart = cart_ops.add_or_update_cart_shipment(
+            store_id=ctx.store_id,
+            user_id=ctx.user_id,
+            shipment=ShipmentInput(
+                shipment_method_code=_SHIPPING_METHOD,
+                shipment_method_option=_SHIPPING_OPTION,
+                price=_SHIPPING_PRICE,
+                delivery_address=TEST_CART_ADDRESS,
+            ),
+            currency_code=ctx.currency_code,
+            culture_name=ctx.culture_name,
+        )
 
-    assert order is not None
-    assert order.number is not None
+    with allure.step(f"Create order from cart {cart.id}"):
+        order = cart_ops.create_order_from_cart(cart_id=cart.id)
 
-    assert len(order.items) == 1
-    item = order.items[0]
-    assert item.product_id == _PRODUCT_ID
-    assert item.quantity == _QUANTITY
+    with allure.step("Verify order has expected items, payment, and shipment"):
+        assert order is not None
+        assert order.number is not None
 
-    assert len(order.in_payments) == 1
-    payment = order.in_payments[0]
-    assert payment.gateway_code == _PAYMENT_METHOD
+        assert len(order.items) == 1
+        item = order.items[0]
+        assert item.product_id == _PRODUCT_ID
+        assert item.quantity == _QUANTITY
 
-    assert len(order.shipments) == 1
-    shipment = order.shipments[0]
-    assert shipment.shipment_method_code == _SHIPPING_METHOD
-    assert shipment.shipment_method_option == _SHIPPING_OPTION
+        assert len(order.in_payments) == 1
+        payment = order.in_payments[0]
+        assert payment.gateway_code == _PAYMENT_METHOD
+
+        assert len(order.shipments) == 1
+        shipment = order.shipments[0]
+        assert shipment.shipment_method_code == _SHIPPING_METHOD
+        assert shipment.shipment_method_option == _SHIPPING_OPTION
