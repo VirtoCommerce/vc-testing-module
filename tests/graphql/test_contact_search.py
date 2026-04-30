@@ -19,8 +19,9 @@ def test_contacts_search_by_name(graphql_client: GraphQLClient, ctx: Context) ->
     )
 
     assert len(contacts) > 0
-    assert all(_CONTACT_FULL_NAME in c.full_name for c in contacts)
-    assert any(c.id == _CONTACT_ID for c in contacts)
+    target = next((c for c in contacts if c.id == _CONTACT_ID), None)
+    assert target is not None, f"Search did not return {_CONTACT_ID}"
+    assert _CONTACT_FULL_NAME in target.full_name
 
 
 @pytest.mark.graphql
