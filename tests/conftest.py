@@ -1,5 +1,6 @@
 import os
 import re
+import time
 from pathlib import Path
 from typing import Any, Generator
 
@@ -138,9 +139,38 @@ def har_recorder(request: pytest.FixtureRequest) -> Generator[HARRecorder, None,
         )
 
 
-@pytest.fixture(scope="session")
-def browser_context_args(browser_context_args: dict[Any, Any]) -> dict[Any, Any]:
-    return {**browser_context_args, "viewport": {"width": 1920, "height": 1080}}
+@pytest.fixture
+def browser_context_args(
+    browser_context_args: dict[Any, Any], request: pytest.FixtureRequest
+) -> dict[Any, Any]:
+    extra: dict[str, Any] = {"viewport": {"width": 1920, "height": 1080}}
+    if request.node.get_closest_marker("e2e"):
+        root_dir = Path(request.config.rootpath)
+        module = _har_module(Path(request.node.path))
+        out_dir = root_dir / "har-output" / module
+        out_dir.mkdir(parents=True, exist_ok=True)
+        safe_name = _INVALID_FILENAME_CHARS.sub("_", request.node.name)
+        har_path = out_dir / f"{safe_name}.har"
+        request.node._e2e_har_path = har_path
+        extra["record_har_path"] = str(har_path)
+        extra["record_har_omit_content"] = False
+    return {**browser_context_args, **extra}
+
+
+@pytest.fixture(autouse=True)
+def attach_e2e_har(request: pytest.FixtureRequest) -> Generator[None, None, None]:
+    """Attach the Playwright HAR file to Allure once the context has flushed it."""
+    yield
+    if not request.node.get_closest_marker("e2e"):
+        return
+    har_path: Path | None = getattr(request.node, "_e2e_har_path", None)
+    if har_path and har_path.exists():
+        allure.attach.file(
+            str(har_path),
+            name=f"{request.node.name}.har",
+            attachment_type="application/json",
+            extension="har",
+        )
 
 
 @pytest.fixture(scope="session")
@@ -179,13 +209,15 @@ def with_user(
     marker = request.node.get_closest_marker("with_user")
     if marker:
         username: str = marker.args[0]
-        provider.sign_in(username, global_settings.users_password)
-        if request.node.get_closest_marker("e2e") and provider.token_info:
-            page = request.getfixturevalue("page")
-            BrowserStorage(page).set_auth(provider.token_info)
+        with allure.step(f"Sign in as {username}"):
+            provider.sign_in(username, global_settings.users_password)
+            if request.node.get_closest_marker("e2e") and provider.token_info:
+                page = request.getfixturevalue("page")
+                BrowserStorage(page).set_auth(provider.token_info)
     yield provider
     if provider.is_authenticated:
-        provider.sign_out()
+        with allure.step("Sign out"):
+            provider.sign_out()
 
 
 @pytest.fixture(autouse=True)
@@ -203,20 +235,38 @@ def with_cart(
         CartItemInput(product_id=product_id, quantity=quantity)
         for product_id, quantity in marker.args[0]
     ]
+    item_summary = ", ".join(f"{p}×{q}" for p, q in marker.args[0])
     with GraphQLClient(auth=with_user, global_settings=global_settings) as client:
         cart_ops = CartOperations(client)
-        cart = cart_ops.add_items_to_cart(
-            store_id=ctx.store_id,
-            user_id=ctx.user_id,
-            items=items,
-            currency_code=ctx.currency_code,
-            culture_name=ctx.culture_name,
-        )
-        if request.node.get_closest_marker("e2e"):
-            page = request.getfixturevalue("page")
-            BrowserStorage(page).set_user_id(ctx.user_id)
+        with allure.step(f"Seed cart with items: {item_summary}"):
+            cart = cart_ops.add_items_to_cart(
+                store_id=ctx.store_id,
+                user_id=ctx.user_id,
+                items=items,
+                currency_code=ctx.currency_code,
+                culture_name=ctx.culture_name,
+            )
+            # Poll until the cart is read-back-visible. On some demo backends
+            # the storefront's first cart query can race the create and return
+            # null; ensure read-after-write consistency before yielding so e2e
+            # tests don't flake on initial page load.
+            for _ in range(global_settings.poll_attempts):
+                fetched = cart_ops.get_cart(
+                    store_id=ctx.store_id,
+                    user_id=ctx.user_id,
+                    currency_code=ctx.currency_code,
+                    culture_name=ctx.culture_name,
+                    cart_id=cart.id,
+                )
+                if fetched and (fetched.items_count or 0) > 0:
+                    break
+                time.sleep(global_settings.poll_interval)
+            if request.node.get_closest_marker("e2e"):
+                page = request.getfixturevalue("page")
+                BrowserStorage(page).set_user_id(ctx.user_id)
         yield cart
-        cart_ops.delete_cart(cart_id=cart.id, user_id=ctx.user_id)
+        with allure.step(f"Teardown: delete seeded cart {cart.id}"):
+            cart_ops.delete_cart(cart_id=cart.id, user_id=ctx.user_id)
 
 
 @pytest.fixture(autouse=True)
@@ -243,14 +293,16 @@ def delete_cart_after(
         return
     with GraphQLClient(auth=auth, global_settings=global_settings) as client:
         cart_ops = CartOperations(client)
-        cart = cart_ops.get_cart(
-            store_id=ctx.store_id,
-            user_id=user_id,
-            currency_code=ctx.currency_code,
-            culture_name=ctx.culture_name,
-        )
+        with allure.step(f"Teardown: lookup cart for user {user_id}"):
+            cart = cart_ops.get_cart(
+                store_id=ctx.store_id,
+                user_id=user_id,
+                currency_code=ctx.currency_code,
+                culture_name=ctx.culture_name,
+            )
         if cart:
-            cart_ops.delete_cart(cart_id=cart.id, user_id=user_id)
+            with allure.step(f"Teardown: delete cart {cart.id}"):
+                cart_ops.delete_cart(cart_id=cart.id, user_id=user_id)
 
 
 @pytest.fixture

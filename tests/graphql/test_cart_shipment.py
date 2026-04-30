@@ -1,3 +1,4 @@
+import allure
 import pytest
 from core.clients import GraphQLClient
 from gql.operations import CartOperations
@@ -16,6 +17,8 @@ _AIR_OPTION = ("Air", 25.00)
 
 @pytest.mark.graphql
 @pytest.mark.with_cart([(_PRODUCT_ID, _QUANTITY)])
+@allure.feature("Cart / Shipment (GraphQL)")
+@allure.title("Add and update shipment method on cart")
 def test_checkout_shipment(graphql_client: GraphQLClient, ctx: Context) -> None:
     cart_ops = CartOperations(client=graphql_client)
 
@@ -25,22 +28,30 @@ def test_checkout_shipment(graphql_client: GraphQLClient, ctx: Context) -> None:
         price=_GROUND_OPTION[1],
         delivery_address=TEST_CART_ADDRESS,
     )
-    cart = cart_ops.add_or_update_cart_shipment(
-        store_id=ctx.store_id,
-        user_id=ctx.user_id,
-        culture_name=ctx.culture_name,
-        currency_code=ctx.currency_code,
-        shipment=shipment_input,
-    )
-    assert cart is not None
-    assert cart.shipments is not None and len(cart.shipments) == 1
 
-    shipment = cart.shipments[0]
-    assert shipment.shipment_method_code == _SHIPPING_METHOD
-    assert shipment.shipment_method_option == _GROUND_OPTION[0]
-    assert shipment.price is not None and shipment.price.amount == _GROUND_OPTION[1]
-    assert shipment.delivery_address is not None
-    assert addresses_equal(a=shipment.delivery_address, b=TEST_CART_ADDRESS)
+    with allure.step(
+        f"Add shipment {_SHIPPING_METHOD}/{_GROUND_OPTION[0]} (price={_GROUND_OPTION[1]})"
+    ):
+        cart = cart_ops.add_or_update_cart_shipment(
+            store_id=ctx.store_id,
+            user_id=ctx.user_id,
+            culture_name=ctx.culture_name,
+            currency_code=ctx.currency_code,
+            shipment=shipment_input,
+        )
+
+    with allure.step(
+        f"Verify shipment {_GROUND_OPTION[0]} is set with delivery address"
+    ):
+        assert cart is not None
+        assert cart.shipments is not None and len(cart.shipments) == 1
+
+        shipment = cart.shipments[0]
+        assert shipment.shipment_method_code == _SHIPPING_METHOD
+        assert shipment.shipment_method_option == _GROUND_OPTION[0]
+        assert shipment.price is not None and shipment.price.amount == _GROUND_OPTION[1]
+        assert shipment.delivery_address is not None
+        assert addresses_equal(a=shipment.delivery_address, b=TEST_CART_ADDRESS)
 
     updated_address = shipment.delivery_address.model_copy(
         update={"line1": "Change St 123"}
@@ -49,18 +60,24 @@ def test_checkout_shipment(graphql_client: GraphQLClient, ctx: Context) -> None:
     shipment_input.shipment_method_option = _AIR_OPTION[0]
     shipment_input.price = _AIR_OPTION[1]
     shipment_input.delivery_address = updated_address
-    cart = cart_ops.add_or_update_cart_shipment(
-        store_id=ctx.store_id,
-        user_id=ctx.user_id,
-        culture_name=ctx.culture_name,
-        currency_code=ctx.currency_code,
-        shipment=shipment_input,
-    )
-    assert cart.shipments is not None and len(cart.shipments) == 1
 
-    shipment = cart.shipments[0]
-    assert shipment.shipment_method_code == _SHIPPING_METHOD
-    assert shipment.shipment_method_option == _AIR_OPTION[0]
-    assert shipment.price is not None and shipment.price.amount == _AIR_OPTION[1]
-    assert shipment.delivery_address is not None
-    assert addresses_equal(a=shipment.delivery_address, b=updated_address)
+    with allure.step(
+        f"Update shipment to {_AIR_OPTION[0]} (price={_AIR_OPTION[1]}) with new delivery address"
+    ):
+        cart = cart_ops.add_or_update_cart_shipment(
+            store_id=ctx.store_id,
+            user_id=ctx.user_id,
+            culture_name=ctx.culture_name,
+            currency_code=ctx.currency_code,
+            shipment=shipment_input,
+        )
+
+    with allure.step(f"Verify shipment is updated to {_AIR_OPTION[0]} with new address"):
+        assert cart.shipments is not None and len(cart.shipments) == 1
+
+        shipment = cart.shipments[0]
+        assert shipment.shipment_method_code == _SHIPPING_METHOD
+        assert shipment.shipment_method_option == _AIR_OPTION[0]
+        assert shipment.price is not None and shipment.price.amount == _AIR_OPTION[1]
+        assert shipment.delivery_address is not None
+        assert addresses_equal(a=shipment.delivery_address, b=updated_address)

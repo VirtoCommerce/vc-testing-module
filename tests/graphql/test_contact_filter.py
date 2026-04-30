@@ -1,3 +1,4 @@
+import allure
 import pytest
 from core.clients import GraphQLClient
 from gql.operations import ContactOperations
@@ -28,23 +29,29 @@ _STATUS_LOCKED = "Locked"
         _ROLE_STORE_MANAGER,
     ],
 )
+@allure.feature("Contact / Search (GraphQL)")
+@allure.title("Filter organization contacts by role")
 def test_contacts_filter_by_role(
     graphql_client: GraphQLClient, ctx: Context, role_id: str
 ) -> None:
     assert ctx.organization_id is not None
-    contacts = ContactOperations(client=graphql_client).get_organization_contacts(
-        organization_id=ctx.organization_id,
-        search_phrase=f"'roleId':'{role_id}'",
-    )
-    assert len(contacts) > 0
-    assert all(
-        any(
-            role.id == role_id
-            for account in c.security_accounts
-            for role in account.roles
+
+    with allure.step(f"Search organization contacts by role '{role_id}'"):
+        contacts = ContactOperations(client=graphql_client).get_organization_contacts(
+            organization_id=ctx.organization_id,
+            search_phrase=f"'roleId':'{role_id}'",
         )
-        for c in contacts
-    )
+
+    with allure.step(f"Verify all returned contacts have role '{role_id}'"):
+        assert len(contacts) > 0
+        assert all(
+            any(
+                role.id == role_id
+                for account in c.security_accounts
+                for role in account.roles
+            )
+            for c in contacts
+        )
 
 
 @pytest.mark.graphql
@@ -57,13 +64,19 @@ def test_contacts_filter_by_role(
         _STATUS_LOCKED,
     ],
 )
+@allure.feature("Contact / Search (GraphQL)")
+@allure.title("Filter organization contacts by status")
 def test_contacts_filter_by_status(
     graphql_client: GraphQLClient, ctx: Context, status: str
 ) -> None:
     assert ctx.organization_id is not None
-    contacts = ContactOperations(client=graphql_client).get_organization_contacts(
-        organization_id=ctx.organization_id,
-        search_phrase=f"'status':'{status}'",
-    )
-    assert len(contacts) > 0
-    assert all(c.status == status for c in contacts)
+
+    with allure.step(f"Search organization contacts by status '{status}'"):
+        contacts = ContactOperations(client=graphql_client).get_organization_contacts(
+            organization_id=ctx.organization_id,
+            search_phrase=f"'status':'{status}'",
+        )
+
+    with allure.step(f"Verify all returned contacts have status '{status}'"):
+        assert len(contacts) > 0
+        assert all(c.status == status for c in contacts)

@@ -1,6 +1,10 @@
+import logging
+import time
 from typing import Any
 
+import allure
 import pytest
+import requests
 from core.auth import AuthProvider
 from core.clients import GraphQLClient
 from core.global_settings import GlobalSettings
@@ -13,6 +17,8 @@ _PRODUCT_ID = "smartphone-samsung-galaxy-a57-5g"
 _QUANTITY = 3
 _USERNAME = "acme_store_employee_1@acme.com"
 
+_logger = logging.getLogger(__name__)
+
 
 def _cleanup_user_cart(
     global_settings: GlobalSettings,
@@ -21,7 +27,18 @@ def _cleanup_user_cart(
 ) -> None:
     user_ctx = Context.from_dataset(dataset, global_settings.store_id, _USERNAME)
     admin = AuthProvider(global_settings)
-    admin.sign_in(global_settings.admin_username, global_settings.admin_password)
+    # Demo platforms occasionally rate-limit / briefly lock /connect/token after the
+    # storefront UI sign-in this test performs. Retry on 400 so a transient lockout
+    # doesn't mark the test as broken when only the cleanup step is affected.
+    for attempt in range(3):
+        try:
+            admin.sign_in(global_settings.admin_username, global_settings.admin_password)
+            break
+        except requests.HTTPError as exc:
+            if attempt == 2 or (exc.response is not None and exc.response.status_code != 400):
+                _logger.warning("Skipping cart cleanup; admin sign-in failed: %s", exc)
+                return
+            time.sleep(2)
     with GraphQLClient(auth=admin, global_settings=global_settings) as client:
         cart_ops = CartOperations(client)
         cart = cart_ops.get_cart(
@@ -37,6 +54,8 @@ def _cleanup_user_cart(
 @pytest.mark.e2e
 @pytest.mark.quantity_control("stepper")
 @pytest.mark.with_cart([(_PRODUCT_ID, _QUANTITY)])
+@allure.feature("Cart / Merge (E2E)")
+@allure.title("Anonymous cart merges into the signed-in user cart (stepper UI)")
 def test_cart_merge_stepper(
     global_settings: GlobalSettings,
     page: Page,
@@ -45,24 +64,24 @@ def test_cart_merge_stepper(
 ) -> None:
     try:
         cart_page = CartPage(global_settings=global_settings, page=page)
-        cart_page.navigate()
 
-        line_item = cart_page.find_line_item(sku=_PRODUCT_ID)
-        expect(line_item.root).to_be_visible()
+        with allure.step("Navigate to the cart page as anonymous user"):
+            cart_page.navigate()
+            line_item = cart_page.find_line_item(sku=_PRODUCT_ID)
+            expect(line_item.root).to_be_visible()
 
-        sign_in_page = SignInPage(global_settings=global_settings, page=page)
-        sign_in_page.navigate()
+        with allure.step(f"Sign in as {_USERNAME}"):
+            sign_in_page = SignInPage(global_settings=global_settings, page=page)
+            sign_in_page.navigate()
+            sign_in_page.email_input.fill(_USERNAME)
+            sign_in_page.password_input.fill(global_settings.users_password.get_secret_value())
+            sign_in_page.sign_in_button.click()
 
-        sign_in_page.email_input.fill(_USERNAME)
-        sign_in_page.password_input.fill(
-            global_settings.users_password.get_secret_value()
-        )
-        sign_in_page.sign_in_button.click()
-
-        cart_page.navigate()
-        line_item = cart_page.find_line_item(sku=_PRODUCT_ID)
-        expect(line_item.root).to_be_visible()
-        expect(line_item.quantity_stepper.quantity_input).to_have_value(str(_QUANTITY))
+        with allure.step("Re-open cart and verify items merged with original quantity"):
+            cart_page.navigate()
+            line_item = cart_page.find_line_item(sku=_PRODUCT_ID)
+            expect(line_item.root).to_be_visible()
+            expect(line_item.quantity_stepper.quantity_input).to_have_value(str(_QUANTITY))
     finally:
         _cleanup_user_cart(global_settings, dataset, ctx)
 
@@ -70,6 +89,8 @@ def test_cart_merge_stepper(
 @pytest.mark.e2e
 @pytest.mark.quantity_control("button")
 @pytest.mark.with_cart([(_PRODUCT_ID, _QUANTITY)])
+@allure.feature("Cart / Merge (E2E)")
+@allure.title("Anonymous cart merges into the signed-in user cart (button UI)")
 def test_cart_merge_button(
     global_settings: GlobalSettings,
     page: Page,
@@ -78,25 +99,23 @@ def test_cart_merge_button(
 ) -> None:
     try:
         cart_page = CartPage(global_settings=global_settings, page=page)
-        cart_page.navigate()
 
-        line_item = cart_page.find_line_item(sku=_PRODUCT_ID)
-        expect(line_item.root).to_be_visible()
+        with allure.step("Navigate to the cart page as anonymous user"):
+            cart_page.navigate()
+            line_item = cart_page.find_line_item(sku=_PRODUCT_ID)
+            expect(line_item.root).to_be_visible()
 
-        sign_in_page = SignInPage(global_settings=global_settings, page=page)
-        sign_in_page.navigate()
+        with allure.step(f"Sign in as {_USERNAME}"):
+            sign_in_page = SignInPage(global_settings=global_settings, page=page)
+            sign_in_page.navigate()
+            sign_in_page.email_input.fill(_USERNAME)
+            sign_in_page.password_input.fill(global_settings.users_password.get_secret_value())
+            sign_in_page.sign_in_button.click()
 
-        sign_in_page.email_input.fill(_USERNAME)
-        sign_in_page.password_input.fill(
-            global_settings.users_password.get_secret_value()
-        )
-        sign_in_page.sign_in_button.click()
-
-        cart_page.navigate()
-        line_item = cart_page.find_line_item(sku=_PRODUCT_ID)
-        expect(line_item.root).to_be_visible()
-        expect(line_item.add_to_cart_button.quantity_input).to_have_value(
-            str(_QUANTITY)
-        )
+        with allure.step("Re-open cart and verify items merged with original quantity"):
+            cart_page.navigate()
+            line_item = cart_page.find_line_item(sku=_PRODUCT_ID)
+            expect(line_item.root).to_be_visible()
+            expect(line_item.add_to_cart_button.quantity_input).to_have_value(str(_QUANTITY))
     finally:
         _cleanup_user_cart(global_settings, dataset, ctx)

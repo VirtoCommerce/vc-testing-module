@@ -1,5 +1,6 @@
 from typing import Any
 
+import allure
 import pytest
 from core.auth import AuthProvider
 from core.clients import GraphQLClient
@@ -19,6 +20,8 @@ _QTY_2 = 1
 
 @pytest.mark.graphql
 @pytest.mark.with_cart([(_PRODUCT_ID_1, _QTY_1), (_PRODUCT_ID_2, _QTY_2)])
+@allure.feature("Cart / Merge (GraphQL)")
+@allure.title("Merge an anonymous cart into a registered user's cart")
 def test_cart_merge(
     with_cart: Cart,
     with_user: AuthProvider,
@@ -32,19 +35,24 @@ def test_cart_merge(
     user = next(u for u in dataset["users"] if u["userName"] == _USER)
     user_id = user["id"]
 
-    with_user.sign_in(_USER, global_settings.users_password)
+    with allure.step(f"Sign in as {_USER}"):
+        with_user.sign_in(_USER, global_settings.users_password)
 
     cart_ops = CartOperations(client=graphql_client)
-    merged_cart = cart_ops.merge_cart(
-        store_id=ctx.store_id,
-        user_id=user_id,
-        second_cart_id=anon_cart.id,
-        currency_code=ctx.currency_code,
-        culture_name=ctx.culture_name,
-    )
+
+    with allure.step(f"Merge anonymous cart {anon_cart.id} into user's cart"):
+        merged_cart = cart_ops.merge_cart(
+            store_id=ctx.store_id,
+            user_id=user_id,
+            second_cart_id=anon_cart.id,
+            currency_code=ctx.currency_code,
+            culture_name=ctx.culture_name,
+        )
     try:
-        assert merged_cart.items_count == 2
-        assert has_line_item(merged_cart.items, _PRODUCT_ID_1, _QTY_1)
-        assert has_line_item(merged_cart.items, _PRODUCT_ID_2, _QTY_2)
+        with allure.step("Verify merged cart contains items from anonymous cart"):
+            assert merged_cart.items_count == 2
+            assert has_line_item(merged_cart.items, _PRODUCT_ID_1, _QTY_1)
+            assert has_line_item(merged_cart.items, _PRODUCT_ID_2, _QTY_2)
     finally:
-        cart_ops.delete_cart(cart_id=merged_cart.id, user_id=user_id)
+        with allure.step(f"Teardown: delete cart {merged_cart.id}"):
+            cart_ops.delete_cart(cart_id=merged_cart.id, user_id=user_id)
