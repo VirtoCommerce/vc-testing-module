@@ -1,12 +1,17 @@
 import pytest
 from core.global_settings import GlobalSettings
 from page_objects.pages import CartPage
-from playwright.sync_api import Page, expect
+from playwright.sync_api import Page, Response, expect
 
 _PRODUCT_ID = "smartphone-samsung-galaxy-a57-5g"
 _ORIGINAL_QUANTITY = 3
 _UPDATED_QUANTITY = 4
 _USERNAME = "acme_store_employee_1@acme.com"
+
+
+def _is_cart_mutation(response: Response) -> bool:
+    post = response.request.post_data
+    return bool(post and "/graphql" in response.url and "mutation" in post)
 
 
 @pytest.mark.e2e
@@ -20,11 +25,10 @@ def test_cart_item_update_stepper(global_settings: GlobalSettings, page: Page) -
     line_item = cart_page.find_line_item(sku=_PRODUCT_ID)
     expect(line_item.root).to_be_visible()
     expect(line_item.quantity_stepper.root).to_be_visible()
-    expect(line_item.quantity_stepper.quantity_input).to_have_value(
-        str(_ORIGINAL_QUANTITY)
-    )
+    expect(line_item.quantity_stepper.quantity_input).to_have_value(str(_ORIGINAL_QUANTITY))
 
-    line_item.quantity_stepper.increment_button.click()
+    with page.expect_response(_is_cart_mutation):
+        line_item.quantity_stepper.increment_button.click()
     expect(cart_page.cart_quantity_label).to_have_text(str(_UPDATED_QUANTITY))
 
 
@@ -39,9 +43,7 @@ def test_cart_item_update_button(global_settings: GlobalSettings, page: Page) ->
     line_item = cart_page.find_line_item(sku=_PRODUCT_ID)
     expect(line_item.root).to_be_visible()
     expect(line_item.add_to_cart_button.root).to_be_visible()
-    expect(line_item.add_to_cart_button.quantity_input).to_have_value(
-        str(_ORIGINAL_QUANTITY)
-    )
+    expect(line_item.add_to_cart_button.quantity_input).to_have_value(str(_ORIGINAL_QUANTITY))
 
     line_item.add_to_cart_button.quantity_input.fill(str(_UPDATED_QUANTITY))
     cart_page.click_outside()

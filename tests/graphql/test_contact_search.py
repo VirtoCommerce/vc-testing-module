@@ -6,7 +6,7 @@ from tests.context import Context
 
 _MAINTAINER = "acme_store_maintainer_1@acme.com"
 _CONTACT_ID = "contact-acme-store-employee-1"
-_CONTACT_FULL_NAME = "ACME Employee 1"
+_CONTACT_FULL_NAME = "ACME Employee A"
 _CONTACT_EMAIL = "acme_store_employee_1@acme.com"
 
 
