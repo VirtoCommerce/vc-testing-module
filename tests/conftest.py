@@ -235,33 +235,35 @@ def with_cart(
         CartItemInput(product_id=product_id, quantity=quantity)
         for product_id, quantity in marker.args[0]
     ]
+    item_summary = ", ".join(f"{p}×{q}" for p, q in marker.args[0])
     with GraphQLClient(auth=with_user, global_settings=global_settings) as client:
         cart_ops = CartOperations(client)
-        cart = cart_ops.add_items_to_cart(
-            store_id=ctx.store_id,
-            user_id=ctx.user_id,
-            items=items,
-            currency_code=ctx.currency_code,
-            culture_name=ctx.culture_name,
-        )
-        # Poll until the cart is read-back-visible. On some demo backends
-        # the storefront's first cart query can race the create and return
-        # null; ensure read-after-write consistency before yielding so e2e
-        # tests don't flake on initial page load.
-        for _ in range(global_settings.poll_attempts):
-            fetched = cart_ops.get_cart(
+        with allure.step(f"Seed cart with items: {item_summary}"):
+            cart = cart_ops.add_items_to_cart(
                 store_id=ctx.store_id,
                 user_id=ctx.user_id,
+                items=items,
                 currency_code=ctx.currency_code,
                 culture_name=ctx.culture_name,
-                cart_id=cart.id,
             )
-            if fetched and (fetched.items_count or 0) > 0:
-                break
-            time.sleep(global_settings.poll_interval)
-        if request.node.get_closest_marker("e2e"):
-            page = request.getfixturevalue("page")
-            BrowserStorage(page).set_user_id(ctx.user_id)
+            # Poll until the cart is read-back-visible. On some demo backends
+            # the storefront's first cart query can race the create and return
+            # null; ensure read-after-write consistency before yielding so e2e
+            # tests don't flake on initial page load.
+            for _ in range(global_settings.poll_attempts):
+                fetched = cart_ops.get_cart(
+                    store_id=ctx.store_id,
+                    user_id=ctx.user_id,
+                    currency_code=ctx.currency_code,
+                    culture_name=ctx.culture_name,
+                    cart_id=cart.id,
+                )
+                if fetched and (fetched.items_count or 0) > 0:
+                    break
+                time.sleep(global_settings.poll_interval)
+            if request.node.get_closest_marker("e2e"):
+                page = request.getfixturevalue("page")
+                BrowserStorage(page).set_user_id(ctx.user_id)
         yield cart
         with allure.step(f"Teardown: delete seeded cart {cart.id}"):
             cart_ops.delete_cart(cart_id=cart.id, user_id=ctx.user_id)
