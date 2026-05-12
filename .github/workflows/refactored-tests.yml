@@ -34,7 +34,7 @@ jobs:
       # 1. Checkout & install modules
       # ──────────────────────────────────────────────
       - name: Checkout testing repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: VirtoCommerce/vc-testing-module
           ref: ${{ github.ref_name }}
