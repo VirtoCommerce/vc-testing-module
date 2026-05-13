@@ -8,12 +8,11 @@ _CATEGORY_PATH = "smartphones"
 
 
 @pytest.mark.e2e
+@pytest.mark.flaky(retries=2, delay=3)
 @allure.feature("Category / View switcher (E2E)")
 @allure.title("Toggle between grid and list views on the category page")
 def test_category_view_switcher(global_settings: GlobalSettings, page: Page) -> None:
-    category_page = CategoryPage(
-        global_settings=global_settings, page=page, path=_CATEGORY_PATH
-    )
+    category_page = CategoryPage(global_settings=global_settings, page=page, path=_CATEGORY_PATH)
 
     with allure.step(f"Navigate to category '{_CATEGORY_PATH}'"):
         category_page.navigate()

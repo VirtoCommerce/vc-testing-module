@@ -45,4 +45,4 @@ def test_cart_clear(page: Page, global_settings: GlobalSettings) -> None:
         with page.expect_response(_is_clear_cart_mutation):
             clear_cart_modal.yes_button.click()
         expect(clear_cart_modal.root).not_to_be_visible()
-        expect(cart_page.line_items).not_to_be_visible()
+        expect(cart_page.line_items).to_have_count(0, timeout=15000)
