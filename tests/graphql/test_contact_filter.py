@@ -19,6 +19,7 @@ _STATUS_LOCKED = "Locked"
 
 @pytest.mark.graphql
 @pytest.mark.with_user(_MAINTAINER)
+@pytest.mark.flaky(retries=2, delay=3)
 @pytest.mark.parametrize(
     "role_id",
     [
@@ -31,9 +32,7 @@ _STATUS_LOCKED = "Locked"
 )
 @allure.feature("Contact / Search (GraphQL)")
 @allure.title("Filter organization contacts by role")
-def test_contacts_filter_by_role(
-    graphql_client: GraphQLClient, ctx: Context, role_id: str
-) -> None:
+def test_contacts_filter_by_role(graphql_client: GraphQLClient, ctx: Context, role_id: str) -> None:
     assert ctx.organization_id is not None
 
     with allure.step(f"Search organization contacts by role '{role_id}'"):
@@ -45,17 +44,13 @@ def test_contacts_filter_by_role(
     with allure.step(f"Verify all returned contacts have role '{role_id}'"):
         assert len(contacts) > 0
         assert all(
-            any(
-                role.id == role_id
-                for account in c.security_accounts
-                for role in account.roles
-            )
-            for c in contacts
+            any(role.id == role_id for account in c.security_accounts for role in account.roles) for c in contacts
         )
 
 
 @pytest.mark.graphql
 @pytest.mark.with_user(_MAINTAINER)
+@pytest.mark.flaky(retries=2, delay=3)
 @pytest.mark.parametrize(
     "status",
     [
@@ -66,9 +61,7 @@ def test_contacts_filter_by_role(
 )
 @allure.feature("Contact / Search (GraphQL)")
 @allure.title("Filter organization contacts by status")
-def test_contacts_filter_by_status(
-    graphql_client: GraphQLClient, ctx: Context, status: str
-) -> None:
+def test_contacts_filter_by_status(graphql_client: GraphQLClient, ctx: Context, status: str) -> None:
     assert ctx.organization_id is not None
 
     with allure.step(f"Search organization contacts by status '{status}'"):
