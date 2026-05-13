@@ -52,9 +52,7 @@ def _page_for_failure(request: pytest.FixtureRequest) -> Page | None:
 
 
 @pytest.fixture(autouse=True)
-def screenshot_on_failure(
-    request: pytest.FixtureRequest, _page_for_failure: Page | None
-) -> Generator:
+def screenshot_on_failure(request: pytest.FixtureRequest, _page_for_failure: Page | None) -> Generator:
     """Take a full-page screenshot when an E2E test fails and attach to Allure."""
     yield
 
@@ -140,9 +138,7 @@ def har_recorder(request: pytest.FixtureRequest) -> Generator[HARRecorder, None,
 
 
 @pytest.fixture
-def browser_context_args(
-    browser_context_args: dict[Any, Any], request: pytest.FixtureRequest
-) -> dict[Any, Any]:
+def browser_context_args(browser_context_args: dict[Any, Any], request: pytest.FixtureRequest) -> dict[Any, Any]:
     extra: dict[str, Any] = {"viewport": {"width": 1920, "height": 1080}}
     if request.node.get_closest_marker("e2e"):
         root_dir = Path(request.config.rootpath)
@@ -194,17 +190,13 @@ def dataset(dataset_manager: DatasetManager) -> dict[str, list[dict[str, Any]]]:
 
 
 @pytest.fixture
-def graphql_client(
-    with_user: AuthProvider, global_settings: GlobalSettings
-) -> Generator[GraphQLClient, None, None]:
+def graphql_client(with_user: AuthProvider, global_settings: GlobalSettings) -> Generator[GraphQLClient, None, None]:
     with GraphQLClient(auth=with_user, global_settings=global_settings) as client:
         yield client
 
 
 @pytest.fixture
-def with_user(
-    request: pytest.FixtureRequest, global_settings: GlobalSettings
-) -> Generator[AuthProvider, None, None]:
+def with_user(request: pytest.FixtureRequest, global_settings: GlobalSettings) -> Generator[AuthProvider, None, None]:
     provider = AuthProvider(global_settings)
     marker = request.node.get_closest_marker("with_user")
     if marker:
@@ -231,10 +223,7 @@ def with_cart(
     if not marker:
         yield None
         return
-    items = [
-        CartItemInput(product_id=product_id, quantity=quantity)
-        for product_id, quantity in marker.args[0]
-    ]
+    items = [CartItemInput(product_id=product_id, quantity=quantity) for product_id, quantity in marker.args[0]]
     item_summary = ", ".join(f"{p}×{q}" for p, q in marker.args[0])
     with GraphQLClient(auth=with_user, global_settings=global_settings) as client:
         cart_ops = CartOperations(client)
@@ -246,21 +235,34 @@ def with_cart(
                 currency_code=ctx.currency_code,
                 culture_name=ctx.culture_name,
             )
-            # Poll until the cart is read-back-visible. On some demo backends
-            # the storefront's first cart query can race the create and return
-            # null; ensure read-after-write consistency before yielding so e2e
-            # tests don't flake on initial page load.
+            # Poll the same way the storefront's GetFullCart does — by user_id
+            # with no cart_id — and require two consecutive successful reads.
+            consecutive_ok = 0
+            required_streak = 2
+            cart_visible = False
             for _ in range(global_settings.poll_attempts):
                 fetched = cart_ops.get_cart(
                     store_id=ctx.store_id,
                     user_id=ctx.user_id,
                     currency_code=ctx.currency_code,
                     culture_name=ctx.culture_name,
-                    cart_id=cart.id,
                 )
-                if fetched and (fetched.items_count or 0) > 0:
-                    break
+                if fetched and fetched.id == cart.id and (fetched.items_count or 0) > 0:
+                    consecutive_ok += 1
+                    if consecutive_ok >= required_streak:
+                        cart_visible = True
+                        break
+                else:
+                    consecutive_ok = 0
                 time.sleep(global_settings.poll_interval)
+            if not cart_visible:
+                pytest.fail(
+                    f"with_cart: cart {cart.id} for user {ctx.user_id} did not "
+                    f"become visible via storefront-shaped lookup (user_id, no "
+                    f"cart_id) with items>0 within "
+                    f"{global_settings.poll_attempts * global_settings.poll_interval}s. "
+                    f"Likely backend read-after-write inconsistency."
+                )
             if request.node.get_closest_marker("e2e"):
                 page = request.getfixturevalue("page")
                 BrowserStorage(page).set_user_id(ctx.user_id)
@@ -279,11 +281,7 @@ def delete_cart_after(
     if not request.node.get_closest_marker("delete_cart_after"):
         yield None
         return
-    page = (
-        request.getfixturevalue("page")
-        if request.node.get_closest_marker("e2e")
-        else None
-    )
+    page = request.getfixturevalue("page") if request.node.get_closest_marker("e2e") else None
     yield
     if page is not None:
         user_id: str | None = BrowserStorage(page).get_user_id()
