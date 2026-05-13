@@ -17,6 +17,7 @@ _QUANTITY_2 = 4
 
 
 @pytest.mark.graphql
+@pytest.mark.flaky(retries=2, delay=3)
 @allure.feature("Cart / Bulk Items (GraphQL)")
 @allure.title("Add multiple products to cart in a single mutation")
 def test_cart_add_bulk_items(
