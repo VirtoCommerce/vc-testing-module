@@ -6,6 +6,7 @@ from typing import Any, Generator
 
 import allure
 import pytest
+import requests
 from core.auth import AuthProvider
 from core.clients import GraphQLClient
 from core.global_settings import GlobalSettings
@@ -177,6 +178,101 @@ def global_settings() -> GlobalSettings:
 @pytest.fixture(scope="session")
 def auth(global_settings: GlobalSettings) -> AuthProvider:
     return AuthProvider(global_settings)
+
+
+_STOREFRONT_SEARCH_READY_QUERY = """
+query SearchReadyProbe(
+  $storeId: String!
+  $userId: String!
+  $currencyCode: String!
+  $cultureName: String
+) {
+  products(
+    storeId: $storeId
+    userId: $userId
+    currencyCode: $currencyCode
+    cultureName: $cultureName
+    first: 1
+    withFacets: false
+    withImages: false
+  ) {
+    totalCount
+  }
+}
+"""
+_TRANSPORT_ERROR_CODES = {"SEARCH", "TRANSPORT"}
+
+
+@pytest.fixture(scope="session")
+def storefront_search_ready(global_settings: GlobalSettings) -> None:
+    """Probe the storefront's xapi /graphql until it can resolve `products`
+    cleanly. The mysql Docker CI has been observed booting with the storefront-
+    to-search transport broken for several minutes, during which every category
+    test fails the same way and retries can't recover. Abort the session early
+    with a clear diagnostic when we explicitly see the SEARCH/TRANSPORT error
+    code; on other failure shapes (HTTP 400 from a schema-version mismatch,
+    network blip, etc.) just log a warning and let tests proceed so this fixture
+    never blocks unrelated environments.
+    """
+    url = f"{global_settings.frontend_base_url.rstrip('/')}/graphql"
+    payload = {
+        "operationName": "SearchReadyProbe",
+        "query": _STOREFRONT_SEARCH_READY_QUERY,
+        "variables": {
+            "storeId": global_settings.store_id,
+            "userId": "00000000-0000-0000-0000-000000000000",
+            "currencyCode": "USD",
+            "cultureName": "en-US",
+        },
+    }
+    deadline = time.monotonic() + 90.0
+    last_status: str = "no response"
+    saw_transport_error = False
+    while time.monotonic() < deadline:
+        try:
+            resp = requests.post(url, json=payload, timeout=10, verify=global_settings.verify_ssl)
+            body: dict[str, Any] = (
+                resp.json() if resp.headers.get("content-type", "").startswith("application/json") else {}
+            )
+            errors = body.get("errors") or []
+            if resp.status_code == 200 and not errors:
+                return
+            last_status = f"status={resp.status_code} errors={errors!r}"
+            transport_in_response = False
+            for err in errors:
+                codes = set((err.get("extensions") or {}).get("codes") or [])
+                if codes & _TRANSPORT_ERROR_CODES:
+                    saw_transport_error = True
+                    transport_in_response = True
+            if 400 <= resp.status_code < 500 and not transport_in_response:
+                # Client-side rejection without a transport error code means
+                # the probe doesn't match this environment's schema; polling
+                # won't recover. Bail immediately.
+                break
+        except requests.RequestException as exc:
+            last_status = repr(exc)
+        time.sleep(3)
+    if saw_transport_error:
+        pytest.exit(
+            f"Storefront search not ready within 90s: {last_status}. "
+            f"Saw SEARCH/TRANSPORT error during probe — storefront-to-search "
+            f"transport outage on this CI run.",
+            returncode=1,
+        )
+    # Probe never produced a clean response, but never saw the specific
+    # SEARCH/TRANSPORT signal either — most likely the probe query doesn't
+    # match this environment's schema. Don't block the session; tests' own
+    # retries will catch real flakes.
+    print(
+        f"\n[storefront_search_ready] probe inconclusive after 90s "
+        f"(last: {last_status}); proceeding without gating."
+    )
+
+
+@pytest.fixture(autouse=True)
+def _gate_e2e_on_storefront_search(request: pytest.FixtureRequest) -> None:
+    if request.node.get_closest_marker("e2e"):
+        request.getfixturevalue("storefront_search_ready")
 
 
 @pytest.fixture(scope="session")

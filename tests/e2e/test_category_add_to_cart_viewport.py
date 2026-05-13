@@ -10,7 +10,7 @@ _PRODUCT_SKU = "smartphone-samsung-galaxy-a57-5g"
 
 @pytest.mark.e2e
 @pytest.mark.quantity_control("stepper")
-@pytest.mark.flaky(retries=2, delay=3)
+@pytest.mark.flaky(retries=4, delay=10)
 @allure.feature("Category / Add-to-cart viewport (E2E)")
 @allure.title("Stepper add-to-cart control stays visible in narrow viewport")
 def test_category_add_to_cart_viewport_stepper(global_settings: GlobalSettings, page: Page) -> None:
@@ -29,7 +29,7 @@ def test_category_add_to_cart_viewport_stepper(global_settings: GlobalSettings, 
 
 @pytest.mark.e2e
 @pytest.mark.quantity_control("button")
-@pytest.mark.flaky(retries=2, delay=3)
+@pytest.mark.flaky(retries=4, delay=10)
 @allure.feature("Category / Add-to-cart viewport (E2E)")
 @allure.title("Add-to-cart button collapses to icon button in narrow viewport")
 def test_category_add_to_cart_viewport_button(global_settings: GlobalSettings, page: Page) -> None:
