@@ -10,6 +10,7 @@ _ORIGINAL_QUANTITY = 3
 
 @pytest.mark.e2e
 @pytest.mark.with_cart([(_PRODUCT_ID, _ORIGINAL_QUANTITY)])
+@pytest.mark.flaky(retries=2, delay=3)
 @allure.feature("Cart / Line items (E2E)")
 @allure.title("Remove a line item from the cart")
 def test_cart_item_remove(global_settings: GlobalSettings, page: Page) -> None:

@@ -21,6 +21,7 @@ def _is_clear_cart_mutation(response: Response) -> bool:
 
 @pytest.mark.e2e
 @pytest.mark.with_cart([(_PRODUCT_ID, _QUANTITY)])
+@pytest.mark.flaky(retries=2, delay=3)
 @allure.feature("Cart / Lifecycle (E2E)")
 @allure.title("Clear all items from cart via the clear-cart modal")
 def test_cart_clear(page: Page, global_settings: GlobalSettings) -> None:

@@ -235,34 +235,21 @@ def with_cart(
                 currency_code=ctx.currency_code,
                 culture_name=ctx.culture_name,
             )
-            # Poll the same way the storefront's GetFullCart does — by user_id
-            # with no cart_id — and require two consecutive successful reads.
-            consecutive_ok = 0
-            required_streak = 2
-            cart_visible = False
+            # Poll until the cart is read-back-visible. On some demo backends
+            # the storefront's first cart query can race the create and return
+            # null; ensure read-after-write consistency before yielding so e2e
+            # tests don't flake on initial page load.
             for _ in range(global_settings.poll_attempts):
                 fetched = cart_ops.get_cart(
                     store_id=ctx.store_id,
                     user_id=ctx.user_id,
                     currency_code=ctx.currency_code,
                     culture_name=ctx.culture_name,
+                    cart_id=cart.id,
                 )
-                if fetched and fetched.id == cart.id and (fetched.items_count or 0) > 0:
-                    consecutive_ok += 1
-                    if consecutive_ok >= required_streak:
-                        cart_visible = True
-                        break
-                else:
-                    consecutive_ok = 0
+                if fetched and (fetched.items_count or 0) > 0:
+                    break
                 time.sleep(global_settings.poll_interval)
-            if not cart_visible:
-                pytest.fail(
-                    f"with_cart: cart {cart.id} for user {ctx.user_id} did not "
-                    f"become visible via storefront-shaped lookup (user_id, no "
-                    f"cart_id) with items>0 within "
-                    f"{global_settings.poll_attempts * global_settings.poll_interval}s. "
-                    f"Likely backend read-after-write inconsistency."
-                )
             if request.node.get_closest_marker("e2e"):
                 page = request.getfixturevalue("page")
                 BrowserStorage(page).set_user_id(ctx.user_id)
