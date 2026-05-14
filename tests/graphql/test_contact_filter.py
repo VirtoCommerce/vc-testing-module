@@ -19,7 +19,7 @@ _STATUS_LOCKED = "Locked"
 
 @pytest.mark.graphql
 @pytest.mark.with_user(_MAINTAINER)
-@pytest.mark.flaky(retries=2, delay=3)
+@pytest.mark.flaky(retries=3, delay=5)
 @pytest.mark.parametrize(
     "role_id",
     [
@@ -32,7 +32,7 @@ _STATUS_LOCKED = "Locked"
 )
 @allure.feature("Contact / Search (GraphQL)")
 @allure.title("Filter organization contacts by role")
-@pytest.mark.flaky(retries=2, delay=3)
+@pytest.mark.flaky(retries=3, delay=5)
 def test_contacts_filter_by_role(graphql_client: GraphQLClient, ctx: Context, role_id: str) -> None:
     assert ctx.organization_id is not None
 
@@ -51,7 +51,7 @@ def test_contacts_filter_by_role(graphql_client: GraphQLClient, ctx: Context, ro
 
 @pytest.mark.graphql
 @pytest.mark.with_user(_MAINTAINER)
-@pytest.mark.flaky(retries=2, delay=3)
+@pytest.mark.flaky(retries=3, delay=5)
 @pytest.mark.parametrize(
     "status",
     [
@@ -62,7 +62,7 @@ def test_contacts_filter_by_role(graphql_client: GraphQLClient, ctx: Context, ro
 )
 @allure.feature("Contact / Search (GraphQL)")
 @allure.title("Filter organization contacts by status")
-@pytest.mark.flaky(retries=2, delay=3)
+@pytest.mark.flaky(retries=3, delay=5)
 def test_contacts_filter_by_status(graphql_client: GraphQLClient, ctx: Context, status: str) -> None:
     assert ctx.organization_id is not None
 

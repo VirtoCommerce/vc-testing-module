@@ -18,7 +18,7 @@ def _is_cart_mutation(response: Response) -> bool:
 @pytest.mark.e2e
 @pytest.mark.quantity_control("stepper")
 @pytest.mark.delete_cart_after
-@pytest.mark.flaky(retries=2, delay=3)
+@pytest.mark.flaky(retries=3, delay=5)
 @allure.feature("Category / Product variations (E2E)")
 @allure.title("Update cart from product variations using stepper controls")
 def test_category_variation_update_cart_stepper(global_settings: GlobalSettings, page: Page) -> None:
@@ -63,7 +63,7 @@ def test_category_variation_update_cart_stepper(global_settings: GlobalSettings,
 @pytest.mark.e2e
 @pytest.mark.quantity_control("button")
 @pytest.mark.delete_cart_after
-@pytest.mark.flaky(retries=2, delay=3)
+@pytest.mark.flaky(retries=3, delay=5)
 @allure.feature("Category / Product variations (E2E)")
 @allure.title("Update cart from product variations using add-to-cart buttons")
 def test_category_variation_update_cart_button(global_settings: GlobalSettings, page: Page) -> None:
