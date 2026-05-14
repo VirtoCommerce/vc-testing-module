@@ -11,8 +11,11 @@ from core.global_settings import GlobalSettings
 class AuthProvider:
     _AUTH_TOKEN_PATH: Final = "/connect/token"
 
-    def __init__(self, global_settings: GlobalSettings) -> None:
+    def __init__(
+        self, global_settings: GlobalSettings, base_url: str | None = None
+    ) -> None:
         self._global_settings = global_settings
+        self._base_url = base_url or global_settings.backend_base_url
         self._token_info: TokenInfo | None = None
         self._lock = threading.RLock()
 
@@ -52,7 +55,7 @@ class AuthProvider:
 
         s = self._global_settings
         response = requests.post(
-            url=f"{s.backend_base_url}{self._AUTH_TOKEN_PATH}",
+            url=f"{self._base_url}{self._AUTH_TOKEN_PATH}",
             data={"grant_type": "refresh_token", "refresh_token": refresh_token},
             timeout=s.requests_timeout,
             verify=s.verify_ssl,
@@ -77,7 +80,7 @@ class AuthProvider:
             "password": password.get_secret_value(),
         }
         response = requests.post(
-            url=f"{s.backend_base_url}{self._AUTH_TOKEN_PATH}",
+            url=f"{self._base_url}{self._AUTH_TOKEN_PATH}",
             data=payload,
             timeout=s.requests_timeout,
             verify=s.verify_ssl,

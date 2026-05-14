@@ -205,13 +205,15 @@ def graphql_client(
 def with_user(
     request: pytest.FixtureRequest, global_settings: GlobalSettings
 ) -> Generator[AuthProvider, None, None]:
-    provider = AuthProvider(global_settings)
+    is_e2e = request.node.get_closest_marker("e2e") is not None
+    base_url = global_settings.frontend_base_url if is_e2e else None
+    provider = AuthProvider(global_settings, base_url=base_url)
     marker = request.node.get_closest_marker("with_user")
     if marker:
         username: str = marker.args[0]
         with allure.step(f"Sign in as {username}"):
             provider.sign_in(username, global_settings.users_password)
-            if request.node.get_closest_marker("e2e") and provider.token_info:
+            if is_e2e and provider.token_info:
                 page = request.getfixturevalue("page")
                 BrowserStorage(page).set_auth(provider.token_info)
     yield provider
