@@ -20,6 +20,10 @@ class AuthProvider:
         self._lock = threading.RLock()
 
     @property
+    def base_url(self) -> str:
+        return self._base_url
+
+    @property
     def is_authenticated(self) -> bool:
         with self._lock:
             return self._token_info is not None and not self._token_info.is_expired
