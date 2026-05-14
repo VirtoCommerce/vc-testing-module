@@ -10,7 +10,7 @@ _PRODUCT_SKU = "smartphone-samsung-galaxy-a57-5g"
 
 @pytest.mark.e2e
 @pytest.mark.quantity_control("stepper")
-@pytest.mark.flaky(retries=4, delay=10)
+@pytest.mark.flaky(retries=2, delay=3)
 @allure.feature("Category / Add-to-cart (E2E)")
 @allure.title("Update cart from product card using stepper increment/decrement")
 def test_category_product_update_cart_stepper(global_settings: GlobalSettings, page: Page) -> None:
@@ -33,7 +33,7 @@ def test_category_product_update_cart_stepper(global_settings: GlobalSettings, p
 
 @pytest.mark.e2e
 @pytest.mark.quantity_control("button")
-@pytest.mark.flaky(retries=4, delay=10)
+@pytest.mark.flaky(retries=2, delay=3)
 @allure.feature("Category / Add-to-cart (E2E)")
 @allure.title("Update cart from product card using add-to-cart button input")
 def test_category_product_update_cart_button(global_settings: GlobalSettings, page: Page) -> None:

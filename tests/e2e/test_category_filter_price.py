@@ -10,7 +10,7 @@ _EXPECTED_PRODUCTS_QTY = 4
 
 @pytest.mark.e2e
 @pytest.mark.range_filter_type("slider")
-@pytest.mark.flaky(retries=4, delay=10)
+@pytest.mark.flaky(retries=2, delay=3)
 @allure.feature("Category / Price filter (E2E)")
 @allure.title("Filter category products by price using the slider control")
 def test_category_filter_price_slider(global_settings: GlobalSettings, page: Page) -> None:
@@ -35,7 +35,7 @@ def test_category_filter_price_slider(global_settings: GlobalSettings, page: Pag
 
 @pytest.mark.e2e
 @pytest.mark.range_filter_type("default")
-@pytest.mark.flaky(retries=4, delay=10)
+@pytest.mark.flaky(retries=2, delay=3)
 @allure.feature("Category / Price filter (E2E)")
 @allure.title("Filter category products by price using the checkbox facets")
 def test_category_filter_price_checkboxes(global_settings: GlobalSettings, page: Page) -> None:
