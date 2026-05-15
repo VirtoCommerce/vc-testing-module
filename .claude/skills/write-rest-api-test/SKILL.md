@@ -111,7 +111,7 @@ from core.global_settings import GlobalSettings
 
 @pytest.fixture(scope="session")
 def admin_auth(global_settings: GlobalSettings) -> AuthProvider:
-    provider = AuthProvider(global_settings)
+    provider = AuthProvider(global_settings.backend_base_url)
     provider.sign_in(global_settings.admin_username, global_settings.admin_password)
     return provider
 

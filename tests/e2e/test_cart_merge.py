@@ -26,7 +26,7 @@ def _cleanup_user_cart(
     ctx: Context,
 ) -> None:
     user_ctx = Context.from_dataset(dataset, global_settings.store_id, _USERNAME)
-    admin = AuthProvider(global_settings)
+    admin = AuthProvider(global_settings.backend_base_url)
     # Demo platforms occasionally rate-limit / briefly lock /connect/token after the
     # storefront UI sign-in this test performs. Retry on 400 so a transient lockout
     # doesn't mark the test as broken when only the cleanup step is affected.

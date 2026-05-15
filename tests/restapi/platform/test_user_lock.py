@@ -39,7 +39,7 @@ def test_user_lock_unlock(make_user, user_ops: UserOperations, global_settings: 
         user_ops.unlock(full_user.id)
 
     with allure.step("Verify login works after unlock"):
-        provider = AuthProvider(global_settings)
+        provider = AuthProvider(global_settings.backend_base_url)
         provider.sign_in(user["user_name"], SecretStr(user["password"]))
         assert provider.is_authenticated
         provider.sign_out()

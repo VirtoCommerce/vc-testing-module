@@ -5,16 +5,20 @@ import requests
 from pydantic import SecretStr
 
 from core.auth.token_info import TokenInfo
-from core.global_settings import GlobalSettings
+from core.global_settings import global_settings
 
 
 class AuthProvider:
     _AUTH_TOKEN_PATH: Final = "/connect/token"
 
-    def __init__(self, global_settings: GlobalSettings) -> None:
-        self._global_settings = global_settings
+    def __init__(self, base_url: str) -> None:
+        self._base_url = base_url
         self._token_info: TokenInfo | None = None
         self._lock = threading.RLock()
+
+    @property
+    def base_url(self) -> str:
+        return self._base_url
 
     @property
     def is_authenticated(self) -> bool:
@@ -50,12 +54,11 @@ class AuthProvider:
                 )
             refresh_token = self._token_info.refresh_token
 
-        s = self._global_settings
         response = requests.post(
-            url=f"{s.backend_base_url}{self._AUTH_TOKEN_PATH}",
+            url=f"{self._base_url}{self._AUTH_TOKEN_PATH}",
             data={"grant_type": "refresh_token", "refresh_token": refresh_token},
-            timeout=s.requests_timeout,
-            verify=s.verify_ssl,
+            timeout=global_settings.requests_timeout,
+            verify=global_settings.verify_ssl,
         )
         try:
             response.raise_for_status()
@@ -68,19 +71,18 @@ class AuthProvider:
             self._token_info = TokenInfo.model_validate(response.json())
 
     def sign_in(self, username: str, password: SecretStr) -> None:
-        s = self._global_settings
         payload = {
             "grant_type": "password",
             "scope": "offline_access",
             "username": username,
-            "storeId": s.store_id,
+            "storeId": global_settings.store_id,
             "password": password.get_secret_value(),
         }
         response = requests.post(
-            url=f"{s.backend_base_url}{self._AUTH_TOKEN_PATH}",
+            url=f"{self._base_url}{self._AUTH_TOKEN_PATH}",
             data=payload,
-            timeout=s.requests_timeout,
-            verify=s.verify_ssl,
+            timeout=global_settings.requests_timeout,
+            verify=global_settings.verify_ssl,
         )
         try:
             response.raise_for_status()

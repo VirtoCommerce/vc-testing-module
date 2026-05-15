@@ -19,7 +19,7 @@ class GraphQLClient:
         self, query: str, variables: dict[str, Any] | None = None
     ) -> dict[str, Any]:
         response = self._session.post(
-            url=f"{self._global_settings.backend_base_url}{self._GRAPHQL_PATH}",
+            url=f"{self._auth.base_url}{self._GRAPHQL_PATH}",
             headers=self._auth.headers,
             json={"query": query, "variables": variables or {}},
             timeout=self._global_settings.requests_timeout,

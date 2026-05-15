@@ -125,7 +125,7 @@ def test_role_assign_to_user(
     user = make_user()
 
     with allure.step("Verify user signs in with starting credentials"):
-        provider = AuthProvider(global_settings)
+        provider = AuthProvider(global_settings.backend_base_url)
         provider.sign_in(user["user_name"], SecretStr(user["password"]))
         assert provider.is_authenticated
         provider.sign_out()
