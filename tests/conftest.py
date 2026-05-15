@@ -180,7 +180,7 @@ def global_settings() -> GlobalSettings:
 
 @pytest.fixture(scope="session")
 def auth(global_settings: GlobalSettings) -> AuthProvider:
-    return AuthProvider(global_settings)
+    return AuthProvider(global_settings.backend_base_url)
 
 
 @pytest.fixture(scope="session")
@@ -206,8 +206,12 @@ def with_user(
     request: pytest.FixtureRequest, global_settings: GlobalSettings
 ) -> Generator[AuthProvider, None, None]:
     is_e2e = request.node.get_closest_marker("e2e") is not None
-    base_url = global_settings.frontend_base_url if is_e2e else None
-    provider = AuthProvider(global_settings, base_url=base_url)
+    base_url = (
+        global_settings.frontend_base_url
+        if is_e2e
+        else global_settings.backend_base_url
+    )
+    provider = AuthProvider(base_url)
     marker = request.node.get_closest_marker("with_user")
     if marker:
         username: str = marker.args[0]

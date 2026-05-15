@@ -173,7 +173,7 @@ Thread-safe token management with auto-refresh:
 ```python
 from core.auth import AuthProvider
 
-provider = AuthProvider(global_settings)
+provider = AuthProvider(global_settings.backend_base_url)
 provider.sign_in(username, global_settings.users_password)
 # provider.headers auto-refreshes expired tokens
 provider.sign_out()

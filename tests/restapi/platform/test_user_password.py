@@ -26,7 +26,7 @@ def test_user_password_reset_admin(make_user, user_ops: UserOperations, global_s
         assert result.get("succeeded") is True
 
     with allure.step("Verify new password works"):
-        provider = AuthProvider(global_settings)
+        provider = AuthProvider(global_settings.backend_base_url)
         provider.sign_in(user["user_name"], SecretStr(new_password))
         assert provider.is_authenticated
         provider.sign_out()
@@ -46,7 +46,7 @@ def test_user_password_change(make_user, user_ops: UserOperations, global_settin
         assert result.get("succeeded") is True
 
     with allure.step("Verify new password works"):
-        provider = AuthProvider(global_settings)
+        provider = AuthProvider(global_settings.backend_base_url)
         provider.sign_in(user["user_name"], SecretStr(new_password))
         assert provider.is_authenticated
         provider.sign_out()
@@ -104,7 +104,7 @@ def test_user_password_change_wrong_old(make_user, user_ops: UserOperations, glo
         assert result.get("succeeded") is False or result.get("errors")
 
     with allure.step("Verify original password still works"):
-        provider = AuthProvider(global_settings)
+        provider = AuthProvider(global_settings.backend_base_url)
         provider.sign_in(user["user_name"], SecretStr(user["password"]))
         assert provider.is_authenticated
         provider.sign_out()
@@ -132,7 +132,7 @@ def test_user_password_reset_on_login(make_user, user_ops: UserOperations, globa
         assert response.status_code == 400
 
     with allure.step("Verify new password works"):
-        provider = AuthProvider(global_settings)
+        provider = AuthProvider(global_settings.backend_base_url)
         provider.sign_in(user["user_name"], SecretStr(new_password))
         assert provider.is_authenticated
         provider.sign_out()

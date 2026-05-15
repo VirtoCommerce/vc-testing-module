@@ -77,7 +77,7 @@ def test_user_invite(
             assert any(a.user_name == email for a in invited_contact.security_accounts)
     finally:
         with allure.step(f"Teardown: delete invited user '{email}' as admin"):
-            admin = AuthProvider(global_settings)
+            admin = AuthProvider(global_settings.backend_base_url)
             admin.sign_in(global_settings.admin_username, global_settings.admin_password)
             with GraphQLClient(auth=admin, global_settings=global_settings) as admin_client:
                 UserOperations(client=admin_client).delete_users(user_names=[email])

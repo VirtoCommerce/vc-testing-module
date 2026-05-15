@@ -134,7 +134,7 @@ def test_user_login_logout(make_user, global_settings: GlobalSettings, rest_clie
     user = make_user()
 
     with allure.step("Login via /connect/token"):
-        login_auth = AuthProvider(global_settings)
+        login_auth = AuthProvider(global_settings.backend_base_url)
         login_auth.sign_in(user["user_name"], SecretStr(user["password"]))
         assert login_auth.is_authenticated
 

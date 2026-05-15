@@ -21,7 +21,7 @@ _STATUS_APPROVED = "Approved"
 
 
 def _admin_client(global_settings: GlobalSettings) -> GraphQLClient:
-    admin = AuthProvider(global_settings)
+    admin = AuthProvider(global_settings.backend_base_url)
     admin.sign_in(global_settings.admin_username, global_settings.admin_password)
     return GraphQLClient(auth=admin, global_settings=global_settings)
 

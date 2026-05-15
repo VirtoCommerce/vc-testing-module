@@ -70,7 +70,7 @@ class DatasetManager:
         if not entries:
             return 0
 
-        auth = AuthProvider(self._global_settings)
+        auth = AuthProvider(self._global_settings.backend_base_url)
         auth.sign_in(
             username=self._global_settings.admin_username,
             password=self._global_settings.admin_password,
