@@ -1,5 +1,6 @@
 import allure
 import pytest
+
 from core.clients import GraphQLClient
 from gql.operations import QuoteOperations
 from gql.types.cart import Cart
@@ -10,6 +11,7 @@ _UPDATED_QUANTITY = 5
 _UPDATED_COMMENT = "Updated comment"
 
 
+@pytest.mark.optional
 @pytest.mark.graphql
 @pytest.mark.with_user(_USERNAME)
 @pytest.mark.with_cart([(_PRODUCT_ID, 1)])
@@ -34,15 +36,14 @@ def test_quote_update_items(
             quantity=_UPDATED_QUANTITY,
         )
 
-    with allure.step(
-        f"Verify proposal prices include quantity {_UPDATED_QUANTITY}"
-    ):
+    with allure.step(f"Verify proposal prices include quantity {_UPDATED_QUANTITY}"):
         updated_item = next(i for i in updated_quote.items if i.id == line_item.id)
         assert any(
             t.quantity == _UPDATED_QUANTITY for t in updated_item.proposal_prices
         )
 
 
+@pytest.mark.optional
 @pytest.mark.graphql
 @pytest.mark.with_user(_USERNAME)
 @pytest.mark.with_cart([(_PRODUCT_ID, 1)])

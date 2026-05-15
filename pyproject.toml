@@ -25,6 +25,7 @@ markers = [
     "restapi: REST API admin endpoint tests",
     "serial: test mutates global platform state and must not run in parallel",
     "destructive: test restarts or drops global state (restart platform, drop search index). Excluded from default CI runs.",
+    "optional: test belongs to an unstable/optional backend module bundle. Exclude with `-m 'not optional'`.",
     "with_user(username): sign in as the given user for this test",
     "with_page_context(username): provide a Playwright page context for the given user",
     "with_cart(items): seed a cart with the given list of (productId, quantity) pairs",
