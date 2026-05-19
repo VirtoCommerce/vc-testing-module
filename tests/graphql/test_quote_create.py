@@ -1,5 +1,6 @@
 import allure
 import pytest
+
 from core.clients import GraphQLClient
 from gql.operations import QuoteOperations
 from gql.types import Cart
@@ -10,6 +11,7 @@ _QUANTITY = 2
 _USERNAME = "acme_store_employee_1@acme.com"
 
 
+@pytest.mark.optional
 @pytest.mark.graphql
 @pytest.mark.with_user(_USERNAME)
 @allure.feature("Quotes (GraphQL)")
@@ -32,6 +34,7 @@ def test_quote_create_empty(graphql_client: GraphQLClient, ctx: Context) -> None
         assert quote.items == []
 
 
+@pytest.mark.optional
 @pytest.mark.graphql
 @pytest.mark.with_user(_USERNAME)
 @pytest.mark.with_cart([(_PRODUCT_ID, _QUANTITY)])
