@@ -21,7 +21,7 @@ on:
 
 jobs:
   e2e-tests:
-    uses: VirtoCommerce/.github/.github/workflows/pytest-tests.yml@v3.800.31
+    uses: VirtoCommerce/.github/.github/workflows/pytest-tests.yml@v3.800.35
     with:
       installModules: 'false'
       installCustomModule: 'false'
@@ -33,3 +33,4 @@ jobs:
       envPAT: ${{ secrets.REPO_TOKEN }}
       testSecretEnvFile: ${{ secrets.VC_TESTING_MODULE_ENV_FILE_NEW }} #${{ secrets.VC_TESTING_MODULE_ENV_FILE }} #
       sendgridApiKey: ${{ secrets.SENDGRID_APIKEY_4E2E_AUTOTESTS }}
+      appInsightsInstrumentationKey: ${{ secrets.E2E_APPINSIGHTSINSTRUMENTATIONKEY }}
