@@ -1,186 +1,193 @@
 [
-    {
-        "name": "platform_settings",
-        "module_id": "VirtoCommerce.Core",
-        "method": "POST",
-        "endpoint": "/api/platform/settings",
-        "payload_type": "array"
-    },
-    {
-        "name": "currencies",
-        "module_id": "VirtoCommerce.Core",
-        "method": "POST",
-        "endpoint": "/api/currencies",
-        "payload_type": "single"
-    },
-    {
-        "name": "measures",
-        "module_id": "VirtoCommerce.Catalog",
-        "method": "PUT",
-        "endpoint": "/api/catalog/measures",
-        "payload_type": "single"
-    },
-    {
-        "name": "fulfillment_centers",
-        "module_id": "VirtoCommerce.Inventory",
-        "method": "PUT",
-        "endpoint": "/api/inventory/fulfillmentcenters",
-        "payload_type": "single"
-    },
-    {
-        "name": "pricelists",
-        "module_id": "VirtoCommerce.Pricing",
-        "method": "POST",
-        "endpoint": "/api/pricing/pricelists",
-        "payload_type": "single"
-    },
-    {
-        "name": "catalogs",
-        "module_id": "VirtoCommerce.Catalog",
-        "method": "POST",
-        "endpoint": "/api/catalog/catalogs",
-        "payload_type": "single"
-    },
-    {
-        "name": "pricelist_assignments",
-        "module_id": "VirtoCommerce.Pricing",
-        "method": "POST",
-        "endpoint": "/api/pricing/assignments",
-        "payload_type": "single"
-    },
-    {
-        "name": "catalog_property_groups",
-        "module_id": "VirtoCommerce.Catalog",
-        "method": "POST",
-        "endpoint": "/api/catalog/propertygroups",
-        "payload_type": "single"
-    },
-    {
-        "name": "stores",
-        "module_id": "VirtoCommerce.Store",
-        "method": "POST",
-        "endpoint": "/api/stores",
-        "payload_type": "single"
-    },
-    {
-        "name": "categories",
-        "module_id": "VirtoCommerce.Catalog",
-        "method": "POST",
-        "endpoint": "/api/catalog/categories",
-        "payload_type": "single",
-        "parent_ref_field": "parentId"
-    },
-    {
-        "name": "catalog_properties",
-        "module_id": "VirtoCommerce.Catalog",
-        "method": "POST",
-        "endpoint": "/api/catalog/properties?id={PAYLOAD_ITEM:id}",
-        "payload_type": "single"
-    },
-    {
-        "name": "products",
-        "module_id": "VirtoCommerce.Catalog",
-        "method": "POST",
-        "endpoint": "/api/catalog/products",
-        "payload_type": "single",
-        "parent_ref_field": "mainProductId"
-    },
-    {
-        "name": "aggregation_properties",
-        "module_id": "VirtoCommerce.Catalog",
-        "method": "PUT",
-        "endpoint": "/api/catalog/aggregationproperties/{ENV:STORE_ID}/properties",
-        "payload_type": "array"
-    },
-    {
-        "name": "product_inventories",
-        "module_id": "VirtoCommerce.Inventory",
-        "method": "PUT",
-        "endpoint": "/api/inventory/products/{PAYLOAD_ITEM:productId}",
-        "payload_type": "single"
-    },
-    {
-        "name": "prices",
-        "module_id": "VirtoCommerce.Pricing",
-        "method": "PUT",
-        "endpoint": "/api/products/{PAYLOAD_ITEM:productId}/prices",
-        "payload_type": "single"
-    },
-    {
-        "name": "promotions",
-        "module_id": "VirtoCommerce.Marketing",
-        "method": "POST",
-        "endpoint": "/api/marketing/promotions",
-        "payload_type": "single"
-    },
-    {
-        "name": "coupons",
-        "module_id": "VirtoCommerce.Marketing",
-        "method": "POST",
-        "endpoint": "/api/marketing/promotions/coupons/add",
-        "payload_type": "array"
-    },
-    {
-        "name": "roles",
-        "module_id": "VirtoCommerce.Core",
-        "method": "PUT",
-        "endpoint": "/api/platform/security/roles",
-        "payload_type": "single"
-    },
-    {
-        "name": "organizations",
-        "module_id": "VirtoCommerce.Customer",
-        "method": "POST",
-        "endpoint": "/api/members",
-        "payload_type": "single"
-    },
-    {
-        "name": "contacts",
-        "module_id": "VirtoCommerce.Customer",
-        "method": "POST",
-        "endpoint": "/api/members",
-        "payload_type": "single"
-    },
-    {
-        "name": "users",
-        "module_id": "VirtoCommerce.Core",
-        "method": "POST",
-        "endpoint": "/api/platform/security/users/create",
-        "payload_type": "single"
-    },
-    {
-        "name": "pickup_locations",
-        "module_id": "VirtoCommerce.XPickup",
-        "method": "POST",
-        "endpoint": "/api/shipping/pickup-locations",
-        "payload_type": "single"
-    },
-    {
-        "name": "orders",
-        "module_id": "VirtoCommerce.Orders",
-        "method": "POST",
-        "endpoint": "/api/order/customerOrders",
-        "payload_type": "single"
-    },
-    {
-        "name": "notifications",
-        "module_id": "VirtoCommerce.Notifications",
-        "method": "PUT",
-        "endpoint": "/api/notifications/{PAYLOAD_ITEM:type}",
-        "payload_type": "single"
-    },
-    {
-        "name": "shipping_methods",
-        "module_id": "VirtoCommerce.Shipping",
-        "method": "PUT",
-        "endpoint": "/api/shipping",
-        "payload_type": "single"
-    },
-    {
-        "name": "payment_methods",
-        "module_id": "VirtoCommerce.Payment",
-        "method": "PUT",
-        "endpoint": "/api/payment",
-        "payload_type": "single"
-    }
+  {
+    "name": "global_platform_settings",
+    "module_id": "VirtoCommerce.Core",
+    "method": "POST",
+    "endpoint": "/api/platform/settings/v2/global/values",
+    "payload_type": "single"
+  },
+  {
+    "name": "platform_settings",
+    "module_id": "VirtoCommerce.Core",
+    "method": "POST",
+    "endpoint": "/api/platform/settings",
+    "payload_type": "array"
+  },
+  {
+    "name": "currencies",
+    "module_id": "VirtoCommerce.Core",
+    "method": "POST",
+    "endpoint": "/api/currencies",
+    "payload_type": "single"
+  },
+  {
+    "name": "measures",
+    "module_id": "VirtoCommerce.Catalog",
+    "method": "PUT",
+    "endpoint": "/api/catalog/measures",
+    "payload_type": "single"
+  },
+  {
+    "name": "fulfillment_centers",
+    "module_id": "VirtoCommerce.Inventory",
+    "method": "PUT",
+    "endpoint": "/api/inventory/fulfillmentcenters",
+    "payload_type": "single"
+  },
+  {
+    "name": "pricelists",
+    "module_id": "VirtoCommerce.Pricing",
+    "method": "POST",
+    "endpoint": "/api/pricing/pricelists",
+    "payload_type": "single"
+  },
+  {
+    "name": "catalogs",
+    "module_id": "VirtoCommerce.Catalog",
+    "method": "POST",
+    "endpoint": "/api/catalog/catalogs",
+    "payload_type": "single"
+  },
+  {
+    "name": "pricelist_assignments",
+    "module_id": "VirtoCommerce.Pricing",
+    "method": "POST",
+    "endpoint": "/api/pricing/assignments",
+    "payload_type": "single"
+  },
+  {
+    "name": "catalog_property_groups",
+    "module_id": "VirtoCommerce.Catalog",
+    "method": "POST",
+    "endpoint": "/api/catalog/propertygroups",
+    "payload_type": "single"
+  },
+  {
+    "name": "stores",
+    "module_id": "VirtoCommerce.Store",
+    "method": "POST",
+    "endpoint": "/api/stores",
+    "payload_type": "single"
+  },
+  {
+    "name": "categories",
+    "module_id": "VirtoCommerce.Catalog",
+    "method": "POST",
+    "endpoint": "/api/catalog/categories",
+    "payload_type": "single",
+    "parent_ref_field": "parentId"
+  },
+  {
+    "name": "catalog_properties",
+    "module_id": "VirtoCommerce.Catalog",
+    "method": "POST",
+    "endpoint": "/api/catalog/properties?id={PAYLOAD_ITEM:id}",
+    "payload_type": "single"
+  },
+  {
+    "name": "products",
+    "module_id": "VirtoCommerce.Catalog",
+    "method": "POST",
+    "endpoint": "/api/catalog/products",
+    "payload_type": "single",
+    "parent_ref_field": "mainProductId"
+  },
+  {
+    "name": "aggregation_properties",
+    "module_id": "VirtoCommerce.Catalog",
+    "method": "PUT",
+    "endpoint": "/api/catalog/aggregationproperties/{ENV:STORE_ID}/properties",
+    "payload_type": "array"
+  },
+  {
+    "name": "product_inventories",
+    "module_id": "VirtoCommerce.Inventory",
+    "method": "PUT",
+    "endpoint": "/api/inventory/products/{PAYLOAD_ITEM:productId}",
+    "payload_type": "single"
+  },
+  {
+    "name": "prices",
+    "module_id": "VirtoCommerce.Pricing",
+    "method": "PUT",
+    "endpoint": "/api/products/{PAYLOAD_ITEM:productId}/prices",
+    "payload_type": "single"
+  },
+  {
+    "name": "promotions",
+    "module_id": "VirtoCommerce.Marketing",
+    "method": "POST",
+    "endpoint": "/api/marketing/promotions",
+    "payload_type": "single"
+  },
+  {
+    "name": "coupons",
+    "module_id": "VirtoCommerce.Marketing",
+    "method": "POST",
+    "endpoint": "/api/marketing/promotions/coupons/add",
+    "payload_type": "array"
+  },
+  {
+    "name": "roles",
+    "module_id": "VirtoCommerce.Core",
+    "method": "PUT",
+    "endpoint": "/api/platform/security/roles",
+    "payload_type": "single"
+  },
+  {
+    "name": "organizations",
+    "module_id": "VirtoCommerce.Customer",
+    "method": "POST",
+    "endpoint": "/api/members",
+    "payload_type": "single"
+  },
+  {
+    "name": "contacts",
+    "module_id": "VirtoCommerce.Customer",
+    "method": "POST",
+    "endpoint": "/api/members",
+    "payload_type": "single"
+  },
+  {
+    "name": "users",
+    "module_id": "VirtoCommerce.Core",
+    "method": "POST",
+    "endpoint": "/api/platform/security/users/create",
+    "payload_type": "single"
+  },
+  {
+    "name": "pickup_locations",
+    "module_id": "VirtoCommerce.XPickup",
+    "method": "POST",
+    "endpoint": "/api/shipping/pickup-locations",
+    "payload_type": "single"
+  },
+  {
+    "name": "orders",
+    "module_id": "VirtoCommerce.Orders",
+    "method": "POST",
+    "endpoint": "/api/order/customerOrders",
+    "payload_type": "single"
+  },
+  {
+    "name": "notifications",
+    "module_id": "VirtoCommerce.Notifications",
+    "method": "PUT",
+    "endpoint": "/api/notifications/{PAYLOAD_ITEM:type}",
+    "payload_type": "single"
+  },
+  {
+    "name": "shipping_methods",
+    "module_id": "VirtoCommerce.Shipping",
+    "method": "PUT",
+    "endpoint": "/api/shipping",
+    "payload_type": "single"
+  },
+  {
+    "name": "payment_methods",
+    "module_id": "VirtoCommerce.Payment",
+    "method": "PUT",
+    "endpoint": "/api/payment",
+    "payload_type": "single"
+  }
 ]
