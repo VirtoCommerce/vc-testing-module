@@ -52,59 +52,57 @@ Invoke the appropriate skill when creating or modifying specific artifact types:
 - **pytest-playwright**: Playwright integration with pytest
 - **requests**: HTTP client for REST API and GraphQL
 - **Allure**: Test reporting and documentation
-- **pytest-retry**: Automatic test retries for flaky tests
 - **rich**: Formatted console logging
 
 ## Project Structure
 
 ```
 vc-testing-module/
-├── _refactored/                # Refactored test framework
-│   ├── core/                   # Shared infrastructure
-│   │   ├── global_settings.py  # GlobalSettings (Pydantic BaseSettings)
-│   │   ├── auth/
-│   │   │   ├── provider.py     # AuthProvider (thread-safe token management)
-│   │   │   └── token_info.py   # TokenInfo (Pydantic model)
-│   │   ├── clients/
-│   │   │   ├── graphql.py      # GraphQLClient (context manager)
-│   │   │   └── rest.py         # RestClient (context manager)
-│   │   └── logger/
-│   │       ├── base.py         # Abstract Logger base class
-│   │       ├── rich_logger.py  # RichLogger implementation
-│   │       └── null_logger.py  # NullLogger (no-op)
-│   ├── gql/                    # GraphQL layer
-│   │   ├── operations/         # Operation classes (BaseOperations subclasses)
-│   │   ├── fragments/          # *.graphql fragment files (auto-loaded)
-│   │   └── types/              # Pydantic models (GqlModel subclasses)
-│   ├── page_objects/           # UI abstraction layer
-│   │   ├── browser_storage.py  # BrowserStorage (localStorage helper)
-│   │   ├── layouts/            # Layout base classes (MainLayout, CheckoutLayout)
-│   │   ├── pages/              # Page objects (extend layouts)
-│   │   └── components/         # Reusable UI components (Component subclasses)
-│   ├── restapi/                # REST API layer
-│   │   ├── constants.py        # Immutable payload templates
-│   │   └── operations/         # Operation classes (RestBaseOperations subclasses)
-│   ├── dataset/                # Data seeding & management
-│   │   ├── manager.py          # DatasetManager
-│   │   ├── resolver.py         # JsonResolver (env var substitution)
-│   │   ├── entity.py           # EntityDescriptor dataclass
-│   │   └── data/               # JSON test data files
-│   ├── tests/                  # All test files
-│   │   ├── conftest.py         # Root conftest (fixtures, hooks, markers)
-│   │   ├── context.py          # Context frozen dataclass
-│   │   ├── constants.py        # Shared test constants (addresses, etc.)
-│   │   ├── e2e/                # E2E UI tests
-│   │   ├── graphql/            # GraphQL API tests
-│   │   └── restapi/            # REST API tests (with nested conftest.py)
-│   │       ├── conftest.py     # admin_auth, rest_client fixtures
-│   │       ├── catalog/        # Catalog CRUD tests + factory fixtures
-│   │       ├── contacts/       # Contact/org tests + factory fixtures
-│   │       └── platform/       # Platform admin tests
-│   ├── utils/                  # Utility modules
-│   │   ├── har_recorder.py     # HAR 1.2 recording for HTTP calls
-│   │   ├── polling_utils.py    # Generic polling utility
-│   │   └── line_item_utils.py  # Cart assertion helpers
-│   └── pyproject.toml          # Dependencies, pytest config
+├── core/                       # Shared infrastructure
+│   ├── global_settings.py      # GlobalSettings (Pydantic BaseSettings)
+│   ├── auth/
+│   │   ├── provider.py         # AuthProvider (thread-safe token management)
+│   │   └── token_info.py       # TokenInfo (Pydantic model)
+│   ├── clients/
+│   │   ├── graphql.py          # GraphQLClient (context manager)
+│   │   └── rest.py             # RestClient (context manager)
+│   └── logger/
+│       ├── base.py             # Abstract Logger base class
+│       ├── rich_logger.py      # RichLogger implementation
+│       └── null_logger.py      # NullLogger (no-op)
+├── gql/                        # GraphQL layer
+│   ├── operations/             # Operation classes (BaseOperations subclasses)
+│   ├── fragments/              # *.graphql fragment files (auto-loaded)
+│   └── types/                  # Pydantic models (GqlModel subclasses)
+├── page_objects/               # UI abstraction layer
+│   ├── browser_storage.py      # BrowserStorage (localStorage helper)
+│   ├── layouts/                # Layout base classes (MainLayout, CheckoutLayout)
+│   ├── pages/                  # Page objects (extend layouts)
+│   └── components/             # Reusable UI components (Component subclasses)
+├── restapi/                    # REST API layer
+│   ├── constants.py            # Immutable payload templates
+│   └── operations/             # Operation classes (RestBaseOperations subclasses)
+├── dataset/                    # Data seeding & management
+│   ├── manager.py              # DatasetManager
+│   ├── resolver.py             # JsonResolver (env var substitution)
+│   ├── entity.py               # EntityDescriptor dataclass
+│   └── data/                   # JSON test data files
+├── tests/                      # All test files
+│   ├── conftest.py             # Root conftest (fixtures, hooks, markers)
+│   ├── context.py              # Context frozen dataclass
+│   ├── constants.py            # Shared test constants (addresses, etc.)
+│   ├── e2e/                    # E2E UI tests
+│   ├── graphql/                # GraphQL API tests
+│   └── restapi/                # REST API tests (with nested conftest.py)
+│       ├── conftest.py         # admin_auth, rest_client fixtures
+│       ├── catalog/            # Catalog CRUD tests + factory fixtures
+│       ├── contacts/           # Contact/org tests + factory fixtures
+│       └── platform/           # Platform admin tests
+├── utils/                      # Utility modules
+│   ├── har_recorder.py         # HAR 1.2 recording for HTTP calls
+│   ├── polling_utils.py        # Generic polling utility
+│   └── line_item_utils.py      # Cart assertion helpers
+└── pyproject.toml              # Dependencies, pytest config
 ```
 
 ## File Naming Conventions
@@ -228,9 +226,12 @@ Every test function MUST have one of these markers:
 
 ```python
 @pytest.mark.with_user("acme_store_maintainer_1@acme.com")  # Sign in as user (auto sign-out)
+@pytest.mark.with_page_context("user@acme.com")             # Pre-authenticated Playwright page context for the user
 @pytest.mark.with_cart([("product-id", 3), ("product-id-2", 1)])  # Seed cart (auto delete)
-@pytest.mark.delete_cart_after  # Delete cart at teardown
-@pytest.mark.serial  # Must not run in parallel (mutates global state)
+@pytest.mark.delete_cart_after        # Delete cart at teardown
+@pytest.mark.serial                   # Must not run in parallel (mutates global state)
+@pytest.mark.destructive              # Restarts platform / drops global state; excluded from default CI runs
+@pytest.mark.optional                 # Belongs to an unstable/optional backend module bundle; exclude with -m 'not optional'
 ```
 
 ### Feature Configuration Markers

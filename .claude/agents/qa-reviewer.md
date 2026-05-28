@@ -45,7 +45,7 @@ You are a QA test code reviewer for the VirtoCommerce e-commerce platform. You r
 - [ ] Marker-driven setup preferred (`@pytest.mark.with_cart`, `@pytest.mark.with_user`)
 - [ ] Manual setup uses try-finally with cleanup
 - [ ] Assertions on Pydantic model attributes (not dict access)
-- [ ] Uses `has_line_item()` helper for cart assertions
+- [ ] Uses `has_line_item()` helper for cart assertions (`from utils.line_item_utils import has_line_item`)
 - [ ] Operations instantiated as: `CartOperations(client=graphql_client)`
 
 ### E2E Test Conventions

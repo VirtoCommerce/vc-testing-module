@@ -221,5 +221,6 @@ assert product["categoryId"]
 5. Factory fixtures auto-create dependencies (catalog/category) if not provided
 6. Return type annotation: `def test_...(fixtures) -> None:`
 7. Use `@pytest.mark.serial` for tests that mutate global platform state
-8. Tests work with raw dicts — not Pydantic models
-9. Use `uuid.uuid4().hex[:8]` for unique names in test data
+8. Use `@pytest.mark.destructive` for tests that restart the platform or drop global state (search index, etc.) — these are excluded from default CI runs
+9. Tests work with raw dicts — not Pydantic models
+10. Use `uuid.uuid4().hex[:8]` for unique names in test data

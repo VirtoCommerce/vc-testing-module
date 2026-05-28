@@ -121,6 +121,25 @@ clear_cart_modal = ClearCartModal(root=page.locator("[data-test-id='clear-cart-m
 line_item = cart_page.find_line_item(sku="product-sku")
 ```
 
+## Pre-Authenticated Page Context (`with_page_context`)
+
+Use when a test needs a Playwright page context that's already signed in as the given user — no manual sign-in via the UI required. The fixture yields a fresh `Page` bound to a context with auth cookies/localStorage already injected.
+
+```python
+_USERNAME = "acme_store_employee_1@acme.com"
+
+@pytest.mark.e2e
+@allure.feature("Authentication (E2E)")
+@allure.title("Account button visible for signed-in user")
+@pytest.mark.with_page_context(_USERNAME)
+def test_account_visible(page: Page, global_settings: GlobalSettings) -> None:
+    home_page = HomePage(global_settings=global_settings, page=page)
+    home_page.navigate()
+    expect(home_page.top_header.account_button.root).to_be_visible()
+```
+
+**When to use:** test needs a signed-in user from the first navigation (skips UI sign-in flow). For tests that exercise the sign-in flow itself, use `Pattern 2` above.
+
 ## BrowserStorage (auth injection)
 
 The `with_user` fixture auto-injects auth to localStorage for E2E tests. For manual auth:
