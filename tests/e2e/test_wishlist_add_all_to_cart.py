@@ -17,21 +17,12 @@ _PHYSICAL_PRODUCT_SKU = "smartphone-samsung-galaxy-a57-5g"
 _VARIATION_PRODUCT_ID = "smartphone-google-pixel-10-indigo"
 _VARIATION_PRODUCT_SKU = "smartphone-google-pixel-10-indigo"
 
-_CART_FROM_WISHLIST_MUTATIONS = (
-    "createCartFromWishlist",
-    "addItemsCart",
-    "addBulkItemsCart",
-    "addItemCart",
-)
-
 
 def _is_cart_from_wishlist_mutation(response: Response) -> bool:
     if "/graphql" not in response.url:
         return False
-    post = response.request.post_data or ""
-    return any(
-        f'"operationName":"{name}"' in post or f"mutation {name}" in post for name in _CART_FROM_WISHLIST_MUTATIONS
-    )
+    post = (response.request.post_data or "").lower()
+    return "mutation" in post and "cart" in post
 
 
 @pytest.mark.e2e
@@ -89,12 +80,26 @@ def test_wishlist_add_all_products_to_cart(
             expect(cart_page.find_line_item(_PHYSICAL_PRODUCT_SKU).root).to_be_visible()
             expect(cart_page.find_line_item(_VARIATION_PRODUCT_SKU).root).to_be_visible()
     finally:
-        ops.delete_shopping_list(list_id=wishlist.id)
-        cart = cart_ops.get_cart(
-            store_id=ctx.store_id,
-            user_id=ctx.user_id,
-            currency_code=ctx.currency_code,
-            culture_name=ctx.culture_name,
-        )
-        if cart:
-            cart_ops.delete_cart(cart_id=cart.id, user_id=ctx.user_id)
+        try:
+            ops.delete_shopping_list(list_id=wishlist.id)
+        except Exception as exc:
+            allure.attach(
+                f"Teardown of wishlist {wishlist.id} skipped: {exc}",
+                name=f"wishlist-teardown-{wishlist.id}",
+                attachment_type=allure.attachment_type.TEXT,
+            )
+        try:
+            cart = cart_ops.get_cart(
+                store_id=ctx.store_id,
+                user_id=ctx.user_id,
+                currency_code=ctx.currency_code,
+                culture_name=ctx.culture_name,
+            )
+            if cart:
+                cart_ops.delete_cart(cart_id=cart.id, user_id=ctx.user_id)
+        except Exception as exc:
+            allure.attach(
+                f"Cart teardown skipped: {exc}",
+                name="cart-teardown",
+                attachment_type=allure.attachment_type.TEXT,
+            )

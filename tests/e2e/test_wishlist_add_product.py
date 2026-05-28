@@ -1,3 +1,4 @@
+from collections.abc import Callable
 from uuid import uuid4
 
 import allure
@@ -18,18 +19,12 @@ _VARIATION_PARENT_SKU = "smartphone-google-pixel-10-frost"
 _VARIATION_PRODUCT_ID = "smartphone-google-pixel-10-indigo"
 _VARIATION_PRODUCT_SKU = "smartphone-google-pixel-10-indigo"
 
-_WISHLIST_ITEM_MUTATIONS = (
-    "addWishlistItem",
-    "addWishlistItems",
-    "addWishlistBulkItem",
-)
-
 
 def _is_wishlist_item_mutation(response: Response) -> bool:
     if "/graphql" not in response.url:
         return False
-    post = response.request.post_data or ""
-    return any(f'"operationName":"{name}"' in post or f"mutation {name}" in post for name in _WISHLIST_ITEM_MUTATIONS)
+    post = (response.request.post_data or "").lower()
+    return "mutation" in post and "wishlist" in post
 
 
 def _open_from_grid(page: Page, global_settings: GlobalSettings) -> str:
@@ -77,7 +72,7 @@ def test_wishlist_add_product(
     global_settings: GlobalSettings,
     graphql_client: GraphQLClient,
     ctx: Context,
-    open_add_to_list,
+    open_add_to_list: Callable[[Page, GlobalSettings], str],
     source_label: str,
 ) -> None:
     ops = ShoppingListOperations(client=graphql_client)

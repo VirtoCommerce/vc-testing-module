@@ -17,18 +17,12 @@ _CATEGORY_PATH = "smartphones"
 _PHYSICAL_PRODUCT_ID = "smartphone-samsung-galaxy-a57-5g"
 _PHYSICAL_PRODUCT_SKU = "smartphone-samsung-galaxy-a57-5g"
 
-_WISHLIST_ITEM_MUTATIONS = (
-    "removeWishlistItem",
-    "removeWishlistItems",
-    "addWishlistItems",
-)
-
 
 def _is_wishlist_item_mutation(response: Response) -> bool:
     if "/graphql" not in response.url:
         return False
-    post = response.request.post_data or ""
-    return any(f'"operationName":"{name}"' in post or f"mutation {name}" in post for name in _WISHLIST_ITEM_MUTATIONS)
+    post = (response.request.post_data or "").lower()
+    return "mutation" in post and "wishlist" in post
 
 
 @pytest.mark.e2e

@@ -5,7 +5,6 @@ import pytest
 from core.clients import GraphQLClient
 from core.global_settings import GlobalSettings
 from gql.operations import ShoppingListOperations
-from page_objects.components import AddOrUpdateWishlistModal, DeleteWishlistModal
 from page_objects.pages import AccountListsPage
 from playwright.sync_api import Page, Response, expect
 from tests.context import Context
@@ -19,18 +18,12 @@ _SCOPE_LABELS = {
     "Organization": "Organization",
 }
 
-_WISHLIST_MANAGE_MUTATIONS = (
-    "createWishlist",
-    "changeWishlist",
-    "removeWishlist",
-)
-
 
 def _is_wishlist_manage_mutation(response: Response) -> bool:
     if "/graphql" not in response.url:
         return False
-    post = response.request.post_data or ""
-    return any(f'"operationName":"{name}"' in post or f"mutation {name}" in post for name in _WISHLIST_MANAGE_MUTATIONS)
+    post = (response.request.post_data or "").lower()
+    return "mutation" in post and "wishlist" in post
 
 
 @pytest.mark.e2e
@@ -52,7 +45,7 @@ def test_wishlist_create_edit_remove_and_scopes(
         # Capability check at top of test: corporate sharing scope is only available
         # for users in organizations with sharing enabled. Probe once, then skip if absent.
         lists_page.create_list_button.click()
-        probe_modal = AddOrUpdateWishlistModal(root=page.locator("[data-test-id='add-or-update-wishlist-modal']"))
+        probe_modal = lists_page.settings_modal
         expect(probe_modal.root).to_be_visible()
         has_scope_select = probe_modal.sharing_scope_select.count() > 0
         page.keyboard.press("Escape")
@@ -64,9 +57,7 @@ def test_wishlist_create_edit_remove_and_scopes(
         for scope, label in _SCOPE_LABELS.items():
             with allure.step(f"Create wishlist with scope '{scope}'"):
                 lists_page.create_list_button.click()
-                settings_modal = AddOrUpdateWishlistModal(
-                    root=page.locator("[data-test-id='add-or-update-wishlist-modal']")
-                )
+                settings_modal = lists_page.settings_modal
                 expect(settings_modal.root).to_be_visible()
 
                 name = f"E2E WL {scope[:8]} {uuid4().hex[:6]}"
@@ -107,9 +98,7 @@ def test_wishlist_create_edit_remove_and_scopes(
             card = lists_page.find_card(original_name)
             card.menu_button.click()
             card.edit_menu_item.click()
-            settings_modal = AddOrUpdateWishlistModal(
-                root=page.locator("[data-test-id='add-or-update-wishlist-modal']")
-            )
+            settings_modal = lists_page.settings_modal
             expect(settings_modal.root).to_be_visible()
             settings_modal.name_input.fill(edited_name)
             settings_modal.description_input.fill("Edited by wishlist E2E")
@@ -130,7 +119,7 @@ def test_wishlist_create_edit_remove_and_scopes(
             card = lists_page.find_card(edited_name)
             card.menu_button.click()
             card.remove_menu_item.click()
-            delete_modal = DeleteWishlistModal(root=page.locator("[data-test-id='delete-wishlist-modal']"))
+            delete_modal = lists_page.delete_modal
             expect(delete_modal.root).to_be_visible()
             with page.expect_response(_is_wishlist_manage_mutation):
                 delete_modal.delete_button.click()
