@@ -11,7 +11,7 @@ class AccountListsPage(MainLayout):
 
     @property
     def create_list_button(self) -> Locator:
-        return self._page.locator("[data-test-id='create-wishlist-button']").first
+        return self.root.locator("[data-test-id='create-wishlist-button']")
 
     @property
     def cards(self) -> Locator:

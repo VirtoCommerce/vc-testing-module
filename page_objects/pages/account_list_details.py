@@ -1,19 +1,23 @@
-from playwright.sync_api import Locator
+from playwright.sync_api import Locator, Page
 
+from core.global_settings import GlobalSettings
 from page_objects.components.line_item import LineItem
 from page_objects.layouts.main import MainLayout
 
 
 class AccountListDetailsPage(MainLayout):
-    def __init__(self, list_id: str, *args, **kwargs) -> None:
-        super().__init__(*args, **kwargs)
+    def __init__(
+        self,
+        global_settings: GlobalSettings,
+        page: Page,
+        list_id: str,
+    ) -> None:
+        super().__init__(global_settings=global_settings, page=page)
         self._list_id = list_id
 
     @property
     def url(self) -> str:
-        return (
-            f"{self._global_settings.frontend_base_url}/account/lists/{self._list_id}"
-        )
+        return f"{self._global_settings.frontend_base_url}/account/lists/{self._list_id}"
 
     @property
     def line_items(self) -> Locator:
