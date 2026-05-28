@@ -55,9 +55,7 @@ class ContactOperations(BaseOperations):
         )
         return result["data"]["removeAddressFromFavorites"]
 
-    def update_member_addresses(
-        self, member_id: str, addresses: list[MemberAddress]
-    ) -> list[MemberAddress]:
+    def update_member_addresses(self, member_id: str, addresses: list[MemberAddress]) -> list[MemberAddress]:
         # fmt: off
         mutation = gql("""
             mutation UpdateMemberAddresses($command: InputUpdateMemberAddressType!) {
@@ -90,9 +88,7 @@ class ContactOperations(BaseOperations):
         data = result["data"]["updateMemberAddresses"]["addresses"]["items"]
         return [MemberAddress.model_validate(a) for a in data]
 
-    def delete_member_addresses(
-        self, member_id: str, addresses: list[MemberAddress]
-    ) -> list[MemberAddress]:
+    def delete_member_addresses(self, member_id: str, addresses: list[MemberAddress]) -> list[MemberAddress]:
         # fmt: off
         mutation = gql("""
             mutation DeleteMemberAddresses($command: InputDeleteMemberAddressType!) {
@@ -261,6 +257,116 @@ class ContactOperations(BaseOperations):
             variables={"command": {"contactId": contact_id}},
         )
         return result["data"]["deleteContact"]
+
+    def get_current_customer_addresses(
+        self,
+        after: str | None = None,
+        first: int | None = None,
+        country_codes: list[str] | None = None,
+        region_ids: list[str] | None = None,
+        cities: list[str] | None = None,
+        keyword: str | None = None,
+        sort: str | None = None,
+    ) -> tuple[int, list[MemberAddress]]:
+        # fmt: off
+        query = gql("""
+            query GetCurrentCustomerAddresses(
+                $after: String,
+                $first: Int,
+                $countryCodes: [String],
+                $regionIds: [String],
+                $cities: [String],
+                $keyword: String,
+                $sort: String,
+            ) {
+              currentCustomerAddresses(
+                after: $after,
+                first: $first,
+                countryCodes: $countryCodes,
+                regionIds: $regionIds,
+                cities: $cities,
+                keyword: $keyword,
+                sort: $sort,
+              ) {
+                totalCount
+                items {
+                  ...MemberAddressFragment
+                }
+              }
+            }
+        """)
+        # fmt: on
+        result = self._client.execute(
+            self._build_query(query),
+            variables={
+                "after": after,
+                "first": first,
+                "countryCodes": country_codes,
+                "regionIds": region_ids,
+                "cities": cities,
+                "keyword": keyword,
+                "sort": sort,
+            },
+        )
+        data = result["data"]["currentCustomerAddresses"]
+        total_count: int = data.get("totalCount") or 0
+        items = [MemberAddress.model_validate(a) for a in (data.get("items") or [])]
+        return total_count, items
+
+    def get_current_organization_addresses(
+        self,
+        after: str | None = None,
+        first: int | None = None,
+        country_codes: list[str] | None = None,
+        region_ids: list[str] | None = None,
+        cities: list[str] | None = None,
+        keyword: str | None = None,
+        sort: str | None = None,
+    ) -> tuple[int, list[MemberAddress]]:
+        # fmt: off
+        query = gql("""
+            query GetCurrentOrganizationAddresses(
+                $after: String,
+                $first: Int,
+                $countryCodes: [String],
+                $regionIds: [String],
+                $cities: [String],
+                $keyword: String,
+                $sort: String,
+            ) {
+              currentOrganizationAddresses(
+                after: $after,
+                first: $first,
+                countryCodes: $countryCodes,
+                regionIds: $regionIds,
+                cities: $cities,
+                keyword: $keyword,
+                sort: $sort,
+              ) {
+                totalCount
+                items {
+                  ...MemberAddressFragment
+                }
+              }
+            }
+        """)
+        # fmt: on
+        result = self._client.execute(
+            self._build_query(query),
+            variables={
+                "after": after,
+                "first": first,
+                "countryCodes": country_codes,
+                "regionIds": region_ids,
+                "cities": cities,
+                "keyword": keyword,
+                "sort": sort,
+            },
+        )
+        data = result["data"]["currentOrganizationAddresses"]
+        total_count: int = data.get("totalCount") or 0
+        items = [MemberAddress.model_validate(a) for a in (data.get("items") or [])]
+        return total_count, items
 
     def get_organization_contacts(
         self,
