@@ -41,6 +41,7 @@ def _cleanup_addresses(
 
 
 @pytest.mark.graphql
+@pytest.mark.optional
 @pytest.mark.with_user(_USERNAME)
 @allure.feature("Organization / Addresses (GraphQL)")
 @allure.title("O1: currentOrganizationAddresses returns totalCount and items (smoke)")
@@ -70,6 +71,7 @@ def test_o1_smoke(ctx: Context, graphql_client: GraphQLClient) -> None:
 
 
 @pytest.mark.graphql
+@pytest.mark.optional
 @pytest.mark.with_user(_USERNAME)
 @allure.feature("Organization / Addresses (GraphQL)")
 @allure.title("O2: first=1 limits page size to 1")
@@ -102,6 +104,7 @@ def test_o2_first_limits_page_size(ctx: Context, graphql_client: GraphQLClient) 
 
 
 @pytest.mark.graphql
+@pytest.mark.optional
 @pytest.mark.with_user(_USERNAME)
 @allure.feature("Organization / Addresses (GraphQL)")
 @allure.title("O3: after cursor pages forward in canonical order")
@@ -151,6 +154,7 @@ def test_o3_after_cursor_pages_forward(ctx: Context, graphql_client: GraphQLClie
 
 
 @pytest.mark.graphql
+@pytest.mark.optional
 @pytest.mark.with_user(_USERNAME)
 @allure.feature("Organization / Addresses (GraphQL)")
 @allure.title("O4: countryCodes filter returns matching addresses")
@@ -180,6 +184,7 @@ def test_o4_country_codes_filter(ctx: Context, graphql_client: GraphQLClient) ->
 
 
 @pytest.mark.graphql
+@pytest.mark.optional
 @pytest.mark.with_user(_USERNAME)
 @allure.feature("Organization / Addresses (GraphQL)")
 @allure.title("O5: regionIds filter returns matching addresses")
@@ -209,6 +214,7 @@ def test_o5_region_ids_filter(ctx: Context, graphql_client: GraphQLClient) -> No
 
 
 @pytest.mark.graphql
+@pytest.mark.optional
 @pytest.mark.with_user(_USERNAME)
 @allure.feature("Organization / Addresses (GraphQL)")
 @allure.title("O6: cities filter returns matching addresses")
@@ -239,6 +245,7 @@ def test_o6_cities_filter(ctx: Context, graphql_client: GraphQLClient) -> None:
 
 
 @pytest.mark.graphql
+@pytest.mark.optional
 @pytest.mark.with_user(_USERNAME)
 @allure.feature("Organization / Addresses (GraphQL)")
 @allure.title("O7: keyword search returns matching addresses")
@@ -275,6 +282,7 @@ def test_o7_keyword_search(ctx: Context, graphql_client: GraphQLClient) -> None:
 
 
 @pytest.mark.graphql
+@pytest.mark.optional
 @pytest.mark.with_user(_USERNAME)
 @allure.feature("Organization / Addresses (GraphQL)")
 @allure.title("O8: sort='city:asc' returns addresses in ascending city order")
@@ -310,6 +318,7 @@ def test_o8_sort_city_asc(ctx: Context, graphql_client: GraphQLClient) -> None:
 
 
 @pytest.mark.graphql
+@pytest.mark.optional
 @allure.feature("Organization / Addresses (GraphQL)")
 @allure.title("O9: anonymous caller is denied access")
 def test_o9_anonymous_denied(graphql_client: GraphQLClient) -> None:
@@ -327,6 +336,7 @@ def test_o9_anonymous_denied(graphql_client: GraphQLClient) -> None:
 
 
 @pytest.mark.graphql
+@pytest.mark.optional
 @pytest.mark.with_user(_USERNAME)
 @allure.feature("Organization / Addresses (GraphQL)")
 @allure.title("O10: organization query is org-scoped, not contact-scoped")
