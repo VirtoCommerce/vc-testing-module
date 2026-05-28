@@ -28,6 +28,12 @@ from graphql_client.mutations.update_contact import UpdateContactMutation
 from graphql_client.mutations.update_member_addresses import (
     UpdateMemberAddressesMutation,
 )
+from graphql_client.queries.current_customer_addresses import (
+    CurrentCustomerAddressesQuery,
+)
+from graphql_client.queries.current_organization_addresses import (
+    CurrentOrganizationAddressesQuery,
+)
 from graphql_client.queries.organization import OrganizationQuery
 from graphql_client.types.add_address_to_favorites_command_type import (
     AddAddressToFavoritesCommandType,
@@ -55,6 +61,7 @@ from graphql_client.types.input_update_contact_type import InputUpdateContactTyp
 from graphql_client.types.input_update_member_address_type import (
     InputUpdateMemberAddressType,
 )
+from graphql_client.types.member_address_connection import MemberAddressConnection
 from graphql_client.types.member_type import MemberType
 from graphql_client.types.organization import Organization
 from graphql_client.types.remove_address_from_favorites_command_type import (
@@ -68,9 +75,7 @@ class ContactOperations:
     def __init__(self, graphql_client: Client):
         self.graphql_client = graphql_client
 
-    def create_contact(
-        self, payload: InputRequestRegistrationType
-    ) -> RequestRegistrationType:
+    def create_contact(self, payload: InputRequestRegistrationType) -> RequestRegistrationType:
         request_registration_mutation = RequestRegistrationMutation(self.graphql_client)
 
         variables = {"command": payload}
@@ -98,9 +103,7 @@ class ContactOperations:
             }
         """
 
-        result = request_registration_mutation.execute(
-            variables=variables, return_fields=return_fields
-        )
+        result = request_registration_mutation.execute(variables=variables, return_fields=return_fields)
 
         return result
 
@@ -109,15 +112,11 @@ class ContactOperations:
 
         variables = {"command": payload}
 
-        result = delete_contact_mutation.execute(
-            variables=variables, return_fields=None
-        )
+        result = delete_contact_mutation.execute(variables=variables, return_fields=None)
 
         return result
 
-    def fetch_organization_addresses(
-        self, organization_id: str, user_id: str
-    ) -> Organization:
+    def fetch_organization_addresses(self, organization_id: str, user_id: str) -> Organization:
         organization_query = OrganizationQuery(self.graphql_client)
 
         variables = {"id": organization_id, "userId": user_id}
@@ -133,9 +132,77 @@ class ContactOperations:
             }}
         """
 
-        result = organization_query.execute(
-            variables=variables, return_fields=return_fields
-        )
+        result = organization_query.execute(variables=variables, return_fields=return_fields)
+
+        return result
+
+    def fetch_current_customer_addresses(
+        self,
+        after: str = "0",
+        first: int = 20,
+        country_codes: list[str] | None = None,
+        region_ids: list[str] | None = None,
+        cities: list[str] | None = None,
+        keyword: str | None = None,
+        sort: str | None = None,
+    ) -> MemberAddressConnection:
+        current_customer_addresses_query = CurrentCustomerAddressesQuery(self.graphql_client)
+
+        variables = {
+            "after": after,
+            "first": first,
+            "countryCodes": country_codes,
+            "regionIds": region_ids,
+            "cities": cities,
+            "keyword": keyword,
+            "sort": sort,
+        }
+
+        return_fields = f"""
+            totalCount
+            items {{
+                {ADDRESS_FRAGMENT}
+                isFavorite
+                isDefault
+            }}
+        """
+
+        result = current_customer_addresses_query.execute(variables=variables, return_fields=return_fields)
+
+        return result
+
+    def fetch_current_organization_addresses(
+        self,
+        after: str = "0",
+        first: int = 20,
+        country_codes: list[str] | None = None,
+        region_ids: list[str] | None = None,
+        cities: list[str] | None = None,
+        keyword: str | None = None,
+        sort: str | None = None,
+    ) -> MemberAddressConnection:
+        current_organization_addresses_query = CurrentOrganizationAddressesQuery(self.graphql_client)
+
+        variables = {
+            "after": after,
+            "first": first,
+            "countryCodes": country_codes,
+            "regionIds": region_ids,
+            "cities": cities,
+            "keyword": keyword,
+            "sort": sort,
+        }
+
+        return_fields = f"""
+            totalCount
+            items {{
+                {ADDRESS_FRAGMENT}
+                isFavorite
+                isDefault
+            }}
+        """
+
+        result = current_organization_addresses_query.execute(variables=variables, return_fields=return_fields)
 
         return result
 
@@ -173,18 +240,12 @@ class ContactOperations:
             }}
         """
 
-        result = organization_query.execute(
-            variables=variables, return_fields=return_fields
-        )
+        result = organization_query.execute(variables=variables, return_fields=return_fields)
 
         return result
 
-    def lock_organization_contact(
-        self, payload: InputLockUnlockOrganizationContactType
-    ) -> ContactType:
-        lock_organization_contact_mutation = LockOrganizationContactMutation(
-            self.graphql_client
-        )
+    def lock_organization_contact(self, payload: InputLockUnlockOrganizationContactType) -> ContactType:
+        lock_organization_contact_mutation = LockOrganizationContactMutation(self.graphql_client)
 
         variables = {"command": payload}
 
@@ -194,18 +255,12 @@ class ContactOperations:
             status
         """
 
-        result = lock_organization_contact_mutation.execute(
-            variables=variables, return_fields=return_fields
-        )
+        result = lock_organization_contact_mutation.execute(variables=variables, return_fields=return_fields)
 
         return result
 
-    def unlock_organization_contact(
-        self, payload: InputLockUnlockOrganizationContactType
-    ) -> ContactType:
-        unlock_organization_contact_mutation = UnlockOrganizationContactMutation(
-            self.graphql_client
-        )
+    def unlock_organization_contact(self, payload: InputLockUnlockOrganizationContactType) -> ContactType:
+        unlock_organization_contact_mutation = UnlockOrganizationContactMutation(self.graphql_client)
 
         variables = {"command": payload}
 
@@ -215,18 +270,14 @@ class ContactOperations:
             status
         """
 
-        result = unlock_organization_contact_mutation.execute(
-            variables=variables, return_fields=return_fields
-        )
+        result = unlock_organization_contact_mutation.execute(variables=variables, return_fields=return_fields)
 
         return result
 
     def change_organization_contact_role(
         self, payload: InputChangeOrganizationContactRoleType
     ) -> CustomIdentityResultType:
-        change_organization_contact_role_mutation = (
-            ChangeOrganizationContactRoleMutation(self.graphql_client)
-        )
+        change_organization_contact_role_mutation = ChangeOrganizationContactRoleMutation(self.graphql_client)
 
         variables = {"command": payload}
 
@@ -234,9 +285,7 @@ class ContactOperations:
             succeeded
         """
 
-        result = change_organization_contact_role_mutation.execute(
-            variables=variables, return_fields=return_fields
-        )
+        result = change_organization_contact_role_mutation.execute(variables=variables, return_fields=return_fields)
 
         return result
 
@@ -253,18 +302,12 @@ class ContactOperations:
             }}
         """
 
-        result = invite_user_mutation.execute(
-            variables=variables, return_fields=return_fields
-        )
+        result = invite_user_mutation.execute(variables=variables, return_fields=return_fields)
 
         return result
 
-    def remove_contact_from_organization(
-        self, payload: InputRemoveMemberFromOrganizationType
-    ) -> ContactType:
-        remove_contact_from_organization_mutation = (
-            RemoveMemberFromOrganizationMutation(self.graphql_client)
-        )
+    def remove_contact_from_organization(self, payload: InputRemoveMemberFromOrganizationType) -> ContactType:
+        remove_contact_from_organization_mutation = RemoveMemberFromOrganizationMutation(self.graphql_client)
 
         variables = {"command": payload}
 
@@ -275,18 +318,12 @@ class ContactOperations:
             organizationId
         """
 
-        result = remove_contact_from_organization_mutation.execute(
-            variables=variables, return_fields=return_fields
-        )
+        result = remove_contact_from_organization_mutation.execute(variables=variables, return_fields=return_fields)
 
         return result
 
-    def update_contact_addresses(
-        self, payload: InputUpdateMemberAddressType
-    ) -> MemberType:
-        update_contact_addresses_mutation = UpdateMemberAddressesMutation(
-            self.graphql_client
-        )
+    def update_contact_addresses(self, payload: InputUpdateMemberAddressType) -> MemberType:
+        update_contact_addresses_mutation = UpdateMemberAddressesMutation(self.graphql_client)
 
         variables = {"command": payload}
 
@@ -299,18 +336,12 @@ class ContactOperations:
             }}
         """
 
-        result = update_contact_addresses_mutation.execute(
-            variables=variables, return_fields=return_fields
-        )
+        result = update_contact_addresses_mutation.execute(variables=variables, return_fields=return_fields)
 
         return result
 
-    def delete_contact_address(
-        self, payload: InputDeleteMemberAddressType
-    ) -> MemberType:
-        delete_contact_addresses_mutation = DeleteMemberAddressesMutation(
-            self.graphql_client
-        )
+    def delete_contact_address(self, payload: InputDeleteMemberAddressType) -> MemberType:
+        delete_contact_addresses_mutation = DeleteMemberAddressesMutation(self.graphql_client)
 
         variables = {"command": payload}
 
@@ -323,18 +354,12 @@ class ContactOperations:
             }}
         """
 
-        result = delete_contact_addresses_mutation.execute(
-            variables=variables, return_fields=return_fields
-        )
+        result = delete_contact_addresses_mutation.execute(variables=variables, return_fields=return_fields)
 
         return result
 
-    def add_address_to_favorites(
-        self, payload: AddAddressToFavoritesCommandType
-    ) -> bool:
-        add_address_to_favorites_mutation = AddAddressToFavoritesMutation(
-            self.graphql_client
-        )
+    def add_address_to_favorites(self, payload: AddAddressToFavoritesCommandType) -> bool:
+        add_address_to_favorites_mutation = AddAddressToFavoritesMutation(self.graphql_client)
 
         variables = {"command": payload}
 
@@ -342,12 +367,8 @@ class ContactOperations:
 
         return result
 
-    def remove_address_from_favorites(
-        self, payload: RemoveAddressFromFavoritesCommandType
-    ) -> bool:
-        remove_address_from_favorites_mutation = RemoveAddressFromFavoritesMutation(
-            self.graphql_client
-        )
+    def remove_address_from_favorites(self, payload: RemoveAddressFromFavoritesCommandType) -> bool:
+        remove_address_from_favorites_mutation = RemoveAddressFromFavoritesMutation(self.graphql_client)
 
         variables = {"command": payload}
 
