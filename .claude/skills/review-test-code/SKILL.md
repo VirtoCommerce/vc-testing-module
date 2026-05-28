@@ -38,6 +38,7 @@ For every test function, verify:
 - [ ] Marker-driven setup preferred: `@pytest.mark.with_cart`, `@pytest.mark.with_user`
 - [ ] Manual setup has try-finally cleanup
 - [ ] Asserts on Pydantic model attributes: `cart.id`, `cart.is_anonymous` (not `cart["id"]`)
+- [ ] Uses `has_line_item()` for cart line-item assertions (`from utils.line_item_utils import has_line_item`)
 - [ ] Operations created as: `CartOperations(client=graphql_client)` (keyword arg)
 - [ ] Cleanup variable initialized before try: `cart: Cart | None = None`
 

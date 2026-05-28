@@ -134,3 +134,4 @@ with pytest.raises(ValueError, match="GraphQL errors"):
 6. Prefer marker-driven setup (`with_cart`, `with_user`) over manual setup
 7. Always clean up created resources in `finally` blocks when using manual setup
 8. Use `allure.step()` for logical groupings when tests have multiple phases
+9. Use `@pytest.mark.optional` for tests that depend on an unstable/optional backend module bundle (e.g. quotes) — these can be excluded with `-m 'not optional'`
