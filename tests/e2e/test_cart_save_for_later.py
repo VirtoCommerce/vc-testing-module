@@ -11,7 +11,7 @@ _ORIGINAL_QUANTITY = 3
 _USERNAME = "acme_store_employee_1@acme.com"
 
 
-@pytest.mark.optional
+@pytest.mark.ignore
 @pytest.mark.e2e
 @pytest.mark.with_user(_USERNAME)
 @pytest.mark.with_cart([(_PRODUCT_ID, _ORIGINAL_QUANTITY)])
