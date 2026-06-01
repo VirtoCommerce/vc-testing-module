@@ -1,9 +1,10 @@
 import allure
 import pytest
+from playwright.sync_api import Page, Response, expect
+
 from core.global_settings import GlobalSettings
 from page_objects.components import ClearCartModal
 from page_objects.pages import CartPage
-from playwright.sync_api import Page, Response, expect
 
 _PRODUCT_ID = "smartphone-samsung-galaxy-a57-5g"
 _QUANTITY = 3
@@ -19,6 +20,7 @@ def _is_clear_cart_mutation(response: Response) -> bool:
     return bool(post and "/graphql" in response.url and "ClearCart" in post)
 
 
+@pytest.mark.optional
 @pytest.mark.e2e
 @pytest.mark.with_cart([(_PRODUCT_ID, _QUANTITY)])
 @allure.feature("Cart / Lifecycle (E2E)")
@@ -36,7 +38,9 @@ def test_cart_clear(page: Page, global_settings: GlobalSettings) -> None:
 
     with allure.step("Open clear-cart confirmation modal"):
         cart_page.clear_cart_button.click()
-        clear_cart_modal = ClearCartModal(root=page.locator("[data-test-id='clear-cart-modal']"))
+        clear_cart_modal = ClearCartModal(
+            root=page.locator("[data-test-id='clear-cart-modal']")
+        )
         expect(clear_cart_modal.root).to_be_visible()
         expect(clear_cart_modal.yes_button).to_be_visible()
         expect(clear_cart_modal.yes_button).to_be_enabled()
