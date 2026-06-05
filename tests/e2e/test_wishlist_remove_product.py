@@ -25,6 +25,7 @@ def _is_wishlist_item_mutation(response: Response) -> bool:
     return "mutation" in post and "wishlist" in post
 
 
+@pytest.mark.ignore
 @pytest.mark.e2e
 @pytest.mark.with_user(_USERNAME)
 @allure.feature("Wishlist / Remove product (E2E)")

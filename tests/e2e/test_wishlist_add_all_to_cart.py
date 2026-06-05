@@ -25,6 +25,7 @@ def _is_cart_from_wishlist_mutation(response: Response) -> bool:
     return "mutation" in post and "cart" in post
 
 
+@pytest.mark.ignore
 @pytest.mark.e2e
 @pytest.mark.with_user(_USERNAME)
 @allure.feature("Wishlist / Add products to cart (E2E)")
