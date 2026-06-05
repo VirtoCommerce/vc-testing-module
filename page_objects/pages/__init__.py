@@ -1,3 +1,5 @@
+from .account_list_details import AccountListDetailsPage
+from .account_lists import AccountListsPage
 from .account_saved_for_later import AccountSavedForLaterPage
 from .cart import CartPage
 from .category import CategoryPage
@@ -6,9 +8,12 @@ from .checkout_payment import CheckoutPaymentPage
 from .checkout_review_order import CheckoutReviewOrderPage
 from .checkout_shipping import CheckoutShippingPage
 from .home import HomePage
+from .product import ProductPage
 from .sign_in import SignInPage
 
 __all__ = [
+    "AccountListDetailsPage",
+    "AccountListsPage",
     "AccountSavedForLaterPage",
     "CartPage",
     "CategoryPage",
@@ -17,5 +22,6 @@ __all__ = [
     "CheckoutReviewOrderPage",
     "CheckoutShippingPage",
     "HomePage",
+    "ProductPage",
     "SignInPage",
 ]
