@@ -20,7 +20,6 @@ def _is_clear_cart_mutation(response: Response) -> bool:
     return bool(post and "/graphql" in response.url and "ClearCart" in post)
 
 
-@pytest.mark.ignore
 @pytest.mark.e2e
 @pytest.mark.with_cart([(_PRODUCT_ID, _QUANTITY)])
 @allure.feature("Cart / Lifecycle (E2E)")
