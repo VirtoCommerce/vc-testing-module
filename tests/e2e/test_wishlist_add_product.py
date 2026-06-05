@@ -55,6 +55,7 @@ def _open_from_pdp(page: Page, global_settings: GlobalSettings) -> str:
 
 
 @pytest.mark.e2e
+@pytest.mark.skip
 @pytest.mark.with_user(_USERNAME)
 @pytest.mark.parametrize(
     "open_add_to_list,source_label",

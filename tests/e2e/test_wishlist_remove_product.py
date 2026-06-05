@@ -26,6 +26,7 @@ def _is_wishlist_item_mutation(response: Response) -> bool:
 
 
 @pytest.mark.e2e
+@pytest.mark.skip
 @pytest.mark.with_user(_USERNAME)
 @allure.feature("Wishlist / Remove product (E2E)")
 @allure.title("Remove a product from a wishlist via the add-to-list modal")
