@@ -20,4 +20,15 @@ fragment LineItemFragment on LineItemType {
     ...MoneyFragment
   }
   selectedForCheckout
+  isValid
+  validationErrors {
+    errorCode
+    errorMessage
+    errorParameters {
+      key
+      value
+    }
+    objectType
+    objectId
+  }
 }
