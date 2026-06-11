@@ -1,17 +1,3 @@
-"""Cart validation errors with ruleSet — per-line and cart-level (VCST-5240).
-
-Regression coverage for VCST-5234: after a cart change, an over-stock line must
-keep reporting ``isValid: false`` + per-line ``validationErrors`` (these used to
-vanish — the line read back valid-when-invalid). Also guards ruleSet scoping and
-within-/cross-request ruleSet cache isolation introduced by XCart PR #110.
-
-Repro shape: add a valid line (qty 1), then push it over stock via
-``updateCartQuantity``. The over-stock quantity sits above the product's seeded
-stock but below the platform's 999_999 per-line cap, so the inventory rule fires
-(``PRODUCT_QTY_CHANGED`` / LineItem scope) rather than the line-limit rule.
-Carts are anonymous (random ``ctx.user_id``), matching the other cart suites.
-"""
-
 import allure
 import pytest
 from core.clients import GraphQLClient
@@ -45,11 +31,7 @@ def _has_qty_error(errors: list[dict]) -> bool:
 
 
 def _assert_scoped_to_line(line: dict) -> None:
-    """Defensively confirm the per-line validation errors are scoped to the
-    LineItem (not the cart). The backend may omit objectType/objectId, so only
-    assert linkage when at least one is populated: an error whose objectType
-    names a line item OR whose objectId equals the line's own id.
-    """
+
     errors = line["validationErrors"]
     has_object_type = any(e.get("objectType") for e in errors)
     has_object_id = any(e.get("objectId") for e in errors)
@@ -92,9 +74,7 @@ def _seed_over_stock_line(cart_ops: CartOperations, ctx: Context) -> None:
 @allure.feature("Cart / Validation (GraphQL)")
 @allure.title("Over-stock line should stay invalid with a per-line quantity error")
 def test_line_item_validation_survives_overstock_update(graphql_client: GraphQLClient, ctx: Context) -> None:
-    """VCST-5234 core guard: an over-stock line reports isValid=false + a
-    per-line quantity error. Read per-line only (no cart-level validationErrors
-    field) so nothing re-validates the aggregate — the decisive probe."""
+
     cart_ops = CartOperations(client=graphql_client)
 
     with allure.step(f"Add {_PRODUCT_ID}×{_VALID_QTY}, then update to {_OVER_STOCK_QTY}"):
@@ -123,9 +103,7 @@ def test_line_item_validation_survives_overstock_update(graphql_client: GraphQLC
 @allure.feature("Cart / Validation (GraphQL)")
 @allure.title("Per-line errors should persist after a subsequent cart change")
 def test_line_item_validation_persists_after_subsequent_change(graphql_client: GraphQLClient, ctx: Context) -> None:
-    """The literal VCST-5234 symptom: per-line errors must NOT disappear after a
-    later cart change. Over-stock a line, then add an unrelated valid line (a
-    save), and confirm the over-stock line is still invalid."""
+
     cart_ops = CartOperations(client=graphql_client)
 
     with allure.step("Create an over-stock line"):
@@ -202,10 +180,7 @@ def test_line_item_validation_isolated_across_lines(graphql_client: GraphQLClien
 @allure.feature("Cart / Validation (GraphQL)")
 @allure.title("Cart should expose validationErrors scoped per ruleSet")
 def test_cart_validation_ruleset_scoping(graphql_client: GraphQLClient, ctx: Context) -> None:
-    """The item over-stock error belongs to the items scope: it surfaces under
-    ruleSet ``*`` (union) and ``items``, but not under ``default``/``shipments``,
-    and an unknown ruleSet returns nothing. The per-line signal stays invalid
-    regardless of which cart-level ruleSet is queried."""
+
     cart_ops = CartOperations(client=graphql_client)
 
     with allure.step("Create an over-stock line"):
@@ -241,8 +216,7 @@ def test_cart_validation_ruleset_scoping(graphql_client: GraphQLClient, ctx: Con
 @allure.feature("Cart / Validation (GraphQL)")
 @allure.title("ruleSet cache should stay isolated within a single request")
 def test_cart_validation_ruleset_isolation_within_request(graphql_client: GraphQLClient, ctx: Context) -> None:
-    """Two ruleSet-scoped validationErrors selections in one request (aliases)
-    must not leak into or poison each other (VCST-4952 / PR #110)."""
+
     cart_ops = CartOperations(client=graphql_client)
 
     with allure.step("Create an over-stock line"):
@@ -278,8 +252,7 @@ def test_cart_validation_ruleset_isolation_within_request(graphql_client: GraphQ
 @allure.feature("Cart / Validation (GraphQL)")
 @allure.title("ruleSet cache should stay isolated across separate requests")
 def test_cart_validation_ruleset_isolation_across_requests(graphql_client: GraphQLClient, ctx: Context) -> None:
-    """Querying one ruleSet must not leak into / poison a subsequent request's
-    ruleSet (each get_cart_validation call is a separate POST)."""
+
     cart_ops = CartOperations(client=graphql_client)
 
     with allure.step("Create an over-stock line"):
@@ -308,8 +281,7 @@ def test_cart_validation_ruleset_isolation_across_requests(graphql_client: Graph
 @allure.feature("Cart / Validation (GraphQL)")
 @allure.title("Validation errors should clear after the cart is corrected")
 def test_cart_validation_clears_after_correction(graphql_client: GraphQLClient, ctx: Context) -> None:
-    """After correcting the quantity back within stock, both cart-level and
-    per-line validation errors must clear (no stale errors)."""
+
     cart_ops = CartOperations(client=graphql_client)
 
     with allure.step("Create an over-stock line"):
@@ -344,9 +316,7 @@ def test_cart_validation_clears_after_correction(graphql_client: GraphQLClient, 
 @allure.feature("Cart / Validation (GraphQL)")
 @allure.title("Validation errors should clear after the over-stock line is removed")
 def test_cart_validation_clears_after_line_removal(graphql_client: GraphQLClient, ctx: Context) -> None:
-    """Complement to correction-by-quantity: an over-stock line reports
-    ``isValid: false`` + per-line errors, then REMOVING that line clears the
-    cart-level and per-line validation errors (the line is simply gone)."""
+
     cart_ops = CartOperations(client=graphql_client)
 
     with allure.step("Create an over-stock line"):
