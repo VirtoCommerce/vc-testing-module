@@ -44,6 +44,31 @@ def _has_qty_error(errors: list[dict]) -> bool:
     return bool(_error_codes(errors) & _QTY_ERROR_CODES)
 
 
+def _assert_scoped_to_line(line: dict) -> None:
+    """Defensively confirm the per-line validation errors are scoped to the
+    LineItem (not the cart). The backend may omit objectType/objectId, so only
+    assert linkage when at least one is populated: an error whose objectType
+    names a line item OR whose objectId equals the line's own id.
+    """
+    errors = line["validationErrors"]
+    has_object_type = any(e.get("objectType") for e in errors)
+    has_object_id = any(e.get("objectId") for e in errors)
+    if not (has_object_type or has_object_id):
+        # Make the skipped check visible so a green run does not read as if
+        # linkage was asserted when the backend returned no scoping metadata.
+        with allure.step("scoping metadata absent (no objectType/objectId) — line linkage not asserted"):
+            pass
+        return
+    linked = any(
+        ("lineitem" in (e.get("objectType") or "").lower()) or (e.get("objectId") == line["id"]) for e in errors
+    )
+    assert linked, (
+        "expected a per-line validation error scoped to the LineItem "
+        f"(objectType ~ LineItem or objectId == {line['id']!r}), got "
+        f"{[(e.get('objectType'), e.get('objectId')) for e in errors]}"
+    )
+
+
 def _seed_over_stock_line(cart_ops: CartOperations, ctx: Context) -> None:
     """Add a valid line, then push it over stock via an update."""
     cart_ops.add_items_to_cart(
@@ -90,6 +115,7 @@ def test_line_item_validation_survives_overstock_update(graphql_client: GraphQLC
         assert _has_qty_error(
             line["validationErrors"]
         ), f"expected a quantity error, got {_error_codes(line['validationErrors'])}"
+        _assert_scoped_to_line(line)
 
 
 @pytest.mark.graphql
@@ -124,6 +150,7 @@ def test_line_item_validation_persists_after_subsequent_change(graphql_client: G
         line = _find_line(cart["items"], _PRODUCT_ID)
         assert line is not None and line["isValid"] is False
         assert _has_qty_error(line["validationErrors"])
+        _assert_scoped_to_line(line)
 
 
 @pytest.mark.graphql
@@ -165,6 +192,7 @@ def test_line_item_validation_isolated_across_lines(graphql_client: GraphQLClien
         sibling = _find_line(cart["items"], _SIBLING_PRODUCT_ID)
         assert over is not None and over["isValid"] is False
         assert _has_qty_error(over["validationErrors"])
+        _assert_scoped_to_line(over)
         assert sibling is not None and sibling["isValid"] is True
         assert sibling["validationErrors"] == []
 
@@ -309,3 +337,50 @@ def test_cart_validation_clears_after_correction(graphql_client: GraphQLClient, 
         assert line is not None
         assert line["isValid"] is True
         assert line["validationErrors"] == []
+
+
+@pytest.mark.graphql
+@pytest.mark.delete_cart_after
+@allure.feature("Cart / Validation (GraphQL)")
+@allure.title("Validation errors clear after the over-stock line is removed")
+def test_cart_validation_clears_after_line_removal(graphql_client: GraphQLClient, ctx: Context) -> None:
+    """Complement to correction-by-quantity: an over-stock line reports
+    ``isValid: false`` + per-line errors, then REMOVING that line clears the
+    cart-level and per-line validation errors (the line is simply gone)."""
+    cart_ops = CartOperations(client=graphql_client)
+
+    with allure.step("Create an over-stock line"):
+        _seed_over_stock_line(cart_ops, ctx)
+
+    with allure.step("Verify the over-stock line is invalid with a per-line error"):
+        cart = cart_ops.get_cart_line_validation(
+            store_id=ctx.store_id,
+            user_id=ctx.user_id,
+            currency_code=ctx.currency_code,
+            culture_name=ctx.culture_name,
+        )
+        line = _find_line(cart["items"], _PRODUCT_ID)
+        assert line is not None and line["isValid"] is False
+        assert _has_qty_error(line["validationErrors"])
+        _assert_scoped_to_line(line)
+        line_item_id = line["id"]
+
+    with allure.step("Remove the over-stock line from the cart"):
+        cart_ops.remove_cart_item(
+            store_id=ctx.store_id,
+            user_id=ctx.user_id,
+            line_item_id=line_item_id,
+            currency_code=ctx.currency_code,
+            culture_name=ctx.culture_name,
+        )
+
+    with allure.step("Verify cart-level and per-line errors for that line are gone"):
+        cart = cart_ops.get_cart_validation(
+            store_id=ctx.store_id,
+            user_id=ctx.user_id,
+            currency_code=ctx.currency_code,
+            culture_name=ctx.culture_name,
+            rule_set="*",
+        )
+        assert not _has_qty_error(cart["validationErrors"])
+        assert _find_line(cart["items"], _PRODUCT_ID) is None

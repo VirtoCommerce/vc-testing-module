@@ -51,10 +51,10 @@ class CartOperations(BaseOperations):
         """Read cart-level validationErrors for an explicit ruleSet alongside the
         per-line validation fields, returning the raw ``cart`` payload.
 
-        The shared ``CartFragment`` always reads the default ``validationErrors``
-        (no ``ruleSet`` argument), so ruleSet-scoped reads need their own query.
-        The result is returned as a plain dict because callers assert on the
-        per-ruleSet response shape directly.
+        Returns a raw dict (not the ``Cart`` model): the ruleSet-scoped
+        ``validationErrors(ruleSet:)`` selection has no representation on the
+        ``Cart`` model, and callers assert on the per-ruleSet response shape
+        directly.
         """
         # fmt: off
         query = gql("""
@@ -62,7 +62,7 @@ class CartOperations(BaseOperations):
               cart(storeId: $storeId, userId: $userId, currencyCode: $currencyCode, cultureName: $cultureName, cartId: $cartId) {
                 itemsCount
                 validationErrors(ruleSet: $ruleSet) { errorCode objectType objectId errorMessage }
-                items { id sku productId quantity isValid validationErrors { errorCode objectType errorMessage } }
+                items { id sku productId quantity isValid validationErrors { errorCode objectType objectId errorMessage } }
               }
             }
         """)
@@ -95,7 +95,9 @@ class CartOperations(BaseOperations):
 
         Used to prove within-request ruleSet cache isolation: resolving one
         ruleSet must not leak its errors into (or poison) the other in the same
-        response. Returns the raw ``cart`` payload.
+        response. Returns a raw dict (not the ``Cart`` model): the aliased,
+        ruleSet-scoped ``validationErrors`` selections have no representation on
+        the ``Cart`` model.
         """
         # fmt: off
         query = gql("""
@@ -137,14 +139,15 @@ class CartOperations(BaseOperations):
         ``validationErrors`` re-validates the aggregate and would refill the
         per-line store, masking the bug. Omitting it ensures the per-line
         ``isValid`` / ``validationErrors`` are read straight from the saved
-        line. Returns the raw ``cart`` payload.
+        line. Returns a raw dict (not the ``Cart`` model) so the probe selects
+        only per-line fields and never triggers aggregate re-validation.
         """
         # fmt: off
         query = gql("""
             query GetCartLineValidation($storeId: String!, $userId: String!, $currencyCode: String!, $cultureName: String!, $cartId: String) {
               cart(storeId: $storeId, userId: $userId, currencyCode: $currencyCode, cultureName: $cultureName, cartId: $cartId) {
                 itemsCount
-                items { id sku productId quantity isValid validationErrors { errorCode objectType errorMessage } }
+                items { id sku productId quantity isValid validationErrors { errorCode objectType objectId errorMessage } }
               }
             }
         """)
