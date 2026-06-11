@@ -5,10 +5,7 @@ from gql.operations import ContactOperations
 
 _MAINTAINER = "acme_store_maintainer_1@acme.com"
 _TARGET_CONTACT_ID = "contact-acme-store-employee-1"
-
-_STATUS_APPROVED = "Approved"
-_STATUS_LOCKED = "Locked"
-
+_ORGANIZATION_ID = "organization-acme-store"
 
 @pytest.mark.graphql
 @pytest.mark.with_user(_MAINTAINER)
@@ -19,20 +16,16 @@ def test_contact_lock_unlock(graphql_client: GraphQLClient) -> None:
 
     try:
         with allure.step(f"Lock contact {_TARGET_CONTACT_ID}"):
-            locked = contact_ops.lock_organization_contact(
-                contact_id=_TARGET_CONTACT_ID
-            )
+            contact_ops.lock_organization_contact(member_id=_TARGET_CONTACT_ID)
 
-        with allure.step(f"Verify contact status is '{_STATUS_LOCKED}'"):
-            assert locked.status == _STATUS_LOCKED
+        with allure.step(f"Verify contact is locked in organization {_ORGANIZATION_ID}"):
+            assert contact_ops.get_contact_lock_status(_TARGET_CONTACT_ID, _ORGANIZATION_ID) is True
 
         with allure.step(f"Unlock contact {_TARGET_CONTACT_ID}"):
-            unlocked = contact_ops.unlock_organization_contact(
-                contact_id=_TARGET_CONTACT_ID
-            )
+            contact_ops.unlock_organization_contact(member_id=_TARGET_CONTACT_ID)
 
-        with allure.step(f"Verify contact status is back to '{_STATUS_APPROVED}'"):
-            assert unlocked.status == _STATUS_APPROVED
+        with allure.step(f"Verify contact is unlocked in organization {_ORGANIZATION_ID}"):
+            assert contact_ops.get_contact_lock_status(_TARGET_CONTACT_ID, _ORGANIZATION_ID) is False
     finally:
         with allure.step(f"Teardown: ensure contact {_TARGET_CONTACT_ID} is unlocked"):
-            contact_ops.unlock_organization_contact(contact_id=_TARGET_CONTACT_ID)
+            contact_ops.unlock_organization_contact(member_id=_TARGET_CONTACT_ID)

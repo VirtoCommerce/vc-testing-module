@@ -156,6 +156,13 @@
     "payload_type": "single"
   },
   {
+    "name": "organization_memberships",
+    "module_id": "VirtoCommerce.Customer",
+    "method": "POST",
+    "endpoint": "/api/customer/organization-memberships",
+    "payload_type": "single"
+  },
+  {
     "name": "pickup_locations",
     "module_id": "VirtoCommerce.XPickup",
     "method": "POST",
