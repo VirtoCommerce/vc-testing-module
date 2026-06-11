@@ -90,7 +90,7 @@ def _seed_over_stock_line(cart_ops: CartOperations, ctx: Context) -> None:
 @pytest.mark.graphql
 @pytest.mark.delete_cart_after
 @allure.feature("Cart / Validation (GraphQL)")
-@allure.title("Per-line validationErrors survive an over-stock quantity change")
+@allure.title("Over-stock line should stay invalid with a per-line quantity error")
 def test_line_item_validation_survives_overstock_update(graphql_client: GraphQLClient, ctx: Context) -> None:
     """VCST-5234 core guard: an over-stock line reports isValid=false + a
     per-line quantity error. Read per-line only (no cart-level validationErrors
@@ -121,7 +121,7 @@ def test_line_item_validation_survives_overstock_update(graphql_client: GraphQLC
 @pytest.mark.graphql
 @pytest.mark.delete_cart_after
 @allure.feature("Cart / Validation (GraphQL)")
-@allure.title("Per-line validationErrors persist after a subsequent cart change")
+@allure.title("Per-line errors should persist after a subsequent cart change")
 def test_line_item_validation_persists_after_subsequent_change(graphql_client: GraphQLClient, ctx: Context) -> None:
     """The literal VCST-5234 symptom: per-line errors must NOT disappear after a
     later cart change. Over-stock a line, then add an unrelated valid line (a
@@ -156,7 +156,7 @@ def test_line_item_validation_persists_after_subsequent_change(graphql_client: G
 @pytest.mark.graphql
 @pytest.mark.delete_cart_after
 @allure.feature("Cart / Validation (GraphQL)")
-@allure.title("Per-line validity is isolated between lines")
+@allure.title("Valid sibling line should stay valid next to an over-stock line")
 def test_line_item_validation_isolated_across_lines(graphql_client: GraphQLClient, ctx: Context) -> None:
     """An over-stock line must not contaminate a sibling valid line: the
     over-stock line is invalid while the in-stock line stays valid."""
@@ -200,7 +200,7 @@ def test_line_item_validation_isolated_across_lines(graphql_client: GraphQLClien
 @pytest.mark.graphql
 @pytest.mark.delete_cart_after
 @allure.feature("Cart / Validation (GraphQL)")
-@allure.title("Cart-level validationErrors are scoped per ruleSet")
+@allure.title("Cart should expose validationErrors scoped per ruleSet")
 def test_cart_validation_ruleset_scoping(graphql_client: GraphQLClient, ctx: Context) -> None:
     """The item over-stock error belongs to the items scope: it surfaces under
     ruleSet ``*`` (union) and ``items``, but not under ``default``/``shipments``,
@@ -239,7 +239,7 @@ def test_cart_validation_ruleset_scoping(graphql_client: GraphQLClient, ctx: Con
 @pytest.mark.graphql
 @pytest.mark.delete_cart_after
 @allure.feature("Cart / Validation (GraphQL)")
-@allure.title("ruleSet cache is isolated within a single request")
+@allure.title("ruleSet cache should stay isolated within a single request")
 def test_cart_validation_ruleset_isolation_within_request(graphql_client: GraphQLClient, ctx: Context) -> None:
     """Two ruleSet-scoped validationErrors selections in one request (aliases)
     must not leak into or poison each other (VCST-4952 / PR #110)."""
@@ -276,7 +276,7 @@ def test_cart_validation_ruleset_isolation_within_request(graphql_client: GraphQ
 @pytest.mark.graphql
 @pytest.mark.delete_cart_after
 @allure.feature("Cart / Validation (GraphQL)")
-@allure.title("ruleSet cache is isolated across separate requests")
+@allure.title("ruleSet cache should stay isolated across separate requests")
 def test_cart_validation_ruleset_isolation_across_requests(graphql_client: GraphQLClient, ctx: Context) -> None:
     """Querying one ruleSet must not leak into / poison a subsequent request's
     ruleSet (each get_cart_validation call is a separate POST)."""
@@ -306,7 +306,7 @@ def test_cart_validation_ruleset_isolation_across_requests(graphql_client: Graph
 @pytest.mark.graphql
 @pytest.mark.delete_cart_after
 @allure.feature("Cart / Validation (GraphQL)")
-@allure.title("Validation errors clear after the cart is corrected")
+@allure.title("Validation errors should clear after the cart is corrected")
 def test_cart_validation_clears_after_correction(graphql_client: GraphQLClient, ctx: Context) -> None:
     """After correcting the quantity back within stock, both cart-level and
     per-line validation errors must clear (no stale errors)."""
@@ -342,7 +342,7 @@ def test_cart_validation_clears_after_correction(graphql_client: GraphQLClient, 
 @pytest.mark.graphql
 @pytest.mark.delete_cart_after
 @allure.feature("Cart / Validation (GraphQL)")
-@allure.title("Validation errors clear after the over-stock line is removed")
+@allure.title("Validation errors should clear after the over-stock line is removed")
 def test_cart_validation_clears_after_line_removal(graphql_client: GraphQLClient, ctx: Context) -> None:
     """Complement to correction-by-quantity: an over-stock line reports
     ``isValid: false`` + per-line errors, then REMOVING that line clears the
