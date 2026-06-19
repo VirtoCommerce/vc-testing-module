@@ -1,0 +1,10 @@
+{
+    "userId": "user-acme-store-employee-1",
+    "organizationId": "organization-acme-store",
+    "roles": [
+        {
+            "roleId": "org-employee",
+            "roleName": "Organization employee"
+        }
+    ]
+}

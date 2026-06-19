@@ -3,6 +3,7 @@ from gql.types.contact import Contact
 from gql.types.identity_result import IdentityResult
 from gql.types.member_address import MemberAddress
 from gql.types.registration import Registration
+from gql.types.role import Role
 
 
 class ContactOperations(BaseOperations):
@@ -123,7 +124,7 @@ class ContactOperations(BaseOperations):
 
     def change_organization_contact_role(
         self,
-        user_id: str,
+        member_id: str,
         role_ids: list[str],
     ) -> IdentityResult:
         # fmt: off
@@ -137,7 +138,7 @@ class ContactOperations(BaseOperations):
         # fmt: on
         result = self._client.execute(
             self._build_query(mutation),
-            variables={"command": {"userId": user_id, "roleIds": role_ids}},
+            variables={"command": {"memberId": member_id, "roleIds": role_ids}},
         )
         return IdentityResult.model_validate(result["data"]["changeOrganizationContactRole"])
 
@@ -158,7 +159,7 @@ class ContactOperations(BaseOperations):
         data = result["data"]["contact"]
         return Contact.model_validate(data) if data else None
 
-    def lock_organization_contact(self, contact_id: str) -> Contact:
+    def lock_organization_contact(self, member_id: str) -> Contact:
         # fmt: off
         mutation = gql("""
             mutation LockOrganizationContact($command: InputLockUnlockOrganizationContactType!) {
@@ -170,11 +171,11 @@ class ContactOperations(BaseOperations):
         # fmt: on
         result = self._client.execute(
             self._build_query(mutation),
-            variables={"command": {"userId": contact_id}},
+            variables={"command": {"memberId": member_id}},
         )
         return Contact.model_validate(result["data"]["lockOrganizationContact"])
 
-    def unlock_organization_contact(self, contact_id: str) -> Contact:
+    def unlock_organization_contact(self, member_id: str) -> Contact:
         # fmt: off
         mutation = gql("""
             mutation UnlockOrganizationContact($command: InputLockUnlockOrganizationContactType!) {
@@ -186,7 +187,7 @@ class ContactOperations(BaseOperations):
         # fmt: on
         result = self._client.execute(
             self._build_query(mutation),
-            variables={"command": {"userId": contact_id}},
+            variables={"command": {"memberId": member_id}},
         )
         return Contact.model_validate(result["data"]["unlockOrganizationContact"])
 
@@ -367,6 +368,45 @@ class ContactOperations(BaseOperations):
         total_count: int = data.get("totalCount") or 0
         items = [MemberAddress.model_validate(a) for a in (data.get("items") or [])]
         return total_count, items
+
+    def get_contact_lock_status(self, contact_id: str, organization_id: str) -> bool:
+        # fmt: off
+        query = gql("""
+            query GetContactLockStatus($id: String!, $organizationId: String!) {
+              contact(id: $id) {
+                isLockedInOrganization(organizationId: $organizationId)
+              }
+            }
+        """)
+        # fmt: on
+        result = self._client.execute(
+            self._build_query(query),
+            variables={"id": contact_id, "organizationId": organization_id},
+        )
+        data = result["data"]["contact"]
+        return bool(data["isLockedInOrganization"]) if data else False
+
+    def get_contact_roles_in_organization(self, contact_id: str, organization_id: str) -> list[Role]:
+        # fmt: off
+        query = gql("""
+            query GetContactRolesInOrganization($id: String!, $organizationId: String!) {
+              contact(id: $id) {
+                rolesInOrganization(organizationId: $organizationId) {
+                  id
+                  name
+                }
+              }
+            }
+        """)
+        # fmt: on
+        result = self._client.execute(
+            self._build_query(query),
+            variables={"id": contact_id, "organizationId": organization_id},
+        )
+        data = result["data"]["contact"]
+        if not data:
+            return []
+        return [Role.model_validate(r) for r in (data.get("rolesInOrganization") or [])]
 
     def get_organization_contacts(
         self,
