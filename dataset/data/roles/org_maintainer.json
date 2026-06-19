@@ -26,6 +26,12 @@
         },
         {
             "name": "xapi:my_organization:edit"
+        },
+        {
+            "name": "xapi:my_organization:user:invite"
+        },
+        {
+            "name": "xapi:my_organization:order:view"
         }
     ]
 }

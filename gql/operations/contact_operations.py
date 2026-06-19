@@ -3,6 +3,7 @@ from gql.types.contact import Contact
 from gql.types.identity_result import IdentityResult
 from gql.types.member_address import MemberAddress
 from gql.types.registration import Registration
+from gql.types.role import Role
 
 
 class ContactOperations(BaseOperations):
@@ -385,7 +386,7 @@ class ContactOperations(BaseOperations):
         data = result["data"]["contact"]
         return bool(data["isLockedInOrganization"]) if data else False
 
-    def get_contact_roles_in_organization(self, contact_id: str, organization_id: str) -> list:
+    def get_contact_roles_in_organization(self, contact_id: str, organization_id: str) -> list[Role]:
         # fmt: off
         query = gql("""
             query GetContactRolesInOrganization($id: String!, $organizationId: String!) {
@@ -405,7 +406,6 @@ class ContactOperations(BaseOperations):
         data = result["data"]["contact"]
         if not data:
             return []
-        from gql.types.role import Role
         return [Role.model_validate(r) for r in (data.get("rolesInOrganization") or [])]
 
     def get_organization_contacts(
