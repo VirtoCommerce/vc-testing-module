@@ -17,3 +17,4 @@ screenshots/
 .serena/
 .claude/settings.local.json
 *.local.md
+/.vs

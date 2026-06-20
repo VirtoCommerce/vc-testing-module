@@ -39,8 +39,10 @@ class StoreOperations(RestBaseOperations):
         self._client.put(self._url(self.PATH), json={**existing, **overrides})
 
     def get_all(self) -> list[Store]:
-        response = self._client.get(self._url(self.PATH))
-        return [Store.model_validate(s) for s in response or []]
+        # GET /api/stores was removed in Stable 15; list all stores via POST /api/stores/search.
+        response = self._client.post(self._url(f"{self.PATH}/search"), json={"skip": 0, "take": 1000})
+        results = response.get("results", []) if isinstance(response, dict) else (response or [])
+        return [Store.model_validate(s) for s in results]
 
     def get_by_id(self, store_id: str) -> Store:
         response = self._client.get(self._url(f"{self.PATH}/{store_id}"))
