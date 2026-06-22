@@ -187,6 +187,34 @@ class ShoppingListOperations(BaseOperations):
         )
         return ShoppingList.model_validate(result["data"]["updateWishListItems"])
 
+    def add_bulk_item_to_shopping_list(
+        self, list_id: str, product_id: str, quantity: int = 1
+    ) -> ShoppingList:
+        # fmt: off
+        mutation = gql("""
+            mutation AddBulkItemToShoppingList($command: InputAddWishlistBulkItemType!) {
+              addWishlistBulkItem(command: $command) {
+                wishlists {
+                  ...ShoppingListFragment
+                }
+              }
+            }
+        """)
+        # fmt: on
+        result = self._client.execute(
+            self._build_query(mutation),
+            variables={
+                "command": {
+                    "listIds": [list_id],
+                    "productId": product_id,
+                    "quantity": quantity,
+                }
+            },
+        )
+        return ShoppingList.model_validate(
+            result["data"]["addWishlistBulkItem"]["wishlists"][0]
+        )
+
     def remove_items_from_shopping_list(
         self, list_id: str, line_item_ids: list[str]
     ) -> ShoppingList:
