@@ -44,7 +44,7 @@ def _wait_for_items_count(
 @pytest.mark.with_user(_USERNAME)
 @allure.feature("Wishlist / Shared list (E2E)")
 @allure.title("Shared list with AnyoneAnonymous scope is readable by anonymous users")
-def test_shopping_list_shared_anyone_read(
+def test_wishlist_shared_anyone_read(
     browser: Browser,
     graphql_client: GraphQLClient,
     global_settings: GlobalSettings,
@@ -114,7 +114,7 @@ def test_shopping_list_shared_anyone_read(
 @pytest.mark.with_user(_USERNAME)
 @allure.feature("Wishlist / Shared list (E2E)")
 @allure.title("Private list is not accessible by anonymous users via share link")
-def test_shopping_list_private_not_accessible_anonymous(
+def test_wishlist_private_not_accessible_anonymous(
     browser: Browser,
     graphql_client: GraphQLClient,
     global_settings: GlobalSettings,
@@ -182,7 +182,7 @@ def test_shopping_list_private_not_accessible_anonymous(
 @pytest.mark.optional
 @allure.feature("Wishlist / Shared list (E2E)")
 @allure.title("Malformed sharing key shows the not-found page for anonymous users")
-def test_shopping_list_shared_invalid_key(
+def test_wishlist_shared_invalid_key(
     browser: Browser,
     global_settings: GlobalSettings,
 ) -> None:
