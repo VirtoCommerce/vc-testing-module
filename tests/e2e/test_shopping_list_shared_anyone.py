@@ -4,7 +4,8 @@ from core.clients import GraphQLClient
 from core.global_settings import GlobalSettings
 from gql.operations import ShoppingListOperations
 from gql.types import ShoppingList
-from playwright.sync_api import Page, expect
+from page_objects.pages import SharedListPage
+from playwright.sync_api import Browser, BrowserContext, expect
 from tests.context import Context
 from utils.polling_utils import poll_until
 
@@ -15,6 +16,27 @@ _PRODUCT_ID_1 = "smartphone-apple-iphone-17-256gb-black"
 _PRODUCT_ID_2 = "smartphone-apple-iphone-17-256gb-mist-blue"
 _SCOPE = "AnyoneAnonymous"
 _SCOPE_PRIVATE = "Private"
+_VIEWPORT = {"width": 1920, "height": 1080}
+
+
+def _anonymous_context(browser: Browser) -> BrowserContext:
+    # Fresh, unauthenticated context so the share link is opened as a guest.
+    return browser.new_context(viewport=_VIEWPORT)
+
+
+def _wait_for_items_count(
+    ops: ShoppingListOperations,
+    list_id: str,
+    culture_name: str,
+    expected: int,
+    global_settings: GlobalSettings,
+) -> ShoppingList | None:
+    return poll_until(
+        fetch=lambda: ops.get_shopping_list(list_id=list_id, culture_name=culture_name),
+        predicate=lambda wl: wl.items_count == expected,
+        attempts=global_settings.poll_attempts,
+        interval=global_settings.poll_interval,
+    )
 
 
 @pytest.mark.e2e
@@ -23,7 +45,7 @@ _SCOPE_PRIVATE = "Private"
 @allure.feature("Wishlist / Shared list (E2E)")
 @allure.title("Shared list with AnyoneAnonymous scope is readable by anonymous users")
 def test_shopping_list_shared_anyone_read(
-    page: Page,
+    browser: Browser,
     graphql_client: GraphQLClient,
     global_settings: GlobalSettings,
     ctx: Context,
@@ -51,50 +73,35 @@ def test_shopping_list_shared_anyone_read(
             assert updated.sharing_setting.scope == _SCOPE
             sharing_key = updated.sharing_setting.id
 
-        with allure.step(f"Bulk-add product 1 '{_PRODUCT_ID_1}'"):
-            ops.add_bulk_item_to_shopping_list(
-                list_id=shopping_list.id,
-                product_id=_PRODUCT_ID_1,
-            )
-
-        with allure.step(f"Bulk-add product 2 '{_PRODUCT_ID_2}'"):
-            ops.add_bulk_item_to_shopping_list(
-                list_id=shopping_list.id,
-                product_id=_PRODUCT_ID_2,
-            )
+        for product_id in (_PRODUCT_ID_1, _PRODUCT_ID_2):
+            with allure.step(f"Bulk-add product '{product_id}'"):
+                ops.add_bulk_item_to_shopping_list(
+                    list_id=shopping_list.id,
+                    product_id=product_id,
+                )
 
         with allure.step("Verify list has 2 items (owner view)"):
-            seeded = poll_until(
-                fetch=lambda: ops.get_shopping_list(list_id=shopping_list.id, culture_name=ctx.culture_name),
-                predicate=lambda wl: wl.items_count == 2,
-                attempts=global_settings.poll_attempts,
-                interval=global_settings.poll_interval,
-            )
+            seeded = _wait_for_items_count(ops, shopping_list.id, ctx.culture_name, 2, global_settings)
             assert seeded is not None, "Items did not appear in wishlist after seeding"
 
-        share_url = f"{global_settings.frontend_base_url}/shared-list/{sharing_key}"
-
-        with allure.step(f"Open shared link as anonymous user: {share_url}"):
-            browser = page.context.browser
-            assert browser is not None, "Playwright browser instance is unavailable"
-            anon_context = browser.new_context(
-                viewport={"width": 1920, "height": 1080},
-                ignore_https_errors=True,
-            )
+        with allure.step("Open shared link as anonymous user"):
+            context = _anonymous_context(browser)
             try:
-                anon_page = anon_context.new_page()
-                anon_page.goto(share_url, wait_until="networkidle")
+                shared = SharedListPage(
+                    global_settings=global_settings,
+                    page=context.new_page(),
+                    sharing_key=sharing_key,
+                )
+                shared.navigate()
 
-                with allure.step("Verify both products are visible"):
-                    items = anon_page.locator("[data-product-sku]")
-                    expect(items).to_have_count(2)
+                with allure.step("Verify the shared list renders with its name and both products"):
+                    expect(shared.list_title).to_have_text(_LIST_NAME)
+                    expect(shared.line_items).to_have_count(2)
 
-                with allure.step("Verify list is in read-only mode (no add-to-cart controls)"):
-                    expect(
-                        anon_page.locator("[data-test-id='add-to-cart-component']")
-                    ).to_have_count(0)
+                with allure.step("Verify list is read-only (no add-to-cart controls)"):
+                    expect(shared.add_to_cart_controls).to_have_count(0)
             finally:
-                anon_context.close()
+                context.close()
 
     finally:
         if shopping_list is not None:
@@ -108,7 +115,7 @@ def test_shopping_list_shared_anyone_read(
 @allure.feature("Wishlist / Shared list (E2E)")
 @allure.title("Private list is not accessible by anonymous users via share link")
 def test_shopping_list_private_not_accessible_anonymous(
-    page: Page,
+    browser: Browser,
     graphql_client: GraphQLClient,
     global_settings: GlobalSettings,
     ctx: Context,
@@ -117,7 +124,7 @@ def test_shopping_list_private_not_accessible_anonymous(
     shopping_list: ShoppingList | None = None
 
     try:
-        with allure.step(f"Create shopping list '{_LIST_NAME_PRIVATE}' with AnyoneAnonymous scope to obtain sharing key"):
+        with allure.step(f"Create shopping list '{_LIST_NAME_PRIVATE}' with '{_SCOPE}' scope to obtain a sharing key"):
             shopping_list = ops.create_shopping_list(
                 store_id=ctx.store_id,
                 user_id=ctx.user_id,
@@ -135,12 +142,7 @@ def test_shopping_list_private_not_accessible_anonymous(
                 list_id=shopping_list.id,
                 product_id=_PRODUCT_ID_1,
             )
-            seeded = poll_until(
-                fetch=lambda: ops.get_shopping_list(list_id=shopping_list.id, culture_name=ctx.culture_name),
-                predicate=lambda wl: wl.items_count == 1,
-                attempts=global_settings.poll_attempts,
-                interval=global_settings.poll_interval,
-            )
+            seeded = _wait_for_items_count(ops, shopping_list.id, ctx.culture_name, 1, global_settings)
             assert seeded is not None, "Item did not appear in wishlist after seeding"
 
         with allure.step(f"Revoke sharing by changing scope to '{_SCOPE_PRIVATE}'"):
@@ -153,25 +155,50 @@ def test_shopping_list_private_not_accessible_anonymous(
             )
             assert revoked is not None, "Scope did not revert to Private"
 
-        share_url = f"{global_settings.frontend_base_url}/shared-list/{sharing_key}"
-
-        with allure.step(f"Open previously shared link as anonymous user: {share_url}"):
-            browser = page.context.browser
-            assert browser is not None, "Playwright browser instance is unavailable"
-            anon_context = browser.new_context(
-                viewport={"width": 1920, "height": 1080},
-                ignore_https_errors=True,
-            )
+        with allure.step("Open previously shared link as anonymous user"):
+            context = _anonymous_context(browser)
             try:
-                anon_page = anon_context.new_page()
-                anon_page.goto(share_url, wait_until="networkidle")
+                shared = SharedListPage(
+                    global_settings=global_settings,
+                    page=context.new_page(),
+                    sharing_key=sharing_key,
+                )
+                shared.navigate()
 
-                with allure.step("Verify no items are accessible (list is private)"):
-                    expect(anon_page.locator("[data-product-sku]")).to_have_count(0)
+                with allure.step("Verify access is blocked: not-found page shown, no list content"):
+                    expect(shared.not_found).to_be_visible()
+                    expect(shared.list_title).to_have_count(0)
+                    expect(shared.line_items).to_have_count(0)
             finally:
-                anon_context.close()
+                context.close()
 
     finally:
         if shopping_list is not None:
             with allure.step(f"Teardown: delete shopping list {shopping_list.id}"):
                 ops.delete_shopping_list(list_id=shopping_list.id)
+
+
+@pytest.mark.e2e
+@pytest.mark.optional
+@allure.feature("Wishlist / Shared list (E2E)")
+@allure.title("Malformed sharing key shows the not-found page for anonymous users")
+def test_shopping_list_shared_invalid_key(
+    browser: Browser,
+    global_settings: GlobalSettings,
+) -> None:
+    context = _anonymous_context(browser)
+    try:
+        shared = SharedListPage(
+            global_settings=global_settings,
+            page=context.new_page(),
+            sharing_key="non-existent-sharing-key-000000",
+        )
+
+        with allure.step("Open a shared link with an invalid key as anonymous user"):
+            shared.navigate()
+
+        with allure.step("Verify not-found page is shown and no list content renders"):
+            expect(shared.not_found).to_be_visible()
+            expect(shared.line_items).to_have_count(0)
+    finally:
+        context.close()
