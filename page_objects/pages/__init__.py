@@ -9,6 +9,7 @@ from .checkout_review_order import CheckoutReviewOrderPage
 from .checkout_shipping import CheckoutShippingPage
 from .home import HomePage
 from .product import ProductPage
+from .shared_list import SharedListPage
 from .sign_in import SignInPage
 
 __all__ = [
@@ -23,5 +24,6 @@ __all__ = [
     "CheckoutShippingPage",
     "HomePage",
     "ProductPage",
+    "SharedListPage",
     "SignInPage",
 ]

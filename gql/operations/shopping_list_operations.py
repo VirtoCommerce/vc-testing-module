@@ -4,9 +4,7 @@ from gql.types.shopping_list import ShoppingList
 
 
 class ShoppingListOperations(BaseOperations):
-    def get_shopping_list(
-        self, list_id: str, culture_name: str | None = None
-    ) -> ShoppingList:
+    def get_shopping_list(self, list_id: str, culture_name: str | None = None) -> ShoppingList:
         # fmt: off
         query = gql("""
             query GetShoppingList($listId: String!, $cultureName: String) {
@@ -138,9 +136,7 @@ class ShoppingListOperations(BaseOperations):
         )
         return result["data"]["removeWishlist"]
 
-    def add_items_to_shopping_list(
-        self, list_id: str, items: list[CartItemInput]
-    ) -> ShoppingList:
+    def add_items_to_shopping_list(self, list_id: str, items: list[CartItemInput]) -> ShoppingList:
         # fmt: off
         mutation = gql("""
             mutation AddItemsToShoppingList($command: InputAddWishlistItemsType!) {
@@ -161,9 +157,7 @@ class ShoppingListOperations(BaseOperations):
         )
         return ShoppingList.model_validate(result["data"]["addWishlistItems"])
 
-    def update_shopping_list_items(
-        self, list_id: str, items: list[tuple[str, int]]
-    ) -> ShoppingList:
+    def update_shopping_list_items(self, list_id: str, items: list[tuple[str, int]]) -> ShoppingList:
         # fmt: off
         mutation = gql("""
             mutation UpdateShoppingListItems($command: InputUpdateWishlistItemsType!) {
@@ -178,18 +172,48 @@ class ShoppingListOperations(BaseOperations):
             variables={
                 "command": {
                     "listId": list_id,
-                    "items": [
-                        {"lineItemId": line_item_id, "quantity": quantity}
-                        for line_item_id, quantity in items
-                    ],
+                    "items": [{"lineItemId": line_item_id, "quantity": quantity} for line_item_id, quantity in items],
                 }
             },
         )
         return ShoppingList.model_validate(result["data"]["updateWishListItems"])
 
-    def remove_items_from_shopping_list(
-        self, list_id: str, line_item_ids: list[str]
-    ) -> ShoppingList:
+    def add_bulk_item_to_shopping_list(self, list_id: str, product_id: str, quantity: int = 1) -> ShoppingList:
+        """Add a product to a single shopping list via the bulk mutation.
+
+        The underlying ``addWishlistBulkItem`` mutation accepts multiple list ids
+        and returns a list of wishlists; this helper targets one list and returns
+        that single updated list.
+        """
+        # fmt: off
+        mutation = gql("""
+            mutation AddBulkItemToShoppingList($command: InputAddWishlistBulkItemType!) {
+              addWishlistBulkItem(command: $command) {
+                wishlists {
+                  ...ShoppingListFragment
+                }
+              }
+            }
+        """)
+        # fmt: on
+        result = self._client.execute(
+            self._build_query(mutation),
+            variables={
+                "command": {
+                    "listIds": [list_id],
+                    "productId": product_id,
+                    "quantity": quantity,
+                }
+            },
+        )
+        wishlists = result["data"]["addWishlistBulkItem"]["wishlists"] or []
+        if not wishlists:
+            raise AssertionError(
+                f"addWishlistBulkItem returned no wishlists for list '{list_id}' " f"(product '{product_id}')"
+            )
+        return ShoppingList.model_validate(wishlists[0])
+
+    def remove_items_from_shopping_list(self, list_id: str, line_item_ids: list[str]) -> ShoppingList:
         # fmt: off
         mutation = gql("""
             mutation RemoveItemsFromShoppingList($command: InputRemoveWishlistItemsType!) {
