@@ -18,6 +18,7 @@ class ManifestEntry:
     endpoint: str
     payload_type: PayloadType
     parent_ref_field: str | None = None
+    optional: bool = False
 
 
 def load_manifest(path: Path) -> list[ManifestEntry]:
@@ -48,9 +49,7 @@ def load_manifest(path: Path) -> list[ManifestEntry]:
 def _validate(entry: ManifestEntry, index: int, path: Path) -> None:
     location = f"manifest entry #{index} ({entry.name}) in {path}"
     if entry.method not in _VALID_METHODS:
-        raise ValueError(
-            f"Invalid method {entry.method!r} in {location}; expected one of {sorted(_VALID_METHODS)}"
-        )
+        raise ValueError(f"Invalid method {entry.method!r} in {location}; expected one of {sorted(_VALID_METHODS)}")
     if entry.payload_type not in _VALID_PAYLOAD_TYPES:
         raise ValueError(
             f"Invalid payload_type {entry.payload_type!r} in {location}; "

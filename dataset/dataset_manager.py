@@ -8,7 +8,7 @@ from core.clients.rest import RestClient
 from core.global_settings import GlobalSettings
 from core.logger import Logger
 
-from dataset.dataset_seeder import DatasetSeeder, fetch_installed_modules
+from dataset.dataset_seeder import DatasetSeeder, EndpointNotAvailable, fetch_installed_modules
 from dataset.json_loader import load_entity_files
 from dataset.manifest import ManifestEntry, load_manifest
 from dataset.request_builder import build_requests, substitute_env
@@ -118,9 +118,7 @@ class DatasetManager:
         seeder: DatasetSeeder,
     ) -> bool:
         if installed_modules and entry.module_id not in installed_modules:
-            self._logger.warning(
-                f"[yellow]Skipping {entry.name}:[/yellow] module {entry.module_id} is not installed"
-            )
+            self._logger.warning(f"[yellow]Skipping {entry.name}:[/yellow] module {entry.module_id} is not installed")
             return True
         items = self._items_by_entry.get(entry.name)
         if not items:
@@ -135,11 +133,15 @@ class DatasetManager:
                 installed_modules=installed_modules or None,
                 logger=self._logger,
             )
-            seeder.seed(requests)
-        except Exception as e:
-            self._logger.error(
-                f"[red]\\[{entry.name}] Aborted:[/red] {type(e).__name__}: {e}"
+            seeder.seed(requests, optional=entry.optional)
+        except EndpointNotAvailable:
+            self._logger.warning(
+                f"[yellow]Skipping optional {entry.name}:[/yellow] endpoint {entry.endpoint} "
+                f"not available on this backend version (older module than edge)"
             )
+            return True
+        except Exception as e:
+            self._logger.error(f"[red]\\[{entry.name}] Aborted:[/red] {type(e).__name__}: {e}")
             return False
         return True
 
