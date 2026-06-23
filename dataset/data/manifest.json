@@ -160,7 +160,8 @@
     "module_id": "VirtoCommerce.Customer",
     "method": "POST",
     "endpoint": "/api/customer/organization-memberships",
-    "payload_type": "single"
+    "payload_type": "single",
+    "optional": true
   },
   {
     "name": "pickup_locations",
