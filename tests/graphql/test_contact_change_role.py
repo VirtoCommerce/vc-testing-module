@@ -24,11 +24,10 @@ def test_contact_change_role(graphql_client: GraphQLClient) -> None:
             assert result.succeeded is True
 
         with allure.step(f"Verify contact has role '{_TARGET_ROLE}' in organization {_ORGANIZATION_ID}"):
-            roles = contact_ops.get_contact_roles_in_organization(
-                contact_id=_TARGET_CONTACT_ID, organization_id=_ORGANIZATION_ID
-            )
-            assert len(roles) == 1
-            assert roles[0].id == _TARGET_ROLE
+            roles = contact_ops.get_contact_roles_in_organization(contact_id=_TARGET_CONTACT_ID)
+            # rolesInOrganization also includes the contact's permanent global "org-employee" account role
+            role_ids = {role.id for role in roles}
+            assert _TARGET_ROLE in role_ids
     finally:
         with allure.step(f"Teardown: restore original role '{_ORIGINAL_ROLE}'"):
             contact_ops.change_organization_contact_role(member_id=_TARGET_CONTACT_ID, role_ids=[_ORIGINAL_ROLE])
