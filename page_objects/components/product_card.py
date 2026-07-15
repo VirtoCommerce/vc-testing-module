@@ -28,6 +28,10 @@ class ProductCard(Component):
         return self._root.locator("[data-test-id='add-to-list-button']")
 
     @property
+    def configurations_button(self) -> Locator:
+        return self._root.locator("[data-test-id='product-card-configurations-button']")
+
+    @property
     def variations_button(self) -> Locator:
         return self._root.locator(
             f"[data-test-id='variations-{self.sku}-button']"

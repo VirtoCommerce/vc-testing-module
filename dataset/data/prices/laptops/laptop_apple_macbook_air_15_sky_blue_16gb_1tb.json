@@ -1,0 +1,25 @@
+{
+    "productId": "laptop-apple-macbook-air-15-sky-blue-16gb-1tb",
+    "product": {
+        "id": "laptop-apple-macbook-air-15-sky-blue-16gb-1tb",
+        "name": "Apple MacBook Air 15 Sky Blue RAM 16Gb SSD 1Tb"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 1699.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "laptop-apple-macbook-air-15-sky-blue-16gb-1tb"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 1580.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "laptop-apple-macbook-air-15-sky-blue-16gb-1tb"
+        }
+    ]
+}

@@ -1,0 +1,12 @@
+fragment CartConfigurationItemFragment on CartConfigurationItemType {
+  id
+  sectionId
+  type
+  productId
+  name
+  sku
+  imageUrl
+  quantity
+  customText
+  selectedForCheckout
+}

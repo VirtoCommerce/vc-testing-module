@@ -31,4 +31,7 @@ fragment LineItemFragment on LineItemType {
     objectType
     objectId
   }
+  configurationItems {
+    ...CartConfigurationItemFragment
+  }
 }

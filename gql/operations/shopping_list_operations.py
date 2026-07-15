@@ -151,7 +151,9 @@ class ShoppingListOperations(BaseOperations):
             variables={
                 "command": {
                     "listId": list_id,
-                    "listItems": [i.model_dump(by_alias=True) for i in items],
+                    "listItems": [
+                        i.model_dump(by_alias=True, exclude_none=True) for i in items
+                    ],
                 }
             },
         )

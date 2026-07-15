@@ -1,4 +1,5 @@
 from gql.types.base import GqlModel
+from gql.types.cart_configuration_item import CartConfigurationItem
 from gql.types.money import Money
 from gql.types.validation_error import ValidationError
 
@@ -17,3 +18,4 @@ class LineItem(GqlModel):
     selected_for_checkout: bool = True
     is_valid: bool | None = None
     validation_errors: list[ValidationError] = []
+    configuration_items: list[CartConfigurationItem] = []
