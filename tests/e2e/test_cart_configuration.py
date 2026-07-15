@@ -1,6 +1,6 @@
 import allure
 import pytest
-from playwright.sync_api import Page, expect
+from playwright.sync_api import Page, Response, expect
 
 from core.global_settings import GlobalSettings
 from page_objects.pages import CartPage, ProductPage
@@ -11,6 +11,13 @@ _CONFIGURED_SKU = f"Configuration-{_PRODUCT_ID}"
 _MEMORY_SECTION_NAME = "Memory"
 _MEMORY_OPTION_A = "Samsung DDR5-4800 8GB"
 _MEMORY_OPTION_B = "Crucial DDR5-4800 16GB"
+
+
+def _is_change_configured_mutation(response: Response) -> bool:
+    post = response.request.post_data
+    return bool(
+        post and "/graphql" in response.url and "ChangeCartConfiguredItem" in post
+    )
 
 
 def _add_configuration(product_page: ProductPage, memory_option: str) -> None:
@@ -111,12 +118,15 @@ def test_cart_configuration_change_in_cart(
             section_name=_MEMORY_SECTION_NAME, option_name=_MEMORY_OPTION_B
         )
         expect(product_page.update_cart_button).to_be_enabled()
-        product_page.update_cart()
+        # Wait for the update mutation to complete before leaving the page;
+        # navigating away too early aborts it and the change is lost.
+        with page.expect_response(_is_change_configured_mutation):
+            product_page.update_cart()
 
     with allure.step("Verify the cart still has one configured item with the new configuration"):
         cart_page.navigate()
         expect(cart_page.configured_line_items(_PRODUCT_ID)).to_have_count(1)
         line_item = cart_page.find_line_item(sku=_CONFIGURED_SKU)
-        line_item.expand_components_list()
+        expect(line_item.root).to_be_visible()
         expect(line_item.root).to_contain_text(_MEMORY_OPTION_B)
         expect(line_item.root).not_to_contain_text(_MEMORY_OPTION_A)
