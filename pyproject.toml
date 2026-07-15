@@ -19,6 +19,14 @@ dependencies = [
 testpaths = ["tests"]
 pythonpath = ["."]
 addopts = "--alluredir=allure-results"
+filterwarnings = [
+    # SSL verification is intentionally disabled for the local test env
+    # (verify_ssl defaults to False), so this warning is expected noise.
+    "ignore::urllib3.exceptions.InsecureRequestWarning",
+    # The pytest cache is optional; suppress the warning when its directory
+    # cannot be created (e.g. restricted permissions on the repo root).
+    "ignore::pytest.PytestCacheWarning",
+]
 markers = [
     "graphql: GraphQL API tests",
     "e2e: end-to-end UI tests using Playwright (require a running frontend)",

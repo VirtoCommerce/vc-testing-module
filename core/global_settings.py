@@ -33,6 +33,11 @@ class GlobalSettings(BaseSettings):
     verify_ssl: bool = False
     poll_interval: int = 2
     poll_attempts: int = 10
+    # Default timeout (ms) for Playwright actions, navigation, and web-first
+    # assertions in e2e tests. Higher than Playwright's 5s assertion default so
+    # tests tolerate slower remote environments (e.g. shared demo backends on
+    # CI) where the UI settles later than it does against a local frontend.
+    playwright_timeout: int = 30000
 
     @cached_property
     def env_vars(self) -> dict[str, str]:
