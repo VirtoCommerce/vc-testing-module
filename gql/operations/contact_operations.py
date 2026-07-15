@@ -369,29 +369,29 @@ class ContactOperations(BaseOperations):
         items = [MemberAddress.model_validate(a) for a in (data.get("items") or [])]
         return total_count, items
 
-    def get_contact_lock_status(self, contact_id: str, organization_id: str) -> bool:
+    def get_contact_lock_status(self, contact_id: str) -> bool:
         # fmt: off
         query = gql("""
-            query GetContactLockStatus($id: String!, $organizationId: String!) {
+            query GetContactLockStatus($id: String!) {
               contact(id: $id) {
-                isLockedInOrganization(organizationId: $organizationId)
+                isLockedInOrganization
               }
             }
         """)
         # fmt: on
         result = self._client.execute(
             self._build_query(query),
-            variables={"id": contact_id, "organizationId": organization_id},
+            variables={"id": contact_id},
         )
         data = result["data"]["contact"]
         return bool(data["isLockedInOrganization"]) if data else False
 
-    def get_contact_roles_in_organization(self, contact_id: str, organization_id: str) -> list[Role]:
+    def get_contact_roles_in_organization(self, contact_id: str) -> list[Role]:
         # fmt: off
         query = gql("""
-            query GetContactRolesInOrganization($id: String!, $organizationId: String!) {
+            query GetContactRolesInOrganization($id: String!) {
               contact(id: $id) {
-                rolesInOrganization(organizationId: $organizationId) {
+                rolesInOrganization {
                   id
                   name
                 }
@@ -401,7 +401,7 @@ class ContactOperations(BaseOperations):
         # fmt: on
         result = self._client.execute(
             self._build_query(query),
-            variables={"id": contact_id, "organizationId": organization_id},
+            variables={"id": contact_id},
         )
         data = result["data"]["contact"]
         if not data:
