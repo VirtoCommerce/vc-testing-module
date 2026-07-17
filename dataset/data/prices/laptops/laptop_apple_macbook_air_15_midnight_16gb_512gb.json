@@ -1,0 +1,25 @@
+{
+    "productId": "laptop-apple-macbook-air-15-midnight-16gb-512gb",
+    "product": {
+        "id": "laptop-apple-macbook-air-15-midnight-16gb-512gb",
+        "name": "Apple MacBook Air 15 Midnight RAM 16Gb SSD 512Gb"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 1499.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "laptop-apple-macbook-air-15-midnight-16gb-512gb"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 1394.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "laptop-apple-macbook-air-15-midnight-16gb-512gb"
+        }
+    ]
+}

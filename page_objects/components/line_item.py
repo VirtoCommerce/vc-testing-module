@@ -27,3 +27,14 @@ class LineItem(Component):
         return self._root.locator(
             "[data-test-id='cart-item-actions-after-title'] [data-test-id='save-for-later-button']"
         )
+
+    @property
+    def components_list_toggle(self) -> Locator:
+        return self._root.locator("button.configuration-items__toggle")
+
+    @property
+    def edit_configuration_link(self) -> Locator:
+        return self._root.locator(".configuration-items__edit")
+
+    def expand_components_list(self) -> None:
+        self.components_list_toggle.click()

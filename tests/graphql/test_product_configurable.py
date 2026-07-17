@@ -5,11 +5,10 @@ from gql.operations import ProductOperations
 from gql.types import ConfigurableProductOptionInput, ConfigurationSectionInput
 from tests.context import Context
 
-_PRODUCT_ID = "product-acme-laptop-hp-omnibook-x-flip-16"
+_PRODUCT_ID = "laptop-acer-predator-helios-neo-16-ai"
 
 
 @pytest.mark.graphql
-@pytest.mark.skip
 @allure.feature("Product / Variations (GraphQL)")
 @allure.title("Configure a configurable product and create a line item")
 def test_product_configurable(graphql_client: GraphQLClient, ctx: Context) -> None:

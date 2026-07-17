@@ -47,7 +47,7 @@ def _open_from_list_view(page: Page, global_settings: GlobalSettings) -> str:
 
 
 def _open_from_pdp(page: Page, global_settings: GlobalSettings) -> str:
-    product_page = ProductPage(global_settings=global_settings, page=page, product_id=_VARIATION_PRODUCT_ID)
+    product_page = ProductPage(global_settings=global_settings, page=page, path=f"product/{_VARIATION_PRODUCT_ID}")
     product_page.navigate()
     expect(product_page.add_to_list_button).to_be_visible()
     product_page.add_to_list_button.click()

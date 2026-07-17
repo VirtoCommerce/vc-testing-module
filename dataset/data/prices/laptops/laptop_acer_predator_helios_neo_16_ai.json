@@ -1,0 +1,25 @@
+{
+    "productId": "laptop-acer-predator-helios-neo-16-ai",
+    "product": {
+        "id": "laptop-acer-predator-helios-neo-16-ai",
+        "name": "Acer Predator Helios Neo 16 AI"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 2299.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "laptop-acer-predator-helios-neo-16-ai"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 2138.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "laptop-acer-predator-helios-neo-16-ai"
+        }
+    ]
+}

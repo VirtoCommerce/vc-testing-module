@@ -6,22 +6,22 @@
   "PlatformAssetUrl": "",
   "Sources": [
     {
-    "Name": "AzureBlob",
-    "Container": "packages",
-    "ServiceUri": "https://vc3prerelease.blob.core.windows.net",
-    "Modules": []
+      "Name": "AzureBlob",
+      "Container": "packages",
+      "ServiceUri": "https://vc3prerelease.blob.core.windows.net",
+      "Modules": []
     },
     {
       "Name": "GithubReleases",
       "ModuleSources": [
         "https://raw.githubusercontent.com/VirtoCommerce/vc-modules/master/modules_v3.json"
       ],
-      "Modules": [  
-       {
+      "Modules": [
+        {
           "Id": "VirtoCommerce.Loyalty",
           "Version": "3.1004.0"
-       },
-       {
+        },
+        {
           "Id": "VirtoCommerce.ElasticSearch",
           "Version": "3.806.0"
         },
@@ -300,7 +300,7 @@
         {
           "Id": "VirtoCommerce.Xapi",
           "Version": "3.1013.0"
-        },    
+        },
         {
           "Id": "VirtoCommerce.Catalog",
           "Version": "3.1034.0"
@@ -311,7 +311,7 @@
         },
         {
           "Id": "VirtoCommerce.PageBuilderModule",
-          "Version": "3.1015.0"
+          "Version": "3.1016.0"
         },
         {
           "Id": "VirtoCommerce.XCatalog",
@@ -342,10 +342,6 @@
           "Version": "3.1007.0"
         },
         {
-          "Id": "VirtoCommerce.XCart",
-          "Version": "3.1025.0"
-        },
-        {
           "Id": "VirtoCommerce.XOrder",
           "Version": "3.1007.0"
         },
@@ -356,8 +352,12 @@
         {
           "Id": "VirtoCommerce.Orders",
           "Version": "3.1012.0"
+        },
+        {
+          "Id": "VirtoCommerce.XCart",
+          "Version": "3.1026.0"
         }
-       ]
+      ]
     }
   ]
 }
