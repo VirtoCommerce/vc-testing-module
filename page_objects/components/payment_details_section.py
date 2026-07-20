@@ -11,8 +11,17 @@ class PaymentDetailsSection(Component):
         )
 
     @property
+    def select_address_button(self) -> Locator:
+        return self._root.locator("[data-test-id='select-address-button']")
+
+    @property
     def selected_address_label(self) -> Locator:
         return self._root.locator('[data-test-id="selected-address-label"]')
+
+    def uncheck_billing_equals_shipping(self) -> None:
+        # The real <input> is visually hidden behind the styled indicator, so it
+        # is not "actionable" for a normal click; toggle it directly.
+        self.billing_address_equals_shipping_checkbox.locator("input").uncheck(force=True)
 
     @property
     def payment_method_selector(self) -> Locator:
