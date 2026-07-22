@@ -1,0 +1,32 @@
+{
+    "id": "promotion-acme-qa-expired-5-off",
+    "name": "QA Expired Coupon",
+    "description": "QA automation: promotion whose coupon is already expired.",
+    "type": "DynamicPromotion",
+    "isActive": true,
+    "storeIds": ["store-acme"],
+    "dynamicExpression": {
+        "all": true,
+        "not": false,
+        "id": "PromotionConditionAndRewardTree",
+        "children": [
+            {
+                "id": "BlockCustomerCondition",
+                "children": [
+                    {
+                        "id": "ConditionIsEveryone"
+                    }
+                ]
+            },
+            {
+                "id": "BlockReward",
+                "children": [
+                    {
+                        "id": "RewardCartGetOfAbsSubtotal",
+                        "amount": 5
+                    }
+                ]
+            }
+        ]
+    }
+}

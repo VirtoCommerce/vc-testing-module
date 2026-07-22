@@ -1,0 +1,32 @@
+{
+    "id": "promotion-acme-qa-lowercase-5-percent",
+    "name": "QA Lowercase 5% Off",
+    "description": "QA automation: 5% off used to verify coupon-code case fidelity (VCST-5233).",
+    "type": "DynamicPromotion",
+    "isActive": true,
+    "storeIds": ["store-acme"],
+    "dynamicExpression": {
+        "all": true,
+        "not": false,
+        "id": "PromotionConditionAndRewardTree",
+        "children": [
+            {
+                "id": "BlockCustomerCondition",
+                "children": [
+                    {
+                        "id": "ConditionIsEveryone"
+                    }
+                ]
+            },
+            {
+                "id": "BlockReward",
+                "children": [
+                    {
+                        "id": "RewardCartGetOfRelSubtotal",
+                        "amount": 5
+                    }
+                ]
+            }
+        ]
+    }
+}

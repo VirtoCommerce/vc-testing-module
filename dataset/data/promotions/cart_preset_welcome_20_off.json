@@ -1,0 +1,32 @@
+{
+    "id": "promotion-acme-preset-welcome-20-off",
+    "name": "Welcome Offer - $20 Off",
+    "description": "Enjoy $20 off your order as a welcome gift.",
+    "type": "DynamicPromotion",
+    "isActive": true,
+    "storeIds": ["store-acme"],
+    "dynamicExpression": {
+        "all": true,
+        "not": false,
+        "id": "PromotionConditionAndRewardTree",
+        "children": [
+            {
+                "id": "BlockCustomerCondition",
+                "children": [
+                    {
+                        "id": "ConditionIsEveryone"
+                    }
+                ]
+            },
+            {
+                "id": "BlockReward",
+                "children": [
+                    {
+                        "id": "RewardCartGetOfAbsSubtotal",
+                        "amount": 20
+                    }
+                ]
+            }
+        ]
+    }
+}

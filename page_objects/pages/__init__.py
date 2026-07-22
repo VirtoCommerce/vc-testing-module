@@ -1,3 +1,4 @@
+from .account_coupons import AccountCouponsPage
 from .account_list_details import AccountListDetailsPage
 from .account_lists import AccountListsPage
 from .account_saved_for_later import AccountSavedForLaterPage
@@ -13,6 +14,7 @@ from .shared_list import SharedListPage
 from .sign_in import SignInPage
 
 __all__ = [
+    "AccountCouponsPage",
     "AccountListDetailsPage",
     "AccountListsPage",
     "AccountSavedForLaterPage",

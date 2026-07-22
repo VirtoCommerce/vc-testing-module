@@ -1,0 +1,32 @@
+{
+    "id": "promotion-acme-preset-spring-15-percent",
+    "name": "Spring Sale - 15% Off",
+    "description": "Save 15% on your entire order this spring.",
+    "type": "DynamicPromotion",
+    "isActive": true,
+    "storeIds": ["store-acme"],
+    "dynamicExpression": {
+        "all": true,
+        "not": false,
+        "id": "PromotionConditionAndRewardTree",
+        "children": [
+            {
+                "id": "BlockCustomerCondition",
+                "children": [
+                    {
+                        "id": "ConditionIsEveryone"
+                    }
+                ]
+            },
+            {
+                "id": "BlockReward",
+                "children": [
+                    {
+                        "id": "RewardCartGetOfRelSubtotal",
+                        "amount": 15
+                    }
+                ]
+            }
+        ]
+    }
+}

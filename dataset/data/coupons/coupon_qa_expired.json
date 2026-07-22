@@ -1,0 +1,7 @@
+{
+    "code": "QAEXPIRED",
+    "maxUsesNumber": 1000000,
+    "maxUsesPerUser": 1000000,
+    "expirationDate": "2020-01-01T00:00:00Z",
+    "promotionId": "promotion-acme-qa-expired-5-off"
+}

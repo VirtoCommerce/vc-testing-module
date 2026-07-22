@@ -17,3 +17,22 @@ TEST_ADDRESS = MemberAddress(
 )
 
 TEST_CART_ADDRESS = CartAddress.model_validate(TEST_ADDRESS.model_dump())
+
+# --- Coupon / promotion test data (seeded via dataset) ---
+# SALE-001: list $29.99 / sale $19.99, used to prove percentage discounts are
+# computed on the sale price base.
+SALE_PRODUCT_ID = "sale-001"
+
+# QA10OFF: 10%-of-subtotal cart coupon (RewardCartGetOfRelSubtotal, amount 10).
+PERCENTAGE_COUPON_CODE = "QA10OFF"
+PERCENTAGE_PCT = 10
+
+# WELCOME20: $20 absolute-off cart coupon (RewardCartGetOfAbsSubtotal, amount 20).
+FIXED_COUPON_CODE = "WELCOME20"
+FIXED_COUPON_AMOUNT = 20
+
+# Stored lowercase; guards coupon-code case fidelity (VCST-5233).
+LOWERCASE_COUPON_CODE = "agenttestlc062"
+
+# Coupon whose expiration date is in the past.
+EXPIRED_COUPON_CODE = "QAEXPIRED"
