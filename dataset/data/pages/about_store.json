@@ -1,0 +1,16 @@
+{
+  "id": "acme-store-grouped-page-about-store",
+  "name": "about-store",
+  "permalink": "/about-store",
+  "storeId": "store-acme",
+  "cultureName": "en-US",
+  "status": "Draft",
+  "visibility": true,
+  "pages": [
+    {
+      "id": "acme-store-page-about-store",
+      "storeId": "acme-store",
+      "status": "Draft"
+    }
+  ]
+}

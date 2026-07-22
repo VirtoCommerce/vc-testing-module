@@ -1,0 +1,41 @@
+{
+  "pageId": "acme-store-grouped-page-legacy-catalog",
+  "content": [
+    {
+      "id": "textHeading",
+      "heading": "h2",
+      "type": "text",
+      "text": {
+        "html": "<p>Legacy Catalog</p>\n",
+        "markdown": "Legacy Catalog"
+      }
+    },
+    {
+      "id": "textIntro",
+      "heading": "h2",
+      "type": "text",
+      "text": {
+        "html": "<p>This catalog has been retired and is no longer part of the active storefront.</p>\n",
+        "markdown": "This catalog has been retired and is no longer part of the active storefront."
+      }
+    },
+    {
+      "id": "textBody",
+      "heading": "h2",
+      "type": "text",
+      "text": {
+        "html": "<p>It is kept in an Archived state for historical reference and to verify how archived pages behave.</p>\n",
+        "markdown": "It is kept in an Archived state for historical reference and to verify how archived pages behave."
+      }
+    }
+  ],
+  "settings": {
+    "cultureName": "en-US",
+    "header": "Legacy Catalog",
+    "name": "legacy-catalog",
+    "permalink": "/legacy-catalog",
+    "seoInfo": {
+      "pageTitle": "Legacy Catalog"
+    }
+  }
+}
