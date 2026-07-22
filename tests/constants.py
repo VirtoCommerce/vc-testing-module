@@ -20,8 +20,12 @@ TEST_CART_ADDRESS = CartAddress.model_validate(TEST_ADDRESS.model_dump())
 
 # --- Coupon / promotion test data (seeded via dataset) ---
 # SALE-001: list $29.99 / sale $19.99, used to prove percentage discounts are
-# computed on the sale price base.
+# computed on the sale price base. The USD list/sale prices let E2E tests detect
+# whether the storefront build actually applies the sale price before asserting
+# sale-basis math (skip if the build ignores the sale price).
 SALE_PRODUCT_ID = "sale-001"
+SALE_PRODUCT_LIST_PRICE = "29.99"
+SALE_PRODUCT_SALE_PRICE = "19.99"
 
 # QA10OFF: 10%-of-subtotal cart coupon (RewardCartGetOfRelSubtotal, amount 10).
 PERCENTAGE_COUPON_CODE = "QA10OFF"

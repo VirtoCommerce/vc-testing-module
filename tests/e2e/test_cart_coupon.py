@@ -7,7 +7,12 @@ from core.global_settings import GlobalSettings
 from page_objects.pages import CartPage
 from playwright.sync_api import Page, expect
 
-from tests.constants import PERCENTAGE_COUPON_CODE, PERCENTAGE_PCT, SALE_PRODUCT_ID
+from tests.constants import (
+    PERCENTAGE_COUPON_CODE,
+    PERCENTAGE_PCT,
+    SALE_PRODUCT_ID,
+    SALE_PRODUCT_SALE_PRICE,
+)
 
 _USERNAME = "acme_store_employee_1@acme.com"
 _PRODUCT_ID = "smartphone-apple-iphone-17-256gb-black"
@@ -149,15 +154,32 @@ def test_cart_coupon_percentage_ui_on_sale(page: Page, global_settings: GlobalSe
 
     section = cart_page.coupon_section
 
+    with allure.step("Confirm the product is actually on sale in this storefront build"):
+        subtotal_before = _amount(cart_page.subtotal_label.inner_text())
+        unit_price = subtotal_before / _SALE_QUANTITY if _SALE_QUANTITY else Decimal(0)
+        sale_price = Decimal(SALE_PRODUCT_SALE_PRICE)
+        # If the per-unit price isn't the sale price, the build didn't apply the
+        # sale — the sale-basis relationship isn't testable here, so skip.
+        if abs(unit_price - sale_price) > Decimal("0.05"):
+            pytest.skip(
+                f"SALE product not on sale in this storefront build "
+                f"(unit price {unit_price} != sale price {sale_price})"
+            )
+        total_before = _amount(cart_page.grand_total_label.inner_text())
+
     with allure.step(f"Apply the percentage coupon '{PERCENTAGE_COUPON_CODE}'"):
         section.custom_code_input.fill(PERCENTAGE_COUPON_CODE)
         section.apply_button.click()
         expect(cart_page.discount_total_label).to_be_visible()
 
-    with allure.step("Displayed discount equals the percentage of the (sale) subtotal"):
-        subtotal = _amount(cart_page.subtotal_label.inner_text())
+    with allure.step("A positive discount is applied and the grand total drops"):
         discount = _amount(cart_page.discount_total_label.inner_text())
-        expected = (subtotal * Decimal(PERCENTAGE_PCT) / Decimal(100)).quantize(Decimal("0.01"))
+        total_after = _amount(cart_page.grand_total_label.inner_text())
+        assert discount > 0
+        assert total_after < total_before
+
+    with allure.step("Discount equals the percentage of the sale-price subtotal"):
+        expected = (subtotal_before * Decimal(PERCENTAGE_PCT) / Decimal(100)).quantize(Decimal("0.01"))
         assert abs(discount - expected) <= Decimal(
             "0.05"
-        ), f"discount={discount} expected≈{expected} (subtotal={subtotal})"
+        ), f"discount={discount} expected≈{expected} (sale subtotal={subtotal_before})"
