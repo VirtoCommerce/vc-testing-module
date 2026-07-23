@@ -68,13 +68,18 @@ def test_promotion_coupons_pagination_and_sort(graphql_client: GraphQLClient, ct
         desc = ops.get_promotion_coupons(
             store_id=ctx.store_id, user_id=ctx.user_id, culture_name=ctx.culture_name, first=100, sort="name:desc"
         )
-        asc_codes = [c.coupon_code for c in asc]
-        desc_codes = [c.coupon_code for c in desc]
+        asc_names = [c.name for c in asc]
+        desc_names = [c.name for c in desc]
 
-        assert set(asc_codes) == all_codes
-        assert set(desc_codes) == all_codes
-        assert asc_codes == list(reversed(desc_codes))
-        assert asc_codes != desc_codes
+        assert {c.coupon_code for c in asc} == all_codes
+        assert {c.coupon_code for c in desc} == all_codes
+        # Compare the sort-key (name) sequence, not coupon codes: this stays
+        # correct when two coupons share a name (a stable sort keeps tied items
+        # in the same relative order both ways, so a code-level reverse check
+        # would false-fail). asc must be desc reversed by name.
+        assert asc_names == desc_names[::-1]
+        if len(all_codes) > 1:
+            assert asc_names != desc_names
 
 
 @pytest.mark.graphql

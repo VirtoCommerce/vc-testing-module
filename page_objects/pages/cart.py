@@ -45,15 +45,7 @@ class CartPage(MainLayout):
     def shipping_cost_label(self) -> Locator:
         return self._page.locator("[data-test-id='shipping-cost-label']")
 
-    # Order-summary total value spans have no class hook, so key on data-test-id.
-    @property
-    def subtotal_label(self) -> Locator:
-        return self._page.locator("[data-test-id='cart-subtotal-label']")
-
-    @property
-    def discount_total_label(self) -> Locator:
-        return self._page.locator("[data-test-id='cart-discount-total-label']")
-
+    # Order-summary total value span has no class hook, so key on data-test-id.
     @property
     def grand_total_label(self) -> Locator:
         return self._page.locator("[data-test-id='cart-total-label']")

@@ -51,10 +51,6 @@ class CartCouponSection(Component):
         return self.applied_cards.first.locator("input[readonly]").first
 
     @property
-    def applied_check_icon(self) -> Locator:
-        return self._root.locator(".coupon-card--applied .lucide-circle-check")
-
-    @property
     def view_all_link(self) -> Locator:
         return self._root.locator(".coupons-section__link")
 

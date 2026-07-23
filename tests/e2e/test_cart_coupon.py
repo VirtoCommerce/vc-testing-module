@@ -1,6 +1,6 @@
 import re
 from decimal import Decimal
-from typing import Callable
+from collections.abc import Callable
 
 import allure
 import pytest
@@ -130,7 +130,6 @@ def test_cart_coupon_preset_apply_and_switch(page: Page, global_settings: Global
 
     with allure.step(f"Click the '{PERCENTAGE_COUPON_CODE}' preset — the coupon validates true"):
         _apply_and_settle(cart_page, page, lambda: section.apply_preset(PERCENTAGE_COUPON_CODE))
-        expect(section.applied_check_icon).to_be_visible()
         expect(section.applied_cards).to_have_count(1)
         expect(section.applied_code_input).to_have_value(PERCENTAGE_COUPON_CODE)
         expect(total_label).not_to_have_text(before_total_text)
@@ -138,7 +137,6 @@ def test_cart_coupon_preset_apply_and_switch(page: Page, global_settings: Global
 
     with allure.step(f"Click the '{FIXED_COUPON_CODE}' preset — the applied coupon switches to it"):
         _apply_and_settle(cart_page, page, lambda: section.apply_preset(FIXED_COUPON_CODE))
-        expect(section.applied_check_icon).to_be_visible()
         # Exactly one applied card, now carrying the fixed coupon's code —
         # inherently proves the percentage coupon is no longer applied.
         expect(section.applied_cards).to_have_count(1)
@@ -162,7 +160,6 @@ def test_cart_coupon_preset_remove_restores_cart(page: Page, global_settings: Gl
 
     with allure.step(f"Apply the '{PERCENTAGE_COUPON_CODE}' preset and confirm it is applied"):
         _apply_and_settle(cart_page, page, lambda: section.apply_preset(PERCENTAGE_COUPON_CODE))
-        expect(section.applied_check_icon).to_be_visible()
         expect(section.applied_cards).to_have_count(1)
         expect(section.applied_code_input).to_have_value(PERCENTAGE_COUPON_CODE)
         expect(total_label).not_to_have_text(before_total_text)

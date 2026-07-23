@@ -55,12 +55,17 @@ def _validate_coupon(cart_ops: CartOperations, ctx: Context, cart_id: str, code:
     )
 
 
+def _discount(cart: Cart) -> Decimal:
+    """``discount_total.amount`` with a None-narrowing guard (the field is Optional)."""
+    assert cart.discount_total is not None, "Cart is missing discount_total"
+    return cart.discount_total.amount
+
+
 def _assert_totals_consistent(cart: Cart) -> None:
-    for name in ("sub_total", "discount_total", "tax_total", "shipping_total", "total"):
-        assert getattr(cart, name) is not None, f"Cart is missing {name}"
+    assert cart.tax_total is not None, "Cart is missing tax_total"
 
     sub_total = cart.sub_total.amount
-    discount_total = cart.discount_total.amount
+    discount_total = _discount(cart)
     tax_total = cart.tax_total.amount
     shipping = cart.shipping_total.amount
     grand_total = cart.total.amount
@@ -135,7 +140,7 @@ def test_cart_coupon_single_slot_last_wins(graphql_client: GraphQLClient, ctx: C
     with allure.step("Only the last coupon remains and is applied"):
         assert [c.code for c in cart.coupons] == [PERCENTAGE_COUPON_CODE]
         assert all(c.is_applied_successfully for c in cart.coupons)
-        assert cart.discount_total.amount > 0
+        assert _discount(cart) > 0
         _assert_totals_consistent(cart)
 
 
@@ -155,14 +160,14 @@ def test_cart_coupon_percentage_on_sale_price(graphql_client: GraphQLClient, ctx
     with allure.step("Seeded line item is on sale (sale price below list price)"):
         assert sale_unit < list_unit
 
-    baseline_discount = with_cart.discount_total.amount
+    baseline_discount = _discount(with_cart)
 
     with allure.step(f"Apply percentage coupon '{PERCENTAGE_COUPON_CODE}'"):
         cart = _add_coupon(cart_ops, ctx, PERCENTAGE_COUPON_CODE)
         assert any(c.code == PERCENTAGE_COUPON_CODE and c.is_applied_successfully for c in cart.coupons)
 
     applied_line = next(i for i in cart.items if i.product_id == SALE_PRODUCT_ID)
-    coupon_discount = cart.discount_total.amount - baseline_discount
+    coupon_discount = _discount(cart) - baseline_discount
     pct = Decimal(PERCENTAGE_PCT) / Decimal(100)
     expected_on_sale = (sale_unit * applied_line.quantity * pct).quantize(Decimal("0.01"))
     expected_on_list = (list_unit * applied_line.quantity * pct).quantize(Decimal("0.01"))
@@ -186,7 +191,7 @@ def test_cart_coupon_percentage_on_sale_price(graphql_client: GraphQLClient, ctx
 def test_cart_coupon_fixed_amount(graphql_client: GraphQLClient, ctx: Context, with_cart: Cart) -> None:
     cart_ops = CartOperations(client=graphql_client)
     assert with_cart is not None
-    baseline_discount = with_cart.discount_total.amount
+    baseline_discount = _discount(with_cart)
     fixed_amount = Decimal(FIXED_COUPON_AMOUNT)
 
     assert with_cart.sub_total.amount > fixed_amount
@@ -196,7 +201,7 @@ def test_cart_coupon_fixed_amount(graphql_client: GraphQLClient, ctx: Context, w
         assert any(c.code == FIXED_COUPON_CODE and c.is_applied_successfully for c in cart.coupons)
 
     with allure.step("Discount equals the coupon's absolute amount"):
-        coupon_discount = cart.discount_total.amount - baseline_discount
+        coupon_discount = _discount(cart) - baseline_discount
         assert abs(coupon_discount - fixed_amount) <= Decimal(
             "0.01"
         ), f"coupon_discount={coupon_discount} expected={fixed_amount}"
@@ -234,7 +239,7 @@ def test_cart_coupon_lowercase_code_roundtrip(graphql_client: GraphQLClient, ctx
 def test_cart_coupon_unmet_condition_not_applied(graphql_client: GraphQLClient, ctx: Context, with_cart: Cart) -> None:
     cart_ops = CartOperations(client=graphql_client)
     assert with_cart is not None
-    baseline_discount = with_cart.discount_total.amount
+    baseline_discount = _discount(with_cart)
 
     with allure.step(f"Apply '{MIN_SUBTOTAL_COUPON_CODE}' to a cart far below its $100k minimum"):
         cart = _add_coupon(cart_ops, ctx, MIN_SUBTOTAL_COUPON_CODE)
