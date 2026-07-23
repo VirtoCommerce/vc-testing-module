@@ -55,11 +55,20 @@ def _validate_coupon(cart_ops: CartOperations, ctx: Context, cart_id: str, code:
 
 
 def _assert_totals_consistent(cart: Cart) -> None:
-    expected = cart.sub_total.amount - cart.discount_total.amount + cart.tax_total.amount + cart.shipping_total.amount
-    assert abs(cart.total.amount - expected) <= Decimal("0.01"), (
-        f"Totals inconsistent: subTotal={cart.sub_total.amount} "
-        f"discountTotal={cart.discount_total.amount} taxTotal={cart.tax_total.amount} "
-        f"shipping={cart.shipping_total.amount} grandTotal={cart.total.amount}"
+    for name in ("sub_total", "discount_total", "tax_total", "shipping_total", "total"):
+        assert getattr(cart, name) is not None, f"Cart is missing {name}"
+
+    sub_total = cart.sub_total.amount
+    discount_total = cart.discount_total.amount
+    tax_total = cart.tax_total.amount
+    shipping = cart.shipping_total.amount
+    grand_total = cart.total.amount
+
+    expected = sub_total - discount_total + tax_total + shipping
+    assert abs(grand_total - expected) <= Decimal("0.01"), (
+        f"Totals inconsistent: subTotal={sub_total} "
+        f"discountTotal={discount_total} taxTotal={tax_total} "
+        f"shipping={shipping} grandTotal={grand_total}"
     )
 
 

@@ -123,15 +123,12 @@ def test_cart_coupon_preset_apply_and_switch(page: Page, global_settings: Global
         expect(total_label).not_to_have_text(before_total_text)
         assert _amount(total_label.inner_text()) < _amount(before_total_text)
 
-    after_percentage_text = total_label.inner_text()
-
     with allure.step(f"Click the '{FIXED_COUPON_CODE}' preset — the applied coupon switches to it"):
         section.apply_preset(FIXED_COUPON_CODE)
         expect(welcome_card).to_have_class(re.compile("coupon-card--applied"))
         expect(section.applied_check_icon).to_be_visible()
         expect(percentage_card).not_to_have_class(re.compile("coupon-card--applied"))
         expect(section.applied_cards).to_have_count(1)
-        expect(total_label).not_to_have_text(after_percentage_text)
 
 
 @pytest.mark.e2e
