@@ -5,12 +5,5 @@
   "storeId": "store-acme",
   "cultureName": "en-US",
   "status": "Draft",
-  "visibility": true,
-  "pages": [
-    {
-      "id": "acme-store-page-legacy-catalog",
-      "storeId": "acme-store",
-      "status": "Draft"
-    }
-  ]
+  "visibility": true
 }
