@@ -10,6 +10,7 @@ from tests.constants import (
     FIXED_COUPON_AMOUNT,
     FIXED_COUPON_CODE,
     LOWERCASE_COUPON_CODE,
+    MIN_SUBTOTAL_COUPON_CODE,
     PERCENTAGE_COUPON_CODE,
     PERCENTAGE_PCT,
     SALE_PRODUCT_ID,
@@ -224,3 +225,29 @@ def test_cart_coupon_lowercase_code_roundtrip(graphql_client: GraphQLClient, ctx
         applied = next((c for c in cart.coupons if c.code.lower() == LOWERCASE_COUPON_CODE), None)
         assert applied is not None
         assert applied.is_applied_successfully is True
+
+
+@pytest.mark.graphql
+@pytest.mark.with_cart([(_PRODUCT_ID, 1)])
+@allure.feature("Cart / Coupons (GraphQL)")
+@allure.title("A coupon gated by an unmet cart-subtotal condition is not honored")
+def test_cart_coupon_unmet_condition_not_applied(graphql_client: GraphQLClient, ctx: Context, with_cart: Cart) -> None:
+    cart_ops = CartOperations(client=graphql_client)
+    assert with_cart is not None
+    baseline_discount = with_cart.discount_total.amount
+
+    with allure.step(f"Apply '{MIN_SUBTOTAL_COUPON_CODE}' to a cart far below its $100k minimum"):
+        cart = _add_coupon(cart_ops, ctx, MIN_SUBTOTAL_COUPON_CODE)
+
+    # Verified live: the backend records the coupon on the cart but flags it as
+    # not applied (is_applied_successfully False) because the min-subtotal
+    # condition is unmet — the discount total stays at its baseline.
+    with allure.step("The coupon is recorded on the cart but not applied successfully"):
+        applied = next((c for c in cart.coupons if c.code == MIN_SUBTOTAL_COUPON_CODE), None)
+        assert applied is not None
+        assert applied.is_applied_successfully is False
+
+    with allure.step("The coupon grants no discount and totals stay consistent (BL-CHK-006)"):
+        assert cart.discount_total is not None
+        assert cart.discount_total.amount == baseline_discount
+        _assert_totals_consistent(cart)

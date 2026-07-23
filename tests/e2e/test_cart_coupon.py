@@ -134,6 +134,72 @@ def test_cart_coupon_preset_apply_and_switch(page: Page, global_settings: Global
 @pytest.mark.with_user(_USERNAME)
 @pytest.mark.with_cart([(_PRODUCT_ID, _QUANTITY)])
 @allure.feature("Cart / Coupons (E2E)")
+@allure.title("Removing an applied preset coupon restores the cart")
+def test_cart_coupon_preset_remove_restores_cart(page: Page, global_settings: GlobalSettings) -> None:
+    cart_page = CartPage(global_settings=global_settings, page=page)
+
+    with allure.step("Open the cart"):
+        cart_page.navigate()
+        expect(cart_page.line_items).to_be_visible()
+        _require_coupon_ui(cart_page)
+
+    section = cart_page.coupon_section
+    if section.preset_cards.count() == 0:
+        pytest.skip("No public preset coupons are surfaced in the cart")
+
+    total_label = cart_page.grand_total_label
+    before_total_text = total_label.inner_text()
+
+    with allure.step(f"Apply the '{PERCENTAGE_COUPON_CODE}' preset and confirm it is applied"):
+        section.apply_preset(PERCENTAGE_COUPON_CODE)
+        expect(section.applied_check_icon).to_be_visible()
+        expect(section.applied_cards).to_have_count(1)
+        expect(section.applied_code_input).to_have_value(PERCENTAGE_COUPON_CODE)
+        expect(total_label).not_to_have_text(before_total_text)
+        assert _amount(total_label.inner_text()) < _amount(before_total_text)
+
+    with allure.step("Remove the preset and confirm the applied state and total are restored"):
+        section.remove_button.click()
+        expect(section.applied_cards).to_have_count(0)
+        expect(total_label).to_have_text(before_total_text)
+
+
+@pytest.mark.e2e
+@pytest.mark.with_user(_USERNAME)
+@pytest.mark.with_cart([(_PRODUCT_ID, _QUANTITY)])
+@allure.feature("Cart / Coupons (E2E)")
+@allure.title("The 'View all' link navigates to the account coupons page")
+def test_cart_coupon_view_all_navigates(page: Page, global_settings: GlobalSettings) -> None:
+    cart_page = CartPage(global_settings=global_settings, page=page)
+
+    with allure.step("Open the cart"):
+        cart_page.navigate()
+        expect(cart_page.line_items).to_be_visible()
+        _require_coupon_ui(cart_page)
+
+    section = cart_page.coupon_section
+    if section.view_all_link.count() == 0:
+        pytest.skip("The 'view all coupons' link is not present in this storefront theme")
+
+    with allure.step("The link points at the account coupons page"):
+        link = section.view_all_link.first
+        expect(link).to_be_visible()
+        assert (link.get_attribute("href") or "").endswith("/account/coupons")
+
+    # The link opens in a new tab (target="_blank"), so capture the popup page
+    # rather than expecting the cart tab itself to navigate.
+    with allure.step("Clicking it opens the account coupons page in a new tab"):
+        with page.context.expect_page() as new_page_info:
+            link.click()
+        new_page = new_page_info.value
+        new_page.wait_for_load_state("load")
+        expect(new_page).to_have_url(re.compile(r"/account/coupons"))
+
+
+@pytest.mark.e2e
+@pytest.mark.with_user(_USERNAME)
+@pytest.mark.with_cart([(_PRODUCT_ID, _QUANTITY)])
+@allure.feature("Cart / Coupons (E2E)")
 @allure.title("Removing an applied custom-code coupon restores the cart")
 def test_cart_coupon_remove_restores_cart(page: Page, global_settings: GlobalSettings) -> None:
     cart_page = CartPage(global_settings=global_settings, page=page)
