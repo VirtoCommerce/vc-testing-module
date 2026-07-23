@@ -68,6 +68,13 @@ def test_account_coupon_copy_to_clipboard(page: Page, global_settings: GlobalSet
         card.code_button.click()
 
     with allure.step("Clipboard contents match the displayed code"):
-        clipboard = page.evaluate("() => navigator.clipboard.readText()")
-        assert clipboard.strip() != ""
-        assert clipboard.strip() == displayed.strip()
+        # The copy handler writes via the async Clipboard API, which may not have
+        # resolved the instant the click returns; poll briefly for the write.
+        clipboard = ""
+        for _ in range(10):
+            clipboard = page.evaluate("() => navigator.clipboard.readText()").strip()
+            if clipboard:
+                break
+            page.wait_for_timeout(200)
+        assert clipboard != "", "Clipboard was empty after clicking the copy button"
+        assert clipboard == displayed.strip()
