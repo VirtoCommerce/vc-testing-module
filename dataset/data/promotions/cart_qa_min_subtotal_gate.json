@@ -1,0 +1,48 @@
+{
+    "id": "promotion-acme-qa-min-subtotal-gate",
+    "name": "QA Min-Subtotal Gate",
+    "localizedLabel": {
+        "values": {
+            "en-US": "$50 Off over $100k - en"
+        }
+    },
+    "description": "QA automation: coupon-gated $50 off, gated behind an unreachable $100,000 subtotal minimum. Non-public so it never surfaces in promotionCoupons/preset tests.",
+    "type": "DynamicPromotion",
+    "isActive": true,
+    "isPublic": false,
+    "storeIds": ["store-acme"],
+    "dynamicExpression": {
+        "all": true,
+        "not": false,
+        "id": "PromotionConditionAndRewardTree",
+        "children": [
+            {
+                "id": "BlockCustomerCondition",
+                "children": [
+                    {
+                        "id": "ConditionIsEveryone"
+                    }
+                ]
+            },
+            {
+                "id": "BlockCartCondition",
+                "children": [
+                    {
+                        "id": "ConditionCartSubtotalLeast",
+                        "subTotal": 100000.0,
+                        "compareCondition": "AtLeast"
+                    }
+                ]
+            },
+            {
+                "id": "BlockReward",
+                "children": [
+                    {
+                        "id": "RewardCartGetOfAbsSubtotal",
+                        "amount": 50
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,7 @@
+{
+    "code": "QAMINSUB100K",
+    "maxUsesNumber": 1000000,
+    "maxUsesPerUser": 1000000,
+    "expirationDate": "2030-01-01T00:00:00Z",
+    "promotionId": "promotion-acme-qa-min-subtotal-gate"
+}

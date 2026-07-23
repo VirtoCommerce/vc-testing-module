@@ -40,3 +40,9 @@ LOWERCASE_COUPON_CODE = "agenttestlc062"
 
 # Coupon whose expiration date is in the past.
 EXPIRED_COUPON_CODE = "QAEXPIRED"
+
+# QAMINSUB100K: attached to a coupon-gated promotion whose $100,000 min-subtotal
+# condition is unreachable for a normal cart. Proves an unmet condition leaves
+# the coupon recorded but not applied (no discount). The promotion is non-public
+# so it never surfaces in promotionCoupons / preset assertions.
+MIN_SUBTOTAL_COUPON_CODE = "QAMINSUB100K"
