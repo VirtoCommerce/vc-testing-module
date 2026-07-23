@@ -1,5 +1,6 @@
 import re
 from decimal import Decimal
+from typing import Callable
 
 import allure
 import pytest
@@ -20,6 +21,7 @@ _QUANTITY = 2
 _INVALID_CODE = "NOPE-INVALID-123"
 
 _MONEY_RE = re.compile(r"-?[\d,]+\.\d{2}")
+_NON_EMPTY = re.compile(r"\S")
 
 
 def _amount(text: str | None) -> Decimal:
@@ -28,25 +30,37 @@ def _amount(text: str | None) -> Decimal:
     return Decimal(match.group().replace(",", "")) if match else Decimal(0)
 
 
-def _await_cart_mutation(page: Page, field: str):
-    """Wait for the storefront GraphQL POST that carries the given cart mutation."""
-    return page.expect_response(
-        lambda r: "/graphql" in r.url and r.request.method == "POST" and field in (r.request.post_data or "")
-    )
+def _open_cart(cart_page: CartPage, page: Page) -> None:
+    """Open the cart and wait for it to fully settle before asserting.
 
-
-def _settle(cart_page: CartPage) -> None:
-    """Reload the cart so the next assertions read the authoritative, settled cart.
-
-    The cart is a single-page checkout that auto-initializes shipment and payment
-    concurrently with every coupon mutation. Those background writes each return
-    the whole cart and can briefly carry a not-yet-re-evaluated coupon snapshot,
-    non-deterministically clobbering the applied state in the SPA (which is why a
-    plain post-click assertion flaked). Reloading once the coupon mutation has
-    committed reads the settled cart, so coupon state is deterministic.
+    The cart is a single-page checkout: on a fresh cart it auto-initializes
+    shipment then payment (AddOrUpdateCartShipment -> AddOrUpdateCartPayment),
+    a cascade that keeps re-rendering the coupon section for several seconds
+    after the load event. Reading during that window is what made the preset
+    and coupon assertions flake on faster machines. Waiting for the network to
+    go idle lets the whole cascade quiesce, so assertions read a stable cart.
     """
     cart_page.navigate()
     expect(cart_page.line_items).to_be_visible()
+    page.wait_for_load_state("networkidle")
+
+
+def _apply_and_settle(cart_page: CartPage, page: Page, action: Callable[[], None], field: str = "addCoupon") -> None:
+    """Trigger a coupon mutation, wait for it to commit, then reopen the settled cart.
+
+    Awaiting the mutation's own GraphQL response guarantees it committed
+    server-side before the reopen (so the reload can't cancel the in-flight
+    request), and reopening reads the authoritative cart: once the coupon is
+    persisted and the promotion re-evaluated, a fresh load's GetFullCart returns
+    the final state and shipment/payment are already initialized, so they do not
+    re-fire to clobber it. This is what a single post-click assertion could not
+    guarantee, because a concurrent background write could land stale last.
+    """
+    with page.expect_response(
+        lambda r: "/graphql" in r.url and r.request.method == "POST" and field in (r.request.post_data or "")
+    ):
+        action()
+    _open_cart(cart_page, page)
 
 
 @pytest.mark.e2e
@@ -57,8 +71,7 @@ def test_cart_coupon_anonymous_custom_code(page: Page, global_settings: GlobalSe
     cart_page = CartPage(global_settings=global_settings, page=page)
 
     with allure.step("Open the cart as an anonymous shopper"):
-        cart_page.navigate()
-        expect(cart_page.line_items).to_be_visible()
+        _open_cart(cart_page, page)
 
     section = cart_page.coupon_section
     total_label = cart_page.grand_total_label
@@ -71,9 +84,7 @@ def test_cart_coupon_anonymous_custom_code(page: Page, global_settings: GlobalSe
 
     with allure.step(f"Apply '{LOWERCASE_COUPON_CODE}' via the custom-code field"):
         section.custom_code_input.fill(LOWERCASE_COUPON_CODE)
-        with _await_cart_mutation(page, "addCoupon"):
-            section.apply_button.click()
-        _settle(cart_page)
+        _apply_and_settle(cart_page, page, section.apply_button.click)
 
     with allure.step("The coupon validates true and the grand total decreases"):
         expect(section.remove_button).to_be_visible()
@@ -90,16 +101,15 @@ def test_cart_coupon_presets_render(page: Page, global_settings: GlobalSettings)
     cart_page = CartPage(global_settings=global_settings, page=page)
 
     with allure.step("Open the cart and confirm the seeded item is shown"):
-        cart_page.navigate()
-        expect(cart_page.line_items).to_be_visible()
+        _open_cart(cart_page, page)
 
     section = cart_page.coupon_section
 
     with allure.step("The first preset card shows a label, a name, and an apply code"):
         first = section.preset_cards.first
         expect(first).to_be_visible()
-        assert first.locator(".coupon-card__label").inner_text().strip() != ""
-        assert first.locator(".coupon-card__name").inner_text().strip() != ""
+        expect(first.locator(".coupon-card__label")).to_have_text(_NON_EMPTY)
+        expect(first.locator(".coupon-card__name")).to_have_text(_NON_EMPTY)
         assert section.first_preset_code() != ""
 
 
@@ -112,17 +122,14 @@ def test_cart_coupon_preset_apply_and_switch(page: Page, global_settings: Global
     cart_page = CartPage(global_settings=global_settings, page=page)
 
     with allure.step("Open the cart"):
-        cart_page.navigate()
-        expect(cart_page.line_items).to_be_visible()
+        _open_cart(cart_page, page)
 
     section = cart_page.coupon_section
     total_label = cart_page.grand_total_label
     before_total_text = total_label.inner_text()
 
     with allure.step(f"Click the '{PERCENTAGE_COUPON_CODE}' preset — the coupon validates true"):
-        with _await_cart_mutation(page, "addCoupon"):
-            section.apply_preset(PERCENTAGE_COUPON_CODE)
-        _settle(cart_page)
+        _apply_and_settle(cart_page, page, lambda: section.apply_preset(PERCENTAGE_COUPON_CODE))
         expect(section.applied_check_icon).to_be_visible()
         expect(section.applied_cards).to_have_count(1)
         expect(section.applied_code_input).to_have_value(PERCENTAGE_COUPON_CODE)
@@ -130,9 +137,7 @@ def test_cart_coupon_preset_apply_and_switch(page: Page, global_settings: Global
         assert _amount(total_label.inner_text()) < _amount(before_total_text)
 
     with allure.step(f"Click the '{FIXED_COUPON_CODE}' preset — the applied coupon switches to it"):
-        with _await_cart_mutation(page, "addCoupon"):
-            section.apply_preset(FIXED_COUPON_CODE)
-        _settle(cart_page)
+        _apply_and_settle(cart_page, page, lambda: section.apply_preset(FIXED_COUPON_CODE))
         expect(section.applied_check_icon).to_be_visible()
         # Exactly one applied card, now carrying the fixed coupon's code —
         # inherently proves the percentage coupon is no longer applied.
@@ -149,17 +154,14 @@ def test_cart_coupon_preset_remove_restores_cart(page: Page, global_settings: Gl
     cart_page = CartPage(global_settings=global_settings, page=page)
 
     with allure.step("Open the cart"):
-        cart_page.navigate()
-        expect(cart_page.line_items).to_be_visible()
+        _open_cart(cart_page, page)
 
     section = cart_page.coupon_section
     total_label = cart_page.grand_total_label
     before_total_text = total_label.inner_text()
 
     with allure.step(f"Apply the '{PERCENTAGE_COUPON_CODE}' preset and confirm it is applied"):
-        with _await_cart_mutation(page, "addCoupon"):
-            section.apply_preset(PERCENTAGE_COUPON_CODE)
-        _settle(cart_page)
+        _apply_and_settle(cart_page, page, lambda: section.apply_preset(PERCENTAGE_COUPON_CODE))
         expect(section.applied_check_icon).to_be_visible()
         expect(section.applied_cards).to_have_count(1)
         expect(section.applied_code_input).to_have_value(PERCENTAGE_COUPON_CODE)
@@ -167,9 +169,7 @@ def test_cart_coupon_preset_remove_restores_cart(page: Page, global_settings: Gl
         assert _amount(total_label.inner_text()) < _amount(before_total_text)
 
     with allure.step("Remove the preset and confirm the applied state and total are restored"):
-        with _await_cart_mutation(page, "removeCoupon"):
-            section.remove_button.click()
-        _settle(cart_page)
+        _apply_and_settle(cart_page, page, section.remove_button.click, field="removeCoupon")
         expect(section.applied_cards).to_have_count(0)
         expect(total_label).to_have_text(before_total_text)
 
@@ -183,8 +183,7 @@ def test_cart_coupon_view_all_navigates(page: Page, global_settings: GlobalSetti
     cart_page = CartPage(global_settings=global_settings, page=page)
 
     with allure.step("Open the cart"):
-        cart_page.navigate()
-        expect(cart_page.line_items).to_be_visible()
+        _open_cart(cart_page, page)
 
     section = cart_page.coupon_section
 
@@ -212,8 +211,7 @@ def test_cart_coupon_remove_restores_cart(page: Page, global_settings: GlobalSet
     cart_page = CartPage(global_settings=global_settings, page=page)
 
     with allure.step("Open the cart"):
-        cart_page.navigate()
-        expect(cart_page.line_items).to_be_visible()
+        _open_cart(cart_page, page)
 
     section = cart_page.coupon_section
     total_label = cart_page.grand_total_label
@@ -221,15 +219,11 @@ def test_cart_coupon_remove_restores_cart(page: Page, global_settings: GlobalSet
 
     with allure.step(f"Apply '{LOWERCASE_COUPON_CODE}' via the custom-code field"):
         section.custom_code_input.fill(LOWERCASE_COUPON_CODE)
-        with _await_cart_mutation(page, "addCoupon"):
-            section.apply_button.click()
-        _settle(cart_page)
+        _apply_and_settle(cart_page, page, section.apply_button.click)
         expect(section.remove_button).to_be_visible()
 
     with allure.step("Remove the coupon and confirm entry state and total are restored"):
-        with _await_cart_mutation(page, "removeCoupon"):
-            section.remove_button.click()
-        _settle(cart_page)
+        _apply_and_settle(cart_page, page, section.remove_button.click, field="removeCoupon")
         expect(section.remove_button).to_be_hidden()
         expect(section.apply_button).to_be_visible()
         expect(total_label).to_have_text(before_total_text)
@@ -254,8 +248,7 @@ def test_cart_coupon_bad_code_rejected(page: Page, global_settings: GlobalSettin
     cart_page = CartPage(global_settings=global_settings, page=page)
 
     with allure.step("Open the cart"):
-        cart_page.navigate()
-        expect(cart_page.line_items).to_be_visible()
+        _open_cart(cart_page, page)
 
     section = cart_page.coupon_section
     before_total_text = cart_page.grand_total_label.inner_text()
