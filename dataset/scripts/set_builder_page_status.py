@@ -17,7 +17,6 @@ Endpoint mapping:
 """
 
 import argparse
-import json
 import logging
 import sys
 from pathlib import Path
@@ -31,76 +30,6 @@ from rich.console import Console
 _GROUPED = "/api/page-builder-pages/grouped"
 _LOG_FILE = Path(__file__).parent.parent / "dataset_manager.log"
 _STATUSES = ("Published", "Archived")
-
-
-def inspect_page(rest_client: RestClient, base_url: str, page_id: str, logger: Logger) -> None:
-    """Best-effort pre-flight dump of a grouped page and its content.
-
-    Purely diagnostic: logs what was seeded so a CI run can confirm the page and
-    its content exist (and look right) *before* the status transition. Never
-    raises — any failure is logged as a warning so it cannot block `apply_status`.
-    """
-    logger.info(f"[cyan]--- Inspecting {page_id!r} before status change ---[/cyan]")
-
-    # Grouped page metadata + child pages (JSON).
-    try:
-        group = rest_client.get(f"{base_url}{_GROUPED}/{page_id}")
-    except Exception as e:
-        logger.warning(f"\\[{page_id}] could not GET grouped page: {type(e).__name__}: {e}")
-        group = None
-
-    if isinstance(group, dict):
-        pages = group.get("pages") or []
-        logger.info(
-            f"\\[{page_id}] group: name={group.get('name')!r} permalink={group.get('permalink')!r} "
-            f"status={group.get('status')!r} visibility={group.get('visibility')} pages={len(pages)}"
-        )
-        for index, page in enumerate(pages):
-            logger.info(
-                f"\\[{page_id}]   page[{index}]: id={page.get('id')!r} status={page.get('status')!r} "
-                f"storeId={page.get('storeId')!r} modified={page.get('modifiedDate')!r}"
-            )
-        if len(pages) != 1:
-            logger.warning(
-                f"\\[{page_id}] [yellow]expected exactly 1 page, found {len(pages)}[/yellow] — "
-                f"multiple drafts make publish/index nondeterministic"
-            )
-
-    # Content endpoint returns text/plain, not JSON, so RestClient.get() (which only
-    # accepts application/json) can't read it — go through the raw request for the body.
-    try:
-        response = rest_client._request(
-            method="GET", url=f"{base_url}{_GROUPED}/{page_id}/content", params={"draft": "true"}
-        )
-        content = response.text or ""
-    except Exception as e:
-        logger.warning(f"\\[{page_id}] could not GET content: {type(e).__name__}: {e}")
-        content = ""
-
-    if not content.strip():
-        logger.warning(f"\\[{page_id}] [yellow]content is EMPTY[/yellow] — page will index with no content")
-    else:
-        logger.info(f"\\[{page_id}] content: {len(content)} chars — {_summarize_content(content)}")
-        logger.info(f"\\[{page_id}] raw content:\n{content}")
-
-
-def _summarize_content(content: str) -> str:
-    """One-line summary of a stored page-content blob for the inspection log."""
-    try:
-        data = json.loads(content)
-    except json.JSONDecodeError:
-        return "[red]not valid JSON[/red]"
-    if isinstance(data, dict):
-        settings = data.get("settings") or {}
-        blocks = data.get("content")
-        block_count = len(blocks) if isinstance(blocks, list) else "n/a"
-        return (
-            f"header={settings.get('header')!r} permalink={settings.get('permalink')!r} "
-            f"blocks={block_count}"
-        )
-    if isinstance(data, list):
-        return f"JSON array with {len(data)} element(s)"
-    return f"JSON {type(data).__name__}"
 
 
 def apply_status(rest_client: RestClient, base_url: str, page_id: str, status: str, logger: Logger) -> None:
@@ -125,7 +54,6 @@ def main() -> None:
     auth.sign_in(username=global_settings.admin_username, password=global_settings.admin_password)
     try:
         with RestClient(global_settings=global_settings, auth=auth) as rest_client:
-            inspect_page(rest_client, base_url, args.page_id, logger)
             apply_status(rest_client, base_url, args.page_id, args.status, logger)
     except Exception as e:
         logger.error(f"[red]Failed to set {args.page_id!r} to {args.status!r}:[/red] {type(e).__name__}: {e}")
