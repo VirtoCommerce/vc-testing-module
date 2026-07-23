@@ -228,9 +228,19 @@ def test_cart_coupon_remove_restores_cart(page: Page, global_settings: GlobalSet
 @pytest.mark.e2e
 @pytest.mark.with_user(_USERNAME)
 @pytest.mark.with_cart([(_PRODUCT_ID, _QUANTITY)])
+@pytest.mark.parametrize(
+    "code, case",
+    [
+        pytest.param(_INVALID_CODE, "unknown", id="unknown"),
+        pytest.param(EXPIRED_COUPON_CODE, "expired", id="expired"),
+    ],
+)
 @allure.feature("Cart / Coupons (E2E)")
-@allure.title("An invalid custom code shows an error and does not discount the cart")
-def test_cart_coupon_invalid_code_shows_error(page: Page, global_settings: GlobalSettings) -> None:
+@allure.title("A rejected coupon code ({case}) shows an error and does not discount the cart")
+def test_cart_coupon_bad_code_rejected(page: Page, global_settings: GlobalSettings, code: str, case: str) -> None:
+    # Both an unknown code and a found-but-expired code are rejected identically
+    # at the UI ("This code is not valid"); the semantic difference between them
+    # is covered at the API layer by test_validate_coupon_valid_and_invalid.
     cart_page = CartPage(global_settings=global_settings, page=page)
 
     with allure.step("Open the cart"):
@@ -241,36 +251,11 @@ def test_cart_coupon_invalid_code_shows_error(page: Page, global_settings: Globa
     section = cart_page.coupon_section
     before_total_text = cart_page.grand_total_label.inner_text()
 
-    with allure.step(f"Enter the invalid code '{_INVALID_CODE}' and apply"):
-        section.custom_code_input.fill(_INVALID_CODE)
+    with allure.step(f"Enter the {case} code '{code}' and apply"):
+        section.custom_code_input.fill(code)
         section.apply_button.click()
 
-    with allure.step("An inline error is shown and the grand total is unchanged"):
+    with allure.step("An inline 'not valid' error is shown and the grand total is unchanged"):
         expect(section.error_message).to_be_visible()
         expect(section.error_message).to_contain_text(re.compile("not valid", re.IGNORECASE))
-        expect(cart_page.grand_total_label).to_have_text(before_total_text)
-
-
-@pytest.mark.e2e
-@pytest.mark.with_user(_USERNAME)
-@pytest.mark.with_cart([(_PRODUCT_ID, _QUANTITY)])
-@allure.feature("Cart / Coupons (E2E)")
-@allure.title("An expired coupon code is rejected and does not discount the cart")
-def test_cart_coupon_expired_code_rejected(page: Page, global_settings: GlobalSettings) -> None:
-    cart_page = CartPage(global_settings=global_settings, page=page)
-
-    with allure.step("Open the cart"):
-        cart_page.navigate()
-        expect(cart_page.line_items).to_be_visible()
-        _require_coupon_ui(cart_page)
-
-    section = cart_page.coupon_section
-    before_total_text = cart_page.grand_total_label.inner_text()
-
-    with allure.step(f"Enter the expired code '{EXPIRED_COUPON_CODE}' and apply"):
-        section.custom_code_input.fill(EXPIRED_COUPON_CODE)
-        section.apply_button.click()
-
-    with allure.step("The expired code is rejected and the grand total is unchanged"):
-        expect(section.error_message).to_be_visible()
         expect(cart_page.grand_total_label).to_have_text(before_total_text)
