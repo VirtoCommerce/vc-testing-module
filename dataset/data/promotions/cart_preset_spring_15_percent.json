@@ -1,9 +1,16 @@
 {
     "id": "promotion-acme-preset-spring-15-percent",
     "name": "Spring Sale - 15% Off",
+    "localizedLabel": {
+        "values": {
+            "en-US": "15% Off - en"
+        }
+    },
     "description": "Save 15% on your entire order this spring.",
     "type": "DynamicPromotion",
     "isActive": true,
+    "isPublic": true,
+    "endDate": "2030-06-30T23:59:59Z",
     "storeIds": ["store-acme"],
     "dynamicExpression": {
         "all": true,

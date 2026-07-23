@@ -1,9 +1,15 @@
 {
     "id": "promotion-acme-qa-10-percent-off-subtotal",
     "name": "QA 10% Off Subtotal",
+    "localizedLabel": {
+        "values": {
+            "en-US": "10% Off - en"
+        }
+    },
     "description": "QA automation: 10% off the cart subtotal.",
     "type": "DynamicPromotion",
     "isActive": true,
+    "isPublic": true,
     "storeIds": ["store-acme"],
     "dynamicExpression": {
         "all": true,

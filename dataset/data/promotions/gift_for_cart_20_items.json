@@ -1,8 +1,14 @@
 {
     "id": "promotion-acme-gift-for-20-cart-items",
     "name": "Gift for 20 cart items",
+    "localizedLabel": {
+        "values": {
+            "en-US": "Free Gift - en"
+        }
+    },
     "type": "DynamicPromotion",
     "isActive": true,
+    "isPublic": true,
     "storeIds": ["store-acme"],
     "dynamicExpression": {
         "all": true,

@@ -55,13 +55,6 @@ def _validate_coupon(cart_ops: CartOperations, ctx: Context, cart_id: str, code:
 
 
 def _assert_totals_consistent(cart: Cart) -> None:
-    """BL-CHK-006: subTotal - discountTotal + taxTotal + shipping == grandTotal.
-
-    Holds by construction regardless of how tax is derived, so it is a safe,
-    non-brittle invariant to assert after any discount is applied. Assumes
-    feeTotal == 0 (no cart-level fees are configured in the test dataset); a
-    non-zero fee would need to be added to the right-hand side.
-    """
     expected = cart.sub_total.amount - cart.discount_total.amount + cart.tax_total.amount + cart.shipping_total.amount
     assert abs(cart.total.amount - expected) <= Decimal("0.01"), (
         f"Totals inconsistent: subTotal={cart.sub_total.amount} "
@@ -86,7 +79,7 @@ def test_cart_coupon(graphql_client: GraphQLClient, ctx: Context) -> None:
 
         coupon = cart.coupons[0]
         assert coupon.code == _COUPON_CODE
-        assert coupon.is_applied_successfully == True
+        assert coupon.is_applied_successfully is True
 
     with allure.step(f"Remove coupon {_COUPON_CODE} from cart"):
         cart = _remove_coupon(cart_ops, ctx, _COUPON_CODE)
@@ -119,9 +112,6 @@ def test_validate_coupon_valid_and_invalid(graphql_client: GraphQLClient, ctx: C
 @allure.feature("Cart / Coupons (GraphQL)")
 @allure.title("Switching the cart coupon keeps only the last applied code")
 def test_cart_coupon_single_slot_last_wins(graphql_client: GraphQLClient, ctx: Context) -> None:
-    # The storefront treats the cart coupon as a single slot: to switch codes it
-    # removes the current one and adds the next. This test drives that flow and
-    # asserts the cart ends with exactly the last-applied coupon.
     cart_ops = CartOperations(client=graphql_client)
 
     with allure.step(f"Apply first coupon '{_COUPON_CODE}'"):
@@ -182,29 +172,6 @@ def test_cart_coupon_percentage_on_sale_price(graphql_client: GraphQLClient, ctx
 @pytest.mark.graphql
 @pytest.mark.with_cart([(_PRODUCT_ID, _QUANTITY)])
 @allure.feature("Cart / Coupons (GraphQL)")
-@allure.title("Applying an expired or unknown coupon adds it unapplied with no discount")
-def test_cart_coupon_expired_and_unknown_not_applied(
-    graphql_client: GraphQLClient, ctx: Context, with_cart: Cart
-) -> None:
-    # User-facing negative path: addCoupon accepts any code string, but an
-    # expired/unknown code must resolve as not-applied and produce no discount.
-    cart_ops = CartOperations(client=graphql_client)
-    assert with_cart is not None
-    baseline_discount = with_cart.discount_total.amount
-
-    for code in (EXPIRED_COUPON_CODE, _UNKNOWN_COUPON_CODE):
-        with allure.step(f"Apply invalid coupon '{code}'"):
-            cart = _add_coupon(cart_ops, ctx, code)
-        with allure.step(f"'{code}' is present but not applied, and adds no discount"):
-            applied = next((c for c in cart.coupons if c.code.upper() == code.upper()), None)
-            assert applied is not None, f"Coupon '{code}' was not recorded on the cart"
-            assert applied.is_applied_successfully is False
-            assert cart.discount_total.amount == baseline_discount
-
-
-@pytest.mark.graphql
-@pytest.mark.with_cart([(_PRODUCT_ID, _QUANTITY)])
-@allure.feature("Cart / Coupons (GraphQL)")
 @allure.title("Fixed-amount coupon discounts the cart by its absolute value")
 def test_cart_coupon_fixed_amount(graphql_client: GraphQLClient, ctx: Context, with_cart: Cart) -> None:
     cart_ops = CartOperations(client=graphql_client)
@@ -212,8 +179,6 @@ def test_cart_coupon_fixed_amount(graphql_client: GraphQLClient, ctx: Context, w
     baseline_discount = with_cart.discount_total.amount
     fixed_amount = Decimal(FIXED_COUPON_AMOUNT)
 
-    # The seeded cart subtotal must exceed the fixed amount for the full $20 to
-    # apply (absolute cart rewards are capped at the cart total).
     assert with_cart.sub_total.amount > fixed_amount
 
     with allure.step(f"Apply fixed-amount coupon '{FIXED_COUPON_CODE}'"):
@@ -235,9 +200,6 @@ def test_cart_coupon_fixed_amount(graphql_client: GraphQLClient, ctx: Context, w
 @allure.feature("Cart / Coupons (GraphQL)")
 @allure.title("Lowercase coupon applied via any input case preserves its stored case")
 def test_cart_coupon_lowercase_code_roundtrip(graphql_client: GraphQLClient, ctx: Context) -> None:
-    # VCST-5233 data-layer guard: the coupon is stored lowercase. Applying the
-    # exact lowercase code must round-trip verbatim (not be upper-cased), and an
-    # upper-cased input must still match case-insensitively and apply.
     cart_ops = CartOperations(client=graphql_client)
 
     with allure.step(f"Apply the exact lowercase code '{LOWERCASE_COUPON_CODE}'"):

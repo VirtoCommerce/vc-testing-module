@@ -8,16 +8,16 @@ from page_objects.pages import CartPage
 from playwright.sync_api import Page, expect
 
 from tests.constants import (
+    EXPIRED_COUPON_CODE,
+    FIXED_COUPON_CODE,
+    LOWERCASE_COUPON_CODE,
     PERCENTAGE_COUPON_CODE,
-    PERCENTAGE_PCT,
-    SALE_PRODUCT_ID,
-    SALE_PRODUCT_SALE_PRICE,
 )
 
 _USERNAME = "acme_store_employee_1@acme.com"
 _PRODUCT_ID = "smartphone-apple-iphone-17-256gb-black"
 _QUANTITY = 2
-_SALE_QUANTITY = 2
+_INVALID_CODE = "NOPE-INVALID-123"
 
 _MONEY_RE = re.compile(r"-?[\d,]+\.\d{2}")
 
@@ -29,13 +29,8 @@ def _amount(text: str | None) -> Decimal:
 
 
 def _require_coupon_ui(cart_page: CartPage) -> None:
-    """Skip unless BOTH the class-based coupon section and the order-summary
-    totals element are present in the running storefront theme.
-
-    The coupon section may exist only in the PR/preview theme, and the totals
-    markup can differ, so we probe both up front and skip cleanly rather than
-    letting later interactions time out.
-    """
+    """Skip when the coupon section isn't present in the running storefront
+    build (CI/preview theme divergence) rather than timing out later."""
     if cart_page.coupon_section.root.count() == 0:
         pytest.skip("Cart coupon section is not available in this storefront theme")
     if cart_page.grand_total_label.count() == 0:
@@ -43,91 +38,10 @@ def _require_coupon_ui(cart_page: CartPage) -> None:
 
 
 @pytest.mark.e2e
-@pytest.mark.with_user(_USERNAME)
 @pytest.mark.with_cart([(_PRODUCT_ID, _QUANTITY)])
 @allure.feature("Cart / Coupons (E2E)")
-@allure.title("Preset coupon cards render in the cart coupon section")
-def test_cart_coupon_presets_render(page: Page, global_settings: GlobalSettings) -> None:
-    cart_page = CartPage(global_settings=global_settings, page=page)
-
-    with allure.step("Open the cart and confirm the seeded item is shown"):
-        cart_page.navigate()
-        expect(cart_page.line_items).to_be_visible()
-
-    with allure.step("The coupon section renders at least one preset card"):
-        _require_coupon_ui(cart_page)
-        section = cart_page.coupon_section
-        if section.preset_cards.count() == 0:
-            pytest.skip("No preset coupon cards are surfaced in the cart")
-        expect(section.preset_cards.first).to_be_visible()
-        assert section.first_preset_code() != ""
-
-
-@pytest.mark.e2e
-@pytest.mark.with_user(_USERNAME)
-@pytest.mark.with_cart([(_PRODUCT_ID, _QUANTITY)])
-@allure.feature("Cart / Coupons (E2E)")
-@allure.title("Applying a preset coupon discounts the cart total")
-def test_cart_coupon_apply_preset(page: Page, global_settings: GlobalSettings) -> None:
-    cart_page = CartPage(global_settings=global_settings, page=page)
-
-    with allure.step("Open the cart"):
-        cart_page.navigate()
-        expect(cart_page.line_items).to_be_visible()
-        _require_coupon_ui(cart_page)
-
-    section = cart_page.coupon_section
-    if section.preset_cards.count() == 0:
-        pytest.skip("No preset coupon cards are surfaced in the cart")
-
-    total_label = cart_page.grand_total_label
-    before_total_text = total_label.inner_text()
-
-    with allure.step("Apply the first preset coupon (runtime-discovered code)"):
-        code = section.first_preset_code()
-        section.apply_preset(code)
-
-    with allure.step("Totals recalculate and the grand total decreases"):
-        expect(total_label).not_to_have_text(before_total_text)
-        expect(cart_page.discount_total_label).to_be_visible()
-        assert _amount(total_label.inner_text()) < _amount(before_total_text)
-        assert _amount(cart_page.discount_total_label.inner_text()) > 0
-
-
-@pytest.mark.e2e
-@pytest.mark.with_user(_USERNAME)
-@pytest.mark.with_cart([(_PRODUCT_ID, _QUANTITY)])
-@allure.feature("Cart / Coupons (E2E)")
-@allure.title("Removing the coupon restores the original cart total")
-def test_cart_coupon_remove_restores_total(page: Page, global_settings: GlobalSettings) -> None:
-    cart_page = CartPage(global_settings=global_settings, page=page)
-
-    with allure.step("Open the cart"):
-        cart_page.navigate()
-        expect(cart_page.line_items).to_be_visible()
-        _require_coupon_ui(cart_page)
-
-    section = cart_page.coupon_section
-    if section.preset_cards.count() == 0:
-        pytest.skip("No preset coupon cards are surfaced in the cart")
-
-    total_label = cart_page.grand_total_label
-    original_total_text = total_label.inner_text()
-
-    with allure.step("Apply a preset coupon"):
-        section.apply_preset(section.first_preset_code())
-        expect(total_label).not_to_have_text(original_total_text)
-
-    with allure.step("Remove the coupon and confirm the total is restored"):
-        section.remove_button.click()
-        expect(total_label).to_have_text(original_total_text)
-
-
-@pytest.mark.e2e
-@pytest.mark.with_cart([(_PRODUCT_ID, _QUANTITY)])
-@allure.feature("Cart / Coupons (E2E)")
-@allure.title("Anonymous shoppers see no preset coupon cards")
-def test_cart_coupon_anonymous_no_presets(page: Page, global_settings: GlobalSettings) -> None:
+@allure.title("Anonymous shopper sees only the custom-code field and can apply a coupon there")
+def test_cart_coupon_anonymous_custom_code(page: Page, global_settings: GlobalSettings) -> None:
     cart_page = CartPage(global_settings=global_settings, page=page)
 
     with allure.step("Open the cart as an anonymous shopper"):
@@ -135,51 +49,166 @@ def test_cart_coupon_anonymous_no_presets(page: Page, global_settings: GlobalSet
         expect(cart_page.line_items).to_be_visible()
         _require_coupon_ui(cart_page)
 
-    with allure.step("No preset coupon cards are surfaced without an account"):
-        expect(cart_page.coupon_section.preset_cards).to_have_count(0)
+    section = cart_page.coupon_section
+    total_label = cart_page.grand_total_label
+    before_total_text = total_label.inner_text()
+
+    with allure.step("Only the custom-code field is shown — no presets, no view-all link"):
+        expect(section.custom_code_input).to_be_visible()
+        expect(section.preset_cards).to_have_count(0)
+        expect(section.view_all_link).to_have_count(0)
+
+    with allure.step(f"Apply '{LOWERCASE_COUPON_CODE}' via the custom-code field"):
+        section.custom_code_input.fill(LOWERCASE_COUPON_CODE)
+        section.apply_button.click()
+
+    with allure.step("The coupon validates true and the grand total decreases"):
+        expect(section.remove_button).to_be_visible()
+        expect(total_label).not_to_have_text(before_total_text)
+        assert _amount(total_label.inner_text()) < _amount(before_total_text)
 
 
 @pytest.mark.e2e
 @pytest.mark.with_user(_USERNAME)
-@pytest.mark.with_cart([(SALE_PRODUCT_ID, _SALE_QUANTITY)])
+@pytest.mark.with_cart([(_PRODUCT_ID, _QUANTITY)])
 @allure.feature("Cart / Coupons (E2E)")
-@allure.title("Percentage coupon UI discounts the sale-price subtotal")
-def test_cart_coupon_percentage_ui_on_sale(page: Page, global_settings: GlobalSettings) -> None:
+@allure.title("Preset coupon cards render with a localized label and promotion name")
+def test_cart_coupon_presets_render(page: Page, global_settings: GlobalSettings) -> None:
     cart_page = CartPage(global_settings=global_settings, page=page)
 
-    with allure.step("Open the cart with the on-sale product"):
+    with allure.step("Open the cart and confirm the seeded item is shown"):
         cart_page.navigate()
         expect(cart_page.line_items).to_be_visible()
         _require_coupon_ui(cart_page)
 
     section = cart_page.coupon_section
+    if section.preset_cards.count() == 0:
+        pytest.skip("No public preset coupons are surfaced in the cart")
 
-    with allure.step("Confirm the product is actually on sale in this storefront build"):
-        subtotal_before = _amount(cart_page.subtotal_label.inner_text())
-        unit_price = subtotal_before / _SALE_QUANTITY if _SALE_QUANTITY else Decimal(0)
-        sale_price = Decimal(SALE_PRODUCT_SALE_PRICE)
-        # If the per-unit price isn't the sale price, the build didn't apply the
-        # sale — the sale-basis relationship isn't testable here, so skip.
-        if abs(unit_price - sale_price) > Decimal("0.05"):
-            pytest.skip(
-                f"SALE product not on sale in this storefront build "
-                f"(unit price {unit_price} != sale price {sale_price})"
-            )
-        total_before = _amount(cart_page.grand_total_label.inner_text())
+    with allure.step("The first preset card shows a label, a name, and an apply code"):
+        first = section.preset_cards.first
+        expect(first).to_be_visible()
+        assert first.locator(".coupon-card__label").inner_text().strip() != ""
+        assert first.locator(".coupon-card__name").inner_text().strip() != ""
+        assert section.first_preset_code() != ""
 
-    with allure.step(f"Apply the percentage coupon '{PERCENTAGE_COUPON_CODE}'"):
-        section.custom_code_input.fill(PERCENTAGE_COUPON_CODE)
+
+@pytest.mark.e2e
+@pytest.mark.with_user(_USERNAME)
+@pytest.mark.with_cart([(_PRODUCT_ID, _QUANTITY)])
+@allure.feature("Cart / Coupons (E2E)")
+@allure.title("Clicking a preset validates the coupon (green check); clicking another switches it")
+def test_cart_coupon_preset_apply_and_switch(page: Page, global_settings: GlobalSettings) -> None:
+    cart_page = CartPage(global_settings=global_settings, page=page)
+
+    with allure.step("Open the cart"):
+        cart_page.navigate()
+        expect(cart_page.line_items).to_be_visible()
+        _require_coupon_ui(cart_page)
+
+    section = cart_page.coupon_section
+    if section.preset_cards.count() < 2:
+        pytest.skip("Need at least two preset coupons to test switching")
+
+    total_label = cart_page.grand_total_label
+    before_total_text = total_label.inner_text()
+    percentage_card = section.card_by_name("QA 10% Off Subtotal")
+    welcome_card = section.card_by_name("Welcome Offer")
+
+    with allure.step(f"Click the '{PERCENTAGE_COUPON_CODE}' preset — the coupon validates true"):
+        section.apply_preset(PERCENTAGE_COUPON_CODE)
+        expect(percentage_card).to_have_class(re.compile("coupon-card--applied"))
+        expect(section.applied_check_icon).to_be_visible()
+        expect(section.applied_cards).to_have_count(1)
+        expect(total_label).not_to_have_text(before_total_text)
+        assert _amount(total_label.inner_text()) < _amount(before_total_text)
+
+    after_percentage_text = total_label.inner_text()
+
+    with allure.step(f"Click the '{FIXED_COUPON_CODE}' preset — the applied coupon switches to it"):
+        section.apply_preset(FIXED_COUPON_CODE)
+        expect(welcome_card).to_have_class(re.compile("coupon-card--applied"))
+        expect(section.applied_check_icon).to_be_visible()
+        expect(percentage_card).not_to_have_class(re.compile("coupon-card--applied"))
+        expect(section.applied_cards).to_have_count(1)
+        expect(total_label).not_to_have_text(after_percentage_text)
+
+
+@pytest.mark.e2e
+@pytest.mark.with_user(_USERNAME)
+@pytest.mark.with_cart([(_PRODUCT_ID, _QUANTITY)])
+@allure.feature("Cart / Coupons (E2E)")
+@allure.title("Removing an applied custom-code coupon restores the cart")
+def test_cart_coupon_remove_restores_cart(page: Page, global_settings: GlobalSettings) -> None:
+    cart_page = CartPage(global_settings=global_settings, page=page)
+
+    with allure.step("Open the cart"):
+        cart_page.navigate()
+        expect(cart_page.line_items).to_be_visible()
+        _require_coupon_ui(cart_page)
+
+    section = cart_page.coupon_section
+    total_label = cart_page.grand_total_label
+    before_total_text = total_label.inner_text()
+
+    with allure.step(f"Apply '{LOWERCASE_COUPON_CODE}' via the custom-code field"):
+        section.custom_code_input.fill(LOWERCASE_COUPON_CODE)
         section.apply_button.click()
-        expect(cart_page.discount_total_label).to_be_visible()
+        expect(section.remove_button).to_be_visible()
 
-    with allure.step("A positive discount is applied and the grand total drops"):
-        discount = _amount(cart_page.discount_total_label.inner_text())
-        total_after = _amount(cart_page.grand_total_label.inner_text())
-        assert discount > 0
-        assert total_after < total_before
+    with allure.step("Remove the coupon and confirm entry state and total are restored"):
+        section.remove_button.click()
+        expect(section.remove_button).to_be_hidden()
+        expect(section.apply_button).to_be_visible()
+        expect(total_label).to_have_text(before_total_text)
 
-    with allure.step("Discount equals the percentage of the sale-price subtotal"):
-        expected = (subtotal_before * Decimal(PERCENTAGE_PCT) / Decimal(100)).quantize(Decimal("0.01"))
-        assert abs(discount - expected) <= Decimal(
-            "0.05"
-        ), f"discount={discount} expected≈{expected} (sale subtotal={subtotal_before})"
+
+@pytest.mark.e2e
+@pytest.mark.with_user(_USERNAME)
+@pytest.mark.with_cart([(_PRODUCT_ID, _QUANTITY)])
+@allure.feature("Cart / Coupons (E2E)")
+@allure.title("An invalid custom code shows an error and does not discount the cart")
+def test_cart_coupon_invalid_code_shows_error(page: Page, global_settings: GlobalSettings) -> None:
+    cart_page = CartPage(global_settings=global_settings, page=page)
+
+    with allure.step("Open the cart"):
+        cart_page.navigate()
+        expect(cart_page.line_items).to_be_visible()
+        _require_coupon_ui(cart_page)
+
+    section = cart_page.coupon_section
+    before_total_text = cart_page.grand_total_label.inner_text()
+
+    with allure.step(f"Enter the invalid code '{_INVALID_CODE}' and apply"):
+        section.custom_code_input.fill(_INVALID_CODE)
+        section.apply_button.click()
+
+    with allure.step("An inline error is shown and the grand total is unchanged"):
+        expect(section.error_message).to_be_visible()
+        expect(section.error_message).to_contain_text(re.compile("not valid", re.IGNORECASE))
+        expect(cart_page.grand_total_label).to_have_text(before_total_text)
+
+
+@pytest.mark.e2e
+@pytest.mark.with_user(_USERNAME)
+@pytest.mark.with_cart([(_PRODUCT_ID, _QUANTITY)])
+@allure.feature("Cart / Coupons (E2E)")
+@allure.title("An expired coupon code is rejected and does not discount the cart")
+def test_cart_coupon_expired_code_rejected(page: Page, global_settings: GlobalSettings) -> None:
+    cart_page = CartPage(global_settings=global_settings, page=page)
+
+    with allure.step("Open the cart"):
+        cart_page.navigate()
+        expect(cart_page.line_items).to_be_visible()
+        _require_coupon_ui(cart_page)
+
+    section = cart_page.coupon_section
+    before_total_text = cart_page.grand_total_label.inner_text()
+
+    with allure.step(f"Enter the expired code '{EXPIRED_COUPON_CODE}' and apply"):
+        section.custom_code_input.fill(EXPIRED_COUPON_CODE)
+        section.apply_button.click()
+
+    with allure.step("The expired code is rejected and the grand total is unchanged"):
+        expect(section.error_message).to_be_visible()
+        expect(cart_page.grand_total_label).to_have_text(before_total_text)

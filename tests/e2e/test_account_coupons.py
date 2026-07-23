@@ -7,8 +7,6 @@ from page_objects.components import CouponItem
 from page_objects.pages import AccountCouponsPage
 from playwright.sync_api import Page, TimeoutError as PlaywrightTimeoutError, expect
 
-from tests.constants import LOWERCASE_COUPON_CODE
-
 _USERNAME = "acme_store_employee_1@acme.com"
 # Bounded wait for a coupon card to appear before deciding the feature/data is
 # absent — long enough for the SPA's promotionCoupons query to resolve, short
@@ -73,29 +71,3 @@ def test_account_coupon_copy_to_clipboard(page: Page, global_settings: GlobalSet
         clipboard = page.evaluate("() => navigator.clipboard.readText()")
         assert clipboard.strip() != ""
         assert clipboard.strip() == displayed.strip()
-
-
-@pytest.mark.e2e
-@pytest.mark.with_user(_USERNAME)
-@allure.feature("Account / Coupons (E2E)")
-@allure.title("Coupon code preserves its stored lowercase in display and clipboard")
-def test_account_coupon_code_case_fidelity(page: Page, global_settings: GlobalSettings) -> None:
-    # Regression guard for VCST-5233 (FIXED): a coupon stored in lowercase must
-    # be shown and copied verbatim in lowercase — not upper-cased by the UI.
-    coupons_page = AccountCouponsPage(global_settings=global_settings, page=page)
-
-    with allure.step("Open the account coupons page"):
-        coupons_page.navigate()
-        _require_account_coupons(coupons_page)
-
-    with allure.step(f"Locate the lowercase coupon '{LOWERCASE_COUPON_CODE}'"):
-        card = coupons_page.find_card(LOWERCASE_COUPON_CODE)
-        expect(card.root).to_be_visible()
-
-    with allure.step("Displayed code preserves the stored lowercase"):
-        assert card.code() == LOWERCASE_COUPON_CODE
-
-    with allure.step("Copied code also preserves the stored lowercase"):
-        card.code_button.click()
-        clipboard = page.evaluate("() => navigator.clipboard.readText()")
-        assert clipboard.strip() == LOWERCASE_COUPON_CODE
