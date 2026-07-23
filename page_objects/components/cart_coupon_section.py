@@ -33,12 +33,22 @@ class CartCouponSection(Component):
     def apply_button(self) -> Locator:
         return self.custom_code_card.get_by_role("button").first
 
-    def card_by_name(self, name: str) -> Locator:
-        return self._root.locator(".coupon-card").filter(has_text=name).first
-
     @property
     def applied_cards(self) -> Locator:
         return self._root.locator(".coupon-card--applied")
+
+    @property
+    def applied_code_input(self) -> Locator:
+        """Readonly code field of the currently applied preset card.
+
+        The code field keeps its value in both the default and applied
+        states, so the applied coupon is identified by its code rather than
+        by the promotion's display name (which the applied card's button
+        drops, and whose text is edit-prone). Pair with ``expect(...)
+        .to_have_value(code)`` so the assertion polls out the non-atomic
+        switch between two applied coupons.
+        """
+        return self.applied_cards.first.locator("input[readonly]").first
 
     @property
     def applied_check_icon(self) -> Locator:
