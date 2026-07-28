@@ -107,6 +107,13 @@
     "payload_type": "single"
   },
   {
+    "name": "product_configurations",
+    "module_id": "VirtoCommerce.Catalog",
+    "method": "POST",
+    "endpoint": "/api/catalog/products/configurations",
+    "payload_type": "single"
+  },
+  {
     "name": "prices",
     "module_id": "VirtoCommerce.Pricing",
     "method": "PUT",

@@ -1,0 +1,61 @@
+{
+  "id": "configuration-laptop-acer-predator-helios-neo-16-ai",
+  "productId": "laptop-acer-predator-helios-neo-16-ai",
+  "isActive": true,
+  "sections": [
+    {
+      "id": "configuration-section-memory-laptop-acer-predator-helios-neo-16-ai",
+      "name": "Memory",
+      "description": "Memory",
+      "isRequired": true,
+      "type": "Product",
+      "options": [
+        {
+          "productId": "sodimm-corsair-vengeance-ddr5-4800-8gb",
+          "productName": "Corsair Vengeance DDR5-4800 8GB",
+          "productType": "Physical",
+          "quantity": 1
+        },
+        {
+          "productId": "sodimm-crucial-ddr5-4800-16gb",
+          "productName": "Crucial DDR5-4800 16GB",
+          "productType": "Physical",
+          "quantity": 1
+        },
+        {
+          "productId": "sodimm-samsung-ddr5-4800-8gb",
+          "productName": "Samsung DDR5-4800 8GB",
+          "productType": "Physical",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "configuration-section-storage-laptop-acer-predator-helios-neo-16-ai",
+      "name": "Storage",
+      "description": "Storage",
+      "isRequired": true,
+      "type": "Product",
+      "options": [
+        {
+          "productId": "ssd-adata-legend-860-pcie-40-nvme-m2-512gb",
+          "productName": "ADATA Legend 860 PCIe 4.0 NVMe M.2 SSD 512GB",
+          "productType": "Physical",
+          "quantity": 1
+        },
+        {
+          "productId": "ssd-kingston-fury-renegade-g5-pcie-50-nvme-m2-1024gb",
+          "productName": "Kingston FURY Renegade G5 PCIe 5.0 NVMe M.2 SSD 1024GB",
+          "productType": "Physical",
+          "quantity": 1
+        },
+        {
+          "productId": "ssd-samsung-980-pro-pcie-40-nvme-m2-1024gb",
+          "productName": "Samsung 980 PRO PCIe 4.0 NVMe M.2 SSD 1024GB",
+          "productType": "Physical",
+          "quantity": 1
+        }
+      ]
+    }
+  ]
+}

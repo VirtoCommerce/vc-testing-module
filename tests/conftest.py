@@ -15,7 +15,7 @@ from gql.operations.cart_operations import CartOperations
 from gql.types.cart import Cart
 from gql.types.cart_item_input import CartItemInput
 from page_objects.browser_storage import BrowserStorage
-from playwright.sync_api import Page
+from playwright.sync_api import Page, expect
 from tests.context import Context
 
 from dataset.dataset_manager import DatasetManager
@@ -137,6 +137,29 @@ def har_recorder(request: pytest.FixtureRequest) -> Generator[HARRecorder, None,
             attachment_type="application/json",
             extension="har",
         )
+
+
+@pytest.fixture(autouse=True)
+def _playwright_timeouts(
+    request: pytest.FixtureRequest, global_settings: GlobalSettings
+) -> None:
+    """Apply a generous default timeout to Playwright actions, navigation, and
+    web-first assertions for e2e tests.
+
+    Playwright's assertion/action default is only 5s, which is fine against a
+    local frontend but too tight against slower remote environments (e.g. the
+    shared demo backend used on CI), where the UI settles later. This is the
+    main reason e2e tests pass locally but flake on CI.
+    """
+    if not request.node.get_closest_marker("e2e"):
+        return
+    if "page" not in request.fixturenames:
+        return
+    timeout = global_settings.playwright_timeout
+    page: Page = request.getfixturevalue("page")
+    page.set_default_timeout(timeout)
+    page.set_default_navigation_timeout(timeout)
+    expect.set_options(timeout=timeout)
 
 
 @pytest.fixture

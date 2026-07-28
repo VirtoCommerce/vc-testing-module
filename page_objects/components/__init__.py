@@ -23,6 +23,9 @@ from .pickup_location_card import PickupLocationCard
 from .pickup_location_section import PickupLocationSection
 from .pickup_locations_modal import PickupLocationsModal
 from .product_card import ProductCard
+from .product_configuration_area import ProductConfigurationArea
+from .product_configuration_option import ProductConfigurationOption
+from .product_configuration_section import ProductConfigurationSection
 from .quantity_stepper import QuantityStepper
 from .remove_shopping_list_item_modal import RemoveShoppingListItemModal
 from .select_address_modal import SelectAddressModal
@@ -59,6 +62,9 @@ __all__ = [
     "PickupLocationSection",
     "PickupLocationsModal",
     "ProductCard",
+    "ProductConfigurationArea",
+    "ProductConfigurationOption",
+    "ProductConfigurationSection",
     "RemoveShoppingListItemModal",
     "QuantityStepper",
     "SelectAddressModal",

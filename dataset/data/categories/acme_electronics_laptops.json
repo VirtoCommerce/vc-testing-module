@@ -1,0 +1,17 @@
+{
+  "id": "category-acme-electronics-laptops",
+  "code": "category-acme-electronics-laptops",
+  "catalogId": "catalog-acme-electronics",
+  "name": "Laptops",
+  "seoObjectType": "Category",
+  "seoInfos": [
+    {
+      "id": "seo-info-acme-electronics-category-laptops-en",
+      "storeId": "store-acme",
+      "isActive": true,
+      "languageCode": "en-US",
+      "pageTitle": "Laptops",
+      "semanticUrl": "laptops"
+    }
+  ]
+}

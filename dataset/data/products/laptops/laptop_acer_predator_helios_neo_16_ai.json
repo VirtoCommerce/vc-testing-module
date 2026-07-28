@@ -1,0 +1,164 @@
+{
+  "id": "laptop-acer-predator-helios-neo-16-ai",
+  "code": "laptop-acer-predator-helios-neo-16-ai",
+  "catalogId": "catalog-acme-electronics",
+  "categoryId": "category-acme-electronics-laptops",
+  "name": "Acer Predator Helios Neo 16 AI",
+  "vendor": "Acer",
+  "productType": "Physical",
+  "seoObjectType": "Product",
+  "seoInfos": [
+    {
+      "id": "seo-info-laptop-acer-predator-helios-neo-16-ai",
+      "isActive": true,
+      "languageCode": "en-US",
+      "pageTitle": "Acer Predator Helios Neo 16 AI",
+      "semanticUrl": "acer-predator-helios-neo-16-ai",
+      "storeId": "store-acme"
+    }
+  ],
+  "properties": [
+    {
+      "id": "catalog-property-general-brand",
+      "name": "Brand",
+      "valueType": "ShortText",
+      "values": [
+        {
+          "value": "Acer"
+        }
+      ]
+    },
+    {
+      "id": "catalog-property-general-release-year",
+      "name": "ReleaseYear",
+      "valueType": "ShortText",
+      "values": [
+        {
+          "value": 2025
+        }
+      ]
+    },
+    {
+      "id": "catalog-property-general-color",
+      "name": "Color",
+      "valueType": "ShortText",
+      "values": [
+        {
+          "value": "Black"
+        }
+      ]
+    },
+    {
+      "id": "catalog-property-electronics-display-size",
+      "name": "DisplaySize",
+      "valueType": "Measure",
+      "measureId": "measure-display-size",
+      "values": [
+        {
+          "value": 16,
+          "unitOfMeasureId": "measure-unit-display-size-inch"
+        }
+      ]
+    },
+    {
+      "id": "catalog-property-electronics-display-resolution",
+      "name": "DisplayResolution",
+      "valueType": "ShortText",
+      "values": [
+        {
+          "value": "2560x1600"
+        }
+      ]
+    },
+    {
+      "id": "catalog-property-electronics-display-panel-technology",
+      "name": "DisplayPanelTechnology",
+      "valueType": "ShortText",
+      "values": [
+        {
+          "value": "IPS"
+        }
+      ]
+    },
+    {
+      "id": "catalog-property-electronics-display-brightness",
+      "name": "DisplayBrightness",
+      "valueType": "Measure",
+      "measureId": "measure-display-brightness",
+      "values": [
+        {
+          "value": 500,
+          "unitOfMeasureId": "measure-unit-display-brightness-nit"
+        }
+      ]
+    },
+    {
+      "id": "catalog-property-electronics-display-refresh-rate",
+      "name": "DisplayRefreshRate",
+      "valueType": "Measure",
+      "measureId": "measure-display-refresh-rate",
+      "values": [
+        {
+          "value": 240,
+          "unitOfMeasureId": "measure-unit-refresh-rate-hertz"
+        }
+      ]
+    },
+    {
+      "id": "catalog-property-electronics-processor-model",
+      "name": "ProcessorModel",
+      "valueType": "ShortText",
+      "values": [
+        {
+          "value": "Intel Core Ultra 9 275HX"
+        }
+      ]
+    },
+    {
+      "id": "catalog-property-electronics-processor-total-cores",
+      "name": "ProcessorTotalCores",
+      "valueType": "Integer",
+      "values": [
+        {
+          "value": 24
+        }
+      ]
+    },
+    {
+      "id": "catalog-property-electronics-memory-installed-size",
+      "name": "MemoryInstalledSize",
+      "valueType": "Measure",
+      "measureId": "measure-memory-size",
+      "values": [
+        {
+          "value": 32,
+          "unitOfMeasureId": "measure-unit-memory-gb"
+        }
+      ]
+    },
+    {
+      "id": "catalog-property-electronics-storage-installed-size",
+      "name": "StorageInstalledSize",
+      "valueType": "Measure",
+      "measureId": "measure-memory-size",
+      "values": [
+        {
+          "value": 2,
+          "unitOfMeasureId": "measure-unit-memory-tb"
+        }
+      ]
+    },
+    {
+      "id": "catalog-property-general-weight",
+      "name": "Weight",
+      "valueType": "Measure",
+      "measureId": "measure-weight",
+      "values": [
+        {
+          "value": 2.7,
+          "unitOfMeasureId": "measure-unit-weight-kg"
+        }
+      ]
+    }
+  ]
+}

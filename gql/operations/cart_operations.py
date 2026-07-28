@@ -3,6 +3,7 @@ from typing import Any
 from gql.operations.base_operations import BaseOperations, gql
 from gql.types.cart import Cart
 from gql.types.cart_item_input import CartItemInput
+from gql.types.configuration_section_input import ConfigurationSectionInput
 from gql.types.order import Order
 from gql.types.payment_input import PaymentInput
 from gql.types.shipment_input import ShipmentInput
@@ -184,7 +185,9 @@ class CartOperations(BaseOperations):
         command = {
             "storeId": store_id,
             "userId": user_id,
-            "cartItems": [i.model_dump(by_alias=True) for i in items],
+            "cartItems": [
+                i.model_dump(by_alias=True, exclude_none=True) for i in items
+            ],
             **({"currencyCode": currency_code} if currency_code else {}),
             **({"cultureName": culture_name} if culture_name else {}),
         }
@@ -214,7 +217,9 @@ class CartOperations(BaseOperations):
         command = {
             "storeId": store_id,
             "userId": user_id,
-            "items": [i.model_dump(by_alias=True) for i in items],
+            "items": [
+                i.model_dump(by_alias=True, exclude_none=True) for i in items
+            ],
             **({"currencyCode": currency_code} if currency_code else {}),
             **({"cultureName": culture_name} if culture_name else {}),
         }
@@ -566,6 +571,46 @@ class CartOperations(BaseOperations):
             },
         )
         return Cart.model_validate(result["data"]["removeCartItem"])
+
+    def change_cart_configured_item(
+        self,
+        store_id: str,
+        user_id: str,
+        line_item_id: str,
+        configuration_sections: list[ConfigurationSectionInput],
+        quantity: int | None = None,
+        cart_id: str | None = None,
+        currency_code: str | None = None,
+        culture_name: str | None = None,
+    ) -> Cart:
+        # fmt: off
+        mutation = gql("""
+            mutation ChangeCartConfiguredItem($command: InputChangeCartConfiguredItemType!) {
+              changeCartConfiguredItem(command: $command) {
+                ...CartFragment
+              }
+            }
+        """)
+        # fmt: on
+        result = self._client.execute(
+            self._build_query(mutation),
+            variables={
+                "command": {
+                    "storeId": store_id,
+                    "userId": user_id,
+                    "lineItemId": line_item_id,
+                    "configurationSections": [
+                        s.model_dump(by_alias=True, exclude_none=True)
+                        for s in configuration_sections
+                    ],
+                    **({"quantity": quantity} if quantity is not None else {}),
+                    **({"cartId": cart_id} if cart_id else {}),
+                    **({"currencyCode": currency_code} if currency_code else {}),
+                    **({"cultureName": culture_name} if culture_name else {}),
+                }
+            },
+        )
+        return Cart.model_validate(result["data"]["changeCartConfiguredItem"])
 
     def delete_cart(self, cart_id: str, user_id: str) -> bool:
         # fmt: off

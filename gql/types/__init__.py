@@ -6,6 +6,7 @@ from .configuration_section import ConfigurationSection
 from .configuration_section_input import ConfigurationSectionInput
 from .contact import Contact
 from .cart_address import CartAddress
+from .cart_configuration_item import CartConfigurationItem
 from .cart_item_input import CartItemInput
 from .coupon import Coupon
 from .coupon_input import CouponInput
@@ -42,6 +43,7 @@ from .vendor import Vendor
 __all__ = [
     "Cart",
     "CartAddress",
+    "CartConfigurationItem",
     "ConfigurableProductOptionInput",
     "ConfigurationLineItem",
     "ConfigurationSection",

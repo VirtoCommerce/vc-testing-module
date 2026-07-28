@@ -53,5 +53,19 @@ class CartPage(MainLayout):
     def find_line_item(self, sku: str) -> LineItem:
         return LineItem(root=self._page.locator(f"[data-product-sku='{sku}']"))
 
+    def configured_line_items(self, product_id: str) -> Locator:
+        return self._page.locator(
+            f"[data-product-sku='Configuration-{product_id}']"
+        )
+
+    def find_configured_line_item(
+        self, product_id: str, contains_text: str
+    ) -> LineItem:
+        return LineItem(
+            root=self.configured_line_items(product_id)
+            .filter(has_text=contains_text)
+            .first
+        )
+
     def navigate(self) -> None:
         self._page.goto(url=self.url, wait_until="load")
