@@ -1,0 +1,9 @@
+{
+  "id": "acme-store-grouped-page-our-team",
+  "name": "our-team",
+  "permalink": "/our-team",
+  "storeId": "store-acme",
+  "cultureName": "en-US",
+  "status": "Draft",
+  "visibility": true
+}

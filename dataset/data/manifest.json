@@ -204,5 +204,19 @@
     "method": "PUT",
     "endpoint": "/api/payment",
     "payload_type": "single"
+  },
+  {
+    "name": "pages",
+    "module_id": "VirtoCommerce.PageBuilderModule",
+    "method": "POST",
+    "endpoint": "/api/page-builder-pages/grouped",
+    "payload_type": "single"
+  },
+  {
+    "name": "pages_content",
+    "module_id": "VirtoCommerce.PageBuilderModule",
+    "method": "POST",
+    "endpoint": "/api/page-builder-pages/grouped/{PAYLOAD_ITEM:pageId}/content",
+    "payload_type": "single"
   }
 ]

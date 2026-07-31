@@ -1,0 +1,41 @@
+{
+  "pageId": "acme-store-grouped-page-our-team",
+  "content": [
+    {
+      "id": "textHeading",
+      "heading": "h2",
+      "type": "text",
+      "text": {
+        "html": "<p>Meet Our Team</p>\n",
+        "markdown": "Meet Our Team"
+      }
+    },
+    {
+      "id": "textIntro",
+      "heading": "h2",
+      "type": "text",
+      "text": {
+        "html": "<p>The people behind ACME Store come from engineering, design, and support, working together to build a dependable shopping experience.</p>\n",
+        "markdown": "The people behind ACME Store come from engineering, design, and support, working together to build a dependable shopping experience."
+      }
+    },
+    {
+      "id": "textBody",
+      "heading": "h2",
+      "type": "text",
+      "text": {
+        "html": "<p>This page is still a work in progress and stays in Draft until the team profiles are ready to publish.</p>\n",
+        "markdown": "This page is still a work in progress and stays in Draft until the team profiles are ready to publish."
+      }
+    }
+  ],
+  "settings": {
+    "cultureName": "en-US",
+    "header": "Our Team",
+    "name": "our-team",
+    "permalink": "/our-team",
+    "seoInfo": {
+      "pageTitle": "Our Team"
+    }
+  }
+}

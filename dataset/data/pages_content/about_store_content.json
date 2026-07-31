@@ -1,0 +1,41 @@
+{
+  "pageId": "acme-store-grouped-page-about-store",
+  "content": [
+    {
+      "id": "textHeading",
+      "heading": "h2",
+      "type": "text",
+      "text": {
+        "html": "<p>Welcome to ACME Store</p>\n",
+        "markdown": "Welcome to ACME Store"
+      }
+    },
+    {
+      "id": "textIntro",
+      "heading": "h2",
+      "type": "text",
+      "text": {
+        "html": "<p>ACME Store is a demonstration storefront used to exercise VirtoCommerce functionality across functional and end-to-end test scenarios.</p>\n",
+        "markdown": "ACME Store is a demonstration storefront used to exercise VirtoCommerce functionality across functional and end-to-end test scenarios."
+      }
+    },
+    {
+      "id": "textBody",
+      "heading": "h2",
+      "type": "text",
+      "text": {
+        "html": "<p>From catalog browsing to checkout, every page here exists to keep our automated coverage honest and repeatable.</p>\n",
+        "markdown": "From catalog browsing to checkout, every page here exists to keep our automated coverage honest and repeatable."
+      }
+    }
+  ],
+  "settings": {
+    "cultureName": "en-US",
+    "header": "About Store",
+    "name": "about-store",
+    "permalink": "/about-store",
+    "seoInfo": {
+      "pageTitle": "About Store"
+    }
+  }
+}

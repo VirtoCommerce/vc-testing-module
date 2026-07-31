@@ -1,0 +1,9 @@
+{
+  "id": "acme-store-grouped-page-legacy-catalog",
+  "name": "legacy-catalog",
+  "permalink": "/legacy-catalog",
+  "storeId": "store-acme",
+  "cultureName": "en-US",
+  "status": "Draft",
+  "visibility": true
+}
