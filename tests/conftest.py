@@ -25,25 +25,6 @@ _FEATURE_MARKERS = ["quantity_control", "range_filter_type", "checkout_mode"]
 _INVALID_FILENAME_CHARS = re.compile(r'[<>:"/\\|?*]')
 
 
-def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
-    """Force every test signed in as the same backend user onto one xdist worker.
-
-    Tests marked `with_user(username)` mutate that user's real, persistent
-    server-side state (cart, wishlist, saved addresses) — running two of them
-    concurrently on different workers races the same account. Tests with no
-    `with_user` marker get a fresh random user_id per test (see
-    Context.from_dataset) and have no shared state to race, so they're left
-    ungrouped and free to load-balance across all workers.
-
-    Only takes effect under `pytest -n ... --dist loadgroup`; the group marker
-    is a no-op otherwise.
-    """
-    for item in items:
-        marker = item.get_closest_marker("with_user")
-        if marker and marker.args:
-            item.add_marker(pytest.mark.xdist_group(name=f"user-{marker.args[0]}"))
-
-
 def pytest_runtest_setup(item: pytest.Item) -> None:
     for marker_name in _FEATURE_MARKERS:
         marker = item.get_closest_marker(marker_name)
