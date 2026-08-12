@@ -1,9 +1,9 @@
 {
   "ManifestVersion": "2.0",
-  "PlatformVersion": "3.1058.0",
+  "PlatformVersion": "3.1058",
   "PlatformImage": "ghcr.io/virtocommerce/platform",
   "PlatformImageTag": "3.1058.0",
-  "PlatformAssetUrl": "",
+  "PlatformAssetUrl": "https://vc3prerelease.blob.core.windows.net/packages/VirtoCommerce.Platform.3.1059.0-alpha.13363-vcst-5387-top-level-catalog-assets.zip",
   "Sources": [
     {
       "Name": "AzureBlob",
@@ -67,7 +67,7 @@
         },
         {
           "Id": "VirtoCommerce.WhiteLabeling",
-          "Version": "3.1003.0"
+          "Version": "3.1000.0"
         },
         {
           "Id": "VirtoCommerce.BuilderIO",
@@ -303,7 +303,7 @@
         },
         {
           "Id": "VirtoCommerce.Catalog",
-          "Version": "3.1040.0"
+          "Version": "3.1041.0-alpha.2564-vcst-5387-stream-catalog-binaries"
         },
         {
           "Id": "VirtoCommerce.BackupRestore",
