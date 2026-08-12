@@ -9,7 +9,12 @@
       "Name": "AzureBlob",
       "Container": "packages",
       "ServiceUri": "https://vc3prerelease.blob.core.windows.net",
-      "Modules": []
+      "Modules": [
+         {
+          "Id": "VirtoCommerce.XCart",
+          "BlobName": "VirtoCommerce.XCart_3.1029.0-alpha.270-vcst-5332-customer-wishlist-sharing-scope.zip"
+        }
+      ]
     },
     {
       "Name": "GithubReleases",
@@ -356,10 +361,6 @@
         {
           "Id": "VirtoCommerce.Orders",
           "Version": "3.1012.0"
-        },
-        {
-          "Id": "VirtoCommerce.XCart",
-          "Version": "3.1029.0"
         }
       ]
     }
