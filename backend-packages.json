@@ -187,7 +187,7 @@
         },
         {
           "Id": "VirtoCommerce.Store",
-          "Version": "3.1005.0"
+          "Version": "3.1006.0"
         },
         {
           "Id": "VirtoCommerce.GoogleEcommerceAnalytics",
@@ -303,7 +303,7 @@
         },
         {
           "Id": "VirtoCommerce.Xapi",
-          "Version": "3.1013.0"
+          "Version": "3.1016.0"
         },
         {
           "Id": "VirtoCommerce.Catalog",
