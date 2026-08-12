@@ -18,6 +18,10 @@
       ],
       "Modules": [
         {
+          "Id": "VirtoCommerce.BackgroundJobs",
+          "Version": "3.1050.0"
+        },
+        {
           "Id": "VirtoCommerce.Loyalty",
           "Version": "3.1004.0"
         },
