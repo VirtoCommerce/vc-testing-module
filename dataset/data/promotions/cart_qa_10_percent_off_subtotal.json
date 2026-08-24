@@ -1,11 +1,12 @@
 {
-    "id": "promotion-acme-100-off-for-cart-subtotal-by-coupon",
-    "name": "$100 off for cart subtotal by coupon",
+    "id": "promotion-acme-qa-10-percent-off-subtotal",
+    "name": "QA 10% Off Subtotal",
     "localizedLabel": {
         "values": {
-            "en-US": "$100 Off - en"
+            "en-US": "10% Off - en"
         }
     },
+    "description": "QA automation: 10% off the cart subtotal.",
     "type": "DynamicPromotion",
     "isActive": true,
     "isPublic": true,
@@ -27,8 +28,8 @@
                 "id": "BlockReward",
                 "children": [
                     {
-                        "id": "RewardCartGetOfAbsSubtotal",
-                        "amount": 100
+                        "id": "RewardCartGetOfRelSubtotal",
+                        "amount": 10
                     }
                 ]
             }

@@ -1,0 +1,27 @@
+{
+    "productId": "sale-001",
+    "product": {
+        "id": "sale-001",
+        "name": "QA Sale Test Product"
+    },
+    "prices": [
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "USD",
+            "list": 29.99,
+            "sale": 19.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-usd",
+            "productId": "sale-001"
+        },
+        {
+            "catalog": "catalog-acme-electronics",
+            "currency": "EUR",
+            "list": 27.99,
+            "sale": 18.99,
+            "minQuantity": 1,
+            "pricelistId": "pricelist-acme-eur",
+            "productId": "sale-001"
+        }
+    ]
+}

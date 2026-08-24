@@ -1,0 +1,8 @@
+{
+    "productId": "sale-001",
+    "sku": "SALE-001",
+    "productName": "QA Sale Test Product",
+    "fulfillmentCenterId": "ffc-usa-northgate-logistics-hub",
+    "fulfillmentCenterName": "NorthGate Logistics Hub - USA",
+    "inStockQuantity": 74085
+}

@@ -4,6 +4,7 @@ from .order_operations import OrderOperations
 from .page_context_operations import PageContextOperations
 from .pickup_location_operations import PickupLocationOperations
 from .product_operations import ProductOperations
+from .promotion_coupon_operations import PromotionCouponOperations
 from .quote_operations import QuoteOperations
 from .save_for_later_operations import SaveForLaterOperations
 from .seo_operations import SeoOperations
@@ -17,6 +18,7 @@ __all__ = [
     "PageContextOperations",
     "PickupLocationOperations",
     "ProductOperations",
+    "PromotionCouponOperations",
     "QuoteOperations",
     "SaveForLaterOperations",
     "SeoOperations",

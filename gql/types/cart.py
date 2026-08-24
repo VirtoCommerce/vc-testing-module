@@ -18,6 +18,8 @@ class Cart(GqlModel):
     total: Money
     sub_total: Money
     sub_total_discount: Money
+    discount_total: Money | None = None
+    tax_total: Money | None = None
     shipping_total: Money
     items_count: int
     items_quantity: int

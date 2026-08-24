@@ -1,11 +1,12 @@
 {
-    "id": "promotion-acme-100-off-for-cart-subtotal-by-coupon",
-    "name": "$100 off for cart subtotal by coupon",
+    "id": "promotion-acme-qa-lowercase-5-percent",
+    "name": "QA Lowercase 5% Off",
     "localizedLabel": {
         "values": {
-            "en-US": "$100 Off - en"
+            "en-US": "5% Off - en"
         }
     },
+    "description": "QA automation: 5% off used to verify coupon-code case fidelity (VCST-5233).",
     "type": "DynamicPromotion",
     "isActive": true,
     "isPublic": true,
@@ -27,8 +28,8 @@
                 "id": "BlockReward",
                 "children": [
                     {
-                        "id": "RewardCartGetOfAbsSubtotal",
-                        "amount": 100
+                        "id": "RewardCartGetOfRelSubtotal",
+                        "amount": 5
                     }
                 ]
             }

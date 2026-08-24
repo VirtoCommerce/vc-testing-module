@@ -1,11 +1,12 @@
 {
-    "id": "promotion-acme-100-off-for-cart-subtotal-by-coupon",
-    "name": "$100 off for cart subtotal by coupon",
+    "id": "promotion-acme-preset-welcome-20-off",
+    "name": "Welcome Offer - $20 Off",
     "localizedLabel": {
         "values": {
-            "en-US": "$100 Off - en"
+            "en-US": "$20 Off - en"
         }
     },
+    "description": "Enjoy $20 off your order as a welcome gift.",
     "type": "DynamicPromotion",
     "isActive": true,
     "isPublic": true,
@@ -28,7 +29,7 @@
                 "children": [
                     {
                         "id": "RewardCartGetOfAbsSubtotal",
-                        "amount": 100
+                        "amount": 20
                     }
                 ]
             }

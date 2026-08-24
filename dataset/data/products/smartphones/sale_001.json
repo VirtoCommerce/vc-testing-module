@@ -1,0 +1,32 @@
+{
+    "id": "sale-001",
+    "code": "SALE-001",
+    "catalogId": "catalog-acme-electronics",
+    "categoryId": "category-acme-electronics-smartphones",
+    "name": "QA Sale Test Product",
+    "vendor": "ACME",
+    "productType": "Physical",
+    "seoObjectType": "Product",
+    "seoInfos": [
+        {
+            "id": "seo-info-sale-001",
+            "isActive": true,
+            "languageCode": "en-US",
+            "pageTitle": "QA Sale Test Product",
+            "semanticUrl": "qa-sale-test-product",
+            "storeId": "store-acme"
+        }
+    ],
+    "properties": [
+        {
+            "id": "catalog-property-general-brand",
+            "name": "Brand",
+            "valueType": "ShortText",
+            "values": [
+                {
+                    "value": "ACME"
+                }
+            ]
+        }
+    ]
+}

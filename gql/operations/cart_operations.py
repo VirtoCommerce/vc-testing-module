@@ -351,6 +351,35 @@ class CartOperations(BaseOperations):
         )
         return Cart.model_validate(result["data"]["removeCoupon"])
 
+    def validate_coupon(
+        self,
+        store_id: str,
+        user_id: str,
+        cart_id: str,
+        currency_code: str,
+        coupon: str,
+        culture_name: str | None = None,
+    ) -> bool:
+        # fmt: off
+        query = gql("""
+            query ValidateCoupon($storeId: String!, $cartId: String!, $userId: String!, $currencyCode: String!, $cultureName: String, $coupon: String!) {
+              validateCoupon(storeId: $storeId, cartId: $cartId, userId: $userId, currencyCode: $currencyCode, cultureName: $cultureName, coupon: $coupon)
+            }
+        """)
+        # fmt: on
+        result = self._client.execute(
+            self._build_query(query),
+            variables={
+                "storeId": store_id,
+                "cartId": cart_id,
+                "userId": user_id,
+                "currencyCode": currency_code,
+                "coupon": coupon,
+                **({"cultureName": culture_name} if culture_name else {}),
+            },
+        )
+        return bool(result["data"]["validateCoupon"])
+
     def clear_cart(
         self,
         cart_id: str,

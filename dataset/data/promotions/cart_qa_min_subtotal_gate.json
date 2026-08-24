@@ -1,14 +1,15 @@
 {
-    "id": "promotion-acme-gift-for-20-cart-items",
-    "name": "Gift for 20 cart items",
+    "id": "promotion-acme-qa-min-subtotal-gate",
+    "name": "QA Min-Subtotal Gate",
     "localizedLabel": {
         "values": {
-            "en-US": "Free Gift - en"
+            "en-US": "$50 Off over $100k - en"
         }
     },
+    "description": "QA automation: coupon-gated $50 off, gated behind an unreachable $100,000 subtotal minimum. Non-public so it never surfaces in promotionCoupons/preset tests.",
     "type": "DynamicPromotion",
     "isActive": true,
-    "isPublic": true,
+    "isPublic": false,
     "storeIds": ["store-acme"],
     "dynamicExpression": {
         "all": true,
@@ -27,8 +28,8 @@
                 "id": "BlockCartCondition",
                 "children": [
                     {
-                        "id": "ConditionAtNumItemsInCart",
-                        "numItem": 20,
+                        "id": "ConditionCartSubtotalLeast",
+                        "subTotal": 100000.0,
                         "compareCondition": "AtLeast"
                     }
                 ]
@@ -37,11 +38,8 @@
                 "id": "BlockReward",
                 "children": [
                     {
-                        "id": "RewardItemGiftNumItem",
-                        "productId": "smartphone-samsung-galaxy-a17-5g-black",
-                        "productCode": "smartphone-samsung-galaxy-a17-5g-black",
-                        "productName": "Samsung Galaxy A17 5G Black",
-                        "quantity": "1"
+                        "id": "RewardCartGetOfAbsSubtotal",
+                        "amount": 50
                     }
                 ]
             }

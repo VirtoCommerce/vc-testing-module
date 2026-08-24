@@ -5,11 +5,13 @@ from .add_to_cart_button import AddToCartButton
 from .add_to_wishlists_modal import AddToWishlistsModal
 from .address import Address
 from .address_form import AddressForm
+from .cart_coupon_section import CartCouponSection
 from .category_view_switcher import CategoryViewSwitcher
 from .checkboxes_filter import CheckboxesFilter
 from .chip import Chip
 from .clear_cart_modal import ClearCartModal
 from .component import Component
+from .coupon_item import CouponItem
 from .currency_selector import CurrencySelector
 from .delete_wishlist_modal import DeleteWishlistModal
 from .dropdown_filter import DropdownFilter
@@ -42,11 +44,13 @@ __all__ = [
     "AddToWishlistsModal",
     "Address",
     "AddressForm",
+    "CartCouponSection",
     "CategoryViewSwitcher",
     "CheckboxesFilter",
     "Chip",
     "ClearCartModal",
     "Component",
+    "CouponItem",
     "CurrencySelector",
     "DeleteWishlistModal",
     "DropdownFilter",

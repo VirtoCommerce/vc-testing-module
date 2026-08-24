@@ -30,6 +30,7 @@ from .pickup_address import PickupAddress
 from .product import Product
 from .product_configuration import ProductConfiguration
 from .product_pickup_location import ProductPickupLocation
+from .promotion_coupon import PromotionCoupon
 from .role import Role
 from .seo_info import SeoInfo
 from .shipment import Shipment
@@ -72,6 +73,7 @@ __all__ = [
     "Product",
     "ProductConfiguration",
     "ProductPickupLocation",
+    "PromotionCoupon",
     "Role",
     "SeoInfo",
     "Shipment",

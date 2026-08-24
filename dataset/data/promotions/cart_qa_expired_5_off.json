@@ -1,11 +1,12 @@
 {
-    "id": "promotion-acme-100-off-for-cart-subtotal-by-coupon",
-    "name": "$100 off for cart subtotal by coupon",
+    "id": "promotion-acme-qa-expired-5-off",
+    "name": "QA Expired Coupon",
     "localizedLabel": {
         "values": {
-            "en-US": "$100 Off - en"
+            "en-US": "$5 Off - en"
         }
     },
+    "description": "QA automation: promotion whose coupon is already expired.",
     "type": "DynamicPromotion",
     "isActive": true,
     "isPublic": true,
@@ -28,7 +29,7 @@
                 "children": [
                     {
                         "id": "RewardCartGetOfAbsSubtotal",
-                        "amount": 100
+                        "amount": 5
                     }
                 ]
             }

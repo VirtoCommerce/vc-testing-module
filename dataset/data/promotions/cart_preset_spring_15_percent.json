@@ -1,14 +1,16 @@
 {
-    "id": "promotion-acme-100-off-for-cart-subtotal-by-coupon",
-    "name": "$100 off for cart subtotal by coupon",
+    "id": "promotion-acme-preset-spring-15-percent",
+    "name": "Spring Sale - 15% Off",
     "localizedLabel": {
         "values": {
-            "en-US": "$100 Off - en"
+            "en-US": "15% Off - en"
         }
     },
+    "description": "Save 15% on your entire order this spring.",
     "type": "DynamicPromotion",
     "isActive": true,
     "isPublic": true,
+    "endDate": "2030-06-30T23:59:59Z",
     "storeIds": ["store-acme"],
     "dynamicExpression": {
         "all": true,
@@ -27,8 +29,8 @@
                 "id": "BlockReward",
                 "children": [
                     {
-                        "id": "RewardCartGetOfAbsSubtotal",
-                        "amount": 100
+                        "id": "RewardCartGetOfRelSubtotal",
+                        "amount": 15
                     }
                 ]
             }
