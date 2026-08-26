@@ -22,9 +22,6 @@ _DESIGNER_MARKER = "page-builder-designer"
 @allure.title("Create a new page in Page Builder")
 @allure.severity(allure.severity_level.CRITICAL)
 def test_create_page(page_builder: PageBuilderShell, make_page: Callable[..., str]) -> None:
-    page_builder.open(Route.DRAFT)
-    draft_before = page_builder.stable_counter(Menu.DRAFT)
-
     name = make_page()
 
     with allure.step("Page appears in the Draft list with the values entered"):
@@ -35,8 +32,8 @@ def test_create_page(page_builder: PageBuilderShell, make_page: Callable[..., st
         assert row.language == "en-US"
         assert row.status == Status.DRAFT
 
-    with allure.step("Draft counter increased by 1"):
-        page_builder.wait_for_counter(Route.DRAFT, Menu.DRAFT, draft_before + 1)
+    with allure.step("Draft counter stays in step with the Draft list"):
+        page_builder.wait_for_counter_sync(Route.DRAFT, Menu.DRAFT)
 
 
 @allure.feature("Page Builder Shell (E2E)")

@@ -33,9 +33,6 @@ def _publish(page_builder: PageBuilderShell, name: str) -> None:
 @allure.severity(allure.severity_level.CRITICAL)
 def test_publish_draft_page(page_builder: PageBuilderShell, make_page: Callable[..., str]) -> None:
     name = make_page()
-    page_builder.open(Route.DRAFT)
-    draft_before = page_builder.stable_counter(Menu.DRAFT)
-    active_before = page_builder.stable_counter(Menu.ACTIVE)
 
     with allure.step("Publish the draft"):
         _publish(page_builder, name)
@@ -47,9 +44,9 @@ def test_publish_draft_page(page_builder: PageBuilderShell, make_page: Callable[
         listing = page_builder.wait_until_listed(Route.ACTIVE, name)
         assert listing.row(name).status == Status.PUBLISHED
 
-    with allure.step("Counters move by one in each direction"):
-        page_builder.wait_for_counter(Route.DRAFT, Menu.DRAFT, draft_before - 1)
-        page_builder.wait_for_counter(Route.ACTIVE, Menu.ACTIVE, active_before + 1)
+    with allure.step("Both counters stay in step with their lists"):
+        page_builder.wait_for_counter_sync(Route.DRAFT, Menu.DRAFT)
+        page_builder.wait_for_counter_sync(Route.ACTIVE, Menu.ACTIVE)
 
 
 @allure.feature("Page Builder Shell (E2E)")

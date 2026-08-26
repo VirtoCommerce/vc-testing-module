@@ -108,20 +108,18 @@ def test_archived_filter(page_builder: PageBuilderShell, make_page: Callable[...
 @allure.title("Counters update when a page changes status")
 def test_counters_update(page_builder: PageBuilderShell, make_page: Callable[..., str]) -> None:
     name = make_page()
-    page_builder.open(Route.DRAFT)
-    draft_before = page_builder.stable_counter(Menu.DRAFT)
-    active_before = page_builder.stable_counter(Menu.ACTIVE)
 
     with allure.step("Publish the draft"):
+        page_builder.open(Route.DRAFT)
         details = page_builder.open_page(name)
         details.publish()
         details.wait_settled()
 
-    with allure.step("Draft counter decreases by one"):
+    with allure.step("Page leaves Draft and the Draft counter tracks the list"):
         assert not page_builder.wait_until_absent(Route.DRAFT, name).has_page(name)
-        page_builder.wait_for_counter(Route.DRAFT, Menu.DRAFT, draft_before - 1)
+        page_builder.wait_for_counter_sync(Route.DRAFT, Menu.DRAFT)
 
-    with allure.step("Active counter increases by one"):
+    with allure.step("Page enters Active and the Active counter tracks the list"):
         listing = page_builder.wait_until_listed(Route.ACTIVE, name)
         assert listing.row(name).status == Status.PUBLISHED
-        page_builder.wait_for_counter(Route.ACTIVE, Menu.ACTIVE, active_before + 1)
+        page_builder.wait_for_counter_sync(Route.ACTIVE, Menu.ACTIVE)
