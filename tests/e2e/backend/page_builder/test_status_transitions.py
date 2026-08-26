@@ -34,8 +34,8 @@ def _publish(page_builder: PageBuilderShell, name: str) -> None:
 def test_publish_draft_page(page_builder: PageBuilderShell, make_page: Callable[..., str]) -> None:
     name = make_page()
     page_builder.open(Route.DRAFT)
-    draft_before = page_builder.counter(Menu.DRAFT)
-    active_before = page_builder.counter(Menu.ACTIVE)
+    draft_before = page_builder.stable_counter(Menu.DRAFT)
+    active_before = page_builder.stable_counter(Menu.ACTIVE)
 
     with allure.step("Publish the draft"):
         _publish(page_builder, name)

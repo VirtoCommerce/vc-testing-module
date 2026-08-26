@@ -8,6 +8,8 @@ from page_objects.component import Component
 _DATA_ROW: Final = "[role='row']:has([role='cell'])"
 _HEADER_ROW: Final = "[role='row']:has([role='columnheader'])"
 _EMPTY_STATE: Final = ".vc-table-composition__empty-state"
+_PAGINATION: Final = ".vc-data-table__pagination"
+_TOTAL_PATTERN: Final = re.compile(r"of\s+(\d+)")
 _SELECTION_CELL: Final = ".vc-data-table__selection-cell"
 _SELECTION_CHECKBOX: Final = f"{_SELECTION_CELL} input[type='checkbox']"
 _SELECTION_CONTROL: Final = f"{_SELECTION_CELL} .vc-checkbox__container"
@@ -60,6 +62,14 @@ class DataGrid(Component):
     @property
     def count(self) -> int:
         return self.rows.count()
+
+    @property
+    def total_count(self) -> int:
+        label = self._root.locator(_PAGINATION)
+        if label.count() == 0:
+            return self.count
+        match = _TOTAL_PATTERN.search(label.first.inner_text() or "")
+        return int(match.group(1)) if match else self.count
 
     def column_header(self, column_id: str) -> Locator:
         return self.header.locator(f"[data-column-id='{column_id}']")

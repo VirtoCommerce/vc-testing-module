@@ -33,8 +33,8 @@ def test_draft_filter(page_builder: PageBuilderShell) -> None:
         assert statuses, "Expected at least one seeded draft page"
         assert all(Status.DRAFT in status for status in statuses), statuses
 
-    with allure.step("Draft counter matches the number of rows"):
-        assert page_builder.counter(Menu.DRAFT) == listing.count
+    with allure.step("Draft counter matches the grid total"):
+        assert page_builder.stable_counter(Menu.DRAFT) == listing.grid.total_count
 
 
 @allure.feature("Page Builder Shell (E2E)")
@@ -47,7 +47,7 @@ def test_active_filter(page_builder: PageBuilderShell) -> None:
     statuses = listing.statuses
     assert statuses, "Expected at least one seeded published page"
     assert all(Status.PUBLISHED in status for status in statuses), statuses
-    assert page_builder.counter(Menu.ACTIVE) == listing.count
+    assert page_builder.stable_counter(Menu.ACTIVE) == listing.grid.total_count
 
 
 @allure.feature("Page Builder Shell (E2E)")
@@ -91,14 +91,14 @@ def test_archived_filter(page_builder: PageBuilderShell, make_page: Callable[...
     page_builder.open(Route.DRAFT)
     page_builder.open_page(name).archive()
 
-    listing = page_builder.wait_until_listed(Route.ARCHIVED, name)
-
-    with allure.step("Every listed page carries an Archived badge"):
-        statuses = listing.statuses
+    with allure.step("Every page on the Archived filter carries an Archived badge"):
+        page_builder.open(Route.ARCHIVED)
+        statuses = page_builder.list_blade.statuses
         assert statuses, "Expected at least one archived page"
         assert all(Status.ARCHIVED in status for status in statuses), statuses
 
     with allure.step("The archived page is listed under the Archived filter"):
+        listing = page_builder.wait_until_listed(Route.ARCHIVED, name)
         assert listing.has_page(name)
         assert listing.row(name).status == Status.ARCHIVED
 
@@ -109,8 +109,8 @@ def test_archived_filter(page_builder: PageBuilderShell, make_page: Callable[...
 def test_counters_update(page_builder: PageBuilderShell, make_page: Callable[..., str]) -> None:
     name = make_page()
     page_builder.open(Route.DRAFT)
-    draft_before = page_builder.counter(Menu.DRAFT)
-    active_before = page_builder.counter(Menu.ACTIVE)
+    draft_before = page_builder.stable_counter(Menu.DRAFT)
+    active_before = page_builder.stable_counter(Menu.ACTIVE)
 
     with allure.step("Publish the draft"):
         details = page_builder.open_page(name)

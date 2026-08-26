@@ -71,7 +71,7 @@ def make_page(
 def _archive(shell: PageBuilderShell, name: str) -> None:
     shell.open(Route.ALL)
     listing = shell.list_blade
-    if not listing.has_page(name):
+    if not listing.reveal(name):
         return
     listing.open_page(name)
     details = shell.details_blade

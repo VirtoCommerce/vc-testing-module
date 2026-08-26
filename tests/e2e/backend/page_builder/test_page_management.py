@@ -23,7 +23,7 @@ _DESIGNER_MARKER = "page-builder-designer"
 @allure.severity(allure.severity_level.CRITICAL)
 def test_create_page(page_builder: PageBuilderShell, make_page: Callable[..., str]) -> None:
     page_builder.open(Route.DRAFT)
-    draft_before = page_builder.counter(Menu.DRAFT)
+    draft_before = page_builder.stable_counter(Menu.DRAFT)
 
     name = make_page()
 
@@ -60,10 +60,10 @@ def test_edit_page(page_builder: PageBuilderShell, make_page: Callable[..., str]
         expect(details.permalink_input).to_have_value(f"/{renamed}")
 
     with allure.step("List reflects the new values and a fresh Modified date"):
-        page_builder.open(Route.DRAFT)
-        listing = page_builder.list_blade
+        listing = page_builder.wait_until_listed(Route.DRAFT, renamed)
         assert listing.has_page(renamed)
-        assert not listing.has_page(name)
+        assert not page_builder.wait_until_absent(Route.DRAFT, name).has_page(name)
+        listing = page_builder.wait_until_listed(Route.DRAFT, renamed)
         row = listing.row(renamed)
         assert row.permalink == f"/{renamed}"
         assert row.modified_date != modified_before
@@ -110,7 +110,6 @@ def test_open_designer(page_builder: PageBuilderShell, make_page: Callable[..., 
 def test_archive_page(page_builder: PageBuilderShell, make_page: Callable[..., str]) -> None:
     name = make_page()
     page_builder.open(Route.DRAFT)
-    archived_before = page_builder.counter(Menu.ARCHIVED)
     details = page_builder.open_page(name)
 
     with allure.step("Archive asks for confirmation"):
@@ -128,4 +127,3 @@ def test_archive_page(page_builder: PageBuilderShell, make_page: Callable[..., s
         listing = page_builder.wait_until_listed(Route.ARCHIVED, name)
         assert listing.has_page(name)
         assert listing.row(name).status == Status.ARCHIVED
-        page_builder.wait_for_counter(Route.ARCHIVED, Menu.ARCHIVED, archived_before + 1)

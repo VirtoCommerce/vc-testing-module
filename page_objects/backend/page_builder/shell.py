@@ -64,10 +64,10 @@ class PageBuilderShell:
         return self.list_blade
 
     def wait_until_listed(self, route: str, name: str) -> PagesListBlade:
-        return self.wait_for_list(route, lambda listing: listing.has_page(name))
+        return self.wait_for_list(route, lambda listing: listing.reveal(name))
 
     def wait_until_absent(self, route: str, name: str) -> PagesListBlade:
-        return self.wait_for_list(route, lambda listing: not listing.has_page(name))
+        return self.wait_for_list(route, lambda listing: not listing.reveal(name))
 
     def wait_for_counter(self, route: str, menu_id: str, expected: int) -> None:
         self.wait_for_list(route, lambda _: self.counter(menu_id) == expected)
@@ -102,6 +102,16 @@ class PageBuilderShell:
             return 0
         text = (badge.first.inner_text() or "").strip()
         return int(text) if text.isdigit() else 0
+
+    def stable_counter(self, menu_id: str, attempts: int = 10, interval_ms: int = 400) -> int:
+        previous = self.counter(menu_id)
+        for _ in range(attempts):
+            self._page.wait_for_timeout(interval_ms)
+            current = self.counter(menu_id)
+            if current == previous:
+                return current
+            previous = current
+        return previous
 
     @property
     def logo(self) -> Locator:

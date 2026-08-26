@@ -90,7 +90,14 @@ class PagesListBlade(Blade):
         return PageRow(self.grid.row_locator(Column.NAME, name))
 
     def open_page(self, name: str) -> None:
+        self.reveal(name)
         self.row(name).open()
 
     def has_page(self, name: str) -> bool:
         return self.grid.row_locator(Column.NAME, name).count() > 0
+
+    def reveal(self, name: str) -> bool:
+        if self.has_page(name):
+            return True
+        self.search(name)
+        return self.has_page(name)
