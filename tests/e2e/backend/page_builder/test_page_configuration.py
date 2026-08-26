@@ -7,7 +7,7 @@ from playwright.sync_api import expect
 
 from page_objects.backend.page_builder import PageBuilderShell, Route
 
-pytestmark = [pytest.mark.e2e, pytest.mark.admin_ui]
+pytestmark = [pytest.mark.e2e, pytest.mark.admin_ui, pytest.mark.serial]
 
 _USER_GROUP = "Wholesaler"
 _ORGANIZATION = "ACME Store"

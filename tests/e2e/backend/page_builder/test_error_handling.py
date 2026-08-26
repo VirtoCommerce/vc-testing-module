@@ -9,7 +9,7 @@ from page_objects.backend.page_builder import (
     Route,
 )
 
-pytestmark = [pytest.mark.e2e, pytest.mark.admin_ui]
+pytestmark = [pytest.mark.e2e, pytest.mark.admin_ui, pytest.mark.serial]
 
 _EXISTING_PERMALINK = "/about-store"
 

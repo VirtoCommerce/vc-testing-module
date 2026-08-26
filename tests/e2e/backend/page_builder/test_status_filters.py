@@ -14,7 +14,7 @@ from page_objects.backend.page_builder import (
     Status,
 )
 
-pytestmark = [pytest.mark.e2e, pytest.mark.admin_ui]
+pytestmark = [pytest.mark.e2e, pytest.mark.admin_ui, pytest.mark.serial]
 
 
 @allure.feature("Page Builder Shell (E2E)")
@@ -34,7 +34,7 @@ def test_draft_filter(page_builder: PageBuilderShell) -> None:
         assert all(Status.DRAFT in status for status in statuses), statuses
 
     with allure.step("Draft counter matches the grid total"):
-        assert page_builder.stable_counter(Menu.DRAFT) == listing.grid.total_count
+        page_builder.wait_for_counter_sync(Route.DRAFT, Menu.DRAFT)
 
 
 @allure.feature("Page Builder Shell (E2E)")
@@ -47,7 +47,7 @@ def test_active_filter(page_builder: PageBuilderShell) -> None:
     statuses = listing.statuses
     assert statuses, "Expected at least one seeded published page"
     assert all(Status.PUBLISHED in status for status in statuses), statuses
-    assert page_builder.stable_counter(Menu.ACTIVE) == listing.grid.total_count
+    page_builder.wait_for_counter_sync(Route.ACTIVE, Menu.ACTIVE)
 
 
 @allure.feature("Page Builder Shell (E2E)")
@@ -118,10 +118,10 @@ def test_counters_update(page_builder: PageBuilderShell, make_page: Callable[...
         details.wait_settled()
 
     with allure.step("Draft counter decreases by one"):
-        page_builder.wait_until_absent(Route.DRAFT, name)
+        assert not page_builder.wait_until_absent(Route.DRAFT, name).has_page(name)
         page_builder.wait_for_counter(Route.DRAFT, Menu.DRAFT, draft_before - 1)
 
     with allure.step("Active counter increases by one"):
         listing = page_builder.wait_until_listed(Route.ACTIVE, name)
-        page_builder.wait_for_counter(Route.ACTIVE, Menu.ACTIVE, active_before + 1)
         assert listing.row(name).status == Status.PUBLISHED
+        page_builder.wait_for_counter(Route.ACTIVE, Menu.ACTIVE, active_before + 1)

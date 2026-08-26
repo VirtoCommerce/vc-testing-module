@@ -11,7 +11,7 @@ from page_objects.backend.page_builder import (
     Status,
 )
 
-pytestmark = [pytest.mark.e2e, pytest.mark.admin_ui]
+pytestmark = [pytest.mark.e2e, pytest.mark.admin_ui, pytest.mark.serial]
 
 _SAVE_TOAST = "Page saved successfully"
 _NO_UNPUBLISH_TOAST = (

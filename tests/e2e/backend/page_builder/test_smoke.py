@@ -10,7 +10,7 @@ from page_objects.backend.page_builder import (
     Section,
 )
 
-pytestmark = [pytest.mark.e2e, pytest.mark.admin_ui]
+pytestmark = [pytest.mark.e2e, pytest.mark.admin_ui, pytest.mark.serial]
 
 _SEEDED_PAGE = "about-store"
 

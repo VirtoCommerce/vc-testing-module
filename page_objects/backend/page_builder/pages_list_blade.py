@@ -56,11 +56,36 @@ class PagesListBlade(Blade):
                 return
             previous = current
 
-    def _apply_search(self, value: str) -> None:
+    def wait_for_total(self, expected: int, attempts: int = 40, interval_ms: int = 200) -> None:
         page = self._root.page
-        with page.expect_response(lambda response: _SEARCH_ENDPOINT in response.url):
+        for _ in range(attempts):
+            if self._matches_total(expected):
+                return
+            page.wait_for_timeout(interval_ms)
+
+    def _matches_total(self, expected: int) -> bool:
+        if expected == 0:
+            return self.count == 0
+        info = self.grid.pagination_info
+        if info is None:
+            return self.count == expected
+        start, end, total = info
+        return total == expected and self.count == end - start + 1
+
+    def _apply_search(self, value: str) -> None:
+        if self.search_input.input_value() == value:
+            return
+        page = self._root.page
+        with page.expect_response(lambda response: _SEARCH_ENDPOINT in response.url) as response_info:
             self.search_input.fill(value)
-        self.wait_for_stable_rows()
+        try:
+            expected = response_info.value.json().get("totalCount")
+        except Exception:  # noqa: BLE001
+            expected = None
+        if expected is None:
+            self.wait_for_stable_rows()
+        else:
+            self.wait_for_total(int(expected))
 
     def search(self, term: str) -> None:
         self._apply_search(term)

@@ -9,7 +9,7 @@ _DATA_ROW: Final = "[role='row']:has([role='cell'])"
 _HEADER_ROW: Final = "[role='row']:has([role='columnheader'])"
 _EMPTY_STATE: Final = ".vc-table-composition__empty-state"
 _PAGINATION: Final = ".vc-data-table__pagination"
-_TOTAL_PATTERN: Final = re.compile(r"of\s+(\d+)")
+_RANGE_PATTERN: Final = re.compile(r"(\d+)\s*\D\s*(\d+)\s+of\s+(\d+)")
 _SELECTION_CELL: Final = ".vc-data-table__selection-cell"
 _SELECTION_CHECKBOX: Final = f"{_SELECTION_CELL} input[type='checkbox']"
 _SELECTION_CONTROL: Final = f"{_SELECTION_CELL} .vc-checkbox__container"
@@ -65,11 +65,18 @@ class DataGrid(Component):
 
     @property
     def total_count(self) -> int:
+        info = self.pagination_info
+        return info[2] if info else self.count
+
+    @property
+    def pagination_info(self) -> tuple[int, int, int] | None:
         label = self._root.locator(_PAGINATION)
         if label.count() == 0:
-            return self.count
-        match = _TOTAL_PATTERN.search(label.first.inner_text() or "")
-        return int(match.group(1)) if match else self.count
+            return None
+        match = _RANGE_PATTERN.search(label.first.inner_text() or "")
+        if not match:
+            return None
+        return int(match.group(1)), int(match.group(2)), int(match.group(3))
 
     def column_header(self, column_id: str) -> Locator:
         return self.header.locator(f"[data-column-id='{column_id}']")

@@ -69,12 +69,29 @@ class PageBuilderShell:
     def wait_until_absent(self, route: str, name: str) -> PagesListBlade:
         return self.wait_for_list(route, lambda listing: not listing.reveal(name))
 
+    def stable_counter(self, menu_id: str, attempts: int = 10, interval_ms: int = 400) -> int:
+        previous = self.counter(menu_id)
+        for _ in range(attempts):
+            self._page.wait_for_timeout(interval_ms)
+            current = self.counter(menu_id)
+            if current == previous:
+                return current
+            previous = current
+        return previous
+
     def wait_for_counter(self, route: str, menu_id: str, expected: int) -> None:
         self.wait_for_list(route, lambda _: self.counter(menu_id) == expected)
         actual = self.counter(menu_id)
         assert actual == expected, (
-            f"{menu_id} counter is {actual}, expected {expected} " f"(list shows {self.list_blade.count} rows)"
+            f"{menu_id} counter is {actual}, expected {expected} " f"(list totals {self.list_blade.grid.total_count})"
         )
+
+    def wait_for_counter_sync(self, route: str, menu_id: str) -> int:
+        listing = self.wait_for_list(route, lambda current: self.counter(menu_id) == current.grid.total_count)
+        actual = self.counter(menu_id)
+        total = listing.grid.total_count
+        assert actual == total, f"{menu_id} counter is {actual} but the {route} list totals {total}"
+        return actual
 
     def go_to(self, route: str) -> None:
         self.menu.open(_MENU_FOR_ROUTE[route])
@@ -102,16 +119,6 @@ class PageBuilderShell:
             return 0
         text = (badge.first.inner_text() or "").strip()
         return int(text) if text.isdigit() else 0
-
-    def stable_counter(self, menu_id: str, attempts: int = 10, interval_ms: int = 400) -> int:
-        previous = self.counter(menu_id)
-        for _ in range(attempts):
-            self._page.wait_for_timeout(interval_ms)
-            current = self.counter(menu_id)
-            if current == previous:
-                return current
-            previous = current
-        return previous
 
     @property
     def logo(self) -> Locator:

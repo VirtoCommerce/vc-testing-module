@@ -7,7 +7,7 @@ from playwright.sync_api import expect
 from core.global_settings import GlobalSettings
 from page_objects.backend.page_builder import PageBuilderShell, Route
 
-pytestmark = [pytest.mark.e2e, pytest.mark.admin_ui]
+pytestmark = [pytest.mark.e2e, pytest.mark.admin_ui, pytest.mark.serial]
 
 _SEEDED_PUBLISHED_PAGE = "about-store"
 
