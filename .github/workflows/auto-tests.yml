@@ -21,7 +21,7 @@ on:
 
 jobs:
   e2e-tests:
-    uses: VirtoCommerce/.github/.github/workflows/pytest-tests.yml@v3.800.35
+    uses: VirtoCommerce/.github/.github/workflows/pytest-tests.yml@v3.800.42
     with:
       installModules: 'false'
       installCustomModule: 'false'

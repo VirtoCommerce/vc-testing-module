@@ -1,8 +1,8 @@
 {
   "ManifestVersion": "2.0",
-  "PlatformVersion": "3.1043.0",
+  "PlatformVersion": "3.1050.0",
   "PlatformImage": "ghcr.io/virtocommerce/platform",
-  "PlatformImageTag": "3.1043.0",
+  "PlatformImageTag": "3.1050.0",
   "PlatformAssetUrl": "",
   "Sources": [
     {
@@ -18,8 +18,12 @@
       ],
       "Modules": [
         {
+          "Id": "VirtoCommerce.BackgroundJobs",
+          "Version": "3.1050.0"
+        },
+        {
           "Id": "VirtoCommerce.Loyalty",
-          "Version": "3.1004.0"
+          "Version": "3.1005.0"
         },
         {
           "Id": "VirtoCommerce.ElasticSearch",
@@ -183,7 +187,7 @@
         },
         {
           "Id": "VirtoCommerce.Store",
-          "Version": "3.1005.0"
+          "Version": "3.1006.0"
         },
         {
           "Id": "VirtoCommerce.GoogleEcommerceAnalytics",
@@ -299,7 +303,7 @@
         },
         {
           "Id": "VirtoCommerce.Xapi",
-          "Version": "3.1013.0"
+          "Version": "3.1016.0"
         },
         {
           "Id": "VirtoCommerce.Catalog",
@@ -339,7 +343,7 @@
         },
         {
           "Id": "VirtoCommerce.Cart",
-          "Version": "3.1007.0"
+          "Version": "3.1009.0"
         },
         {
           "Id": "VirtoCommerce.XOrder",
@@ -355,7 +359,7 @@
         },
         {
           "Id": "VirtoCommerce.XCart",
-          "Version": "3.1026.0"
+          "Version": "3.1029.0"
         }
       ]
     }
