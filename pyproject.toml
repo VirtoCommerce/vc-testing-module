@@ -31,6 +31,7 @@ markers = [
     "graphql: GraphQL API tests",
     "e2e: end-to-end UI tests using Playwright (require a running frontend)",
     "restapi: REST API admin endpoint tests",
+    "admin_ui: Playwright UI tests against a backend-hosted admin app (page-builder shell)",
     "serial: test mutates global platform state and must not run in parallel",
     "destructive: test restarts or drops global state (restart platform, drop search index). Excluded from default CI runs.",
     "optional: test belongs to an unstable/optional backend module bundle. Exclude with `-m 'not optional'`.",

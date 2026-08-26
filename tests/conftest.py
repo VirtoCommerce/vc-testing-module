@@ -6,7 +6,7 @@ from typing import Any, Generator
 
 import allure
 import pytest
-from core.auth import AuthProvider
+from core.auth import AdminBrowserAuth, AuthProvider, PlatformSession
 from core.clients import GraphQLClient
 from core.global_settings import GlobalSettings
 from core.global_settings import global_settings as _global_settings
@@ -14,7 +14,7 @@ from core.logger import NullLogger
 from gql.operations.cart_operations import CartOperations
 from gql.types.cart import Cart
 from gql.types.cart_item_input import CartItemInput
-from page_objects.browser_storage import BrowserStorage
+from page_objects.frontend.browser_storage import BrowserStorage
 from playwright.sync_api import Page, expect
 from tests.context import Context
 
@@ -52,9 +52,7 @@ def _page_for_failure(request: pytest.FixtureRequest) -> Page | None:
 
 
 @pytest.fixture(autouse=True)
-def screenshot_on_failure(
-    request: pytest.FixtureRequest, _page_for_failure: Page | None
-) -> Generator:
+def screenshot_on_failure(request: pytest.FixtureRequest, _page_for_failure: Page | None) -> Generator:
     """Take a full-page screenshot when an E2E test fails and attach to Allure."""
     yield
 
@@ -140,9 +138,7 @@ def har_recorder(request: pytest.FixtureRequest) -> Generator[HARRecorder, None,
 
 
 @pytest.fixture(autouse=True)
-def _playwright_timeouts(
-    request: pytest.FixtureRequest, global_settings: GlobalSettings
-) -> None:
+def _playwright_timeouts(request: pytest.FixtureRequest, global_settings: GlobalSettings) -> None:
     """Apply a generous default timeout to Playwright actions, navigation, and
     web-first assertions for e2e tests.
 
@@ -163,10 +159,11 @@ def _playwright_timeouts(
 
 
 @pytest.fixture
-def browser_context_args(
-    browser_context_args: dict[Any, Any], request: pytest.FixtureRequest
-) -> dict[Any, Any]:
+def browser_context_args(browser_context_args: dict[Any, Any], request: pytest.FixtureRequest) -> dict[Any, Any]:
     extra: dict[str, Any] = {"viewport": {"width": 1920, "height": 1080}}
+    if request.node.get_closest_marker("admin_ui"):
+        session: PlatformSession = request.getfixturevalue("admin_ui_session")
+        extra["storage_state"] = AdminBrowserAuth(session).storage_state()
     if request.node.get_closest_marker("e2e"):
         root_dir = Path(request.config.rootpath)
         module = _har_module(Path(request.node.path))
@@ -207,6 +204,16 @@ def auth(global_settings: GlobalSettings) -> AuthProvider:
 
 
 @pytest.fixture(scope="session")
+def admin_ui_session(
+    global_settings: GlobalSettings,
+) -> Generator[PlatformSession, None, None]:
+    session = PlatformSession(global_settings.backend_base_url)
+    session.sign_in(global_settings.admin_username, global_settings.admin_password)
+    yield session
+    session.sign_out()
+
+
+@pytest.fixture(scope="session")
 def dataset_manager(global_settings: GlobalSettings) -> DatasetManager:
     return DatasetManager.create(global_settings, logger=NullLogger())
 
@@ -217,23 +224,15 @@ def dataset(dataset_manager: DatasetManager) -> dict[str, list[dict[str, Any]]]:
 
 
 @pytest.fixture
-def graphql_client(
-    with_user: AuthProvider, global_settings: GlobalSettings
-) -> Generator[GraphQLClient, None, None]:
+def graphql_client(with_user: AuthProvider, global_settings: GlobalSettings) -> Generator[GraphQLClient, None, None]:
     with GraphQLClient(auth=with_user, global_settings=global_settings) as client:
         yield client
 
 
 @pytest.fixture
-def with_user(
-    request: pytest.FixtureRequest, global_settings: GlobalSettings
-) -> Generator[AuthProvider, None, None]:
+def with_user(request: pytest.FixtureRequest, global_settings: GlobalSettings) -> Generator[AuthProvider, None, None]:
     is_e2e = request.node.get_closest_marker("e2e") is not None
-    base_url = (
-        global_settings.frontend_base_url
-        if is_e2e
-        else global_settings.backend_base_url
-    )
+    base_url = global_settings.frontend_base_url if is_e2e else global_settings.backend_base_url
     provider = AuthProvider(base_url)
     marker = request.node.get_closest_marker("with_user")
     if marker:
@@ -260,10 +259,7 @@ def with_cart(
     if not marker:
         yield None
         return
-    items = [
-        CartItemInput(product_id=product_id, quantity=quantity)
-        for product_id, quantity in marker.args[0]
-    ]
+    items = [CartItemInput(product_id=product_id, quantity=quantity) for product_id, quantity in marker.args[0]]
     item_summary = ", ".join(f"{p}×{q}" for p, q in marker.args[0])
     with GraphQLClient(auth=with_user, global_settings=global_settings) as client:
         cart_ops = CartOperations(client)
@@ -308,11 +304,7 @@ def delete_cart_after(
     if not request.node.get_closest_marker("delete_cart_after"):
         yield None
         return
-    page = (
-        request.getfixturevalue("page")
-        if request.node.get_closest_marker("e2e")
-        else None
-    )
+    page = request.getfixturevalue("page") if request.node.get_closest_marker("e2e") else None
     yield
     if page is not None:
         user_id: str | None = BrowserStorage(page).get_user_id()
