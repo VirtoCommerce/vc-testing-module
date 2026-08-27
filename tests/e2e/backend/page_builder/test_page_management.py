@@ -12,7 +12,12 @@ from page_objects.backend.page_builder import (
     Status,
 )
 
-pytestmark = [pytest.mark.e2e, pytest.mark.admin_ui, pytest.mark.serial]
+pytestmark = [
+    pytest.mark.e2e,
+    pytest.mark.admin_ui,
+    pytest.mark.serial,
+    pytest.mark.with_user(app="admin"),
+]
 
 _DESIGNER_MARKER = "page-builder-designer"
 
@@ -64,8 +69,6 @@ def test_edit_page(page_builder: PageBuilderShell, make_page: Callable[..., str]
         row = listing.row(renamed)
         assert row.permalink == f"/{renamed}"
         assert row.modified_date != modified_before
-
-    make_page.rename(name, renamed)
 
 
 @allure.feature("Page Builder Shell (E2E)")

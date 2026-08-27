@@ -23,6 +23,23 @@ from utils.har_recorder import HARRecorder
 
 _FEATURE_MARKERS = ["quantity_control", "range_filter_type", "checkout_mode"]
 _INVALID_FILENAME_CHARS = re.compile(r'[<>:"/\\|?*]')
+_ADMIN_APP = "admin"
+
+
+def _with_user_target(node: pytest.Item) -> tuple[str | None, bool]:
+    """Resolve @pytest.mark.with_user into (username, is_admin).
+
+    Storefront (default):  @pytest.mark.with_user(username)
+    Admin/platform:        @pytest.mark.with_user(app="admin"), username defaults
+                           to GlobalSettings.admin_username.
+    """
+    marker = node.get_closest_marker("with_user")
+    if marker is None:
+        return None, False
+    if marker.kwargs.get("app") == _ADMIN_APP:
+        username = marker.args[0] if marker.args else _global_settings.admin_username
+        return username, True
+    return (marker.args[0] if marker.args else None), False
 
 
 def pytest_runtest_setup(item: pytest.Item) -> None:
@@ -161,8 +178,8 @@ def _playwright_timeouts(request: pytest.FixtureRequest, global_settings: Global
 @pytest.fixture
 def browser_context_args(browser_context_args: dict[Any, Any], request: pytest.FixtureRequest) -> dict[Any, Any]:
     extra: dict[str, Any] = {"viewport": {"width": 1920, "height": 1080}}
-    if request.node.get_closest_marker("admin_ui"):
-        session: PlatformSession = request.getfixturevalue("admin_ui_session")
+    if _with_user_target(request.node)[1]:
+        session: PlatformSession = request.getfixturevalue("platform_session")
         extra["storage_state"] = AdminBrowserAuth(session).storage_state()
     if request.node.get_closest_marker("e2e"):
         root_dir = Path(request.config.rootpath)
@@ -213,6 +230,29 @@ def admin_ui_session(
     session.sign_out()
 
 
+@pytest.fixture
+def platform_session(
+    request: pytest.FixtureRequest, global_settings: GlobalSettings
+) -> Generator[PlatformSession, None, None]:
+    """Cookie-based admin session for tests marked with_user(app="admin").
+
+    The default admin reuses the session-scoped login, so a whole run costs one
+    sign-in; a non-default username gets its own short-lived session.
+    """
+    username, is_admin = _with_user_target(request.node)
+    if not is_admin:
+        raise RuntimeError("platform_session requires @pytest.mark.with_user(app='admin') on the test")
+    if username == global_settings.admin_username:
+        yield request.getfixturevalue("admin_ui_session")
+        return
+    session = PlatformSession(global_settings.backend_base_url)
+    with allure.step(f"Sign in to admin as {username}"):
+        session.sign_in(username, global_settings.admin_password)
+    yield session
+    with allure.step(f"Sign out {username}"):
+        session.sign_out()
+
+
 @pytest.fixture(scope="session")
 def dataset_manager(global_settings: GlobalSettings) -> DatasetManager:
     return DatasetManager.create(global_settings, logger=NullLogger())
@@ -230,13 +270,17 @@ def graphql_client(with_user: AuthProvider, global_settings: GlobalSettings) -> 
 
 
 @pytest.fixture
-def with_user(request: pytest.FixtureRequest, global_settings: GlobalSettings) -> Generator[AuthProvider, None, None]:
+def with_user(
+    request: pytest.FixtureRequest, global_settings: GlobalSettings
+) -> Generator[AuthProvider | PlatformSession, None, None]:
+    username, is_admin = _with_user_target(request.node)
+    if is_admin:
+        yield request.getfixturevalue("platform_session")
+        return
     is_e2e = request.node.get_closest_marker("e2e") is not None
     base_url = global_settings.frontend_base_url if is_e2e else global_settings.backend_base_url
     provider = AuthProvider(base_url)
-    marker = request.node.get_closest_marker("with_user")
-    if marker:
-        username: str = marker.args[0]
+    if username is not None:
         with allure.step(f"Sign in as {username}"):
             provider.sign_in(username, global_settings.users_password)
             if is_e2e and provider.token_info:
@@ -251,7 +295,7 @@ def with_user(request: pytest.FixtureRequest, global_settings: GlobalSettings) -
 @pytest.fixture(autouse=True)
 def with_cart(
     request: pytest.FixtureRequest,
-    with_user: AuthProvider,
+    with_user: AuthProvider | PlatformSession,
     ctx: Context,
     global_settings: GlobalSettings,
 ) -> Generator[Cart | None, None, None]:
@@ -332,6 +376,5 @@ def ctx(
     dataset: dict[str, list[dict[str, Any]]],
     global_settings: GlobalSettings,
 ) -> Context:
-    marker = request.node.get_closest_marker("with_user")
-    username: str | None = marker.args[0] if marker else None
-    return Context.from_dataset(dataset, global_settings.store_id, username)
+    username, is_admin = _with_user_target(request.node)
+    return Context.from_dataset(dataset, global_settings.store_id, None if is_admin else username)

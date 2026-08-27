@@ -36,7 +36,7 @@ markers = [
     "serial: test mutates global platform state and must not run in parallel",
     "destructive: test restarts or drops global state (restart platform, drop search index). Excluded from default CI runs.",
     "optional: test belongs to an unstable/optional backend module bundle. Exclude with `-m 'not optional'`.",
-    "with_user(username): sign in as the given user for this test",
+    "with_user(username, app): sign in for this test. Default app is the storefront (OAuth token in localStorage); app=\"admin\" authenticates against the platform (identity cookie in the browser context) and defaults the username to admin_username.",
     "with_page_context(username): provide a Playwright page context for the given user",
     "with_cart(items): seed a cart with the given list of (productId, quantity) pairs",
     "delete_cart_after: delete the user's cart at teardown (reads localStorage for e2e tests)",

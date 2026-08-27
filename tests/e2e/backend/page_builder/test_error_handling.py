@@ -9,7 +9,12 @@ from page_objects.backend.page_builder import (
     Route,
 )
 
-pytestmark = [pytest.mark.e2e, pytest.mark.admin_ui, pytest.mark.serial]
+pytestmark = [
+    pytest.mark.e2e,
+    pytest.mark.admin_ui,
+    pytest.mark.serial,
+    pytest.mark.with_user(app="admin"),
+]
 
 _EXISTING_PERMALINK = "/about-store"
 
@@ -46,7 +51,6 @@ _PERMALINKS = [
 @pytest.mark.xfail(reason=_DUPLICATE_ALLOWED, strict=True)
 def test_duplicate_permalink(
     page_builder: PageBuilderShell,
-    make_page: Callable[..., str],
     unique_name: Callable[[str], str],
 ) -> None:
     name = unique_name("qa-dup")
@@ -64,8 +68,6 @@ def test_duplicate_permalink(
         errored = page_builder.notifications.error.count() > 0
         listing = page_builder.wait_until_listed(Route.DRAFT, name)
         created = listing.has_page(name)
-        if created:
-            make_page.created.append(name)
         assert errored or not created, (
             "Expected a duplicate permalink to be rejected, but the page was " "created without any error notification"
         )
@@ -100,7 +102,6 @@ def test_empty_required_fields(page_builder: PageBuilderShell) -> None:
 @pytest.mark.parametrize("label,permalink", _PERMALINKS)
 def test_special_characters_in_permalink(
     page_builder: PageBuilderShell,
-    make_page: Callable[..., str],
     unique_name: Callable[[str], str],
     label: str,
     permalink: str,
@@ -123,7 +124,6 @@ def test_special_characters_in_permalink(
         if not listing.has_page(name):
             return
 
-        make_page.created.append(name)
         stored = listing.row(name).permalink
         assert " " not in stored, f"Stored permalink still contains spaces: {stored!r}"
         assert "#" not in stored, f"Stored permalink keeps a fragment: {stored!r}"

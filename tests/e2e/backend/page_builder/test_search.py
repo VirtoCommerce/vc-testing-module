@@ -6,7 +6,12 @@ from playwright.sync_api import expect
 
 from page_objects.backend.page_builder import Column, PageBuilderShell, Route
 
-pytestmark = [pytest.mark.e2e, pytest.mark.admin_ui, pytest.mark.serial]
+pytestmark = [
+    pytest.mark.e2e,
+    pytest.mark.admin_ui,
+    pytest.mark.serial,
+    pytest.mark.with_user(app="admin"),
+]
 
 _MARKER = "searchable"
 _SEEDED_PAGE = "our-team"

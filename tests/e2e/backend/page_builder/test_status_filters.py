@@ -14,7 +14,12 @@ from page_objects.backend.page_builder import (
     Status,
 )
 
-pytestmark = [pytest.mark.e2e, pytest.mark.admin_ui, pytest.mark.serial]
+pytestmark = [
+    pytest.mark.e2e,
+    pytest.mark.admin_ui,
+    pytest.mark.serial,
+    pytest.mark.with_user(app="admin"),
+]
 
 
 @allure.feature("Page Builder Shell (E2E)")

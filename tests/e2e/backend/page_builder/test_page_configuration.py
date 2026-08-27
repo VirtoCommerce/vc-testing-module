@@ -7,7 +7,12 @@ from playwright.sync_api import expect
 
 from page_objects.backend.page_builder import PageBuilderShell, Route
 
-pytestmark = [pytest.mark.e2e, pytest.mark.admin_ui, pytest.mark.serial]
+pytestmark = [
+    pytest.mark.e2e,
+    pytest.mark.admin_ui,
+    pytest.mark.serial,
+    pytest.mark.with_user(app="admin"),
+]
 
 _USER_GROUP = "Wholesaler"
 _ORGANIZATION = "ACME Store"
@@ -170,7 +175,6 @@ def test_all_configuration_fields(page_builder: PageBuilderShell, make_page: Cal
         details.fill(name=renamed, permalink=f"/{renamed}")
         details.save()
         page_builder.notifications.wait_for_success()
-        make_page.rename(name, renamed)
 
         listing = page_builder.wait_until_listed(Route.DRAFT, renamed)
         assert listing.has_page(renamed)

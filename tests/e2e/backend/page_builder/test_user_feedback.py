@@ -11,7 +11,12 @@ from page_objects.backend.page_builder import (
     Status,
 )
 
-pytestmark = [pytest.mark.e2e, pytest.mark.admin_ui, pytest.mark.serial]
+pytestmark = [
+    pytest.mark.e2e,
+    pytest.mark.admin_ui,
+    pytest.mark.serial,
+    pytest.mark.with_user(app="admin"),
+]
 
 _SAVE_TOAST = "Page saved successfully"
 _NO_UNPUBLISH_TOAST = (
@@ -34,7 +39,6 @@ def test_save_success_toast(page_builder: PageBuilderShell, make_page: Callable[
     with allure.step("Editing a field enables Save"):
         details.fill(name=f"{name}-toast")
         details.toolbar.expect_enabled(DetailsToolbar.SAVE)
-        make_page.rename(name, f"{name}-toast")
 
     with allure.step("Saving raises a green success toast"):
         details.save()

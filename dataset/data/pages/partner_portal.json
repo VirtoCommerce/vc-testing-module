@@ -1,0 +1,10 @@
+{
+  "id": "acme-store-grouped-page-partner-portal",
+  "name": "partner-portal",
+  "permalink": "/partner-portal",
+  "storeId": "store-acme",
+  "cultureName": "en-US",
+  "status": "Draft",
+  "visibility": false,
+  "organizationId": "organization-acme-store"
+}
