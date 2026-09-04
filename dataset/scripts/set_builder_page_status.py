@@ -52,14 +52,19 @@ def main() -> None:
     base_url = global_settings.backend_base_url
     auth = AuthProvider(base_url)
     auth.sign_in(username=global_settings.admin_username, password=global_settings.admin_password)
+    failed: list[str] = []
     try:
         with RestClient(global_settings=global_settings, auth=auth) as rest_client:
-            apply_status(rest_client, base_url, args.page_id, args.status, logger)
-    except Exception as e:
-        logger.error(f"[red]Failed to set {args.page_id!r} to {args.status!r}:[/red] {type(e).__name__}: {e}")
-        sys.exit(1)
+            for page_id in args.page_id:
+                try:
+                    apply_status(rest_client, base_url, page_id, args.status, logger)
+                except Exception as e:
+                    failed.append(page_id)
+                    logger.error(f"[red]Failed to set {page_id!r} to {args.status!r}:[/red] {type(e).__name__}: {e}")
     finally:
         auth.sign_out()
+    if failed:
+        sys.exit(1)
 
 
 def _parse_args() -> argparse.Namespace:
@@ -67,8 +72,9 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--page-id",
         required=True,
+        nargs="+",
         metavar="PAGE_ID",
-        help="Grouped page id (e.g. 'acme-store-grouped-page-about-store')",
+        help="One or more grouped page ids (e.g. 'acme-store-grouped-page-about-store')",
     )
     parser.add_argument(
         "--status",

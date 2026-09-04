@@ -16,6 +16,7 @@ from restapi.operations.notifications_operations import NotificationsOperations
 from restapi.operations.oauth_operations import OAuthOperations
 from restapi.operations.order_operations import OrderOperations
 from restapi.operations.organization_operations import OrganizationOperations
+from restapi.operations.page_builder_operations import PageBuilderOperations
 from restapi.operations.price_operations import PriceOperations
 from restapi.operations.pricelist_assignment_operations import PricelistAssignmentOperations
 from restapi.operations.pricelist_operations import PricelistOperations
@@ -45,6 +46,7 @@ __all__ = [
     "OAuthOperations",
     "OrderOperations",
     "OrganizationOperations",
+    "PageBuilderOperations",
     "PriceOperations",
     "PricelistAssignmentOperations",
     "PricelistOperations",
