@@ -16,6 +16,7 @@ from restapi.types.employee import Employee
 from restapi.types.member import Member
 from restapi.types.order import CustomerOrder, OrderLineItem
 from restapi.types.organization import Organization
+from restapi.types.organization_membership import OrganizationMembership
 from restapi.types.pricelist import Pricelist, PricelistAssignment
 from restapi.types.product import Product
 from restapi.types.promotion import Promotion
@@ -34,6 +35,7 @@ __all__ = [
     "Member",
     "OrderLineItem",
     "Organization",
+    "OrganizationMembership",
     "Pricelist",
     "PricelistAssignment",
     "Product",

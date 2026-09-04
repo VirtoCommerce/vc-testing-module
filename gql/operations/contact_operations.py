@@ -408,6 +408,70 @@ class ContactOperations(BaseOperations):
             return []
         return [Role.model_validate(r) for r in (data.get("rolesInOrganization") or [])]
 
+    def get_organizations(
+        self,
+        after: str | None = None,
+        first: int | None = None,
+        sort: str | None = None,
+        search_phrase: str | None = None,
+        statuses: list[str] | None = None,
+    ) -> tuple[int, list[dict]]:
+        """me.contact.organizations — the header org switcher's `GetOrganizations` query.
+
+        Server-side returns every organization the caller belongs to, including ones where
+        their membership is currently locked (VCST-5317); each item carries
+        `isLockedForCurrentUser` so the caller decides how to present it (the storefront
+        renders locked ones as disabled rather than hiding them).
+        """
+        # fmt: off
+        query = gql("""
+            query GetOrganizations(
+                $after: String,
+                $first: Int,
+                $sort: String,
+                $searchPhrase: String,
+                $statuses: [String],
+            ) {
+              me {
+                contact {
+                  organizations(
+                    after: $after,
+                    first: $first,
+                    sort: $sort,
+                    searchPhrase: $searchPhrase,
+                    statuses: $statuses,
+                  ) {
+                    items {
+                      id
+                      name
+                      isLockedForCurrentUser
+                    }
+                    totalCount
+                    pageInfo {
+                      hasNextPage
+                      endCursor
+                    }
+                  }
+                }
+              }
+            }
+        """)
+        # fmt: on
+        result = self._client.execute(
+            self._build_query(query),
+            variables={
+                "after": after,
+                "first": first,
+                "sort": sort,
+                "searchPhrase": search_phrase,
+                "statuses": statuses,
+            },
+        )
+        data = result["data"]["me"]["contact"]["organizations"]
+        total_count: int = data.get("totalCount") or 0
+        items = data.get("items") or []
+        return total_count, items
+
     def get_organization_contacts(
         self,
         organization_id: str,
