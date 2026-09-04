@@ -35,3 +35,14 @@ class AccountMenu(Component):
 
     def find_organization(self, name: str) -> Locator:
         return self._root.locator(f"[data-organization-name='{name}']")
+
+    @property
+    def organizations_options(self) -> Locator:
+        """The interactive <button role="option"> wrapping each organization row — use with
+        expect(...).to_be_disabled() to check whether it's locked. VcRadioButton doesn't render
+        a native <input> when nested inside another interactive element (the VcMenuItem here),
+        so the disabled state lives on this button, not on organizations_list/find_organization()."""
+        return self._root.locator("[data-vc-organization-option] [role='option']")
+
+    def find_organization_option(self, name: str) -> Locator:
+        return self._root.locator(f"[role='option']:has([data-organization-name='{name}'])")

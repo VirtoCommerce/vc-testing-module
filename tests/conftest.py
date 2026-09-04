@@ -1,13 +1,15 @@
+import logging
 import os
 import re
 import time
 from pathlib import Path
-from typing import Any, Generator
+from typing import Any, Callable, Generator
 
 import allure
 import pytest
 from core.auth import AdminBrowserAuth, AuthProvider, PlatformSession
 from core.clients import GraphQLClient
+from core.clients.rest import RestClient
 from core.global_settings import GlobalSettings
 from core.global_settings import global_settings as _global_settings
 from core.logger import NullLogger
@@ -16,10 +18,13 @@ from gql.types.cart import Cart
 from gql.types.cart_item_input import CartItemInput
 from page_objects.frontend.browser_storage import BrowserStorage
 from playwright.sync_api import Page, expect
+from restapi.operations import OrganizationMembershipOperations
 from tests.context import Context
 
 from dataset.dataset_manager import DatasetManager
 from utils.har_recorder import HARRecorder
+
+logger = logging.getLogger(__name__)
 
 _FEATURE_MARKERS = ["quantity_control", "range_filter_type", "checkout_mode"]
 _INVALID_FILENAME_CHARS = re.compile(r'[<>:"/\\|?*]')
@@ -261,6 +266,75 @@ def dataset_manager(global_settings: GlobalSettings) -> DatasetManager:
 @pytest.fixture(scope="session")
 def dataset(dataset_manager: DatasetManager) -> dict[str, list[dict[str, Any]]]:
     return dataset_manager.dataset
+
+
+@pytest.fixture(scope="session")
+def admin_auth(global_settings: GlobalSettings) -> Generator[AuthProvider, None, None]:
+    """Session-scoped admin auth — signed in once, reused across all REST-backed fixtures/tests."""
+    provider = AuthProvider(global_settings.backend_base_url)
+    provider.sign_in(global_settings.admin_username, global_settings.admin_password)
+    yield provider
+    provider.sign_out()
+
+
+@pytest.fixture
+def rest_client(global_settings: GlobalSettings, admin_auth: AuthProvider) -> Generator[RestClient, None, None]:
+    with RestClient(global_settings=global_settings, auth=admin_auth) as client:
+        yield client
+
+
+@pytest.fixture(scope="session")
+def backend_base_url(global_settings: GlobalSettings) -> str:
+    """Base URL for REST API operations constructors."""
+    return global_settings.backend_base_url
+
+
+@pytest.fixture
+def organization_membership_ops(
+    rest_client: RestClient, backend_base_url: str
+) -> OrganizationMembershipOperations:
+    return OrganizationMembershipOperations(rest_client, backend_base_url)
+
+
+@pytest.fixture
+def lock_membership(
+    organization_membership_ops: OrganizationMembershipOperations,
+) -> Generator[Callable[..., None], None, None]:
+    """Locks a membership by (userId, organizationId); reverts everything it changed at teardown.
+
+    Used to set up the "locked organization" state for tests that verify the header org
+    switcher / GetOrganizations query flags a locked organization (isLockedForCurrentUser)
+    rather than excluding it (VCST-5317) — the platform has no other way to reach this
+    state. The seeded dataset only carries an explicit OrganizationMembership row for a
+    user's default organization (other org associations are legacy Contact.organizations
+    entries with no membership row), so this creates one on demand when it's missing, and
+    only that case gets deleted at teardown — a pre-existing membership is just unlocked,
+    not removed.
+    """
+    # (user_id, organization_id, created_by_this_fixture)
+    locked: list[tuple[str, str, bool]] = []
+
+    def _lock(*, user_id: str, organization_id: str, lockout_end=None) -> None:
+        membership = organization_membership_ops.get_by_user_and_org(user_id, organization_id)
+        created = membership is None
+        if membership is None:
+            membership = organization_membership_ops.create(user_id=user_id, organization_id=organization_id)
+        organization_membership_ops.lock(membership.id, lockout_end=lockout_end)
+        locked.append((user_id, organization_id, created))
+
+    yield _lock
+
+    for uid, oid, created in reversed(locked):
+        try:
+            membership = organization_membership_ops.get_by_user_and_org(uid, oid)
+            if membership is None:
+                continue
+            if created:
+                organization_membership_ops.delete(membership.id)
+            else:
+                organization_membership_ops.unlock(membership.id)
+        except Exception as e:
+            logger.warning("Cleanup failed for membership user_id=%s organization_id=%s: %s", uid, oid, e)
 
 
 @pytest.fixture

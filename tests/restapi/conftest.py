@@ -1,42 +1,15 @@
 """Shared fixtures for REST API tests.
 
-Provides:
-- `admin_auth` — session-scoped AuthProvider signed in as admin
-- `rest_client` — function-scoped RestClient with admin auth
-- `backend_base_url` — convenience string for operations constructors
+`admin_auth` / `rest_client` / `backend_base_url` live in the root conftest
+(tests/conftest.py) since e2e and graphql tests also need REST admin access
+to set up state (e.g. locking an organization membership) that has no
+GraphQL/UI equivalent.
 
 HAR recording is handled by the root conftest's autouse `har_recorder`
 fixture, which hooks into `rest_client._session` automatically.
 """
 
-from typing import Generator
-
 import pytest
-
-from core.auth import AuthProvider
-from core.clients.rest import RestClient
-from core.global_settings import GlobalSettings
-
-
-@pytest.fixture(scope="session")
-def admin_auth(global_settings: GlobalSettings) -> Generator[AuthProvider, None, None]:
-    """Session-scoped admin auth — signed in once, reused across all REST tests."""
-    provider = AuthProvider(global_settings.backend_base_url)
-    provider.sign_in(global_settings.admin_username, global_settings.admin_password)
-    yield provider
-    provider.sign_out()
-
-
-@pytest.fixture
-def rest_client(global_settings: GlobalSettings, admin_auth: AuthProvider) -> Generator[RestClient, None, None]:
-    with RestClient(global_settings=global_settings, auth=admin_auth) as client:
-        yield client
-
-
-@pytest.fixture(scope="session")
-def backend_base_url(global_settings: GlobalSettings) -> str:
-    """Base URL for REST API operations constructors."""
-    return global_settings.backend_base_url
 
 
 @pytest.fixture(scope="session")
