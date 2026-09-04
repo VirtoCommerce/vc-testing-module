@@ -17,6 +17,7 @@ from restapi.types.member import Member
 from restapi.types.order import CustomerOrder, OrderLineItem
 from restapi.types.organization import Organization
 from restapi.types.organization_membership import OrganizationMembership
+from restapi.types.page_builder import PageBuilderPage
 from restapi.types.pricelist import Pricelist, PricelistAssignment
 from restapi.types.product import Product
 from restapi.types.promotion import Promotion
@@ -36,6 +37,7 @@ __all__ = [
     "OrderLineItem",
     "Organization",
     "OrganizationMembership",
+    "PageBuilderPage",
     "Pricelist",
     "PricelistAssignment",
     "Product",

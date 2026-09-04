@@ -11,9 +11,7 @@ _ENV_FILE = Path(__file__).parent.parent / ".env"
 
 
 class GlobalSettings(BaseSettings):
-    model_config = SettingsConfigDict(
-        env_file=_ENV_FILE, env_file_encoding="utf-8", extra="ignore"
-    )
+    model_config = SettingsConfigDict(env_file=_ENV_FILE, env_file_encoding="utf-8", extra="ignore")
 
     # Required
     frontend_base_url: str
@@ -29,6 +27,7 @@ class GlobalSettings(BaseSettings):
     checkout_mode: Literal["single-page", "multi-step"] = "single-page"
     quantity_control: Literal["stepper", "button"] = "stepper"
     range_filter_type: Literal["slider", "default"] = "slider"
+    page_builder_path: str = "/apps/page-builder-shell/?storeId={store_id}"
     requests_timeout: int = 30
     verify_ssl: bool = False
     poll_interval: int = 2
@@ -38,6 +37,11 @@ class GlobalSettings(BaseSettings):
     # tests tolerate slower remote environments (e.g. shared demo backends on
     # CI) where the UI settles later than it does against a local frontend.
     playwright_timeout: int = 30000
+
+    def page_builder_shell_url(self, store_id: str | None = None, route: str | None = None) -> str:
+        path = self.page_builder_path.format(store_id=store_id or self.store_id)
+        url = f"{self.backend_base_url.rstrip('/')}/{path.lstrip('/')}"
+        return f"{url}#/{route.lstrip('#/')}" if route else url
 
     @cached_property
     def env_vars(self) -> dict[str, str]:
