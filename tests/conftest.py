@@ -57,7 +57,42 @@ def pytest_runtest_makereport(item: pytest.Item, call: pytest.CallInfo) -> Gener
     """Capture test outcome so fixtures can react to failures."""
     outcome = yield
     rep = outcome.get_result()
+    if rep.when == "call":
+        setup = getattr(item, "rep_setup", None)
+        rep.elapsed_setup = setup.duration if setup else 0.0
+        rep.elapsed = rep.elapsed_setup + rep.duration
     setattr(item, f"rep_{rep.when}", rep)
+
+
+def _format_seconds(seconds: float) -> str:
+    if seconds < 1:
+        return f"{seconds * 1000:.0f}ms"
+    return f"{seconds:.1f}s"
+
+
+def _format_elapsed(report: pytest.TestReport) -> str:
+    total = getattr(report, "elapsed", report.duration)
+    setup = getattr(report, "elapsed_setup", 0.0)
+    if setup >= 0.1:
+        return f"{_format_seconds(total)}, setup {_format_seconds(setup)}"
+    return _format_seconds(total)
+
+
+def pytest_report_teststatus(
+    report: pytest.TestReport | pytest.CollectReport, config: pytest.Config
+) -> tuple[str, str, tuple[str, dict[str, bool]]] | None:
+    """Append setup+call elapsed time to each test line, like Playwright's list reporter."""
+    if not isinstance(report, pytest.TestReport) or report.when != "call":
+        return None
+    if hasattr(report, "wasxfail"):
+        return None
+
+    elapsed = _format_elapsed(report)
+    if report.passed:
+        return "passed", ".", (f"PASSED ({elapsed})", {"green": True})
+    if report.failed:
+        return "failed", "F", (f"FAILED ({elapsed})", {"red": True})
+    return None
 
 
 @pytest.fixture
