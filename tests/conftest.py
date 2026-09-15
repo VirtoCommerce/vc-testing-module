@@ -81,7 +81,11 @@ def _format_elapsed(report: pytest.TestReport) -> str:
 def pytest_report_teststatus(
     report: pytest.TestReport | pytest.CollectReport, config: pytest.Config
 ) -> tuple[str, str, tuple[str, dict[str, bool]]] | None:
-    """Append setup+call elapsed time to each test line, like Playwright's list reporter."""
+    """Append setup+call elapsed time to each test line.
+
+    Teardown has not run yet at this point, so this is NOT comparable to a
+    Playwright duration. Use the end-of-session table for that.
+    """
     if not isinstance(report, pytest.TestReport) or report.when != "call":
         return None
     if hasattr(report, "wasxfail"):
@@ -93,6 +97,34 @@ def pytest_report_teststatus(
     if report.failed:
         return "failed", "F", (f"FAILED ({elapsed})", {"red": True})
     return None
+
+
+_PHASE_TIMINGS: dict[str, dict[str, float]] = {}
+
+
+def pytest_runtest_logreport(report: pytest.TestReport) -> None:
+    _PHASE_TIMINGS.setdefault(report.nodeid, {})[report.when] = report.duration
+
+
+def pytest_terminal_summary(terminalreporter: Any, exitstatus: int, config: pytest.Config) -> None:
+    """Per-test totals including teardown — the figure comparable to Playwright."""
+    if not _PHASE_TIMINGS:
+        return
+
+    rows = sorted(
+        ((sum(phases.values()), nodeid, phases) for nodeid, phases in _PHASE_TIMINGS.items()),
+        key=lambda row: row[0],
+        reverse=True,
+    )
+
+    terminalreporter.write_sep("=", "elapsed per test (setup + call + teardown)")
+    for total, nodeid, phases in rows:
+        terminalreporter.write_line(
+            f"{_format_seconds(total):>8}  "
+            f"(setup {_format_seconds(phases.get('setup', 0.0))}, "
+            f"call {_format_seconds(phases.get('call', 0.0))}, "
+            f"teardown {_format_seconds(phases.get('teardown', 0.0))})  {nodeid}"
+        )
 
 
 @pytest.fixture

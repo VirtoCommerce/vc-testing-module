@@ -6,6 +6,16 @@ on:
       - vcst-5254
   workflow_dispatch:
     inputs:
+      database:
+        description: "Database provider to run against"
+        required: true
+        type: choice
+        default: "all"
+        options:
+          - all
+          - sqlserver
+          - postgres
+          - mysql
       platformDockerTag:
         description: "Platform Docker image tag"
         required: false
@@ -70,11 +80,43 @@ jobs:
         run: npm run format:check
 
   # ════════════════════════════════════════════════
-  # Playwright tests from _TYPESCRIPT
+  # Pick the database legs for this run
   # ════════════════════════════════════════════════
-  ts-tests:
+  setup:
+    timeout-minutes: 5
+    runs-on: ubuntu-22.04
+
+    outputs:
+      databases: ${{ steps.select.outputs.databases }}
+
+    steps:
+      - name: Select databases
+        id: select
+        env:
+          # Empty on push — a push runs the full matrix.
+          CHOICE: ${{ inputs.database }}
+        run: |
+          if [ -z "$CHOICE" ] || [ "$CHOICE" = "all" ]; then
+            DATABASES='["sqlserver","postgres","mysql"]'
+          else
+            DATABASES="[\"$CHOICE\"]"
+          fi
+          echo "databases=$DATABASES" >> "$GITHUB_OUTPUT"
+          echo "Running against: $DATABASES"
+
+  # ════════════════════════════════════════════════
+  # Playwright e2e tests from _TYPESCRIPT, per database
+  # ════════════════════════════════════════════════
+  e2e-tests:
+    name: e2e-tests (${{ matrix.database }})
+    needs: setup
     timeout-minutes: 60
     runs-on: ubuntu-22.04
+
+    strategy:
+      fail-fast: false
+      matrix:
+        database: ${{ fromJson(needs.setup.outputs.databases) }}
 
     permissions:
       contents: read
@@ -85,6 +127,7 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
       FORCE_COLOR: "1"
+      DATABASE: ${{ matrix.database }}
       # `inputs` is empty on push — fall back to the workflow_dispatch defaults.
       PLATFORM_DOCKER_TAG: ${{ inputs.platformDockerTag || 'linux-latest' }}
       FRONTEND_ZIP_URL: ${{ inputs.frontendZipUrl || 'latest' }}
@@ -191,12 +234,50 @@ jobs:
           docker build -f Dockerfile.frontend -t nginx_frontend:local-latest .
 
       # ──────────────────────────────────────────────
-      # 3. Start Docker infrastructure
+      # 3. Resolve database settings
+      # ──────────────────────────────────────────────
+      - name: Resolve database settings
+        run: |
+          case "$DATABASE" in
+            sqlserver)
+              DB_PORT=1433
+              DB_PROVIDER=SqlServer
+              DB_CONNECTION_STRING="Data Source=vc-db;Initial Catalog=VirtoCommerce3docker;Persist Security Info=True;User ID=sa;Password=v!rto_Labs!;MultipleActiveResultSets=False;Connect Timeout=360;TrustServerCertificate=True;"
+              ;;
+            postgres)
+              DB_PORT=5432
+              DB_PROVIDER=PostgreSql
+              DB_CONNECTION_STRING="User ID=virto;Password=v!rto_Labs!;Host=vc-db;Port=5432;Database=VirtoCommerce3;Pooling=true;Timeout=360;"
+              ;;
+            mysql)
+              DB_PORT=3306
+              DB_PROVIDER=MySql
+              DB_CONNECTION_STRING="Server=vc-db;Port=3306;Database=VirtoCommerce3;Uid=root;Pwd=v!rto_Labs!;AllowUserVariables=True;UseAffectedRows=false;Connect Timeout=360;"
+              ;;
+            *)
+              echo "::error::Unknown database '$DATABASE'"
+              exit 1
+              ;;
+          esac
+
+          {
+            echo "DB_PORT=$DB_PORT"
+            echo "DB_PROVIDER=$DB_PROVIDER"
+            echo "DB_CONNECTION_STRING=$DB_CONNECTION_STRING"
+          } >> "$GITHUB_ENV"
+
+          echo "Database: $DATABASE (provider $DB_PROVIDER, port $DB_PORT)"
+
+      # ──────────────────────────────────────────────
+      # 4. Start Docker infrastructure
       # ──────────────────────────────────────────────
       - name: Create docker-compose.yml
         run: |
-          cat > docker-compose.yml << 'COMPOSE'
-          services:
+          echo "services:" > docker-compose.yml
+
+          case "$DATABASE" in
+            sqlserver)
+              cat >> docker-compose.yml << 'DBSERVICE'
             vc-db:
               image: mcr.microsoft.com/mssql/server:2017-latest
               ports:
@@ -207,6 +288,54 @@ jobs:
                 - SA_PASSWORD=v!rto_Labs!
               networks:
                 - virto
+              healthcheck:
+                test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P 'v!rto_Labs!' -Q 'SELECT 1' || exit 1"]
+                interval: 10s
+                timeout: 10s
+                retries: 60
+          DBSERVICE
+              ;;
+            postgres)
+              cat >> docker-compose.yml << 'DBSERVICE'
+            vc-db:
+              image: postgres:16-alpine
+              ports:
+                - "5432:5432"
+              environment:
+                - POSTGRES_USER=virto
+                - POSTGRES_PASSWORD=v!rto_Labs!
+                - POSTGRES_DB=VirtoCommerce3
+              networks:
+                - virto
+              healthcheck:
+                test: ["CMD-SHELL", "pg_isready -U virto -d VirtoCommerce3"]
+                interval: 10s
+                timeout: 10s
+                retries: 60
+          DBSERVICE
+              ;;
+            mysql)
+              cat >> docker-compose.yml << 'DBSERVICE'
+            vc-db:
+              image: mysql:8.0
+              command: --default-authentication-plugin=mysql_native_password
+              ports:
+                - "3306:3306"
+              environment:
+                - MYSQL_ROOT_PASSWORD=v!rto_Labs!
+                - MYSQL_DATABASE=VirtoCommerce3
+              networks:
+                - virto
+              healthcheck:
+                test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p'v!rto_Labs!' --silent"]
+                interval: 10s
+                timeout: 10s
+                retries: 60
+          DBSERVICE
+              ;;
+          esac
+
+          cat >> docker-compose.yml << 'COMPOSE'
 
             es:
               image: docker.elastic.co/elasticsearch/elasticsearch:8.18.0
@@ -255,7 +384,8 @@ jobs:
                 - ASPNETCORE_URLS=http://+
                 - VirtoCommerce__AllowInsecureHttp=true
                 - VirtoCommerce__Hangfire__JobStorageType=Memory
-                - ConnectionStrings__VirtoCommerce=Data Source=vc-db;Initial Catalog=VirtoCommerce3docker;Persist Security Info=True;User ID=sa;Password=v!rto_Labs!;MultipleActiveResultSets=False;Connect Timeout=360;TrustServerCertificate=True;
+                - DatabaseProvider=${DB_PROVIDER}
+                - ConnectionStrings__VirtoCommerce=${DB_CONNECTION_STRING}
                 - Assets__FileSystem__PublicUrl=http://localhost:8090/assets/
                 - Content__FileSystem__PublicUrl=http://localhost:8090/cms-content/
                 - Search__Provider=ElasticSearch8
@@ -271,7 +401,7 @@ jobs:
               depends_on:
                 - vc-db
                 - es
-              entrypoint: ["/wait-for-it.sh", "vc-db:1433", "-t", "120", "--", "dotnet", "VirtoCommerce.Platform.Web.dll"]
+              entrypoint: ["/wait-for-it.sh", "vc-db:${DB_PORT}", "-t", "120", "--", "dotnet", "VirtoCommerce.Platform.Web.dll"]
               volumes:
                 - ./modules/modules:/opt/virtocommerce/platform/modules
                 - ./modules/app_data:/opt/virtocommerce/platform/app_data
@@ -287,12 +417,24 @@ jobs:
             virto:
           COMPOSE
 
+          echo "--- docker-compose.yml ---"
+          cat docker-compose.yml
+
       - name: Start database and Elasticsearch
         env:
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_APIKEY_4E2E_AUTOTESTS }}
         run: |
           docker compose --project-name virtocommerce up -d vc-db es
-          sleep 15
+          echo "Waiting for $DATABASE to become healthy..."
+          for i in $(seq 1 60); do
+            STATUS=$(docker inspect --format '{{.State.Health.Status}}' virtocommerce-vc-db-1 2>/dev/null || echo "starting")
+            echo "Attempt $i/60: $STATUS"
+            if [ "$STATUS" = "healthy" ]; then
+              echo "Database is ready!"
+              break
+            fi
+            sleep 5
+          done
 
       - name: Start platform and frontend
         env:
@@ -320,7 +462,7 @@ jobs:
           done
 
       # ──────────────────────────────────────────────
-      # 4. Prepare platform
+      # 5. Prepare platform
       # ──────────────────────────────────────────────
       - name: Reset admin password
         shell: pwsh
@@ -340,9 +482,6 @@ jobs:
           Invoke-WebRequest -Uri "http://localhost:8090/api/platform/security/users/admin/resetpassword" -Body $resetBody -Headers $authHeaders -Method POST
           Write-Host "Admin password reset successfully"
 
-      # ──────────────────────────────────────────────
-      # 5. Create .env files
-      # ──────────────────────────────────────────────
       - name: Create .env files
         working-directory: vc-testing-module
         env:
@@ -463,9 +602,10 @@ jobs:
           </html>
           HTML
 
-          cat > report/README.md << 'EOF'
-          # TS Test Results
+          cat > report/README.md << EOF
+          # TS Test Results — ${DATABASE}
 
+          Database: ${DATABASE} (provider ${DB_PROVIDER})
           Run: ${{ github.run_number }} (attempt ${{ github.run_attempt }})
           Commit: ${{ github.sha }}
           Branch: ${{ github.ref_name }}
@@ -474,17 +614,17 @@ jobs:
 
           | Path | Use it for |
           |---|---|
-          | `index.html` | Landing page — redirects to the Playwright HTML report. |
-          | `playwright-report/index.html` | Playwright HTML report. Open locally, or serve it with `npx playwright show-report playwright-report`. |
-          | `test-results/` | Per-test artifacts for failures: trace zips, screenshots, videos. Open a trace with `npx playwright show-trace <file>.zip` or at [trace.playwright.dev](https://trace.playwright.dev). |
-          | `ts-junit.xml` | JUnit XML for the TypeScript suite — drives the PR comment and the per-file breakdown on the Summary tab. |
+          | \`index.html\` | Landing page — redirects to the Playwright HTML report. |
+          | \`playwright-report/index.html\` | Playwright HTML report. Open locally, or serve it with \`npx playwright show-report playwright-report\`. |
+          | \`test-results/\` | Per-test artifacts for failures: trace zips, screenshots, videos. Open a trace with \`npx playwright show-trace <file>.zip\` or at [trace.playwright.dev](https://trace.playwright.dev). |
+          | \`ts-junit.xml\` | JUnit XML for the TypeScript suite — drives the PR comment and the per-file breakdown on the Summary tab. |
           EOF
 
       - name: Upload consolidated test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ts-test-results-${{ github.run_number }}-${{ github.run_attempt }}
+          name: ts-test-results-${{ matrix.database }}-${{ github.run_number }}-${{ github.run_attempt }}
           path: vc-testing-module/_TYPESCRIPT/report/
           if-no-files-found: warn
           retention-days: 30
@@ -494,7 +634,7 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action@v2
         with:
           files: vc-testing-module/_TYPESCRIPT/report/ts-junit.xml
-          check_name: Test Results (TypeScript)
+          check_name: Test Results (TypeScript / ${{ matrix.database }})
           comment_mode: always
           report_individual_runs: true
 
@@ -508,6 +648,7 @@ jobs:
           from collections import defaultdict
           from pathlib import Path
 
+          database = os.environ.get("DATABASE", "unknown")
           stats = defaultdict(
               lambda: {"total": 0, "passed": 0, "failed": 0, "errored": 0, "skipped": 0, "time": 0.0}
           )
@@ -541,7 +682,7 @@ jobs:
               raise SystemExit(0)
 
           lines = [
-              "## TypeScript tests — per-file breakdown",
+              f"## TypeScript e2e tests — {database}",
               "",
               "| Test file | Total | Passed | Failed | Errored | Skipped | Time |",
               "|---|---:|---:|---:|---:|---:|---:|",
@@ -578,5 +719,7 @@ jobs:
         run: |
           echo "=== Platform logs ==="
           docker logs virtocommerce-vc-platform-web-1 --tail 100
+          echo "=== Database ($DATABASE) logs ==="
+          docker logs virtocommerce-vc-db-1 --tail 50
           echo "=== Elasticsearch logs ==="
           docker logs virtocommerce-es-1 --tail 50
