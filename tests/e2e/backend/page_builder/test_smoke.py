@@ -34,6 +34,7 @@ def test_shell_smoke(page_builder: PageBuilderShell) -> None:
             Menu.ARCHIVED,
             Menu.ALL,
             Menu.ASSETS,
+            Menu.SHARED_COMPONENTS,
         ]
 
     with allure.step("Grid exposes the documented columns"):

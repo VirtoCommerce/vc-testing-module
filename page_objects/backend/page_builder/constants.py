@@ -16,6 +16,7 @@ class Menu:
     ARCHIVED: Final = "ArchivedPagesList"
     ALL: Final = "AllPagesList"
     ASSETS: Final = "AssetsLibrary"
+    SHARED_COMPONENTS = "SharedComponents"
 
 
 class ListToolbar:
