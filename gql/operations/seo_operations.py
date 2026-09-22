@@ -16,14 +16,12 @@ class SeoOperations(BaseOperations):
         query = gql("""
             query SlugInfo(
                 $storeId: String,
-                $slug: String,
                 $permalink: String,
                 $userId: String,
                 $cultureName: String,
             ) {
               slugInfo(
                 storeId: $storeId,
-                slug: $slug,
                 permalink: $permalink,
                 userId: $userId,
                 cultureName: $cultureName,
@@ -37,8 +35,8 @@ class SeoOperations(BaseOperations):
             self._build_query(query),
             variables={
                 "storeId": store_id,
-                "slug": slug,
-                "permalink": permalink,
+                # 'slug' argument was removed from slugInfo; permalink is its replacement.
+                "permalink": permalink if permalink is not None else slug,
                 "userId": user_id,
                 "cultureName": culture_name,
             },
