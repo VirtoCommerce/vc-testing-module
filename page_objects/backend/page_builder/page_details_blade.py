@@ -15,7 +15,7 @@ from page_objects.backend.shell import (
     Select,
 )
 
-_PERMALINK_PREFIX: Final = "div[class*='tw-rounded-sm']"
+_PERMALINK_PREFIX: Final = "[data-test-id='permalink-prefix']"
 _DATE_INPUT: Final = "[data-test-id='dp-input']"
 _SWITCH: Final = ".vc-switch"
 _SWITCH_INPUT: Final = "input[role='switch']"
