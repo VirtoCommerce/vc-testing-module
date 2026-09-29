@@ -45,7 +45,7 @@ jobs:
           token: ${{ secrets.REPO_TOKEN }}
 
       - name: Install VirtoCommerce.GlobalTool
-        uses: VirtoCommerce/vc-github-actions/setup-vcbuild@master
+        uses: VirtoCommerce/.github/actions/setup-vcbuild@v3.1000.1
 
       - name: Install modules and pull platform image
         run: |
