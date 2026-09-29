@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "module": "nodenext",
+    "target": "esnext",
+    "lib": ["esnext"],
+    "types": ["node"],
+    "moduleDetection": "force",
+    "resolveJsonModule": true,
+
+    "paths": {
+      "@config/*": ["./src/config/*"],
+      "@fixtures/*": ["./src/fixtures/*"],
+      "@page-objects/*": ["./src/page-objects/*"]
+    },
+
+    "noEmit": true,
+
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+
+    "isolatedModules": true,
+    "noUncheckedSideEffectImports": true,
+    "skipLibCheck": true
+  },
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules"]
+}

@@ -1,0 +1,7 @@
+node_modules/
+package-lock.json
+test-results/
+playwright-report/
+blob-report/
+src/api/graphql/generated/
+schema.graphql

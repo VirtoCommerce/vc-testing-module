@@ -1,0 +1,28 @@
+{
+  "name": "vc-testing-module-ts",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "playwright test",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test:headed": "playwright test --headed --workers=1",
+    "test:ui": "playwright test --ui",
+    "test:debug": "playwright test --debug",
+    "report": "playwright show-report",
+    "check": "npm run typecheck && npm run lint && npm run format:check"
+  },
+  "private": true,
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^26.5.0",
+    "eslint": "^10.10.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-playwright": "^2.11.0",
+    "prettier": "^3.9.6",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.70.0"
+  }
+}
