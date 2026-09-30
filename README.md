@@ -21,6 +21,7 @@ Automated tests for the Virto Commerce **platform** (REST API and xAPI GraphQL),
 - [Signed-in users and prefilled carts in e2e tests](#signed-in-users-and-prefilled-carts-in-e2e-tests)
 - [Code generation](#code-generation)
 - [Code quality](#code-quality)
+- [Continuous integration](#continuous-integration)
 - [Known platform issues](#known-platform-issues)
 
 ## Prerequisites
@@ -29,6 +30,8 @@ Automated tests for the Virto Commerce **platform** (REST API and xAPI GraphQL),
 - **A running Virto Commerce platform** with the modules the tests cover (Catalog, Pricing, Inventory, Orders, Cart/xAPI, Customer, Marketing, Content, Shipping + xPickup, PageBuilder, …). The seeder skips entities whose module is not installed.
 - **A running vc-frontend** connected to that platform, for `e2e-frontend` only.
 - A platform **admin account** (the one used to seed data and call admin APIs).
+
+The platform version and module versions CI runs against are listed in [`backend-packages.json`](backend-packages.json); a local platform with other versions works as long as it has the modules the dataset needs.
 
 The defaults assume a local setup: platform at `http://localhost:8090`, frontend at `https://localhost:3000`.
 
@@ -141,6 +144,13 @@ npm run report        # build the HTML report into allure-report/
 npm run report:open   # open it
 ```
 
+A CI run uploads a `playwright-test-results-…` artifact with the HTML report in `report/allure-report/` and the failed tests' traces in `test-results/`. The report loads its data over HTTP, so opening `index.html` from disk doesn't work: unzip the artifact and serve the report from this repo.
+
+```shell
+npx allure open <unzipped artifact>/report/allure-report
+npx playwright show-trace <unzipped artifact>/test-results/<test>/trace.zip   # a failed test's trace
+```
+
 ## Configuration
 
 All settings come from environment variables, loaded from `.env` when it exists and validated at start-up by `core/env.ts` (an invalid or missing value fails fast with a clear message).
@@ -235,6 +245,8 @@ tests/
   e2e/frontend/        Frontend specs: account, cart, catalog, checkout, site, wishlists
   e2e/backend/         Page-builder shell specs
 biome/               Lint, import-order and layer rules (extended by biome.json)
+.github/workflows/   CI: manual test runs (see Continuous integration)
+backend-packages.json Platform image and module versions the CI stack installs
 playwright.config.ts Projects, timeouts and reporters
 codegen-rest.mts     REST types generation
 codegen-graphql.ts   GraphQL types generation
@@ -407,6 +419,37 @@ $env:SKIP_SIMPLE_GIT_HOOKS = '1'; git commit -m "..."; Remove-Item Env:SKIP_SIMP
 # bash
 SKIP_SIMPLE_GIT_HOOKS=1 git commit -m "..."
 ```
+
+## Continuous integration
+
+Tests run on GitHub Actions through [`.github/workflows/auto-tests.yml`](.github/workflows/auto-tests.yml), started by hand: **Actions → Auto Tests Docker → Run workflow**, on the branch whose tests should run.
+
+| Input | Default | Meaning |
+|---|---|---|
+| `frontendZipUrl` | `latest` | vc-frontend build to deploy |
+| `testSuites` | `all` | `all` (= `graphql`, `restapi`, `e2e`), or one of `graphql`, `restapi`, `e2e` (both e2e projects), `e2e-frontend`, `e2e-backend` |
+| `grep` | empty | Playwright `--grep` pattern applied to every suite, e.g. a test title or tag |
+
+The workflow calls the shared Playwright workflow from [`VirtoCommerce/.github`](https://github.com/VirtoCommerce/.github), which for each **database × search engine** combination:
+
+1. starts the platform in Docker with the image and modules listed in [`backend-packages.json`](backend-packages.json), plus the frontend build (search engine: the one the module list installs, Elasticsearch 8 today; databases: SQL Server, MySQL and PostgreSQL by default, so a run executes the suites once per database);
+2. writes `.env` from the env-file secret, setting `BACKEND_BASE_URL=http://localhost:8090`, `FRONTEND_BASE_URL=http://localhost` (the production frontend build, not a dev server) and the admin account;
+3. installs dependencies and Chromium, runs the `seed` project and a full re-index;
+4. runs the chosen suites one project at a time with list, JUnit, JSON and Allure reporters (the `CI` variable is set, so `e2e-frontend` uses 2 workers unless `E2E_WORKERS` is in the env secret);
+5. builds the Allure report, lists failed tests in the run summary, and uploads a `playwright-test-results-<run>-<attempt>-<database>-<engine>` artifact (see [Reports](#reports) for opening it).
+
+**Secrets** used by the workflow:
+
+| Secret | Holds |
+|---|---|
+| `REPO_TOKEN` | Token for the shared workflow to fetch packages and repositories |
+| env-file secret (placeholder `TS_ENV_SECRET_NAME` for now) | The whole `.env` for CI: at least `STORE_ID`, `ADMIN_PASSWORD`, `USERS_PASSWORD`, `GOOGLE_MAPS_API_KEY`; optionally `E2E_WORKERS`, and `RUN_DESTRUCTIVE_TESTS=true` to include destructive tests |
+| `SENDGRID_APIKEY_4E2E_AUTOTESTS` | E-mail sending on the CI platform (notification flows such as the password-reset e-mail) |
+| `E2E_APPINSIGHTSINSTRUMENTATIONKEY` | Optional platform telemetry |
+
+**Keeping `backend-packages.json` current:** it pins the platform image (`PlatformImageTag`) and every module version CI installs. Tests target the edge versions: the latest platform release and, for each module, the newest release in the edge feed [`modules_v3.json`](https://raw.githubusercontent.com/VirtoCommerce/vc-modules/master/modules_v3.json) (its first version without a `VersionTag`). Bump the file to the current edge versions when new releases come out, and in the same change as tests that depend on them.
+
+The shared workflow is currently referenced by a feature branch (`vcst-6033-playwright-workflow`); it moves to a release tag once VCST-6033 is released. Open CI work is tracked in [REFINEMENTS.md](REFINEMENTS.md) (section 8).
 
 ## Known platform issues
 

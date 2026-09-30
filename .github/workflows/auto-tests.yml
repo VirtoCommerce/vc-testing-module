@@ -1,0 +1,46 @@
+name: Auto Tests Docker
+
+on:
+  workflow_dispatch:
+    inputs:
+      frontendZipUrl:
+        description: 'Frontend zip url'
+        required: true
+        type: string
+        default: 'latest'
+      testSuites:
+        description: 'Test suites to run'
+        required: true
+        type: choice
+        default: 'all'
+        options:
+          - all
+          - graphql
+          - restapi
+          - e2e
+          - e2e-frontend
+          - e2e-backend
+      grep:
+        description: 'Optional Playwright --grep pattern (e.g. a tag like @smoke). Leave empty to run everything.'
+        required: false
+        type: string
+        default: ''
+
+jobs:
+  e2e-tests:
+    # TODO: switch to the VirtoCommerce/.github release tag once VCST-6033 is released.
+    uses: VirtoCommerce/.github/.github/workflows/playwright-tests.yml@vcst-6033-playwright-workflow
+    with:
+      installModules: 'false'
+      installCustomModule: 'false'
+      vctestingRepoBranch: '${{ github.ref_name }}'
+      frontendZipUrl: '${{ inputs.frontendZipUrl }}'
+      customPackagesJsonUrl: 'https://github.com/${{ github.repository }}/raw/${{ github.ref_name }}/backend-packages.json'
+      testSuites: ${{ inputs.testSuites == 'all' && 'graphql,restapi,e2e' || inputs.testSuites }}
+      grep: ${{ inputs.grep }}
+    secrets:
+      envPAT: ${{ secrets.REPO_TOKEN }}
+      # TODO: a secret with the .env content for the TS tests (see .env.example; STORE_ID and USERS_PASSWORD are required).
+      testSecretEnvFile: ${{ secrets.TS_ENV_SECRET_NAME }}
+      sendgridApiKey: ${{ secrets.SENDGRID_APIKEY_4E2E_AUTOTESTS }}
+      appInsightsInstrumentationKey: ${{ secrets.E2E_APPINSIGHTSINSTRUMENTATIONKEY }}
