@@ -41,6 +41,6 @@ jobs:
     secrets:
       envPAT: ${{ secrets.REPO_TOKEN }}
       # TODO: a secret with the .env content for the TS tests (see .env.example; STORE_ID and USERS_PASSWORD are required).
-      testSecretEnvFile: ${{ secrets.TS_ENV_SECRET_NAME }}
+      testSecretEnvFile: ${{ secrets.VC_TESTING_MODULE_ENV_FILE_NEW }}
       sendgridApiKey: ${{ secrets.SENDGRID_APIKEY_4E2E_AUTOTESTS }}
       appInsightsInstrumentationKey: ${{ secrets.E2E_APPINSIGHTSINSTRUMENTATIONKEY }}
