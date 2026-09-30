@@ -18,6 +18,7 @@ Automated tests for the Virto Commerce **platform** (REST API and xAPI GraphQL),
 - [Configuration](#configuration)
 - [Project structure](#project-structure)
 - [How tests are written](#how-tests-are-written)
+- [Signed-in users and prefilled carts in e2e tests](#signed-in-users-and-prefilled-carts-in-e2e-tests)
 - [Code generation](#code-generation)
 - [Code quality](#code-quality)
 - [Known platform issues](#known-platform-issues)
@@ -156,6 +157,7 @@ All settings come from environment variables, loaded from `.env` when it exists 
 | `VERIFY_SSL` | `true` | Set `false` for self-signed certificates |
 | `RUN_DESTRUCTIVE_TESTS` | `false` | Include `@destructive` tests |
 | `PAGE_SIZE` | `20` | Default page size for list/search requests |
+| `E2E_WORKERS` | 2 on CI, otherwise half the CPU cores | Parallel browser workers for `e2e-frontend` (`e2e-backend` always uses 1) |
 | `QUANTITY_CONTROL` | `stepper` | Frontend quantity control: `stepper` or `button` |
 | `RANGE_FILTER_TYPE` | `slider` | Frontend price filter: `slider` or `default` (checkboxes) |
 | `CHECKOUT_MODE` | `single-page` | Frontend checkout: `single-page` or `multi-step` |
@@ -163,6 +165,41 @@ All settings come from environment variables, loaded from `.env` when it exists 
 | `SEED_ONLY` | — | Comma-separated entities to seed (see above) |
 
 `QUANTITY_CONTROL`, `RANGE_FILTER_TYPE` and `CHECKOUT_MODE` must match how the frontend theme is configured. Tests that only apply to the other variant are skipped; checkout tests adapt to `CHECKOUT_MODE`.
+
+### Parallel e2e workers (`E2E_WORKERS`)
+
+`E2E_WORKERS` sets how many browsers the `e2e-frontend` project runs at the same time. Each worker is a separate browser that loads frontend pages, and every page load sends catalog, cart and menu queries through xAPI to the platform, which answers most of them from Elasticsearch. So the right number depends on how much concurrent traffic **the platform and its search engine** can serve, not on how many CPU cores the test machine has.
+
+How the number is chosen:
+
+| Situation | `e2e-frontend` workers |
+|---|---|
+| `E2E_WORKERS` is set (environment or `.env`) | that value, always |
+| not set, running on CI (the `CI` variable is set, as on GitHub Actions and most CI systems) | 2 |
+| not set, running locally | Playwright's default: half the logical CPU cores |
+
+Other projects are not affected: `e2e-backend` always runs with 1 worker (the page builder's counters, status lists and search are shared state), and `restapi` / `graphql` use Playwright's default because they do not render pages.
+
+Choosing a value:
+
+- **Start low on a new environment** (2–4) and raise it while the run stays green.
+- **Too many workers shows up as timeouts, not assertion failures:** pages stuck on a loading spinner, a main menu without categories, a cart that never renders, or plain API calls in `arrange:` steps timing out after 30 s. Lower `E2E_WORKERS` before investigating individual tests.
+- **Check the search engine first when the suite degrades under load.** With Elasticsearch capped at a 512 MB heap (1 GiB container) and Kibana attached to the same node, 8 workers pushed it into long garbage-collection pauses and restarts; platform responses then stalled for up to 30 s. Giving Elasticsearch more memory fixes the cause; fewer workers only reduce the pressure.
+- **A Vite dev server as `FRONTEND_BASE_URL`** (for example `https://localhost:3000` from a local vc-frontend checkout) serves unbundled sources, about 4,000 requests per page load, so each page is slower than against a production build. Prefer fewer workers there.
+
+Examples:
+
+```powershell
+# PowerShell: one run with 2 workers
+$env:E2E_WORKERS = '2'; npm run test:e2e:frontend; Remove-Item Env:E2E_WORKERS
+```
+
+```bash
+# bash: one run with 2 workers
+E2E_WORKERS=2 npm run test:e2e:frontend
+```
+
+To make it permanent for your machine, put `E2E_WORKERS=4` (or another value) in `.env`. On CI, set it as a pipeline variable when the runner can take more or less than the default 2. Playwright's `--workers` option caps the whole run, so it can only lower the number further (for example `npx playwright test --project=e2e-frontend --workers=1` to run one test at a time); to raise it, change `E2E_WORKERS`.
 
 ## Project structure
 
@@ -252,6 +289,91 @@ The `e2e-backend` project signs the browser in as the platform admin by default.
 - **Known product issues** are marked with `test.fail(true, "<reason>")`. They pass while the issue exists and fail once it is fixed, so the reason gets revisited.
 - **Page objects** expose locators and user actions; assertions stay in the tests.
 - The `e2e-backend` project runs with **one worker**: page-builder counters, status lists and search are global state that parallel tests would disturb.
+
+## Signed-in users and prefilled carts in e2e tests
+
+Most e2e tests are about one screen: the cart, a checkout step, a wishlist. Getting there through the UI (open the sign-in page, type credentials, add products one by one) would make every test slower and dependent on screens it does not test, and a sign-in or add-to-cart hiccup would fail tests about something else. So the fixtures prepare the browser **before the test starts**: the browser is already signed in, and the cart already holds the products the test needs.
+
+### How the browser is signed in
+
+The `storageState` fixture (`fixtures/browser.fixture.ts`) builds the browser's initial storage from API calls, so the first page the test opens is already in the right state:
+
+| Who | How | Where it lives in the browser |
+|---|---|---|
+| Anonymous visitor (default) | A random user id per test | `localStorage["user-id"]` on the frontend origin |
+| Dataset user (`user` option) | A token from `/connect/token` | `localStorage["auth"]` on the frontend origin |
+| Fresh customer account (`shopperAccount: "customer-account"`) | The account is created, then its token is issued | `localStorage["auth"]` on the frontend origin |
+| Platform admin (`e2e-backend` default) | Cookie sign-in through `/api/platform/security/login` | the platform identity cookie |
+
+Tokens come from the worker's token cache, so a user signs in once per worker, not once per test. The random anonymous id means two anonymous tests never see each other's cart.
+
+The `shopper` fixture describes whoever is in the browser: their `credentials`, a `graphqlClient` signed in as them, and their `context` (store, currency, culture, user id). Use it to arrange data for that same person through the API.
+
+### Which account to use
+
+- **Anonymous (the default)** for anything a guest can do: catalog, cart, guest checkout.
+- **A fresh customer account** whenever the test changes account data: cart, saved-for-later, wishlists, addresses, organizations. Each test gets its own organization, contact and user, deleted afterwards, so tests can run in parallel without touching each other's data.
+
+  ```ts
+  import { saveMemberAddress } from "@dataset/arrange/contact";
+  import { newMemberAddress } from "@dataset/builders/address";
+  import { test } from "@fixtures";
+
+  test.use({ shopperAccount: "customer-account" });
+
+  test("pick a saved address", async ({ page, customerAccount }) => {
+    await saveMemberAddress(customerAccount.graphqlClient, customerAccount.organizationId, newMemberAddress("test"));
+    // the browser is signed in as customerAccount
+  });
+  ```
+
+  `customerAccount` is the same account the browser is signed in as. Set `customerAccountRole: "org-maintainer"` for maintainer-only screens.
+
+- **A dataset user** (`user` option) only for read-only checks of seeded data. Seeded users are shared by every worker, so a test that changes their cart or lists interferes with other tests.
+
+### How the cart is prefilled
+
+Use `withItems` in `test.use`:
+
+```ts
+import { test, withItems } from "@fixtures";
+import { CartPage } from "@pages/frontend/pages/cart-page";
+
+test.describe("cart line items", () => {
+  test.use({
+    shopperAccount: "customer-account",
+    cart: withItems([{ productId: "smartphone-samsung-galaxy-a57-5g", quantity: 3 }]),
+  });
+
+  test("remove a line item", async ({ page }) => {
+    const cartPage = new CartPage(page);
+    await cartPage.navigate();
+    // the cart already holds the product ×3
+  });
+});
+```
+
+Before the test starts, `withItems`:
+
+1. adds the items to the shopper's **default cart** with xAPI `addItemsCart`, in the store's default currency and culture: the cart the frontend shows;
+2. waits until that cart can be read back, so the first page load never races the create;
+3. registers its removal in `cleanupStack`.
+
+The `cart` fixture is automatic: without `withItems` it does nothing. The test can read the created cart when it needs ids or totals: `async ({ page, cart }) => …`.
+
+When a test uses `withItems` or the `shopper` fixture, the shopper's whole default cart is removed after the test, including anything the test added through the UI. A test that only adds products through the UI and uses neither leaves a cart behind for its (random) anonymous id; request `shopper` in such tests to have it removed.
+
+### When not to use them
+
+- **The sign-in itself is under test.** Sign in through `SignInPage.signIn(...)` with `customerAccount.credentials`, and leave the browser anonymous. This also applies to cart merge (the browser must start anonymous) and to organization locks: locking a membership revokes the user's sessions, so lock first, then sign in through the UI.
+- **The way products get into the cart is under test** (add-to-cart buttons, configurable products, wishlists): use the UI.
+- **Configurable products** cannot be prefilled with `withItems`; they need their configuration sections, so add them through the product page.
+
+### Things to keep in mind
+
+- **Default cart vs named carts.** API and GraphQL tests use `arrangeCart`, which creates a cart with a unique name so parallel tests never share one. The frontend only shows the unnamed default cart, which is why e2e tests use `withItems` (or `arrangeDefaultCart` for an account other than the shopper, as in the cart-merge test).
+- **The frontend signs in with an e-mail.** Fresh accounts therefore use their e-mail address as user name.
+- **Storage is fixed when the page opens.** Anything that affects the session itself (a lock, a password change) must happen before a UI sign-in, not before a pre-signed-in page.
 
 ## Code generation
 

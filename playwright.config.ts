@@ -15,6 +15,7 @@ const env = getEnv();
 const DESTRUCTIVE_TAG = /@destructive/;
 const E2E_EXPECT_TIMEOUT_MS = 30_000;
 const E2E_TEST_TIMEOUT_MS = 120_000;
+const E2E_FRONTEND_WORKERS = env.e2eWorkers ?? (process.env["CI"] ? 2 : undefined);
 const E2E_USE = {
   ...devices["Desktop Chrome"],
   viewport: { width: 1920, height: 1080 },
@@ -49,6 +50,7 @@ export default defineConfig<ApiOptions & BrowserOptions>({
     {
       name: "e2e-frontend",
       testDir: "tests/e2e/frontend",
+      ...(E2E_FRONTEND_WORKERS === undefined ? {} : { workers: E2E_FRONTEND_WORKERS }),
       timeout: E2E_TEST_TIMEOUT_MS,
       expect: { timeout: E2E_EXPECT_TIMEOUT_MS },
       use: { ...E2E_USE, app: "frontend", baseURL: env.frontendBaseUrl },
