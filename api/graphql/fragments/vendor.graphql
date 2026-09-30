@@ -1,0 +1,4 @@
+fragment Vendor on CommonVendor {
+  id
+  name
+}

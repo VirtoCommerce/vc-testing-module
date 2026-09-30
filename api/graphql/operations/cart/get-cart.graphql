@@ -1,0 +1,19 @@
+query GetCart(
+  $storeId: String!
+  $userId: String!
+  $currencyCode: String!
+  $cultureName: String!
+  $cartId: String
+  $cartName: String
+) {
+  cart(
+    storeId: $storeId
+    userId: $userId
+    currencyCode: $currencyCode
+    cultureName: $cultureName
+    cartId: $cartId
+    cartName: $cartName
+  ) {
+    ...Cart
+  }
+}

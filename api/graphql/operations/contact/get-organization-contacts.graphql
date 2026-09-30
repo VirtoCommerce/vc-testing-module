@@ -1,0 +1,15 @@
+query GetOrganizationContacts(
+  $organizationId: String!
+  $searchPhrase: String
+  $sort: String
+  $first: Int
+  $after: String
+) {
+  organization(id: $organizationId) {
+    contacts(searchPhrase: $searchPhrase, sort: $sort, first: $first, after: $after) {
+      items {
+        ...Contact
+      }
+    }
+  }
+}

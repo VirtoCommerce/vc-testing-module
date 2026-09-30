@@ -1,0 +1,7 @@
+query GetShoppingLists($storeId: String, $userId: String, $currencyCode: String, $cultureName: String) {
+  wishlists(storeId: $storeId, userId: $userId, currencyCode: $currencyCode, cultureName: $cultureName) {
+    items {
+      ...ShoppingList
+    }
+  }
+}

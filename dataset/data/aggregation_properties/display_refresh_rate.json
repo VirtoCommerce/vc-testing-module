@@ -1,5 +1,5 @@
 {
-    "name": "DisplayRefreshRate",
-    "type": "Attribute",
-    "isSelected": true
+  "name": "DisplayRefreshRate",
+  "type": "Attribute",
+  "isSelected": true
 }

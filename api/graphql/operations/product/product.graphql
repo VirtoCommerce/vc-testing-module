@@ -1,0 +1,5 @@
+query Product($id: String!, $storeId: String!, $userId: String, $cultureName: String, $currencyCode: String) {
+  product(id: $id, storeId: $storeId, userId: $userId, cultureName: $cultureName, currencyCode: $currencyCode) {
+    ...Product
+  }
+}

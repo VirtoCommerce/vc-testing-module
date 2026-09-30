@@ -1,0 +1,17 @@
+query ProductConfiguration(
+  $configurableProductId: String!
+  $storeId: String!
+  $userId: String
+  $cultureName: String
+  $currencyCode: String
+) {
+  productConfiguration(
+    configurableProductId: $configurableProductId
+    storeId: $storeId
+    userId: $userId
+    cultureName: $cultureName
+    currencyCode: $currencyCode
+  ) {
+    ...ProductConfiguration
+  }
+}

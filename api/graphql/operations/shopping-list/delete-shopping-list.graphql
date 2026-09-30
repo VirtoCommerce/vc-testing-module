@@ -1,0 +1,3 @@
+mutation DeleteShoppingList($command: InputRemoveWishlistType!) {
+  removeWishlist(command: $command)
+}

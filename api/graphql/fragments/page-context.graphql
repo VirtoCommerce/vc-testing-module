@@ -1,0 +1,14 @@
+fragment PageContext on PageContextResponseType {
+  slugInfo {
+    ...SlugInfo
+  }
+  store {
+    ...StoreInfo
+  }
+  whiteLabelingSettings {
+    ...WhiteLabelingSettings
+  }
+  user {
+    ...User
+  }
+}

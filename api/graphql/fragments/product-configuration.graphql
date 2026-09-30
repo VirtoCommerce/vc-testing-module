@@ -1,0 +1,15 @@
+fragment ProductConfiguration on ConfigurationQueryResponseType {
+  configurationSections {
+    id
+    name
+    description
+    isRequired
+    type
+    allowCustomText
+    allowTextOptions
+    maxLength
+    options {
+      ...ConfigurationLineItem
+    }
+  }
+}

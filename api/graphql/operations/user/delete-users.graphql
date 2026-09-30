@@ -1,0 +1,5 @@
+mutation DeleteUsers($command: InputDeleteUserType!) {
+  deleteUsers(command: $command) {
+    ...IdentityResult
+  }
+}

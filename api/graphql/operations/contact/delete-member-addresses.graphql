@@ -1,0 +1,9 @@
+mutation DeleteMemberAddresses($command: InputDeleteMemberAddressType!) {
+  deleteMemberAddresses(command: $command) {
+    addresses {
+      items {
+        ...MemberAddress
+      }
+    }
+  }
+}

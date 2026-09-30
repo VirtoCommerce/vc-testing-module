@@ -1,0 +1,5 @@
+query GetContactLockStatus($id: String!) {
+  contact(id: $id) {
+    isLockedInOrganization
+  }
+}

@@ -1,0 +1,26 @@
+mutation RequestRegistration($command: InputRequestRegistrationType!) {
+  requestRegistration(command: $command) {
+    contact {
+      id
+      firstName
+      lastName
+      status
+    }
+    organization {
+      id
+      name
+      status
+      ownerId
+    }
+    account {
+      id
+      username
+      email
+      status
+    }
+    result {
+      succeeded
+      requireEmailVerification
+    }
+  }
+}

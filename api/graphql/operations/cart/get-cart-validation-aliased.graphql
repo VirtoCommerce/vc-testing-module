@@ -1,0 +1,25 @@
+query GetCartValidationAliased(
+  $storeId: String!
+  $userId: String!
+  $currencyCode: String!
+  $cultureName: String!
+  $ruleSetA: String
+  $ruleSetB: String
+  $cartId: String
+) {
+  cart(storeId: $storeId, userId: $userId, currencyCode: $currencyCode, cultureName: $cultureName, cartId: $cartId) {
+    itemsCount
+    errorsA: validationErrors(ruleSet: $ruleSetA) {
+      errorCode
+      objectType
+      objectId
+      errorMessage
+    }
+    errorsB: validationErrors(ruleSet: $ruleSetB) {
+      errorCode
+      objectType
+      objectId
+      errorMessage
+    }
+  }
+}

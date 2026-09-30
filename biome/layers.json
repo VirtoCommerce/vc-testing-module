@@ -1,0 +1,185 @@
+{
+  "$schema": "../node_modules/@biomejs/biome/configuration_schema.json",
+  "overrides": [
+    {
+      "includes": ["core/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": [
+                      "@api",
+                      "@api/**",
+                      "@dataset",
+                      "@dataset/**",
+                      "@pages",
+                      "@pages/**",
+                      "@fixtures",
+                      "@fixtures/**",
+                      "**/api",
+                      "**/api/**",
+                      "**/dataset",
+                      "**/dataset/**",
+                      "**/pages",
+                      "**/pages/**",
+                      "**/fixtures",
+                      "**/fixtures/**",
+                      "**/tests",
+                      "**/tests/**"
+                    ],
+                    "message": "core must not depend on other layers."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["api/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": [
+                      "@dataset",
+                      "@dataset/**",
+                      "@pages",
+                      "@pages/**",
+                      "@fixtures",
+                      "@fixtures/**",
+                      "**/dataset",
+                      "**/dataset/**",
+                      "**/pages",
+                      "**/pages/**",
+                      "**/fixtures",
+                      "**/fixtures/**",
+                      "**/tests",
+                      "**/tests/**"
+                    ],
+                    "message": "api may depend only on core."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["pages/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": [
+                      "@api",
+                      "@api/**",
+                      "@dataset",
+                      "@dataset/**",
+                      "@fixtures",
+                      "@fixtures/**",
+                      "**/api",
+                      "**/api/**",
+                      "**/dataset",
+                      "**/dataset/**",
+                      "**/fixtures",
+                      "**/fixtures/**",
+                      "**/tests",
+                      "**/tests/**"
+                    ],
+                    "message": "pages may depend only on core: no API calls or data seeding in page objects."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["dataset/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": [
+                      "@pages",
+                      "@pages/**",
+                      "@fixtures",
+                      "@fixtures/**",
+                      "**/pages",
+                      "**/pages/**",
+                      "**/fixtures",
+                      "**/fixtures/**",
+                      "**/tests",
+                      "**/tests/**"
+                    ],
+                    "message": "dataset may depend only on api and core."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["fixtures/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": ["**/tests", "**/tests/**"],
+                    "message": "fixtures must not depend on tests."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["tests/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@playwright/test": {
+                    "importNames": ["test", "expect", "default"],
+                    "message": "Import test and expect from @fixtures so tests get the project fixtures."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

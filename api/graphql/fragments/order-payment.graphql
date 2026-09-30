@@ -1,0 +1,9 @@
+fragment OrderPayment on PaymentInType {
+  id
+  number
+  gatewayCode
+  status
+  sum {
+    ...Money
+  }
+}

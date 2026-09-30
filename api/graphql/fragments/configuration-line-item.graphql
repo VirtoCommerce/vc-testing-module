@@ -1,0 +1,20 @@
+fragment ConfigurationLineItem on ConfigurationLineItemType {
+  id
+  text
+  quantity
+  product {
+    ...Product
+  }
+  listPrice {
+    ...Money
+  }
+  salePrice {
+    ...Money
+  }
+  extendedPrice {
+    ...Money
+  }
+  discountAmount {
+    ...Money
+  }
+}

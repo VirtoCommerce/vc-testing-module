@@ -1,0 +1,5 @@
+mutation CreateShoppingList($command: InputCreateWishlistType!) {
+  createWishlist(command: $command) {
+    ...ShoppingList
+  }
+}

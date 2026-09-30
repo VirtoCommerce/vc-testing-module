@@ -1,0 +1,5 @@
+query Order($number: String, $cultureName: String) {
+  order(number: $number, cultureName: $cultureName) {
+    ...Order
+  }
+}

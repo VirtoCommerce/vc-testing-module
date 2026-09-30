@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "es2024",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noImplicitOverride": true,
+    "noFallthroughCasesInSwitch": true,
+    "isolatedModules": true,
+    "erasableSyntaxOnly": true,
+    "forceConsistentCasingInFileNames": true,
+    "types": ["node"],
+    "skipLibCheck": true,
+    "noEmit": true,
+    "paths": {
+      "@core/*": ["./core/*"],
+      "@api/*": ["./api/*"],
+      "@dataset/*": ["./dataset/*"],
+      "@pages/*": ["./pages/*"],
+      "@fixtures": ["./fixtures/index.ts"]
+    }
+  }
+}

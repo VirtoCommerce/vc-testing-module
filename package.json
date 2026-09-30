@@ -1,0 +1,46 @@
+{
+  "name": "vc-testing-module",
+  "version": "1.0.0",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "prepare": "simple-git-hooks",
+    "format": "biome format --write .",
+    "lint": "biome lint .",
+    "check": "biome check --write .",
+    "typecheck": "tsc --noEmit",
+    "codegen": "npm run codegen:graphql && npm run codegen:rest",
+    "codegen:graphql": "graphql-codegen --config codegen-graphql.ts",
+    "codegen:rest": "node --env-file-if-exists=.env codegen-rest.mts",
+    "seed": "playwright test --project=seed --reporter=list",
+    "seed:page-statuses": "playwright test --project=seed --grep \"apply page statuses\" --reporter=list",
+    "test": "playwright test --project=restapi --project=graphql --project=e2e-frontend --project=e2e-backend",
+    "test:restapi": "playwright test --project=restapi",
+    "test:graphql": "playwright test --project=graphql",
+    "test:e2e": "playwright test --project=e2e-frontend --project=e2e-backend",
+    "test:e2e:frontend": "playwright test --project=e2e-frontend",
+    "test:e2e:backend": "playwright test --project=e2e-backend",
+    "report": "allure generate --output allure-report",
+    "report:open": "allure open allure-report"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.14",
+    "@graphql-codegen/cli": "7.4.3",
+    "@graphql-codegen/client-preset": "6.2.0",
+    "@graphql-codegen/schema-ast": "6.1.0",
+    "@graphql-typed-document-node/core": "3.2.0",
+    "@playwright/test": "1.63.0",
+    "@types/node": "26.6.3",
+    "allure": "3.19.1",
+    "allure-js-commons": "3.13.0",
+    "allure-playwright": "3.13.0",
+    "simple-git-hooks": "2.14.0",
+    "swagger-typescript-api": "13.13.0",
+    "typescript": "7.0.2",
+    "zod": "4.6.5"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx biome check --staged --no-errors-on-unmatched && npx tsc --noEmit"
+  }
+}
