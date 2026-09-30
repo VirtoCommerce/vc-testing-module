@@ -13,6 +13,7 @@ Review of the whole repository (core, api, dataset, fixtures, pages, all test pr
 | 2026-09-30 | `backend-packages.json` bumped to edge versions (platform 3.1074.0, 27 modules); README explains how to keep it on edge. |
 | 2026-09-30 | Allure report grouped by suite through `allurerc.mjs` (R8.23 done); new items R8.24 (Allure ids ignore the suite) and R8.25 (seed step not coloured on CI); README Reports section explains the grouping and manual `allure-results/` cleanup. |
 | 2026-09-30 | CI run 127 analysed: pre-signed-in browser sessions were anonymous behind nginx (R1.11 done: browser tokens now go through `FRONTEND_BASE_URL`); new items R4.15 (configurable card click) and R8.26 (CI keeps only the last suite's traces); README explains the frontend token path and `VERIFY_SSL` for a local dev server. |
+| 2026-09-30 | CI run 128 analysed (all three databases): pre-signed-in sessions now work; R4.15 done (card link opens a new tab in release builds) and new R3.15 done (pickup keyword test too strict on MySQL / SQL Server). |
 
 ## How to use this file
 
@@ -28,13 +29,13 @@ Review of the whole repository (core, api, dataset, fixtures, pages, all test pr
 
 ## Progress
 
-**Total: ✅ 4 of 116 done.**
+**Total: ✅ 6 of 117 done.**
 
 - ⬜ [0. Decisions needed](#0-decisions-needed): 0 of 6
 - ⬜ [1. Correctness](#1-correctness): 1 of 11 (R1.11)
 - ⬜ [2. Isolation and cleanup](#2-isolation-and-cleanup): 0 of 12
-- ⬜ [3. Test quality](#3-test-quality): 0 of 14
-- ⬜ [4. Page objects and e2e](#4-page-objects-and-e2e): 0 of 15
+- ⬜ [3. Test quality](#3-test-quality): 1 of 15 (R3.15)
+- ⬜ [4. Page objects and e2e](#4-page-objects-and-e2e): 1 of 15 (R4.15)
 - ⬜ [5. API clients](#5-api-clients): 0 of 12
 - ⬜ [6. Dataset and fixtures](#6-dataset-and-fixtures): 0 of 13
 - ⬜ [7. GraphQL documents](#7-graphql-documents): 0 of 7
@@ -351,6 +352,13 @@ Weak assertions, duplicates, hard-coded data.
 - **Problem:** Inconsistent.
 - **What to do:** One title style (imperative); every action in an `arrange:`/`act:`/`assert:` step.
 
+
+### ✅ R3.15 · P2 · Pickup keyword test assumed the keyword is in the name
+
+- **Where:** `tests/graphql/catalog/pickup-locations.spec.ts:61`
+- **Problem:** The test required every location found by "Berlin" to have "Berlin" in its name. The keyword search also matches other fields (e.g. the id), and on MySQL and SQL Server it returned the seeded "Potsdamer Platz Arkaden" (city Berlin, id `…-berlin`); Postgres did not (most likely case-sensitive matching). Failed in the MySQL and SQL Server CI jobs only.
+- **What to do:** **Done:** the test checks that the two seeded "… Berlin" locations are found and that every result has the keyword in its name or city (case-insensitive).
+
 ---
 
 ## 4. Page objects and e2e
@@ -439,12 +447,11 @@ Weak assertions, duplicates, hard-coded data.
 - **Problem:** `fillIfGiven` skips `""`; `uncheck({ force: true })`; `isGraphqlMutation("")` matches any mutation and tests pass loose fragments (`"cart"`, `"wishlist"`).
 - **What to do:** `!== undefined`; click the visible label; prefer `isGraphqlOperation(name)`.
 
-### ⬜ R4.15 · P2 · Configurable product card link click does not navigate
+### ✅ R4.15 · P2 · Configurable product card link opens a new tab on CI
 
-- **Where:** `tests/e2e/frontend/catalog/category.spec.ts:213`
-- **Problem:** On CI run 127 the card's "customize" link had the right `href`, but clicking it left the page on `/laptops?sort=price-ascending`; likely clicked before the page was ready. Passes locally.
-- **What to do:** Wait for the card to be ready (or for the navigation) before clicking; recheck on the next CI runs.
-- **Done when:** Stable on CI.
+- **Where:** `tests/e2e/frontend/catalog/category.spec.ts:213`, `pages/frontend/components/product-card.ts`
+- **Problem:** Card links use the theme setting `details_browser_target` (`_blank`), but the frontend's dev build forces `_self` (`vc-frontend` `useThemeContext.ts`, `IS_DEVELOPMENT`). Locally (Vite dev server) the click navigated in place; on CI (release build) it opened a new tab and the test waited on the old one. Failed in every CI run.
+- **What to do:** **Done:** `ProductCard.openConfigurations()` clicks the link and returns the page it opened in (the popup for `_blank`, the same page otherwise); the test asserts on that page. Verified locally against the dev server (`_self`) and the production frontend container (`_blank`).
 
 ---
 

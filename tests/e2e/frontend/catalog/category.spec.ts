@@ -223,11 +223,11 @@ test.describe("category page (anonymous)", () => {
       await expect(card.configurationsButton).toHaveAttribute("href", new RegExp(CONFIGURABLE_SLUG));
     });
 
-    const productPage = new ProductPage(page, CONFIGURABLE_SLUG);
-    await test.step("act: follow the customize link", () => card.configurationsButton.click());
+    const productTab = await test.step("act: follow the customize link", () => card.openConfigurations());
 
     await test.step("assert: the product page opens with its configuration", async () => {
-      await expect(page).toHaveURL(new RegExp(CONFIGURABLE_SLUG));
+      const productPage = new ProductPage(productTab, CONFIGURABLE_SLUG);
+      await expect(productTab).toHaveURL(new RegExp(CONFIGURABLE_SLUG));
       await expect(productPage.configuration.root).toBeVisible();
     });
   });

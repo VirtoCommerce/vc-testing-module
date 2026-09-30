@@ -1,4 +1,4 @@
-import type { Locator } from "@playwright/test";
+import type { Locator, Page } from "@playwright/test";
 
 import { AddToCartButton } from "./add-to-cart-button";
 import { LineItem } from "./line-item";
@@ -21,6 +21,16 @@ export class ProductCard {
     this.addToListButton = root.locator("[data-test-id='add-to-list-button']");
     this.configurationsButton = root.locator("[data-test-id='product-card-configurations-button']");
     this.variationsButton = root.locator(`[data-test-id='variations-${sku}-button']`).first();
+  }
+
+  async openConfigurations(): Promise<Page> {
+    const page = this.root.page();
+    if ((await this.configurationsButton.getAttribute("target")) !== "_blank") {
+      await this.configurationsButton.click();
+      return page;
+    }
+    const [tab] = await Promise.all([page.waitForEvent("popup"), this.configurationsButton.click()]);
+    return tab;
   }
 
   variation(sku: string): LineItem {

@@ -24,6 +24,7 @@ import { expect, test } from "@fixtures";
 const PAGE_SIZE = 5;
 const ALL_LOCATIONS_PAGE_SIZE = 100;
 const KEYWORD = "Berlin";
+const NAMED_BERLIN_LOCATIONS = ["Alexanderplatz Store Berlin", "Kurfürstendamm Store Berlin"];
 const STOCKED_PRODUCT_ID = "sodimm-crucial-ddr4-2400-8gb";
 const OUT_OF_STOCK_PRODUCT_ID = "sodimm-samsung-ddr5-4800-8gb";
 const AVAILABILITY_ORDER: readonly (ProductPickupAvailabilityType | null)[] = ["Today", "Transfer", "GlobalTransfer"];
@@ -61,10 +62,10 @@ test.describe("pickup locations (anonymous)", () => {
     const { pickupLocations } = await test.step(`act: search locations for "${KEYWORD}"`, () =>
       graphqlClient.execute(PickupLocationsDocument, { storeId: frontendContext.storeId, keyword: KEYWORD }));
 
-    await test.step(`assert: every location mentions ${KEYWORD}`, async () => {
-      const names = (pickupLocations?.items ?? []).map((location) => location?.name ?? "");
-      expect(names.length).toBeGreaterThan(0);
-      expect(names.filter((name) => !name.includes(KEYWORD))).toEqual([]);
+    await test.step(`assert: the ${KEYWORD} locations are found and nothing else`, async () => {
+      const locations = (pickupLocations?.items ?? []).filter((location) => location !== null);
+      expect(locations.map((location) => location.name)).toEqual(expect.arrayContaining(NAMED_BERLIN_LOCATIONS));
+      expect(locations.filter((location) => !isIn(location, KEYWORD)).map((location) => location.name)).toEqual([]);
     });
   });
 });
@@ -448,6 +449,11 @@ async function waitForArrangedLocations(
     })
     .toBe(arranged.locations.length);
   return found;
+}
+
+function isIn(location: PickupLocationFragment, keyword: string): boolean {
+  const needle = keyword.toLowerCase();
+  return [location.name, location.address?.city].some((text) => text?.toLowerCase().includes(needle) ?? false);
 }
 
 function availabilityByCity(locations: readonly ProductPickupLocationFragment[]): Record<string, string | null> {

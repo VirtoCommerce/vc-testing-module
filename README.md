@@ -400,6 +400,7 @@ When a test uses `withItems` or the `shopper` fixture, the shopper's whole defau
 
 - **Default cart vs named carts.** API and GraphQL tests use `arrangeCart`, which creates a cart with a unique name so parallel tests never share one. The frontend only shows the unnamed default cart, which is why e2e tests use `withItems` (or `arrangeDefaultCart` for an account other than the shopper, as in the cart-merge test).
 - **The frontend signs in with an e-mail.** Fresh accounts therefore use their e-mail address as user name.
+- **Product links may open a new tab.** The frontend opens product pages from cards according to the theme setting `details_browser_target` (`_blank` in release builds); its dev server always uses the same tab. Follow such links through the page object (for example `ProductCard.openConfigurations()`, which returns the page the product opened in), never by clicking and then asserting on the original `page`.
 - **Storage is fixed when the page opens.** Anything that affects the session itself (a lock, a password change) must happen before a UI sign-in, not before a pre-signed-in page.
 
 ## Code generation
