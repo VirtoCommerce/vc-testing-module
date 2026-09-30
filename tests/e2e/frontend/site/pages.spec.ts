@@ -10,7 +10,7 @@ const PAGE_TEXT = "Welcome to the automated test page";
 
 test.describe("content pages (anonymous)", () => {
   test.beforeEach(async () => {
-    await allure.feature("Storefront / Content pages (E2E)");
+    await allure.feature("Frontend / Content pages (E2E)");
   });
 
   test("a published page builder page is served on the frontend", async ({

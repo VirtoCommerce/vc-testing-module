@@ -11,7 +11,7 @@ const TARGET_CULTURE = "de-DE";
 const TARGET_LANGUAGE_LABEL = "de";
 
 test.beforeEach(async () => {
-  await allure.feature("Storefront / Header (E2E)");
+  await allure.feature("Frontend / Header (E2E)");
 });
 
 test.describe("top header (anonymous)", () => {
