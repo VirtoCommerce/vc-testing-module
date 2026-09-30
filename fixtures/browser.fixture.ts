@@ -1,8 +1,11 @@
 import type { App } from "@api/auth/browser-sessions";
 
 import { BrowserSessions } from "@api/auth/browser-sessions";
+import { TokenAuthClient } from "@api/auth/token-auth-client";
+import { TokenManager } from "@api/auth/token-manager";
+import { HttpClient } from "@api/http/http-client";
 
-import { openBackendContext, withSignInHint } from "./api.fixture";
+import { openBackendContext, openFrontendContext, withSignInHint } from "./api.fixture";
 import { test as base } from "./customer-account.fixture";
 
 export interface BrowserOptions {
@@ -17,16 +20,23 @@ export const test = base.extend<BrowserOptions, BrowserWorkerFixtures>({
   app: [undefined, { option: true }],
 
   browserSessions: [
-    async ({ playwright, env, tokenManager }, use) => {
-      await use(
-        new BrowserSessions(tokenManager, {
-          storeId: env.storeId,
-          frontendBaseUrl: env.frontendBaseUrl,
-          newBackendContext() {
-            return openBackendContext(playwright, env);
-          },
-        }),
-      );
+    async ({ playwright, env }, use) => {
+      const frontendRequestContext = await openFrontendContext(playwright, env);
+      const frontendTokenManager = new TokenManager(new TokenAuthClient(new HttpClient(frontendRequestContext)));
+      try {
+        await use(
+          new BrowserSessions(frontendTokenManager, {
+            storeId: env.storeId,
+            frontendBaseUrl: env.frontendBaseUrl,
+            newBackendContext() {
+              return openBackendContext(playwright, env);
+            },
+          }),
+        );
+        await frontendTokenManager.signOutAll();
+      } finally {
+        await frontendRequestContext.dispose();
+      }
     },
     { scope: "worker" },
   ],

@@ -92,6 +92,17 @@ export function openBackendContext(
   });
 }
 
+export function openFrontendContext(
+  playwright: PlaywrightWorkerArgs["playwright"],
+  env: Env,
+): Promise<APIRequestContext> {
+  return playwright.request.newContext({
+    baseURL: env.frontendBaseUrl,
+    timeout: env.requestTimeoutMs,
+    ignoreHTTPSErrors: !env.verifySsl,
+  });
+}
+
 export async function withSignInHint<T>(user: Credentials, signIn: () => Promise<T>): Promise<T> {
   try {
     return await signIn();

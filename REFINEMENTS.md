@@ -11,6 +11,8 @@ Review of the whole repository (core, api, dataset, fixtures, pages, all test pr
 | 2026-09-30 | `backend-packages.json` restored from `dev` (R8.17 done). README: new "Continuous integration" section (inputs, what the shared workflow does, secrets, keeping `backend-packages.json` current), CI artifact instructions under Reports, `backend-packages.json` and `.github/workflows/` in Prerequisites and Project structure. |
 | 2026-09-30 | Format: section tables replaced by one heading per item with emoji status (⬜ to do, ✅ done, ❌ won't do) and labelled description lines; content unchanged. |
 | 2026-09-30 | `backend-packages.json` bumped to edge versions (platform 3.1074.0, 27 modules); README explains how to keep it on edge. |
+| 2026-09-30 | Allure report grouped by suite through `allurerc.mjs` (R8.23 done); new items R8.24 (Allure ids ignore the suite) and R8.25 (seed step not coloured on CI); README Reports section explains the grouping and manual `allure-results/` cleanup. |
+| 2026-09-30 | CI run 127 analysed: pre-signed-in browser sessions were anonymous behind nginx (R1.11 done: browser tokens now go through `FRONTEND_BASE_URL`); new items R4.15 (configurable card click) and R8.26 (CI keeps only the last suite's traces); README explains the frontend token path and `VERIFY_SSL` for a local dev server. |
 
 ## How to use this file
 
@@ -26,17 +28,17 @@ Review of the whole repository (core, api, dataset, fixtures, pages, all test pr
 
 ## Progress
 
-**Total: ✅ 2 of 110 done.**
+**Total: ✅ 4 of 116 done.**
 
 - ⬜ [0. Decisions needed](#0-decisions-needed): 0 of 6
-- ⬜ [1. Correctness](#1-correctness): 0 of 10
+- ⬜ [1. Correctness](#1-correctness): 1 of 11 (R1.11)
 - ⬜ [2. Isolation and cleanup](#2-isolation-and-cleanup): 0 of 12
 - ⬜ [3. Test quality](#3-test-quality): 0 of 14
-- ⬜ [4. Page objects and e2e](#4-page-objects-and-e2e): 0 of 14
+- ⬜ [4. Page objects and e2e](#4-page-objects-and-e2e): 0 of 15
 - ⬜ [5. API clients](#5-api-clients): 0 of 12
 - ⬜ [6. Dataset and fixtures](#6-dataset-and-fixtures): 0 of 13
 - ⬜ [7. GraphQL documents](#7-graphql-documents): 0 of 7
-- ⬜ [8. Configuration, tooling, CI, docs](#8-configuration-tooling-ci-docs): 2 of 22 (R8.2, R8.17)
+- ⬜ [8. Configuration, tooling, CI, docs](#8-configuration-tooling-ci-docs): 3 of 26 (R8.2, R8.17, R8.23)
 
 ## Suggested order of work
 
@@ -161,6 +163,13 @@ Things that make results wrong or setups fail.
 - **Problem:** `getStockQuantity` throws "missing" for a center that has an inventory record with 0 stock, because zero-stock records are filtered out first.
 - **What to do:** Look up the raw record; return 0 or throw "not stocked".
 - **Done when:** Zero-stock center gives 0 or a clear error.
+
+### ✅ R1.11 · P1 · Pre-signed-in browser sessions are anonymous on CI
+
+- **Where:** `fixtures/browser.fixture.ts`, `fixtures/api.fixture.ts` (`openFrontendContext`), `api/auth/browser-sessions.ts`
+- **Problem:** Browser tokens were issued by `BACKEND_BASE_URL` (`iss: http://localhost:8090/`). On CI the frontend reaches the platform through nginx, which forwards `Host: localhost`; xAPI checks the issuer against the request host and silently treats the token as anonymous. CI run 127 (postgres/opensearch): 26 of the 27 e2e-frontend failures were "(customer account)" tests on an anonymous page; locally it worked because the Vite proxy rewrites the host (`changeOrigin`).
+- **What to do:** **Done:** `browserSessions` gets its tokens from its own `TokenManager` over `FRONTEND_BASE_URL` (`/connect/token` and `/revoke/token` are proxied by nginx and Vite), so the issuer matches the host the browser uses. README (signed-in users, `VERIFY_SSL`) updated: locally Node must trust the dev server certificate (`VERIFY_SSL=false` or `NODE_EXTRA_CA_CERTS`).
+- **Done when:** "(customer account)" e2e tests pass on CI. Verified locally: 18/18 in organizations-menu, header, wishlist-lists.
 
 ---
 
@@ -430,6 +439,13 @@ Weak assertions, duplicates, hard-coded data.
 - **Problem:** `fillIfGiven` skips `""`; `uncheck({ force: true })`; `isGraphqlMutation("")` matches any mutation and tests pass loose fragments (`"cart"`, `"wishlist"`).
 - **What to do:** `!== undefined`; click the visible label; prefer `isGraphqlOperation(name)`.
 
+### ⬜ R4.15 · P2 · Configurable product card link click does not navigate
+
+- **Where:** `tests/e2e/frontend/catalog/category.spec.ts:213`
+- **Problem:** On CI run 127 the card's "customize" link had the right `href`, but clicking it left the page on `/laptops?sort=price-ascending`; likely clicked before the page was ready. Passes locally.
+- **What to do:** Wait for the card to be ready (or for the navigation) before clicking; recheck on the next CI runs.
+- **Done when:** Stable on CI.
+
 ---
 
 ## 5. API clients
@@ -678,7 +694,7 @@ Weak assertions, duplicates, hard-coded data.
 
 - **Where:** `package.json`
 - **Problem:** `allure-results/` is never cleaned locally, so `npm run report` mixes runs. (CI reporters are covered: the reusable action passes `--reporter=list,junit,json,allure-playwright` and starts from a clean checkout.)
-- **What to do:** `clean` script / pre-test cleanup.
+- **What to do:** `clean` script / pre-test cleanup. (Meanwhile the README's Reports section shows how to delete `allure-results/` by hand.)
 
 ### ⬜ R8.8 · P2 · Unseeded-platform check locally
 
@@ -769,3 +785,30 @@ Weak assertions, duplicates, hard-coded data.
 - **Where:** `.github/workflows/auto-tests.yml`
 - **Problem:** The reusable workflow's `workers` input is not exposed, so the worker count on CI can only change through `E2E_WORKERS` in the env secret. Destructive tests can only be enabled by editing that secret.
 - **What to do:** Expose `workers` as a dispatch input (it maps to `--workers`, which only lowers parallelism); for destructive runs see R8.3.
+
+### ✅ R8.23 · P2 · Allure report tree hides the suite
+
+- **Where:** `allurerc.mjs` (new), `playwright.config.ts:30`
+- **Problem:** Without `groupBy`, the Allure 3 report builds its tree from `titlePath`, which `allure-playwright` makes from the package name plus the path relative to each project's `testDir`. The suite (`restapi`, `graphql`, `e2e-frontend`, `e2e-backend`) is missing, and same-named folders of different suites (`cart/`, `orders/`, `catalog/`) merge.
+- **What to do:** **Done:** `allurerc.mjs` groups the awesome report by `parentSuite` › `suite` › `subSuite` (project › spec file › `describe`). Used by `npm run report` and by CI's `allure generate`, which runs in the repo folder. README (Reports, Project structure) updated.
+
+### ⬜ R8.24 · P3 · Allure test ids ignore the suite
+
+- **Where:** `allure-playwright` (`testCaseId` / `historyId`), `playwright.config.ts` projects
+- **Problem:** Ids are built from the path relative to the project's `testDir`, without the project name. Five spec files have the same relative path in two suites (`cart/cart-items`, `cart/cart-lifecycle`, `cart/cart-merge`, `catalog/product-configuration`, `orders/orders`); there are no collisions today only because the `describe` titles differ. A collision would merge two tests' history and retries.
+- **What to do:** Keep `describe` titles unique per suite, or set the ids from the project name (e.g. an auto fixture calling `allure.testCaseId` / `allure.historyId` with `<project>:<relative file>#<title path>`).
+- **Done when:** Two tests with the same relative path and titles in different suites get different ids.
+
+### ⬜ R8.25 · P3 · Seed step output is not coloured on CI
+
+- **Where:** `VirtoCommerce/.github` `actions/run-playwright-tests/action.yml` ("Seed test data" step)
+- **Problem:** The seed step runs Playwright without `FORCE_COLOR`; on a non-TTY runner Playwright strips all ANSI codes, so the seeder's logger labels (`SUCCESS`, `WARN`, `ERROR`) are plain. The "Run tests" step sets `FORCE_COLOR=1` and is coloured.
+- **What to do:** Add `FORCE_COLOR: '1'` to the seed step's `env:` in the shared action (branch `vcst-6033-playwright-workflow`).
+- **Done when:** Seed log labels are coloured in the CI console.
+
+### ⬜ R8.26 · P2 · CI keeps only the last suite's traces
+
+- **Where:** `VirtoCommerce/.github` `actions/run-playwright-tests/action.yml` ("Run tests" step)
+- **Problem:** Every `npx playwright test` run clears `test-results/`, and the action runs the suites one after another, so the uploaded `test-results/` has only the last suite's traces (run 127: e2e-backend only). The others survive only as attachments inside the Allure report.
+- **What to do:** Pass `--output test-results/$suite` per suite in the action.
+- **Done when:** The artifact has traces of failed tests of every suite.

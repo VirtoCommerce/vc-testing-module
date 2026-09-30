@@ -144,6 +144,18 @@ npm run report        # build the HTML report into allure-report/
 npm run report:open   # open it
 ```
 
+The report tree is grouped by suite, then spec file, then `describe` block (`restapi › restapi/marketing/dynamic-content.spec.ts › dynamic content (admin) › …`). The grouping is set in [`allurerc.mjs`](allurerc.mjs) and uses the `parentSuite` (Playwright project), `suite` (spec file) and `subSuite` (`describe`) labels that `allure-playwright` sets on every result.
+
+`allure-results/` is not cleared between runs, so a report built after several runs mixes their results. For a report of one run, delete it first:
+
+```powershell
+Remove-Item -Recurse -Force allure-results
+```
+
+```bash
+rm -rf allure-results
+```
+
 A CI run uploads a `playwright-test-results-…` artifact with the HTML report in `report/allure-report/` and the failed tests' traces in `test-results/`. The report loads its data over HTTP, so opening `index.html` from disk doesn't work: unzip the artifact and serve the report from this repo.
 
 ```shell
@@ -164,7 +176,7 @@ All settings come from environment variables, loaded from `.env` when it exists 
 | `ADMIN_USERNAME` / `ADMIN_PASSWORD` | — | Platform admin account |
 | `USERS_PASSWORD` | — | Password of the seeded dataset users |
 | `REQUEST_TIMEOUT_MS` | `30000` | Timeout of API requests |
-| `VERIFY_SSL` | `true` | Set `false` for self-signed certificates |
+| `VERIFY_SSL` | `true` | Set `false` for self-signed certificates, including a local frontend dev server on `https://localhost:3000` (Node does not trust it even when the browser does) |
 | `RUN_DESTRUCTIVE_TESTS` | `false` | Include `@destructive` tests |
 | `PAGE_SIZE` | `20` | Default page size for list/search requests |
 | `E2E_WORKERS` | 2 on CI, otherwise half the CPU cores | Parallel browser workers for `e2e-frontend` (`e2e-backend` always uses 1) |
@@ -248,6 +260,7 @@ biome/               Lint, import-order and layer rules (extended by biome.json)
 .github/workflows/   CI: manual test runs (see Continuous integration)
 backend-packages.json Platform image and module versions the CI stack installs
 playwright.config.ts Projects, timeouts and reporters
+allurerc.mjs         Allure report settings (tree grouped by suite)
 codegen-rest.mts     REST types generation
 codegen-graphql.ts   GraphQL types generation
 ```
@@ -317,7 +330,9 @@ The `storageState` fixture (`fixtures/browser.fixture.ts`) builds the browser's 
 | Fresh customer account (`shopperAccount: "customer-account"`) | The account is created, then its token is issued | `localStorage["auth"]` on the frontend origin |
 | Platform admin (`e2e-backend` default) | Cookie sign-in through `/api/platform/security/login` | the platform identity cookie |
 
-Tokens come from the worker's token cache, so a user signs in once per worker, not once per test. The random anonymous id means two anonymous tests never see each other's cart.
+Browser tokens are requested through the frontend (`FRONTEND_BASE_URL/connect/token`), not directly from the platform. The platform checks a token's issuer against the host a request arrives on and treats a mismatch as anonymous without an error, so a token issued by `BACKEND_BASE_URL` would not sign the browser in behind a proxy that forwards the frontend host (the CI nginx does). Going through the frontend's proxy makes the issuer match in every setup. Because of this, the Node side must trust the frontend's certificate: with a self-signed local dev server set `VERIFY_SSL=false`, or point `NODE_EXTRA_CA_CERTS` at its root CA.
+
+Tokens come from a per-worker token cache, so a user signs in once per worker, not once per test. The random anonymous id means two anonymous tests never see each other's cart.
 
 The `shopper` fixture describes whoever is in the browser: their `credentials`, a `graphqlClient` signed in as them, and their `context` (store, currency, culture, user id). Use it to arrange data for that same person through the API.
 
