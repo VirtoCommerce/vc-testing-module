@@ -6,7 +6,7 @@ import { MenuItem, Route } from "./constants";
 import { PageDetailsBlade } from "./page-details-blade";
 import { PagesListBlade } from "./pages-list-blade";
 
-const LIST_REFRESH_ATTEMPTS = 15;
+const LIST_REFRESH_TIMEOUT_MS = 45_000;
 const LIST_REFRESH_INTERVAL_MS = 2_000;
 
 export const MENU_ITEM_FOR_ROUTE: Readonly<Record<PageBuilderRoute, string>> = {
@@ -77,9 +77,10 @@ export class PageBuilderShell {
   }
 
   async waitUntilListed(route: PageBuilderRoute, name: string, listed = true): Promise<PagesListBlade> {
-    for (let attempt = 1; ; attempt++) {
+    const deadline = Date.now() + LIST_REFRESH_TIMEOUT_MS;
+    for (;;) {
       await this.open(route);
-      if ((await this.listBlade.reveal(name)) === listed || attempt === LIST_REFRESH_ATTEMPTS) {
+      if ((await this.listBlade.reveal(name)) === listed || Date.now() >= deadline) {
         return this.listBlade;
       }
       await this.page.waitForTimeout(LIST_REFRESH_INTERVAL_MS);
@@ -88,11 +89,12 @@ export class PageBuilderShell {
 
   async waitUntilCounterMatchesList(route: PageBuilderRoute): Promise<{ counter: number; total: number }> {
     const menuItem = MENU_ITEM_FOR_ROUTE[route];
-    for (let attempt = 1; ; attempt++) {
+    const deadline = Date.now() + LIST_REFRESH_TIMEOUT_MS;
+    for (;;) {
       await this.open(route);
       const counter = await this.menu.counter(menuItem);
       const total = await this.listBlade.grid.totalCount();
-      if (counter === total || attempt === LIST_REFRESH_ATTEMPTS) {
+      if (counter === total || Date.now() >= deadline) {
         return { counter, total };
       }
       await this.page.waitForTimeout(LIST_REFRESH_INTERVAL_MS);

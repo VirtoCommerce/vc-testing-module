@@ -1,6 +1,8 @@
 import type { APIRequestContext } from "@playwright/test";
 import type { HttpMethod } from "./http-method";
 
+import { setTimeout as sleep } from "node:timers/promises";
+
 import { HttpResponse } from "./http-response";
 
 export type QueryValue = string | number | boolean;
@@ -9,6 +11,11 @@ export type HttpHeaders = Readonly<Record<string, string>>;
 export type HeadersSource = HttpHeaders | (() => Promise<HttpHeaders>);
 
 const JSON_CONTENT_TYPE: HttpHeaders = { "Content-Type": "application/json" };
+const DATABASE_CONFLICT_MESSAGES: readonly RegExp[] = [
+  /was deadlocked on lock resources/i,
+  /error occurred while saving the entity changes/i,
+];
+const DATABASE_CONFLICT_RETRY_DELAYS_MS: readonly number[] = [300, 1_000, 2_000];
 
 export interface MultipartFile {
   readonly name: string;
@@ -59,6 +66,21 @@ export class HttpClient {
   }
 
   async send(method: HttpMethod, path: string, options: RequestOptions = {}): Promise<HttpResponse> {
+    let response = await this.#sendOnce(method, path, options);
+    for (const delayMs of DATABASE_CONFLICT_RETRY_DELAYS_MS) {
+      if (!isDatabaseConflict(response)) {
+        return response;
+      }
+      process.emitWarning(
+        `${method} ${response.url} → ${response.status} (database conflict), retrying in ${delayMs} ms`,
+      );
+      await sleep(delayMs);
+      response = await this.#sendOnce(method, path, options);
+    }
+    return response;
+  }
+
+  async #sendOnce(method: HttpMethod, path: string, options: RequestOptions): Promise<HttpResponse> {
     const response = await this.#context.fetch(path, {
       method,
       params: toSearchParams(options.query ?? {}),
@@ -94,6 +116,10 @@ export class HttpClient {
     );
     return Object.assign({}, ...resolved);
   }
+}
+
+function isDatabaseConflict(response: HttpResponse): boolean {
+  return response.status === 500 && DATABASE_CONFLICT_MESSAGES.some((message) => message.test(response.text));
 }
 
 function toSearchParams(query: QueryParams): URLSearchParams {

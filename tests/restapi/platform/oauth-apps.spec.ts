@@ -38,7 +38,7 @@ test.describe("OAuth apps (admin)", () => {
     const found = await test.step("act: search by client id", () => oauthAppsClient.search({ keyword: clientId }));
 
     await test.step("assert: app is found without its secret", async () => {
-      expect(found).toEqual([expect.objectContaining({ clientId, clientSecret: "" })]);
+      expect(found).toContainEqual(expect.objectContaining({ clientId, clientSecret: "" }));
     });
   });
 
@@ -52,7 +52,8 @@ test.describe("OAuth apps (admin)", () => {
     await test.step("act: delete OAuth app", () => oauthAppsClient.delete([clientId]));
 
     await test.step("assert: app is not found", async () => {
-      expect(await oauthAppsClient.search({ keyword: clientId })).toEqual([]);
+      const found = await oauthAppsClient.search({ keyword: clientId });
+      expect(found.map((app) => app.clientId)).not.toContain(clientId);
     });
   });
 });

@@ -5,6 +5,7 @@ import { expect } from "@playwright/test";
 import { exactText } from "../../text-match";
 
 const SELECT_TRANSITION = /select-dropdown-(enter|leave)-active/;
+const SELECT_OPEN_ATTEMPT_TIMEOUT_MS = 5_000;
 const DATE_NAVIGATION_STEPS = 24;
 
 export class Card {
@@ -54,8 +55,12 @@ export class Select {
   }
 
   async open(): Promise<void> {
-    await this.toggle.click();
-    await expect(this.dropdown).toBeVisible();
+    await expect(async () => {
+      if (!(await this.dropdown.isVisible())) {
+        await this.toggle.click();
+      }
+      await expect(this.dropdown).toBeVisible({ timeout: SELECT_OPEN_ATTEMPT_TIMEOUT_MS });
+    }).toPass();
     await expect(this.dropdown).not.toHaveClass(SELECT_TRANSITION);
   }
 

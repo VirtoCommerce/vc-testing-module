@@ -118,8 +118,10 @@ RUN_DESTRUCTIVE_TESTS=true npx playwright test --grep "@destructive"
 
 | Command | Does |
 |---|---|
-| `npm run seed` | Seeds everything and applies page statuses |
+| `npm run seed` | Seeds everything, applies page statuses and verifies the shipping methods |
 | `npm run seed:page-statuses` | Re-applies page-builder page statuses only (no-op when they already match) |
+
+The last seed step, "verify shipping methods", compares each store's stored shipping methods with `dataset/data/shipping_methods/`: exactly one active method per code, with the seeded settings (for FixedRate, the Ground and Air rates). If the platform holds something else, the step logs what it found, re-applies the dataset to the existing method and checks again; if the result still differs, the seed fails with the platform's data in the message. A broken FixedRate otherwise only shows up later as unrelated cart and checkout failures.
 
 To seed only some entities, set `SEED_ONLY` to their names from `dataset/data/manifest.json`:
 
@@ -314,6 +316,11 @@ The `e2e-backend` project signs the browser in as the platform admin by default.
 - **Known product issues** are marked with `test.fail(true, "<reason>")`. They pass while the issue exists and fail once it is fixed, so the reason gets revisited.
 - **Page objects** expose locators and user actions; assertions stay in the tests.
 - The `e2e-backend` project runs with **one worker**: page-builder counters, status lists and search are global state that parallel tests would disturb.
+- **Tests of one file run in parallel** (`fullyParallel: true`), so every test must work while its neighbours run at the same moment:
+  - Assert on what the test created, not on the whole result: a search can also return other tests' data, so use `toContainEqual` / `not.toContain` with the test's own ids instead of `toEqual([...])`.
+  - A file whose tests share platform-wide state (global settings, the indexing queue) opts out with `test.describe.configure({ mode: "default" })`, which runs its tests in order on one worker.
+  - Before acting in the UI, wait for the state the action depends on (for example, the cart badge before signing in to merge a cart), not just for the page to load.
+- **Database conflicts are retried.** `HttpClient` repeats a request up to three times (after 0.3, 1 and 2 seconds) when the platform answers 500 with a SQL deadlock or "An error occurred while saving the entity changes", which SQL Server returns under parallel writes; each retry prints a Node warning. A conflict that persists still fails the test.
 
 ## Signed-in users and prefilled carts in e2e tests
 

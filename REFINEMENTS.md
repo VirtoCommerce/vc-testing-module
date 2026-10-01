@@ -14,6 +14,7 @@ Review of the whole repository (core, api, dataset, fixtures, pages, all test pr
 | 2026-09-30 | Allure report grouped by suite through `allurerc.mjs` (R8.23 done); new items R8.24 (Allure ids ignore the suite) and R8.25 (seed step not coloured on CI); README Reports section explains the grouping and manual `allure-results/` cleanup. |
 | 2026-09-30 | CI run 127 analysed: pre-signed-in browser sessions were anonymous behind nginx (R1.11 done: browser tokens now go through `FRONTEND_BASE_URL`); new items R4.15 (configurable card click) and R8.26 (CI keeps only the last suite's traces); README explains the frontend token path and `VERIFY_SSL` for a local dev server. |
 | 2026-09-30 | CI run 128 analysed (all three databases): pre-signed-in sessions now work; R4.15 done (card link opens a new tab in release builds) and new R3.15 done (pickup keyword test too strict on MySQL / SQL Server). |
+| 2026-10-01 | CI run 128, attempts 10–14 (3 workers, `fullyParallel: true`, 15 jobs) analysed: R2.13, R2.14, R4.16–R4.18, R5.13 and R6.14 done; new R5.14, R6.15, R8.27; R2.1 corrected (keep `mode: "default"` under `fullyParallel`). |
 
 ## How to use this file
 
@@ -29,17 +30,17 @@ Review of the whole repository (core, api, dataset, fixtures, pages, all test pr
 
 ## Progress
 
-**Total: ✅ 6 of 117 done.**
+**Total: ✅ 13 of 127 done.**
 
 - ⬜ [0. Decisions needed](#0-decisions-needed): 0 of 6
 - ⬜ [1. Correctness](#1-correctness): 1 of 11 (R1.11)
-- ⬜ [2. Isolation and cleanup](#2-isolation-and-cleanup): 0 of 12
+- ⬜ [2. Isolation and cleanup](#2-isolation-and-cleanup): 2 of 14 (R2.13, R2.14)
 - ⬜ [3. Test quality](#3-test-quality): 1 of 15 (R3.15)
-- ⬜ [4. Page objects and e2e](#4-page-objects-and-e2e): 1 of 15 (R4.15)
-- ⬜ [5. API clients](#5-api-clients): 0 of 12
-- ⬜ [6. Dataset and fixtures](#6-dataset-and-fixtures): 0 of 13
+- ⬜ [4. Page objects and e2e](#4-page-objects-and-e2e): 4 of 18 (R4.15–R4.18)
+- ⬜ [5. API clients](#5-api-clients): 1 of 14 (R5.13)
+- ⬜ [6. Dataset and fixtures](#6-dataset-and-fixtures): 1 of 15 (R6.14)
 - ⬜ [7. GraphQL documents](#7-graphql-documents): 0 of 7
-- ⬜ [8. Configuration, tooling, CI, docs](#8-configuration-tooling-ci-docs): 3 of 26 (R8.2, R8.17, R8.23)
+- ⬜ [8. Configuration, tooling, CI, docs](#8-configuration-tooling-ci-docs): 3 of 27 (R8.2, R8.17, R8.23)
 
 ## Suggested order of work
 
@@ -181,8 +182,8 @@ Data leaks and interference between parallel tests.
 ### ⬜ R2.1 · P1 · REST files race on global settings
 
 - **Where:** `tests/restapi/platform/settings.spec.ts:65-91`, `content/validation.spec.ts:79-91`, `content/files.spec.ts:90-97`, `catalog-personalization/tags.spec.ts:40-53,205-213`, `catalog/products.spec.ts:159-182`, `search/indexes.spec.ts`, `platform/system.spec.ts:62-73`
-- **Problem:** Several files change the same global platform settings (file-extension blacklist, indexing jobs, member groups, tag inheritance, editorial review types) and restore a snapshot; files run in parallel, so restores overwrite each other. `files.spec` relies on the blacklist without arranging it. `mode: "default"` in three files does not help (the race is between files).
-- **What to do:** Per decision R0.4. Also: `files.spec` arranges its own blacklist entry; remove the three `test.describe.configure({ mode: "default" })`.
+- **Problem:** Several files change the same global platform settings (file-extension blacklist, indexing jobs, member groups, tag inheritance, editorial review types) and restore a snapshot; files run in parallel, so restores overwrite each other. `files.spec` relies on the blacklist without arranging it. `mode: "default"` only orders the tests inside a file; the race is between files.
+- **What to do:** Per decision R0.4. Also: `files.spec` arranges its own blacklist entry. Keep the `test.describe.configure({ mode: "default" })` calls: since `fullyParallel: true` they stop the tests of these files from overlapping each other (`search/indexes.spec.ts` got one too, see R2.14).
 - **Done when:** Global-settings tests cannot overlap; `files.spec` passes alone.
 
 ### ⬜ R2.2 · P1 · UI-only cart tests leak the default cart
@@ -261,6 +262,19 @@ Data leaks and interference between parallel tests.
 - **Problem:** Local-storage upload leaves a file behind (the platform cannot delete local-storage uploads).
 - **What to do:** Document as a known limitation in the test (unique name already), or skip on shared environments.
 - **Done when:** Decision recorded.
+
+
+### ✅ R2.13 · P1 · OAuth app tests see each other's apps
+
+- **Where:** `tests/restapi/platform/oauth-apps.spec.ts:31,45`
+- **Problem:** With `fullyParallel: true` the three tests run at the same moment, and a keyword search for one `test-client-…` id also returns the other tests' apps; the tests expected an exact list. Failed in 14 and 13 of 15 jobs (CI run 128, attempts 10–14 (3 workers, `fullyParallel: true`, 15 jobs)).
+- **What to do:** **Done:** the search test asserts the result contains its app; the delete test asserts its id is no longer in the result.
+
+### ✅ R2.14 · P1 · Index tests cancel each other's job
+
+- **Where:** `tests/restapi/search/indexes.spec.ts`
+- **Problem:** "cancel an indexation" ran at the same moment as "reindex a product" and cancelled its job (state `Deleted`). Failed in 13 of 15 jobs, always when the two started within milliseconds.
+- **What to do:** **Done:** the file runs in order with `test.describe.configure({ mode: "default" })`; the indexing queue is platform-wide state.
 
 ---
 
@@ -453,6 +467,25 @@ Weak assertions, duplicates, hard-coded data.
 - **Problem:** Card links use the theme setting `details_browser_target` (`_blank`), but the frontend's dev build forces `_self` (`vc-frontend` `useThemeContext.ts`, `IS_DEVELOPMENT`). Locally (Vite dev server) the click navigated in place; on CI (release build) it opened a new tab and the test waited on the old one. Failed in every CI run.
 - **What to do:** **Done:** `ProductCard.openConfigurations()` clicks the link and returns the page it opened in (the popup for `_blank`, the same page otherwise); the test asserts on that page. Verified locally against the dev server (`_self`) and the production frontend container (`_blank`).
 
+
+### ✅ R4.16 · P1 · Cart merge signs in before the anonymous cart has loaded
+
+- **Where:** `tests/e2e/frontend/cart/cart-merge.spec.ts`
+- **Problem:** The frontend merges the anonymous cart on sign-in only if that cart is already loaded on the sign-in page (`vc-frontend` `useSignMeIn.ts`); the test submitted the form at once, so the merge was sometimes skipped. Failed in 3 of 15 jobs (PostgreSQL).
+- **What to do:** **Done:** the test waits for the header cart badge to show the anonymous quantity before signing in. Verified locally 8/8 with 3 workers and `--repeat-each=4`.
+
+### ✅ R4.17 · P2 · Shell select click lost during a section animation
+
+- **Where:** `pages/backend/shell/controls.ts` (`Select.open`)
+- **Problem:** The toggle was clicked once right after a section expanded; when the click landed during the animation, the dropdown never opened and the test waited 30 s. Failed once in 15 jobs.
+- **What to do:** **Done:** `open()` retries the click (5 s per attempt) until the dropdown is visible. Note: `Card.body` (`> .vc-card__body`) does not match the shell markup; it is unused.
+
+### ✅ R4.18 · P2 · Page-builder list waits could outlast the test timeout
+
+- **Where:** `pages/backend/page-builder/page-builder-shell.ts` (`waitUntilListed`, `waitUntilCounterMatchesList`)
+- **Problem:** 15 attempts of reload, `networkidle`, search and 2 s took about 2 minutes on a slow run, hitting the 120 s test timeout (the reserved-characters permalink test, 1 of 15 jobs).
+- **What to do:** **Done:** both loops stop after 45 s; the caller's assertion decides. R4.1 (fail with a clear message instead of giving up silently) stays open.
+
 ---
 
 ## 5. API clients
@@ -528,6 +561,19 @@ Weak assertions, duplicates, hard-coded data.
 - **Where:** Unused: `OrdersClient.getChanges`, `MemberSearchResult`, `DynamicContent*SearchResult`, `ProductAsset`, `LockMembershipRequest` (use it), duplicate re-exports of `ModuleDescriptorData` and `ChangeLogSearchResult`, `QuantityControl`/`RangeFilterType` types
 - **Problem:** Dead code.
 - **What to do:** Remove or use.
+
+
+### ✅ R5.13 · P1 · SQL Server deadlocks fail tests under parallel writes
+
+- **Where:** `api/http/http-client.ts`
+- **Problem:** Parallel deletes and creates of catalogs, contacts and completeness channels got `500` with `Transaction … was deadlocked` or "An error occurred while saving the entity changes" on SQL Server only (7 failures in 5 of 15 jobs).
+- **What to do:** **Done:** `HttpClient` retries such responses up to three times (0.3 s, 1 s, 2 s) and prints a Node warning per retry; a persistent error still fails. README documents it.
+
+### ⬜ R5.14 · P2 · Report the SQL Server deadlocks to the platform team
+
+- **Where:** platform (Catalog, Customer, Completeness modules)
+- **Problem:** Concurrent deletes deadlock and return 500 instead of being retried by the platform.
+- **What to do:** File a bug with the job ids and messages from CI run 128, attempts 10–14 (3 workers, `fullyParallel: true`, 15 jobs).
 
 ---
 
@@ -610,6 +656,19 @@ Weak assertions, duplicates, hard-coded data.
 - **Where:** Builders: `completeness.ts:13` sends the catalog id as name; `product-configuration.ts:9-16` silently skips invalid sections; three different test-address builders; `newNamedContent` unused; `ORDER_CURRENCY`/`PRICELIST_CURRENCY` duplicate "USD"; `newEmployee` repeats `newContact`; `toMemberAddressInput` copies 21 fields by hand; `searchProducts` stops at 100 silently
 - **Problem:** Small correctness and duplication issues.
 - **What to do:** Fix individually.
+
+
+### ✅ R6.14 · P1 · Seeded shipping methods are not verified
+
+- **Where:** `dataset/shipping-methods.ts`, `api/rest/clients/shipping-methods-client.ts`, `tests/setup/seed.setup.ts`
+- **Problem:** In 2 of 15 jobs (PostgreSQL) FixedRate was wrong from the start: `addOrUpdateCartShipment` failed in 4 GraphQL tests and the frontend showed `$0.00` shipping. Nothing in the run said why.
+- **What to do:** **Done:** a seed step "verify shipping methods" checks one active stored method per code with the seeded settings, re-applies the dataset to the existing method when it differs (logging what the platform held) and fails the seed with the platform's data if it still differs. Verified locally by setting the Ground rate to 0.
+
+### ⬜ R6.15 · P2 · Find out why FixedRate was wrong after seeding
+
+- **Where:** seeding of `shipping_methods/fixed_rate.json` (`PUT /api/shipping` without an `id`)
+- **Problem:** The cause is unknown; one guess is a second FixedRate record next to the one the platform registers itself.
+- **What to do:** When R6.14's step logs a re-apply on CI, read what the platform held; needs R8.27 for the platform log.
 
 ---
 
@@ -819,3 +878,9 @@ Weak assertions, duplicates, hard-coded data.
 - **Problem:** Every `npx playwright test` run clears `test-results/`, and the action runs the suites one after another, so the uploaded `test-results/` has only the last suite's traces (run 127: e2e-backend only). The others survive only as attachments inside the Allure report.
 - **What to do:** Pass `--output test-results/$suite` per suite in the action.
 - **Done when:** The artifact has traces of failed tests of every suite.
+
+### ⬜ R8.27 · P2 · CI artifacts lack the seed and platform logs
+
+- **Where:** `VirtoCommerce/.github` `actions/run-playwright-tests/action.yml`
+- **Problem:** The artifact has reports and traces, but not the "Seed test data" output or the platform container log, so seeding and server errors (R6.15, R5.14) cannot be investigated after the run.
+- **What to do:** Save the seed step's output to `report/seed.log` and `docker logs` of the platform container to `report/platform.log`; both are uploaded with the artifact.

@@ -16,6 +16,7 @@ test.beforeEach(async () => {
 });
 
 test.describe("search indexes (admin)", () => {
+  test.describe.configure({ mode: "default" });
   test.use({ user: async ({ dataset }, use) => use(getCredentials(dataset, USERNAME)) });
 
   test("list indexes", async ({ httpClient }) => {

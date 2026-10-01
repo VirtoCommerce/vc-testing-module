@@ -35,7 +35,8 @@ test.describe("cart merge (anonymous cart, then sign-in)", () => {
         await expect(lineItem.root).toBeVisible();
       });
 
-      await test.step(`act: sign in as ${customerAccount.credentials.username}`, () => signIn(page, customerAccount));
+      await test.step(`act: sign in as ${customerAccount.credentials.username}`, () =>
+        signIn(page, customerAccount, QUANTITY));
 
       await test.step(`assert: the signed-in cart holds the product ×${QUANTITY}`, async () => {
         await cartPage.navigate();
@@ -67,7 +68,7 @@ test.describe("cart merge (anonymous cart, then sign-in)", () => {
       await expect(productPage.cartQuantityLabel).toHaveText("1");
     });
 
-    await test.step(`act: sign in as ${customerAccount.credentials.username}`, () => signIn(page, customerAccount));
+    await test.step(`act: sign in as ${customerAccount.credentials.username}`, () => signIn(page, customerAccount, 1));
 
     await test.step("assert: the cart holds the regular and the configured product", async () => {
       const cartPage = new CartPage(page);
@@ -79,7 +80,12 @@ test.describe("cart merge (anonymous cart, then sign-in)", () => {
   });
 });
 
-async function signIn(page: Page, account: SignedInCustomerAccount): Promise<void> {
-  await new SignInPage(page).signIn(account.credentials.username, account.credentials.password);
+async function signIn(page: Page, account: SignedInCustomerAccount, anonymousCartQuantity: number): Promise<void> {
+  const signInPage = new SignInPage(page);
+  await signInPage.navigate();
+  await expect(signInPage.cartQuantityLabel).toHaveText(String(anonymousCartQuantity));
+  await signInPage.emailInput.fill(account.credentials.username);
+  await signInPage.passwordInput.fill(account.credentials.password);
+  await signInPage.signInButton.click();
   await page.waitForURL((url) => !url.pathname.startsWith("/sign-in"));
 }
