@@ -1,0 +1,21 @@
+query OrganizationOrders(
+  $organizationId: String
+  $filter: String
+  $sort: String
+  $cultureName: String
+  $first: Int
+  $after: String
+) {
+  organizationOrders(
+    organizationId: $organizationId
+    filter: $filter
+    sort: $sort
+    cultureName: $cultureName
+    first: $first
+    after: $after
+  ) {
+    items {
+      ...Order
+    }
+  }
+}

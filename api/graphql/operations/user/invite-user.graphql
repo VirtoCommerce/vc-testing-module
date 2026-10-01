@@ -1,0 +1,5 @@
+mutation InviteUser($command: InputInviteUserType!) {
+  inviteUser(command: $command) {
+    ...CustomIdentityResult
+  }
+}

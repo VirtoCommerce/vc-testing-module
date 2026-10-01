@@ -1,0 +1,4 @@
+fragment Language on LanguageType {
+  cultureName
+  nativeName
+}

@@ -1,30 +1,30 @@
 {
-    "id": "measure-energy",
-    "name": "Energy",
-    "code": "Energy",
-    "localizedName": {
+  "id": "measure-energy",
+  "name": "Energy",
+  "code": "Energy",
+  "localizedName": {
+    "values": {
+      "en-US": "Energy"
+    }
+  },
+  "units": [
+    {
+      "id": "measure-unit-energy-wh",
+      "code": "WattHour",
+      "name": "Watt-hour",
+      "conversionFactor": 1,
+      "symbol": "Wh",
+      "isDefault": true,
+      "localizedName": {
         "values": {
-            "en-US": "Energy"
+          "en-US": "Watt-hour"
         }
-    },
-    "units": [
-        {
-            "id": "measure-unit-energy-wh",
-            "code": "WattHour",
-            "name": "Watt-hour",
-            "conversionFactor": 1,
-            "symbol": "Wh",
-            "isDefault": true,
-            "localizedName": {
-                "values": {
-                    "en-US": "Watt-hour"
-                }
-            },
-            "localizedSymbol": {
-                "values": {
-                    "en-US": "Wh"
-                }
-            }
+      },
+      "localizedSymbol": {
+        "values": {
+          "en-US": "Wh"
         }
-    ]
+      }
+    }
+  ]
 }

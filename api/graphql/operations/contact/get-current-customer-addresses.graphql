@@ -1,0 +1,24 @@
+query GetCurrentCustomerAddresses(
+  $after: String
+  $first: Int
+  $countryCodes: [String]
+  $regionIds: [String]
+  $cities: [String]
+  $keyword: String
+  $sort: String
+) {
+  currentCustomerAddresses(
+    after: $after
+    first: $first
+    countryCodes: $countryCodes
+    regionIds: $regionIds
+    cities: $cities
+    keyword: $keyword
+    sort: $sort
+  ) {
+    totalCount
+    items {
+      ...MemberAddress
+    }
+  }
+}

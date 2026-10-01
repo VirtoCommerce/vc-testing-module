@@ -1,0 +1,7 @@
+fragment GiftItem on GiftItemType {
+  id
+  quantity
+  productId
+  name
+  lineItemId
+}

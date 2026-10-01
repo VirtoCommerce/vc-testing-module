@@ -1,0 +1,37 @@
+fragment LineItem on LineItemType {
+  id
+  sku
+  productId
+  name
+  quantity
+  listPrice {
+    ...Money
+  }
+  salePrice {
+    ...Money
+  }
+  placedPrice {
+    ...Money
+  }
+  extendedPrice {
+    ...Money
+  }
+  discountAmount {
+    ...Money
+  }
+  selectedForCheckout
+  isValid
+  validationErrors {
+    errorCode
+    errorMessage
+    errorParameters {
+      key
+      value
+    }
+    objectType
+    objectId
+  }
+  configurationItems {
+    ...CartConfigurationItem
+  }
+}

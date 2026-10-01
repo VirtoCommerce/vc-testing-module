@@ -1,0 +1,13 @@
+fragment Product on Product {
+  id
+  code
+  productType
+  isConfigurable
+  name
+  vendor {
+    ...Vendor
+  }
+  price {
+    ...ProductPrice
+  }
+}

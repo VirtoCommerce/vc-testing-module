@@ -1,0 +1,31 @@
+query GetCartValidation(
+  $storeId: String!
+  $userId: String!
+  $currencyCode: String!
+  $cultureName: String!
+  $ruleSet: String
+  $cartId: String
+) {
+  cart(storeId: $storeId, userId: $userId, currencyCode: $currencyCode, cultureName: $cultureName, cartId: $cartId) {
+    itemsCount
+    validationErrors(ruleSet: $ruleSet) {
+      errorCode
+      objectType
+      objectId
+      errorMessage
+    }
+    items {
+      id
+      sku
+      productId
+      quantity
+      isValid
+      validationErrors {
+        errorCode
+        objectType
+        objectId
+        errorMessage
+      }
+    }
+  }
+}

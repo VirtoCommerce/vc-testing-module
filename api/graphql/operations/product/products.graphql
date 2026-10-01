@@ -1,0 +1,27 @@
+query Products(
+  $storeId: String!
+  $userId: String
+  $cultureName: String
+  $currencyCode: String
+  $query: String
+  $filter: String
+  $sort: String
+  $first: Int
+  $after: String
+) {
+  products(
+    storeId: $storeId
+    userId: $userId
+    cultureName: $cultureName
+    currencyCode: $currencyCode
+    query: $query
+    filter: $filter
+    sort: $sort
+    first: $first
+    after: $after
+  ) {
+    items {
+      ...Product
+    }
+  }
+}

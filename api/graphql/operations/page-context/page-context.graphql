@@ -1,0 +1,17 @@
+query PageContext(
+  $storeId: String
+  $userId: String
+  $cultureName: String
+  $permalink: String
+  $organizationId: String
+) {
+  pageContext(
+    storeId: $storeId
+    userId: $userId
+    cultureName: $cultureName
+    permalink: $permalink
+    organizationId: $organizationId
+  ) {
+    ...PageContext
+  }
+}

@@ -1,5 +1,5 @@
 {
-    "name": "ReleaseYear",
-    "type": "Attribute",
-    "isSelected": true
+  "name": "ReleaseYear",
+  "type": "Attribute",
+  "isSelected": true
 }

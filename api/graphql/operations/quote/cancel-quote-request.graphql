@@ -1,0 +1,5 @@
+mutation CancelQuoteRequest($command: CancelQuoteCommandType!) {
+  cancelQuoteRequest(command: $command) {
+    ...Quote
+  }
+}

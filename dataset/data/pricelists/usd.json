@@ -1,5 +1,5 @@
 {
-    "id": "pricelist-acme-usd",
-    "name": "ACME Pricelist USD",
-    "currency": "USD"
+  "id": "pricelist-acme-usd",
+  "name": "ACME Pricelist USD",
+  "currency": "USD"
 }

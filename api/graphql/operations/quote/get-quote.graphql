@@ -1,0 +1,8 @@
+query GetQuote($id: String!, $storeId: String, $userId: String, $cultureName: String, $currencyCode: String) {
+  quote(id: $id, storeId: $storeId, userId: $userId, cultureName: $cultureName, currencyCode: $currencyCode) {
+    ...Quote
+    addresses {
+      ...QuoteAddress
+    }
+  }
+}

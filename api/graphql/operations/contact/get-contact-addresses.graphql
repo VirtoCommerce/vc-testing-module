@@ -1,0 +1,9 @@
+query GetContactAddresses($id: String!) {
+  contact(id: $id) {
+    addresses {
+      items {
+        ...MemberAddress
+      }
+    }
+  }
+}

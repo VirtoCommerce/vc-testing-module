@@ -1,0 +1,5 @@
+query Category($id: String!, $storeId: String!, $userId: String, $cultureName: String, $currencyCode: String) {
+  category(id: $id, storeId: $storeId, userId: $userId, cultureName: $cultureName, currencyCode: $currencyCode) {
+    ...Category
+  }
+}

@@ -1,5 +1,5 @@
 {
-    "name": "MemoryInstalledSize",
-    "type": "Attribute",
-    "isSelected": true
+  "name": "MemoryInstalledSize",
+  "type": "Attribute",
+  "isSelected": true
 }

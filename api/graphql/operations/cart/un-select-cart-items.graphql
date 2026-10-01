@@ -1,0 +1,5 @@
+mutation UnSelectCartItems($command: InputChangeCartItemsSelectedType!) {
+  unSelectCartItems(command: $command) {
+    ...Cart
+  }
+}
