@@ -27,6 +27,7 @@ const E2E_USE = {
 export default defineConfig<ApiOptions & BrowserOptions>({
   testDir: "tests",
   ...(env.runDestructiveTests ? {} : { grepInvert: DESTRUCTIVE_TAG }),
+  fullyParallel: true,
   reporter: [["list"], ["allure-playwright", { resultsDir: "allure-results" }]],
   use: {
     ignoreHTTPSErrors: !env.verifySsl,
