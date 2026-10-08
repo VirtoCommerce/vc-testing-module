@@ -28,8 +28,7 @@ on:
 
 jobs:
   auto-tests:
-    # TODO: switch to the VirtoCommerce/.github release tag once VCST-6033 is released.
-    uses: VirtoCommerce/.github/.github/workflows/playwright-tests.yml@vcst-6033-playwright-workflow
+    uses: VirtoCommerce/.github/.github/workflows/playwright-tests.yml@3.1000.2
     with:
       installModules: 'false'
       installCustomModule: 'false'
