@@ -1,0 +1,8 @@
+fragment CustomIdentityResult on CustomIdentityResultType {
+  succeeded
+  errors {
+    code
+    parameter
+    description
+  }
+}

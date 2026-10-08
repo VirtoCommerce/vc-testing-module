@@ -1,5 +1,5 @@
 {
-    "name": "StorageInstalledSize",
-    "type": "Attribute",
-    "isSelected": true
+  "name": "StorageInstalledSize",
+  "type": "Attribute",
+  "isSelected": true
 }

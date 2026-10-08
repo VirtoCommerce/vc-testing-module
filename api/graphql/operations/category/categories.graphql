@@ -1,0 +1,22 @@
+query Categories(
+  $storeId: String!
+  $userId: String
+  $cultureName: String
+  $currencyCode: String
+  $filter: String
+  $first: Int
+) {
+  categories(
+    storeId: $storeId
+    userId: $userId
+    cultureName: $cultureName
+    currencyCode: $currencyCode
+    filter: $filter
+    first: $first
+  ) {
+    totalCount
+    items {
+      ...Category
+    }
+  }
+}

@@ -1,0 +1,10 @@
+fragment QuoteAddress on QuoteAddressType {
+  addressType
+  city
+  countryCode
+  countryName
+  line1
+  postalCode
+  regionId
+  regionName
+}

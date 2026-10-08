@@ -1,0 +1,7 @@
+fragment Category on Category {
+  id
+  code
+  name
+  outline
+  slug
+}

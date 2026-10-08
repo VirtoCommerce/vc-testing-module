@@ -10,30 +10,9 @@
   "adminEmailName": "ACME Electronics Store Administrator",
   "email": "contact@acme-electronics.com",
   "emailName": "ACME Electronics Store",
-  "url": "{ENV:FRONTEND_BASE_URL}",
-  "languages": [
-    "en-US",
-    "pl-PL",
-    "zh-CN",
-    "es-ES",
-    "pt-PT",
-    "ja-JP",
-    "it-IT",
-    "fr-FR",
-    "ru-RU",
-    "de-DE"
-  ],
-  "additionalLanguages": [
-    "de-DE",
-    "fr-FR",
-    "it-IT",
-    "es-ES",
-    "ja-JP",
-    "pl-PL",
-    "pt-PT",
-    "ru-RU",
-    "zh-CN"
-  ],
+  "url": "${ENV:FRONTEND_BASE_URL}",
+  "languages": ["en-US", "pl-PL", "zh-CN", "es-ES", "pt-PT", "ja-JP", "it-IT", "fr-FR", "ru-RU", "de-DE"],
+  "additionalLanguages": ["de-DE", "fr-FR", "it-IT", "es-ES", "ja-JP", "pl-PL", "pt-PT", "ru-RU", "zh-CN"],
   "currencies": ["USD", "EUR"],
   "additionalCurrencies": ["EUR"],
   "additionalFulfillmentCenterIds": [
@@ -99,7 +78,7 @@
       "moduleId": "VirtoCommerce.XPickup",
       "name": "Shipping.Bopis.GoogleMaps.ApiKey",
       "groupName": "BOPIS",
-      "value": "{ENV:GOOGLE_MAPS_API_KEY}",
+      "value": "${ENV:GOOGLE_MAPS_API_KEY}",
       "valueType": "ShortText"
     },
     {

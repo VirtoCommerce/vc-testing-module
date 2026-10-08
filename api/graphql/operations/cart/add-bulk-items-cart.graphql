@@ -1,0 +1,12 @@
+mutation AddBulkItemsCart($command: InputAddBulkItemsType!) {
+  addBulkItemsCart(command: $command) {
+    cart {
+      ...Cart
+    }
+    errors {
+      errorCode
+      errorMessage
+      objectId
+    }
+  }
+}

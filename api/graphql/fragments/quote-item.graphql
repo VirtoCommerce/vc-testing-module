@@ -1,0 +1,19 @@
+fragment QuoteItem on QuoteItemType {
+  id
+  name
+  sku
+  productId
+  quantity
+  listPrice {
+    ...Money
+  }
+  salePrice {
+    ...Money
+  }
+  proposalPrices {
+    quantity
+    price {
+      ...Money
+    }
+  }
+}

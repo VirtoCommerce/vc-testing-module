@@ -1,0 +1,7 @@
+fragment IdentityResult on IdentityResultType {
+  succeeded
+  errors {
+    code
+    description
+  }
+}

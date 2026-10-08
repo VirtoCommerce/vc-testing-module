@@ -1,0 +1,5 @@
+query GetSavedForLater($storeId: String!, $userId: String!, $currencyCode: String, $cultureName: String) {
+  getSavedForLater(storeId: $storeId, userId: $userId, currencyCode: $currencyCode, cultureName: $cultureName) {
+    ...Cart
+  }
+}

@@ -1,0 +1,5 @@
+mutation CreateConfiguredLineItem($command: InputCreateConfiguredLineItemCommand!) {
+  createConfiguredLineItem(command: $command) {
+    ...ConfigurationLineItem
+  }
+}

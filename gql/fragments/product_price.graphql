@@ -1,8 +1,0 @@
-fragment ProductPriceFragment on PriceType {
-  list {
-    ...MoneyFragment
-  }
-  actual {
-    ...MoneyFragment
-  }
-}

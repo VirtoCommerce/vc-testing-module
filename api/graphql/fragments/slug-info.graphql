@@ -1,0 +1,6 @@
+fragment SlugInfo on SlugInfoResponseType {
+  entityInfo {
+    ...SeoInfo
+  }
+  redirectUrl
+}

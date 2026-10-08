@@ -1,0 +1,5 @@
+mutation MoveToSavedForLater($command: InputSaveForLaterType!) {
+  moveToSavedForLater(command: $command) {
+    ...CartWithList
+  }
+}

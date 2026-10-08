@@ -1,0 +1,5 @@
+mutation RegisterByInvitation($command: InputRegisterByInvitationType!) {
+  registerByInvitation(command: $command) {
+    ...CustomIdentityResult
+  }
+}

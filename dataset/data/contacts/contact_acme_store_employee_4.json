@@ -1,14 +1,10 @@
 {
-    "id": "contact-acme-store-employee-4",
-    "firstName": "ACME",
-    "lastName": "Employee D",
-    "memberType": "Contact",
-    "status": "Approved",
-    "defaultOrganizationId": "organization-acme-store",
-    "organizations": [
-        "organization-acme-store"
-    ],
-    "emails": [
-        "acme_store_employee_4@acme.com"
-    ]
+  "id": "contact-acme-store-employee-4",
+  "firstName": "ACME",
+  "lastName": "Employee D",
+  "memberType": "Contact",
+  "status": "Approved",
+  "defaultOrganizationId": "organization-acme-store",
+  "organizations": ["organization-acme-store"],
+  "emails": ["acme_store_employee_4@acme.com"]
 }

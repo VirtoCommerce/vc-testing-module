@@ -1,0 +1,5 @@
+mutation ChangeOrganizationContactRole($command: InputChangeOrganizationContactRoleType!) {
+  changeOrganizationContactRole(command: $command) {
+    ...CustomIdentityResult
+  }
+}

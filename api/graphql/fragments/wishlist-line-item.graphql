@@ -1,0 +1,7 @@
+fragment WishlistLineItem on LineItemType {
+  id
+  sku
+  productId
+  name
+  quantity
+}

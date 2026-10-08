@@ -1,0 +1,7 @@
+query PickupLocations($storeId: String, $keyword: String, $sort: String, $first: Int, $after: String) {
+  pickupLocations(storeId: $storeId, keyword: $keyword, sort: $sort, first: $first, after: $after) {
+    items {
+      ...PickupLocation
+    }
+  }
+}

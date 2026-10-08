@@ -1,0 +1,18 @@
+fragment ProductPickupLocation on ProductPickupLocation {
+  id
+  isActive
+  name
+  description
+  contactEmail
+  contactPhone
+  workingHours
+  deliveryDays
+  storageDays
+  geoLocation
+  address {
+    ...PickupLocationAddress
+  }
+  availabilityType
+  availabilityNote
+  availableQuantity
+}

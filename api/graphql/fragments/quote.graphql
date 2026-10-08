@@ -1,0 +1,16 @@
+fragment Quote on QuoteType {
+  id
+  number
+  status
+  storeId
+  customerId
+  comment
+  isAnonymous
+  isCancelled
+  totals {
+    ...QuoteTotals
+  }
+  items {
+    ...QuoteItem
+  }
+}

@@ -1,0 +1,7 @@
+query Orders($userId: String, $filter: String, $sort: String, $cultureName: String, $first: Int, $after: String) {
+  orders(userId: $userId, filter: $filter, sort: $sort, cultureName: $cultureName, first: $first, after: $after) {
+    items {
+      ...Order
+    }
+  }
+}

@@ -18,10 +18,17 @@ on:
           - graphql
           - restapi
           - e2e
+          - e2e-frontend
+          - e2e-backend
+      grep:
+        description: 'Optional Playwright --grep pattern (e.g. a tag like @smoke). Leave empty to run everything.'
+        required: false
+        type: string
+        default: ''
 
 jobs:
-  e2e-tests:
-    uses: VirtoCommerce/.github/.github/workflows/pytest-tests.yml@v3.1000.1
+  auto-tests:
+    uses: VirtoCommerce/.github/.github/workflows/playwright-tests.yml@v3.1000.2
     with:
       installModules: 'false'
       installCustomModule: 'false'
@@ -29,8 +36,10 @@ jobs:
       frontendZipUrl: '${{ inputs.frontendZipUrl }}'
       customPackagesJsonUrl: 'https://github.com/${{ github.repository }}/raw/${{ github.ref_name }}/backend-packages.json'
       testSuites: ${{ inputs.testSuites == 'all' && 'graphql,restapi,e2e' || inputs.testSuites }}
+      grep: ${{ inputs.grep }}
     secrets:
       envPAT: ${{ secrets.REPO_TOKEN }}
-      testSecretEnvFile: ${{ secrets.VC_TESTING_MODULE_ENV_FILE_NEW }} #${{ secrets.VC_TESTING_MODULE_ENV_FILE }} #
+      # TODO: a secret with the .env content for the TS tests (see .env.example; STORE_ID and USERS_PASSWORD are required).
+      testSecretEnvFile: ${{ secrets.VC_TESTING_MODULE_ENV_FILE_NEW }}
       sendgridApiKey: ${{ secrets.SENDGRID_APIKEY_4E2E_AUTOTESTS }}
       appInsightsInstrumentationKey: ${{ secrets.E2E_APPINSIGHTSINSTRUMENTATIONKEY }}

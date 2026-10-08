@@ -1,9 +1,0 @@
-fragment OrderPaymentFragment on PaymentInType {
-  id
-  number
-  gatewayCode
-  status
-  sum {
-    ...MoneyFragment
-  }
-}

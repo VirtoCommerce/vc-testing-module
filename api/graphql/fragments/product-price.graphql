@@ -1,0 +1,8 @@
+fragment ProductPrice on PriceType {
+  list {
+    ...Money
+  }
+  actual {
+    ...Money
+  }
+}

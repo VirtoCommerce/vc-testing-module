@@ -1,0 +1,4 @@
+fragment Money on MoneyType {
+  amount
+  formattedAmount
+}

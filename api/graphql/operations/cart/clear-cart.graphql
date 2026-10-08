@@ -1,0 +1,5 @@
+mutation ClearCart($command: InputClearCartType!) {
+  clearCart(command: $command) {
+    ...Cart
+  }
+}
